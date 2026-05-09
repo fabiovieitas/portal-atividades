@@ -427,9 +427,13 @@ app.post('/admin/projects/delete/:id', requireAdmin, async (req, res) => {
 
 // Admin News Management
 app.post('/admin/news/add', requireAdmin, async (req, res) => {
-  const { title, summary, content, image_url, category } = req.body;
-  await supabase.from('news').insert({ title, summary, content, image_url, category: category || 'Educação' });
-  res.redirect('/admin');
+  const { title, summary, content, image_url, category, author, published_at } = req.body;
+  const { error } = await supabase.from('news').insert({
+    title, summary, content, image_url, category, author,
+    published_at: published_at || new Date().toISOString()
+  });
+  if (error) console.error('Error adding news:', error);
+  res.redirect('/admin#news');
 });
 
 app.post('/admin/news/delete/:id', requireAdmin, async (req, res) => {
@@ -448,8 +452,19 @@ app.get('/contato', (req, res) => {
 
 // Blog / News Routes
 app.get('/noticias', async (req, res) => {
-  const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false });
-  res.render('news_list', { news: news || [] });
+  try {
+    const now = new Date().toISOString();
+    const { data: news } = await supabase
+      .from('news')
+      .select('*')
+      .lte('published_at', now) // Apenas notícias com data menor ou igual a agora
+      .order('published_at', { ascending: false });
+      
+    res.render('news_list', { news: news || [] });
+  } catch (error) {
+    console.error('BLOG ERROR:', error);
+    res.render('news_list', { news: [] });
+  }
 });
 
 app.get('/noticia/:id', async (req, res) => {
