@@ -33,7 +33,7 @@ async function isAdmin(req) {
 }
 
 // Admin Password (defaulting to 'admin123' if not in .env)
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Fabio@369258!';
 
 // Auth Middleware
 async function requireAdmin(req, res, next) {
