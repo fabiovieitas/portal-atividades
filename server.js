@@ -116,10 +116,10 @@ app.get('/admin', async (req, res) => {
     const sessionId = req.cookies.admin_session || (req.body && req.body.sessionId) || '';
     if (await isAdmin(req)) {
       // Basic fetch without complex joins
-      const { data: activities } = await supabase.from('activities').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
-      const { data: pendingComments } = await supabase.from('comments').select('*').eq('approved', 0).catch(e => ({data: []}));
-      const { data: teachers } = await supabase.from('teachers').select('*').catch(e => ({data: []}));
-      const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
+      const { data: activities } = await supabase.from('activities').select('*').order('created_at', { ascending: false });
+      const { data: pendingComments } = await supabase.from('comments').select('*').eq('approved', 0);
+      const { data: teachers } = await supabase.from('teachers').select('*');
+      const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false });
 
       res.render('admin_panel', { 
         activities: activities || [], 
