@@ -125,20 +125,18 @@ app.get('/admin', async (req, res) => {
     const { data: visitsData } = await supabase.from('activities').select('visits');
     const totalVisits = (visitsData || []).reduce((acc, curr) => acc + (curr.visits || 0), 0);
     
-    const { data: teachers } = await supabase.from('teachers').select(`
-      id, name, email, login_count, created_at, last_login
-    `);
-    const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false });
+    const { data: teachers } = await supabase.from('teachers').select('id, name, email, login_count, created_at, last_login').catch(e => ({data: []}));
+    const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
 
     res.render('admin_panel', { 
       activities: activities || [], 
       pendingComments: pendingComments || [], 
       approvedComments: [], 
-      stats: { totalVisits, totalRatings: 0, pendingCount: (pendingComments || []).length }, 
+      stats: { totalVisits: totalVisits || 0, totalRatings: 0, pendingCount: (pendingComments || []).length }, 
       projects: projects || [], 
       teachers: teachers || [], 
       news: news || [],
-      sessionId 
+      sessionId: sessionId || ''
     });
   } else {
     res.render('admin', { error: null });
