@@ -112,32 +112,31 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/admin', async (req, res) => {
-  const sessionId = req.cookies.admin_session || (req.body && req.body.sessionId) || '';
-  if (await isAdmin(req)) {
-    // Fetch activities safely
-    const { data: activities } = await supabase.from('activities').select('*').order('visits', { ascending: false }).catch(e => ({data: []}));
-    const { data: pendingComments } = await supabase.from('comments').select('*, activities(title)').eq('approved', 0).catch(e => ({data: []}));
-    const { data: projects } = await supabase.from('projects').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
-    
-    // Manual stats fallback
-    const { data: visitsData } = await supabase.from('activities').select('visits').catch(e => ({data: []}));
-    const totalVisits = (visitsData || []).reduce((acc, curr) => acc + (curr.visits || 0), 0);
-    
-    const { data: teachers } = await supabase.from('teachers').select('id, name, email, login_count, created_at, last_login').catch(e => ({data: []}));
-    const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
+  try {
+    const sessionId = req.cookies.admin_session || (req.body && req.body.sessionId) || '';
+    if (await isAdmin(req)) {
+      // Basic fetch without complex joins
+      const { data: activities } = await supabase.from('activities').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
+      const { data: pendingComments } = await supabase.from('comments').select('*').eq('approved', 0).catch(e => ({data: []}));
+      const { data: teachers } = await supabase.from('teachers').select('*').catch(e => ({data: []}));
+      const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
 
-    res.render('admin_panel', { 
-      activities: activities || [], 
-      pendingComments: pendingComments || [], 
-      approvedComments: [], 
-      stats: { totalVisits: totalVisits || 0, totalRatings: 0, pendingCount: (pendingComments || []).length }, 
-      projects: projects || [], 
-      teachers: teachers || [], 
-      news: news || [],
-      sessionId: sessionId || ''
-    });
-  } else {
-    res.render('admin', { error: null });
+      res.render('admin_panel', { 
+        activities: activities || [], 
+        pendingComments: pendingComments || [], 
+        approvedComments: [], 
+        stats: { totalVisits: 0, totalRatings: 0, pendingCount: (pendingComments || []).length }, 
+        projects: [], 
+        teachers: teachers || [], 
+        news: news || [],
+        sessionId: sessionId || ''
+      });
+    } else {
+      res.render('admin', { error: null });
+    }
+  } catch (error) {
+    console.error('ADMIN ERROR:', error);
+    res.status(500).send('Erro ao carregar o painel: ' + error.message);
   }
 });
 
