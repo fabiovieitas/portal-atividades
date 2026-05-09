@@ -114,13 +114,13 @@ app.get('/', async (req, res) => {
 app.get('/admin', async (req, res) => {
   const sessionId = req.cookies.admin_session || (req.body && req.body.sessionId) || '';
   if (await isAdmin(req)) {
-    const { data: activities } = await supabase.from('activities').select('*').order('visits', { ascending: false });
-    const { data: pendingComments } = await supabase.from('comments').select('*, activities(title)').eq('approved', 0);
-    const { data: projects } = await supabase.from('projects').select('*').order('created_at', { ascending: false });
+    // Fetch activities safely
+    const { data: activities } = await supabase.from('activities').select('*').order('visits', { ascending: false }).catch(e => ({data: []}));
+    const { data: pendingComments } = await supabase.from('comments').select('*, activities(title)').eq('approved', 0).catch(e => ({data: []}));
+    const { data: projects } = await supabase.from('projects').select('*').order('created_at', { ascending: false }).catch(e => ({data: []}));
     
-    const { data: statsData } = await supabase.rpc('get_admin_stats'); // We'll need a small RPC or separate queries
-    // Fallback if RPC not set:
-    const { data: visitsData } = await supabase.from('activities').select('visits');
+    // Manual stats fallback
+    const { data: visitsData } = await supabase.from('activities').select('visits').catch(e => ({data: []}));
     const totalVisits = (visitsData || []).reduce((acc, curr) => acc + (curr.visits || 0), 0);
     
     const { data: teachers } = await supabase.from('teachers').select('id, name, email, login_count, created_at, last_login').catch(e => ({data: []}));
