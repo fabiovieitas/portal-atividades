@@ -3,169 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notícias Educativas | Portal de Atividades</title>
+    <title>Blog de Notícias Educativas | Portal Lab Kids</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --bg: #f8fafc;
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
         }
 
-        .news-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f1f5f9;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* Hero Section Premium */
+        .blog-hero {
+            position: relative;
+            background: linear-gradient(135deg, #4338ca 0%, #db2777 100%);
+            padding: 8rem 2rem 10rem;
             color: white;
-            padding: 4rem 2rem;
             text-align: center;
-            border-radius: 0 0 30px 30px;
-            margin-bottom: 3rem;
+            clip-path: ellipse(150% 100% at 50% 0%);
         }
 
+        .blog-hero h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .blog-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* News Container */
+        .container-blog {
+            max-width: 1200px;
+            margin: -5rem auto 4rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Glassmorphism Card */
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem 4rem;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
         }
 
-        .news-card {
-            background: white;
-            border-radius: 20px;
+        .premium-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
         }
 
-        .news-card:hover {
-            transform: translateY(-10px);
+        .premium-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            background: rgba(255, 255, 255, 0.9);
         }
 
-        .news-image {
+        .card-img-wrapper {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .card-img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
+            transition: transform 0.6s ease;
         }
 
-        .news-body {
-            padding: 1.5rem;
-            flex-grow: 1;
+        .premium-card:hover .card-img {
+            transform: scale(1.1);
+        }
+
+        .card-category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-body {
+            padding: 2rem;
             display: flex;
             flex-direction: column;
+            flex-grow: 1;
         }
 
-        .news-tag {
-            background: #eef2ff;
-            color: var(--primary);
-            padding: 0.3rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: inline-block;
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.3;
             margin-bottom: 1rem;
+            color: var(--dark);
         }
 
-        .news-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.75rem;
-            line-height: 1.4;
-        }
-
-        .news-summary {
-            color: #64748b;
-            font-size: 0.95rem;
+        .card-summary {
+            color: #475569;
+            font-size: 1rem;
             line-height: 1.6;
             margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .news-footer {
+        .card-btn {
             margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            align-self: flex-start;
+        }
+
+        .card-btn:hover {
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .card-footer-info {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        .read-more {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .news-date {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #94a3b8;
         }
 
+        /* Animations */
+        .animate-fade {
+            animation: fadeInUp 0.8s ease backwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
-            .news-header { padding: 3rem 1rem; }
-            .news-grid { gap: 1.5rem; }
+            .blog-hero h1 { font-size: 2.5rem; }
+            .news-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body style="background: var(--bg);">
+<body>
 
-    <nav class="main-nav">
+    <nav class="main-nav" style="background: transparent; position: absolute; width: 100%; top: 0; z-index: 100;">
         <div class="nav-container">
-            <a href="/" class="logo">
-                <i class="fas fa-graduation-cap"></i> Portal
+            <a href="/" class="logo" style="color: white;">
+                <i class="fas fa-robot"></i> <span>Lab Kids</span>
             </a>
             <div class="nav-links">
-                <a href="/">Home</a>
-                <a href="/noticias" class="active">Blog</a>
-                <a href="/professor/login" class="btn-login">Área do Prof</a>
+                <a href="/" style="color: white; font-weight: 600;">Home</a>
+                <a href="/professor/login" class="btn-login" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">Área do Professor</a>
             </div>
         </div>
     </nav>
 
-    <header class="news-header">
-        <h1>Notícias e Novidades</h1>
-        <p>Tudo o que acontece no mundo da educação e as novidades do nosso portal.</p>
-    </header>
+    <section class="blog-hero">
+        <h1 class="animate-fade">Blog do Lab Kids</h1>
+        <p class="animate-fade" style="animation-delay: 0.2s;">Dicas, novidades e o melhor da tecnologia educacional diretamente para você.</p>
+    </section>
 
-    <main class="news-grid">
-        <% if (news.length === 0) { %>
-            <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: #64748b;">
-                <i class="fas fa-newspaper fa-4x" style="margin-bottom: 1rem; opacity: 0.3;"></i>
-                <p>Nenhuma notícia publicada ainda.</p>
-            </div>
-        <% } %>
-
-        <% news.forEach(article => { %>
-            <article class="news-card">
-                <img src="<%= article.image_url || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=800' %>" alt="<%= article.title %>" class="news-image">
-                <div class="news-body">
-                    <div>
-                        <span class="news-tag"><%= article.category %></span>
-                    </div>
-                    <h2 class="news-title"><%= article.title %></h2>
-                    <p class="news-summary"><%= article.summary %></p>
-                    <div class="news-footer">
-                        <span class="news-date">
-                            <i class="far fa-calendar-alt"></i> 
-                            <%= new Date(article.created_at).toLocaleDateString('pt-BR') %>
-                        </span>
-                        <a href="/noticia/<%= article.id %>" class="read-more">
-                            Ler mais <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
+    <main class="container-blog">
+        <div class="news-grid">
+            <% if (news.length === 0) { %>
+                <div class="premium-card animate-fade" style="grid-column: 1/-1; padding: 4rem; text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">📝</div>
+                    <h2>Prepare o café!</h2>
+                    <p>O professor Fábio está preparando novidades incríveis. Volte logo!</p>
                 </div>
-            </article>
-        <% }); %>
+            <% } %>
+
+            <% news.forEach((article, index) => { %>
+                <article class="premium-card animate-fade" style="animation-delay: <%= 0.1 * (index + 1) %>s">
+                    <div class="card-img-wrapper">
+                        <img src="<%= article.image_url || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800' %>" alt="<%= article.title %>" class="card-img">
+                        <span class="card-category"><%= article.category %></span>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title"><%= article.title %></h2>
+                        <p class="card-summary"><%= article.summary %></p>
+                        <a href="/noticia/<%= article.id %>" class="card-btn">
+                            Ler Notícia <i class="fas fa-chevron-right" style="font-size: 0.8rem;"></i>
+                        </a>
+                        <div class="card-footer-info">
+                            <span><i class="far fa-calendar-alt"></i> <%= new Date(article.created_at).toLocaleDateString('pt-BR') %></span>
+                            <span><i class="far fa-user"></i> <%= article.author %></span>
+                        </div>
+                    </div>
+                </article>
+            <% }); %>
+        </div>
     </main>
 
-    <footer class="footer">
-        <p>&copy; 2024 Portal de Atividades. Criado para transformar a educação.</p>
+    <footer class="footer" style="background: var(--dark); color: white; padding: 4rem 2rem;">
+        <div class="container" style="text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 1rem;">🤖</div>
+            <p>&copy; 2026 Lab Kids - Transformando a educação através da tecnologia.</p>
+            <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem;">
+                <a href="/" style="color: #94a3b8; text-decoration: none;">Início</a>
+                <a href="/privacidade" style="color: #94a3b8; text-decoration: none;">Privacidade</a>
+                <a href="/contato" style="color: #94a3b8; text-decoration: none;">Contato</a>
+            </div>
+        </div>
     </footer>
 
 </body>

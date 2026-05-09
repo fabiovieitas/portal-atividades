@@ -15,9 +15,12 @@
 <body class="<%= selectedLevel ? 'view-list' : 'view-selection' %>">
 
 
-    <!-- Botão Fixo da Área do Professor -->
+    <!-- Botões Fixos -->
     <a href="/professor/login" class="fixed-teacher-btn">
         🧑‍🏫 Área do Professor
+    </a>
+    <a href="/noticias" class="fixed-blog-btn" style="position: fixed; bottom: 80px; right: 20px; z-index: 1000; background: var(--secondary); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 700; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: 0.3s; display: flex; align-items: center; gap: 8px;">
+        📰 Blog de Notícias
     </a>
 
     <!-- Scrolling Comments Sidebar -->
@@ -396,6 +399,7 @@
         <div class="container">
             <p>&copy; 2026 <%= selectedLevel==='6-9' ? 'Tech Masters' : 'Lab Kids' %> - Educação Tecnológica</p>
             <div style="margin-top: 15px; display: flex; justify-content: center; gap: 20px;">
+                <a href="/noticias" class="admin-link">Blog de Notícias</a>
                 <a href="/privacidade" class="admin-link">Privacidade (LGPD)</a>
                 <a href="/contato" class="admin-link">Contato</a>
                 <a href="/admin" class="admin-link">Painel Admin</a>

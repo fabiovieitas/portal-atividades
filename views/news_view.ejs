@@ -3,108 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= article.title %> | Portal de Atividades</title>
+    <title><%= article.title %> | Blog Lab Kids</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        .article-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 4rem 1.5rem;
-        }
-
-        .article-header {
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .article-meta {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-        }
-
-        .article-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #1e293b;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-        }
-
-        .article-hero {
-            width: 100%;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin-bottom: 3rem;
-        }
-
-        .article-content {
-            font-size: 1.15rem;
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #fdfdfd;
             line-height: 1.8;
             color: #334155;
         }
 
-        .article-content p {
-            margin-bottom: 1.5rem;
+        .article-hero-section {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #6366f1;
-            text-decoration: none;
-            font-weight: 600;
+        .article-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.5);
+            z-index: 1;
+        }
+
+        .article-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .article-category-badge {
+            background: #4f46e5;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .article-title-main {
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .article-meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .main-wrapper {
+            max-width: 900px;
+            margin: -4rem auto 5rem;
+            background: white;
+            padding: 4rem 5rem;
+            border-radius: 40px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.08);
+        }
+
+        .article-body {
+            font-size: 1.25rem;
+            color: #334155;
+        }
+
+        .article-body p {
             margin-bottom: 2rem;
         }
 
+        .article-body h2, .article-body h3 {
+            color: #1e293b;
+            margin: 3rem 0 1rem;
+            font-weight: 800;
+        }
+
+        .back-nav {
+            margin-bottom: 3rem;
+        }
+
+        .btn-back-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn-back-blog:hover {
+            transform: translateX(-5px);
+        }
+
         @media (max-width: 768px) {
-            .article-title { font-size: 2rem; }
-            .article-container { padding: 2rem 1rem; }
+            .main-wrapper {
+                margin-top: -2rem;
+                padding: 2.5rem 1.5rem;
+                border-radius: 20px;
+            }
+            .article-meta-info { flex-direction: column; gap: 0.5rem; }
         }
     </style>
 </head>
-<body style="background: #fdfdfd;">
+<body>
 
-    <nav class="main-nav">
+    <nav class="main-nav" style="background: transparent; position: absolute; width: 100%; top: 0; z-index: 100;">
         <div class="nav-container">
-            <a href="/" class="logo">
-                <i class="fas fa-graduation-cap"></i> Portal
+            <a href="/" class="logo" style="color: white;">
+                <i class="fas fa-robot"></i> <span>Lab Kids</span>
             </a>
             <div class="nav-links">
-                <a href="/">Home</a>
-                <a href="/noticias">Blog</a>
+                <a href="/" style="color: white; font-weight: 600;">Home</a>
+                <a href="/noticias" style="color: white; font-weight: 600;">Blog</a>
             </div>
         </div>
     </nav>
 
-    <article class="article-container">
-        <a href="/noticias" class="back-link">
-            <i class="fas fa-arrow-left"></i> Voltar para o Blog
-        </a>
-
-        <header class="article-header">
-            <div class="article-meta">
-                <span><i class="fas fa-tag"></i> <%= article.category %></span>
-                <span><i class="far fa-calendar"></i> <%= new Date(article.created_at).toLocaleDateString('pt-BR') %></span>
+    <header class="article-hero-section">
+        <img src="<%= article.image_url || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1600' %>" class="article-hero-bg" alt="">
+        <div class="article-hero-content">
+            <span class="article-category-badge"><%= article.category %></span>
+            <h1 class="article-title-main"><%= article.title %></h1>
+            <div class="article-meta-info">
+                <span><i class="far fa-calendar-alt"></i> <%= new Date(article.created_at).toLocaleDateString('pt-BR') %></span>
                 <span><i class="far fa-user"></i> <%= article.author %></span>
+                <span><i class="far fa-clock"></i> 5 min de leitura</span>
             </div>
-            <h1 class="article-title"><%= article.title %></h1>
-        </header>
+        </div>
+    </header>
 
-        <img src="<%= article.image_url || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1200' %>" alt="<%= article.title %>" class="article-hero">
+    <main class="main-wrapper">
+        <nav class="back-nav">
+            <a href="/noticias" class="btn-back-blog">
+                <i class="fas fa-arrow-left"></i> Voltar para o Blog
+            </a>
+        </nav>
 
-        <div class="article-content">
+        <div class="article-body">
             <%- article.content.replace(/\n/g, '<br>') %>
         </div>
-    </article>
 
-    <footer class="footer">
-        <p>&copy; 2024 Portal de Atividades.</p>
+        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee; text-align: center;">
+            <h3>Gostou deste artigo?</h3>
+            <p>Compartilhe com outros professores e ajude a transformar a educação!</p>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+                <a href="#" style="background: #1877f2; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" style="background: #1da1f2; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fab fa-twitter"></i></a>
+                <a href="#" style="background: #25d366; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" style="background: #0f172a; color: white; padding: 4rem 2rem;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2026 Lab Kids - Transformando a educação através da tecnologia.</p>
+        </div>
     </footer>
 
 </body>
