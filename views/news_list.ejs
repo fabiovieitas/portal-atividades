@@ -190,22 +190,27 @@
 </head>
 <body>
 
-    <nav class="main-nav" style="background: transparent; position: absolute; width: 100%; top: 0; z-index: 100;">
-        <div class="nav-container">
-            <a href="/" class="logo" style="color: white;">
-                <i class="fas fa-robot"></i> <span>Lab Kids</span>
+    <nav class="main-nav" style="background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
+        <div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <a href="/" class="logo" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 2rem; animation: rotate 10s infinite linear; display: inline-block;">🤖</span>
+                <h1 style="font-family: 'Fredoka', sans-serif; color: white; margin: 0; font-size: 1.8rem;">Lab Kids</h1>
             </a>
-            <div class="nav-links">
-                <a href="/" style="color: white; font-weight: 600;">Home</a>
-                <a href="/professor/login" class="btn-login" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3);">Área do Professor</a>
+            <div class="nav-links" style="display: flex; align-items: center; gap: 20px;">
+                <a href="/" style="color: white; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.3s;">
+                    <i class="fas fa-home"></i> Início
+                </a>
+                <a href="/professor/login" style="background: linear-gradient(135deg, #4f46e5, #818cf8); color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);">
+                    <i class="fas fa-chalkboard-teacher"></i> Área do Professor
+                </a>
             </div>
         </div>
     </nav>
 
-    <section class="blog-hero">
+    <header class="blog-hero">
         <h1 class="animate-fade">Blog do Lab Kids</h1>
         <p class="animate-fade" style="animation-delay: 0.2s;">Dicas, novidades e o melhor da tecnologia educacional diretamente para você.</p>
-    </section>
+    </header>
 
     <main class="container-blog">
         <div class="news-grid">
