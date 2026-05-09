@@ -1,0 +1,645 @@
+:root {
+    --primary: #6c5ce7;
+    --secondary: #a29bfe;
+    --accent: #fab1a0;
+    --success: #00b894;
+    --danger: #d63031;
+    --white: #dfe6e9;
+    --bg-game: #0c0c0c;
+    --pixel-font: 'Press Start 2P', cursive;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1a1a1a;
+    font-family: 'Fredoka', sans-serif;
+    color: var(--white);
+    overflow: hidden;
+}
+
+#game-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-game);
+    position: relative;
+}
+
+/* Stats Panel */
+#stats-panel {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid var(--primary);
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-bar-container {
+    width: 200px;
+    height: 10px;
+    background: #333;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.stat-bar {
+    height: 100%;
+    width: 50%;
+    transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#empathy-val,
+#social-val,
+#digital-val {
+    font-family: var(--pixel-font);
+    font-size: 0.8rem;
+    color: white;
+}
+
+.stat-name {
+    font-size: 0.6rem;
+    color: #aaa;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+#empathy-bar {
+    background: var(--danger);
+}
+
+#social-bar {
+    background: #fdcb6e;
+}
+
+#digital-bar {
+    background: var(--success);
+}
+
+#xp-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 0.5;
+}
+
+.xp-info {
+    font-family: var(--pixel-font);
+    font-size: 0.7rem;
+    color: var(--accent);
+}
+
+.xp-bar-container {
+    width: 100px;
+    height: 6px;
+    background: #2d3436;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.xp-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+/* Game Canvas */
+#game-canvas {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+#background-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.8s ease;
+    filter: brightness(0.4) blur(2px);
+}
+
+#overlay-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.7) 100%);
+    pointer-events: none;
+}
+
+#game-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.screen {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RPG Scenario Box */
+.avatar-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.avatar-opt {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 3px solid transparent;
+}
+
+.avatar-opt img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.avatar-opt:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.avatar-opt.selected {
+    border-color: var(--accent);
+    background: var(--primary);
+    box-shadow: 0 0 20px var(--accent);
+}
+
+/* Setup Inputs */
+.rpg-input {
+    background: #000;
+    border: 2px solid var(--primary);
+    color: white;
+    padding: 15px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.gear-selector {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.gear-opt {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.gear-opt span {
+    font-size: 0.7rem;
+    display: block;
+    font-family: var(--pixel-font);
+    margin-top: 5px;
+}
+
+.gear-opt:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+}
+
+.gear-opt.selected {
+    background: var(--primary);
+    border-color: white;
+    box-shadow: 0 0 15px var(--primary);
+}
+
+/* Character Display in Game */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.avatar-display {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar-display img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    background: white;
+}
+
+.player-label {
+    font-family: var(--pixel-font);
+    font-size: 0.9rem;
+    color: var(--white);
+}
+
+/* ULTRA-MAX UI */
+.rpg-box {
+    background: rgba(0, 0, 0, 0.92);
+    padding: 60px;
+    border-radius: 30px;
+    border: 5px solid var(--secondary);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+    margin-bottom: 30px;
+    width: 98%;
+    max-width: 1400px;
+}
+
+.rpg-box p {
+    font-size: 2rem;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.res-title {
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+}
+
+.choice-list {
+    width: 98%;
+    max-width: 1400px;
+    gap: 20px;
+}
+
+.btn-rpg-choice {
+    font-size: 1.5rem;
+    padding: 25px 40px;
+    border-radius: 15px;
+    background: rgba(45, 52, 54, 0.95);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    text-align: left;
+}
+
+.btn-rpg-choice:hover {
+    background: var(--primary);
+    border-color: white;
+    transform: translateX(10px);
+}
+
+.choice-label {
+    background: var(--secondary);
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-family: var(--pixel-font);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.btn-rpg-start {
+    font-family: var(--pixel-font);
+    background: var(--success);
+    color: white;
+    padding: 20px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 4px 0 #009475;
+    transition: transform 0.1s;
+}
+
+.btn-rpg-start:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+/* Corruption & Invasion Effects */
+.corrupted-screen {
+    animation: corruption-flash 0.2s infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.corrupted-screen::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0px, rgba(0, 0, 0, 0.1) 1px, transparent 1px, transparent 2px);
+    pointer-events: none;
+}
+
+@keyframes corruption-flash {
+    0% {
+        filter: hue-rotate(0deg) brightness(1) contrast(1);
+    }
+
+    20% {
+        filter: hue-rotate(90deg) brightness(1.2) contrast(1.5) invert(0.1);
+        transform: translate(2px, -1px);
+    }
+
+    40% {
+        filter: hue-rotate(180deg) brightness(0.8) contrast(2) invert(0);
+        transform: translate(-2px, 1px);
+    }
+
+    60% {
+        filter: hue-rotate(270deg) brightness(1.1) contrast(1.2) invert(0.2);
+        transform: translate(1px, 2px);
+    }
+
+    80% {
+        filter: hue-rotate(360deg) brightness(1) contrast(1) invert(0);
+        transform: translate(-1px, -2px);
+    }
+}
+
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://media.giphy.com/media/oEI9uWU0WMrQmUDOAy/giphy.gif');
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+}
+
+.corrupted-text {
+    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+    animation: text-flicker 0.1s infinite;
+}
+
+@keyframes text-flicker {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(2px);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(1px);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.glitch {
+    position: relative;
+}
+
+.glitch::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-game);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(31px, 9999px, 94px, 0);
+    }
+
+    20% {
+        clip: rect(62px, 9999px, 42px, 0);
+    }
+
+    40% {
+        clip: rect(16px, 9999px, 78px, 0);
+    }
+
+    60% {
+        clip: rect(58px, 9999px, 22px, 0);
+    }
+
+    80% {
+        clip: rect(93px, 9999px, 12px, 0);
+    }
+
+    100% {
+        clip: rect(2px, 9999px, 86px, 0);
+    }
+}
+
+/* Achievement Toast */
+#achievement-toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--success);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    font-family: var(--pixel-font);
+    font-size: 0.8rem;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    border: 2px solid white;
+    animation: slideInRight 0.5s forwards;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.avatar-hero-glow {
+    filter: drop-shadow(0 0 15px var(--success));
+    transition: filter 0.5s;
+}
+
+.avatar-sad {
+    filter: grayscale(1) brightness(0.7);
+    transition: filter 0.5s;
+}
+
+/* Feedback Result */
+.res-title {
+    font-family: var(--pixel-font);
+    color: var(--secondary);
+}
+
+.impact-reveal {
+    margin-top: 30px;
+    font-family: var(--pixel-font);
+    font-size: 0.9rem;
+    color: var(--accent);
+    padding: 15px;
+    border-top: 1px solid #444;
+}
+
+.progress-indicator {
+    font-family: var(--pixel-font);
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+/* Floating scores */
+#floating-scores {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.score-popup {
+    position: absolute;
+    font-family: var(--pixel-font);
+    font-size: 1rem;
+    animation: floatUp 1.5s forwards;
+}
+
+.score-popup.plus {
+    color: var(--success);
+}
+
+.score-popup.minus {
+    color: var(--danger);
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+}

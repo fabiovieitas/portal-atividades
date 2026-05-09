@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Acessar Prova</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { background: var(--bg-dark); color: white; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+    .login-container { max-width: 400px; width: 90%; background: var(--glass-bg); padding: 30px; border-radius: 15px; border: 1px solid var(--glass-border); text-align: center; }
+    h1 { color: var(--accent-cyan); margin-bottom: 20px; font-family: 'Righteous', cursive; }
+    input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: none; background: rgba(255,255,255,0.1); color: white; box-sizing: border-box; }
+    button { width: 100%; padding: 12px; background: var(--accent-blue); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1.1em; }
+    button:hover { background: var(--btn-hover); transform: scale(1.05); }
+    .error { color: #ff6b6b; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div style="font-size: 3em; margin-bottom: 10px;">📝</div>
+    <h1>Acessar Prova</h1>
+    <p style="color: #ccc; margin-bottom: 20px;">Insira o código fornecido pelo professor para iniciar a avaliação.</p>
+    
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+    
+    <form action="/prova/login" method="POST">
+      <input type="text" name="access_code" placeholder="Código de Acesso" required>
+      <input type="text" name="student_name" placeholder="Seu Nome Completo" required>
+      <button type="submit">Iniciar Prova 🚀</button>
+    </form>
+    
+    <a href="/" style="display: block; margin-top: 20px; color: var(--accent-cyan); text-decoration: none;">Voltar ao Início</a>
+  </div>
+</body>
+</html>

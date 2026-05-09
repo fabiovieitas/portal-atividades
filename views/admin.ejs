@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Lab Kids</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin_fixes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-login">
+    <div class="login-card glass-panel animate-up">
+        <img src="/img/logo-prof.png" alt="Logo" class="login-logo">
+        <h1>Acesso Restrito</h1>
+        <p>Bem-vindo, Professor. Por favor, identifique-se.</p>
+        
+        <form action="/admin/login" method="POST" style="margin-top: 30px;">
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Sua senha secreta" required autofocus 
+                       style="width: 100%; padding: 15px; border-radius: 15px; border: 1px solid #ddd; margin-bottom: 20px; font-size: 1.1rem; text-align: center;">
+            </div>
+            <% if (error) { %>
+                <p class="error-msg" style="color: #ff4757; margin-bottom: 15px; font-weight: 600;"><%= error %></p>
+            <% } %>
+            <button type="submit" class="btn-add" style="width: 100%; cursor: pointer;">Entrar no Painel 🚀</button>
+        </form>
+        
+        <a href="/" style="margin-top: 25px; display: block; color: var(--primary); text-decoration: none; font-weight: 600;">← Voltar ao Portal</a>
+    </div>
+</body>
+</html>

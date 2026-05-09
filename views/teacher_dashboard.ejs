@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Professor - Lab Kids</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin_fixes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --sidebar-bg: #f8fafc;
+            --content-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --border: #e2e8f0;
+            --teacher-level-color: <%= teacher.level.color %>;
+        }
+        body { 
+            background: #f1f5f9; 
+            color: var(--text-main); 
+            font-family: 'Outfit', sans-serif; 
+            margin: 0;
+        }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .admin-sidebar { 
+            background: var(--sidebar-bg); 
+            width: 280px; 
+            border-right: 1px solid var(--border); 
+            display: flex; 
+            flex-direction: column;
+            padding: 20px 0;
+        }
+        .admin-content { flex: 1; padding: 40px; background: var(--content-bg); }
+        
+        .nav-item { 
+            padding: 12px 25px; 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            font-weight: 600;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-item:hover { background: #f1f5f9; color: var(--accent); }
+        .nav-item.active { background: #eff6ff; color: var(--accent); border-right: 4px solid var(--accent); }
+        
+        .glass-panel { 
+            background: white !important; 
+            border: 1px solid var(--border) !important; 
+            border-radius: 16px !important; 
+            padding: 24px !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+            color: var(--text-main) !important;
+        }
+        
+        .workspace-header h1 { font-size: 2rem; color: var(--text-main); margin-bottom: 8px; }
+        .workspace-header p { color: var(--text-muted); }
+        
+        .stat-card-new { border: 1px solid var(--border); background: white; border-radius: 16px; padding: 24px; display: flex; align-items: center; gap: 20px; }
+        .stat-data .label { font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; }
+        .stat-data .value { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
+        
+        .input-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
+        .input-group input, .input-group select, .input-group textarea { 
+            width: 100%; 
+            padding: 10px 14px; 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+        .btn-submit { background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+        
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; text-align: center; }
+        .close { float: right; font-size: 1.5rem; cursor: pointer; }
+    </style>
+</head>
+
+<body class="admin-dashboard-new">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-top" style="padding: 20px;">
+            <img src="/img/logo-prof.png" alt="Logo" class="sidebar-logo">
+            <div style="margin-top: 10px;">
+                <h3 style="margin: 0; font-size: 1.1rem; color: var(--text-main);"><%= teacher.name %></h3>
+                <span style="background: var(--teacher-level-color); color: white; padding: 3px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; display: inline-block; margin-top: 5px;">
+                    <%= teacher.level.title %>
+                </span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <button class="nav-item active" onclick="switchTab('acervo', this)">
+                <span class="nav-icon">❤️</span> <span class="nav-text">Favoritos</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('colecoes', this)">
+                <span class="nav-icon">📂</span> <span class="nav-text">Coleções</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('calendario', this)">
+                <span class="nav-icon">📅</span> <span class="nav-text">Agenda</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('minhas-aulas', this)">
+                <span class="nav-icon">💡</span> <span class="nav-text">Minhas Aulas</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('turmas', this)">
+                <span class="nav-icon">🏫</span> <span class="nav-text">Turmas</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('provas', this)">
+                <span class="nav-icon">📝</span> <span class="nav-text">Provas</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('config', this)">
+                <span class="nav-icon">⚙️</span> <span class="nav-text">Ajustes</span>
+            </button>
+        </nav>
+        <div class="sidebar-bottom">
+            <a href="/professor/logout" class="btn-logout" style="background: rgba(255,0,0,0.2); color: #ff6b6b;">Sair do Painel</a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-content">
+        
+        <!-- MEU ACERVO -->
+        <div id="acervo" class="tab-pane active">
+            <header class="workspace-header">
+                <h1>❤️ Meu Acervo Favorito</h1>
+                <p>Atividades selecionadas para suas aulas.</p>
+            </header>
+            <div class="projects-admin-grid">
+                <% 
+                   const favActivities = activities.filter(a => favorites.includes(a.id));
+                   if(favActivities.length === 0) { 
+                %>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; text-align: center; margin-top: 30px;">Você ainda não favoritou nenhuma atividade. Volte ao portal e clique no coração ❤️!</p>
+                <% } else {
+                   favActivities.forEach(activity => { 
+                %>
+                    <div class="project-admin-card glass-panel" style="padding: 24px; border: 1px solid var(--border); border-radius: 16px;">
+                        <h3 style="color: var(--accent); margin-top: 0;">
+                            <a href="/qr/<%= activity.id %>" target="_blank" style="text-decoration: none; color: inherit;"><%= activity.title %> 🔗</a>
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 1rem; margin: 12px 0;">BNCC: <%= activity.bncc_code || 'N/A' %> | <%= activity.subject %></p>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn-submit" onclick="generateQR('<%= activity.id %>', '<%= activity.title %>', '<%= teacher.id %>')" style="flex: 2;">📱 QR Code</button>
+                            <button class="btn-icon-small" onclick="addToCollectionPrompt('<%= activity.id %>')" title="Add à Coleção">📂</button>
+                            <button class="btn-icon-small" onclick="scheduleActivityPrompt('<%= activity.id %>')" title="Agendar Aula">📅</button>
+                        </div>
+                    </div>
+                <% }); } %>
+            </div>
+        </div>
+
+        <!-- COLEÇÕES -->
+        <div id="colecoes" class="tab-pane">
+            <header class="workspace-header">
+                <h1>📂 Minhas Coleções Temáticas</h1>
+                <button class="btn-add-main" onclick="createNewCollection()">+ Nova Coleção</button>
+            </header>
+            <div class="projects-admin-grid">
+                <% if(collections.length === 0) { %>
+                    <p style="color: var(--text-muted); text-align: center; width: 100%; padding: 40px;">Crie coleções para organizar suas atividades favoritas por tema ou bimestre.</p>
+                <% } else { collections.forEach(col => { %>
+                    <div class="project-admin-card glass-panel" style="padding: 24px; border: 1px solid var(--border); border-radius: 16px;">
+                        <h3 style="color: var(--accent); margin-top: 0;"><%= col.name %></h3>
+                        <p style="color: var(--text-muted);">Pasta de organização pedagógica.</p>
+                        <button class="btn-submit" onclick="alert('Funcionalidade de visualizar itens da coleção em breve!')" style="width: 100%; margin-top: 15px;">Ver Atividades</button>
+                    </div>
+                <% }); } %>
+            </div>
+        </div>
+
+        <!-- CALENDÁRIO / PLANEJAMENTO -->
+        <div id="calendario" class="tab-pane">
+            <header class="workspace-header">
+                <h1>📅 Planejamento de Aulas</h1>
+                <p>Veja as missões agendadas para suas turmas.</p>
+            </header>
+            
+            <div class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 20px;">
+                <% 
+                   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+                   weekDays.forEach(day => { 
+                %>
+                    <div style="text-align: center; font-weight: bold; padding: 10px; background: var(--sidebar-bg); border-radius: 8px; color: var(--text-muted);"><%= day %></div>
+                <% }); %>
+                <% 
+                   // Calendário simplificado para o mês atual
+                   const now = new Date();
+                   const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+                   for(let i=0; i<daysInMonth; i++) { 
+                     const d = (i+1).toString().padStart(2, '0');
+                     const m = (now.getMonth()+1).toString().padStart(2, '0');
+                     const dateStr = `${now.getFullYear()}-${m}-${d}`;
+                     const items = planning.filter(p => p.planned_date === dateStr);
+                %>
+                    <div class="calendar-day" style="min-height: 100px; border: 1px solid var(--border); border-radius: 12px; padding: 10px; background: white;">
+                        <span style="font-size: 0.9rem; font-weight: 700; color: <%= items.length > 0 ? 'var(--accent)' : 'var(--text-muted)' %>;"><%= i+1 %></span>
+                        <% items.forEach(item => { %>
+                            <div style="font-size: 0.75rem; background: var(--accent); color: white; padding: 4px 8px; border-radius: 6px; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<%= item.activity_title %>">
+                                🚀 <%= item.activity_title %>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- MINHAS AULAS -->
+        <div id="minhas-aulas" class="tab-pane">
+            <header class="workspace-header">
+                <h1>💡 Minhas Aulas Particulares</h1>
+                <button class="btn-add-main" onclick="toggleForm('add-lesson-form')">+ Nova Aula</button>
+            </header>
+
+            <div id="add-lesson-form" class="admin-card-new glass-panel" style="display:none; margin-bottom: 30px;">
+                <h2>Cadastrar Nova Atividade/Aula</h2>
+                <form onsubmit="addTeacherActivity(event)" class="form-grid">
+                    <div class="input-group">
+                        <label>Título da Missão</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="input-group">
+                        <label>URL da Atividade (Link)</label>
+                        <input type="url" name="activity_url" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Disciplina</label>
+                        <input type="text" name="subject" placeholder="Ex: Matemática">
+                    </div>
+                    <div class="input-group">
+                        <label>BNCC (Opcional)</label>
+                        <input type="text" name="bncc_code">
+                    </div>
+                    <button type="submit" class="btn-submit">Criar Aula Privada</button>
+                </form>
+            </div>
+
+            <div class="projects-admin-grid">
+                <% 
+                   const myActivities = activities.filter(a => a.teacher_id === teacher.id);
+                   if(myActivities.length === 0) { 
+                %>
+                    <p style="color: var(--text-muted);">Você ainda não criou nenhuma aula própria.</p>
+                <% } else {
+                   myActivities.forEach(activity => { 
+                %>
+                    <div class="project-admin-card glass-panel" style="padding: 24px;">
+                        <h3 style="color: var(--accent);"><%= activity.title %></h3>
+                        <div style="margin: 10px 0;">
+                            <span class="badge" style="background: <%= activity.status === 'public' ? '#dcfce7' : (activity.status === 'pending' ? '#fef9c3' : '#f1f5f9') %>; color: #1e293b;">
+                                <%= activity.status === 'public' ? 'Pública' : (activity.status === 'pending' ? 'Aguardando Aprovação' : 'Privada') %>
+                            </span>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn-submit" onclick="generateQR('<%= activity.id %>', '<%= activity.title %>', '<%= teacher.id %>')" style="flex: 1;">📱 QR Code</button>
+                            <% if (activity.status === 'private') { %>
+                                <button class="btn-submit" onclick="requestPublic('<%= activity.id %>')" style="flex: 1; background: #6366f1;">Solicitar Público</button>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); } %>
+            </div>
+        </div>
+
+        <!-- MINHAS TURMAS -->
+        <div id="turmas" class="tab-pane">
+            <header class="workspace-header">
+                <h1>🏫 Minhas Turmas</h1>
+                <button class="btn-add-main" onclick="toggleForm('add-class-form')">+ Nova Turma</button>
+            </header>
+
+            <div id="add-class-form" class="admin-card-new glass-panel" style="display:none; margin-bottom: 20px;">
+                <h2>Cadastrar Turma</h2>
+                <form onsubmit="addClass(event)" class="form-grid">
+                    <div class="input-group">
+                        <label>Nome da Escola</label>
+                        <input type="text" id="schoolName" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Turma (Ex: 9º Ano A)</label>
+                        <input type="text" id="className" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Salvar Turma</button>
+                </form>
+            </div>
+
+            <div class="classes-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+                <% if(classes.length === 0) { %>
+                    <p style="color: var(--text-muted);">Nenhuma turma cadastrada.</p>
+                <% } else { classes.forEach(c => { %>
+                    <div class="class-card glass-panel" style="padding: 20px; border: 1px solid var(--border); border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 style="color: var(--text-main); margin: 0 0 5px 0;"><%= c.class_name %></h3>
+                            <p style="color: var(--text-muted); margin: 0;"><%= c.school_name %></p>
+                        </div>
+                        <button onclick="deleteClass('<%= c.id %>')" class="btn-delete-small" style="background: rgba(255,107,107,0.1); color: #ff6b6b; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer;">Remover</button>
+                    </div>
+                <% }); } %>
+            </div>
+        </div>
+
+        <!-- PROVAS E AVALIAÇÕES -->
+        <div id="provas" class="tab-pane">
+            <header class="workspace-header">
+                <h1>📝 Banco de Provas e Avaliações</h1>
+                <p>Acesse o banco de provas global da rede ou crie as suas.</p>
+            </header>
+
+            <h2 style="margin-bottom: 15px; color: var(--dark);">🌐 Provas da Rede (Global)</h2>
+            <div class="projects-admin-grid">
+                <% if(globalExams.length === 0) { %>
+                    <p style="color: #888;">Nenhuma prova global disponível no momento.</p>
+                <% } else { globalExams.forEach(exam => { %>
+                    <div class="project-admin-card glass-panel" style="padding: 20px; border-left: 4px solid var(--accent);">
+                        <h3 style="color: var(--accent);"><%= exam.title %></h3>
+                        <p style="color: #aaa; margin: 5px 0;"><%= exam.subject %></p>
+                        <a href="<%= exam.pdf_url %>" target="_blank" class="btn-submit" style="display: block; text-align: center; margin-top: 15px; background: transparent; border: 1px solid var(--accent); color: var(--accent);">📄 Ver PDF</a>
+                    </div>
+                <% }); } %>
+            </div>
+
+            <h2 style="margin: 40px 0 15px 0; color: var(--dark);">Minhas Provas Personalizadas</h2>
+            <div class="projects-admin-grid">
+                 <div class="project-admin-card glass-panel" style="padding: 20px; display: flex; align-items: center; justify-content: center; flex-direction: column; cursor: pointer;">
+                        <span style="font-size: 3rem; color: #555;">+</span>
+                        <p style="color: #888; text-align: center;">Criar Nova Prova<br>(Em Breve)</p>
+                 </div>
+                 <% exams.forEach(exam => { %>
+                    <div class="project-admin-card glass-panel" style="padding: 20px;">
+                        <h3 style="color: var(--primary);"><%= exam.title %></h3>
+                        <p style="color: #aaa; margin: 5px 0;">Cód. Acesso: <strong><%= exam.access_code %></strong></p>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div id="analytics" class="tab-pane">
+            <header class="workspace-header">
+                <h1>📊 Relatórios e Analytics</h1>
+                <a href="/api/teacher/export" class="export-btn">📥 Exportar Relatório (CSV)</a>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(74, 144, 226, 0.1); color: var(--primary);">🎯</div>
+                    <div class="stat-data">
+                        <span class="label">Atividades no Acervo</span>
+                        <span class="value"><%= favActivities.length %></span>
+                    </div>
+                </div>
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(29, 209, 161, 0.1); color: var(--success);">👩‍🎓</div>
+                    <div class="stat-data">
+                        <span class="label">Turmas Atendidas</span>
+                        <span class="value"><%= classes.length %></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-chart-placeholder">
+                <p>Gráficos detalhados de engajamento por aluno/turma (Módulo em Desenvolvimento)</p>
+            </div>
+        </div>
+
+        <!-- CONFIGURAÇÕES -->
+        <div id="config" class="tab-pane">
+            <header class="workspace-header">
+                <h1>⚙️ Configurações da Conta</h1>
+            </header>
+
+            <div class="admin-card-new glass-panel config-form">
+                <h2 style="margin-bottom: 20px;">Alterar Senha</h2>
+                <form onsubmit="updatePassword(event)" class="form-grid" style="grid-template-columns: 1fr;">
+                    <div class="input-group">
+                        <label>Senha Atual</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Nova Senha</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Salvar Nova Senha</button>
+                    <p id="pwd-msg" style="margin-top: 10px;"></p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- QR Modal -->
+    <div id="qr-modal" class="modal" style="display:none">
+        <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; border: 1px solid var(--border);">
+            <span class="close" onclick="closeQRModal()">&times;</span>
+            <h2 id="qr-title" style="color: var(--accent); margin-bottom: 20px;">QR Code</h2>
+            <div id="qrcode" style="background: white; padding: 20px; border-radius: 10px; display: inline-block; border: 1px solid #eee;"></div>
+            <p style="color: var(--text-muted); margin: 15px 0;">Alunos escaneiam para acessar!</p>
+            <button onclick="closeQRModal()" class="btn-submit">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            localStorage.setItem('teacher_active_tab', id);
+        }
+
+        window.onload = () => {
+            const activeTab = localStorage.getItem('teacher_active_tab') || 'acervo';
+            const btn = Array.from(document.querySelectorAll('.nav-item')).find(b => b.getAttribute('onclick').includes(`'${activeTab}'`));
+            switchTab(activeTab, btn);
+        }
+
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        async function addTeacherActivity(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            const res = await fetch('/api/teacher/activities/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) location.reload();
+        }
+
+        async function requestPublic(id) {
+            if (!confirm('Deseja solicitar que esta aula se torne pública? Ela passará por análise do administrador.')) return;
+            const res = await fetch(`/api/teacher/activities/request-public/${id}`, { method: 'POST' });
+            if (res.ok) {
+                alert('Solicitação enviada!');
+                location.reload();
+            }
+        }
+
+        async function createNewCollection() {
+            const name = prompt('Nome da nova coleção:');
+            if(!name) return;
+            const res = await fetch('/api/teacher/collections/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name })
+            });
+            if(res.ok) location.reload();
+        }
+
+        async function addToCollectionPrompt(activityId) {
+            const res = await fetch('/api/teacher/collections');
+            const collections = await res.json();
+            if(collections.length === 0) return alert('Crie uma coleção primeiro!');
+            
+            const colId = prompt('Escolha o ID da coleção:\n' + collections.map(c => `${c.id}: ${c.name}`).join('\n'));
+            if(!colId) return;
+            
+            await fetch('/api/teacher/collections/add-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ collection_id: colId, activity_id: activityId })
+            });
+            alert('Adicionado!');
+        }
+
+        async function scheduleActivityPrompt(activityId) {
+            const date = prompt('Data para a aula (AAAA-MM-DD):', new Date().toISOString().split('T')[0]);
+            if(!date) return;
+            await fetch('/api/teacher/planning/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ activity_id: activityId, planned_date: date })
+            });
+            alert('Agendado no calendário!');
+        }
+
+        function generateQR(id, title, teacherId) {
+            const modal = document.getElementById('qr-modal');
+            const qrDiv = document.getElementById('qrcode');
+            qrDiv.innerHTML = '';
+            document.getElementById('qr-title').innerText = title;
+            const redirectUrl = window.location.origin + '/qr/' + id + '?t=' + teacherId;
+            new QRCode(qrDiv, { text: redirectUrl, width: 256, height: 256 });
+            modal.style.display = 'flex';
+        }
+
+        function closeQRModal() { document.getElementById('qr-modal').style.display = 'none'; }
+
+        async function updatePassword(e) {
+            e.preventDefault();
+            const cp = document.getElementById('currentPassword').value;
+            const np = document.getElementById('newPassword').value;
+            const msg = document.getElementById('pwd-msg');
+            
+            const res = await fetch('/api/teacher/password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentPassword: cp, newPassword: np })
+            });
+            const data = await res.json();
+            
+            if (data.success) {
+                msg.style.color = 'var(--success)';
+                msg.innerText = 'Senha atualizada com sucesso!';
+                e.target.reset();
+            } else {
+                msg.style.color = '#ff6b6b';
+                msg.innerText = data.message || 'Erro ao atualizar senha.';
+            }
+        }
+
+        async function addClass(e) {
+            e.preventDefault();
+            const school = document.getElementById('schoolName').value;
+            const cls = document.getElementById('className').value;
+            
+            const res = await fetch('/api/teacher/classes/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ school_name: school, class_name: cls })
+            });
+            const data = await res.json();
+            if (data.success) location.reload();
+        }
+
+        async function deleteClass(id) {
+            if (!confirm('Deseja realmente remover esta turma?')) return;
+            const res = await fetch('/api/teacher/classes/delete/' + id, { method: 'POST' });
+            const data = await res.json();
+            if (data.success) location.reload();
+        }
+    </script>
+</body>
+</html>

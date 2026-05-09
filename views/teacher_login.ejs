@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal de Atividades - Área do Professor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css?v=3">
+  <link rel="stylesheet" href="/css/admin_fixes.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, var(--bg-color) 0%, #d4e4f7 100%);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .auth-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      max-width: 900px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .auth-benefits {
+      flex: 1;
+      min-width: 300px;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      padding: 40px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .auth-benefits h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2em;
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+    .auth-benefits ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .auth-benefits li {
+      margin-bottom: 15px;
+      font-size: 1.1em;
+      display: flex;
+      align-items: center;
+    }
+    .auth-benefits li span {
+      font-size: 1.5em;
+      margin-right: 15px;
+    }
+    .login-container {
+      flex: 1;
+      min-width: 300px;
+      padding: 40px;
+      text-align: center;
+      color: var(--text-dark);
+      background: white;
+    }
+    .login-container h1 { 
+      margin-top: 0;
+      margin-bottom: 20px; 
+      font-family: 'Fredoka', sans-serif; 
+      color: var(--accent-blue);
+    }
+    .login-form input { 
+      width: 100%; 
+      padding: 15px; 
+      margin-bottom: 15px; 
+      border-radius: 10px; 
+      border: 2px solid #ccc; 
+      background: #ffffff !important; 
+      color: #000000 !important; 
+      font-weight: 600;
+      font-size: 1em;
+      font-family: 'Outfit', sans-serif;
+      box-sizing: border-box;
+      transition: 0.3s;
+    }
+    .login-form input:focus {
+      border-color: var(--accent-blue);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
+    .login-form button { 
+      width: 100%; 
+      padding: 15px; 
+      background: var(--accent-blue); 
+      color: white; 
+      border: none; 
+      border-radius: 10px; 
+      font-size: 1.1em;
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: 0.3s; 
+      font-family: 'Outfit', sans-serif;
+    }
+    .login-form button:hover { 
+      background: var(--btn-hover); 
+      transform: translateY(-2px); 
+      box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+    }
+    .error { 
+      background: #ffe5e5;
+      color: #d63031; 
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px; 
+      font-weight: bold;
+    }
+    .success {
+      background: #e5ffe5;
+      color: #27ae60;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .toggle-form { 
+      margin-top: 20px; 
+      font-size: 1em; 
+      cursor: pointer; 
+      color: var(--accent-blue); 
+      text-decoration: none; 
+      display: inline-block;
+      font-weight: bold;
+    }
+    .toggle-form:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="auth-wrapper">
+    <div class="auth-benefits">
+      <h2>Transforme sua Sala de Aula 🚀</h2>
+      <div style="background: rgba(255,255,255,0.2); display: inline-block; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.5);">
+        ✨ 100% Gratuito para Professores
+      </div>
+      <p>Junte-se ao Portal Lab e tenha acesso a ferramentas exclusivas para potencializar o aprendizado dos seus alunos.</p>
+      <ul>
+        <li><span>📂</span> Crie seu acervo de atividades favoritas</li>
+        <li><span>📱</span> Gere QR Codes para acesso rápido via tablets</li>
+        <li><span>📊</span> Aplique provas digitais com salvamento em tempo real</li>
+        <li><span>💬</span> Receba e gerencie feedbacks dos alunos</li>
+      </ul>
+    </div>
+    
+    <div class="login-container">
+      <h1 id="form-title">Login</h1>
+      
+      <% if (error) { %>
+        <% if (error.includes('sucesso') || error.includes('Verifique seu e-mail')) { %>
+          <div class="success"><%= error %></div>
+        <% } else { %>
+          <div class="error"><%= error %></div>
+        <% } %>
+      <% } %>
+      
+      <form id="login-form" class="login-form" action="/professor/login" method="POST">
+        <input type="email" name="email" placeholder="Seu E-mail" required>
+        <input type="password" name="password" placeholder="Sua Senha" required>
+        <button type="submit">Entrar na Plataforma</button>
+        <div class="toggle-form" onclick="toggleForm()">Ainda não tem conta? Cadastre-se</div>
+        <div style="margin-top: 20px;">
+          <a href="/" style="color: #888; text-decoration: none; font-size: 0.9em;">⬅ Voltar para o Portal</a>
+        </div>
+      </form>
+  
+      <form id="register-form" class="login-form" action="/professor/register" method="POST" style="display: none;">
+        <input type="text" name="name" placeholder="Seu Nome Completo" required>
+        <input type="email" name="email" placeholder="Seu E-mail Institucional" required>
+        <input type="password" name="password" placeholder="Crie uma Senha" required>
+        <button type="submit">Criar minha conta gratuita</button>
+        <div class="toggle-form" onclick="toggleForm()">Já tem uma conta? Fazer Login</div>
+        <div style="margin-top: 20px;">
+          <a href="/" style="color: #888; text-decoration: none; font-size: 0.9em;">⬅ Voltar para o Portal</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let isLogin = true;
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById('login-form').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('register-form').style.display = isLogin ? 'none' : 'block';
+      document.getElementById('form-title').innerText = isLogin ? 'Login' : 'Cadastro';
+    }
+  </script>
+</body>
+</html>

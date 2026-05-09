@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .btn-icon { border: none; padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(74, 144, 226, 0.1); color: var(--primary); }
+        .btn-icon:hover { transform: scale(1.1); }
+        .badge { padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+        .table-responsive { overflow-x: auto; margin-top: 10px; }
+        .admin-table th { color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .admin-table td { vertical-align: middle; padding: 15px 10px; border-bottom: 1px solid #f1f5f9; }
+        .admin-table tr:hover { background: #f8fafc; }
+    </style>
+    <title>Dashboard do Professor - Lab Kids</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin_fixes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body class="admin-dashboard-new">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-top">
+            <img src="/img/logo-prof.png" alt="Logo" class="sidebar-logo">
+            <h3>Laboratório Lab Kids</h3>
+        </div>
+        <nav class="sidebar-nav" style="padding: 30px 0;">
+            <button class="nav-item active" onclick="switchTab('stats', this)" style="margin-bottom: 10px;">
+                <span class="nav-icon" style="font-size: 1.4rem;">📊</span>
+                <span class="nav-text" style="font-weight: 700;">Visão Geral</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('missions', this)" style="margin-bottom: 10px;">
+                <span class="nav-icon" style="font-size: 1.4rem;">🎮</span>
+                <span class="nav-text" style="font-weight: 700;">Atividades</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('comments', this)" style="margin-bottom: 10px;">
+                <span class="nav-icon" style="font-size: 1.4rem;">💬</span>
+                <span class="nav-text" style="font-weight: 700;">Comentários</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('settings', this)" style="margin-bottom: 10px;">
+                <span class="nav-icon" style="font-size: 1.4rem;">⚙️</span>
+                <span class="nav-text" style="font-weight: 700;">Configurações</span>
+            </button>
+        </nav>
+        <div class="sidebar-bottom">
+            <a href="/" class="btn-logout">Sair do Painel</a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-content">
+        <!-- Stats Workspace -->
+        <div id="stats" class="tab-pane active">
+            <header class="workspace-header">
+                <h1>📊 Visão Geral do Lab</h1>
+                <p>Estatísticas de engajamento e participação dos alunos.</p>
+            </header>
+
+            <% if (stats.pendingCount > 0) { %>
+                <div class="admin-alert-banner" onclick="switchTab('comments', document.querySelector('.nav-item:nth-child(3)'))">
+                    <div class="alert-icon">🔔</div>
+                    <div class="alert-info">
+                        <strong>Existem <%= stats.pendingCount %> novos comentários aguardando sua moderação!</strong>
+                        <span>Clique aqui para revisar agora 🚀</span>
+                    </div>
+                </div>
+            <% } %>
+
+            <% 
+               const pendingActivities = activities.filter(a => a.status === 'pending');
+               if (pendingActivities.length > 0) { 
+            %>
+                <div class="admin-alert-banner" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); margin-top: 15px;">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-info">
+                        <strong>Existem <%= pendingActivities.length %> aulas de professores aguardando aprovação pública!</strong>
+                        <span>Verifique na lista de atividades abaixo.</span>
+                    </div>
+                </div>
+            <% } %>
+            <div class="stats-grid">
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(74, 144, 226, 0.1); color: var(--primary);">👁️</div>
+                    <div class="stat-data">
+                        <span class="label">Total de Visitas</span>
+                        <span class="value"><%= stats.totalVisits %></span>
+                    </div>
+                </div>
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(255, 159, 67, 0.1); color: var(--secondary);">⭐</div>
+                    <div class="stat-data">
+                        <span class="label">Avaliações</span>
+                        <span class="value"><%= stats.totalRatings %></span>
+                    </div>
+                </div>
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(29, 209, 161, 0.1); color: var(--success);">🚀</div>
+                    <div class="stat-data">
+                        <span class="label">Atividades</span>
+                        <span class="value"><%= activities.length %></span>
+                    </div>
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(162, 155, 254, 0.1); color: #6c5ce7;">📱</div>
+                    <div class="stat-data">
+                        <span class="label">Leituras de QR Code</span>
+                        <span class="value"><%= activities.reduce((acc, a) => acc + (a.qr_scans || 0), 0) %></span>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="admin-card-new glass-panel" style="margin-top: 30px;">
+                <h2>🧑‍🏫 Professores Cadastrados</h2>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome / Email</th>
+                            <th>Turmas</th>
+                            <th>Favoritos</th>
+                            <th>Acessos</th>
+                            <th>Cadastro</th>
+                            <th>Último Login</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% teachers.forEach(t => { %>
+                            <tr onclick="showTeacherDetails('<%= t.id %>', '<%= t.name %>')" style="cursor: pointer;">
+                                <td>
+                                    <strong><%= t.name %></strong><br>
+                                    <small style="color: #64748b;"><%= t.email %></small>
+                                </td>
+                                <td><%= t.class_count %></td>
+                                <td><%= t.favorite_count %></td>
+                                <td><%= t.login_count || 0 %></td>
+                                <td><%= new Date(t.created_at).toLocaleDateString() %></td>
+                                <td><%= t.last_login ? new Date(t.last_login).toLocaleString() : 'Nunca' %></td>
+                                <td onclick="event.stopPropagation()">
+                                    <button onclick="resetTeacherPassword('<%= t.id %>')" class="btn-edit" style="padding: 5px 10px; font-size: 0.8rem; background: #4a90e2;">Reset</button>
+                                    <button onclick="deleteTeacher('<%= t.id %>')" class="btn-delete" style="padding: 5px 10px; font-size: 0.8rem; background: #ff6b6b; margin-left: 5px;">Apagar</button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Missions Workspace -->
+        <div id="missions" class="tab-pane">
+            <header class="workspace-header">
+                <h1>🎮 Gerenciamento de Missões</h1>
+                <button class="btn-add-main" onclick="toggleForm('add-mission-form')">+ Nova Atividade</button>
+            </header>
+
+            <div id="add-mission-form" class="admin-card-new glass-panel" style="display:none">
+                <h2>Cadastrar Nova Missão</h2>
+                <form action="/admin/add" method="POST" class="form-grid">
+                    <input type="hidden" name="sessionId" value="<%= sessionId %>">
+                    <div class="input-group">
+                        <label>Título</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Categoria</label>
+                        <select name="category">
+                            <option value="Robótica">Robótica 🤖</option>
+                            <option value="Programação">Programação 💻</option>
+                            <option value="Jogos">Jogos 🎮</option>
+                            <option value="Desafios">Desafios ⚡</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Disciplina</label>
+                        <select name="subject">
+                            <option value="Robótica">Robótica</option>
+                            <option value="Matemática">Matemática</option>
+                            <option value="Ciências">Ciências</option>
+                            <option value="Português">Português</option>
+                            <option value="Geral">Geral</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Código BNCC (Opcional)</label>
+                        <input type="text" name="bncc_code" placeholder="Ex: EF06MA01">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Turmas/Níveis</label>
+                        <div class="check-options">
+                            <label><input type="checkbox" name="level" value="1-5" checked> 1º ao 5º Ano</label>
+                            <label><input type="checkbox" name="level" value="6-9"> 6º ao 9º Ano</label>
+                        </div>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Link da Missão</label>
+                        <input type="url" name="activity_url" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Descrição</label>
+                        <textarea name="description" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Publicar Missão 🚀</button>
+                </form>
+            </div>
+
+            <div class="admin-card-new glass-panel" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                    <h2>🎮 Atividades & Missões</h2>
+                    <button class="btn-add-main" onclick="toggleForm('add-mission-form')" style="margin: 0;">+ Nova Missão</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Missão (Clique para Abrir)</th>
+                                <th>Nível / Categoria</th>
+                                <th>BNCC / Disciplina</th>
+                                <th>Scans 📱</th>
+                                <th style="text-align: right;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% activities.forEach(activity => { %>
+                                <tr>
+                                    <td>
+                                        <a href="/qr/<%= activity.id %>" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 1.1rem; display: block; margin-bottom: 4px;">
+                                            <%= activity.title %> 🔗
+                                        </a>
+                                        <small style="color: #64748b; display: block; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= activity.description %></small>
+                                    </td>
+                                    <td>
+                                        <span class="badge" style="background: <%= activity.status === 'public' ? '#dcfce7' : (activity.status === 'pending' ? '#fef9c3' : '#f1f5f9') %>; color: #1e293b;">
+                                            <%= activity.status %>
+                                        </span><br>
+                                        <span class="badge" style="background: rgba(74, 144, 226, 0.1); color: var(--primary); margin-top: 4px; display: inline-block;"><%= activity.level %></span><br>
+                                        <small><%= activity.category %></small>
+                                    </td>
+                                    <td>
+                                        <strong><%= activity.bncc_code || '---' %></strong><br>
+                                        <small><%= activity.subject %></small>
+                                    </td>
+                                    <td>
+                                        <span style="font-weight: 800; color: #6c5ce7;"><%= activity.qr_scans || 0 %></span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                                            <% if (activity.status === 'pending') { %>
+                                                <button onclick="approveActivity('<%= activity.id %>')" class="btn-icon" style="background: #10b981; color: white;" title="Aprovar">✅</button>
+                                            <% } %>
+                                            <button onclick="generateQR('<%= activity.id %>', '<%= activity.title %>')" class="btn-icon" title="Gerar QR">📱</button>
+                                            <button onclick="prepareEditMission(<%= JSON.stringify(activity) %>)" class="btn-icon" style="background: rgba(255, 159, 67, 0.1); color: var(--secondary);" title="Editar">✏️</button>
+                                            <form action="/admin/duplicate/<%= activity.id %>" method="POST" style="display:inline;">
+                                                <input type="hidden" name="sessionId" value="<%= sessionId %>">
+                                                <button type="submit" class="btn-icon" style="background: rgba(29, 209, 161, 0.1); color: var(--success);" title="Duplicar">👯</button>
+                                            </form>
+                                            <form action="/admin/delete/<%= activity.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Apagar esta missão?')">
+                                                <input type="hidden" name="sessionId" value="<%= sessionId %>">
+                                                <button type="submit" class="btn-icon" style="background: rgba(255, 107, 107, 0.1); color: var(--danger);" title="Excluir">🗑️</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Comments Workspace -->
+        <div id="comments" class="tab-pane">
+            <header class="workspace-header">
+                <h1>💬 Gestão de Comentários</h1>
+                <p>Modere, edite ou apague as mensagens dos exploradores.</p>
+            </header>
+
+            <div class="comment-sections">
+                <% 
+                    const forbiddenWords = ['caralho', 'porra', 'puta', 'merda', 'cu', 'babaca', 'foda', 'desgraçado', 'vagabundo', 'cv', 'pcc', 'comando vermelho', '1533', 'ada', 'tcp', 'facção', 'tráfico', 'traficante'];
+                    function hasForbiddenWords(text) {
+                        const lowerText = text.toLowerCase();
+                        return forbiddenWords.some(word => lowerText.includes(word));
+                    }
+                %>
+                <div class="comment-col">
+                    <h2>⏳ Aguardando Aprovação</h2>
+                    <div class="comments-admin-list">
+                        <% pendingComments.forEach(comment => { 
+                            const isSuspicious = hasForbiddenWords(comment.comment_text);
+                        %>
+                            <div class="comment-admin-card glass-panel <%= isSuspicious ? 'security-alert' : '' %>" data-id="<%= comment.id %>">
+                                <% if (isSuspicious) { %>
+                                    <span class="alert-badge">⚠️ Possível Conteúdo Impróprio</span>
+                                <% } %>
+                                <div class="comment-header">
+                                    <strong><%= comment.student_name %> <%= comment.avatar %></strong>
+                                    <small><%= comment.school_name %></small>
+                                </div>
+                                <p class="comment-body">"<%= comment.comment_text %>"</p>
+                                <div class="comment-actions-row">
+                                    <button class="btn-edit" 
+                                            onclick="prepareEdit(this)">
+                                        Editar ✏️
+                                    </button>
+                                    <button onclick="approveComment('<%= comment.id %>', this)" class="btn-approve-new">Aprovar ✅</button>
+                                    <button onclick="deleteComment('<%= comment.id %>', this)" class="btn-delete-new">Apagar 🗑️</button>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+
+                <div class="comment-col">
+                    <h2>✅ Comentários Ativos</h2>
+                    <div class="comments-admin-list">
+                        <% approvedComments.forEach(comment => { %>
+                            <div class="comment-admin-card approved glass-panel" data-id="<%= comment.id %>">
+                                <div class="comment-header">
+                                    <strong><%= comment.student_name %> <%= comment.avatar %></strong>
+                                    <small><%= comment.school_name %></small>
+                                </div>
+                                <p class="comment-body">"<%= comment.comment_text %>"</p>
+                                <div class="comment-actions-row">
+                                    <button class="btn-edit" 
+                                            onclick="prepareEdit(this)">
+                                        Editar ✏️
+                                    </button>
+                                    <button onclick="deleteComment('<%= comment.id %>', this)" class="btn-delete-new">Remover 🗑️</button>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Settings Workspace -->
+        <div id="settings" class="tab-pane">
+            <header class="workspace-header">
+                <h1>⚙️ Configurações do Painel</h1>
+                <p>Gerencie seu acesso e preferências de administrador.</p>
+            </header>
+
+            <div class="admin-card-new glass-panel" style="max-width: 600px;">
+                <h2>Alterar Dados de Acesso</h2>
+                <form onsubmit="updateSettings(event)" class="form-grid">
+                    <div class="input-group full-width">
+                        <label>Novo E-mail de Admin</label>
+                        <input type="email" name="newEmail" placeholder="Deixe em branco para não alterar">
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Nova Senha</label>
+                        <input type="password" name="newPassword" placeholder="Mínimo 8 caracteres">
+                    </div>
+                    <button type="submit" class="btn-submit">Salvar Alterações 💾</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- QR Modal -->
+    <div id="qr-modal" class="modal" style="display:none">
+        <div class="modal-content glass-panel" style="background: var(--dark); padding: 30px; border-radius: 15px; text-align: center; max-width: 400px; border: 1px solid rgba(255,255,255,0.1);">
+            <span class="close" onclick="closeQRModal()" style="color: white; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h2 id="qr-title" style="color: var(--primary); margin-bottom: 20px;">QR Code</h2>
+            <div id="qrcode" style="background: white; padding: 20px; border-radius: 10px; display: inline-block;"></div>
+            <p style="color: #aaa; margin: 15px 0;">Alunos escaneiam para acessar!</p>
+            <button onclick="closeQRModal()" class="btn-submit">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Teacher Detail Modal -->
+    <div id="teacher-modal" class="modal" style="display:none">
+        <div class="modal-content glass-panel" style="max-width: 600px; color: #1e293b;">
+            <span class="close" onclick="closeTeacherModal()">&times;</span>
+            <h2 id="t-modal-name">Detalhes do Professor</h2>
+            <div id="t-modal-content" style="margin-top: 20px;">
+                <p>Carregando dados...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Mission Modal -->
+    <div id="edit-mission-modal" class="modal" style="display:none">
+        <div class="modal-content glass-panel" style="max-width: 800px;">
+            <span class="close" onclick="closeMissionModal()">&times;</span>
+            <h2>Editar Atividade</h2>
+            <form id="edit-mission-form" method="POST" class="form-grid">
+                <input type="hidden" name="sessionId" value="<%= sessionId %>">
+                <div class="input-group">
+                    <label>Título</label>
+                    <input type="text" name="title" id="edit-m-title" required>
+                </div>
+                <div class="input-group">
+                    <label>Categoria</label>
+                    <select name="category" id="edit-m-category">
+                        <option value="Robótica">Robótica 🤖</option>
+                        <option value="Programação">Programação 💻</option>
+                        <option value="Jogos">Jogos 🎮</option>
+                        <option value="Desafios">Desafios ⚡</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Disciplina</label>
+                    <select name="subject" id="edit-m-subject">
+                        <option value="Robótica">Robótica</option>
+                        <option value="Matemática">Matemática</option>
+                        <option value="Ciências">Ciências</option>
+                        <option value="Português">Português</option>
+                        <option value="Geral">Geral</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Código BNCC</label>
+                    <input type="text" name="bncc_code" id="edit-m-bncc">
+                </div>
+                <div class="input-group full-width">
+                    <label>Link da Missão</label>
+                    <input type="url" name="activity_url" id="edit-m-url" required>
+                </div>
+                <div class="input-group full-width">
+                    <label>Descrição</label>
+                    <textarea name="description" id="edit-m-desc" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Salvar Alterações 💾</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function toggleForm(formId) {
+            const form = document.getElementById(formId);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function closeEditModal() { document.getElementById('edit-modal').style.display = 'none'; }
+
+        async function approveComment(id, btn) {
+            const res = await fetch(`/admin/comments/approve/${id}`, { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                const card = btn.closest('.comment-admin-card');
+                card.style.opacity = '0.5';
+                card.style.pointerEvents = 'none';
+                setTimeout(() => card.remove(), 500);
+            }
+        }
+
+        async function deleteComment(id, btn) {
+            if (!confirm('Apagar comentário?')) return;
+            const res = await fetch(`/admin/comments/delete/${id}`, { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                const card = btn.closest('.comment-admin-card');
+                card.style.opacity = '0.5';
+                card.style.pointerEvents = 'none';
+                setTimeout(() => card.remove(), 500);
+            }
+        }
+
+        function prepareEditMission(activity) {
+            const modal = document.getElementById('edit-mission-modal');
+            const form = document.getElementById('edit-mission-form');
+            document.getElementById('edit-m-title').value = activity.title;
+            document.getElementById('edit-m-category').value = activity.category;
+            document.getElementById('edit-m-subject').value = activity.subject;
+            document.getElementById('edit-m-bncc').value = activity.bncc_code || '';
+            document.getElementById('edit-m-url').value = activity.activity_url;
+            document.getElementById('edit-m-desc').value = activity.description || '';
+            form.action = `/admin/edit/${activity.id}`;
+            modal.style.display = 'flex';
+        }
+
+        function closeMissionModal() { document.getElementById('edit-mission-modal').style.display = 'none'; }
+
+        function generateQR(id, title) {
+            const modal = document.getElementById('qr-modal');
+            const qrDiv = document.getElementById('qrcode');
+            qrDiv.innerHTML = '';
+            document.getElementById('qr-title').innerText = title;
+            const redirectUrl = window.location.origin + '/qr/' + id;
+            new QRCode(qrDiv, { text: redirectUrl, width: 256, height: 256 });
+            modal.style.display = 'flex';
+        }
+
+        function closeQRModal() { document.getElementById('qr-modal').style.display = 'none'; }
+
+        async function showTeacherDetails(id, name) {
+            const modal = document.getElementById('teacher-modal');
+            document.getElementById('t-modal-name').innerText = `📊 Stats: ${name}`;
+            modal.style.display = 'flex';
+            
+            const res = await fetch(`/api/admin/teacher-stats/${id}`);
+            const data = await res.json();
+            
+            let html = `
+                <div style="margin-bottom: 20px;">
+                    <h3>📈 Acessos Recentes (Logins)</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        ${data.logins.map(l => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">Semana ${l.week}: <strong>${l.count}</strong> logins</li>`).join('') || 'Nenhum login registrado.'}
+                    </ul>
+                </div>
+                <div>
+                    <h3>🚀 QR Codes Mais Lidos (Top 5)</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        ${data.scans.map(s => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">${s.title}: <strong>${s.count}</strong> scans</li>`).join('') || 'Nenhum scan registrado.'}
+                    </ul>
+                </div>
+            `;
+            document.getElementById('t-modal-content').innerHTML = html;
+        }
+
+        function closeTeacherModal() { document.getElementById('teacher-modal').style.display = 'none'; }
+
+        async function deleteTeacher(id) {
+            if (!confirm('AVISO: Isso apagará todas as turmas e favoritos deste professor. Deseja continuar?')) return;
+            const res = await fetch(`/admin/teacher/delete/${id}`, { method: 'POST' });
+            if (res.ok) location.reload();
+        }
+
+        async function resetTeacherPassword(id) {
+            if (!confirm('Deseja resetar a senha para "mudar123"?')) return;
+            const res = await fetch(`/admin/teacher/reset-password/${id}`, { method: 'POST' });
+            const data = await res.json();
+            if (res.ok) alert(`Senha resetada! Nova senha: ${data.newPassword}`);
+        }
+
+        async function approveActivity(id) {
+            if (!confirm('Deseja aprovar esta aula para torná-la pública em todo o portal?')) return;
+            const res = await fetch(`/admin/activity/approve/${id}`, { method: 'POST' });
+            if (res.ok) location.reload();
+        }
+
+        async function updateSettings(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            const res = await fetch('/admin/settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (res.ok) alert('Configurações atualizadas!');
+        }
+    </script>
+</body>
+
+</html>

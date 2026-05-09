@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Atividades Lab - Tecnologia & Robótica</title>
+    <link rel="stylesheet" href="/css/style.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4a90e2">
+</head>
+
+<body class="<%= selectedLevel ? 'view-list' : 'view-selection' %>">
+
+
+    <!-- Botão Fixo da Área do Professor -->
+    <a href="/professor/login" class="fixed-teacher-btn">
+        🧑‍🏫 Área do Professor
+    </a>
+
+    <!-- Scrolling Comments Sidebar -->
+    <div class="comments-sidebar">
+        <div class="sidebar-header">
+            <span>💬 Feed de Alunos</span>
+        </div>
+        <div class="comments-ticker">
+            <div class="ticker-content">
+                <% if (comments && comments.length > 0) { %>
+                    <% comments.forEach(comment => { %>
+                        <div class="ticker-item animate-up">
+                            <div class="ticker-avatar"><%= comment.avatar || '🤖' %></div>
+                            <div class="ticker-text">
+                                <strong><%= comment.student_name %>:</strong>
+                                <span>"<%= comment.comment_text %>"</span>
+                                <small><%= comment.school_name %> | <%= comment.activity_title %></small>
+                            </div>
+                        </div>
+                    <% }); %>
+                    <!-- Repeat for smooth loop -->
+                    <% comments.forEach(comment => { %>
+                        <div class="ticker-item animate-up">
+                            <div class="ticker-avatar"><%= comment.avatar || '🤖' %></div>
+                            <div class="ticker-text">
+                                <strong><%= comment.student_name %>:</strong>
+                                <span>"<%= comment.comment_text %>"</span>
+                                <small><%= comment.school_name %> | <%= comment.activity_title %></small>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="ticker-item">Seja o primeiro a comentar! 🚀</div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container" style="position: relative;">
+            <div class="logo animate-scale">
+                <span class="icon" style="animation: rotate 10s infinite linear; display: inline-block;">🤖</span>
+                <h1>
+                    <%= selectedLevel==='6-9' ? 'Tech Masters' : 'Lab Kids' %>
+                </h1>
+            </div>
+            <% if (!selectedLevel) { %>
+                <p class="subtitle animate-up delay-1">Bem-vindo, explorador! Escolha sua jornada tecnológica:</p>
+                <% } else { %>
+                    <p class="subtitle animate-up delay-1">Missões preparadas para o seu nível!</p>
+                    <% } %>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- ESPAÇO PARA ADSENSE (CRIANÇAS/COPPA) -->
+        <div style="background: rgba(0,0,0,0.3); color: #888; text-align: center; padding: 15px; border: 2px dashed #555; margin: 20px 0; border-radius: 12px; font-weight: bold; font-size: 0.9em;">
+            Espaço Publicitário AdSense<br>
+            <small>Anúncios seguros para crianças aparecerão aqui.</small>
+        </div>
+
+        <% if (!selectedLevel) { %>
+            <section class="selection-screen">
+                <div class="selection-grid">
+                    <a href="/?level=1-5" class="selection-card kids animate-up delay-2">
+                        <div class="card-glow"></div>
+                        <div class="card-icon">🚀</div>
+                        <div class="card-info">
+                            <h2>1º ao 5º Ano</h2>
+                            <p>Exploradores Mirins</p>
+                            <span class="btn-select">ENTRAR 🎮</span>
+                        </div>
+                    </a>
+                    <a href="/?level=6-9" class="selection-card tech animate-up delay-3">
+                        <div class="card-glow"></div>
+                        <div class="card-icon">💻</div>
+                        <div class="card-info">
+                            <h2>6º ao 9º Ano</h2>
+                            <p>Mestres da Tecnologia</p>
+                            <span class="btn-select">LEVEL UP ⚡</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            <% } else { %>
+                <section class="challenges">
+                    <div class="section-header">
+                        <div class="header-content">
+                            <h2>
+                                <%= selectedLevel==='1-5' ? '🚀 Missões Kids' : '🔥 Desafios Tech' %>
+                            </h2>
+                            <a href="/" class="btn-back">⬅ Voltar</a>
+                        </div>
+                        
+                        <!-- Search and Filter Bar -->
+                        <div class="filter-bar glass-panel animate-up">
+                            <form action="/" method="GET" class="filter-form">
+                                <input type="hidden" name="level" value="<%= selectedLevel %>">
+                                <div class="search-box">
+                                    <input type="text" name="search" placeholder="Pesquisar missão..." value="<%= search || '' %>">
+                                    <button type="submit">🔍</button>
+                                </div>
+                                <div class="category-box">
+                                    <input type="text" name="bncc" placeholder="Código BNCC..." value="<%= bncc || '' %>" style="padding: 12px; border-radius: 50px; border: 1px solid #e1e8ef; margin-right: 10px;">
+                                    <select name="subject" onchange="this.form.submit()" style="margin-right: 10px;">
+                                        <option value="Todas">Todas Disciplinas</option>
+                                        <% subjects.forEach(sub => { %>
+                                            <option value="<%= sub %>" <%= selectedSubject === sub ? 'selected' : '' %>><%= sub %></option>
+                                        <% }); %>
+                                    </select>
+                                    <select name="category" onchange="this.form.submit()">
+                                        <option value="Todas">Todas Categorias</option>
+                                        <% categories.forEach(cat => { %>
+                                            <option value="<%= cat %>" <%= selectedCategory === cat ? 'selected' : '' %>><%= cat %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="activity-grid">
+                        <% if (activities.length===0) { %>
+                            <div class="no-activities">
+                                <p>Nenhuma missão disponível nesta modalidade ainda. O professor está preparando
+                                    novidades!</p>
+                            </div>
+                            <% } %>
+                                <% activities.forEach((activity, index) => { %>
+                                    <div class="activity-card <%= selectedLevel === '6-9' ? 'tech-theme' : '' %> animate-up"
+                                        style="animation-delay: <%= 0.1 * (index + 1) %>s; opacity: 0;"
+                                        data-id="<%= activity.id %>">
+                                        
+                                        <!-- Badges -->
+                                        <div class="card-badges">
+                                            <% const isNew = (Date.now() - new Date(activity.created_at).getTime()) < (7 * 24 * 60 * 60 * 1000); %>
+                                            <% if (isNew) { %><span class="badge-new">NOVO 🔥</span><% } %>
+                                            <% if (activity.visits > 50) { %><span class="badge-popular">POPULAR ⭐</span><% } %>
+                                        </div>
+
+                                        <a href="<%= activity.activity_url %>" target="_blank" class="card-link"
+                                            onclick="trackVisit(<%= activity.id %>)">
+                                            <div class="card-icon">
+                                                <img src="<%= activity.icon_url || '/img/default-icon.png' %>"
+                                                    alt="<%= activity.title %>"
+                                                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
+                                            </div>
+                                            <div class="card-content">
+                                                <h3>
+                                                    <%= activity.title %>
+                                                </h3>
+                                                <p>
+                                                    <%= activity.description %>
+                                                </p>
+                                            </div>
+                                        </a>
+                                        <div class="card-rating">
+                                            <div class="stars" data-id="<%= activity.id %>">
+                                                <% const avg=activity.rating_count> 0 ? Math.round(activity.rating_sum /
+                                                    activity.rating_count) : 0; %>
+                                                    <% for(let i=1; i<=5; i++) { %>
+                                                        <span class="star <%= i <= avg ? 'filled' : '' %>"
+                                                            data-value="<%= i %>">★</span>
+                                                        <% } %>
+                                            </div>
+                                            <span class="rating-text">(<%= activity.rating_count %> avaliações)</span>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="mission-actions">
+                                                <a href="<%= activity.activity_url %>" target="_blank" class="btn-play" onclick="trackVisit(<%= activity.id %>)">INICIAR MISSÃO 🎮</a>
+                                                <% if (typeof teacher !== 'undefined' && teacher) { %>
+                                                    <button onclick="toggleFavorite('<%= activity.id %>', this)" class="btn-fav <%= activity.is_favorite ? 'active' : '' %>" title="Favoritar">❤️</button>
+                                                    <button onclick="generateQR('<%= activity.id %>', '<%= activity.title %>', '<%= teacher.id %>')" class="btn-qr" title="Gerar QR">📱</button>
+                                                <% } %>
+                                            </div>
+                                            <button class="btn-comment-toggle" onclick="toggleComment(<%= activity.id %>)">Deixar Feedback 💬</button>
+                                        </div>
+                                        
+                                        <!-- Comment Form -->
+                                        <div class="comment-form-container glass-panel" id="comment-form-<%= activity.id %>" style="display:none">
+                                            <form onsubmit="submitComment(event, <%= activity.id %>)">
+                                                <div class="avatar-selector">
+                                                    <p>Escolha seu Avatar:</p>
+                                                    <div class="avatar-options">
+                                                        <label><input type="radio" name="avatar" value="🤖" checked><span>🤖</span></label>
+                                                        <label><input type="radio" name="avatar" value="🚀"><span>🚀</span></label>
+                                                        <label><input type="radio" name="avatar" value="👾"><span>👾</span></label>
+                                                        <label><input type="radio" name="avatar" value="⚡"><span>⚡</span></label>
+                                                        <label><input type="radio" name="avatar" value="💻"><span>💻</span></label>
+                                                        <label><input type="radio" name="avatar" value="🌟"><span>🌟</span></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <input type="text" placeholder="Seu nome" required class="input-name">
+                                                    <input type="text" placeholder="Sua turma (opcional)" class="input-class">
+                                                </div>
+                                                <div class="form-row">
+                                                    <select class="input-school">
+                                                        <option value="">Selecione sua escola (opcional)</option>
+                                                        <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
+                                                        <option value="E.M. Luis Carlos de Lacerda">E.M. Luis Carlos de Lacerda</option>
+                                                        <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
+                                                        <option value="Outra">Outra</option>
+                                                    </select>
+                                                </div>
+                                                <textarea placeholder="O que achou desta missão?" required class="input-text"></textarea>
+                                                <button type="submit" class="btn-send-comment">Enviar Feedback 🚀</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                    </div>
+                </section>
+                <% } %>
+
+
+
+                    <section class="about-author animate-up delay-4">
+                        <div class="about-card glass-panel" onclick="openBioModal()" style="cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px;">
+                            <div class="about-info">
+                                <h2 style="font-size: 2.5rem; margin-bottom: 15px;">👨‍🏫 Conheça o Professor</h2>
+                                <p style="font-size: 1.3rem; color: #b0b0b0;">Fábio Vieitas Marques: Especialista em Tecnologias Educacionais</p>
+                                <p style="color: var(--primary); font-weight: 800; margin-top: 20px; font-size: 1.2rem;">Clique para ver Bio & Contato 📖</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Bio Modal -->
+                    <div id="bio-modal" class="modal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center; padding: 20px;">
+                        <div class="modal-content glass-panel" style="max-width: 800px; padding: 50px; position: relative; max-height: 90vh; overflow-y: auto; background: white; color: #1e293b; border-radius: 30px; text-align: center;">
+                            <span class="close" onclick="closeBioModal()" style="position: absolute; right: 30px; top: 30px; font-size: 3rem; cursor: pointer; color: #333;">&times;</span>
+                            
+                            <img src="/img/logo-prof.png" alt="Logo" style="width: 150px; margin-bottom: 25px;">
+                            <h2 style="font-size: 2.2rem; color: #1a2a6c;">Fábio Vieitas Marques</h2>
+                            
+                            <div style="text-align: left; margin-top: 30px; line-height: 1.8; font-size: 1.15rem;">
+                                <p><strong>Fábio Vieitas Marques</strong> é formado em Técnico em Informática, licenciado em História, bacharel em Administração e bacharel em Teologia. Possui pós-graduação em Coordenação Pedagógica e Supervisão Escolar e é pós-graduando em Direitos Humanos.</p>
+                                <p>Professor da Rede Municipal de Campos dos Goytacazes há 18 anos, atua na área de tecnologias educacionais, desenvolvendo práticas que integram teoria e prática no processo de ensino-aprendizagem, contribuindo para a formação crítica e participativa dos alunos. Atualmente, leciona nas unidades E.M. José Giró Faísca, E.M. Luis Carlos de Lacerda e E.M. Profª Eleonora da Silva Pinto, localizadas em Travessão.</p>
+                                <p>Na área teológica, dedica-se ao estudo sistemático das Escrituras, com interesse nas línguas originais da Bíblia, sendo estudante e entusiasta do grego e do hebraico. É Presbítero na Igreja Evangélica AVIVA, em São Francisco do Itabapoana – RJ, atuando no ensino bíblico e na edificação espiritual da comunidade.</p>
+                                <p>Como cristão, acredita que o conhecimento, aliado a valores, é instrumento essencial para a formação integral do ser humano e para a transformação da sociedade.</p>
+                            </div>
+                        </div>
+                    </div>
+    </main>
+
+    <script>
+        async function trackVisit(id) {
+            const now = Date.now();
+            const lastVisit = localStorage.getItem(`visit_${id}`);
+
+            // 30 minutes threshold (30 * 60 * 1000 ms)
+            if (!lastVisit || (now - lastVisit > 1800000)) {
+                localStorage.setItem(`visit_${id}`, now);
+                try {
+                    await fetch(`/api/visit/${id}`, { method: 'POST' });
+                } catch (e) { console.error('Error tracking visit', e); }
+            }
+        }
+
+        document.querySelectorAll('.stars .star').forEach(star => {
+            star.addEventListener('click', async (e) => {
+                const container = e.target.parentElement;
+                const id = container.dataset.id;
+                const rating = e.target.dataset.value;
+
+                if (localStorage.getItem(`rated_${id}`)) {
+                    alert('Você já avaliou esta missão! 🚀');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/rate/${id}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ rating })
+                    });
+
+                    if (response.ok) {
+                        localStorage.setItem(`rated_${id}`, true);
+                        alert('Obrigado pela sua avaliação! ⭐');
+                        location.reload();
+                    }
+                } catch (e) { console.error('Error rating', e); }
+            });
+        });
+
+        function toggleComment(id) {
+            const form = document.getElementById(`comment-form-${id}`);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        async function submitComment(e, activityId) {
+            e.preventDefault();
+            const form = e.target;
+            const student_name = form.querySelector('.input-name').value;
+            const class_name = form.querySelector('.input-class').value;
+            const school_name = form.querySelector('.input-school').value;
+            const comment_text = form.querySelector('.input-text').value;
+            const avatar = form.querySelector('input[name="avatar"]:checked').value;
+
+            try {
+                const response = await fetch('/api/comment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ activity_id: activityId, student_name, class_name, school_name, comment_text, avatar })
+                });
+
+                if (response.ok) {
+                    alert('Feedback enviado! Ele aparecerá aqui após a aprovação do professor. 🚀');
+                    form.reset();
+                    toggleComment(activityId);
+                } else if (response.status === 429) {
+                    const data = await response.json();
+                    if (data.error === 'flood') {
+                        alert('⏳ Por favor, aguarde 1 minuto antes de enviar outro comentário.');
+                    } else if (data.error === 'duplicate') {
+                        alert('⚠️ Você já enviou este exato comentário recentemente.');
+                    }
+                } else {
+                    alert('❌ Ocorreu um erro ao enviar seu comentário.');
+                }
+            } catch (e) { console.error('Error submitting comment', e); }
+        }
+
+        // PWA Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(reg => {
+                    console.log('SW registered!', reg);
+                }).catch(err => {
+                    console.log('SW registration failed: ', err);
+                });
+            });
+        }
+
+        function openBioModal() { document.getElementById('bio-modal').style.display = 'flex'; }
+        function closeBioModal() { document.getElementById('bio-modal').style.display = 'none'; }
+
+        async function toggleFavorite(id, btn) {
+            console.log('Toggling favorite for activity:', id);
+            try {
+                const res = await fetch(`/api/teacher/favorite/${id}`, { method: 'POST' });
+                const data = await res.json();
+                console.log('Response:', data);
+                if (data.success) {
+                    btn.classList.toggle('active');
+                    if (data.status === 'added') {
+                        btn.style.filter = 'grayscale(0%)';
+                    } else {
+                        btn.style.filter = 'grayscale(100%)';
+                    }
+                } else {
+                    alert('Erro ao favoritar: ' + data.error);
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+                alert('Erro de conexão ao favoritar.');
+            }
+        }
+
+        // QR Modal logic for index
+        function generateQR(id, title, teacherId) {
+            const modal = document.getElementById('qr-modal');
+            const qrDiv = document.getElementById('qrcode');
+            qrDiv.innerHTML = '';
+            document.getElementById('qr-title').innerText = title;
+            const redirectUrl = window.location.origin + '/qr/' + id + '?t=' + teacherId;
+            new QRCode(qrDiv, { text: redirectUrl, width: 256, height: 256 });
+            modal.style.display = 'flex';
+        }
+
+        function closeQRModal() { document.getElementById('qr-modal').style.display = 'none'; }
+    </script>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 <%= selectedLevel==='6-9' ? 'Tech Masters' : 'Lab Kids' %> - Educação Tecnológica</p>
+            <div style="margin-top: 15px; display: flex; justify-content: center; gap: 20px;">
+                <a href="/privacidade" class="admin-link">Privacidade (LGPD)</a>
+                <a href="/contato" class="admin-link">Contato</a>
+                <a href="/admin" class="admin-link">Painel Admin</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

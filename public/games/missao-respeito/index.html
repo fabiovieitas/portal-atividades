@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missão Respeito: RPG do Cidadão Digital</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Press+Start+2P&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-wrapper">
+        <div id="stats-panel">
+            <div class="stat-box" title="Empatia">
+                <div class="stat-content">
+                    <div class="stat-bar-container">
+                        <div id="empathy-bar" class="stat-bar" style="width: 60%;"></div>
+                    </div>
+                    <div class="stat-info">
+                        <span id="empathy-val">60</span>
+                        <span class="stat-name">EMPATIA</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-box" title="Consciência Digital">
+                <div class="stat-content">
+                    <div class="stat-bar-container">
+                        <div id="digital-bar" class="stat-bar" style="width: 60%;"></div>
+                    </div>
+                    <div class="stat-info">
+                        <span id="digital-val">60</span>
+                        <span class="stat-name">CONSCIÊNCIA DIGITAL</span>
+                    </div>
+                </div>
+            </div>
+            <div id="xp-container">
+                <div class="xp-info">
+                    <span>LVL <span id="level-val">1</span></span>
+                </div>
+                <div class="xp-bar-container">
+                    <div id="xp-bar" class="xp-bar" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="game-canvas">
+            <div id="background-layer"></div>
+            <div id="overlay-layer"></div>
+            
+            <main id="game-content">
+                <!-- Content injected by JS -->
+                <div id="start-screen" class="screen">
+                    <h1 class="pixel-font" style="font-size: 1.5rem;">LEVEL UP</h1>
+                    <p style="font-family: var(--pixel-font); font-size: 0.8rem; color: var(--accent);">O Jogo da Vida não tem Botão de Reset</p>
+                    <div class="hero-preview" style="font-size: 4rem; margin: 20px 0;">🛡️🤖🎮</div>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="game.setup()" class="btn-rpg-start">INICIAR JORNADA</button>
+                        <button onclick="game.showRules()" class="btn-rpg-rules" style="background: var(--primary); border: 2px solid white; color: white; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-family: var(--pixel-font); font-size: 0.7rem;">COMO JOGAR?</button>
+                    </div>
+                </div>
+            </main>
+            
+            <div id="achievement-toast"></div>
+
+
+
+            <div id="floating-scores"></div>
+        </div>
+
+        <footer class="game-footer">
+            <button onclick="window.location.href='/'" class="btn-back">Sair do RPG</button>
+        </footer>
+    </div>
+
+    <script src="js/game.js"></script>
+</body>
+</html>
