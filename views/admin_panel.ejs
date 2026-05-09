@@ -41,6 +41,10 @@
                 <span class="nav-icon" style="font-size: 1.4rem;">💬</span>
                 <span class="nav-text" style="font-weight: 700;">Comentários</span>
             </button>
+            <button class="nav-item" onclick="switchTab('news', this)" style="margin-bottom: 10px;">
+                <span class="nav-icon" style="font-size: 1.4rem;">📰</span>
+                <span class="nav-text" style="font-weight: 700;">Notícias/Blog</span>
+            </button>
             <button class="nav-item" onclick="switchTab('settings', this)" style="margin-bottom: 10px;">
                 <span class="nav-icon" style="font-size: 1.4rem;">⚙️</span>
                 <span class="nav-text" style="font-weight: 700;">Configurações</span>
@@ -340,6 +344,73 @@
                 </div>
             </div>
         </div>
+        
+        <!-- News Workspace -->
+        <div id="news" class="tab-pane">
+            <header class="workspace-header">
+                <h1>📰 Gestão do Blog</h1>
+                <button class="btn-add-main" onclick="toggleForm('add-news-form')">+ Nova Notícia</button>
+            </header>
+
+            <div id="add-news-form" class="admin-card-new glass-panel" style="display:none">
+                <h2>Publicar no Blog</h2>
+                <form action="/admin/news/add" method="POST" class="form-grid">
+                    <div class="input-group full-width">
+                        <label>Título da Notícia</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Resumo (aparece na listagem)</label>
+                        <input type="text" name="summary" required>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>URL da Imagem de Capa</label>
+                        <input type="url" name="image_url" placeholder="https://exemplo.com/imagem.jpg">
+                    </div>
+                    <div class="input-group">
+                        <label>Categoria</label>
+                        <select name="category">
+                            <option value="Educação">Educação</option>
+                            <option value="Tecnologia">Tecnologia</option>
+                            <option value="Novidades">Novidades</option>
+                        </select>
+                    </div>
+                    <div class="input-group full-width">
+                        <label>Conteúdo da Notícia</label>
+                        <textarea name="content" rows="10" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Publicar Agora 🚀</button>
+                </form>
+            </div>
+
+            <div class="admin-card-new glass-panel" style="margin-top: 20px;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Data</th>
+                            <th>Categoria</th>
+                            <th style="text-align: right;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% news.forEach(item => { %>
+                            <tr>
+                                <td><strong><%= item.title %></strong></td>
+                                <td><%= new Date(item.created_at).toLocaleDateString() %></td>
+                                <td><%= item.category %></td>
+                                <td style="text-align: right;">
+                                    <form action="/admin/news/delete/<%= item.id %>" method="POST" onsubmit="return confirm('Apagar notícia?')">
+                                        <button type="submit" class="btn-icon" style="background: rgba(255, 107, 107, 0.1); color: var(--danger);">🗑️</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Settings Workspace -->
         <div id="settings" class="tab-pane">
             <header class="workspace-header">

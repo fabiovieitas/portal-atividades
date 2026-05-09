@@ -128,14 +128,16 @@ app.get('/admin', async (req, res) => {
     const { data: teachers } = await supabase.from('teachers').select(`
       id, name, email, login_count, created_at, last_login
     `);
+    const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false });
 
     res.render('admin_panel', { 
       activities: activities || [], 
       pendingComments: pendingComments || [], 
-      approvedComments: [], // To be populated if needed
+      approvedComments: [], 
       stats: { totalVisits, totalRatings: 0, pendingCount: (pendingComments || []).length }, 
       projects: projects || [], 
       teachers: teachers || [], 
+      news: news || [],
       sessionId 
     });
   } else {
@@ -432,6 +434,18 @@ app.post('/admin/projects/delete/:id', requireAdmin, async (req, res) => {
   res.redirect('/admin');
 });
 
+// Admin News Management
+app.post('/admin/news/add', requireAdmin, async (req, res) => {
+  const { title, summary, content, image_url, category } = req.body;
+  await supabase.from('news').insert({ title, summary, content, image_url, category: category || 'Educação' });
+  res.redirect('/admin');
+});
+
+app.post('/admin/news/delete/:id', requireAdmin, async (req, res) => {
+  await supabase.from('news').delete().eq('id', req.params.id);
+  res.redirect('/admin');
+});
+
 // Institutional Pages
 app.get('/privacidade', (req, res) => {
   res.render('privacy');
@@ -439,6 +453,18 @@ app.get('/privacidade', (req, res) => {
 
 app.get('/contato', (req, res) => {
   res.render('contact');
+});
+
+// Blog / News Routes
+app.get('/noticias', async (req, res) => {
+  const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false });
+  res.render('news_list', { news: news || [] });
+});
+
+app.get('/noticia/:id', async (req, res) => {
+  const { data: article } = await supabase.from('news').select('*').eq('id', req.params.id).single();
+  if (!article) return res.status(404).send('Notícia não encontrada');
+  res.render('news_view', { article });
 });
 
 // QR Code Redirection (AdSense Landing)
