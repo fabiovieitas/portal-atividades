@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS exams (
     title TEXT NOT NULL,
     pdf_url TEXT NOT NULL,
     access_code TEXT UNIQUE NOT NULL,
+    num_questions INTEGER DEFAULT 10,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -57,7 +57,7 @@
 
   <script>
     let answers = <%- submission.answers_json || '{}' %>;
-    const numQuestions = 15; // Pode ser configurável por prova
+    const numQuestions = <%= exam.num_questions || 10 %>;
     
     function renderGabarito() {
       const container = document.getElementById('questions-container');

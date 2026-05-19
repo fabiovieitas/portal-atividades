@@ -6,6 +6,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const QRCode = require('qrcode');
+const fs = require('fs');
 
 const app = express();
 
@@ -17,8 +18,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // Database initialization (Now handled via Supabase Dashboard/SQL)
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true, limit: '15mb' }));
+app.use(express.json({ limit: '15mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -42,14 +43,79 @@ async function requireAdmin(req, res, next) {
   }
 }
 
+// In-memory Cache for categories and subjects
+let cachedCategories = null;
+let cachedSubjects = null;
+let cacheTimestamp = 0;
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes cache
+
+async function getUniqueCategoriesAndSubjects() {
+  const now = Date.now();
+  if (cachedCategories && cachedSubjects && (now - cacheTimestamp < CACHE_DURATION)) {
+    return { categories: cachedCategories, subjects: cachedSubjects };
+  }
+  
+  try {
+    const { data: categoriesData } = await supabase.from('activities').select('category');
+    const { data: subjectsData } = await supabase.from('activities').select('subject').not('subject', 'eq', 'Geral');
+    
+    cachedCategories = [...new Set((categoriesData || []).map(c => c.category))];
+    cachedSubjects = [...new Set((subjectsData || []).map(s => s.subject))].filter(s => s);
+    cacheTimestamp = now;
+    
+    return { categories: cachedCategories, subjects: cachedSubjects };
+  } catch (err) {
+    console.error('Cache categories/subjects error:', err);
+    return { categories: [], subjects: [] };
+  }
+}
+
+function clearActivitiesCache() {
+  cachedCategories = null;
+  cachedSubjects = null;
+}
+
+// In-memory Cache for teacher sessions
+const sessionCache = new Map(); // sessionId -> { teacher, expires }
+
 // Teacher check helper
 async function getTeacher(req) {
   const sessionId = req.cookies.teacher_session;
   if (!sessionId) return null;
-  const { data: session } = await supabase.from('teacher_sessions').select('teacher_id').eq('id', sessionId).gt('expires', new Date().toISOString()).single();
-  if (!session) return null;
-  const { data: teacher } = await supabase.from('teachers').select('id, name, email, password_hash').eq('id', session.teacher_id).single();
-  return teacher;
+  
+  const now = Date.now();
+  const cached = sessionCache.get(sessionId);
+  if (cached && cached.expires > now) {
+    return cached.teacher;
+  }
+  
+  try {
+    const { data: session } = await supabase
+      .from('teacher_sessions')
+      .select('teacher_id, expires')
+      .eq('id', sessionId)
+      .gt('expires', new Date().toISOString())
+      .single();
+      
+    if (!session) return null;
+    
+    const { data: teacher } = await supabase
+      .from('teachers')
+      .select('id, name, email, password_hash')
+      .eq('id', session.teacher_id)
+      .single();
+      
+    if (!teacher) return null;
+    
+    // Cache it for 5 minutes (or until session expires if earlier)
+    const expiresAt = Math.min(now + 5 * 60 * 1000, new Date(session.expires).getTime());
+    sessionCache.set(sessionId, { teacher, expires: expiresAt });
+    
+    return teacher;
+  } catch (err) {
+    console.error('getTeacher error:', err);
+    return null;
+  }
 }
 
 // Teacher Auth Middleware
@@ -98,12 +164,8 @@ app.get('/', async (req, res) => {
   }
 
   const { data: comments } = await supabase.from('comments').select('*, activities(title)').eq('approved', 1).order('created_at', { ascending: false }).limit(15);
-  const { data: categoriesData } = await supabase.from('activities').select('category');
-  const { data: subjectsData } = await supabase.from('activities').select('subject').not('subject', 'eq', 'Geral');
+  const { categories, subjects } = await getUniqueCategoriesAndSubjects();
   const { data: projects } = await supabase.from('projects').select('*').order('created_at', { ascending: false }).limit(12);
-
-  const categories = [...new Set((categoriesData || []).map(c => c.category))];
-  const subjects = [...new Set((subjectsData || []).map(s => s.subject))].filter(s => s);
 
   res.render('index', { 
     activities, selectedLevel: level, comments: comments || [], categories, subjects, search, 
@@ -170,34 +232,46 @@ app.get('/professor/login', async (req, res) => {
 app.post('/professor/register', async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    const { data: existing } = await supabase.from('teachers').select('id').eq('email', email).single();
+    const { data: existing, error: findError } = await supabase.from('teachers').select('id').eq('email', email).maybeSingle();
+    if (findError) throw findError;
     if (existing) {
       return res.render('teacher_login', { error: 'E-mail já cadastrado.' });
     }
     const hash = await bcrypt.hash(password, 10);
-    await supabase.from('teachers').insert({ name, email, password_hash: hash });
+    const { error: insertError } = await supabase.from('teachers').insert({ name, email, password_hash: hash });
+    if (insertError) throw insertError;
     res.render('teacher_login', { error: 'Cadastro realizado com sucesso! Faça login.' });
   } catch (err) {
-    res.render('teacher_login', { error: 'Erro ao registrar.' });
+    console.error('Registration error:', err);
+    res.render('teacher_login', { error: `Erro ao registrar: ${err.message || err}` });
   }
 });
 
 app.post('/professor/login', async (req, res) => {
   const { email, password } = req.body;
-  const { data: teacher } = await supabase.from('teachers').select('*').eq('email', email).single();
-  if (teacher && await bcrypt.compare(password, teacher.password_hash)) {
-    const sessionId = crypto.randomBytes(32).toString('hex');
-    const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    await supabase.from('teacher_sessions').insert({ id: sessionId, teacher_id: teacher.id, expires });
-    await supabase.from('teachers').update({ 
-      login_count: (teacher.login_count || 0) + 1, 
-      last_login: new Date().toISOString() 
-    }).eq('id', teacher.id);
-    await supabase.from('teacher_logins').insert({ teacher_id: teacher.id });
-    res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
-    res.redirect('/professor/dashboard');
-  } else {
-    res.render('teacher_login', { error: 'E-mail ou senha incorretos!' });
+  try {
+    const { data: teacher, error: findError } = await supabase.from('teachers').select('*').eq('email', email).maybeSingle();
+    if (findError) throw findError;
+    
+    if (teacher && await bcrypt.compare(password, teacher.password_hash)) {
+      const sessionId = crypto.randomBytes(32).toString('hex');
+      const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      const { error: sessionError } = await supabase.from('teacher_sessions').insert({ id: sessionId, teacher_id: teacher.id, expires });
+      if (sessionError) throw sessionError;
+      
+      await supabase.from('teachers').update({ 
+        login_count: (teacher.login_count || 0) + 1, 
+        last_login: new Date().toISOString() 
+      }).eq('id', teacher.id);
+      await supabase.from('teacher_logins').insert({ teacher_id: teacher.id });
+      res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
+      res.redirect('/professor/dashboard');
+    } else {
+      res.render('teacher_login', { error: 'E-mail ou senha incorretos!' });
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+    res.render('teacher_login', { error: `Erro ao fazer login: ${err.message || err}` });
   }
 });
 
@@ -220,6 +294,13 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
   const { data: classes } = await supabase.from('teacher_classes').select('*').eq('teacher_id', req.teacher.id).order('created_at', { ascending: false });
   const { data: globalExams } = await supabase.from('global_exams').select('*').order('created_at', { ascending: false });
   
+  const examIds = (exams || []).map(e => e.id);
+  let examSubmissions = [];
+  if (examIds.length > 0) {
+    const { data: subs } = await supabase.from('exam_submissions').select('*, exams(title, access_code, num_questions)').in('exam_id', examIds).order('created_at', { ascending: false });
+    examSubmissions = subs || [];
+  }
+
   const { data: collections } = await supabase.from('teacher_collections').select('*').eq('teacher_id', req.teacher.id);
   const { data: planning } = await supabase.from('teacher_planning').select('*, activities(title)').eq('teacher_id', req.teacher.id);
   
@@ -231,7 +312,8 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
     classes: classes || [],
     globalExams: globalExams || [],
     collections: collections || [],
-    planning: planning || []
+    planning: planning || [],
+    examSubmissions
   });
 });
 
@@ -256,6 +338,7 @@ app.post('/api/teacher/activities/add', requireTeacher, async (req, res) => {
     teacher_id: req.teacher.id, 
     status: 'private'
   });
+  clearActivitiesCache();
   res.json({ success: true });
 });
 
@@ -276,6 +359,95 @@ app.post('/api/teacher/activities/request-public/:id', requireTeacher, async (re
 app.post('/api/teacher/classes/delete/:id', requireTeacher, async (req, res) => {
   await supabase.from('teacher_classes').delete().eq('id', req.params.id).eq('teacher_id', req.teacher.id);
   res.json({ success: true });
+});
+
+app.post('/api/teacher/exams/add', requireTeacher, async (req, res) => {
+  try {
+    const { title, num_questions, pdf_source, pdf_url, pdf_base64, pdf_name } = req.body;
+    let final_pdf_url = pdf_url;
+
+    // Generate random 5-character access code
+    let access_code;
+    let codeExists = true;
+    while (codeExists) {
+      access_code = Math.random().toString(36).substring(2, 7).toUpperCase();
+      const { data: existing } = await supabase.from('exams').select('id').eq('access_code', access_code).maybeSingle();
+      if (!existing) codeExists = false;
+    }
+
+    if (pdf_source === 'upload' && pdf_base64) {
+      const uploadDir = path.join(__dirname, 'public', 'uploads');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const uniqueFileName = `${Date.now()}-${pdf_name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+      const filePath = path.join(uploadDir, uniqueFileName);
+      fs.writeFileSync(filePath, Buffer.from(pdf_base64, 'base64'));
+      final_pdf_url = `/uploads/${uniqueFileName}`;
+    }
+
+    const insertData = {
+      title,
+      pdf_url: final_pdf_url,
+      access_code,
+      num_questions: parseInt(num_questions) || 10,
+      teacher_id: req.teacher.id
+    };
+
+    let { data: newExam, error } = await supabase.from('exams').insert(insertData).select().single();
+
+    if (error && error.message && error.message.includes('num_questions')) {
+      console.warn("Database is missing 'num_questions' column. Falling back to insert without it.");
+      delete insertData.num_questions;
+      const retryResult = await supabase.from('exams').insert(insertData).select().single();
+      newExam = retryResult.data;
+      error = retryResult.error;
+    }
+
+    if (error) throw error;
+
+    res.json({ success: true, exam: newExam });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/teacher/exams/delete/:id', requireTeacher, async (req, res) => {
+  try {
+    // Delete files if uploaded locally
+    const { data: exam } = await supabase.from('exams').select('pdf_url').eq('id', req.params.id).eq('teacher_id', req.teacher.id).single();
+    if (exam && exam.pdf_url && exam.pdf_url.startsWith('/uploads/')) {
+      const filePath = path.join(__dirname, 'public', exam.pdf_url);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    const { error } = await supabase.from('exams').delete().eq('id', req.params.id).eq('teacher_id', req.teacher.id);
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/teacher/submissions/delete/:id', requireTeacher, async (req, res) => {
+  try {
+    // Make sure this submission belongs to one of this teacher's exams
+    const { data: sub } = await supabase.from('exam_submissions').select('*, exams(teacher_id)').eq('id', req.params.id).single();
+    if (!sub || sub.exams.teacher_id !== req.teacher.id) {
+      return res.status(403).json({ success: false, error: 'Acesso negado' });
+    }
+
+    const { error } = await supabase.from('exam_submissions').delete().eq('id', req.params.id);
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Collections API
@@ -337,26 +509,42 @@ app.get('/api/admin/teacher-stats/:id', requireAdmin, async (req, res) => {
   res.json({ logins: logins || [], scans: scans || [] });
 });
 
-app.post('/admin/activity/approve/:id', requireAdmin, (req, res) => {
-  db.prepare("UPDATE activities SET status = 'public' WHERE id = ?").run(req.params.id);
-  res.json({ success: true });
+app.post('/admin/activity/approve/:id', requireAdmin, async (req, res) => {
+  try {
+    await supabase.from('activities').update({ status: 'public' }).eq('id', req.params.id);
+    if (typeof clearActivitiesCache === 'function') clearActivitiesCache();
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
-app.post('/admin/teacher/delete/:id', requireAdmin, (req, res) => {
-  const teacherId = req.params.id;
-  db.prepare('DELETE FROM teacher_sessions WHERE teacher_id = ?').run(teacherId);
-  db.prepare('DELETE FROM teacher_classes WHERE teacher_id = ?').run(teacherId);
-  db.prepare('DELETE FROM teacher_favorites WHERE teacher_id = ?').run(teacherId);
-  db.prepare('DELETE FROM teachers WHERE id = ?').run(teacherId);
-  res.json({ success: true });
+app.post('/admin/teacher/delete/:id', requireAdmin, async (req, res) => {
+  try {
+    const teacherId = req.params.id;
+    await supabase.from('teacher_sessions').delete().eq('teacher_id', teacherId);
+    await supabase.from('teacher_classes').delete().eq('teacher_id', teacherId);
+    await supabase.from('teacher_favorites').delete().eq('teacher_id', teacherId);
+    await supabase.from('teachers').delete().eq('id', teacherId);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/admin/teacher/reset-password/:id', requireAdmin, async (req, res) => {
-  const teacherId = req.params.id;
-  const newPassword = 'mudar123'; // Temporary default password
-  const hash = await bcrypt.hash(newPassword, 10);
-  db.prepare('UPDATE teachers SET password_hash = ? WHERE id = ?').run(hash, teacherId);
-  res.json({ success: true, newPassword });
+  try {
+    const teacherId = req.params.id;
+    const newPassword = 'mudar123'; // Temporary default password
+    const hash = await bcrypt.hash(newPassword, 10);
+    await supabase.from('teachers').update({ password_hash: hash }).eq('id', teacherId);
+    res.json({ success: true, newPassword });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/admin/add', requireAdmin, async (req, res) => {
@@ -367,6 +555,7 @@ app.post('/admin/add', requireAdmin, async (req, res) => {
   await supabase.from('activities').insert({
     title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral'
   });
+  clearActivitiesCache();
   res.redirect('/admin');
 });
 
@@ -376,12 +565,14 @@ app.post('/admin/duplicate/:id', requireAdmin, async (req, res) => {
     const { id, ...newData } = activity;
     newData.title = `${newData.title} (Cópia)`;
     await supabase.from('activities').insert(newData);
+    clearActivitiesCache();
   }
   res.redirect('/admin');
 });
 
 app.post('/admin/delete/:id', requireAdmin, async (req, res) => {
   await supabase.from('activities').delete().eq('id', req.params.id);
+  clearActivitiesCache();
   res.redirect('/admin');
 });
 
@@ -393,6 +584,7 @@ app.post('/admin/edit/:id', requireAdmin, async (req, res) => {
   await supabase.from('activities').update({
     title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral'
   }).eq('id', req.params.id);
+  clearActivitiesCache();
   res.redirect('/admin');
 });
 
@@ -457,7 +649,7 @@ app.get('/noticias', async (req, res) => {
     const { data: news } = await supabase
       .from('news')
       .select('*')
-      .lte('published_at', now) // Apenas notícias com data menor ou igual a agora
+      .or(`published_at.lte.${now},published_at.is.null`) // Mostra se for menor que agora OU se estiver vazio
       .order('published_at', { ascending: false });
       
     res.render('news_list', { news: news || [] });
