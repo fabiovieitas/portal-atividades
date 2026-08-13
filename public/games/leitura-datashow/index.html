@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Cards de Alfabetização para Datashow v8.0</title>
+  
+  <!-- CSS Principal -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- ==========================================
+       1. PASSO 1: TELA PRINCIPAL (ESCOLHA DE NÍVEL)
+       ========================================== -->
+  <main id="screen-config" class="app-screen active">
+    <div class="config-container">
+      
+      <div>
+        <h1 class="main-title">⭐ Leitura Divertida no Datashow ⭐</h1>
+        <p class="subtitle">Passo 1: Clique em um Nível de Aprendizagem para começar</p>
+      </div>
+
+      <!-- Nome da Escola -->
+      <div class="form-group">
+        <label for="input-school-name">🏫 Nome da Escola ou Turma:</label>
+        <input type="text" id="input-school-name" class="form-input" value="Monteiro Lobato" placeholder="Ex: Escola Estadual Machado de Assis">
+      </div>
+
+      <!-- PASSO 1: CARDS DOS NÍVEIS PRINCIPAIS (1 ao 10) -->
+      <div class="form-group">
+        <label style="font-size: 1.2rem; color: #fbbf24;">📚 Passo 1: Escolha o Nível desejado:</label>
+        <div class="levels-grid-compact" id="levels-grid-compact" style="margin-top: 0.8rem;">
+          <!-- Gerado dinamicamente via JS (Nível 1 ao 10) -->
+        </div>
+      </div>
+
+      <div style="font-size: 0.95rem; color: #94a3b8; margin-top: 0.5rem;">
+        💡 Ao selecionar o Nível, você escolherá o Subnível (Passo 2) e as opções da aula (Passo 3).
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       2. PASSO 2: MODAL ESCOLHA DE SUBNÍVEL
+       ========================================== -->
+  <div id="modal-step2">
+    <div class="modal-step2-content">
+      <h2 id="modal-step2-title" class="modal-step2-title">Nível 1: Subníveis</h2>
+      <p style="color: #cbd5e1; font-size: 1.1rem;">Passo 2: Selecione o Subnível para esta aula:</p>
+
+      <div class="sublevels-step2-grid" id="sublevels-step2-grid">
+        <!-- Gerado dinamicamente via JS -->
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+        <button id="btn-close-modal2" class="ctrl-btn" style="width: auto; padding: 0 1.5rem; border-radius: 20px;" title="Voltar ao Passo 1">
+          ⬅️ Voltar aos Níveis
+        </button>
+        <button id="btn-goto-step3" class="btn-start">
+          ➡️ PASSO 3: AJUSTAR OPÇÕES DEPOIS
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       3. PASSO 3: MODAL DE AJUSTES DA RODADA (OPÇÕES & VELOCIDADE)
+       ========================================== -->
+  <div id="modal-step3">
+    <div class="modal-step3-content">
+      <h2 id="modal-step3-title" class="modal-step2-title" style="color: #38bdf8;">⚙️ Passo 3: Ajustes da Rodada</h2>
+      <p style="color: #cbd5e1; font-size: 1.05rem; margin-bottom: 1.2rem;">Configure a velocidade, vozes e filtros antes de projetar no Datashow:</p>
+
+      <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap; text-align: left;">
+        
+        <!-- Tempo / Velocidade -->
+        <div style="flex: 1; min-width: 200px;">
+          <label for="select-mode">⏱️ Velocidade / Tempo:</label>
+          <select id="select-mode" class="form-input">
+            <option value="manual">Manual (Espaço / Setas)</option>
+            <option value="auto-3">Automático (3 segundos)</option>
+            <option value="auto-5">Automático (5 segundos)</option>
+            <option value="auto-8">Automático (8 segundos)</option>
+            <option value="auto-10" selected>Automático (10 segundos)</option>
+            <option value="auto-15">Automático (15 segundos)</option>
+            <option value="custom">Tempo Personalizado...</option>
+          </select>
+          <input type="number" id="input-custom-seconds" class="form-input" style="display: none; margin-top: 0.4rem;" placeholder="Segundos" min="1" max="60" value="7">
+        </div>
+
+        <!-- Filtro de Conteúdo -->
+        <div style="flex: 1; min-width: 200px;">
+          <label for="select-content-filter">🎯 Filtro de Conteúdo:</label>
+          <select id="select-content-filter" class="form-input">
+            <option value="all" selected>🌟 Modo Geral (Todos do Subnível)</option>
+            <option value="vowels">🔤 Apenas Vogais e Encontros</option>
+            <option value="syllables">🅰️ Apenas Consoantes e Sílabas</option>
+            <option value="words">📦 Palavras e Frases</option>
+          </select>
+        </div>
+
+        <!-- Modo de Atividade -->
+        <div style="flex: 1; min-width: 200px;">
+          <label for="select-game-mode">🎮 Modo da Atividade:</label>
+          <select id="select-game-mode" class="form-input">
+            <option value="cards" selected>Leitura em Cards Gigantes</option>
+            <option value="build">Jogo "Monte a Palavra" 🧩</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap; text-align: left; margin-top: 0.5rem;">
+        
+        <!-- Voz -->
+        <div style="flex: 1.5; min-width: 260px;">
+          <label for="select-voice">🗣️ Voz de Leitura:</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <select id="select-voice" class="form-input" style="flex: 1;">
+              <option value="natural" selected>Voz Humana HD (Recomendada)</option>
+            </select>
+            <button id="btn-preview-voice" class="ctrl-btn" style="width: auto; padding: 0 1rem; border-radius: 16px; font-size: 0.9rem;" title="Ouvir amostra da voz">
+              🔊 Testar
+            </button>
+          </div>
+        </div>
+
+        <!-- Trilha Sonora com Teste -->
+        <div style="flex: 1.5; min-width: 260px;">
+          <label for="select-music-style">🎵 Trilha Sonora:</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <select id="select-music-style" class="form-input" style="flex: 1;">
+              <option value="alegre" selected>Melodia Alegre Pop (Piano Bright)</option>
+              <option value="calma">Ritmo Infantil Calmo (Lullaby)</option>
+              <option value="batuque">Batuque da Floresta (Percussivo)</option>
+              <option value="aventura">Aventura Espacial (Marcha)</option>
+              <option value="off">Silencioso (Sem Música)</option>
+            </select>
+            <button id="btn-preview-music" class="ctrl-btn" style="width: auto; padding: 0 0.9rem; border-radius: 16px; font-size: 0.9rem;" title="Testar som da música">
+              🎵 Testar
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.8rem;">
+        <button id="btn-close-modal3" class="ctrl-btn" style="width: auto; padding: 0 1.5rem; border-radius: 20px;" title="Voltar ao Passo 2">
+          ⬅️ Voltar aos Subníveis
+        </button>
+        <button id="btn-confirm-start" class="btn-start" style="padding: 1rem 3.5rem;">
+          ▶️ INICIAR ATIVIDADE NO DATASHOW
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       4. VINHETA INICIAL (3-2-1 JÁ!)
+       ========================================== -->
+  <section id="screen-intro" class="app-screen">
+    <h2 class="intro-question">
+      Estamos prontos Alunos da<br>
+      <span id="intro-school-name" class="intro-school-name">Escola</span>?
+    </h2>
+
+    <div class="countdown-box">
+      <span id="countdown-num" class="countdown-number">3</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       5. TRANSIÇÃO MOTIVACIONAL COM RESPIRAÇÃO DE 8S
+       ========================================== -->
+  <section id="screen-sublevel-transition" class="app-screen">
+    <h2 id="trans-phrase" class="transition-phrase">
+      Vamos para o próximo nível?
+    </h2>
+
+    <div class="breath-circle-box">
+      <span id="breath-label" class="breath-label">RESPIRANDO...</span>
+      <span id="trans-countdown" class="breath-countdown-num">8</span>
+    </div>
+
+    <p style="font-size: 1.6rem; color: #fbbf24; font-weight: 700;">Inspira... Exala... 3, 2, 1... Vai!!!</p>
+  </section>
+
+  <!-- ==========================================
+       6. ARENA DE APRESENTAÇÃO EM TELA CHEIA
+       ========================================== -->
+  <section id="screen-presentation" class="app-screen">
+    <header class="pres-header">
+      <div id="pres-level-title" class="pres-level-badge">Subnível 1.1</div>
+      <div id="pres-progress-count" class="pres-progress">1 / 10</div>
+    </header>
+
+    <div class="card-stage">
+      <div id="word-card" class="word-card">
+        <div id="card-image" class="card-image-box">🍎</div>
+        
+        <div id="card-word-container">
+          <div id="card-word" class="word-display">BOLA</div>
+        </div>
+
+        <div id="card-hint" class="card-hint">Objeto de jogar</div>
+      </div>
+    </div>
+
+    <!-- MASCOTE ANIMADO ("CORUJITA") -->
+    <div id="mascot-container" class="mascot-container">
+      <div id="mascot-speech" class="mascot-speech-bubble">Vamos ler juntos! 🦉</div>
+      <div class="mascot-avatar">🦉</div>
+    </div>
+
+    <!-- Barra de Controles -->
+    <footer class="pres-controls-bar">
+      <button id="btn-prev" class="ctrl-btn" title="Palavra Anterior (Seta Esquerda)">⬅️</button>
+      <button id="btn-pause-toggle" class="ctrl-btn" title="Pausar / Continuar Tempo (Teclado: P)">⏸️</button>
+      <button id="btn-stop-menu" class="ctrl-btn" style="background: rgba(239, 68, 68, 0.4);" title="Parar Total e Voltar ao Menu Inicial (ESC / Home)">🏠 Sair</button>
+      <button id="btn-speak" class="ctrl-btn" title="Ouvir Pronúncia (Teclado: S)">🔊</button>
+      <button id="btn-syllable" class="ctrl-btn active" title="Separar Sílabas (Teclado: D)">✂️</button>
+      <button id="btn-image" class="ctrl-btn active" title="Mostrar/Ocultar Imagem (Teclado: I)">👁️</button>
+      <button id="btn-music" class="ctrl-btn active" title="Alternar Música (Teclado: M)">🎵</button>
+      <button id="btn-fullscreen" class="ctrl-btn" title="Tela Cheia (Teclado: F)">⛶</button>
+      <button id="btn-next" class="ctrl-btn ctrl-btn-large" title="Próxima Palavra (Espaço / Seta Direita)">Próxima ➡️</button>
+    </footer>
+  </section>
+
+  <!-- ==========================================
+       7. TELA DE VITÓRIA FINAL
+       ========================================== -->
+  <section id="screen-victory" class="app-screen">
+    <h2 class="victory-title">🎉 PARABÉNS! 🎉</h2>
+    <p id="victory-message" class="victory-sub">Parabéns, você terminou com sucesso. Até a próxima!</p>
+
+    <div style="font-size: 6rem; margin-bottom: 2rem;">🏆🎆✨</div>
+
+    <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+      <button id="btn-repeat-level" class="btn-start" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
+        🔄 REPETIR ESTE NÍVEL
+      </button>
+      <button id="btn-back-menu" class="btn-start" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
+        🏠 MENU PRINCIPAL
+      </button>
+    </div>
+  </section>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <script src="words-data.js"></script>
+  <script src="audio-manager.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
