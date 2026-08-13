@@ -1,19 +1,17 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const { createClient } = require('@supabase/supabase-js');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const QRCode = require('qrcode');
 const fs = require('fs');
 
+const dbHelper = require('./db');
+const supabase = dbHelper.supabase;
+
 const app = express();
 
-// Supabase Configuration
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Database initialization (Now handled via Supabase Dashboard/SQL)
 
@@ -89,33 +87,12 @@ async function getTeacher(req) {
     return cached.teacher;
   }
   
-  try {
-    const { data: session } = await supabase
-      .from('teacher_sessions')
-      .select('teacher_id, expires')
-      .eq('id', sessionId)
-      .gt('expires', new Date().toISOString())
-      .single();
-      
-    if (!session) return null;
-    
-    const { data: teacher } = await supabase
-      .from('teachers')
-      .select('id, name, email, password_hash')
-      .eq('id', session.teacher_id)
-      .single();
-      
-    if (!teacher) return null;
-    
-    // Cache it for 5 minutes (or until session expires if earlier)
-    const expiresAt = Math.min(now + 5 * 60 * 1000, new Date(session.expires).getTime());
-    sessionCache.set(sessionId, { teacher, expires: expiresAt });
-    
-    return teacher;
-  } catch (err) {
-    console.error('getTeacher error:', err);
-    return null;
-  }
+  const teacher = await dbHelper.getTeacherBySession(sessionId);
+  if (!teacher) return null;
+
+  const expiresAt = now + 5 * 60 * 1000;
+  sessionCache.set(sessionId, { teacher, expires: expiresAt });
+  return teacher;
 }
 
 // Teacher Auth Middleware
@@ -131,7 +108,9 @@ async function requireTeacher(req, res, next) {
 
 // Teacher level helper
 async function getTeacherLevel(id) {
-  const { count } = await supabase.from('activities').select('*', { count: 'exact', head: true }).eq('teacher_id', id).eq('status', 'public');
+  const activities = await dbHelper.getActivities({ adminMode: true });
+  const teacherActs = activities.filter(a => a.teacher_id === id && a.status === 'public');
+  const count = teacherActs.length;
   if (count >= 20) return { title: 'Mestre das Missões 🏆', color: '#7c3aed' };
   if (count >= 10) return { title: 'Explorador Sênior 🌟', color: '#2563eb' };
   if (count >= 5) return { title: 'Mentor Ativo 🚀', color: '#10b981' };
@@ -143,29 +122,31 @@ app.get('/', async (req, res) => {
   const { level, search, category, bncc, subject } = req.query;
   let activities = [];
   
-  let query = supabase.from('activities').select('*').eq('status', 'public');
-  
-  if (level) query = query.ilike('level', `%${level}%`);
-  if (search) query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%,bncc_code.ilike.%${search}%`);
-  if (category && category !== 'Todas') query = query.eq('category', category);
-  if (bncc) query = query.ilike('bncc_code', `%${bncc}%`);
-  if (subject && subject !== 'Todas') query = query.eq('subject', subject);
-
   if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas')) {
-    const { data } = await query.order('visits', { ascending: false });
-    activities = data || [];
+    activities = await dbHelper.getActivities({ level, search, category, bncc, subject });
   }
 
   const teacher = await getTeacher(req);
   if (teacher && activities.length > 0) {
-    const { data: favorites } = await supabase.from('teacher_favorites').select('activity_id').eq('teacher_id', teacher.id);
-    const favIds = (favorites || []).map(f => f.activity_id);
+    const online = await dbHelper.isOnline();
+    let favIds = [];
+    if (online) {
+      try {
+        const { data: favorites } = await supabase.from('teacher_favorites').select('activity_id').eq('teacher_id', teacher.id);
+        favIds = (favorites || []).map(f => f.activity_id);
+      } catch (e) {}
+    } else {
+      try {
+        const favorites = dbHelper.sqlite.prepare("SELECT activity_id FROM teacher_favorites WHERE teacher_id = ?").all(teacher.id);
+        favIds = favorites.map(f => f.activity_id);
+      } catch (e) {}
+    }
     activities = activities.map(a => ({ ...a, is_favorite: favIds.includes(a.id) }));
   }
 
-  const { data: comments } = await supabase.from('comments').select('*, activities(title)').eq('approved', 1).order('created_at', { ascending: false }).limit(15);
-  const { categories, subjects } = await getUniqueCategoriesAndSubjects();
-  const { data: projects } = await supabase.from('projects').select('*').order('created_at', { ascending: false }).limit(12);
+  const comments = await dbHelper.getApprovedComments(15);
+  const { categories, subjects } = await dbHelper.getCategoriesAndSubjects();
+  const projects = await dbHelper.getProjects(12);
 
   res.render('index', { 
     activities, selectedLevel: level, comments: comments || [], categories, subjects, search, 
@@ -177,11 +158,28 @@ app.get('/admin', async (req, res) => {
   try {
     const sessionId = req.cookies.admin_session || (req.body && req.body.sessionId) || '';
     if (await isAdmin(req)) {
-      // Basic fetch without complex joins
-      const { data: activities } = await supabase.from('activities').select('*').order('created_at', { ascending: false });
-      const { data: pendingComments } = await supabase.from('comments').select('*').eq('approved', 0);
-      const { data: teachers } = await supabase.from('teachers').select('*');
-      const { data: news } = await supabase.from('news').select('*').order('created_at', { ascending: false });
+      const activities = await dbHelper.getActivities({ adminMode: true });
+      let pendingComments = [];
+      let teachers = [];
+      let news = [];
+
+      const online = await dbHelper.isOnline();
+      if (online) {
+        try {
+          const { data: pc } = await supabase.from('comments').select('*').eq('approved', 0);
+          const { data: tc } = await supabase.from('teachers').select('*');
+          const { data: nw } = await supabase.from('news').select('*').order('created_at', { ascending: false });
+          pendingComments = pc || [];
+          teachers = tc || [];
+          news = nw || [];
+        } catch (e) {}
+      } else {
+        try {
+          pendingComments = dbHelper.sqlite.prepare("SELECT * FROM comments WHERE approved = 0").all();
+          teachers = dbHelper.sqlite.prepare("SELECT * FROM teachers").all();
+          news = dbHelper.sqlite.prepare("SELECT * FROM news ORDER BY created_at DESC").all();
+        } catch (e) {}
+      }
 
       res.render('admin_panel', { 
         activities: activities || [], 
@@ -645,13 +643,7 @@ app.get('/contato', (req, res) => {
 // Blog / News Routes
 app.get('/noticias', async (req, res) => {
   try {
-    const now = new Date().toISOString();
-    const { data: news } = await supabase
-      .from('news')
-      .select('*')
-      .or(`published_at.lte.${now},published_at.is.null`) // Mostra se for menor que agora OU se estiver vazio
-      .order('published_at', { ascending: false });
-      
+    const news = await dbHelper.getNews();
     res.render('news_list', { news: news || [] });
   } catch (error) {
     console.error('BLOG ERROR:', error);
@@ -660,7 +652,7 @@ app.get('/noticias', async (req, res) => {
 });
 
 app.get('/noticia/:id', async (req, res) => {
-  const { data: article } = await supabase.from('news').select('*').eq('id', req.params.id).single();
+  const article = await dbHelper.getSingleNews(req.params.id);
   if (!article) return res.status(404).send('Notícia não encontrada');
   res.render('news_view', { article });
 });
