@@ -435,6 +435,7 @@
                     <div class="duo-tabs-nav">
                         <div class="duo-tab-icon active" onclick="switchDuoTab('skin')" title="Tom da pele">👤</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo">💇</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('beards')" title="Barba / Fade">🧔</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('glasses')" title="Óculos">👓</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('hats')" title="Chapéus">🧢</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('clothes')" title="Roupas">👕</div>
@@ -489,16 +490,13 @@
 
         // Customizer state
         let avatarConfig = {
-            gender: 'boy',
-            skinColor: '#f8c1a4',
-            eyeColor: '#1cb0f6',
-            eyeShape: 'duolingo_classic',
-            hairStyle: 'duolingo_spiky',
-            hairColor: '#2b2b2b',
-            glasses: 'duolingo_nerd',
+            skinColor: '#f7cba4',
+            hairStyle: 'duo_executive',
+            hairColor: '#383e45',
+            beard: 'duo_beard_full',
+            glasses: 'duo_nerd_black',
             hats: 'none',
-            outfit: 'overalls_turtleneck',
-            outfitColor: '#1cb0f6',
+            outfit: 'overalls',
             pet: 'none',
             bg: '#e55b5b'
         };
@@ -698,6 +696,16 @@
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.hairStyle = h.id; renderTabContent(); updateDuoPreview(); };
                     tile.innerHTML = generateItemTileSVG('hair', h.id, avatarConfig.hairColor);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'beards') {
+                titleEl.innerText = 'Barba / Fade';
+                P.beards.forEach(b => {
+                    const isSel = avatarConfig.beard === b.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.beard = b.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('beards', b.id, avatarConfig.hairColor);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'glasses') {
