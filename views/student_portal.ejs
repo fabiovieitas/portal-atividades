@@ -493,12 +493,12 @@
             style: 'avataaars',
             seed: 'Student' + Math.floor(Math.random() * 1000),
             skinColor: 'ffdbb4',
-            hairStyle: 'shortHairShortFlat',
-            hairColor: 'black',
+            hairStyle: 'shortFlat',
+            hairColor: '2c1b18',
             beard: 'blank',
             glasses: 'blank',
             outfit: 'overall',
-            outfitColor: '1cb0f6',
+            outfitColor: '65c9ff',
             eyes: 'default',
             bg: 'e55b5b'
         };
@@ -695,7 +695,7 @@
                 colorRow.style.cssText = 'grid-column: 1 / -1; display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 6px;';
                 P.hairColors.forEach(hc => {
                     const sw = document.createElement('div');
-                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.id === 'black' ? '#1a1a1a' : hc.id === 'blonde' ? '#ffd700' : hc.id === 'auburn' ? '#c94a2b' : hc.id === 'pastelPink' ? '#ffb6c1' : '#784824'}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
+                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.hex}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
                     sw.onclick = () => { avatarConfig.hairColor = hc.id; renderTabContent(); updateDuoPreview(); };
                     colorRow.appendChild(sw);
                 });

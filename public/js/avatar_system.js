@@ -1,7 +1,7 @@
 /**
- * World-Class Avatar Engine powered by Open-Source DiceBear Library
+ * World-Class Avatar Engine powered by DiceBear 9.x Schema
  * (Avataaars, Lorelei, Adventurer, Open-Peeps, Bottts)
- * High-definition, professional studio vector illustrations.
+ * High-definition studio vector illustrations with 100% valid schema parameters.
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
@@ -14,39 +14,38 @@ const DUOLINGO_AVATAR_PRESETS = {
   ],
 
   skinColors: [
-    { id: 'ffdbb4', label: 'Pêssego Claro' },
-    { id: 'edb98a', label: 'Caramelo Soft' },
-    { id: 'fd9841', label: 'Moreno Dourado' },
-    { id: 'd08b5b', label: 'Bronze' },
-    { id: 'ae5d29', label: 'Canela' },
-    { id: '614335', label: 'Ébano Intenso' }
+    { id: 'ffdbb4', label: 'Pêssego Claro', color: '#ffdbb4' },
+    { id: 'edb98a', label: 'Caramelo Soft', color: '#edb98a' },
+    { id: 'fd9841', label: 'Moreno Dourado', color: '#fd9841' },
+    { id: 'd08b5b', label: 'Bronze', color: '#d08b5b' },
+    { id: 'ae5d29', label: 'Canela', color: '#ae5d29' },
+    { id: '614335', label: 'Ébano Intenso', color: '#614335' }
   ],
 
   hairStyles: [
-    { id: 'shortHairShortFlat', label: 'Penteado Executivo' },
-    { id: 'shortHairTheCaesar', label: 'César / Fade' },
-    { id: 'shortHairFrizzle', label: 'Afro Volumoso' },
-    { id: 'shortHairDreads01', label: 'Dreads Curto' },
-    { id: 'longHairDreads', label: 'Dreadlocks Longos' },
-    { id: 'longHairCurly', label: 'Cachos Longos' },
-    { id: 'longHairCurvy', label: 'Ondulado Elegante' },
-    { id: 'longHairBob', label: 'Franja Bob' },
-    { id: 'longHairBigHair', label: 'Cabelo Volumoso' },
-    { id: 'shortHairShortCurly', label: 'Cachos Curto' },
-    { id: 'shortHairShaggyMullet', label: 'Mullet Moderno' },
+    { id: 'shortFlat', label: 'Penteado Executivo' },
+    { id: 'theCaesar', label: 'César / Fade' },
+    { id: 'frizzle', label: 'Afro Volumoso' },
+    { id: 'dreads01', label: 'Dreads Curto' },
+    { id: 'dreads', label: 'Dreadlocks Longos' },
+    { id: 'curly', label: 'Cachos Longos' },
+    { id: 'curvy', label: 'Ondulado Elegante' },
+    { id: 'bob', label: 'Franja Bob' },
+    { id: 'bigHair', label: 'Cabelo Volumoso' },
+    { id: 'shortCurly', label: 'Cachos Curto' },
+    { id: 'shaggyMullet', label: 'Mullet Moderno' },
     { id: 'winterHat1', label: 'Gorro de Lã' },
     { id: 'turban', label: 'Turbante' },
-    { id: 'hijab', label: 'Hijab' },
-    { id: 'noHair', label: 'Careca / Rente' }
+    { id: 'hijab', label: 'Hijab' }
   ],
 
   hairColors: [
-    { id: 'black', label: 'Preto Ônix' },
-    { id: 'brown', label: 'Castanho' },
-    { id: 'auburn', label: 'Ruivo' },
-    { id: 'blonde', label: 'Loiro' },
-    { id: 'pastelPink', label: 'Rosa Pastel' },
-    { id: 'platinum', label: 'Platina' }
+    { id: '2c1b18', label: 'Preto Ônix', hex: '#2c1b18' },
+    { id: '4a312c', label: 'Castanho Escuro', hex: '#4a312c' },
+    { id: '724133', label: 'Castanho Mel', hex: '#724133' },
+    { id: 'b58143', label: 'Loiro Dourado', hex: '#b58143' },
+    { id: 'c93305', label: 'Ruivo Vivo', hex: '#c93305' },
+    { id: 'e5a0a0', label: 'Rosa Soft', hex: '#e5a0a0' }
   ],
 
   beards: [
@@ -63,7 +62,7 @@ const DUOLINGO_AVATAR_PRESETS = {
     { id: 'prescription02', label: 'Óculos Arredondado' },
     { id: 'round', label: 'Óculos Redondo Retrô' },
     { id: 'sunglasses', label: 'Óculos Escuros' },
-    { id: 'kurt', label: 'Óculos de Sol Kurt' }
+    { id: 'wayfarers', label: 'Óculos Wayfarer' }
   ],
 
   outfits: [
@@ -76,21 +75,21 @@ const DUOLINGO_AVATAR_PRESETS = {
   ],
 
   outfitColors: [
-    { id: '1cb0f6', label: 'Azul Duolingo' },
-    { id: '58cc02', label: 'Verde Duolingo' },
-    { id: 'ff4b4b', label: 'Vermelho' },
-    { id: 'ffc800', label: 'Amarelo' },
-    { id: 'ce82ff', label: 'Roxo' },
-    { id: '202f36', label: 'Grafite Escuro' }
+    { id: '65c9ff', label: 'Azul Duolingo' },
+    { id: 'a7d49e', label: 'Verde Soft' },
+    { id: 'ff5c5c', label: 'Vermelho' },
+    { id: 'ffffb1', label: 'Amarelo' },
+    { id: '514796', label: 'Roxo' },
+    { id: '262e33', label: 'Grafite' }
   ],
 
   eyes: [
     { id: 'default', label: 'Olhos Normais' },
     { id: 'happy', label: 'Sorridente' },
-    { id: 'wink', label: 'Piscada' },
     { id: 'hearts', label: 'Apaixonado 😍' },
     { id: 'side', label: 'Olhando pro Lado' },
-    { id: 'surprised', label: 'Surpreso 😲' }
+    { id: 'surprised', label: 'Surpreso 😲' },
+    { id: 'wink', label: 'Piscada' }
   ],
 
   bgColors: [
@@ -109,12 +108,12 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
   const style = config.style || 'avataaars';
   const seed = config.seed || 'StudentProfile';
   const skin = (config.skinColor || 'ffdbb4').replace('#', '');
-  const hairStl = config.hairStyle || 'shortHairShortFlat';
-  const hairCol = config.hairColor || 'black';
+  const hairStl = config.hairStyle || 'shortFlat';
+  const hairCol = config.hairColor || '2c1b18';
   const beard = config.beard || 'blank';
   const glass = config.glasses || 'blank';
   const outfit = config.outfit || 'overall';
-  const outfitCol = (config.outfitColor || '1cb0f6').replace('#', '');
+  const outfitCol = (config.outfitColor || '65c9ff').replace('#', '');
   const eye = config.eyes || 'default';
   const bg = (config.bg || 'e55b5b').replace('#', '');
 
@@ -124,11 +123,21 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
     url += `&skinColor=${skin}`;
     url += `&top=${hairStl}`;
     url += `&hairColor=${hairCol}`;
-    url += `&facialHair=${beard}`;
-    url += `&accessories=${glass}`;
+    if (beard !== 'blank') {
+      url += `&facialHair=${beard}&facialHairProbability=100`;
+    } else {
+      url += `&facialHairProbability=0`;
+    }
+    if (glass !== 'blank') {
+      url += `&accessories=${glass}&accessoriesProbability=100`;
+    } else {
+      url += `&accessoriesProbability=0`;
+    }
     url += `&clothing=${outfit}`;
     url += `&clothingColor=${outfitCol}`;
     url += `&eyes=${eye}`;
+    url += `&mouth=smile`;
+    url += `&eyebrows=defaultNatural`;
   }
 
   if (!isTilePreview) {
@@ -164,27 +173,27 @@ function generateItemTileSVG(category, itemId, extraParam = '') {
   }
 
   if (category === 'hair') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=${itemId}&hairColor=${extraParam || 'black'}&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=${itemId}&hairColor=${extraParam || '2c1b18'}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Hair" />`;
   }
 
   if (category === 'beards') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=noHair&facialHair=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?facialHair=${itemId}&facialHairProbability=100&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Beard" />`;
   }
 
   if (category === 'glasses') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=noHair&accessories=${itemId}&accessoriesProbability=100&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?accessories=${itemId}&accessoriesProbability=100&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Glasses" />`;
   }
 
   if (category === 'clothes') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=noHair&clothing=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?clothing=${itemId}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Clothing" />`;
   }
 
   if (category === 'eyes') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=noHair&eyes=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?eyes=${itemId}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Eyes" />`;
   }
 
