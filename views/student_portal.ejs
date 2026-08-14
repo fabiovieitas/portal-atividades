@@ -434,11 +434,17 @@
 
                 <!-- Right Side: Duolingo Horizontal Tab Bar & Grid Customizer -->
                 <div class="duo-panel-side">
-                    <!-- Top Icon Tabs (100% Animated Voxel Art 3D) -->
+                    <!-- Top Icon Tabs (100% Editable Animated Voxel Art 3D) -->
                     <div class="duo-tabs-nav">
-                        <div class="duo-tab-icon active" onclick="switchDuoTab('voxelSeeds')" title="Personagens Voxel Art 3D">🧊</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('animationSpeed')" title="Velocidade da Animação">⚡</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cor de Fundo">🖼️</div>
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('voxelSeeds')" title="Presets Voxel 3D">🧊</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo Voxel">💇</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('skin')" title="Tom de Pele Voxel">👤</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('outfits')" title="Roupas Voxel">👕</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('glasses')" title="Óculos Voxel">👓</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('beards')" title="Barba Voxel">🧔</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('eyes')" title="Olhos Voxel">👀</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('animationSpeed')" title="Velocidade Animação">⚡</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Fundos & Upload">🖼️</div>
                     </div>
 
                     <!-- Active Tab Content Area -->
@@ -486,12 +492,21 @@
         let selectedClass = null;
         let selectedStudent = null;
 
-        // Customizer state (100% Animated Voxel Art 3D Engine)
+        // Customizer state (100% Editable Animated Voxel Art 3D Engine)
         let avatarConfig = {
             style: 'voxel-art',
             seed: 'Voxel' + Math.floor(Math.random() * 10000),
-            animationSpeed: 'medium',
-            bg: 'e55b5b'
+            animationSpeed: 'fastest',
+            hairStyle: 'spiky',
+            hairColor: '2c1b18',
+            skinColor: 'ffdbb4',
+            outfit: 'hoodie',
+            glasses: 'none',
+            beard: 'none',
+            eyes: 'open',
+            bg: 'e55b5b',
+            bgPattern: '',
+            customBg: ''
         };
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -659,6 +674,20 @@
             if (activeTab === 'voxelSeeds') renderTabContent();
         }
 
+        function handleCustomBgUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    avatarConfig.customBg = e.target.result;
+                    avatarConfig.bgPattern = '';
+                    updateDuoPreview();
+                    renderTabContent();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         function renderTabContent() {
             const P = DUOLINGO_AVATAR_PRESETS;
             const container = document.getElementById('duo-tiles-container');
@@ -666,7 +695,7 @@
             container.innerHTML = '';
 
             if (activeTab === 'voxelSeeds') {
-                titleEl.innerText = 'Personagens Voxel Art 3D 🧊';
+                titleEl.innerText = 'Presets Voxel Art 3D 🧊';
                 P.voxelSeeds.forEach(v => {
                     const isSel = avatarConfig.seed === v.seed;
                     const tile = document.createElement('div');
@@ -677,6 +706,77 @@
                         updateDuoPreview(); 
                     };
                     tile.innerHTML = generateItemTileSVG('voxelSeeds', v.seed);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'hair') {
+                titleEl.innerText = 'Cabelo Voxel & Cor';
+                
+                const colorRow = document.createElement('div');
+                colorRow.style.cssText = 'grid-column: 1 / -1; display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 6px;';
+                P.hairColors.forEach(hc => {
+                    const sw = document.createElement('div');
+                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.hex}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
+                    sw.onclick = () => { avatarConfig.hairColor = hc.id; renderTabContent(); updateDuoPreview(); };
+                    colorRow.appendChild(sw);
+                });
+                container.appendChild(colorRow);
+
+                P.hairStyles.forEach(h => {
+                    const isSel = avatarConfig.hairStyle === h.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.hairStyle = h.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('hair', h.id, avatarConfig.hairColor);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'skin') {
+                titleEl.innerText = 'Tom de Pele Voxel 👤';
+                P.skinColors.forEach(item => {
+                    const isSel = avatarConfig.skinColor === item.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.skinColor = item.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${item.hex}; border-radius:12px;" title="${item.label}"></div>`;
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'outfits') {
+                titleEl.innerText = 'Roupas Voxel 👕';
+                P.outfits.forEach(o => {
+                    const isSel = avatarConfig.outfit === o.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.outfit = o.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('outfit', o.id);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'glasses') {
+                titleEl.innerText = 'Óculos Voxel 👓';
+                P.glasses.forEach(g => {
+                    const isSel = avatarConfig.glasses === g.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.glasses = g.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('glasses', g.id);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'beards') {
+                titleEl.innerText = 'Barba Voxel 🧔';
+                P.beards.forEach(b => {
+                    const isSel = avatarConfig.beard === b.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.beard = b.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('beards', b.id);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'eyes') {
+                titleEl.innerText = 'Olhos Voxel 👀';
+                P.eyes.forEach(ey => {
+                    const isSel = avatarConfig.eyes === ey.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.eyes = ey.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('eyes', ey.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'animationSpeed') {
@@ -695,14 +795,42 @@
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'bg') {
-                titleEl.innerText = 'Cor de Fundo';
-                P.bgColors.forEach(bgHex => {
-                    const colorHex = '#' + bgHex;
-                    const isSel = avatarConfig.bg === bgHex;
+                titleEl.innerText = 'Fundos, Bandeiras & Upload 🖼️';
+                
+                // Upload button row
+                const uploadCard = document.createElement('div');
+                uploadCard.style.cssText = 'grid-column: 1 / -1; margin-bottom: 12px;';
+                uploadCard.innerHTML = `
+                    <input type="file" id="custom-bg-upload" accept="image/*" style="display:none" onchange="handleCustomBgUpload(event)">
+                    <button onclick="document.getElementById('custom-bg-upload').click()" class="btn-back" style="width:100%; background: #1cb0f6; color: white; border: none; font-weight: 900; box-shadow: 0 4px 0 #1899d6;">
+                        📤 Fazer Upload de Imagem de Fundo
+                    </button>
+                    ${avatarConfig.customBg ? '<div style="font-size:12px; color:#58cc02; font-weight:bold; text-align:center; margin-top:6px;">✓ Imagem personalizada ativa!</div>' : ''}
+                `;
+                container.appendChild(uploadCard);
+
+                P.bgThemes.forEach(theme => {
+                    const isSel = !avatarConfig.customBg && (avatarConfig.bgPattern === theme.val || avatarConfig.bg === theme.id);
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.bg = bgHex; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex}; border-radius:12px;"></div>`;
+                    tile.onclick = () => { 
+                        avatarConfig.customBg = '';
+                        if (theme.type === 'pattern') {
+                            avatarConfig.bgPattern = theme.val;
+                            avatarConfig.bg = 'e55b5b';
+                        } else {
+                            avatarConfig.bgPattern = '';
+                            avatarConfig.bg = theme.id;
+                        }
+                        renderTabContent(); 
+                        updateDuoPreview(); 
+                    };
+
+                    if (theme.type === 'pattern') {
+                        tile.innerHTML = `<div style="width:100%; height:55px; border-radius:12px; background:${theme.val}; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:12px; text-shadow:0 1px 2px rgba(0,0,0,0.8);">${theme.label}</div>`;
+                    } else {
+                        tile.innerHTML = `<div class="duo-color-swatch" style="background:${theme.val}; border-radius:12px;" title="${theme.label}"></div>`;
+                    }
                     container.appendChild(tile);
                 });
             }
@@ -711,7 +839,15 @@
         function updateDuoPreview() {
             const svg = generateAvatarSVG(avatarConfig, 220);
             document.getElementById('duo-avatar-preview').innerHTML = svg;
-            document.getElementById('duo-canvas-bg').style.background = '#' + (avatarConfig.bg || 'e55b5b').replace('#','');
+            
+            const bgEl = document.getElementById('duo-canvas-bg');
+            if (avatarConfig.customBg) {
+                bgEl.style.background = `url("${avatarConfig.customBg}") center/cover no-repeat`;
+            } else if (avatarConfig.bgPattern) {
+                bgEl.style.background = avatarConfig.bgPattern;
+            } else {
+                bgEl.style.background = '#' + (avatarConfig.bg || 'e55b5b').replace('#','');
+            }
         }
 
         async function saveAvatarProfile() {
