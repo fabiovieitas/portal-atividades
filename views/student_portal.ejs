@@ -669,12 +669,13 @@
 
             if (activeTab === 'skin') {
                 titleEl.innerText = 'Tom da pele';
-                P.skinColors.forEach(colorHex => {
+                P.skinColors.forEach(item => {
+                    const colorHex = item.id || item;
                     const isSel = avatarConfig.skinColor === colorHex;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.skinColor = colorHex; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex};"></div>`;
+                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex}; border-radius:12px;" title="${item.label || ''}"></div>`;
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'hair') {
