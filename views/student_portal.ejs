@@ -433,13 +433,13 @@
                 <div class="duo-panel-side">
                     <!-- Top Icon Tabs -->
                     <div class="duo-tabs-nav">
-                        <div class="duo-tab-icon active" onclick="switchDuoTab('skin')" title="Tom da pele">👤</div>
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('styles')" title="Estilo de Avatar">🎨</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('skin')" title="Tom da pele">👤</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo">💇</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('beards')" title="Barba / Fade">🧔</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('glasses')" title="Óculos">👓</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('hats')" title="Chapéus">🧢</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('clothes')" title="Roupas">👕</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('pets')" title="Mascote Duo">🐶</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('eyes')" title="Olhos / Expressão">👀</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cor de Fundo">🖼️</div>
                     </div>
 
@@ -488,17 +488,19 @@
         let selectedClass = null;
         let selectedStudent = null;
 
-        // Customizer state
+        // Customizer state (DiceBear Studio Engine)
         let avatarConfig = {
-            skinColor: '#f7cba4',
-            hairStyle: 'duo_executive',
-            hairColor: '#383e45',
-            beard: 'duo_beard_full',
-            glasses: 'duo_nerd_black',
-            hats: 'none',
-            outfit: 'overalls',
-            pet: 'none',
-            bg: '#e55b5b'
+            style: 'avataaars',
+            seed: 'Student' + Math.floor(Math.random() * 1000),
+            skinColor: 'ffdbb4',
+            hairStyle: 'shortHairShortFlat',
+            hairColor: 'black',
+            beard: 'blank',
+            glasses: 'blank',
+            outfit: 'overall',
+            outfitColor: '1cb0f6',
+            eyes: 'default',
+            bg: 'e55b5b'
         };
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -665,26 +667,35 @@
             const titleEl = document.getElementById('duo-tab-title');
             container.innerHTML = '';
 
-            if (activeTab === 'skin') {
-                titleEl.innerText = 'Tom da pele';
-                P.skinColors.forEach(item => {
-                    const colorHex = item.id || item;
-                    const isSel = avatarConfig.skinColor === colorHex;
+            if (activeTab === 'styles') {
+                titleEl.innerText = 'Estilo do Ilustrador';
+                P.styles.forEach(s => {
+                    const isSel = avatarConfig.style === s.id;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.skinColor = colorHex; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex}; border-radius:12px;" title="${item.label || ''}"></div>`;
+                    tile.onclick = () => { avatarConfig.style = s.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('styles', s.id);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'skin') {
+                titleEl.innerText = 'Tom da pele';
+                P.skinColors.forEach(item => {
+                    const colorHex = '#' + item.id;
+                    const isSel = avatarConfig.skinColor === item.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.skinColor = item.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex}; border-radius:12px;" title="${item.label}"></div>`;
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'hair') {
                 titleEl.innerText = 'Cabelo & Cor';
                 
-                // Color palette row
                 const colorRow = document.createElement('div');
                 colorRow.style.cssText = 'grid-column: 1 / -1; display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 6px;';
                 P.hairColors.forEach(hc => {
                     const sw = document.createElement('div');
-                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.id}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
+                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.id === 'black' ? '#1a1a1a' : hc.id === 'blonde' ? '#ffd700' : hc.id === 'auburn' ? '#c94a2b' : hc.id === 'pastelPink' ? '#ffb6c1' : '#784824'}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
                     sw.onclick = () => { avatarConfig.hairColor = hc.id; renderTabContent(); updateDuoPreview(); };
                     colorRow.appendChild(sw);
                 });
@@ -705,27 +716,17 @@
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.beard = b.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('beards', b.id, avatarConfig.hairColor);
+                    tile.innerHTML = generateItemTileSVG('beards', b.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'glasses') {
-                titleEl.innerText = 'Óculos';
+                titleEl.innerText = 'Óculos & Acessórios';
                 P.glasses.forEach(g => {
                     const isSel = avatarConfig.glasses === g.id;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.glasses = g.id; renderTabContent(); updateDuoPreview(); };
                     tile.innerHTML = generateItemTileSVG('glasses', g.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'hats') {
-                titleEl.innerText = 'Chapéus & Bonés';
-                P.hats.forEach(ht => {
-                    const isSel = avatarConfig.hats === ht.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.hats = ht.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('hats', ht.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'clothes') {
@@ -738,33 +739,34 @@
                     tile.innerHTML = generateItemTileSVG('clothes', o.id);
                     container.appendChild(tile);
                 });
-            } else if (activeTab === 'pets') {
-                titleEl.innerText = 'Mascotes';
-                P.pets.forEach(pt => {
-                    const isSel = avatarConfig.pet === pt.id;
+            } else if (activeTab === 'eyes') {
+                titleEl.innerText = 'Olhos & Expressão';
+                P.eyes.forEach(ey => {
+                    const isSel = avatarConfig.eyes === ey.id;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.pet = pt.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('pets', pt.id);
+                    tile.onclick = () => { avatarConfig.eyes = ey.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateItemTileSVG('eyes', ey.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'bg') {
                 titleEl.innerText = 'Cor de Fundo';
                 P.bgColors.forEach(bgHex => {
+                    const colorHex = '#' + bgHex;
                     const isSel = avatarConfig.bg === bgHex;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.bg = bgHex; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${bgHex}; border-radius:12px;"></div>`;
+                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex}; border-radius:12px;"></div>`;
                     container.appendChild(tile);
                 });
             }
         }
 
         function updateDuoPreview() {
-            const svg = generateAvatarSVG(avatarConfig, 180);
+            const svg = generateAvatarSVG(avatarConfig, 220);
             document.getElementById('duo-avatar-preview').innerHTML = svg;
-            document.getElementById('duo-canvas-bg').style.background = avatarConfig.bg || '#e55b5b';
+            document.getElementById('duo-canvas-bg').style.background = '#' + (avatarConfig.bg || 'e55b5b').replace('#','');
         }
 
         async function saveAvatarProfile() {
