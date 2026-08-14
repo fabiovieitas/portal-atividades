@@ -679,58 +679,65 @@
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'hair') {
-                titleEl.innerText = 'Cabelo';
+                titleEl.innerText = 'Cabelo & Cor';
+                
+                // Color palette row
+                const colorRow = document.createElement('div');
+                colorRow.style.cssText = 'grid-column: 1 / -1; display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 6px;';
+                P.hairColors.forEach(hc => {
+                    const sw = document.createElement('div');
+                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.id}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
+                    sw.onclick = () => { avatarConfig.hairColor = hc.id; renderTabContent(); updateDuoPreview(); };
+                    colorRow.appendChild(sw);
+                });
+                container.appendChild(colorRow);
+
                 P.hairStyles.forEach(h => {
                     const isSel = avatarConfig.hairStyle === h.id;
-                    const miniConf = { ...avatarConfig, hairStyle: h.id, bg: 'transparent' };
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.hairStyle = h.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    tile.innerHTML = generateItemTileSVG('hair', h.id, avatarConfig.hairColor);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'glasses') {
                 titleEl.innerText = 'Óculos';
                 P.glasses.forEach(g => {
                     const isSel = avatarConfig.glasses === g.id;
-                    const miniConf = { ...avatarConfig, glasses: g.id, bg: 'transparent' };
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.glasses = g.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    tile.innerHTML = generateItemTileSVG('glasses', g.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'hats') {
                 titleEl.innerText = 'Chapéus & Bonés';
                 P.hats.forEach(ht => {
                     const isSel = avatarConfig.hats === ht.id;
-                    const miniConf = { ...avatarConfig, hats: ht.id, bg: 'transparent' };
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.hats = ht.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    tile.innerHTML = generateItemTileSVG('hats', ht.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'clothes') {
                 titleEl.innerText = 'Roupas';
                 P.outfits.forEach(o => {
                     const isSel = avatarConfig.outfit === o.id;
-                    const miniConf = { ...avatarConfig, outfit: o.id, bg: 'transparent' };
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.outfit = o.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    tile.innerHTML = generateItemTileSVG('clothes', o.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'pets') {
                 titleEl.innerText = 'Mascotes';
                 P.pets.forEach(pt => {
                     const isSel = avatarConfig.pet === pt.id;
-                    const miniConf = { ...avatarConfig, pet: pt.id, bg: 'transparent' };
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { avatarConfig.pet = pt.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    tile.innerHTML = generateItemTileSVG('pets', pt.id);
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'bg') {
