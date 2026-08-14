@@ -434,16 +434,10 @@
 
                 <!-- Right Side: Duolingo Horizontal Tab Bar & Grid Customizer -->
                 <div class="duo-panel-side">
-                    <!-- Top Icon Tabs -->
+                    <!-- Top Icon Tabs (100% Animated Voxel Art 3D) -->
                     <div class="duo-tabs-nav">
                         <div class="duo-tab-icon active" onclick="switchDuoTab('voxelSeeds')" title="Personagens Voxel Art 3D">🧊</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('styles')" title="Estilo de Avatar">🎨</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('skin')" title="Tom da pele">👤</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo">💇</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('beards')" title="Barba / Fade">🧔</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('glasses')" title="Óculos">👓</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('clothes')" title="Roupas">👕</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('eyes')" title="Olhos / Expressão">👀</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('animationSpeed')" title="Velocidade da Animação">⚡</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cor de Fundo">🖼️</div>
                     </div>
 
@@ -492,18 +486,11 @@
         let selectedClass = null;
         let selectedStudent = null;
 
-        // Customizer state (Voxel Art 3D Studio Engine)
+        // Customizer state (100% Animated Voxel Art 3D Engine)
         let avatarConfig = {
             style: 'voxel-art',
             seed: 'Voxel' + Math.floor(Math.random() * 10000),
-            skinColor: 'ffdbb4',
-            hairStyle: 'shortFlat',
-            hairColor: '2c1b18',
-            beard: 'blank',
-            glasses: 'blank',
-            outfit: 'overall',
-            outfitColor: '65c9ff',
-            eyes: 'default',
+            animationSpeed: 'medium',
             bg: 'e55b5b'
         };
 
@@ -681,11 +668,10 @@
             if (activeTab === 'voxelSeeds') {
                 titleEl.innerText = 'Personagens Voxel Art 3D 🧊';
                 P.voxelSeeds.forEach(v => {
-                    const isSel = avatarConfig.seed === v.seed && avatarConfig.style === 'voxel-art';
+                    const isSel = avatarConfig.seed === v.seed;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
                     tile.onclick = () => { 
-                        avatarConfig.style = 'voxel-art';
                         avatarConfig.seed = v.seed; 
                         renderTabContent(); 
                         updateDuoPreview(); 
@@ -693,86 +679,19 @@
                     tile.innerHTML = generateItemTileSVG('voxelSeeds', v.seed);
                     container.appendChild(tile);
                 });
-            } else if (activeTab === 'styles') {
-                titleEl.innerText = 'Estilo do Ilustrador';
-                P.styles.forEach(s => {
-                    const isSel = avatarConfig.style === s.id;
+            } else if (activeTab === 'animationSpeed') {
+                titleEl.innerText = 'Velocidade da Animação ⚡';
+                P.animationSpeeds.forEach(s => {
+                    const isSel = avatarConfig.animationSpeed === s.id;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.style = s.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('styles', s.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'skin') {
-                titleEl.innerText = 'Tom da pele';
-                P.skinColors.forEach(item => {
-                    const colorHex = '#' + item.id;
-                    const isSel = avatarConfig.skinColor === item.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.skinColor = item.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex}; border-radius:12px;" title="${item.label}"></div>`;
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'hair') {
-                titleEl.innerText = 'Cabelo & Cor';
-                
-                const colorRow = document.createElement('div');
-                colorRow.style.cssText = 'grid-column: 1 / -1; display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 6px;';
-                P.hairColors.forEach(hc => {
-                    const sw = document.createElement('div');
-                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.hex}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
-                    sw.onclick = () => { avatarConfig.hairColor = hc.id; renderTabContent(); updateDuoPreview(); };
-                    colorRow.appendChild(sw);
-                });
-                container.appendChild(colorRow);
-
-                P.hairStyles.forEach(h => {
-                    const isSel = avatarConfig.hairStyle === h.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.hairStyle = h.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('hair', h.id, avatarConfig.hairColor);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'beards') {
-                titleEl.innerText = 'Barba / Fade';
-                P.beards.forEach(b => {
-                    const isSel = avatarConfig.beard === b.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.beard = b.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('beards', b.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'glasses') {
-                titleEl.innerText = 'Óculos & Acessórios';
-                P.glasses.forEach(g => {
-                    const isSel = avatarConfig.glasses === g.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.glasses = g.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('glasses', g.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'clothes') {
-                titleEl.innerText = 'Roupas';
-                P.outfits.forEach(o => {
-                    const isSel = avatarConfig.outfit === o.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.outfit = o.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('clothes', o.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'eyes') {
-                titleEl.innerText = 'Olhos & Expressão';
-                P.eyes.forEach(ey => {
-                    const isSel = avatarConfig.eyes === ey.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.eyes = ey.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('eyes', ey.id);
+                    tile.style.cssText = 'display:flex; align-items:center; justify-content:center; padding:15px; font-weight:bold; font-size:15px; border-radius:16px; min-height:80px;';
+                    tile.onclick = () => { 
+                        avatarConfig.animationSpeed = s.id; 
+                        renderTabContent(); 
+                        updateDuoPreview(); 
+                    };
+                    tile.innerText = s.label;
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'bg') {
