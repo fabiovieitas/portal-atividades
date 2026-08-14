@@ -45,6 +45,10 @@
                 <span class="nav-icon" style="font-size: 1.4rem;">📰</span>
                 <span class="nav-text" style="font-weight: 700;">Notícias/Blog</span>
             </button>
+            <button class="nav-item" onclick="switchTab('schools', this)" style="margin-bottom: 10px;">
+                <span class="nav-icon" style="font-size: 1.4rem;">🏫</span>
+                <span class="nav-text" style="font-weight: 700;">Escolas & Turmas</span>
+            </button>
             <button class="nav-item" onclick="switchTab('settings', this)" style="margin-bottom: 10px;">
                 <span class="nav-icon" style="font-size: 1.4rem;">⚙️</span>
                 <span class="nav-text" style="font-weight: 700;">Configurações</span>
@@ -440,6 +444,139 @@
                 </form>
             </div>
         </div>
+
+        <!-- Schools & Classes Workspace -->
+        <div id="schools" class="tab-pane">
+            <header class="workspace-header">
+                <div>
+                    <h1>🏫 Escolas & Turmas do Município</h1>
+                    <p>Cadastre as escolas, crie as turmas e defina o PIN único por turma para login nos tablets.</p>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn-add-main" onclick="toggleForm('add-school-form')">+ Nova Escola</button>
+                    <button class="btn-add-main" style="background: var(--secondary);" onclick="toggleForm('add-class-form')">+ Nova Turma</button>
+                </div>
+            </header>
+
+            <!-- Add School Form -->
+            <div id="add-school-form" class="admin-card-new glass-panel" style="display:none; margin-bottom: 20px;">
+                <h2>➕ Cadastrar Nova Escola</h2>
+                <form action="/admin/schools/add" method="POST" class="form-grid">
+                    <div class="input-group">
+                        <label>Nome da Escola</label>
+                        <input type="text" name="name" placeholder="Ex: E.M. José Giró Faísca" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Código da Escola (opcional)</label>
+                        <input type="text" name="code" placeholder="Ex: EMJGF-01">
+                    </div>
+                    <div class="input-group">
+                        <label>Cidade</label>
+                        <input type="text" name="city" value="Angra dos Reis" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Salvar Escola 🏫</button>
+                </form>
+            </div>
+
+            <!-- Add Class Form -->
+            <div id="add-class-form" class="admin-card-new glass-panel" style="display:none; margin-bottom: 20px;">
+                <h2>➕ Cadastrar Nova Turma</h2>
+                <form action="/admin/classes/add" method="POST" class="form-grid">
+                    <div class="input-group">
+                        <label>Selecione a Escola</label>
+                        <select name="school_id" required>
+                            <% (schools || []).forEach(s => { %>
+                                <option value="<%= s.id %>"><%= s.name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Nome da Turma</label>
+                        <input type="text" name="name" placeholder="Ex: 3º Ano A" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Ano / Série</label>
+                        <input type="text" name="grade_level" placeholder="Ex: 3º Ano">
+                    </div>
+                    <div class="input-group">
+                        <label>PIN de Acesso da Turma (4 dígitos)</label>
+                        <input type="text" name="class_pin" value="1234" maxlength="6" required>
+                        <small style="color: #64748b;">Este PIN é usado para liberar a turma no tablet do aluno.</small>
+                    </div>
+                    <button type="submit" class="btn-submit" style="background: var(--secondary);">Salvar Turma 👥</button>
+                </form>
+            </div>
+
+            <!-- Schools Table -->
+            <div class="admin-card-new glass-panel" style="margin-bottom: 25px;">
+                <h2>Escolas Cadastradas (<%= (schools || []).length %>)</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nome da Escola</th>
+                                <th>Cidade</th>
+                                <th>Data de Cadastro</th>
+                                <th style="text-align: right;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (!schools || schools.length === 0) { %>
+                                <tr><td colspan="4" style="text-align: center; color: #888;">Nenhuma escola cadastrada ainda.</td></tr>
+                            <% } else { %>
+                                <% schools.forEach(school => { %>
+                                    <tr>
+                                        <td><strong><%= school.name %></strong></td>
+                                        <td><%= school.city %></td>
+                                        <td><%= new Date(school.created_at).toLocaleDateString('pt-BR') %></td>
+                                        <td style="text-align: right;">
+                                            <button onclick="deleteSchool(<%= school.id %>)" class="btn-icon" style="background: rgba(255, 107, 107, 0.1); color: var(--danger); display: inline-flex;">🗑️</button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Classes Table -->
+            <div class="admin-card-new glass-panel">
+                <h2>Turmas & PINs de Acesso (<%= (classes || []).length %>)</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Escola</th>
+                                <th>Turma</th>
+                                <th>Ano / Série</th>
+                                <th>PIN da Turma</th>
+                                <th style="text-align: right;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (!classes || classes.length === 0) { %>
+                                <tr><td colspan="5" style="text-align: center; color: #888;">Nenhuma turma cadastrada ainda.</td></tr>
+                            <% } else { %>
+                                <% classes.forEach(c => { %>
+                                    <tr>
+                                        <td><strong><%= c.school_name %></strong></td>
+                                        <td><%= c.name %></td>
+                                        <td><%= c.grade_level || '-' %></td>
+                                        <td>
+                                            <span class="badge" style="background: #e0e7ff; color: #3730a3; font-size: 0.9rem; font-family: monospace;">🔑 <%= c.class_pin %></span>
+                                        </td>
+                                        <td style="text-align: right;">
+                                            <button onclick="deleteClass(<%= c.id %>)" class="btn-icon" style="background: rgba(255, 107, 107, 0.1); color: var(--danger); display: inline-flex;">🗑️</button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- QR Modal -->
@@ -633,6 +770,27 @@
             });
             if (res.ok) alert('Configurações atualizadas!');
         }
+
+        async function deleteSchool(id) {
+            if (!confirm('Deseja excluir esta escola? Todas as turmas associadas serão afetadas.')) return;
+            const res = await fetch(`/admin/schools/delete/${id}`, { method: 'POST' });
+            if (res.ok) location.reload();
+        }
+
+        async function deleteClass(id) {
+            if (!confirm('Deseja excluir esta turma?')) return;
+            const res = await fetch(`/admin/classes/delete/${id}`, { method: 'POST' });
+            if (res.ok) location.reload();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get('tab');
+            if (tab && document.getElementById(tab)) {
+                const btn = Array.from(document.querySelectorAll('.nav-item')).find(b => b.getAttribute('onclick')?.includes(`'${tab}'`));
+                if (btn) switchTab(tab, btn);
+            }
+        });
     </script>
 </body>
 

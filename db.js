@@ -205,7 +205,153 @@ const dbHelper = {
       VALUES (?, ?, ?, ?, ?, ?, 0)
     `;
     await queryRun(sql, [activity_id, student_name, school_name || '', class_name || '', avatar || '🤖', comment_text]);
+  },
+
+  // 10. Schools & Classes Management
+  async getSchools() {
+    return await queryAll("SELECT * FROM schools WHERE active = 1 ORDER BY name ASC");
+  },
+
+  async addSchool(name, code = '', city = 'Angra dos Reis') {
+    await queryRun("INSERT INTO schools (name, code, city) VALUES (?, ?, ?)", [name, code, city]);
+  },
+
+  async deleteSchool(id) {
+    await queryRun("DELETE FROM schools WHERE id = ?", [id]);
+  },
+
+  async getClassesBySchool(schoolId) {
+    return await queryAll("SELECT * FROM school_classes WHERE school_id = ? ORDER BY name ASC", [schoolId]);
+  },
+
+  async getAllClasses() {
+    const sql = `
+      SELECT sc.*, s.name as school_name 
+      FROM school_classes sc 
+      JOIN schools s ON sc.school_id = s.id 
+      ORDER BY s.name ASC, sc.name ASC
+    `;
+    return await queryAll(sql);
+  },
+
+  async addClass({ school_id, name, grade_level = '', class_pin = '1234' }) {
+    await queryRun(
+      "INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)",
+      [school_id, name, grade_level, class_pin]
+    );
+  },
+
+  async deleteClass(id) {
+    await queryRun("DELETE FROM school_classes WHERE id = ?", [id]);
+  },
+
+  // 11. Students Management
+  async getStudentsByClass(classId) {
+    return await queryAll("SELECT * FROM students WHERE class_id = ? ORDER BY name ASC", [classId]);
+  },
+
+  async getStudentById(id) {
+    return await queryGet("SELECT * FROM students WHERE id = ?", [id]);
+  },
+
+  async addStudent({ class_id, name, avatar_config = '{}' }) {
+    const avatarStr = typeof avatar_config === 'object' ? JSON.stringify(avatar_config) : avatar_config;
+    await queryRun(
+      "INSERT INTO students (class_id, name, avatar_config, medals_json, points) VALUES (?, ?, ?, '[]', 0)",
+      [class_id, name, avatarStr]
+    );
+  },
+
+  async deleteStudent(id) {
+    await queryRun("DELETE FROM students WHERE id = ?", [id]);
+  },
+
+  async updateStudentAvatar(studentId, avatar_config) {
+    const avatarStr = typeof avatar_config === 'object' ? JSON.stringify(avatar_config) : avatar_config;
+    await queryRun("UPDATE students SET avatar_config = ? WHERE id = ?", [avatarStr, studentId]);
+  },
+
+  async verifyClassPin(classId, pin) {
+    const row = await queryGet("SELECT class_pin FROM school_classes WHERE id = ?", [classId]);
+    if (!row) return false;
+    return String(row.class_pin).trim() === String(pin).trim();
+  },
+
+  async recordStudentActivity(studentId, activityId, score = 10) {
+    await queryRun(
+      "INSERT INTO student_activity_logs (student_id, activity_id, score) VALUES (?, ?, ?)",
+      [studentId, activityId, score]
+    );
+    await queryRun("UPDATE students SET points = points + ? WHERE id = ?", [score, studentId]);
   }
 };
 
+// Initialize schema on load
+async function initTables() {
+  const tables = [
+    `CREATE TABLE IF NOT EXISTS schools (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      code TEXT,
+      city TEXT DEFAULT 'Angra dos Reis',
+      active INTEGER DEFAULT 1,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS school_classes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      school_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      grade_level TEXT,
+      class_pin TEXT DEFAULT '1234',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS students (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      class_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      avatar_config TEXT DEFAULT '{}',
+      medals_json TEXT DEFAULT '[]',
+      points INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS student_activity_logs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      student_id INTEGER NOT NULL,
+      activity_id INTEGER NOT NULL,
+      score INTEGER DEFAULT 10,
+      completed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`
+  ];
+
+  for (const sql of tables) {
+    await queryRun(sql);
+  }
+
+  try {
+    const existing = await queryGet("SELECT COUNT(*) as cnt FROM schools");
+    if (!existing || existing.cnt == 0) {
+      console.log('[DB Engine] Inserindo escolas padrão...');
+      const defaultSchools = [
+        'E.M. José Giró Faísca',
+        'E.M. Luis Carlos de Lacerda',
+        'E.M. Profª Eleonora da Silva Pinto'
+      ];
+      for (const name of defaultSchools) {
+        await queryRun("INSERT INTO schools (name, city) VALUES (?, ?)", [name, 'Angra dos Reis']);
+      }
+      const school1 = await queryGet("SELECT id FROM schools WHERE name LIKE '%Faísca%' LIMIT 1");
+      if (school1) {
+        await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '3º Ano A', '3º Ano', '1234']);
+        await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '4º Ano A', '4º Ano', '1234']);
+        await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '5º Ano A', '5º Ano', '1234']);
+      }
+    }
+  } catch (err) {
+    console.error('[DB Engine Seed Warning]:', err.message);
+  }
+}
+
+initTables().catch(err => console.error('[DB Init Error]:', err.message));
+
 module.exports = dbHelper;
+

@@ -181,6 +181,9 @@ app.get('/admin', async (req, res) => {
         } catch (e) {}
       }
 
+      const schools = await dbHelper.getSchools();
+      const classes = await dbHelper.getAllClasses();
+
       res.render('admin_panel', { 
         activities: activities || [], 
         pendingComments: pendingComments || [], 
@@ -189,6 +192,8 @@ app.get('/admin', async (req, res) => {
         projects: [], 
         teachers: teachers || [], 
         news: news || [],
+        schools: schools || [],
+        classes: classes || [],
         sessionId: sessionId || ''
       });
     } else {
@@ -219,6 +224,120 @@ app.get('/admin/logout', async (req, res) => {
   }
   res.clearCookie('admin_session');
   res.redirect('/admin');
+});
+
+// Admin Schools & Classes Routes
+app.post('/admin/schools/add', requireAdmin, async (req, res) => {
+  try {
+    const { name, code, city } = req.body;
+    if (name) {
+      await dbHelper.addSchool(name, code, city);
+    }
+    res.redirect('/admin?tab=schools');
+  } catch (err) {
+    res.status(500).send('Erro ao adicionar escola: ' + err.message);
+  }
+});
+
+app.post('/admin/schools/delete/:id', requireAdmin, async (req, res) => {
+  try {
+    await dbHelper.deleteSchool(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/admin/classes/add', requireAdmin, async (req, res) => {
+  try {
+    const { school_id, name, grade_level, class_pin } = req.body;
+    if (school_id && name) {
+      await dbHelper.addClass({ school_id, name, grade_level, class_pin: class_pin || '1234' });
+    }
+    res.redirect('/admin?tab=schools');
+  } catch (err) {
+    res.status(500).send('Erro ao adicionar turma: ' + err.message);
+  }
+});
+
+app.post('/admin/classes/delete/:id', requireAdmin, async (req, res) => {
+  try {
+    await dbHelper.deleteClass(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// API Routes for Student / Tablet Login & Avatars
+app.get('/api/schools', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.json(schools);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/schools/:schoolId/classes', async (req, res) => {
+  try {
+    const classes = await dbHelper.getClassesBySchool(req.params.schoolId);
+    res.json(classes);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/classes/verify-pin', async (req, res) => {
+  try {
+    const { class_id, pin } = req.body;
+    const isValid = await dbHelper.verifyClassPin(class_id, pin);
+    res.json({ success: isValid });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/classes/:classId/students', async (req, res) => {
+  try {
+    const students = await dbHelper.getStudentsByClass(req.params.classId);
+    res.json(students);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/students', async (req, res) => {
+  try {
+    const { class_id, name, avatar_config } = req.body;
+    if (!class_id || !name) return res.status(400).json({ error: 'Faltam dados obrigatórios.' });
+    await dbHelper.addStudent({ class_id, name, avatar_config });
+    const students = await dbHelper.getStudentsByClass(class_id);
+    const created = students.find(s => s.name === name);
+    res.json({ success: true, student: created });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/students/:id/avatar', async (req, res) => {
+  try {
+    const { avatar_config } = req.body;
+    await dbHelper.updateStudentAvatar(req.params.id, avatar_config);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/api/students/:id', async (req, res) => {
+  try {
+    const student = await dbHelper.getStudentById(req.params.id);
+    if (!student) return res.status(404).json({ error: 'Aluno não encontrado.' });
+    res.json(student);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Teacher Authentication
