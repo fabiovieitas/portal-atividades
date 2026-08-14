@@ -4,314 +4,369 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área do Aluno - Portal de Atividades Lab Kids</title>
-    <link rel="stylesheet" href="/css/style.css?v=5">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
     <script src="/js/avatar_system.js"></script>
     <style>
         :root {
-            --app-bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --card-glass: rgba(255, 255, 255, 0.08);
-            --card-border: rgba(255, 255, 255, 0.15);
-            --accent-yellow: #f59e0b;
+            --duo-green: #58cc02;
+            --duo-green-dark: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-blue-dark: #1899d6;
+            --duo-card-bg: #ffffff;
+            --duo-border: #e5e5e5;
+            --duo-text-dark: #3c3c3c;
+            --app-bg: #f7f7f7;
         }
 
         body.student-theme {
             background: var(--app-bg);
-            color: #ffffff;
-            font-family: 'Fredoka', sans-serif;
+            color: var(--duo-text-dark);
+            font-family: 'Nunito', 'Fredoka', sans-serif;
             min-height: 100vh;
             margin: 0;
-            padding: 20px 10px;
+            padding: 15px;
         }
 
         .portal-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             position: relative;
         }
 
         .portal-header h1 {
-            font-size: 2.3rem;
+            font-size: 2.2rem;
+            font-weight: 900;
             margin: 0;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            color: #3c3c3c;
         }
 
         .portal-header p {
-            color: #94a3b8;
-            font-size: 1rem;
-            margin-top: 5px;
+            color: #777777;
+            font-size: 1.05rem;
+            margin-top: 4px;
+            font-weight: 700;
         }
 
-        /* Top Logout Button */
         .btn-top-logout {
             position: absolute;
             right: 10px;
             top: 0;
-            background: rgba(244, 63, 94, 0.2);
-            border: 2px solid #f43f5e;
-            color: #f43f5e;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 700;
+            background: #ff4b4b;
+            border: none;
+            border-bottom: 4px solid #ea2b2b;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 16px;
+            font-weight: 800;
             cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+            transition: 0.2s;
         }
 
         .btn-top-logout:hover {
-            background: #f43f5e;
-            color: white;
-            box-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
+            transform: translateY(-2px);
+            background: #ff3333;
         }
 
         /* Step Bar */
         .step-bar {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
         .step-pill {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--card-border);
+            background: #ffffff;
+            border: 2px solid var(--duo-border);
             padding: 8px 16px;
-            border-radius: 30px;
+            border-radius: 20px;
             font-size: 0.9rem;
-            font-weight: 700;
-            color: #94a3b8;
-            transition: 0.3s;
+            font-weight: 800;
+            color: #afafaf;
+            transition: 0.2s;
         }
 
         .step-pill.active {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            background: var(--duo-blue);
             color: #ffffff;
-            border-color: #60a5fa;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-            transform: scale(1.05);
+            border-color: var(--duo-blue-dark);
+            box-shadow: 0 4px 0 var(--duo-blue-dark);
         }
 
-        /* Grid Selection */
+        /* Selection Grid */
         .grid-selection {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
             max-width: 950px;
             margin: 0 auto;
         }
 
         .card-item {
-            background: var(--card-glass);
-            border: 2px solid var(--card-border);
+            background: #ffffff;
+            border: 2px solid var(--duo-border);
+            border-bottom: 4px solid var(--duo-border);
             border-radius: 20px;
-            padding: 22px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.2s ease;
         }
 
         .card-item:hover {
-            transform: translateY(-6px) scale(1.02);
-            border-color: #38bdf8;
-            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.25);
-            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+            border-color: var(--duo-blue);
+            border-bottom-color: var(--duo-blue-dark);
         }
 
         .card-item.in-use {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.12);
+            border-color: var(--duo-green);
+            border-bottom-color: var(--duo-green-dark);
+            background: #f1fbe8;
         }
 
         .card-item .icon-box {
-            font-size: 3.2rem;
-            margin-bottom: 10px;
+            font-size: 3rem;
+            margin-bottom: 8px;
         }
 
         .card-item h3 {
-            font-size: 1.4rem;
-            margin: 0 0 6px 0;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0 0 4px 0;
+            color: var(--duo-text-dark);
+        }
+
+        /* DUOLINGO OFFICIAL AVATAR EDITOR LAYOUT */
+        .duo-editor-window {
+            display: flex;
+            background: #ffffff;
+            border: 2px solid var(--duo-border);
+            border-radius: 24px;
+            overflow: hidden;
+            max-width: 1050px;
+            margin: 0 auto;
+            min-height: 520px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        /* Left Canvas Preview Area */
+        .duo-canvas-side {
+            flex: 1.1;
+            min-width: 320px;
+            background: #e55b5b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+
+        .duo-canvas-avatar-wrapper {
+            transform: scale(1.35);
+            margin-bottom: 20px;
+        }
+
+        .duo-name-input {
+            width: 85%;
+            padding: 12px;
+            border-radius: 16px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(0, 0, 0, 0.25);
             color: #ffffff;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .duo-name-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .btn-duo-save {
+            background: var(--duo-green);
+            border: none;
+            border-bottom: 4px solid var(--duo-green-dark);
+            color: #ffffff;
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 14px 32px;
+            border-radius: 18px;
+            cursor: pointer;
+            width: 85%;
+            margin-top: 15px;
+            transition: 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-duo-save:hover {
+            transform: translateY(-2px);
+            background: #61e002;
+        }
+
+        .btn-duo-save:active {
+            transform: translateY(2px);
+            border-bottom-width: 0;
+        }
+
+        /* Right Panel Customizer Side */
+        .duo-panel-side {
+            flex: 1.4;
+            min-width: 340px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid var(--duo-border);
+        }
+
+        /* Top Horizontal Icon Tabs Bar */
+        .duo-tabs-nav {
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 2px solid var(--duo-border);
+            padding: 10px 10px 0 10px;
+            gap: 4px;
+            background: #ffffff;
+            scrollbar-width: none;
+        }
+
+        .duo-tabs-nav::-webkit-scrollbar { display: none; }
+
+        .duo-tab-icon {
+            flex: 0 0 auto;
+            padding: 10px 14px;
+            border-radius: 12px 12px 0 0;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #afafaf;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .duo-tab-icon:hover {
+            color: var(--duo-blue);
+            background: #f7f7f7;
+        }
+
+        .duo-tab-icon.active {
+            color: var(--duo-blue);
+            border-bottom-color: var(--duo-blue);
+            background: #ffffff;
+        }
+
+        /* Content Panel Inside Tab */
+        .duo-tab-content {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 480px;
+            flex: 1;
+        }
+
+        .duo-category-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--duo-text-dark);
+            margin: 0 0 15px 0;
+        }
+
+        /* 3-Column Grid Tiles */
+        .duo-tiles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .duo-tile-card {
+            background: #ffffff;
+            border: 2px solid var(--duo-border);
+            border-bottom: 4px solid var(--duo-border);
+            border-radius: 16px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.15s;
+            position: relative;
+            padding: 6px;
+        }
+
+        .duo-tile-card:hover {
+            border-color: var(--duo-blue);
+            transform: translateY(-2px);
+        }
+
+        .duo-tile-card.selected {
+            background: #ddf4ff;
+            border-color: var(--duo-blue);
+            border-bottom-color: var(--duo-blue-dark);
+            box-shadow: 0 0 0 2px var(--duo-blue);
+        }
+
+        .duo-color-swatch {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+
+        .btn-back {
+            background: #ffffff;
+            border: 2px solid var(--duo-border);
+            color: var(--duo-text-dark);
+            padding: 8px 18px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 800;
+            margin-bottom: 15px;
         }
 
         /* PIN Modal */
         .pin-container {
-            max-width: 400px;
+            max-width: 380px;
             margin: 0 auto;
-            background: rgba(30, 41, 59, 0.95);
-            border: 2px solid #3b82f6;
+            background: #ffffff;
+            border: 2px solid var(--duo-border);
+            border-bottom: 5px solid var(--duo-border);
             border-radius: 24px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .pin-input {
             font-size: 2.2rem;
-            letter-spacing: 12px;
+            letter-spacing: 10px;
             text-align: center;
             width: 80%;
-            padding: 12px;
+            padding: 10px;
             border-radius: 16px;
-            border: 3px solid #3b82f6;
-            background: #0f172a;
-            color: #ffffff;
-            font-weight: 700;
-            margin: 20px 0;
+            border: 2px solid var(--duo-blue);
+            background: #f7f7f7;
+            color: var(--duo-text-dark);
+            font-weight: 800;
+            margin: 15px 0;
             outline: none;
-        }
-
-        .btn-action {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 16px;
-            font-size: 1.15rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-            width: 100%;
-        }
-
-        .btn-action:hover {
-            transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(16, 185, 129, 0.5);
-        }
-
-        /* Avatar Builder Layout */
-        .avatar-builder-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
-            max-width: 1050px;
-            margin: 0 auto;
-            align-items: flex-start;
-        }
-
-        .avatar-preview-card {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(30, 41, 59, 0.85);
-            border: 2px solid var(--card-border);
-            border-radius: 24px;
-            padding: 25px;
-            text-align: center;
-            position: sticky;
-            top: 20px;
-        }
-
-        .avatar-options-card {
-            flex: 1.6;
-            min-width: 320px;
-            background: rgba(30, 41, 59, 0.85);
-            border: 2px solid var(--card-border);
-            border-radius: 24px;
-            padding: 25px;
-            max-height: 75vh;
-            overflow-y: auto;
-        }
-
-        .option-group {
-            margin-bottom: 22px;
-            background: rgba(255,255,255,0.03);
-            padding: 15px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .option-group label {
-            display: block;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #38bdf8;
-            margin-bottom: 10px;
-        }
-
-        .option-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .chip-btn {
-            background: rgba(255,255,255,0.08);
-            border: 2px solid rgba(255,255,255,0.15);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-        .chip-btn.selected {
-            background: #3b82f6;
-            border-color: #60a5fa;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
-        }
-
-        .color-dot {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: 0.2s;
-            display: inline-block;
-        }
-
-        .color-dot.selected {
-            border-color: #ffffff;
-            transform: scale(1.2);
-            box-shadow: 0 0 14px rgba(255,255,255,0.8);
-        }
-
-        .btn-back {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        /* AdSense Banner Placeholder Slot */
-        .adsense-slot {
-            background: rgba(0, 0, 0, 0.35);
-            border: 2px dashed #3b82f6;
-            border-radius: 16px;
-            padding: 15px;
-            text-align: center;
-            color: #94a3b8;
-            font-weight: 700;
-            margin-top: 20px;
-            font-size: 0.85rem;
         }
     </style>
 </head>
 <body class="student-theme">
 
-    <div class="container" style="max-width: 1100px; margin: 0 auto;">
+    <div class="container" style="max-width: 1080px; margin: 0 auto;">
         <div class="portal-header">
             <button id="btn-header-logout" class="btn-top-logout" onclick="logoutStudent()" style="display:none;">
-                🚪 Sair / Trocar Aluno
+                🚪 SAIR
             </button>
-            <h1>👦👧 Perfil do Aluno Lab Kids</h1>
-            <p>Construa seu personagem humano personalizado, ganhe pontos e medalhas!</p>
+            <h1>Edite o seu Avatar</h1>
+            <p>Monte seu perfil exatamente no estilo oficial do Duolingo!</p>
         </div>
 
         <!-- Step Indicator -->
@@ -327,7 +382,7 @@
 
         <!-- VIEW 1: SELECT SCHOOL -->
         <div id="view-school" class="step-view">
-            <h2 style="text-align: center; color: #38bdf8; margin-bottom: 25px;">Selecione a sua Escola:</h2>
+            <h2 style="text-align: center; color: var(--duo-text-dark); margin-bottom: 20px;">Selecione a sua Escola:</h2>
             <div class="grid-selection" id="schools-container">
                 <p style="text-align: center; width: 100%;">Carregando escolas...</p>
             </div>
@@ -335,29 +390,27 @@
 
         <!-- VIEW 2: SELECT CLASS & PIN -->
         <div id="view-class" class="step-view" style="display:none;">
-            <h2 style="text-align: center; color: #38bdf8; margin-bottom: 20px;" id="school-title">Turmas da Escola</h2>
-            <div class="grid-selection" id="classes-container" style="margin-bottom: 30px;">
-                <!-- Classes will be loaded here -->
+            <h2 style="text-align: center; color: var(--duo-text-dark); margin-bottom: 15px;" id="school-title">Turmas da Escola</h2>
+            <div class="grid-selection" id="classes-container" style="margin-bottom: 25px;">
+                <!-- Classes loaded here -->
             </div>
 
-            <!-- PIN Form Popup -->
             <div id="pin-box" class="pin-container" style="display:none;">
-                <h3 style="margin: 0; color: #fbbf24;">🔑 Digite a Senha da Turma:</h3>
-                <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 5px;">Peça ao professor o PIN da turma (ex: 1234)</p>
+                <h3 style="margin: 0; color: var(--duo-blue);">🔑 Digite o PIN da Turma:</h3>
                 <input type="password" id="pin-input" class="pin-input" maxlength="6" placeholder="****">
-                <button class="btn-action" onclick="submitPin()">LIBERAR TURMA 🚀</button>
-                <p id="pin-error" style="color: #f43f5e; font-weight: 700; margin-top: 10px; display:none;"></p>
+                <button class="btn-duo-save" style="width: 100%;" onclick="submitPin()">LIBERAR TURMA 🚀</button>
+                <p id="pin-error" style="color: #ff4b4b; font-weight: 800; margin-top: 10px; display:none;"></p>
             </div>
         </div>
 
         <!-- VIEW 3: SELECT STUDENT OR CREATE NEW -->
         <div id="view-students" class="step-view" style="display:none;">
-            <h2 style="text-align: center; color: #38bdf8; margin-bottom: 10px;">Quem é você?</h2>
-            <p style="text-align: center; color: #94a3b8; margin-bottom: 25px;">Clique no seu nome para jogar ou crie seu personagem!</p>
+            <h2 style="text-align: center; color: var(--duo-text-dark); margin-bottom: 8px;">Quem é você?</h2>
+            <p style="text-align: center; color: #777; margin-bottom: 20px;">Clique no seu perfil ou crie um novo avatar!</p>
             
-            <div style="text-align: center; margin-bottom: 25px;">
-                <button class="btn-action" style="max-width: 340px; background: linear-gradient(135deg, #a855f7, #6366f1);" onclick="openAvatarBuilderForNew()">
-                    ✨ CRIAR NOVO PERSONAGEM HUMANO
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button class="btn-duo-save" style="max-width: 340px;" onclick="openAvatarBuilderForNew()">
+                    ✨ CRIAR NOVO AVATAR DUOLINGO
                 </button>
             </div>
 
@@ -366,126 +419,62 @@
             </div>
         </div>
 
-        <!-- VIEW 4: DUOLINGO ADVANCED HUMAN AVATAR BUILDER -->
+        <!-- VIEW 4: OFFICIAL DUOLINGO AVATAR EDITOR -->
         <div id="view-avatar-builder" class="step-view" style="display:none;">
-            <h2 style="text-align: center; color: #fbbf24; margin-bottom: 25px;">🎨 Crie seu Personagem Humano!</h2>
-
-            <div class="avatar-builder-container">
-                <!-- Left Preview Card -->
-                <div class="avatar-preview-card">
-                    <div id="avatar-svg-preview" style="margin-bottom: 15px;"></div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display: block; font-weight: 700; color: #38bdf8; margin-bottom: 5px;">Seu Nome:</label>
-                        <input type="text" id="student-name-input" placeholder="Digite seu nome..." style="width: 90%; padding: 10px; border-radius: 12px; border: 2px solid #3b82f6; background: #0f172a; color: white; font-weight: 700; text-align: center; font-size: 1.1rem;">
-                    </div>
-                    <button class="btn-action" onclick="saveAvatarProfile()">SALVAR & COMEÇAR 🎮</button>
-
-                    <!-- AdSense Monetization Banner Slot -->
-                    <div class="adsense-slot">
-                        📢 Publicidade AdSense<br>
-                        <small>Anúncios seguros gerarão renda durante a criação do avatar!</small>
-                    </div>
+            <div class="duo-editor-window">
+                <!-- Left Side: Canvas Preview & Name Input -->
+                <div class="duo-canvas-side" id="duo-canvas-bg">
+                    <div class="duo-canvas-avatar-wrapper" id="duo-avatar-preview"></div>
+                    <input type="text" id="student-name-input" class="duo-name-input" placeholder="Digite seu nome...">
+                    <button class="btn-duo-save" onclick="saveAvatarProfile()">PRONTO</button>
                 </div>
 
-                <!-- Right Customization Options -->
-                <div class="avatar-options-card">
-                    <!-- Gender Base -->
-                    <div class="option-group">
-                        <label>1. Gênero do Personagem:</label>
-                        <div class="option-chips" id="opt-genders"></div>
+                <!-- Right Side: Duolingo Horizontal Tab Bar & Grid Customizer -->
+                <div class="duo-panel-side">
+                    <!-- Top Icon Tabs -->
+                    <div class="duo-tabs-nav">
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('skin')" title="Tom da pele">👤</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo">💇</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('glasses')" title="Óculos">👓</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('hats')" title="Chapéus">🧢</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('clothes')" title="Roupas">👕</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('pets')" title="Mascote Duo">🐶</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cor de Fundo">🖼️</div>
                     </div>
 
-                    <!-- Skin Color -->
-                    <div class="option-group">
-                        <label>2. Tom de Pele (8 opções):</label>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-skins"></div>
-                    </div>
-
-                    <!-- Hair Style -->
-                    <div class="option-group">
-                        <label>3. Estilo do Cabelo:</label>
-                        <div class="option-chips" id="opt-hairs"></div>
-                    </div>
-
-                    <!-- Hair Color -->
-                    <div class="option-group">
-                        <label>4. Cor do Cabelo:</label>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-hair-colors"></div>
-                    </div>
-
-                    <!-- Eye Color -->
-                    <div class="option-group">
-                        <label>5. Cor dos Olhos:</label>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-eye-colors"></div>
-                    </div>
-
-                    <!-- Eye Shape -->
-                    <div class="option-group">
-                        <label>6. Formato dos Olhos:</label>
-                        <div class="option-chips" id="opt-eye-shapes"></div>
-                    </div>
-
-                    <!-- Emotion Expression -->
-                    <div class="option-group">
-                        <label>7. Expressão / Emoção:</label>
-                        <div class="option-chips" id="opt-emotions"></div>
-                    </div>
-
-                    <!-- Outfit Style -->
-                    <div class="option-group">
-                        <label>8. Estilo de Roupa:</label>
-                        <div class="option-chips" id="opt-outfits"></div>
-                    </div>
-
-                    <!-- Outfit Color -->
-                    <div class="option-group">
-                        <label>9. Cor da Roupa:</label>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-outfit-colors"></div>
-                    </div>
-
-                    <!-- Accessory -->
-                    <div class="option-group">
-                        <label>10. Acessório:</label>
-                        <div class="option-chips" id="opt-accs"></div>
-                    </div>
-
-                    <!-- Companion Pet -->
-                    <div class="option-group">
-                        <label>11. Mascote / Pet ao Lado 🐶🐱🤖🦉🦖:</label>
-                        <div class="option-chips" id="opt-pets"></div>
-                    </div>
-
-                    <!-- Background -->
-                    <div class="option-group">
-                        <label>12. Fundo do Perfil:</label>
-                        <div class="option-chips" id="opt-bgs"></div>
+                    <!-- Active Tab Content Area -->
+                    <div class="duo-tab-content">
+                        <div class="duo-category-title" id="duo-tab-title">Tom da pele</div>
+                        <div class="duo-tiles-grid" id="duo-tiles-container">
+                            <!-- 3-Column Grid Tiles loaded dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW 5: ACTIVE STUDENT PROFILE & CATALOG LINK -->
+        <!-- VIEW 5: ACTIVE PROFILE -->
         <div id="view-profile" class="step-view" style="display:none;">
-            <div style="max-width: 600px; margin: 0 auto; background: rgba(30,41,59,0.95); border: 2px solid #3b82f6; border-radius: 24px; padding: 30px; text-align: center;">
+            <div style="max-width: 550px; margin: 0 auto; background: #ffffff; border: 2px solid var(--duo-border); border-bottom: 5px solid var(--duo-border); border-radius: 24px; padding: 30px; text-align: center;">
                 <div id="active-avatar-display" style="margin-bottom: 15px;"></div>
-                <h2 id="active-student-name" style="margin: 0; font-size: 2rem; color: #fbbf24;">Nome do Aluno</h2>
-                <p id="active-student-school" style="color: #94a3b8; font-size: 1rem; margin-top: 5px;"></p>
+                <h2 id="active-student-name" style="margin: 0; font-size: 2rem; color: var(--duo-text-dark);">Nome do Aluno</h2>
+                <p id="active-student-school" style="color: #777; font-size: 1rem; margin-top: 4px; font-weight: 700;"></p>
 
-                <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
-                    <div style="background: rgba(255,255,255,0.08); padding: 12px 20px; border-radius: 16px;">
-                        <span style="font-size: 1.8rem; font-weight: 700; color: #38bdf8;" id="active-points">0</span>
-                        <div style="font-size: 0.85rem; color: #94a3b8;">Pontos acumulados</div>
+                <div style="display: flex; justify-content: center; gap: 15px; margin: 20px 0;">
+                    <div style="background: #f7f7f7; border: 2px solid var(--duo-border); padding: 10px 18px; border-radius: 16px;">
+                        <span style="font-size: 1.6rem; font-weight: 900; color: var(--duo-blue);" id="active-points">0</span>
+                        <div style="font-size: 0.85rem; color: #777; font-weight: 800;">Pontos</div>
                     </div>
-                    <div style="background: rgba(255,255,255,0.08); padding: 12px 20px; border-radius: 16px;">
-                        <span style="font-size: 1.8rem; font-weight: 700; color: #fbbf24;" id="active-medals-count">0</span>
-                        <div style="font-size: 0.85rem; color: #94a3b8;">Medalhas conquistadas</div>
+                    <div style="background: #f7f7f7; border: 2px solid var(--duo-border); padding: 10px 18px; border-radius: 16px;">
+                        <span style="font-size: 1.6rem; font-weight: 900; color: var(--duo-green);" id="active-medals-count">0</span>
+                        <div style="font-size: 0.85rem; color: #777; font-weight: 800;">Medalhas</div>
                     </div>
                 </div>
 
-                <div style="margin-top: 25px; display: flex; gap: 12px; flex-wrap: wrap;">
-                    <a href="/?level=1-5" class="btn-action" style="flex:1; text-decoration: none; text-align: center;">🚀 IR PARA AS ATIVIDADES</a>
-                    <button onclick="editCurrentAvatar()" class="chip-btn" style="padding: 14px 18px;">✏️ Editar Personagem</button>
-                    <button onclick="logoutStudent()" class="chip-btn" style="background: rgba(244, 63, 94, 0.2); border-color: #f43f5e; color: #f43f5e; padding: 14px 18px;">🚪 Sair</button>
+                <div style="margin-top: 25px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="/?level=1-5" class="btn-duo-save" style="flex:1; text-decoration: none; text-align: center; margin: 0;">🚀 JOGAR AGORA</a>
+                    <button onclick="editCurrentAvatar()" class="btn-back" style="margin: 0; padding: 12px 18px;">✏️ Editar Avatar</button>
+                    <button onclick="logoutStudent()" class="btn-back" style="margin: 0; background: #fff0f0; border-color: #ff4b4b; color: #ff4b4b; padding: 12px 18px;">🚪 Sair</button>
                 </div>
             </div>
         </div>
@@ -493,6 +482,7 @@
 
     <script>
         let currentStep = 1;
+        let activeTab = 'skin';
         let selectedSchool = null;
         let selectedClass = null;
         let selectedStudent = null;
@@ -500,17 +490,17 @@
         // Customizer state
         let avatarConfig = {
             gender: 'boy',
-            skinColor: '#ffdbac',
-            eyeColor: '#78350f',
-            eyeShape: 'round',
-            emotion: 'happy_smile',
-            hairStyle: 'short_spiky',
-            hairColor: '#451a03',
-            outfit: 'tech_hoodie',
-            outfitColor: '#6366f1',
-            accessory: 'none',
+            skinColor: '#f8c1a4',
+            eyeColor: '#1cb0f6',
+            eyeShape: 'duolingo_classic',
+            hairStyle: 'duolingo_spiky',
+            hairColor: '#2b2b2b',
+            glasses: 'duolingo_nerd',
+            hats: 'none',
+            outfit: 'overalls_turtleneck',
+            outfitColor: '#1cb0f6',
             pet: 'none',
-            bg: 'space'
+            bg: '#e55b5b'
         };
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -524,8 +514,8 @@
                 } catch(e){}
             }
             loadSchools();
-            renderOptionChips();
-            updatePreview();
+            renderTabContent();
+            updateDuoPreview();
         });
 
         function showStep(step) {
@@ -537,7 +527,7 @@
             });
 
             document.getElementById('btn-global-back').style.display = (step > 1 && step !== 5) ? 'inline-block' : 'none';
-            document.getElementById('btn-header-logout').style.display = (step === 5 || localStorage.getItem('lab_student_profile')) ? 'flex' : 'none';
+            document.getElementById('btn-header-logout').style.display = (step === 5 || localStorage.getItem('lab_student_profile')) ? 'block' : 'none';
 
             if (step === 1) document.getElementById('view-school').style.display = 'block';
             if (step === 2) document.getElementById('view-class').style.display = 'block';
@@ -563,7 +553,7 @@
                 card.innerHTML = `
                     <div class="icon-box">🏫</div>
                     <h3>${s.name}</h3>
-                    <p>${s.city}</p>
+                    <p style="color:#777; margin:0;">${s.city}</p>
                 `;
                 container.appendChild(card);
             });
@@ -580,11 +570,6 @@
             const container = document.getElementById('classes-container');
             container.innerHTML = '';
 
-            if (classes.length === 0) {
-                container.innerHTML = '<p style="color:#888; width:100%; text-align:center;">Nenhuma turma cadastrada para esta escola ainda.</p>';
-                return;
-            }
-
             classes.forEach(c => {
                 const card = document.createElement('div');
                 card.className = 'card-item';
@@ -592,7 +577,7 @@
                 card.innerHTML = `
                     <div class="icon-box">👥</div>
                     <h3>${c.name}</h3>
-                    <p>${c.grade_level || 'Turma Escolar'}</p>
+                    <p style="color:#777; margin:0;">${c.grade_level || 'Turma Escolar'}</p>
                 `;
                 container.appendChild(card);
             });
@@ -619,7 +604,7 @@
                 loadStudentsByClass();
             } else {
                 const err = document.getElementById('pin-error');
-                err.innerText = 'PIN incorreto! Tente novamente.';
+                err.innerText = 'PIN incorreto!';
                 err.style.display = 'block';
             }
         }
@@ -631,7 +616,6 @@
             const container = document.getElementById('students-container');
             container.innerHTML = '';
 
-            // Check active local student profile
             const currentActive = localStorage.getItem('lab_student_profile');
             let activeId = null;
             if (currentActive) {
@@ -639,7 +623,7 @@
             }
 
             if (students.length === 0) {
-                container.innerHTML = '<p style="color:#888; width:100%; text-align:center;">Nenhum aluno cadastrado nesta turma ainda. Clique no botão acima para criar seu personagem!</p>';
+                container.innerHTML = '<p style="color:#888; width:100%; text-align:center;">Nenhum aluno nesta turma. Crie o seu!</p>';
                 return;
             }
 
@@ -650,10 +634,10 @@
                 card.className = `card-item ${isCurrentLocal ? 'in-use' : ''}`;
                 card.onclick = () => activateStudent(st);
                 card.innerHTML = `
-                    <div style="margin-bottom: 10px;">${svg}</div>
+                    <div style="margin-bottom: 8px;">${svg}</div>
                     <h3>${st.name} ${isCurrentLocal ? '🟢' : ''}</h3>
-                    <p style="color: ${isCurrentLocal ? '#10b981' : '#94a3b8'}; font-weight:700;">
-                        ${isCurrentLocal ? 'Seu Perfil Conectado' : '🏆 ' + (st.points || 0) + ' Pontos'}
+                    <p style="color: ${isCurrentLocal ? '#58cc02' : '#777'}; font-weight:800;">
+                        ${isCurrentLocal ? 'Seu Perfil Conectado' : (st.points || 0) + ' Pontos'}
                     </p>
                 `;
                 container.appendChild(card);
@@ -664,99 +648,107 @@
             selectedStudent = null;
             document.getElementById('student-name-input').value = '';
             showStep(4);
-            renderOptionChips();
-            updatePreview();
+            switchDuoTab('skin');
+            updateDuoPreview();
         }
 
-        function renderOptionChips() {
-            const P = HUMAN_AVATAR_PRESETS;
+        function switchDuoTab(tabKey) {
+            activeTab = tabKey;
+            document.querySelectorAll('.duo-tab-icon').forEach(icon => icon.classList.remove('active'));
+            const activeIcon = Array.from(document.querySelectorAll('.duo-tab-icon')).find(el => el.getAttribute('onclick').includes(tabKey));
+            if (activeIcon) activeIcon.classList.add('active');
 
-            // 1. Genders
-            document.getElementById('opt-genders').innerHTML = P.genders.map(g => `
-                <button class="chip-btn ${avatarConfig.gender === g.id ? 'selected' : ''}" onclick="setOpt('gender', '${g.id}')">
-                    ${g.label}
-                </button>
-            `).join('');
-
-            // 2. Skin Colors
-            document.getElementById('opt-skins').innerHTML = P.skinColors.map(s => `
-                <span class="color-dot ${avatarConfig.skinColor === s.id ? 'selected' : ''}" style="background:${s.id};" onclick="setOpt('skinColor', '${s.id}')" title="${s.label}"></span>
-            `).join('');
-
-            // 3. Hair Styles
-            document.getElementById('opt-hairs').innerHTML = P.hairStyles.map(h => `
-                <button class="chip-btn ${avatarConfig.hairStyle === h.id ? 'selected' : ''}" onclick="setOpt('hairStyle', '${h.id}')">
-                    ${h.label}
-                </button>
-            `).join('');
-
-            // 4. Hair Colors
-            document.getElementById('opt-hair-colors').innerHTML = P.hairColors.map(hc => `
-                <span class="color-dot ${avatarConfig.hairColor === hc.id ? 'selected' : ''}" style="background:${hc.id};" onclick="setOpt('hairColor', '${hc.id}')" title="${hc.label}"></span>
-            `).join('');
-
-            // 5. Eye Colors
-            document.getElementById('opt-eye-colors').innerHTML = P.eyeColors.map(ec => `
-                <span class="color-dot ${avatarConfig.eyeColor === ec.id ? 'selected' : ''}" style="background:${ec.id};" onclick="setOpt('eyeColor', '${ec.id}')" title="${ec.label}"></span>
-            `).join('');
-
-            // 6. Eye Shapes
-            document.getElementById('opt-eye-shapes').innerHTML = P.eyeShapes.map(es => `
-                <button class="chip-btn ${avatarConfig.eyeShape === es.id ? 'selected' : ''}" onclick="setOpt('eyeShape', '${es.id}')">
-                    ${es.label}
-                </button>
-            `).join('');
-
-            // 7. Emotions
-            document.getElementById('opt-emotions').innerHTML = P.emotions.map(em => `
-                <button class="chip-btn ${avatarConfig.emotion === em.id ? 'selected' : ''}" onclick="setOpt('emotion', '${em.id}')">
-                    ${em.label}
-                </button>
-            `).join('');
-
-            // 8. Outfits
-            document.getElementById('opt-outfits').innerHTML = P.outfits.map(o => `
-                <button class="chip-btn ${avatarConfig.outfit === o.id ? 'selected' : ''}" onclick="setOpt('outfit', '${o.id}')">
-                    ${o.label}
-                </button>
-            `).join('');
-
-            // 9. Outfit Colors
-            document.getElementById('opt-outfit-colors').innerHTML = P.outfitColors.map(oc => `
-                <span class="color-dot ${avatarConfig.outfitColor === oc ? 'selected' : ''}" style="background:${oc};" onclick="setOpt('outfitColor', '${oc}')"></span>
-            `).join('');
-
-            // 10. Accessories
-            document.getElementById('opt-accs').innerHTML = P.accessories.map(a => `
-                <button class="chip-btn ${avatarConfig.accessory === a.id ? 'selected' : ''}" onclick="setOpt('accessory', '${a.id}')">
-                    ${a.label}
-                </button>
-            `).join('');
-
-            // 11. Pets
-            document.getElementById('opt-pets').innerHTML = P.pets.map(pt => `
-                <button class="chip-btn ${avatarConfig.pet === pt.id ? 'selected' : ''}" onclick="setOpt('pet', '${pt.id}')">
-                    ${pt.label}
-                </button>
-            `).join('');
-
-            // 12. Backgrounds
-            document.getElementById('opt-bgs').innerHTML = P.backgrounds.map(b => `
-                <button class="chip-btn ${avatarConfig.bg === b.id ? 'selected' : ''}" onclick="setOpt('bg', '${b.id}')">
-                    ${b.label}
-                </button>
-            `).join('');
+            renderTabContent();
         }
 
-        function setOpt(key, val) {
-            avatarConfig[key] = val;
-            renderOptionChips();
-            updatePreview();
+        function renderTabContent() {
+            const P = DUOLINGO_AVATAR_PRESETS;
+            const container = document.getElementById('duo-tiles-container');
+            const titleEl = document.getElementById('duo-tab-title');
+            container.innerHTML = '';
+
+            if (activeTab === 'skin') {
+                titleEl.innerText = 'Tom da pele';
+                P.skinColors.forEach(colorHex => {
+                    const isSel = avatarConfig.skinColor === colorHex;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.skinColor = colorHex; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${colorHex};"></div>`;
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'hair') {
+                titleEl.innerText = 'Cabelo';
+                P.hairStyles.forEach(h => {
+                    const isSel = avatarConfig.hairStyle === h.id;
+                    const miniConf = { ...avatarConfig, hairStyle: h.id, bg: 'transparent' };
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.hairStyle = h.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'glasses') {
+                titleEl.innerText = 'Óculos';
+                P.glasses.forEach(g => {
+                    const isSel = avatarConfig.glasses === g.id;
+                    const miniConf = { ...avatarConfig, glasses: g.id, bg: 'transparent' };
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.glasses = g.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'hats') {
+                titleEl.innerText = 'Chapéus & Bonés';
+                P.hats.forEach(ht => {
+                    const isSel = avatarConfig.hats === ht.id;
+                    const miniConf = { ...avatarConfig, hats: ht.id, bg: 'transparent' };
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.hats = ht.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'clothes') {
+                titleEl.innerText = 'Roupas';
+                P.outfits.forEach(o => {
+                    const isSel = avatarConfig.outfit === o.id;
+                    const miniConf = { ...avatarConfig, outfit: o.id, bg: 'transparent' };
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.outfit = o.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'pets') {
+                titleEl.innerText = 'Mascotes';
+                P.pets.forEach(pt => {
+                    const isSel = avatarConfig.pet === pt.id;
+                    const miniConf = { ...avatarConfig, pet: pt.id, bg: 'transparent' };
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.pet = pt.id; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = generateAvatarSVG(miniConf, 65, true);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'bg') {
+                titleEl.innerText = 'Cor de Fundo';
+                P.bgColors.forEach(bgHex => {
+                    const isSel = avatarConfig.bg === bgHex;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { avatarConfig.bg = bgHex; renderTabContent(); updateDuoPreview(); };
+                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${bgHex}; border-radius:12px;"></div>`;
+                    container.appendChild(tile);
+                });
+            }
         }
 
-        function updatePreview() {
-            const svg = generateAvatarSVG(avatarConfig, 190);
-            document.getElementById('avatar-svg-preview').innerHTML = svg;
+        function updateDuoPreview() {
+            const svg = generateAvatarSVG(avatarConfig, 180);
+            document.getElementById('duo-avatar-preview').innerHTML = svg;
+            document.getElementById('duo-canvas-bg').style.background = avatarConfig.bg || '#e55b5b';
         }
 
         async function saveAvatarProfile() {
@@ -807,7 +799,7 @@
             document.getElementById('active-student-school').innerText = `${selectedStudent.school_name || ''} | ${selectedStudent.class_name || ''}`;
             document.getElementById('active-points').innerText = selectedStudent.points || 0;
 
-            const svg = generateAvatarSVG(selectedStudent.avatar_config || {}, 150);
+            const svg = generateAvatarSVG(selectedStudent.avatar_config || {}, 160);
             document.getElementById('active-avatar-display').innerHTML = svg;
         }
 
@@ -819,12 +811,12 @@
                 document.getElementById('student-name-input').value = selectedStudent.name;
             }
             showStep(4);
-            renderOptionChips();
-            updatePreview();
+            switchDuoTab('skin');
+            updateDuoPreview();
         }
 
         function logoutStudent() {
-            if (!confirm('Deseja sair do perfil deste aluno para disponibilizar o tablet?')) return;
+            if (!confirm('Deseja sair do perfil deste aluno no tablet?')) return;
             localStorage.removeItem('lab_student_profile');
             selectedStudent = null;
             document.getElementById('btn-header-logout').style.display = 'none';
