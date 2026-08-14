@@ -130,7 +130,7 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
   const eye = config.eyes || 'default';
   const bg = (config.bg || 'e55b5b').replace('#', '');
 
-  let url = `https://api.dicebear.com/10.x/${style}/svg?seed=${encodeURIComponent(seed)}`;
+  let url = `/api/avatar-proxy?style=${encodeURIComponent(style)}&seed=${encodeURIComponent(seed)}`;
 
   if (style === 'avataaars') {
     url += `&skinColor=${skin}`;
@@ -177,12 +177,12 @@ function generateAvatarSVG(config = {}, size = 220, isTilePreview = false) {
  */
 function generateItemTileSVG(category, itemId, extraParam = '') {
   if (category === 'voxelSeeds') {
-    const tileUrl = `https://api.dicebear.com/10.x/voxel-art/svg?seed=${encodeURIComponent(itemId)}&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=voxel-art&seed=${encodeURIComponent(itemId)}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Voxel" />`;
   }
 
   if (category === 'styles') {
-    const tileUrl = `https://api.dicebear.com/10.x/${itemId}/svg?seed=PreviewTile&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=${itemId}&seed=PreviewTile&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Style" />`;
   }
 
@@ -191,27 +191,27 @@ function generateItemTileSVG(category, itemId, extraParam = '') {
   }
 
   if (category === 'hair') {
-    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?top=${itemId}&hairColor=${extraParam || '2c1b18'}&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&top=${itemId}&hairColor=${extraParam || '2c1b18'}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Hair" />`;
   }
 
   if (category === 'beards') {
-    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?facialHair=${itemId}&facialHairProbability=100&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&facialHair=${itemId}&facialHairProbability=100&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Beard" />`;
   }
 
   if (category === 'glasses') {
-    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?accessories=${itemId}&accessoriesProbability=100&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&accessories=${itemId}&accessoriesProbability=100&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Glasses" />`;
   }
 
   if (category === 'clothes') {
-    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?clothing=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&clothing=${itemId}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Clothing" />`;
   }
 
   if (category === 'eyes') {
-    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?eyes=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&eyes=${itemId}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Eyes" />`;
   }
 

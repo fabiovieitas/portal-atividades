@@ -904,6 +904,33 @@ app.get('/api/stats', async (req, res) => {
   res.json(topActivities || []);
 });
 
+// Avatar SVG Proxy Endpoint (Bypasses adblockers/firewalls/CORS on client devices)
+app.get('/api/avatar-proxy', async (req, res) => {
+  try {
+    const style = req.query.style || 'voxel-art';
+    const seed = req.query.seed || 'StudentVoxel';
+    const bg = req.query.bg || 'e55b5b';
+
+    const params = new URLSearchParams(req.query);
+    const dicebearUrl = `https://api.dicebear.com/10.x/${encodeURIComponent(style)}/svg?${params.toString()}`;
+
+    const fetchRes = await fetch(dicebearUrl);
+    if (!fetchRes.ok) {
+      res.setHeader('Content-Type', 'image/svg+xml');
+      return res.send(`<svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" rx="20" fill="#${bg.replace('#','')}"/><text x="100" y="105" font-size="50" text-anchor="middle">🧊</text></svg>`);
+    }
+
+    const svgText = await fetchRes.text();
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.send(svgText);
+  } catch (err) {
+    console.error('Avatar proxy error:', err);
+    res.setHeader('Content-Type', 'image/svg+xml');
+    return res.send(`<svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" rx="20" fill="#e55b5b"/><text x="100" y="105" font-size="50" text-anchor="middle">🧊</text></svg>`);
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
