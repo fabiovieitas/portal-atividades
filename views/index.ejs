@@ -10,10 +10,21 @@
         rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4a90e2">
+    <script src="/js/avatar_system.js"></script>
 </head>
 
 <body class="<%= selectedLevel ? 'view-list' : 'view-selection' %>">
 
+    <!-- Active Student Bar -->
+    <div id="active-student-bar" style="position: fixed; top: 15px; left: 20px; z-index: 1000; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); border: 2px solid #3b82f6; padding: 6px 16px; border-radius: 50px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+        <a href="/aluno" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; font-family: 'Fredoka', sans-serif;">
+            <div id="nav-student-avatar" style="font-size: 1.5rem;">📱</div>
+            <div>
+                <div id="nav-student-name" style="font-weight: 700; font-size: 0.95rem; color: #fbbf24;">Área do Aluno 🎮</div>
+                <div id="nav-student-sub" style="font-size: 0.75rem; color: #94a3b8;">Criar Avatar & Ver Medalhas</div>
+            </div>
+        </a>
+    </div>
 
     <!-- Botões Fixos -->
     <a href="/professor/login" class="fixed-teacher-btn">
@@ -393,6 +404,19 @@
         }
 
         function closeQRModal() { document.getElementById('qr-modal').style.display = 'none'; }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('lab_student_profile');
+            if (saved) {
+                try {
+                    const st = JSON.parse(saved);
+                    const svg = generateAvatarSVG(st.avatar_config || {}, 36);
+                    document.getElementById('nav-student-avatar').innerHTML = svg;
+                    document.getElementById('nav-student-name').innerText = st.name;
+                    document.getElementById('nav-student-sub').innerText = `🏆 ${st.points || 0} pts | Ver Perfil`;
+                } catch(e){}
+            }
+        });
     </script>
 
     <footer>

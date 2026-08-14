@@ -283,6 +283,25 @@ const dbHelper = {
       [studentId, activityId, score]
     );
     await queryRun("UPDATE students SET points = points + ? WHERE id = ?", [score, studentId]);
+
+    // Check completed activities count and update medals
+    const logs = await queryAll("SELECT id FROM student_activity_logs WHERE student_id = ?", [studentId]);
+    const count = logs.length;
+    
+    const student = await queryGet("SELECT medals_json FROM students WHERE id = ?", [studentId]);
+    let medals = [];
+    try { medals = JSON.parse(student.medals_json || '[]'); } catch(e){}
+
+    const newMedals = [...medals];
+    if (count >= 1 && !newMedals.includes('primeira_missao')) newMedals.push('primeira_missao');
+    if (count >= 3 && !newMedals.includes('mestre_robotica')) newMedals.push('mestre_robotica');
+    if (count >= 5 && !newMedals.includes('super_explorador')) newMedals.push('super_explorador');
+
+    if (newMedals.length !== medals.length) {
+      await queryRun("UPDATE students SET medals_json = ? WHERE id = ?", [JSON.stringify(newMedals), studentId]);
+    }
+
+    return { count, pointsAdded: score, medals: newMedals };
   }
 };
 

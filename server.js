@@ -330,11 +330,15 @@ app.post('/api/students/:id/avatar', async (req, res) => {
   }
 });
 
-app.get('/api/students/:id', async (req, res) => {
+app.get('/aluno', async (req, res) => {
+  res.render('student_portal');
+});
+
+app.post('/api/students/:id/activity-complete', async (req, res) => {
   try {
-    const student = await dbHelper.getStudentById(req.params.id);
-    if (!student) return res.status(404).json({ error: 'Aluno não encontrado.' });
-    res.json(student);
+    const { activity_id, score } = req.body;
+    const result = await dbHelper.recordStudentActivity(req.params.id, activity_id || 0, score || 10);
+    res.json({ success: true, result });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
