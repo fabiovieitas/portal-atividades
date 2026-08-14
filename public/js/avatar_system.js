@@ -177,12 +177,12 @@ function generateAvatarSVG(config = {}, size = 220, isTilePreview = false) {
  */
 function generateItemTileSVG(category, itemId, extraParam = '') {
   if (category === 'voxelSeeds') {
-    const tileUrl = `/api/avatar-proxy?style=voxel-art&seed=${encodeURIComponent(itemId)}&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=voxel-art&seed=${encodeURIComponent(itemId)}`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Voxel" />`;
   }
 
   if (category === 'styles') {
-    const tileUrl = `/api/avatar-proxy?style=${itemId}&seed=PreviewTile&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=${itemId}&seed=PreviewTile`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Style" />`;
   }
 
@@ -191,17 +191,17 @@ function generateItemTileSVG(category, itemId, extraParam = '') {
   }
 
   if (category === 'hair') {
-    const tileUrl = `/api/avatar-proxy?style=avataaars&top=${itemId}&hairColor=${extraParam || '2c1b18'}&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&top=${itemId}&hairColor=${extraParam || '2c1b18'}`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Hair" />`;
   }
 
   if (category === 'beards') {
-    const tileUrl = `/api/avatar-proxy?style=avataaars&facialHair=${itemId}&facialHairProbability=100&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&facialHair=${itemId}&facialHairProbability=100`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Beard" />`;
   }
 
   if (category === 'glasses') {
-    const tileUrl = `/api/avatar-proxy?style=avataaars&accessories=${itemId}&accessoriesProbability=100&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&accessories=${itemId}&accessoriesProbability=100`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Glasses" />`;
   }
 
@@ -211,7 +211,7 @@ function generateItemTileSVG(category, itemId, extraParam = '') {
   }
 
   if (category === 'eyes') {
-    const tileUrl = `/api/avatar-proxy?style=avataaars&eyes=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `/api/avatar-proxy?style=avataaars&eyes=${itemId}`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Eyes" />`;
   }
 

@@ -908,14 +908,33 @@ app.get('/api/stats', async (req, res) => {
 app.get('/api/avatar-proxy', async (req, res) => {
   try {
     const style = req.query.style || 'voxel-art';
-    const seed = req.query.seed || 'StudentVoxel';
     const bg = req.query.bg || 'e55b5b';
 
-    const params = new URLSearchParams(req.query);
+    const query = { ...req.query };
+    delete query.style;
+    if (query.backgroundColor === 'transparent') delete query.backgroundColor;
+    if (query.bg === 'transparent') delete query.bg;
+
+    const params = new URLSearchParams(query);
     const dicebearUrl = `https://api.dicebear.com/10.x/${encodeURIComponent(style)}/svg?${params.toString()}`;
 
-    const fetchRes = await fetch(dicebearUrl);
+    const fetchRes = await fetch(dicebearUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+
     if (!fetchRes.ok) {
+      console.error('DiceBear proxy non-200:', fetchRes.status, dicebearUrl);
+      const fallbackUrl = `https://api.dicebear.com/10.x/${encodeURIComponent(style)}/svg?seed=${encodeURIComponent(req.query.seed || 'StudentVoxel')}`;
+      const fbRes = await fetch(fallbackUrl);
+      if (fbRes.ok) {
+        const svg = await fbRes.text();
+        res.setHeader('Content-Type', 'image/svg+xml');
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        return res.send(svg);
+      }
+
       res.setHeader('Content-Type', 'image/svg+xml');
       return res.send(`<svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" rx="20" fill="#${bg.replace('#','')}"/><text x="100" y="105" font-size="50" text-anchor="middle">🧊</text></svg>`);
     }
