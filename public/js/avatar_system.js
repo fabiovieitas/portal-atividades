@@ -1,16 +1,38 @@
 /**
- * World-Class Avatar Engine powered by DiceBear 9.x Schema
- * (Avataaars, Lorelei, Adventurer, Open-Peeps, Bottts)
- * High-definition studio vector illustrations with 100% valid schema parameters.
+ * Featured Voxel Art 3D & DiceBear 10.x Studio Engine
+ * Default Style: Voxel Art (3D Blocky Characters)
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
   styles: [
+    { id: 'voxel-art', label: 'Voxel Art 3D 🧊 (Favorito)' },
     { id: 'avataaars', label: 'Humano Ilustrado 🧑' },
     { id: 'lorelei', label: 'Artístico Fofo 🎨' },
     { id: 'adventurer', label: 'Aventureiro 🎒' },
     { id: 'open-peeps', label: 'Desenho Moderno ✏️' },
-    { id: 'bottts', label: 'Robô Gamer 🤖' }
+    { id: 'bottts', label: 'Robô Gamer 🤖' },
+    { id: 'pixel-art', label: 'Pixel Art Retro 👾' }
+  ],
+
+  voxelSeeds: [
+    { id: 'VoxelAlex', label: 'Estilo 1', seed: 'Alex' },
+    { id: 'VoxelSteve', label: 'Estilo 2', seed: 'Steve' },
+    { id: 'VoxelLucas', label: 'Estilo 3', seed: 'Lucas' },
+    { id: 'VoxelSofia', label: 'Estilo 4', seed: 'Sofia' },
+    { id: 'VoxelMaria', label: 'Estilo 5', seed: 'Maria' },
+    { id: 'VoxelGabriel', label: 'Estilo 6', seed: 'Gabriel' },
+    { id: 'VoxelPedro', label: 'Estilo 7', seed: 'Pedro' },
+    { id: 'VoxelJulia', label: 'Estilo 8', seed: 'Julia' },
+    { id: 'VoxelBeatriz', label: 'Estilo 9', seed: 'Beatriz' },
+    { id: 'VoxelArthur', label: 'Estilo 10', seed: 'Arthur' },
+    { id: 'VoxelBernardo', label: 'Estilo 11', seed: 'Bernardo' },
+    { id: 'VoxelRafael', label: 'Estilo 12', seed: 'Rafael' },
+    { id: 'VoxelManuela', label: 'Estilo 13', seed: 'Manuela' },
+    { id: 'VoxelLaura', label: 'Estilo 14', seed: 'Laura' },
+    { id: 'VoxelGuilherme', label: 'Estilo 15', seed: 'Guilherme' },
+    { id: 'VoxelFelipe', label: 'Estilo 16', seed: 'Felipe' },
+    { id: 'VoxelMatheus', label: 'Estilo 17', seed: 'Matheus' },
+    { id: 'VoxelValentina', label: 'Estilo 18', seed: 'Valentina' }
   ],
 
   skinColors: [
@@ -74,15 +96,6 @@ const DUOLINGO_AVATAR_PRESETS = {
     { id: 'shirtVNeck', label: 'Camiseta Gola V' }
   ],
 
-  outfitColors: [
-    { id: '65c9ff', label: 'Azul Duolingo' },
-    { id: 'a7d49e', label: 'Verde Soft' },
-    { id: 'ff5c5c', label: 'Vermelho' },
-    { id: 'ffffb1', label: 'Amarelo' },
-    { id: '514796', label: 'Roxo' },
-    { id: '262e33', label: 'Grafite' }
-  ],
-
   eyes: [
     { id: 'default', label: 'Olhos Normais' },
     { id: 'happy', label: 'Sorridente' },
@@ -105,8 +118,8 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
     try { config = JSON.parse(config); } catch (e) { config = {}; }
   }
 
-  const style = config.style || 'avataaars';
-  const seed = config.seed || 'StudentProfile';
+  const style = config.style || 'voxel-art';
+  const seed = config.seed || 'StudentVoxel';
   const skin = (config.skinColor || 'ffdbb4').replace('#', '');
   const hairStl = config.hairStyle || 'shortFlat';
   const hairCol = config.hairColor || '2c1b18';
@@ -117,7 +130,7 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
   const eye = config.eyes || 'default';
   const bg = (config.bg || 'e55b5b').replace('#', '');
 
-  let url = `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(seed)}`;
+  let url = `https://api.dicebear.com/10.x/${style}/svg?seed=${encodeURIComponent(seed)}`;
 
   if (style === 'avataaars') {
     url += `&skinColor=${skin}`;
@@ -150,50 +163,55 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
 }
 
 /**
- * Renders an <img> tag pointing to the studio-quality DiceBear Vector SVG
+ * Renders an <img> tag pointing to the studio-quality Voxel Art Vector SVG
  */
 function generateAvatarSVG(config = {}, size = 220, isTilePreview = false) {
   const url = buildDiceBearUrl(config, isTilePreview);
   const borderRadius = isTilePreview ? '12px' : '20px';
 
-  return `<img src="${url}" width="${size}" height="${size}" style="border-radius: ${borderRadius}; display: block; margin: 0 auto; object-fit: contain;" alt="Avatar" />`;
+  return `<img src="${url}" width="${size}" height="${size}" style="border-radius: ${borderRadius}; display: block; margin: 0 auto; object-fit: contain;" alt="Avatar Voxel Art" />`;
 }
 
 /**
  * Renders individual item previews for the 3-column option cards
  */
 function generateItemTileSVG(category, itemId, extraParam = '') {
+  if (category === 'voxelSeeds') {
+    const tileUrl = `https://api.dicebear.com/10.x/voxel-art/svg?seed=${encodeURIComponent(itemId)}&backgroundColor=transparent`;
+    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Voxel" />`;
+  }
+
+  if (category === 'styles') {
+    const tileUrl = `https://api.dicebear.com/10.x/${itemId}/svg?seed=PreviewTile&backgroundColor=transparent`;
+    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Style" />`;
+  }
+
   if (category === 'skin') {
     return `<div style="width: 48px; height: 48px; border-radius: 50%; background: #${itemId.replace('#','')}; margin: 0 auto; border: 2px solid rgba(0,0,0,0.1);"></div>`;
   }
 
-  if (category === 'styles') {
-    const tileUrl = `https://api.dicebear.com/9.x/${itemId}/svg?seed=PreviewTile&backgroundColor=transparent`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Style" />`;
-  }
-
   if (category === 'hair') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?top=${itemId}&hairColor=${extraParam || '2c1b18'}&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?top=${itemId}&hairColor=${extraParam || '2c1b18'}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Hair" />`;
   }
 
   if (category === 'beards') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?facialHair=${itemId}&facialHairProbability=100&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?facialHair=${itemId}&facialHairProbability=100&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Beard" />`;
   }
 
   if (category === 'glasses') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?accessories=${itemId}&accessoriesProbability=100&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?accessories=${itemId}&accessoriesProbability=100&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Glasses" />`;
   }
 
   if (category === 'clothes') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?clothing=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?clothing=${itemId}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Clothing" />`;
   }
 
   if (category === 'eyes') {
-    const tileUrl = `https://api.dicebear.com/9.x/avataaars/svg?eyes=${itemId}&backgroundColor=transparent`;
+    const tileUrl = `https://api.dicebear.com/10.x/avataaars/svg?eyes=${itemId}&backgroundColor=transparent`;
     return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Eyes" />`;
   }
 

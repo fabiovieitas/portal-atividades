@@ -425,6 +425,9 @@
                 <!-- Left Side: Canvas Preview & Name Input -->
                 <div class="duo-canvas-side" id="duo-canvas-bg">
                     <div class="duo-canvas-avatar-wrapper" id="duo-avatar-preview"></div>
+                    <button onclick="randomizeVoxelSeed()" class="btn-back" style="margin-bottom: 10px; background: rgba(255,255,255,0.9); border: none; font-weight: 900; box-shadow: 0 4px 0 rgba(0,0,0,0.15);">
+                        🎲 Sortear Voxel 3D
+                    </button>
                     <input type="text" id="student-name-input" class="duo-name-input" placeholder="Digite seu nome...">
                     <button class="btn-duo-save" onclick="saveAvatarProfile()">PRONTO</button>
                 </div>
@@ -433,7 +436,8 @@
                 <div class="duo-panel-side">
                     <!-- Top Icon Tabs -->
                     <div class="duo-tabs-nav">
-                        <div class="duo-tab-icon active" onclick="switchDuoTab('styles')" title="Estilo de Avatar">🎨</div>
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('voxelSeeds')" title="Personagens Voxel Art 3D">🧊</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('styles')" title="Estilo de Avatar">🎨</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('skin')" title="Tom da pele">👤</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo">💇</div>
                         <div class="duo-tab-icon" onclick="switchDuoTab('beards')" title="Barba / Fade">🧔</div>
@@ -483,15 +487,15 @@
 
     <script>
         let currentStep = 1;
-        let activeTab = 'skin';
+        let activeTab = 'voxelSeeds';
         let selectedSchool = null;
         let selectedClass = null;
         let selectedStudent = null;
 
-        // Customizer state (DiceBear Studio Engine)
+        // Customizer state (Voxel Art 3D Studio Engine)
         let avatarConfig = {
-            style: 'avataaars',
-            seed: 'Student' + Math.floor(Math.random() * 1000),
+            style: 'voxel-art',
+            seed: 'Voxel' + Math.floor(Math.random() * 10000),
             skinColor: 'ffdbb4',
             hairStyle: 'shortFlat',
             hairColor: '2c1b18',
@@ -661,13 +665,35 @@
             renderTabContent();
         }
 
+        function randomizeVoxelSeed() {
+            avatarConfig.style = 'voxel-art';
+            avatarConfig.seed = 'Voxel' + Math.floor(Math.random() * 999999);
+            updateDuoPreview();
+            if (activeTab === 'voxelSeeds') renderTabContent();
+        }
+
         function renderTabContent() {
             const P = DUOLINGO_AVATAR_PRESETS;
             const container = document.getElementById('duo-tiles-container');
             const titleEl = document.getElementById('duo-tab-title');
             container.innerHTML = '';
 
-            if (activeTab === 'styles') {
+            if (activeTab === 'voxelSeeds') {
+                titleEl.innerText = 'Personagens Voxel Art 3D 🧊';
+                P.voxelSeeds.forEach(v => {
+                    const isSel = avatarConfig.seed === v.seed && avatarConfig.style === 'voxel-art';
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => { 
+                        avatarConfig.style = 'voxel-art';
+                        avatarConfig.seed = v.seed; 
+                        renderTabContent(); 
+                        updateDuoPreview(); 
+                    };
+                    tile.innerHTML = generateItemTileSVG('voxelSeeds', v.seed);
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'styles') {
                 titleEl.innerText = 'Estilo do Ilustrador';
                 P.styles.forEach(s => {
                     const isSel = avatarConfig.style === s.id;
