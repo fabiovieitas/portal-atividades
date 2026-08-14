@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área do Aluno - Portal de Atividades Lab Kids</title>
-    <link rel="stylesheet" href="/css/style.css?v=4">
+    <link rel="stylesheet" href="/css/style.css?v=5">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <script src="/js/avatar_system.js"></script>
     <style>
@@ -26,11 +26,12 @@
 
         .portal-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         .portal-header h1 {
-            font-size: 2.4rem;
+            font-size: 2.3rem;
             margin: 0;
             background: linear-gradient(135deg, #38bdf8, #818cf8);
             -webkit-background-clip: text;
@@ -40,25 +41,50 @@
 
         .portal-header p {
             color: #94a3b8;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-top: 5px;
         }
 
-        /* Step Navigation Bar */
+        /* Top Logout Button */
+        .btn-top-logout {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            background: rgba(244, 63, 94, 0.2);
+            border: 2px solid #f43f5e;
+            color: #f43f5e;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .btn-top-logout:hover {
+            background: #f43f5e;
+            color: white;
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
+        }
+
+        /* Step Bar */
         .step-bar {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
         .step-pill {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid var(--card-border);
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 30px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #94a3b8;
             transition: 0.3s;
@@ -72,12 +98,12 @@
             transform: scale(1.05);
         }
 
-        /* Cards Grid */
+        /* Grid Selection */
         .grid-selection {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
-            max-width: 900px;
+            max-width: 950px;
             margin: 0 auto;
         }
 
@@ -85,7 +111,7 @@
             background: var(--card-glass);
             border: 2px solid var(--card-border);
             border-radius: 20px;
-            padding: 25px;
+            padding: 22px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -95,34 +121,33 @@
         }
 
         .card-item:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-6px) scale(1.02);
             border-color: #38bdf8;
             box-shadow: 0 15px 30px rgba(56, 189, 248, 0.25);
             background: rgba(255, 255, 255, 0.12);
         }
 
+        .card-item.in-use {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.12);
+        }
+
         .card-item .icon-box {
-            font-size: 3.5rem;
-            margin-bottom: 12px;
+            font-size: 3.2rem;
+            margin-bottom: 10px;
         }
 
         .card-item h3 {
-            font-size: 1.5rem;
-            margin: 0 0 8px 0;
+            font-size: 1.4rem;
+            margin: 0 0 6px 0;
             color: #ffffff;
         }
 
-        .card-item p {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            margin: 0;
-        }
-
-        /* PIN Modal / Screen */
+        /* PIN Modal */
         .pin-container {
-            max-width: 420px;
+            max-width: 400px;
             margin: 0 auto;
-            background: rgba(30, 41, 59, 0.9);
+            background: rgba(30, 41, 59, 0.95);
             border: 2px solid #3b82f6;
             border-radius: 24px;
             padding: 30px;
@@ -149,9 +174,9 @@
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            padding: 14px 30px;
+            padding: 14px 28px;
             border-radius: 16px;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
@@ -164,44 +189,50 @@
             box-shadow: 0 12px 25px rgba(16, 185, 129, 0.5);
         }
 
-        /* Duolingo Avatar Builder Layout */
+        /* Avatar Builder Layout */
         .avatar-builder-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
-            max-width: 1000px;
+            gap: 25px;
+            max-width: 1050px;
             margin: 0 auto;
             align-items: flex-start;
         }
 
         .avatar-preview-card {
             flex: 1;
-            min-width: 280px;
-            background: rgba(30, 41, 59, 0.8);
+            min-width: 300px;
+            background: rgba(30, 41, 59, 0.85);
             border: 2px solid var(--card-border);
             border-radius: 24px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
             position: sticky;
             top: 20px;
         }
 
         .avatar-options-card {
-            flex: 1.5;
+            flex: 1.6;
             min-width: 320px;
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.85);
             border: 2px solid var(--card-border);
             border-radius: 24px;
             padding: 25px;
+            max-height: 75vh;
+            overflow-y: auto;
         }
 
         .option-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.08);
         }
 
         .option-group label {
             display: block;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #38bdf8;
             margin-bottom: 10px;
@@ -210,17 +241,17 @@
         .option-chips {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .chip-btn {
             background: rgba(255,255,255,0.08);
             border: 2px solid rgba(255,255,255,0.15);
             color: white;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 12px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             transition: 0.2s;
         }
@@ -228,12 +259,12 @@
         .chip-btn.selected {
             background: #3b82f6;
             border-color: #60a5fa;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
         }
 
         .color-dot {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             cursor: pointer;
             border: 3px solid transparent;
@@ -243,35 +274,8 @@
 
         .color-dot.selected {
             border-color: #ffffff;
-            transform: scale(1.15);
-            box-shadow: 0 0 12px rgba(255,255,255,0.8);
-        }
-
-        /* Profile & Medals Display */
-        .medals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .medal-badge {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 16px;
-            padding: 15px 10px;
-            text-align: center;
-        }
-
-        .medal-badge .m-icon {
-            font-size: 2.5rem;
-        }
-
-        .medal-badge .m-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #fbbf24;
-            margin-top: 5px;
+            transform: scale(1.2);
+            box-shadow: 0 0 14px rgba(255,255,255,0.8);
         }
 
         .btn-back {
@@ -284,14 +288,30 @@
             font-weight: 700;
             margin-bottom: 20px;
         }
+
+        /* AdSense Banner Placeholder Slot */
+        .adsense-slot {
+            background: rgba(0, 0, 0, 0.35);
+            border: 2px dashed #3b82f6;
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 <body class="student-theme">
 
-    <div class="container" style="max-width: 1050px; margin: 0 auto;">
+    <div class="container" style="max-width: 1100px; margin: 0 auto;">
         <div class="portal-header">
-            <h1>🎮 Portal do Aluno Lab Kids</h1>
-            <p>Escolha sua escola, digite a senha da turma e crie seu avatar Duolingo!</p>
+            <button id="btn-header-logout" class="btn-top-logout" onclick="logoutStudent()" style="display:none;">
+                🚪 Sair / Trocar Aluno
+            </button>
+            <h1>👦👧 Perfil do Aluno Lab Kids</h1>
+            <p>Construa seu personagem humano personalizado, ganhe pontos e medalhas!</p>
         </div>
 
         <!-- Step Indicator -->
@@ -299,7 +319,7 @@
             <div class="step-pill" id="step-pill-1">1. Escola 🏫</div>
             <div class="step-pill" id="step-pill-2">2. Turma & PIN 🔑</div>
             <div class="step-pill" id="step-pill-3">3. Escolha seu Nome 👤</div>
-            <div class="step-pill" id="step-pill-4">4. Criador de Avatar 🤖</div>
+            <div class="step-pill" id="step-pill-4">4. Criador de Avatar 🎨</div>
             <div class="step-pill" id="step-pill-5">5. Perfil & Jogos 🏆</div>
         </div>
 
@@ -323,7 +343,7 @@
             <!-- PIN Form Popup -->
             <div id="pin-box" class="pin-container" style="display:none;">
                 <h3 style="margin: 0; color: #fbbf24;">🔑 Digite a Senha da Turma:</h3>
-                <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 5px;">Peça ao professor o PIN de 4 dígitos</p>
+                <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 5px;">Peça ao professor o PIN da turma (ex: 1234)</p>
                 <input type="password" id="pin-input" class="pin-input" maxlength="6" placeholder="****">
                 <button class="btn-action" onclick="submitPin()">LIBERAR TURMA 🚀</button>
                 <p id="pin-error" style="color: #f43f5e; font-weight: 700; margin-top: 10px; display:none;"></p>
@@ -333,11 +353,11 @@
         <!-- VIEW 3: SELECT STUDENT OR CREATE NEW -->
         <div id="view-students" class="step-view" style="display:none;">
             <h2 style="text-align: center; color: #38bdf8; margin-bottom: 10px;">Quem é você?</h2>
-            <p style="text-align: center; color: #94a3b8; margin-bottom: 25px;">Clique no seu nome para jogar ou crie um novo avatar!</p>
+            <p style="text-align: center; color: #94a3b8; margin-bottom: 25px;">Clique no seu nome para jogar ou crie seu personagem!</p>
             
             <div style="text-align: center; margin-bottom: 25px;">
-                <button class="btn-action" style="max-width: 320px; background: linear-gradient(135deg, #a855f7, #6366f1);" onclick="openAvatarBuilderForNew()">
-                    ✨ CRIAR NOVO PERFIL / AVATAR
+                <button class="btn-action" style="max-width: 340px; background: linear-gradient(135deg, #a855f7, #6366f1);" onclick="openAvatarBuilderForNew()">
+                    ✨ CRIAR NOVO PERSONAGEM HUMANO
                 </button>
             </div>
 
@@ -346,9 +366,9 @@
             </div>
         </div>
 
-        <!-- VIEW 4: DUOLINGO AVATAR BUILDER -->
+        <!-- VIEW 4: DUOLINGO ADVANCED HUMAN AVATAR BUILDER -->
         <div id="view-avatar-builder" class="step-view" style="display:none;">
-            <h2 style="text-align: center; color: #fbbf24; margin-bottom: 25px;">🎨 Crie seu Avatar Estilo Duolingo!</h2>
+            <h2 style="text-align: center; color: #fbbf24; margin-bottom: 25px;">🎨 Crie seu Personagem Humano!</h2>
 
             <div class="avatar-builder-container">
                 <!-- Left Preview Card -->
@@ -359,43 +379,85 @@
                         <input type="text" id="student-name-input" placeholder="Digite seu nome..." style="width: 90%; padding: 10px; border-radius: 12px; border: 2px solid #3b82f6; background: #0f172a; color: white; font-weight: 700; text-align: center; font-size: 1.1rem;">
                     </div>
                     <button class="btn-action" onclick="saveAvatarProfile()">SALVAR & COMEÇAR 🎮</button>
+
+                    <!-- AdSense Monetization Banner Slot -->
+                    <div class="adsense-slot">
+                        📢 Publicidade AdSense<br>
+                        <small>Anúncios seguros gerarão renda durante a criação do avatar!</small>
+                    </div>
                 </div>
 
                 <!-- Right Customization Options -->
                 <div class="avatar-options-card">
-                    <!-- Mascot Type -->
+                    <!-- Gender Base -->
                     <div class="option-group">
-                        <label>1. Escolha o Personagem Base:</label>
-                        <div class="option-chips" id="opt-types"></div>
+                        <label>1. Gênero do Personagem:</label>
+                        <div class="option-chips" id="opt-genders"></div>
                     </div>
 
                     <!-- Skin Color -->
                     <div class="option-group">
-                        <label>2. Cor da Pele / Corpo:</label>
-                        <div style="display: flex; gap: 10px;" id="opt-skins"></div>
-                    </div>
-
-                    <!-- Outfit -->
-                    <div class="option-group">
-                        <label>3. Roupa / Estilo:</label>
-                        <div class="option-chips" id="opt-outfits"></div>
-                    </div>
-
-                    <!-- Accessory -->
-                    <div class="option-group">
-                        <label>4. Acessório Especial:</label>
-                        <div class="option-chips" id="opt-accs"></div>
+                        <label>2. Tom de Pele (8 opções):</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-skins"></div>
                     </div>
 
                     <!-- Hair Style -->
                     <div class="option-group">
-                        <label>5. Cabelo / Antena:</label>
+                        <label>3. Estilo do Cabelo:</label>
                         <div class="option-chips" id="opt-hairs"></div>
+                    </div>
+
+                    <!-- Hair Color -->
+                    <div class="option-group">
+                        <label>4. Cor do Cabelo:</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-hair-colors"></div>
+                    </div>
+
+                    <!-- Eye Color -->
+                    <div class="option-group">
+                        <label>5. Cor dos Olhos:</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-eye-colors"></div>
+                    </div>
+
+                    <!-- Eye Shape -->
+                    <div class="option-group">
+                        <label>6. Formato dos Olhos:</label>
+                        <div class="option-chips" id="opt-eye-shapes"></div>
+                    </div>
+
+                    <!-- Emotion Expression -->
+                    <div class="option-group">
+                        <label>7. Expressão / Emoção:</label>
+                        <div class="option-chips" id="opt-emotions"></div>
+                    </div>
+
+                    <!-- Outfit Style -->
+                    <div class="option-group">
+                        <label>8. Estilo de Roupa:</label>
+                        <div class="option-chips" id="opt-outfits"></div>
+                    </div>
+
+                    <!-- Outfit Color -->
+                    <div class="option-group">
+                        <label>9. Cor da Roupa:</label>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="opt-outfit-colors"></div>
+                    </div>
+
+                    <!-- Accessory -->
+                    <div class="option-group">
+                        <label>10. Acessório:</label>
+                        <div class="option-chips" id="opt-accs"></div>
+                    </div>
+
+                    <!-- Companion Pet -->
+                    <div class="option-group">
+                        <label>11. Mascote / Pet ao Lado 🐶🐱🤖🦉🦖:</label>
+                        <div class="option-chips" id="opt-pets"></div>
                     </div>
 
                     <!-- Background -->
                     <div class="option-group">
-                        <label>6. Fundo do Perfil:</label>
+                        <label>12. Fundo do Perfil:</label>
                         <div class="option-chips" id="opt-bgs"></div>
                     </div>
                 </div>
@@ -404,7 +466,7 @@
 
         <!-- VIEW 5: ACTIVE STUDENT PROFILE & CATALOG LINK -->
         <div id="view-profile" class="step-view" style="display:none;">
-            <div style="max-width: 600px; margin: 0 auto; background: rgba(30,41,59,0.9); border: 2px solid #3b82f6; border-radius: 24px; padding: 30px; text-align: center;">
+            <div style="max-width: 600px; margin: 0 auto; background: rgba(30,41,59,0.95); border: 2px solid #3b82f6; border-radius: 24px; padding: 30px; text-align: center;">
                 <div id="active-avatar-display" style="margin-bottom: 15px;"></div>
                 <h2 id="active-student-name" style="margin: 0; font-size: 2rem; color: #fbbf24;">Nome do Aluno</h2>
                 <p id="active-student-school" style="color: #94a3b8; font-size: 1rem; margin-top: 5px;"></p>
@@ -420,29 +482,16 @@
                     </div>
                 </div>
 
-                <h3 style="color: #38bdf8; text-align: left; margin-bottom: 10px;">🏅 Minhas Medalhas:</h3>
-                <div class="medals-grid" id="profile-medals-grid">
-                    <div class="medal-badge">
-                        <div class="m-icon">🥇</div>
-                        <div class="m-title">Primeira Missão</div>
-                    </div>
-                    <div class="medal-badge">
-                        <div class="m-icon">🤖</div>
-                        <div class="m-title">Explorador Tech</div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap;">
+                <div style="margin-top: 25px; display: flex; gap: 12px; flex-wrap: wrap;">
                     <a href="/?level=1-5" class="btn-action" style="flex:1; text-decoration: none; text-align: center;">🚀 IR PARA AS ATIVIDADES</a>
-                    <button onclick="editCurrentAvatar()" class="chip-btn" style="padding: 14px 20px;">✏️ Editar Avatar</button>
-                    <button onclick="logoutStudent()" class="chip-btn" style="background: rgba(244, 63, 94, 0.2); border-color: #f43f5e; color: #f43f5e;">Trocar Aluno</button>
+                    <button onclick="editCurrentAvatar()" class="chip-btn" style="padding: 14px 18px;">✏️ Editar Personagem</button>
+                    <button onclick="logoutStudent()" class="chip-btn" style="background: rgba(244, 63, 94, 0.2); border-color: #f43f5e; color: #f43f5e; padding: 14px 18px;">🚪 Sair</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // State variables
         let currentStep = 1;
         let selectedSchool = null;
         let selectedClass = null;
@@ -450,17 +499,21 @@
 
         // Customizer state
         let avatarConfig = {
-            type: 'robot',
-            skinColor: '#3b82f6',
-            hairStyle: 'antenna',
-            hairColor: '#1e293b',
-            outfit: 'hoodie',
-            accessory: 'vr_goggles',
+            gender: 'boy',
+            skinColor: '#ffdbac',
+            eyeColor: '#78350f',
+            eyeShape: 'round',
+            emotion: 'happy_smile',
+            hairStyle: 'short_spiky',
+            hairColor: '#451a03',
+            outfit: 'tech_hoodie',
+            outfitColor: '#6366f1',
+            accessory: 'none',
+            pet: 'none',
             bg: 'space'
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Check if student session is saved
             const saved = localStorage.getItem('lab_student_profile');
             if (saved) {
                 try {
@@ -484,6 +537,7 @@
             });
 
             document.getElementById('btn-global-back').style.display = (step > 1 && step !== 5) ? 'inline-block' : 'none';
+            document.getElementById('btn-header-logout').style.display = (step === 5 || localStorage.getItem('lab_student_profile')) ? 'flex' : 'none';
 
             if (step === 1) document.getElementById('view-school').style.display = 'block';
             if (step === 2) document.getElementById('view-class').style.display = 'block';
@@ -496,7 +550,6 @@
             if (currentStep > 1) showStep(currentStep - 1);
         }
 
-        // STEP 1: Load Schools
         async function loadSchools() {
             showStep(1);
             const res = await fetch('/api/schools');
@@ -516,7 +569,6 @@
             });
         }
 
-        // STEP 2: Select School & Load Classes
         async function selectSchool(school) {
             selectedSchool = school;
             document.getElementById('school-title').innerText = school.name;
@@ -572,7 +624,6 @@
             }
         }
 
-        // STEP 3: Load Students
         async function loadStudentsByClass() {
             showStep(3);
             const res = await fetch(`/api/classes/${selectedClass.id}/students`);
@@ -580,20 +631,30 @@
             const container = document.getElementById('students-container');
             container.innerHTML = '';
 
+            // Check active local student profile
+            const currentActive = localStorage.getItem('lab_student_profile');
+            let activeId = null;
+            if (currentActive) {
+                try { activeId = JSON.parse(currentActive).id; } catch(e){}
+            }
+
             if (students.length === 0) {
-                container.innerHTML = '<p style="color:#888; width:100%; text-align:center;">Nenhum aluno cadastrado nesta turma ainda. Clique no botão acima para criar!</p>';
+                container.innerHTML = '<p style="color:#888; width:100%; text-align:center;">Nenhum aluno cadastrado nesta turma ainda. Clique no botão acima para criar seu personagem!</p>';
                 return;
             }
 
             students.forEach(st => {
                 const svg = generateAvatarSVG(st.avatar_config || {}, 90);
+                const isCurrentLocal = (st.id === activeId);
                 const card = document.createElement('div');
-                card.className = 'card-item';
+                card.className = `card-item ${isCurrentLocal ? 'in-use' : ''}`;
                 card.onclick = () => activateStudent(st);
                 card.innerHTML = `
                     <div style="margin-bottom: 10px;">${svg}</div>
-                    <h3>${st.name}</h3>
-                    <p>🏆 ${st.points || 0} Pontos</p>
+                    <h3>${st.name} ${isCurrentLocal ? '🟢' : ''}</h3>
+                    <p style="color: ${isCurrentLocal ? '#10b981' : '#94a3b8'}; font-weight:700;">
+                        ${isCurrentLocal ? 'Seu Perfil Conectado' : '🏆 ' + (st.points || 0) + ' Pontos'}
+                    </p>
                 `;
                 container.appendChild(card);
             });
@@ -603,51 +664,84 @@
             selectedStudent = null;
             document.getElementById('student-name-input').value = '';
             showStep(4);
+            renderOptionChips();
+            updatePreview();
         }
 
-        // STEP 4: Option Chips & Customizer Logic
         function renderOptionChips() {
-            // Preset 1: Types
-            const typeCont = document.getElementById('opt-types');
-            typeCont.innerHTML = AVATAR_PRESETS.types.map(t => `
-                <button class="chip-btn ${avatarConfig.type === t.id ? 'selected' : ''}" onclick="setOpt('type', '${t.id}')">
-                    ${t.icon} ${t.label}
+            const P = HUMAN_AVATAR_PRESETS;
+
+            // 1. Genders
+            document.getElementById('opt-genders').innerHTML = P.genders.map(g => `
+                <button class="chip-btn ${avatarConfig.gender === g.id ? 'selected' : ''}" onclick="setOpt('gender', '${g.id}')">
+                    ${g.label}
                 </button>
             `).join('');
 
-            // Preset 2: Skins
-            const skinCont = document.getElementById('opt-skins');
-            skinCont.innerHTML = AVATAR_PRESETS.skinColors.map(s => `
+            // 2. Skin Colors
+            document.getElementById('opt-skins').innerHTML = P.skinColors.map(s => `
                 <span class="color-dot ${avatarConfig.skinColor === s.id ? 'selected' : ''}" style="background:${s.id};" onclick="setOpt('skinColor', '${s.id}')" title="${s.label}"></span>
             `).join('');
 
-            // Preset 3: Outfits
-            const outfitCont = document.getElementById('opt-outfits');
-            outfitCont.innerHTML = AVATAR_PRESETS.outfits.map(o => `
-                <button class="chip-btn ${avatarConfig.outfit === o.id ? 'selected' : ''}" onclick="setOpt('outfit', '${o.id}')">
-                    ${o.label}
-                </button>
-            `).join('');
-
-            // Preset 4: Accessories
-            const accCont = document.getElementById('opt-accs');
-            accCont.innerHTML = AVATAR_PRESETS.accessories.map(a => `
-                <button class="chip-btn ${avatarConfig.accessory === a.id ? 'selected' : ''}" onclick="setOpt('accessory', '${a.id}')">
-                    ${a.label}
-                </button>
-            `).join('');
-
-            // Preset 5: Hairs
-            const hairCont = document.getElementById('opt-hairs');
-            hairCont.innerHTML = AVATAR_PRESETS.hairs.map(h => `
+            // 3. Hair Styles
+            document.getElementById('opt-hairs').innerHTML = P.hairStyles.map(h => `
                 <button class="chip-btn ${avatarConfig.hairStyle === h.id ? 'selected' : ''}" onclick="setOpt('hairStyle', '${h.id}')">
                     ${h.label}
                 </button>
             `).join('');
 
-            // Preset 6: Backgrounds
-            const bgCont = document.getElementById('opt-bgs');
-            bgCont.innerHTML = AVATAR_PRESETS.backgrounds.map(b => `
+            // 4. Hair Colors
+            document.getElementById('opt-hair-colors').innerHTML = P.hairColors.map(hc => `
+                <span class="color-dot ${avatarConfig.hairColor === hc.id ? 'selected' : ''}" style="background:${hc.id};" onclick="setOpt('hairColor', '${hc.id}')" title="${hc.label}"></span>
+            `).join('');
+
+            // 5. Eye Colors
+            document.getElementById('opt-eye-colors').innerHTML = P.eyeColors.map(ec => `
+                <span class="color-dot ${avatarConfig.eyeColor === ec.id ? 'selected' : ''}" style="background:${ec.id};" onclick="setOpt('eyeColor', '${ec.id}')" title="${ec.label}"></span>
+            `).join('');
+
+            // 6. Eye Shapes
+            document.getElementById('opt-eye-shapes').innerHTML = P.eyeShapes.map(es => `
+                <button class="chip-btn ${avatarConfig.eyeShape === es.id ? 'selected' : ''}" onclick="setOpt('eyeShape', '${es.id}')">
+                    ${es.label}
+                </button>
+            `).join('');
+
+            // 7. Emotions
+            document.getElementById('opt-emotions').innerHTML = P.emotions.map(em => `
+                <button class="chip-btn ${avatarConfig.emotion === em.id ? 'selected' : ''}" onclick="setOpt('emotion', '${em.id}')">
+                    ${em.label}
+                </button>
+            `).join('');
+
+            // 8. Outfits
+            document.getElementById('opt-outfits').innerHTML = P.outfits.map(o => `
+                <button class="chip-btn ${avatarConfig.outfit === o.id ? 'selected' : ''}" onclick="setOpt('outfit', '${o.id}')">
+                    ${o.label}
+                </button>
+            `).join('');
+
+            // 9. Outfit Colors
+            document.getElementById('opt-outfit-colors').innerHTML = P.outfitColors.map(oc => `
+                <span class="color-dot ${avatarConfig.outfitColor === oc ? 'selected' : ''}" style="background:${oc};" onclick="setOpt('outfitColor', '${oc}')"></span>
+            `).join('');
+
+            // 10. Accessories
+            document.getElementById('opt-accs').innerHTML = P.accessories.map(a => `
+                <button class="chip-btn ${avatarConfig.accessory === a.id ? 'selected' : ''}" onclick="setOpt('accessory', '${a.id}')">
+                    ${a.label}
+                </button>
+            `).join('');
+
+            // 11. Pets
+            document.getElementById('opt-pets').innerHTML = P.pets.map(pt => `
+                <button class="chip-btn ${avatarConfig.pet === pt.id ? 'selected' : ''}" onclick="setOpt('pet', '${pt.id}')">
+                    ${pt.label}
+                </button>
+            `).join('');
+
+            // 12. Backgrounds
+            document.getElementById('opt-bgs').innerHTML = P.backgrounds.map(b => `
                 <button class="chip-btn ${avatarConfig.bg === b.id ? 'selected' : ''}" onclick="setOpt('bg', '${b.id}')">
                     ${b.label}
                 </button>
@@ -661,7 +755,7 @@
         }
 
         function updatePreview() {
-            const svg = generateAvatarSVG(avatarConfig, 180);
+            const svg = generateAvatarSVG(avatarConfig, 190);
             document.getElementById('avatar-svg-preview').innerHTML = svg;
         }
 
@@ -670,7 +764,6 @@
             if (!name) return alert('Por favor, digite seu nome!');
 
             if (!selectedStudent) {
-                // Create new student
                 const res = await fetch('/api/students', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -685,7 +778,6 @@
                     activateStudent(data.student);
                 }
             } else {
-                // Update avatar of existing student
                 await fetch(`/api/students/${selectedStudent.id}/avatar`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -732,8 +824,10 @@
         }
 
         function logoutStudent() {
+            if (!confirm('Deseja sair do perfil deste aluno para disponibilizar o tablet?')) return;
             localStorage.removeItem('lab_student_profile');
             selectedStudent = null;
+            document.getElementById('btn-header-logout').style.display = 'none';
             loadSchools();
         }
     </script>

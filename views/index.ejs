@@ -16,7 +16,7 @@
 <body class="<%= selectedLevel ? 'view-list' : 'view-selection' %>">
 
     <!-- Active Student Bar -->
-    <div id="active-student-bar" style="position: fixed; top: 15px; left: 20px; z-index: 1000; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px); border: 2px solid #3b82f6; padding: 6px 16px; border-radius: 50px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+    <div id="active-student-bar" style="position: fixed; top: 15px; left: 20px; z-index: 1000; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 2px solid #3b82f6; padding: 6px 14px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
         <a href="/aluno" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; font-family: 'Fredoka', sans-serif;">
             <div id="nav-student-avatar" style="font-size: 1.5rem;">📱</div>
             <div>
@@ -24,6 +24,9 @@
                 <div id="nav-student-sub" style="font-size: 0.75rem; color: #94a3b8;">Criar Avatar & Ver Medalhas</div>
             </div>
         </a>
+        <button id="nav-logout-btn" onclick="logoutStudentFromHome()" style="display:none; background: rgba(244, 63, 94, 0.2); border: 1.5px solid #f43f5e; color: #f43f5e; border-radius: 20px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; margin-left: 5px;">
+            🚪 Sair
+        </button>
     </div>
 
     <!-- Botões Fixos -->
@@ -405,6 +408,12 @@
 
         function closeQRModal() { document.getElementById('qr-modal').style.display = 'none'; }
 
+        function logoutStudentFromHome() {
+            if (!confirm('Deseja sair do perfil deste aluno no tablet?')) return;
+            localStorage.removeItem('lab_student_profile');
+            location.reload();
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const saved = localStorage.getItem('lab_student_profile');
             if (saved) {
@@ -414,6 +423,7 @@
                     document.getElementById('nav-student-avatar').innerHTML = svg;
                     document.getElementById('nav-student-name').innerText = st.name;
                     document.getElementById('nav-student-sub').innerText = `🏆 ${st.points || 0} pts | Ver Perfil`;
+                    document.getElementById('nav-logout-btn').style.display = 'inline-block';
                 } catch(e){}
             }
         });
