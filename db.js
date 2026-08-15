@@ -22,18 +22,74 @@ try {
       published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+    CREATE TABLE IF NOT EXISTS comments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      activity_id INTEGER,
+      student_name TEXT NOT NULL,
+      school_name TEXT,
+      class_name TEXT,
+      avatar TEXT DEFAULT '🤖',
+      comment_text TEXT NOT NULL,
+      approved INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS activities (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT,
+      activity_url TEXT NOT NULL,
+      icon_url TEXT,
+      level TEXT DEFAULT '1-5',
+      category TEXT DEFAULT 'Geral',
+      rating_sum INTEGER DEFAULT 0,
+      rating_count INTEGER DEFAULT 0,
+      visits INTEGER DEFAULT 0,
+      bncc_code TEXT DEFAULT '',
+      subject TEXT DEFAULT 'Geral',
+      qr_scans INTEGER DEFAULT 0,
+      teacher_id INTEGER,
+      status TEXT DEFAULT 'public',
+      author_credit TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS schools (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS students (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      school TEXT,
+      class TEXT,
+      points INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS projects (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT,
+      image_url TEXT NOT NULL,
+      school_name TEXT,
+      class_name TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 } catch (e) {
   console.warn('[DB Engine] SQLite local driver standard bypass (running in serverless environment):', e.message);
 }
 
 // Turso Cloud Client setup
-const tursoUrl = process.env.TURSO_DATABASE_URL;
+let tursoUrl = process.env.TURSO_DATABASE_URL;
 const tursoToken = process.env.TURSO_AUTH_TOKEN;
 
 let tursoClient = null;
 if (tursoUrl && tursoToken) {
   try {
+    // Normalize libsql:// to https:// for HTTP fetch API compatibility
+    if (tursoUrl.startsWith('libsql://')) {
+      tursoUrl = tursoUrl.replace('libsql://', 'https://');
+    }
     tursoClient = createTursoClient({ url: tursoUrl, authToken: tursoToken });
     console.log('[DB Engine] Turso Cloud conectado!');
   } catch (e) {
