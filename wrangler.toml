@@ -1,7 +1,9 @@
-name = "portal-atividades-lab"
-pages_build_output_dir = "public"
+name = "portal-atividades"
 compatibility_date = "2024-08-15"
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "public"
 
 [vars]
 NODE_ENV = "production"
