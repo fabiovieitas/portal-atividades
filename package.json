@@ -1,8 +1,8 @@
 {
   "name": "portal-atividades-lab",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Portal de Atividades Educacionais",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "seed": "node seed.js",
@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@dicebear/collection": "^9.4.2",
+    "@dicebear/core": "^9.4.3",
     "@libsql/client": "^0.17.4",
     "@supabase/supabase-js": "^2.43.0",
     "bcrypt": "^6.0.0",
