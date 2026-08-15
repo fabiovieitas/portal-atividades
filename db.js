@@ -265,7 +265,7 @@ const dbHelper = {
 
   // 10. Schools & Classes Management
   async getSchools() {
-    return await queryAll("SELECT * FROM schools WHERE active = 1 ORDER BY name ASC");
+    return await queryAll("SELECT * FROM schools WHERE active = 1 OR active IS NULL ORDER BY name ASC");
   },
 
   async addSchool(name, code = '', city = 'Angra dos Reis') {
@@ -412,13 +412,50 @@ async function initTables() {
         'E.M. Profª Eleonora da Silva Pinto'
       ];
       for (const name of defaultSchools) {
-        await queryRun("INSERT INTO schools (name, city) VALUES (?, ?)", [name, 'Angra dos Reis']);
+        await queryRun("INSERT INTO schools (name, city, active) VALUES (?, ?, 1)", [name, 'Angra dos Reis']);
       }
       const school1 = await queryGet("SELECT id FROM schools WHERE name LIKE '%Faísca%' LIMIT 1");
       if (school1) {
         await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '3º Ano A', '3º Ano', '1234']);
         await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '4º Ano A', '4º Ano', '1234']);
         await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '5º Ano A', '5º Ano', '1234']);
+      }
+    }
+
+    const actCount = await queryGet("SELECT COUNT(*) as cnt FROM activities");
+    if (!actCount || actCount.cnt == 0) {
+      console.log('[DB Engine] Inserindo atividades padrão...');
+      const seedActivities = [
+        {
+          title: "Aventura com Code.org",
+          description: "Aprenda a programar jogando com o Minecraft! Resolva quebra-cabeças lógicos.",
+          activity_url: "https://code.org/minecraft",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/616/616430.png",
+          level: "1-5",
+          category: "Programação"
+        },
+        {
+          title: "Desenho com Robôs",
+          description: "Use comandos simples para guiar o robô artista e criar formas geométricas incríveis.",
+          activity_url: "https://scratch.mit.edu/projects/editor/?tutorial=getstarted",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+          level: "1-5",
+          category: "Robótica"
+        },
+        {
+          title: "Laboratório de Circuitos",
+          description: "Monte circuitos elétricos virtuais e faça a lâmpada brilhar usando baterias e fios.",
+          activity_url: "https://www.tinkercad.com/circuits",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/2853/2853173.png",
+          level: "6-9",
+          category: "Eletrônica"
+        }
+      ];
+      for (const act of seedActivities) {
+        await queryRun(
+          "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status) VALUES (?, ?, ?, ?, ?, ?, 'public')",
+          [act.title, act.description, act.activity_url, act.icon_url, act.level, act.category]
+        );
       }
     }
   } catch (err) {
