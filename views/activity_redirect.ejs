@@ -130,40 +130,53 @@
         }
     </style>
 
-    <div class="redirect-card">
-
-        <img src="<%= activity.icon_url || 'https://cdn-icons-png.flaticon.com/512/616/616430.png' %>" class="activity-icon-lg" alt="Ícone">
-        <h2 style="font-size: 1.8rem; margin: 0 0 8px 0; color: #fbbf24;"><%= activity.title %></h2>
-        <p style="color: #94a3b8; font-size: 1rem; margin: 0 0 15px 0;"><%= activity.description || 'Preparando seu desafio interativo...' %></p>
-
-        <!-- Anúncio AdSense Intercalado -->
-        <div class="adsense-interstitial-box">
-            <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
-                📢 Espaço Publicitário AdSense
-            </div>
-            <div style="font-size: 0.75rem; color: #64748b;">Anúncios seguros para crianças aparecerão aqui</div>
-            
-            <!-- AdSense Script Tag dynamically injected when pub-id is configured -->
+    <!-- Layout de 4 Lados de Propagandas para Página de Redirecionamento -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 900px; gap: 15px;">
+        
+        <!-- Banner Superior (Topo) -->
+        <div class="adsense-banner-top" style="width: 100%; background: rgba(15, 23, 42, 0.9); border: 2px dashed #475569; border-radius: 18px; padding: 12px; text-align: center;">
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense (Topo)</div>
             <% if (process.env.ADSENSE_PUB_ID) { %>
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="<%= process.env.ADSENSE_PUB_ID %>"
-                     data-ad-slot="1234567890"></ins>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567893" data-ad-format="horizontal"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             <% } %>
         </div>
 
-        <div style="font-size: 1.1rem; color: #e2e8f0;">
-            Redirecionando automaticamente em:
+        <!-- Card Central de Redirecionamento -->
+        <div class="redirect-card">
+            <img src="<%= activity.icon_url || 'https://cdn-icons-png.flaticon.com/512/616/616430.png' %>" class="activity-icon-lg" alt="Ícone">
+            <h2 style="font-size: 1.8rem; margin: 0 0 8px 0; color: #fbbf24;"><%= activity.title %></h2>
+            <p style="color: #94a3b8; font-size: 1rem; margin: 0 0 15px 0;"><%= activity.description || 'Preparando seu desafio interativo...' %></p>
+
+            <!-- Anúncio AdSense Intercalado Central -->
+            <div class="adsense-interstitial-box">
+                <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                    📢 Espaço Publicitário AdSense (Central)
+                </div>
+                <div style="font-size: 0.75rem; color: #64748b;">Anúncios seguros para crianças aparecerão aqui</div>
+                <% if (process.env.ADSENSE_PUB_ID) { %>
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <% } %>
+            </div>
+            <div class="countdown-circle" id="countdown">5</div>
+            <br>
+            <a href="<%= activity.activity_url %>" id="btn-redirect-link" class="btn-go-now" style="opacity: 0.5; pointer-events: none; cursor: not-allowed;">
+                ⏳ AGUARDE A PROPAGANDA (3s)...
+            </a>
         </div>
-        <div class="countdown-circle" id="countdown">5</div>
-        <br>
-        <a href="<%= activity.activity_url %>" id="btn-redirect-link" class="btn-go-now" style="opacity: 0.5; pointer-events: none; cursor: not-allowed;">
-            ⏳ AGUARDE A PROPAGANDA (3s)...
-        </a>
+
+        <!-- Banner Inferior (Rodapé) -->
+        <div class="adsense-banner-bottom" style="width: 100%; background: rgba(15, 23, 42, 0.9); border: 2px dashed #475569; border-radius: 18px; padding: 12px; text-align: center;">
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense (Base)</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567894" data-ad-format="horizontal"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+
     </div>
+
 
     <script>
         let seconds = 5;
