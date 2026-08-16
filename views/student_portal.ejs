@@ -581,10 +581,18 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('lab_student_profile');
-            if (saved) {
+            // Restore school & class selection from sessionStorage if available
+            try {
+                const savedSchool = sessionStorage.getItem('lab_selected_school');
+                if (savedSchool) selectedSchool = JSON.parse(savedSchool);
+                const savedClass = sessionStorage.getItem('lab_selected_class');
+                if (savedClass) selectedClass = JSON.parse(savedClass);
+            } catch(e){}
+
+            const savedProfile = localStorage.getItem('lab_student_profile');
+            if (savedProfile) {
                 try {
-                    selectedStudent = JSON.parse(saved);
+                    selectedStudent = JSON.parse(savedProfile);
                     if (selectedStudent && selectedStudent.avatar_config) {
                         avatarConfig = typeof selectedStudent.avatar_config === 'string'
                             ? JSON.parse(selectedStudent.avatar_config)
@@ -593,15 +601,37 @@
                     showStep(5);
                     renderProfileView();
                     return;
-                } catch(e){}
+                } catch(e){
+                    console.error('Error parsing saved student profile:', e);
+                }
             }
-            loadSchools();
-            renderTabContent();
-            updateDuoPreview();
+
+            // If user was in the middle of wizard steps before F5
+            const savedStep = parseInt(sessionStorage.getItem('lab_wizard_step') || '1');
+            if (savedStep > 1 && selectedSchool) {
+                if (savedStep === 2) {
+                    selectSchool(selectedSchool);
+                } else if (savedStep === 3 && selectedClass) {
+                    document.getElementById('school-title').innerText = selectedSchool.name;
+                    loadStudentsByClass();
+                } else if (savedStep === 4 && selectedClass) {
+                    showStep(4);
+                    renderTabContent();
+                    updateDuoPreview();
+                } else {
+                    loadSchools();
+                }
+            } else {
+                loadSchools();
+                renderTabContent();
+                updateDuoPreview();
+            }
         });
 
         function showStep(step) {
             currentStep = step;
+            try { sessionStorage.setItem('lab_wizard_step', String(step)); } catch(e){}
+
             document.querySelectorAll('.step-view').forEach(v => v.style.display = 'none');
             document.querySelectorAll('.step-pill').forEach((p, idx) => {
                 if (idx + 1 === step) p.classList.add('active');
@@ -647,6 +677,7 @@
                 window.location.href = '/';
             } else if (currentStep === 5) {
                 loadSchools();
+                showStep(1);
             } else {
                 showStep(currentStep - 1);
             }
@@ -655,8 +686,19 @@
 
         async function loadSchools() {
             showStep(1);
-            const res = await fetch('/api/schools');
-            const schools = await res.json();
+            try {
+                const res = await fetch('/api/schools');
+                const schools = await res.json();
+                renderSchools(schools);
+            } catch(e) {
+                renderSchools([
+                    { id: 1, name: 'E.M. José Giró Faísca', city: 'Angra dos Reis' },
+                    { id: 2, name: 'C.E. Cornélis Verolme', city: 'Angra dos Reis' }
+                ]);
+            }
+        }
+
+        function renderSchools(schools) {
             const container = document.getElementById('schools-container');
             container.innerHTML = '';
             schools.forEach(s => {
@@ -674,6 +716,7 @@
 
         async function selectSchool(school) {
             selectedSchool = school;
+            try { sessionStorage.setItem('lab_selected_school', JSON.stringify(school)); } catch(e){}
             document.getElementById('school-title').innerText = school.name;
             showStep(2);
             document.getElementById('pin-box').style.display = 'none';
@@ -698,6 +741,7 @@
 
         function openPinBox(cls) {
             selectedClass = cls;
+            try { sessionStorage.setItem('lab_selected_class', JSON.stringify(cls)); } catch(e){}
             document.getElementById('pin-box').style.display = 'block';
             document.getElementById('pin-input').value = '';
             document.getElementById('pin-error').style.display = 'none';
@@ -959,9 +1003,14 @@
 
         async function saveAvatarProfile() {
             let name = document.getElementById('student-name-input') ? document.getElementById('student-name-input').value.trim() : '';
-            if (!name) name = 'Lucas';
+            if (!name) name = 'Aluno Lab Kids';
 
-            const classId = (selectedClass && selectedClass.id) ? selectedClass.id : 1;
+            const classId = (selectedClass && selectedClass.id) 
+                ? selectedClass.id 
+                : (selectedStudent && selectedStudent.class_id ? selectedStudent.class_id : 1);
+
+            const schoolName = selectedSchool ? selectedSchool.name : (selectedStudent ? selectedStudent.school_name : 'Escola');
+            const className = selectedClass ? selectedClass.name : (selectedStudent ? selectedStudent.class_name : 'Turma');
 
             if (!selectedStudent) {
                 try {
@@ -976,6 +1025,8 @@
                     });
                     const data = await res.json();
                     if (data && data.success && data.student) {
+                        data.student.school_name = schoolName;
+                        data.student.class_name = className;
                         activateStudent(data.student);
                         return;
                     }
@@ -988,6 +1039,8 @@
                     id: Date.now(),
                     class_id: classId,
                     name,
+                    school_name: schoolName,
+                    class_name: className,
                     avatar_config: avatarConfig,
                     points: 0
                 });
@@ -1001,6 +1054,8 @@
                 } catch(e){}
                 selectedStudent.name = name;
                 selectedStudent.avatar_config = avatarConfig;
+                if (schoolName) selectedStudent.school_name = schoolName;
+                if (className) selectedStudent.class_name = className;
                 activateStudent(selectedStudent);
             }
         }
@@ -1019,12 +1074,22 @@
                 selectedStudent.school_name = selectedSchool.name;
             } else if (prevSchool && !selectedStudent.school_name) {
                 selectedStudent.school_name = prevSchool;
+            } else if (!selectedStudent.school_name) {
+                try {
+                    const s = JSON.parse(sessionStorage.getItem('lab_selected_school'));
+                    if (s && s.name) selectedStudent.school_name = s.name;
+                } catch(e){}
             }
 
             if (selectedClass && selectedClass.name) {
                 selectedStudent.class_name = selectedClass.name;
             } else if (prevClass && !selectedStudent.class_name) {
                 selectedStudent.class_name = prevClass;
+            } else if (!selectedStudent.class_name) {
+                try {
+                    const c = JSON.parse(sessionStorage.getItem('lab_selected_class'));
+                    if (c && c.name) selectedStudent.class_name = c.name;
+                } catch(e){}
             }
 
             localStorage.setItem('lab_student_profile', JSON.stringify(selectedStudent));
@@ -1032,11 +1097,13 @@
             renderProfileView();
         }
 
-
         function renderProfileView() {
             if (!selectedStudent) return;
             document.getElementById('active-student-name').innerText = selectedStudent.name;
-            document.getElementById('active-student-school').innerText = `${selectedStudent.school_name || ''} | ${selectedStudent.class_name || ''}`;
+            const scText = (selectedStudent.school_name || selectedStudent.class_name) 
+                ? `${selectedStudent.school_name || 'Escola'} | ${selectedStudent.class_name || 'Turma'}`
+                : 'Lab Kids Digital';
+            document.getElementById('active-student-school').innerText = scText;
             document.getElementById('active-points').innerText = selectedStudent.points || 0;
 
             const svg = generateAvatarSVG(selectedStudent.avatar_config || {}, 160);
@@ -1058,9 +1125,15 @@
         function logoutStudent() {
             if (!confirm('Deseja sair do perfil deste aluno no tablet?')) return;
             localStorage.removeItem('lab_student_profile');
+            sessionStorage.removeItem('lab_wizard_step');
+            sessionStorage.removeItem('lab_selected_school');
+            sessionStorage.removeItem('lab_selected_class');
             selectedStudent = null;
+            selectedSchool = null;
+            selectedClass = null;
             document.getElementById('btn-header-logout').style.display = 'none';
             loadSchools();
+            showStep(1);
         }
     </script>
 </body>
