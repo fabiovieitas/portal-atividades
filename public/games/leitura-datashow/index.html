@@ -13,12 +13,23 @@
 </head>
 <body>
 
+  <!-- BOTÃO FIXO DE VOLTAR AO PORTAL (Sempre visível em qualquer tela) -->
+  <a href="/" style="position: fixed; top: 15px; left: 15px; z-index: 99999; display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 10px 22px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); border: 2px solid rgba(255, 255, 255, 0.4); font-size: 0.95rem; cursor: pointer; transition: transform 0.2s ease;">
+    ⬅️ VOLTAR AO PORTAL
+  </a>
+
   <!-- ==========================================
        1. PASSO 1: TELA PRINCIPAL (ESCOLHA DE NÍVEL)
        ========================================== -->
   <main id="screen-config" class="app-screen active">
     <div class="config-container">
       
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
+        <a href="/" class="btn-return-portal" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 10px 22px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 15px rgba(239,68,68,0.4); border: 2px solid rgba(255,255,255,0.3); font-size: 0.95rem; cursor: pointer;">
+          ⬅️ VOLTAR AO PORTAL
+        </a>
+      </div>
+
       <div>
         <h1 class="main-title">⭐ Leitura Divertida no Datashow ⭐</h1>
         <p class="subtitle">Passo 1: Clique em um Nível de Aprendizagem para começar</p>
@@ -227,9 +238,10 @@
 
     <!-- Barra de Controles -->
     <footer class="pres-controls-bar">
+      <button onclick="window.location.href='/'" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; font-weight: bold; width: auto; padding: 0 16px;" title="Voltar ao Portal Principal">⬅️ Voltar ao Portal</button>
       <button id="btn-prev" class="ctrl-btn" title="Palavra Anterior (Seta Esquerda)">⬅️</button>
       <button id="btn-pause-toggle" class="ctrl-btn" title="Pausar / Continuar Tempo (Teclado: P)">⏸️</button>
-      <button id="btn-stop-menu" class="ctrl-btn" style="background: rgba(239, 68, 68, 0.4);" title="Parar Total e Voltar ao Menu Inicial (ESC / Home)">🏠 Sair</button>
+      <button id="btn-stop-menu" class="ctrl-btn" style="background: rgba(239, 68, 68, 0.4);" title="Parar Total e Voltar ao Menu Inicial (ESC / Home)">🏠 Menu</button>
       <button id="btn-speak" class="ctrl-btn" title="Ouvir Pronúncia (Teclado: S)">🔊</button>
       <button id="btn-syllable" class="ctrl-btn active" title="Separar Sílabas (Teclado: D)">✂️</button>
       <button id="btn-image" class="ctrl-btn active" title="Mostrar/Ocultar Imagem (Teclado: I)">👁️</button>
@@ -253,7 +265,10 @@
         🔄 REPETIR ESTE NÍVEL
       </button>
       <button id="btn-back-menu" class="btn-start" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
-        🏠 MENU PRINCIPAL
+        🏠 MENU DO JOGO
+      </button>
+      <button onclick="window.location.href='/'" class="btn-start" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);">
+        ⬅️ VOLTAR AO PORTAL
       </button>
     </div>
   </section>
