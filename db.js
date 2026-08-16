@@ -598,6 +598,28 @@ async function initTables() {
         );
       }
     }
+
+    try {
+      const arieExists = await queryGet("SELECT id FROM activities WHERE title LIKE '%Brincando com Ariê%' LIMIT 1");
+      if (!arieExists) {
+        console.log('[DB Engine] Inserindo atividade "Brincando com Ariê 1"...');
+        await queryRun(
+          "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status, bncc_code, subject) VALUES (?, ?, ?, ?, ?, ?, 'public', ?, ?)",
+          [
+            "Brincando com Ariê 1",
+            "Jogo educativo para auxílio à alfabetização, reconhecimento de cores, frutas e associação de palavras.",
+            "/games/brincando-com-arie-1",
+            "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
+            "1-5",
+            "Alfabetização",
+            "EI02EF04, EI02ET06, EF01LP10",
+            "Português"
+          ]
+        );
+      }
+    } catch(e) {
+      console.error('[DB Engine Ariê Seed Error]:', e.message);
+    }
   } catch (err) {
     console.error('[DB Engine Seed Warning]:', err.message);
   }
