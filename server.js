@@ -335,9 +335,9 @@ app.get('/api/classes/:classId/students', async (req, res) => {
 
 app.post('/api/students', async (req, res) => {
   try {
-    const { class_id, name, avatar_config, school_name, class_name } = req.body;
+    const { class_id, name, avatar_config, school_name, class_name, student_pin } = req.body;
     if (!class_id || !name) return res.status(400).json({ error: 'Faltam dados obrigatórios.' });
-    await dbHelper.addStudent({ class_id, name, avatar_config, school_name, class_name });
+    await dbHelper.addStudent({ class_id, name, avatar_config, school_name, class_name, student_pin });
     const students = await dbHelper.getStudentsByClass(class_id);
     const created = students.find(s => s.name === name);
     if (created) {
@@ -352,11 +352,32 @@ app.post('/api/students', async (req, res) => {
 
 app.post('/api/students/:id/avatar', async (req, res) => {
   try {
-    const { avatar_config } = req.body;
-    await dbHelper.updateStudentAvatar(req.params.id, avatar_config);
-    res.json({ success: true });
+    const { name, avatar_config, student_pin, school_name, class_name } = req.body;
+    if (name || avatar_config || student_pin !== undefined) {
+      await dbHelper.updateStudentProfile(req.params.id, { name, avatar_config, student_pin, school_name, class_name });
+    } else {
+      await dbHelper.updateStudentAvatar(req.params.id, avatar_config);
+    }
+    const updated = await dbHelper.getStudentById(req.params.id);
+    res.json({ success: true, student: updated });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/students/verify-pin', async (req, res) => {
+  try {
+    const { student_id, pin } = req.body;
+    const student = await dbHelper.getStudentById(student_id);
+    if (!student) return res.status(404).json({ success: false, error: 'Aluno não encontrado' });
+    const savedPin = String(student.student_pin || '').trim();
+    const inputPin = String(pin || '').trim();
+    if (!savedPin || savedPin === inputPin) {
+      return res.json({ success: true, student });
+    }
+    return res.json({ success: false, error: 'Senha incorreta do aluno' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 

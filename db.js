@@ -411,11 +411,11 @@ const dbHelper = {
     return await queryGet("SELECT * FROM students WHERE id = ?", [id]);
   },
 
-  async addStudent({ class_id, name, avatar_config = '{}', school_name = '', class_name = '' }) {
+  async addStudent({ class_id, name, avatar_config = '{}', school_name = '', class_name = '', student_pin = '' }) {
     const avatarStr = typeof avatar_config === 'object' ? JSON.stringify(avatar_config) : avatar_config;
     await queryRun(
-      "INSERT INTO students (class_id, name, avatar_config, medals_json, points, school_name, class_name) VALUES (?, ?, ?, '[]', 0, ?, ?)",
-      [class_id, name, avatarStr, school_name, class_name]
+      "INSERT INTO students (class_id, name, avatar_config, medals_json, points, school_name, class_name, student_pin) VALUES (?, ?, ?, '[]', 0, ?, ?, ?)",
+      [class_id, name, avatarStr, school_name, class_name, String(student_pin || '')]
     );
   },
 
@@ -426,6 +426,27 @@ const dbHelper = {
   async updateStudentAvatar(studentId, avatar_config) {
     const avatarStr = typeof avatar_config === 'object' ? JSON.stringify(avatar_config) : avatar_config;
     await queryRun("UPDATE students SET avatar_config = ? WHERE id = ?", [avatarStr, studentId]);
+  },
+
+  async updateStudentProfile(studentId, { name, avatar_config, student_pin, school_name, class_name }) {
+    const avatarStr = typeof avatar_config === 'object' ? JSON.stringify(avatar_config) : avatar_config;
+    let sql = "UPDATE students SET name = ?, avatar_config = ?";
+    const params = [name, avatarStr];
+    if (student_pin !== undefined) {
+      sql += ", student_pin = ?";
+      params.push(String(student_pin || ''));
+    }
+    if (school_name) {
+      sql += ", school_name = ?";
+      params.push(school_name);
+    }
+    if (class_name) {
+      sql += ", class_name = ?";
+      params.push(class_name);
+    }
+    sql += " WHERE id = ?";
+    params.push(studentId);
+    await queryRun(sql, params);
   },
 
   async verifyClassPin(classId, pin) {
@@ -514,7 +535,8 @@ async function initTables() {
     "ALTER TABLE students ADD COLUMN avatar_config TEXT DEFAULT '{}';",
     "ALTER TABLE students ADD COLUMN medals_json TEXT DEFAULT '[]';",
     "ALTER TABLE students ADD COLUMN school_name TEXT;",
-    "ALTER TABLE students ADD COLUMN class_name TEXT;"
+    "ALTER TABLE students ADD COLUMN class_name TEXT;",
+    "ALTER TABLE students ADD COLUMN student_pin TEXT DEFAULT '';"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}

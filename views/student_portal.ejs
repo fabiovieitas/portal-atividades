@@ -396,9 +396,6 @@
                 <a href="/" class="btn-back" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 1rem; padding: 10px 18px;">
                     🏠 Início do Portal
                 </a>
-                <button id="btn-header-logout" class="btn-top-logout" onclick="logoutStudent()" style="display:none; margin: 0;">
-                    🚪 SAIR
-                </button>
             </div>
             <h1>Área do Aluno - Avatar & Desafios</h1>
             <p>Monte seu perfil interativo no estilo oficial do Duolingo!</p>
@@ -476,39 +473,34 @@
             </div>
         </div>
 
-        <!-- VIEW 4: OFFICIAL DUOLINGO AVATAR EDITOR -->
+        <!-- VIEW 4: MULTI-COLLECTION AVATAR EDITOR -->
         <div id="view-avatar-builder" class="step-view" style="display:none;">
             <div class="duo-editor-window">
-                <!-- Left Side: Canvas Preview & Name Input -->
-                <div class="duo-canvas-side" id="duo-canvas-bg">
+                <!-- Left Side: Canvas Preview & Inputs -->
+                <div class="duo-canvas-side" id="duo-canvas-bg" style="background: #b6e3f4;">
                     <div class="duo-canvas-avatar-wrapper" id="duo-avatar-preview"></div>
-                    <button onclick="randomizeVoxelSeed()" class="btn-back" style="margin-bottom: 10px; background: rgba(255,255,255,0.9); border: none; font-weight: 900; box-shadow: 0 4px 0 rgba(0,0,0,0.15);">
-                        🎲 Sortear Voxel 3D
+                    <button onclick="randomizeAvatar()" class="btn-back" style="margin-bottom: 10px; background: rgba(255,255,255,0.95); border: none; font-weight: 900; box-shadow: 0 4px 0 rgba(0,0,0,0.15); color: #1cb0f6;">
+                        🎲 Sorteio Surpresa 🚀
                     </button>
                     <input type="text" id="student-name-input" class="duo-name-input" placeholder="Digite seu nome...">
-                    <button class="btn-duo-save" onclick="saveAvatarProfile()">PRONTO</button>
+                    <input type="password" id="student-pin-input" class="duo-name-input" maxlength="4" placeholder="🔑 Senha de 4 dígitos (Opcional)" style="margin-top: 8px; font-size: 1rem; padding: 10px 14px;">
+                    <button class="btn-duo-save" onclick="saveAvatarProfile()">PRONTO ✨</button>
                 </div>
 
-                <!-- Right Side: Duolingo Horizontal Tab Bar & Grid Customizer -->
+                <!-- Right Side: Style Tabs & Customization Grid -->
                 <div class="duo-panel-side">
-                    <!-- Top Icon Tabs (100% Editable Animated Voxel Art 3D) -->
+                    <!-- Top Icon Tabs -->
                     <div class="duo-tabs-nav">
-                        <div class="duo-tab-icon active" onclick="switchDuoTab('voxelSeeds')" title="Presets Voxel 3D">🧊</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo Voxel">💇</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('skin')" title="Tom de Pele Voxel">👤</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('outfits')" title="Roupas Voxel">👕</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('glasses')" title="Óculos Voxel">👓</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('beards')" title="Barba Voxel">🧔</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('eyes')" title="Olhos Voxel">👀</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('animationSpeed')" title="Velocidade Animação">⚡</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Fundos & Upload">🖼️</div>
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('style')" title="Estilo da Coleção">🎨</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('seed')" title="Personagens & Sementes">👤</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cor de Fundo">🌈</div>
                     </div>
 
                     <!-- Active Tab Content Area -->
                     <div class="duo-tab-content">
-                        <div class="duo-category-title" id="duo-tab-title">Tom da pele</div>
+                        <div class="duo-category-title" id="duo-tab-title">Escolha o Estilo do Avatar</div>
                         <div class="duo-tiles-grid" id="duo-tiles-container">
-                            <!-- 3-Column Grid Tiles loaded dynamically -->
+                            <!-- Dynamically loaded -->
                         </div>
                     </div>
                 </div>
@@ -541,7 +533,7 @@
                 </div>
 
                 <div style="margin-top: 25px; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <a href="/?level=1-5" class="btn-duo-save" style="flex:1; text-decoration: none; text-align: center; margin: 0;">🚀 JOGAR AGORA</a>
+                    <a href="/" class="btn-duo-save" style="flex:1; text-decoration: none; text-align: center; margin: 0;">🚀 JOGAR AGORA</a>
                     <button onclick="editCurrentAvatar()" class="btn-back" style="margin: 0; padding: 12px 18px;">✏️ Editar Avatar</button>
                     <button onclick="logoutStudent()" class="btn-back" style="margin: 0; background: #fff0f0; border-color: #ff4b4b; color: #ff4b4b; padding: 12px 18px;">🚪 Sair</button>
                 </div>
@@ -649,8 +641,6 @@
                     backBtn.innerText = '⬅️ Voltar Passo Anterior';
                 }
             }
-
-            document.getElementById('btn-header-logout').style.display = (step === 5 || localStorage.getItem('lab_student_profile')) ? 'block' : 'none';
 
             if (step === 1) document.getElementById('view-school').style.display = 'block';
             if (step === 2) document.getElementById('view-class').style.display = 'block';
@@ -787,12 +777,13 @@
             students.forEach(st => {
                 const svg = generateAvatarSVG(st.avatar_config || {}, 90);
                 const isCurrentLocal = (st.id === activeId);
+                const hasPin = st.student_pin && String(st.student_pin).trim() !== '';
                 const card = document.createElement('div');
                 card.className = `card-item ${isCurrentLocal ? 'in-use' : ''}`;
-                card.onclick = () => activateStudent(st);
+                card.onclick = () => selectStudentCard(st);
                 card.innerHTML = `
                     <div style="margin-bottom: 8px;">${svg}</div>
-                    <h3>${st.name} ${isCurrentLocal ? '🟢' : ''}</h3>
+                    <h3>${st.name} ${isCurrentLocal ? '🟢' : ''} ${hasPin ? '🔒' : ''}</h3>
                     <p style="color: ${isCurrentLocal ? '#58cc02' : '#777'}; font-weight:800;">
                         ${isCurrentLocal ? 'Seu Perfil Conectado' : (st.points || 0) + ' Pontos'}
                     </p>
@@ -801,187 +792,159 @@
             });
         }
 
+        async function selectStudentCard(st) {
+            const currentActive = localStorage.getItem('lab_student_profile');
+            let activeId = null;
+            if (currentActive) {
+                try { activeId = JSON.parse(currentActive).id; } catch(e){}
+            }
+            if (st.id === activeId) {
+                activateStudent(st);
+                return;
+            }
+
+            const hasPin = st.student_pin && String(st.student_pin).trim() !== '';
+            if (hasPin) {
+                const pinInput = prompt(`🔑 Digite a sua SENHA INDIVIDUAL (4 dígitos) para acessar o perfil de ${st.name}:`);
+                if (pinInput === null) return;
+                const res = await fetch('/api/students/verify-pin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_id: st.id, pin: pinInput })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    activateStudent(st);
+                } else {
+                    alert('❌ Senha incorreta do aluno!');
+                }
+            } else {
+                activateStudent(st);
+            }
+        }
+
         function openAvatarBuilderForNew() {
             selectedStudent = null;
-            document.getElementById('student-name-input').value = '';
+            if (document.getElementById('student-name-input')) {
+                document.getElementById('student-name-input').value = '';
+            }
+            if (document.getElementById('student-pin-input')) {
+                document.getElementById('student-pin-input').value = '';
+            }
+            avatarConfig = {
+                style: 'bottts',
+                seed: 'Spark',
+                bg: 'b6e3f4'
+            };
             showStep(4);
-            switchDuoTab('skin');
+            switchDuoTab('style');
             updateDuoPreview();
         }
 
         function switchDuoTab(tabKey) {
             activeTab = tabKey;
             document.querySelectorAll('.duo-tab-icon').forEach(icon => icon.classList.remove('active'));
-            const activeIcon = Array.from(document.querySelectorAll('.duo-tab-icon')).find(el => el.getAttribute('onclick').includes(tabKey));
+            const activeIcon = Array.from(document.querySelectorAll('.duo-tab-icon')).find(el => {
+                const attr = el.getAttribute('onclick') || '';
+                return attr.includes(`'${tabKey}'`);
+            });
             if (activeIcon) activeIcon.classList.add('active');
 
             renderTabContent();
         }
 
-        function randomizeVoxelSeed() {
-            avatarConfig.style = 'voxel-art';
-            avatarConfig.seed = 'Voxel' + Math.floor(Math.random() * 999999);
-            updateDuoPreview();
-            if (activeTab === 'voxelSeeds') renderTabContent();
-        }
+        function randomizeAvatar() {
+            const P = DUOLINGO_AVATAR_PRESETS;
+            const styleObj = P.styles[Math.floor(Math.random() * P.styles.length)];
+            avatarConfig.style = styleObj.id;
+            
+            const seedsList = P.styleSeeds[styleObj.id] || P.styleSeeds['bottts'];
+            const seedObj = seedsList[Math.floor(Math.random() * seedsList.length)];
+            avatarConfig.seed = seedObj.id + Math.floor(Math.random() * 100);
 
-        function handleCustomBgUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    avatarConfig.customBg = e.target.result;
-                    avatarConfig.bgPattern = '';
-                    updateDuoPreview();
-                    renderTabContent();
-                };
-                reader.readAsDataURL(file);
-            }
+            const bgObj = P.bgColors[Math.floor(Math.random() * P.bgColors.length)];
+            avatarConfig.bg = bgObj.hex;
+
+            updateDuoPreview();
+            renderTabContent();
         }
 
         function renderTabContent() {
             const P = DUOLINGO_AVATAR_PRESETS;
             const container = document.getElementById('duo-tiles-container');
             const titleEl = document.getElementById('duo-tab-title');
+            if (!container || !titleEl) return;
             container.innerHTML = '';
 
-            if (activeTab === 'voxelSeeds') {
-                titleEl.innerText = 'Presets Voxel Art 3D 🧊';
-                P.voxelSeeds.forEach(v => {
-                    const isSel = avatarConfig.seed === v.seed;
+            if (activeTab === 'style') {
+                titleEl.innerText = 'Escolha a Coleção do Avatar 🎨';
+                P.styles.forEach(s => {
+                    const isSel = avatarConfig.style === s.id;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { 
-                        avatarConfig.seed = v.seed; 
-                        renderTabContent(); 
-                        updateDuoPreview(); 
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px; font-weight:800; font-size:0.9rem; text-align:center; border-radius:16px; min-height:95px; cursor:pointer; background: #ffffff;';
+                    tile.onclick = () => {
+                        avatarConfig.style = s.id;
+                        const defaultSeeds = P.styleSeeds[s.id] || P.styleSeeds['bottts'];
+                        if (defaultSeeds && defaultSeeds.length > 0) {
+                            avatarConfig.seed = defaultSeeds[0].id;
+                        }
+                        renderTabContent();
+                        updateDuoPreview();
                     };
-                    tile.innerHTML = generateItemTileSVG('voxelSeeds', v.seed);
+                    const sampleUrl = buildDiceBearUrl({ style: s.id, seed: 'Sample', bg: 'b6e3f4' });
+                    tile.innerHTML = `
+                        <img src="${sampleUrl}" width="55" height="55" style="border-radius:10px; margin-bottom:6px;" alt="${s.label}" />
+                        <div>${s.label}</div>
+                    `;
                     container.appendChild(tile);
                 });
-            } else if (activeTab === 'hair') {
-                titleEl.innerText = 'Cabelo Voxel & Cor';
+            } else if (activeTab === 'seed') {
+                const currentStyleName = (P.styles.find(st => st.id === avatarConfig.style) || {}).label || 'ESTILO';
+                titleEl.innerText = `Personagens de ${currentStyleName} 👤`;
                 
-                const colorRow = document.createElement('div');
-                colorRow.style.cssText = 'grid-column: 1 / -1; display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 6px;';
-                P.hairColors.forEach(hc => {
-                    const sw = document.createElement('div');
-                    sw.style.cssText = `width: 28px; height: 28px; border-radius: 50%; background: ${hc.hex}; cursor: pointer; border: ${avatarConfig.hairColor === hc.id ? '3px solid #1cb0f6' : '2px solid #e5e5e5'}; flex-shrink: 0;`;
-                    sw.onclick = () => { avatarConfig.hairColor = hc.id; renderTabContent(); updateDuoPreview(); };
-                    colorRow.appendChild(sw);
-                });
-                container.appendChild(colorRow);
+                // Random seed button
+                const randBtn = document.createElement('div');
+                randBtn.style.cssText = 'grid-column: 1 / -1; margin-bottom: 10px;';
+                randBtn.innerHTML = `
+                    <button onclick="randomizeAvatar()" class="btn-back" style="width:100%; background: #58cc02; color: white; border: none; font-weight: 900; box-shadow: 0 4px 0 #46a302; padding: 12px; font-size: 1rem;">
+                        🎲 Sorteio Surpresa 🚀
+                    </button>
+                `;
+                container.appendChild(randBtn);
 
-                P.hairStyles.forEach(h => {
-                    const isSel = avatarConfig.hairStyle === h.id;
+                const seedList = P.styleSeeds[avatarConfig.style] || P.styleSeeds['bottts'];
+                seedList.forEach(sd => {
+                    const isSel = avatarConfig.seed === sd.id;
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.hairStyle = h.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('hair', h.id, avatarConfig.hairColor);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'skin') {
-                titleEl.innerText = 'Tom de Pele Voxel 👤';
-                P.skinColors.forEach(item => {
-                    const isSel = avatarConfig.skinColor === item.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.skinColor = item.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = `<div class="duo-color-swatch" style="background:${item.hex}; border-radius:12px;" title="${item.label}"></div>`;
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'outfits') {
-                titleEl.innerText = 'Roupas Voxel 👕';
-                P.outfits.forEach(o => {
-                    const isSel = avatarConfig.outfit === o.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.outfit = o.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('outfit', o.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'glasses') {
-                titleEl.innerText = 'Óculos Voxel 👓';
-                P.glasses.forEach(g => {
-                    const isSel = avatarConfig.glasses === g.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.glasses = g.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('glasses', g.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'beards') {
-                titleEl.innerText = 'Barba Voxel 🧔';
-                P.beards.forEach(b => {
-                    const isSel = avatarConfig.beard === b.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.beard = b.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('beards', b.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'eyes') {
-                titleEl.innerText = 'Olhos Voxel 👀';
-                P.eyes.forEach(ey => {
-                    const isSel = avatarConfig.eyes === ey.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { avatarConfig.eyes = ey.id; renderTabContent(); updateDuoPreview(); };
-                    tile.innerHTML = generateItemTileSVG('eyes', ey.id);
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'animationSpeed') {
-                titleEl.innerText = 'Velocidade da Animação ⚡';
-                P.animationSpeeds.forEach(s => {
-                    const isSel = avatarConfig.animationSpeed === s.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.style.cssText = 'display:flex; align-items:center; justify-content:center; padding:15px; font-weight:bold; font-size:15px; border-radius:16px; min-height:80px;';
-                    tile.onclick = () => { 
-                        avatarConfig.animationSpeed = s.id; 
-                        renderTabContent(); 
-                        updateDuoPreview(); 
+                    tile.onclick = () => {
+                        avatarConfig.seed = sd.id;
+                        renderTabContent();
+                        updateDuoPreview();
                     };
-                    tile.innerText = s.label;
+                    const tileUrl = buildDiceBearUrl({ style: avatarConfig.style, seed: sd.id, bg: avatarConfig.bg || 'b6e3f4' });
+                    tile.innerHTML = `
+                        <img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto; border-radius:10px;" alt="${sd.label}" />
+                        <div style="font-size:0.75rem; font-weight:800; text-align:center; margin-top:4px; color:#4b5563;">${sd.label}</div>
+                    `;
                     container.appendChild(tile);
                 });
             } else if (activeTab === 'bg') {
-                titleEl.innerText = 'Fundos, Bandeiras & Upload 🖼️';
-                
-                // Upload button row
-                const uploadCard = document.createElement('div');
-                uploadCard.style.cssText = 'grid-column: 1 / -1; margin-bottom: 12px;';
-                uploadCard.innerHTML = `
-                    <input type="file" id="custom-bg-upload" accept="image/*" style="display:none" onchange="handleCustomBgUpload(event)">
-                    <button onclick="document.getElementById('custom-bg-upload').click()" class="btn-back" style="width:100%; background: #1cb0f6; color: white; border: none; font-weight: 900; box-shadow: 0 4px 0 #1899d6;">
-                        📤 Fazer Upload de Imagem de Fundo
-                    </button>
-                    ${avatarConfig.customBg ? '<div style="font-size:12px; color:#58cc02; font-weight:bold; text-align:center; margin-top:6px;">✓ Imagem personalizada ativa!</div>' : ''}
-                `;
-                container.appendChild(uploadCard);
-
-                P.bgThemes.forEach(theme => {
-                    const isSel = !avatarConfig.customBg && (avatarConfig.bgPattern === theme.val || avatarConfig.bg === theme.id);
+                titleEl.innerText = 'Cor de Fundo 🌈';
+                P.bgColors.forEach(theme => {
+                    const isSel = (avatarConfig.bg || '').replace('#','') === theme.hex.replace('#','');
                     const tile = document.createElement('div');
                     tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => { 
-                        avatarConfig.customBg = '';
-                        if (theme.type === 'pattern') {
-                            avatarConfig.bgPattern = theme.val;
-                            avatarConfig.bg = 'e55b5b';
-                        } else {
-                            avatarConfig.bgPattern = '';
-                            avatarConfig.bg = theme.id;
-                        }
-                        renderTabContent(); 
-                        updateDuoPreview(); 
+                    tile.onclick = () => {
+                        avatarConfig.bg = theme.hex;
+                        renderTabContent();
+                        updateDuoPreview();
                     };
-
-                    if (theme.type === 'pattern') {
-                        tile.innerHTML = `<div style="width:100%; height:55px; border-radius:12px; background:${theme.val}; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; font-size:12px; text-shadow:0 1px 2px rgba(0,0,0,0.8);">${theme.label}</div>`;
-                    } else {
-                        tile.innerHTML = `<div class="duo-color-swatch" style="background:${theme.val}; border-radius:12px;" title="${theme.label}"></div>`;
-                    }
+                    tile.innerHTML = `
+                        <div class="duo-color-swatch" style="background:${theme.hex}; border-radius:12px; width:100%; height:55px;" title="${theme.label}"></div>
+                        <div style="font-size:0.75rem; font-weight:800; text-align:center; margin-top:4px; color:#4b5563;">${theme.label}</div>
+                    `;
                     container.appendChild(tile);
                 });
             }
@@ -989,21 +952,20 @@
 
         function updateDuoPreview() {
             const svg = generateAvatarSVG(avatarConfig, 220);
-            document.getElementById('duo-avatar-preview').innerHTML = svg;
+            const previewEl = document.getElementById('duo-avatar-preview');
+            if (previewEl) previewEl.innerHTML = svg;
             
             const bgEl = document.getElementById('duo-canvas-bg');
-            if (avatarConfig.customBg) {
-                bgEl.style.background = `url("${avatarConfig.customBg}") center/cover no-repeat`;
-            } else if (avatarConfig.bgPattern) {
-                bgEl.style.background = avatarConfig.bgPattern;
-            } else {
-                bgEl.style.background = '#' + (avatarConfig.bg || 'e55b5b').replace('#','');
+            if (bgEl) {
+                const hexColor = (avatarConfig.bg || 'b6e3f4').startsWith('#') ? avatarConfig.bg : '#' + avatarConfig.bg;
+                bgEl.style.background = hexColor;
             }
         }
 
         async function saveAvatarProfile() {
             let name = document.getElementById('student-name-input') ? document.getElementById('student-name-input').value.trim() : '';
             if (!name) name = 'Aluno Lab Kids';
+            const studentPin = document.getElementById('student-pin-input') ? document.getElementById('student-pin-input').value.trim() : '';
 
             const classId = (selectedClass && selectedClass.id) 
                 ? selectedClass.id 
@@ -1022,13 +984,15 @@
                             name,
                             avatar_config: JSON.stringify(avatarConfig),
                             school_name: schoolName,
-                            class_name: className
+                            class_name: className,
+                            student_pin: studentPin
                         })
                     });
                     const data = await res.json();
                     if (data && data.success && data.student) {
                         data.student.school_name = schoolName;
                         data.student.class_name = className;
+                        data.student.student_pin = studentPin;
                         activateStudent(data.student);
                         return;
                     }
@@ -1044,18 +1008,35 @@
                     school_name: schoolName,
                     class_name: className,
                     avatar_config: avatarConfig,
+                    student_pin: studentPin,
                     points: 0
                 });
             } else {
                 try {
-                    await fetch(`/api/students/${selectedStudent.id}/avatar`, {
+                    const res = await fetch(`/api/students/${selectedStudent.id}/avatar`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ avatar_config: JSON.stringify(avatarConfig) })
+                        body: JSON.stringify({
+                            name,
+                            avatar_config: JSON.stringify(avatarConfig),
+                            student_pin: studentPin,
+                            school_name: schoolName,
+                            class_name: className
+                        })
                     });
-                } catch(e){}
+                    const data = await res.json();
+                    if (data && data.success && data.student) {
+                        data.student.school_name = schoolName;
+                        data.student.class_name = className;
+                        activateStudent(data.student);
+                        return;
+                    }
+                } catch(e){
+                    console.warn('saveAvatarProfile edit error:', e);
+                }
                 selectedStudent.name = name;
                 selectedStudent.avatar_config = avatarConfig;
+                selectedStudent.student_pin = studentPin;
                 if (schoolName) selectedStudent.school_name = schoolName;
                 if (className) selectedStudent.class_name = className;
                 activateStudent(selectedStudent);
@@ -1117,7 +1098,12 @@
                 avatarConfig = typeof selectedStudent.avatar_config === 'string' 
                     ? JSON.parse(selectedStudent.avatar_config) 
                     : selectedStudent.avatar_config;
-                document.getElementById('student-name-input').value = selectedStudent.name;
+                if (document.getElementById('student-name-input')) {
+                    document.getElementById('student-name-input').value = selectedStudent.name || '';
+                }
+                if (document.getElementById('student-pin-input')) {
+                    document.getElementById('student-pin-input').value = selectedStudent.student_pin || '';
+                }
             }
             showStep(4);
             switchDuoTab('skin');
@@ -1133,7 +1119,6 @@
             selectedStudent = null;
             selectedSchool = null;
             selectedClass = null;
-            document.getElementById('btn-header-logout').style.display = 'none';
             loadSchools();
             showStep(1);
         }

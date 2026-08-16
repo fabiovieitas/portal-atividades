@@ -1,234 +1,194 @@
 /**
- * 100% Animated & Fully Editable Voxel Art 3D Engine
- * Fully customizable: hair, skin, outfit, glasses, beard, eyes, animation speed, flag & upload backgrounds.
+ * Multi-Style DiceBear & Animated Avatar Engine
+ * Supports:
+ * - 🤖 Robôs & Androids (bottts)
+ * - 🧙‍♂️ Aventureiros RPG (adventurer)
+ * - 👾 Pixel Art Arcade (pixel-art)
+ * - 🎨 Desenho Animado Persona (lorelei)
+ * - 😀 Expressões Big Smile (big-smile)
+ * - 🤪 Mascotes Fun Emoji (fun-emoji)
+ * - 🧊 Voxel Art 3D (voxel-art)
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
   styles: [
-    { id: 'voxel-art', label: 'Voxel Art 3D 🧊' }
+    { id: 'bottts', label: 'Robôs 3D 🤖', icon: '🤖' },
+    { id: 'adventurer', label: 'Aventureiros RPG 🧙‍♂️', icon: '🧙‍♂️' },
+    { id: 'pixel-art', label: 'Pixel Art 8-Bit 👾', icon: '👾' },
+    { id: 'lorelei', label: 'Desenho Animado 🎨', icon: '🎨' },
+    { id: 'big-smile', label: 'Big Smile 😀', icon: '😀' },
+    { id: 'fun-emoji', label: 'Mascotes Fun 🤪', icon: '🤪' },
+    { id: 'voxel-art', label: 'Voxel 3D 🧊', icon: '🧊' }
+  ],
+
+  // Random seed presets per style to inspire students
+  styleSeeds: {
+    'bottts': [
+      { id: 'Spark', label: 'Spark ⚡' },
+      { id: 'RoboTron', label: 'RoboTron 🤖' },
+      { id: 'Byte', label: 'Byte 💻' },
+      { id: 'Cyber', label: 'Cyber 👓' },
+      { id: 'Alpha', label: 'Alpha 🚀' },
+      { id: 'Volt', label: 'Volt ⚡' },
+      { id: 'Gizmo', label: 'Gizmo ⚙️' },
+      { id: 'NEXUS', label: 'Nexus 🔮' },
+      { id: 'Titan', label: 'Titan 🛡️' },
+      { id: 'PixelBot', label: 'PixelBot 🎮' }
+    ],
+    'adventurer': [
+      { id: 'Felix', label: 'Felix 🗡️' },
+      { id: 'Luna', label: 'Luna 🌙' },
+      { id: 'MagoSupremo', label: 'Mago Supremo 🔮' },
+      { id: 'Ninjago', label: 'Ninja 🥷' },
+      { id: 'Valente', label: 'Guardião 🛡️' },
+      { id: 'Aura', label: 'Aura ✨' },
+      { id: 'Kael', label: 'Kael 🏹' },
+      { id: 'Zelda', label: 'Zelda 👑' },
+      { id: 'Thor', label: 'Thor 🔨' },
+      { id: 'Aventureira', label: 'Aventureira 🏕️' }
+    ],
+    'pixel-art': [
+      { id: 'ArcadeMaster', label: 'Arcade 🕹️' },
+      { id: 'Gamer8Bit', label: '8-Bit 👾' },
+      { id: 'MarioFan', label: 'Encanador 🍄' },
+      { id: 'SonicSpeed', label: 'Speedster 🦔' },
+      { id: 'RetroKing', label: 'Retro 👑' },
+      { id: 'PixelGirl', label: 'Pixel Girl 🎨' },
+      { id: 'BlockBoy', label: 'BlockBoy 🧱' },
+      { id: 'Neo', label: 'Neo 🕶️' }
+    ],
+    'lorelei': [
+      { id: 'Sofia', label: 'Sofia 🌸' },
+      { id: 'Lucas', label: 'Lucas 🎧' },
+      { id: 'Maria', label: 'Maria 🌺' },
+      { id: 'Gabriel', label: 'Gabriel ⚡' },
+      { id: 'Julia', label: 'Julia 🌟' },
+      { id: 'Pedro', label: 'Pedro 🎮' },
+      { id: 'Beatriz', label: 'Beatriz 🎨' },
+      { id: 'Arthur', label: 'Arthur 👑' },
+      { id: 'Manuela', label: 'Manuela 💖' },
+      { id: 'Bernardo', label: 'Bernardo 🚀' }
+    ],
+    'big-smile': [
+      { id: 'HappyKid', label: 'Happy 😃' },
+      { id: 'SmileStar', label: 'Sorridente ⭐' },
+      { id: 'Joy', label: 'Joy 💖' },
+      { id: 'Sun', label: 'Sunshine ☀️' },
+      { id: 'Cheery', label: 'Cheery 🎈' },
+      { id: 'SuperSmile', label: 'Super Riso 😁' }
+    ],
+    'fun-emoji': [
+      { id: 'CoolCat', label: 'Cool 🕶️' },
+      { id: 'PartyMonster', label: 'Festa 🎉' },
+      { id: 'StarBrain', label: 'Gênio 🧠' },
+      { id: 'FireBall', label: 'Fogo 🔥' },
+      { id: 'RocketIcon', label: 'Foguete 🚀' },
+      { id: 'MagicWand', label: 'Magia 🪄' }
+    ],
+    'voxel-art': [
+      { id: 'Alex', label: 'Alex 🧊' },
+      { id: 'Steve', label: 'Steve 🧊' },
+      { id: 'VoxelLucas', label: 'Lucas Voxel 🎮' },
+      { id: 'VoxelSofia', label: 'Sofia Voxel 🌸' }
+    ]
+  },
+
+  bgColors: [
+    { id: 'b6e3f4', label: 'Azul Céu', hex: '#b6e3f4' },
+    { id: 'c0aedd', label: 'Roxo Lavanda', hex: '#c0aedd' },
+    { id: 'd1d4f9', label: 'Azul Pastel', hex: '#d1d4f9' },
+    { id: 'ffd5dc', label: 'Rosa Bebê', hex: '#ffd5dc' },
+    { id: 'ffdfbf', label: 'Pêssego Warm', hex: '#ffdfbf' },
+    { id: 'c1f2c7', label: 'Verde Menta', hex: '#c1f2c7' },
+    { id: 'fff0b3', label: 'Amarelo Sol', hex: '#fff0b3' },
+    { id: '364156', label: 'Dark Slate', hex: '#364156' },
+    { id: '111827', label: 'Preto Cyber', hex: '#111827' }
   ],
 
   animationSpeeds: [
-    { id: 'fastest', label: '💥 Turbo (Mais Rápida)' },
-    { id: 'fast', label: '🚀 Rápida' },
+    { id: 'fastest', label: '💥 Turbo' },
     { id: 'medium', label: '⚡ Média' },
-    { id: 'slow', label: '🐢 Lenta' },
     { id: 'none', label: '🛑 Estático' }
   ],
 
   hairStyles: [
-    { id: 'spiky', label: 'Espetado Gamer' },
-    { id: 'cap', label: 'Boné Voxel' },
-    { id: 'beanie', label: 'Gorro de Lã' },
-    { id: 'afro', label: 'Afro Volumoso' },
-    { id: 'curly', label: 'Cachos Voxel' },
-    { id: 'mohawk', label: 'Mohawk / Moicano' },
-    { id: 'bunnyEars', label: 'Orelhas de Coelho 🐰' },
-    { id: 'animalEars', label: 'Orelhas de Gatinho 🐱' },
-    { id: 'buns', label: 'Coques Duplos' },
-    { id: 'braids', label: 'Tranças' },
-    { id: 'longStraight', label: 'Longo Liso' },
-    { id: 'longWavy', label: 'Longo Ondulado' },
-    { id: 'bob', label: 'Corte Bob' },
-    { id: 'ponytail', label: 'Rabo de Cavalo' },
-    { id: 'short', label: 'Curto Clássico' }
+    { id: 'spiky', label: 'Espetado' },
+    { id: 'cap', label: 'Boné' },
+    { id: 'beanie', label: 'Gorro' },
+    { id: 'afro', label: 'Afro' },
+    { id: 'curly', label: 'Cachos' },
+    { id: 'mohawk', label: 'Moicano' },
+    { id: 'bunnyEars', label: 'Orelhas Coelho 🐰' },
+    { id: 'short', label: 'Curto' }
   ],
 
   hairColors: [
-    { id: '2c1b18', label: 'Preto Ônix', hex: '#2c1b18' },
-    { id: '4a312c', label: 'Castanho Escuro', hex: '#4a312c' },
-    { id: '724133', label: 'Castanho Mel', hex: '#724133' },
-    { id: 'b58143', label: 'Loiro Dourado', hex: '#b58143' },
-    { id: 'c93305', label: 'Ruivo Vivo', hex: '#c93305' },
-    { id: 'e5a0a0', label: 'Rosa Soft', hex: '#e5a0a0' },
-    { id: '25557c', label: 'Azul Neon', hex: '#25557c' },
-    { id: '514796', label: 'Roxo Gamer', hex: '#514796' }
+    { id: '2c1b18', label: 'Preto', hex: '#2c1b18' },
+    { id: '724133', label: 'Castanho', hex: '#724133' },
+    { id: 'b58143', label: 'Loiro', hex: '#b58143' },
+    { id: 'c93305', label: 'Ruivo', hex: '#c93305' },
+    { id: '25557c', label: 'Azul', hex: '#25557c' }
   ],
 
   skinColors: [
-    { id: 'ffdbb4', label: 'Pêssego Claro', hex: '#ffdbb4' },
-    { id: 'edb98a', label: 'Caramelo Soft', hex: '#edb98a' },
-    { id: 'fd9841', label: 'Moreno Dourado', hex: '#fd9841' },
-    { id: 'd08b5b', label: 'Bronze', hex: '#d08b5b' },
+    { id: 'ffdbb4', label: 'Claro', hex: '#ffdbb4' },
+    { id: 'fd9841', label: 'Moreno', hex: '#fd9841' },
     { id: 'ae5d29', label: 'Canela', hex: '#ae5d29' },
-    { id: '614335', label: 'Ébano Intenso', hex: '#614335' }
-  ],
-
-  outfits: [
-    { id: 'hoodie', label: 'Moletom com Capuz' },
-    { id: 'overalls', label: 'Jardineira Voxel' },
-    { id: 'jacket', label: 'Jaqueta Gamer' },
-    { id: 'suit', label: 'Blazer Executivo' },
-    { id: 'tie', label: 'Camisa com Gravata' },
-    { id: 'stripes', label: 'Camiseta Listrada' },
-    { id: 'checker', label: 'Estampa Xadrez' },
-    { id: 'dress', label: 'Vestido' },
-    { id: 'plain', label: 'Camiseta Básica' }
-  ],
-
-  glasses: [
-    { id: 'none', label: 'Sem Óculos' },
-    { id: 'shades', label: 'Óculos de Sol 🕶️' },
-    { id: 'visor', label: 'Visor Cyberpunk 🥽' },
-    { id: 'round', label: 'Óculos Redondo 👓' },
-    { id: 'square', label: 'Óculos Quadrado' },
-    { id: 'cat', label: 'Óculos Gatinho' }
-  ],
-
-  beards: [
-    { id: 'none', label: 'Sem Barba' },
-    { id: 'stubble', label: 'Barba Rente' },
-    { id: 'full', label: 'Barba Cheia' },
-    { id: 'goatee', label: 'Cavanhaque' },
-    { id: 'mustache', label: 'Bigode' }
-  ],
-
-  eyes: [
-    { id: 'open', label: 'Olhos Abertos' },
-    { id: 'happy', label: 'Feliz Sorridente' },
-    { id: 'star', label: 'Olhos de Estrela 🌟' },
-    { id: 'side', label: 'Olhando pro Lado' },
-    { id: 'closed', label: 'Piscando' },
-    { id: 'sleepy', label: 'Sonolento' }
-  ],
-
-  voxelSeeds: [
-    { id: 'VoxelAlex', label: 'Alex 🧊', seed: 'Alex' },
-    { id: 'VoxelSteve', label: 'Steve 🧊', seed: 'Steve' },
-    { id: 'VoxelLucas', label: 'Lucas 🧊', seed: 'Lucas' },
-    { id: 'VoxelSofia', label: 'Sofia 🌸', seed: 'Sofia' },
-    { id: 'VoxelMaria', label: 'Maria 🌺', seed: 'Maria' },
-    { id: 'VoxelGabriel', label: 'Gabriel ⚡', seed: 'Gabriel' },
-    { id: 'VoxelPedro', label: 'Pedro 🎮', seed: 'Pedro' },
-    { id: 'VoxelJulia', label: 'Julia 🌟', seed: 'Julia' },
-    { id: 'VoxelBeatriz', label: 'Beatriz 🎨', seed: 'Beatriz' },
-    { id: 'VoxelArthur', label: 'Arthur 👑', seed: 'Arthur' },
-    { id: 'VoxelBernardo', label: 'Bernardo 🚀', seed: 'Bernardo' },
-    { id: 'VoxelRafael', label: 'Rafael 🎯', seed: 'Rafael' },
-    { id: 'VoxelManuela', label: 'Manuela 💖', seed: 'Manuela' },
-    { id: 'VoxelLaura', label: 'Laura 🎀', seed: 'Laura' },
-    { id: 'VoxelGuilherme', label: 'Guilherme 🏆', seed: 'Guilherme' },
-    { id: 'VoxelFelipe', label: 'Felipe 🕶️', seed: 'Felipe' },
-    { id: 'VoxelMatheus', label: 'Matheus 🎧', seed: 'Matheus' },
-    { id: 'VoxelValentina', label: 'Valentina ✨', seed: 'Valentina' }
-  ],
-
-  bgThemes: [
-    { id: 'e55b5b', label: 'Vermelho Coral', type: 'color', val: '#e55b5b' },
-    { id: '58cc02', label: 'Verde Duolingo', type: 'color', val: '#58cc02' },
-    { id: '1cb0f6', label: 'Azul Céu', type: 'color', val: '#1cb0f6' },
-    { id: 'ffc800', label: 'Amarelo Ouro', type: 'color', val: '#ffc800' },
-    { id: 'ce82ff', label: 'Roxo Neon', type: 'color', val: '#ce82ff' },
-    { id: '202f36', label: 'Dark Mode', type: 'color', val: '#202f36' },
-    { id: 'brasil', label: '🇧🇷 Brasil', type: 'pattern', val: 'linear-gradient(135deg, #009c3b 33%, #ffdf00 33% 66%, #002776 66%)' },
-    { id: 'eua', label: '🇺🇸 EUA', type: 'pattern', val: 'linear-gradient(135deg, #b22234 40%, #ffffff 40% 60%, #3c3b6e 60%)' },
-    { id: 'japao', label: '🇯🇵 Japão', type: 'pattern', val: 'radial-gradient(circle, #bc002d 35%, #ffffff 36%)' },
-    { id: 'franca', label: '🇫🇷 França', type: 'pattern', val: 'linear-gradient(90deg, #002395 33%, #ffffff 33% 66%, #ed2939 66%)' },
-    { id: 'italia', label: '🇮🇹 Itália', type: 'pattern', val: 'linear-gradient(90deg, #009246 33%, #ffffff 33% 66%, #ce2b37 66%)' },
-    { id: 'espanha', label: '🇪🇸 Espanha', type: 'pattern', val: 'linear-gradient(180deg, #aa1523 25%, #f1bf00 25% 75%, #aa1523 75%)' },
-    { id: 'espaco', label: '🌌 Espaço Sideral', type: 'pattern', val: 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)' },
-    { id: 'arcoiris', label: '🌈 Arco-Íris Neon', type: 'pattern', val: 'linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)' },
-    { id: 'minecraft', label: '🧱 Bloco de Terra', type: 'pattern', val: 'linear-gradient(180deg, #5c8e32 30%, #866043 30%)' }
+    { id: '614335', label: 'Escuro', hex: '#614335' }
   ]
 };
 
 /**
- * Builds the Animated Voxel Art SVG URL with piece-by-piece customizations
+ * Builds the DiceBear Avatar Proxy URL with parameters
  */
 function buildDiceBearUrl(config = {}, isTilePreview = false) {
   if (typeof config === 'string') {
     try { config = JSON.parse(config); } catch (e) { config = {}; }
   }
 
-  const seed = config.seed || 'StudentVoxel';
-  const anim = config.animationSpeed || 'fastest'; // Default to fastest per user request!
-  const hairStl = config.hairStyle || 'spiky';
-  const hairCol = (config.hairColor || '2c1b18').replace('#', '');
-  const skinCol = (config.skinColor || 'ffdbb4').replace('#', '');
-  const outfitStl = config.outfit || 'hoodie';
-  const glassStl = config.glasses || 'none';
-  const beardStl = config.beard || 'none';
-  const eyeStl = config.eyes || 'open';
+  const style = config.style || 'bottts';
+  const seed = config.seed || 'Student';
+  const bg = (config.bg || 'b6e3f4').replace('#', '');
 
-  let url = `/api/avatar-proxy?style=voxel-art&seed=${encodeURIComponent(seed)}`;
+  let url = `/api/avatar-proxy?style=${encodeURIComponent(style)}&seed=${encodeURIComponent(seed)}`;
 
-  if (anim && anim !== 'none') {
-    url += `&animationVariant=${anim}`;
+  if (bg && bg !== 'transparent' && !bg.includes('gradient')) {
+    url += `&backgroundColor=${bg}`;
   }
 
-  if (hairStl) {
-    url += `&topVariant=${hairStl}`;
-  }
-  if (hairCol) {
-    url += `&hairColor=${hairCol}`;
-  }
-  if (skinCol) {
-    url += `&skinColor=${skinCol}`;
-  }
-  if (outfitStl) {
-    url += `&outfitVariant=${outfitStl}`;
-  }
-  if (glassStl && glassStl !== 'none') {
-    url += `&glassesVariant=${glassStl}&glassesProbability=100`;
-  } else if (glassStl === 'none') {
-    url += `&glassesProbability=0`;
-  }
-  if (beardStl && beardStl !== 'none') {
-    url += `&beardVariant=${beardStl}&beardProbability=100`;
-  } else if (beardStl === 'none') {
-    url += `&beardProbability=0`;
-  }
-  if (eyeStl) {
-    url += `&eyesVariant=${eyeStl}`;
+  if (style === 'voxel-art') {
+    const anim = config.animationSpeed || 'fastest';
+    if (anim && anim !== 'none') url += `&animationVariant=${anim}`;
+    if (config.hairStyle) url += `&topVariant=${config.hairStyle}`;
+    if (config.hairColor) url += `&hairColor=${(config.hairColor).replace('#', '')}`;
+    if (config.skinColor) url += `&skinColor=${(config.skinColor).replace('#', '')}`;
+    if (config.outfit) url += `&outfitVariant=${config.outfit}`;
+    if (config.glasses && config.glasses !== 'none') url += `&glassesVariant=${config.glasses}&glassesProbability=100`;
+    if (config.beard && config.beard !== 'none') url += `&beardVariant=${config.beard}&beardProbability=100`;
+    if (config.eyes) url += `&eyesVariant=${config.eyes}`;
   }
 
   return url;
 }
 
 /**
- * Renders an <img> tag with looping Animated Voxel Art SVG
+ * Renders an <img> tag with the Avatar SVG
  */
 function generateAvatarSVG(config = {}, size = 220, isTilePreview = false) {
   const url = buildDiceBearUrl(config, isTilePreview);
   const borderRadius = isTilePreview ? '12px' : '20px';
 
-  return `<img src="${url}" width="${size}" height="${size}" style="border-radius: ${borderRadius}; display: block; margin: 0 auto; object-fit: contain;" alt="Animated Voxel Art Avatar" />`;
+  return `<img src="${url}" width="${size}" height="${size}" style="border-radius: ${borderRadius}; display: block; margin: 0 auto; object-fit: contain;" alt="Student Avatar" />`;
 }
 
 /**
  * Renders individual item previews for option tiles
  */
 function generateItemTileSVG(category, itemId, extraParam = '') {
-  if (category === 'voxelSeeds') {
-    const tileUrl = `/api/avatar-proxy?style=voxel-art&seed=${encodeURIComponent(itemId)}&animationVariant=fastest`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Voxel" />`;
+  if (category === 'style') {
+    const tileUrl = `/api/avatar-proxy?style=${encodeURIComponent(itemId)}&seed=Sample&backgroundColor=b6e3f4`;
+    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto; border-radius:10px;" alt="${itemId}" />`;
   }
-
-  if (category === 'hair') {
-    const tileUrl = `/api/avatar-proxy?style=voxel-art&topVariant=${itemId}&hairColor=${extraParam || '2c1b18'}&animationVariant=fastest`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Hair" />`;
-  }
-
-  if (category === 'outfit') {
-    const tileUrl = `/api/avatar-proxy?style=voxel-art&outfitVariant=${itemId}&animationVariant=fastest`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Outfit" />`;
-  }
-
-  if (category === 'glasses') {
-    const tileUrl = `/api/avatar-proxy?style=voxel-art&glassesVariant=${itemId}&glassesProbability=100&animationVariant=fastest`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Glasses" />`;
-  }
-
-  if (category === 'beards') {
-    const tileUrl = `/api/avatar-proxy?style=voxel-art&beardVariant=${itemId}&beardProbability=100&animationVariant=fastest`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Beard" />`;
-  }
-
-  if (category === 'eyes') {
-    const tileUrl = `/api/avatar-proxy?style=voxel-art&eyesVariant=${itemId}&animationVariant=fastest`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto;" alt="Eyes" />`;
-  }
-
   return '';
 }
 
