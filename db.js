@@ -255,6 +255,19 @@ const dbHelper = {
           bncc_code: "EF01LP02",
           status: "public",
           visits: 350
+        },
+        {
+          id: 5,
+          title: "Brincando com Ariê 1",
+          description: "Jogo educativo para auxílio à alfabetização, reconhecimento de cores, frutas e associação de palavras.",
+          activity_url: "/atividades/brincando-com-arie-1",
+          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
+          level: "1-5",
+          category: "Alfabetização",
+          subject: "Português",
+          bncc_code: "EI02EF04, EI02ET06, EF01LP10",
+          status: "public",
+          visits: 500
         }
       ];
     }
@@ -608,7 +621,7 @@ async function initTables() {
           [
             "Brincando com Ariê 1",
             "Jogo educativo para auxílio à alfabetização, reconhecimento de cores, frutas e associação de palavras.",
-            "/games/brincando-com-arie-1",
+            "/atividades/brincando-com-arie-1",
             "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
             "1-5",
             "Alfabetização",
@@ -616,6 +629,8 @@ async function initTables() {
             "Português"
           ]
         );
+      } else {
+        await queryRun("UPDATE activities SET activity_url = '/atividades/brincando-com-arie-1' WHERE title LIKE '%Brincando com Ariê%'");
       }
     } catch(e) {
       console.error('[DB Engine Ariê Seed Error]:', e.message);

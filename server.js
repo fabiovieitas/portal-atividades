@@ -154,6 +154,10 @@ app.get('/', async (req, res) => {
   });
 });
 
+app.get('/atividades/brincando-com-arie-1', async (req, res) => {
+  res.render('arie_presentation');
+});
+
 app.get('/atividade/:id', async (req, res) => {
   try {
     const activityId = req.params.id;
