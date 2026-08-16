@@ -89,12 +89,42 @@
         </div>
     </header>
 
+    <!-- Anúncios Laterais AdSense (Esquerda e Direita em Telas Largas) -->
+    <div class="adsense-sidebar-left" style="position: fixed; left: 10px; top: 120px; width: 160px; height: 600px; z-index: 100; display: none;">
+        <div style="background: rgba(255,255,255,0.95); border: 2px dashed #cbd5e1; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
+            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567891"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="adsense-sidebar-right" style="position: fixed; right: 10px; top: 120px; width: 160px; height: 600px; z-index: 100; display: none;">
+        <div style="background: rgba(255,255,255,0.95); border: 2px dashed #cbd5e1; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
+            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567892"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+    </div>
+
+    <style>
+        @media (min-width: 1450px) {
+            .adsense-sidebar-left, .adsense-sidebar-right { display: block !important; }
+        }
+    </style>
+
     <main class="container">
         <!-- ESPAÇO PARA ADSENSE (CRIANÇAS/COPPA) -->
         <div style="background: rgba(0,0,0,0.3); color: #888; text-align: center; padding: 15px; border: 2px dashed #555; margin: 20px 0; border-radius: 12px; font-weight: bold; font-size: 0.9em;">
             Espaço Publicitário AdSense<br>
             <small>Anúncios seguros para crianças aparecerão aqui.</small>
         </div>
+
 
         <% if (!selectedLevel) { %>
             <section class="selection-screen">
