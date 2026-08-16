@@ -335,11 +335,15 @@ app.get('/api/classes/:classId/students', async (req, res) => {
 
 app.post('/api/students', async (req, res) => {
   try {
-    const { class_id, name, avatar_config } = req.body;
+    const { class_id, name, avatar_config, school_name, class_name } = req.body;
     if (!class_id || !name) return res.status(400).json({ error: 'Faltam dados obrigatórios.' });
-    await dbHelper.addStudent({ class_id, name, avatar_config });
+    await dbHelper.addStudent({ class_id, name, avatar_config, school_name, class_name });
     const students = await dbHelper.getStudentsByClass(class_id);
     const created = students.find(s => s.name === name);
+    if (created) {
+      if (school_name && !created.school_name) created.school_name = school_name;
+      if (class_name && !created.class_name) created.class_name = class_name;
+    }
     res.json({ success: true, student: created });
   } catch (err) {
     res.status(500).json({ error: err.message });

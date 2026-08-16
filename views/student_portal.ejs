@@ -1020,7 +1020,9 @@
                         body: JSON.stringify({
                             class_id: classId,
                             name,
-                            avatar_config: JSON.stringify(avatarConfig)
+                            avatar_config: JSON.stringify(avatarConfig),
+                            school_name: schoolName,
+                            class_name: className
                         })
                     });
                     const data = await res.json();

@@ -411,11 +411,11 @@ const dbHelper = {
     return await queryGet("SELECT * FROM students WHERE id = ?", [id]);
   },
 
-  async addStudent({ class_id, name, avatar_config = '{}' }) {
+  async addStudent({ class_id, name, avatar_config = '{}', school_name = '', class_name = '' }) {
     const avatarStr = typeof avatar_config === 'object' ? JSON.stringify(avatar_config) : avatar_config;
     await queryRun(
-      "INSERT INTO students (class_id, name, avatar_config, medals_json, points) VALUES (?, ?, ?, '[]', 0)",
-      [class_id, name, avatarStr]
+      "INSERT INTO students (class_id, name, avatar_config, medals_json, points, school_name, class_name) VALUES (?, ?, ?, '[]', 0, ?, ?)",
+      [class_id, name, avatarStr, school_name, class_name]
     );
   },
 
@@ -507,6 +507,17 @@ async function initTables() {
 
   for (const sql of tables) {
     await queryRun(sql);
+  }
+
+  const migrations = [
+    "ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;",
+    "ALTER TABLE students ADD COLUMN avatar_config TEXT DEFAULT '{}';",
+    "ALTER TABLE students ADD COLUMN medals_json TEXT DEFAULT '[]';",
+    "ALTER TABLE students ADD COLUMN school_name TEXT;",
+    "ALTER TABLE students ADD COLUMN class_name TEXT;"
+  ];
+  for (const sql of migrations) {
+    try { await queryRun(sql); } catch(e){}
   }
 
   try {

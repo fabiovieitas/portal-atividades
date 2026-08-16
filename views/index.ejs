@@ -512,7 +512,9 @@
             if (saved) {
                 try {
                     const st = JSON.parse(saved);
-                    const svg = generateAvatarSVG(st.avatar_config || {}, 36);
+                    let cfg = st.avatar_config || {};
+                    if (typeof cfg === 'string') { try { cfg = JSON.parse(cfg); } catch(e){} }
+                    const svg = generateAvatarSVG(cfg, 36);
                     document.getElementById('nav-student-avatar').innerHTML = svg;
                     document.getElementById('nav-student-name').innerText = st.name;
                     document.getElementById('nav-student-sub').innerText = `🏆 ${st.points || 0} pts | Ver Perfil`;
