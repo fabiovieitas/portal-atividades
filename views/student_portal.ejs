@@ -361,12 +361,17 @@
 <body class="student-theme">
 
     <div class="container" style="max-width: 1080px; margin: 0 auto;">
-        <div class="portal-header">
-            <button id="btn-header-logout" class="btn-top-logout" onclick="logoutStudent()" style="display:none;">
-                🚪 SAIR
-            </button>
-            <h1>Edite o seu Avatar</h1>
-            <p>Monte seu perfil exatamente no estilo oficial do Duolingo!</p>
+        <div class="portal-header" style="position: relative;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                <a href="/" class="btn-back" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 1rem; padding: 10px 18px;">
+                    🏠 Início do Portal
+                </a>
+                <button id="btn-header-logout" class="btn-top-logout" onclick="logoutStudent()" style="display:none; margin: 0;">
+                    🚪 SAIR
+                </button>
+            </div>
+            <h1>Área do Aluno - Avatar & Desafios</h1>
+            <p>Monte seu perfil interativo no estilo oficial do Duolingo!</p>
         </div>
 
         <!-- Step Indicator -->
@@ -378,7 +383,8 @@
             <div class="step-pill" id="step-pill-5">5. Perfil & Jogos 🏆</div>
         </div>
 
-        <button id="btn-global-back" class="btn-back" onclick="goBackStep()" style="display:none;">⬅️ Voltar</button>
+        <button id="btn-global-back" class="btn-back" onclick="goBackStep()" style="display:inline-block; font-size: 1.1rem; padding: 12px 24px; margin-bottom: 15px;">⬅️ Voltar</button>
+
 
         <!-- VIEW 1: SELECT SCHOOL -->
         <div id="view-school" class="step-view">
@@ -523,6 +529,11 @@
             if (saved) {
                 try {
                     selectedStudent = JSON.parse(saved);
+                    if (selectedStudent && selectedStudent.avatar_config) {
+                        avatarConfig = typeof selectedStudent.avatar_config === 'string'
+                            ? JSON.parse(selectedStudent.avatar_config)
+                            : selectedStudent.avatar_config;
+                    }
                     showStep(5);
                     renderProfileView();
                     return;
@@ -541,7 +552,18 @@
                 else p.classList.remove('active');
             });
 
-            document.getElementById('btn-global-back').style.display = (step > 1 && step !== 5) ? 'inline-block' : 'none';
+            const backBtn = document.getElementById('btn-global-back');
+            if (backBtn) {
+                backBtn.style.display = 'inline-block';
+                if (step === 1) {
+                    backBtn.innerText = '⬅️ Voltar para o Início do Site';
+                } else if (step === 5) {
+                    backBtn.innerText = '⬅️ Trocar Aluno / Escolher Escola';
+                } else {
+                    backBtn.innerText = '⬅️ Voltar Passo Anterior';
+                }
+            }
+
             document.getElementById('btn-header-logout').style.display = (step === 5 || localStorage.getItem('lab_student_profile')) ? 'block' : 'none';
 
             if (step === 1) document.getElementById('view-school').style.display = 'block';
@@ -552,8 +574,15 @@
         }
 
         function goBackStep() {
-            if (currentStep > 1) showStep(currentStep - 1);
+            if (currentStep === 1) {
+                window.location.href = '/';
+            } else if (currentStep === 5) {
+                loadSchools();
+            } else {
+                showStep(currentStep - 1);
+            }
         }
+
 
         async function loadSchools() {
             showStep(1);
@@ -901,23 +930,39 @@
                         body: JSON.stringify({ avatar_config: JSON.stringify(avatarConfig) })
                     });
                 } catch(e){}
+                selectedStudent.name = name;
                 selectedStudent.avatar_config = avatarConfig;
                 activateStudent(selectedStudent);
             }
         }
 
         function activateStudent(st) {
+            if (!st) return;
+            const prevSchool = selectedStudent ? selectedStudent.school_name : '';
+            const prevClass = selectedStudent ? selectedStudent.class_name : '';
+
             selectedStudent = st;
             if (typeof st.avatar_config === 'string') {
                 try { selectedStudent.avatar_config = JSON.parse(st.avatar_config); } catch(e){}
             }
-            if (selectedSchool) selectedStudent.school_name = selectedSchool.name;
-            if (selectedClass) selectedStudent.class_name = selectedClass.name;
+
+            if (selectedSchool && selectedSchool.name) {
+                selectedStudent.school_name = selectedSchool.name;
+            } else if (prevSchool && !selectedStudent.school_name) {
+                selectedStudent.school_name = prevSchool;
+            }
+
+            if (selectedClass && selectedClass.name) {
+                selectedStudent.class_name = selectedClass.name;
+            } else if (prevClass && !selectedStudent.class_name) {
+                selectedStudent.class_name = prevClass;
+            }
 
             localStorage.setItem('lab_student_profile', JSON.stringify(selectedStudent));
             showStep(5);
             renderProfileView();
         }
+
 
         function renderProfileView() {
             if (!selectedStudent) return;

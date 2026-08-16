@@ -130,8 +130,8 @@
         </div>
         <div class="countdown-circle" id="countdown">5</div>
         <br>
-        <a href="<%= activity.activity_url %>" id="btn-redirect-link" class="btn-go-now">
-            🚀 Ir para a Atividade Agora
+        <a href="<%= activity.activity_url %>" id="btn-redirect-link" class="btn-go-now" style="opacity: 0.5; pointer-events: none; cursor: not-allowed;">
+            ⏳ AGUARDE A PROPAGANDA (3s)...
         </a>
     </div>
 
@@ -139,10 +139,22 @@
         let seconds = 5;
         const targetUrl = "<%- activity.activity_url %>";
         const countEl = document.getElementById('countdown');
+        const btnLink = document.getElementById('btn-redirect-link');
 
         const timer = setInterval(() => {
             seconds--;
             if (countEl) countEl.innerText = seconds;
+
+            const waitTime = seconds - 2;
+            if (waitTime > 0) {
+                if (btnLink) btnLink.innerText = `⏳ AGUARDE A PROPAGANDA (${waitTime}s)...`;
+            } else if (btnLink && btnLink.style.pointerEvents === 'none') {
+                btnLink.style.opacity = '1';
+                btnLink.style.pointerEvents = 'auto';
+                btnLink.style.cursor = 'pointer';
+                btnLink.innerText = '🚀 IR PARA A ATIVIDADE AGORA';
+            }
+
             if (seconds <= 0) {
                 clearInterval(timer);
                 window.location.href = targetUrl;
@@ -151,3 +163,4 @@
     </script>
 </body>
 </html>
+

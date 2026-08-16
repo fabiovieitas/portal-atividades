@@ -235,9 +235,23 @@ const dbHelper = {
           bncc_code: "EF08CI02",
           status: "public",
           visits: 210
+        },
+        {
+          id: 4,
+          title: "Leitura Divertida no Datashow 📺⭐",
+          description: "Sistema de Cards de Alfabetização e Leitura em alta resolução para projeção em sala de aula.",
+          activity_url: "/games/leitura-datashow/index.html",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3426/3426653.png",
+          level: "1-5",
+          category: "Leitura",
+          subject: "Português",
+          bncc_code: "EF01LP02",
+          status: "public",
+          visits: 350
         }
       ];
     }
+
     return rows;
   },
 
