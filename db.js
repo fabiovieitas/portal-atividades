@@ -268,6 +268,32 @@ const dbHelper = {
           bncc_code: "EI02EF04, EI02ET06, EF01LP10",
           status: "public",
           visits: 500
+        },
+        {
+          id: 6,
+          title: "Tux Math - Matemática Divertida",
+          description: "Jogo educativo arcade onde você ajuda o pinguim Tux a defender a cidade resolvendo equações de adição, subtração e multiplicação!",
+          activity_url: "/atividades/tux-math",
+          icon_url: "https://tuxmath.org/images/favicon.png",
+          level: "1-5",
+          category: "Matemática",
+          subject: "Matemática",
+          bncc_code: "EF01MA06, EF02MA05, EF03MA03",
+          status: "public",
+          visits: 420
+        },
+        {
+          id: 7,
+          title: "Pou Online - Mascote Virtual & Rotinas",
+          description: "Jogo educativo de responsabilidade, cuidados e rotinas! Alimente, banhe, brinque e cuide da saúde do seu bichinho virtual.",
+          activity_url: "/atividades/pou-online",
+          icon_url: "https://cdn.jogos360.com.br/po/uo/pou-online-d.jpg",
+          level: "1-5",
+          category: "Cuidados & Hábitos",
+          subject: "Ciências",
+          bncc_code: "EI03CG04, EI03EO02, EF01CI01",
+          status: "public",
+          visits: 480
         }
       ];
     }
@@ -632,8 +658,51 @@ async function initTables() {
       } else {
         await queryRun("UPDATE activities SET activity_url = '/atividades/brincando-com-arie-1' WHERE title LIKE '%Brincando com Ariê%'");
       }
+
+      // Seed TuxMath
+      const tuxExists = await queryGet("SELECT id FROM activities WHERE title LIKE '%Tux Math%' LIMIT 1");
+      if (!tuxExists) {
+        console.log('[DB Engine] Inserindo atividade "Tux Math"...');
+        await queryRun(
+          "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status, bncc_code, subject) VALUES (?, ?, ?, ?, ?, ?, 'public', ?, ?)",
+          [
+            "Tux Math - Matemática Divertida",
+            "Jogo educativo arcade onde você ajuda o pinguim Tux a defender a cidade resolvendo equações de adição, subtração e multiplicação!",
+            "/atividades/tux-math",
+            "https://tuxmath.org/images/favicon.png",
+            "1-5",
+            "Matemática",
+            "EF01MA06, EF02MA05, EF03MA03",
+            "Matemática"
+          ]
+        );
+      } else {
+        await queryRun("UPDATE activities SET activity_url = '/atividades/tux-math' WHERE title LIKE '%Tux Math%'");
+      }
+
+      // Seed Pou Online
+      const pouExists = await queryGet("SELECT id FROM activities WHERE title LIKE '%Pou Online%' LIMIT 1");
+      if (!pouExists) {
+        console.log('[DB Engine] Inserindo atividade "Pou Online"...');
+        await queryRun(
+          "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status, bncc_code, subject) VALUES (?, ?, ?, ?, ?, ?, 'public', ?, ?)",
+          [
+            "Pou Online - Mascote Virtual & Rotinas",
+            "Jogo educativo de responsabilidade, cuidados e rotinas! Alimente, banhe, brinque e cuide da saúde do seu bichinho virtual.",
+            "/atividades/pou-online",
+            "https://cdn.jogos360.com.br/po/uo/pou-online-d.jpg",
+            "1-5",
+            "Cuidados & Hábitos",
+            "EI03CG04, EI03EO02, EF01CI01",
+            "Ciências"
+          ]
+        );
+      } else {
+        await queryRun("UPDATE activities SET activity_url = '/atividades/pou-online' WHERE title LIKE '%Pou Online%'");
+      }
+
     } catch(e) {
-      console.error('[DB Engine Ariê Seed Error]:', e.message);
+      console.error('[DB Engine Seed Error]:', e.message);
     }
   } catch (err) {
     console.error('[DB Engine Seed Warning]:', err.message);

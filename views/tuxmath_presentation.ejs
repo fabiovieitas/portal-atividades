@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tux Math - Matemática Divertida | Apresentação & Guia | Lab Kids</title>
+    <link rel="stylesheet" href="/css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tux-gold: #fbbf24;
+            --tux-blue: #3b82f6;
+            --bg-dark: #0f172a;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            font-family: 'Fredoka', system-ui, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 10px 60px 10px;
+        }
+
+        .container-presentation {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Top Header Bar */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn-return-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-return-portal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+        }
+
+        /* Hero Banner Card */
+        .hero-card {
+            background: rgba(30, 41, 59, 0.9);
+            border: 3px solid #fbbf24;
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cover-img {
+            max-width: 240px;
+            height: auto;
+            border-radius: 20px;
+            border: 4px solid #fbbf24;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            margin: 15px 0 25px 0;
+            object-fit: contain;
+            background: #ffffff;
+            padding: 10px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .badges-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge-pill {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1.5px solid #fbbf24;
+            color: #fbbf24;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .badge-pill.blue {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: #3b82f6;
+            color: #60a5fa;
+        }
+
+        .badge-pill.green {
+            background: rgba(52, 211, 153, 0.15);
+            border-color: #34d399;
+            color: #34d399;
+        }
+
+        /* Play Launch CTA Button */
+        .btn-launch-game {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 18px 42px;
+            border-radius: 24px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5), inset 0 2px 0 rgba(255,255,255,0.4);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .btn-launch-game:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.7);
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+
+        /* Information Sections Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .info-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 2px solid #475569;
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .info-card h2 {
+            font-size: 1.5rem;
+            color: #fbbf24;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            line-height: 1.6;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+
+        /* 4 Gameplay Tips Grid */
+        .gameplay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 15px;
+        }
+
+        .gameplay-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid #334155;
+            border-radius: 18px;
+            padding: 18px;
+            transition: border-color 0.2s ease;
+        }
+
+        .gameplay-box:hover {
+            border-color: #fbbf24;
+        }
+
+        .gameplay-box h3 {
+            font-size: 1.15rem;
+            color: #fbbf24;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gameplay-box p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* BNCC Tag list */
+        .bncc-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .bncc-list li {
+            background: rgba(15, 23, 42, 0.5);
+            border-left: 4px solid #f59e0b;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .bncc-code {
+            font-weight: 800;
+            color: #fbbf24;
+        }
+
+        /* AdSense Container */
+        .adsense-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px dashed #475569;
+            border-radius: 18px;
+            padding: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        /* Desktop AdSense Sidebars (Skyscrapers) */
+        .adsense-sidebar-left {
+            position: fixed;
+            left: 15px;
+            top: 90px;
+            width: 160px;
+            height: 600px;
+            z-index: 100;
+            display: none;
+        }
+
+        .adsense-sidebar-right {
+            position: fixed;
+            right: 15px;
+            top: 90px;
+            width: 160px;
+            height: 600px;
+            z-index: 100;
+            display: none;
+        }
+
+        @media (min-width: 1400px) {
+            .adsense-sidebar-left, .adsense-sidebar-right {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- AdSense Sidebars (Esquerda & Direita em telas grandes) -->
+    <div class="adsense-sidebar-left">
+        <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
+            <div style="font-size: 0.7rem; color: #fbbf24; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
+            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567891"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="adsense-sidebar-right">
+        <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
+            <div style="font-size: 0.7rem; color: #fbbf24; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
+            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567892"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="container-presentation">
+
+        <!-- Top Navigation Header -->
+        <div class="top-nav">
+            <a href="/?level=1-5" class="btn-return-portal">
+                ⬅️ VOLTAR AO PORTAL (1º AO 5º ANO)
+            </a>
+            <div style="font-size: 0.9rem; color: #94a3b8; font-weight: 700;">
+                ⭐ Software Educativo TuxMath (Open Source)
+            </div>
+        </div>
+
+        <!-- Hero Card -->
+        <div class="hero-card">
+            <div class="badges-row">
+                <span class="badge-pill">🏆 Ensino Fundamental (1º ao 5º Ano)</span>
+                <span class="badge-pill blue">⚡ Cálculo Mental & Tabuada</span>
+                <span class="badge-pill green">📘 BNCC Alinhado</span>
+            </div>
+
+            <h1 class="hero-title">🐧 Tux Math - Defensores da Matemática</h1>
+            <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 650px; margin: 0 auto 15px auto;">
+                Ajude o pinguim Tux a salvar os iglus destruindo cometas matemáticos de <strong>adição, subtração, multiplicação e divisão!</strong>
+            </p>
+
+            <img src="https://tuxmath.org/images/favicon.png" alt="Tux Math" class="hero-cover-img">
+
+            <div>
+                <a href="/games/tux-math/index.html" class="btn-launch-game">
+                    🎮 INICIAR O JOGO AGORA 🚀
+                </a>
+            </div>
+        </div>
+
+        <!-- AdSense Container Banner -->
+        <div class="adsense-box">
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</div>
+            <div style="font-size: 0.7rem; color: #64748b;">Anúncios para Crianças & Escolas</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+
+        <!-- Information Cards -->
+        <div class="info-grid">
+
+            <!-- Card 1: Sobre o Jogo -->
+            <div class="info-card">
+                <h2>🐧 Sobre o Tux Math</h2>
+                <p>
+                    <strong>Tux Math</strong> é um dos softwares educativos mais consagrados do mundo para o ensino de matemática! Ele transforma treinos numéricos repetitivos em uma empolgante batalha de defesa de espaço no estilo <em>Arcade</em>.
+                </p>
+                <p>
+                    O jogador assume o comando de um raio laser e deve resolver as operações gravadas nos cometas antes que eles atinjam o solo, estimulando o raciocínio rápido e a automatização da tabuada.
+                </p>
+            </div>
+
+            <!-- Card 2: Como Jogar -->
+            <div class="info-card">
+                <h2>🎮 Como Jogar & Dicas de Sucesso</h2>
+                <div class="gameplay-grid">
+                    <div class="gameplay-box">
+                        <h3>☄️ Destrua os Cometas</h3>
+                        <p>Cada cometa traz uma operação (ex: 7 x 8). Calcule o resultado mentalmente!</p>
+                    </div>
+
+                    <div class="gameplay-box">
+                        <h3>⌨️ Digite o Resultado</h3>
+                        <p>Use o teclado numérico para digitar a resposta rápida antes do cometa tocar a neve.</p>
+                    </div>
+
+                    <div class="gameplay-box">
+                        <h3>💥 Dispare o Laser</h3>
+                        <p>Pressione ENTER para disparar o laser e explodir a ameaça vinda do espaço!</p>
+                    </div>
+
+                    <div class="gameplay-box">
+                        <h3>⭐ Níveis Progressivos</h3>
+                        <p>Escolha desde somas simples de 1 dígito até a tabuada completa e divisões com resto.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Informações para Professores & Pais -->
+            <div class="info-card">
+                <h2>👩‍🏫 Informações aos Professores & Pais</h2>
+                <p><strong>Disciplina:</strong> Matemática</p>
+                <p><strong>Público-Alvo:</strong> 1º ao 5º Ano do Ensino Fundamental</p>
+                <p><strong>Objetivos de Aprendizagem:</strong> Agilidade em cálculo mental, domínio da tabuada de multiplicação e fixação de operações fundamentais.</p>
+
+                <h3 style="color: #fbbf24; font-size: 1.1rem; margin-top: 15px; margin-bottom: 8px;">📘 Habilidades da BNCC Enquadradas:</h3>
+                <ul class="bncc-list">
+                    <li><span class="bncc-code">EF01MA06:</span> Construir fatos básicos da adição e utilizá-los em procedimentos de cálculo mental.</li>
+                    <li><span class="bncc-code">EF02MA05:</span> Construir fatos básicos da adição e subtração e utilizá-los no cálculo mental.</li>
+                    <li><span class="bncc-code">EF03MA03:</span> Construir e utilizar fatos básicos da multiplicação e divisão para o cálculo mental.</li>
+                    <li><span class="bncc-code">EF04MA05:</span> Utilizar as propriedades das operações para desenvolver estratégias de cálculo.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Bottom CTA -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/games/tux-math/index.html" class="btn-launch-game">
+                🎮 JOGAR TUX MATH AGORA 🚀
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

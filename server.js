@@ -158,6 +158,14 @@ app.get('/atividades/brincando-com-arie-1', async (req, res) => {
   res.render('arie_presentation');
 });
 
+app.get('/atividades/tux-math', async (req, res) => {
+  res.render('tuxmath_presentation');
+});
+
+app.get('/atividades/pou-online', async (req, res) => {
+  res.render('pou_online_presentation');
+});
+
 app.get('/atividade/:id', async (req, res) => {
   try {
     const activityId = req.params.id;
