@@ -175,7 +175,7 @@
                                             <% if (activity.visits > 50) { %><span class="badge-popular">POPULAR ⭐</span><% } %>
                                         </div>
 
-                                        <a href="<%= activity.activity_url %>" target="_blank" class="card-link"
+                                        <a href="/atividade/<%= activity.id %>" class="card-link"
                                             onclick="trackVisit(<%= activity.id %>)">
                                             <div class="card-icon">
                                                 <img src="<%= activity.icon_url || '/img/default-icon.png' %>"
@@ -204,7 +204,7 @@
                                         </div>
                                         <div class="card-footer">
                                             <div class="mission-actions">
-                                                <a href="<%= activity.activity_url %>" target="_blank" class="btn-play" onclick="trackVisit(<%= activity.id %>)">INICIAR MISSÃO 🎮</a>
+                                                <a href="/atividade/<%= activity.id %>" class="btn-play" onclick="trackVisit(<%= activity.id %>)">INICIAR MISSÃO 🎮</a>
                                                 <% if (typeof teacher !== 'undefined' && teacher) { %>
                                                     <button onclick="toggleFavorite('<%= activity.id %>', this)" class="btn-fav <%= activity.is_favorite ? 'active' : '' %>" title="Favoritar">❤️</button>
                                                     <button onclick="generateQR('<%= activity.id %>', '<%= activity.title %>', '<%= teacher.id %>')" class="btn-qr" title="Gerar QR">📱</button>

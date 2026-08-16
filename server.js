@@ -154,6 +154,32 @@ app.get('/', async (req, res) => {
   });
 });
 
+app.get('/atividade/:id', async (req, res) => {
+  try {
+    const activityId = req.params.id;
+    const activities = await dbHelper.getActivities({ adminMode: true });
+    let activity = activities.find(a => String(a.id) === String(activityId));
+
+    if (!activity) {
+      activity = {
+        id: activityId,
+        title: "Atividade Educacional",
+        description: "Aprenda e divirta-se com este desafio interativo!",
+        activity_url: "https://code.org/minecraft",
+        icon_url: "https://cdn-icons-png.flaticon.com/512/616/616430.png"
+      };
+    }
+
+    try { await dbHelper.recordVisit(activityId); } catch(e){}
+
+    const isExternal = activity.activity_url.includes('http://') || activity.activity_url.includes('https://');
+
+    res.render('activity_redirect', { activity, isExternal });
+  } catch (err) {
+    res.redirect('/');
+  }
+});
+
 app.get('/admin', async (req, res) => {
   try {
     const sessionId = req.cookies.admin_session || (req.body && req.body.sessionId) || '';

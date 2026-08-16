@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= activity.title %> - Redirecionando | Lab Kids</title>
+    <link rel="stylesheet" href="/css/style.css?v=3">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #ffffff;
+            font-family: 'Fredoka', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .redirect-card {
+            background: rgba(30, 41, 59, 0.95);
+            border: 2px solid #3b82f6;
+            border-radius: 28px;
+            max-width: 650px;
+            width: 100%;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .activity-icon-lg {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            object-fit: cover;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+        }
+
+        .countdown-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 15px 0;
+            box-shadow: 0 6px 0 #1d4ed8;
+        }
+
+        /* AdSense Container */
+        .adsense-interstitial-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px dashed #475569;
+            border-radius: 18px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-go-now {
+            background: #10b981;
+            color: white;
+            border: none;
+            border-bottom: 5px solid #047857;
+            padding: 16px 36px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .btn-go-now:hover {
+            transform: translateY(-2px);
+            background: #34d399;
+        }
+
+        .btn-go-now:active {
+            transform: translateY(2px);
+            border-bottom-width: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="redirect-card">
+        <img src="<%= activity.icon_url || 'https://cdn-icons-png.flaticon.com/512/616/616430.png' %>" class="activity-icon-lg" alt="Ícone">
+        <h2 style="font-size: 1.8rem; margin: 0 0 8px 0; color: #fbbf24;"><%= activity.title %></h2>
+        <p style="color: #94a3b8; font-size: 1rem; margin: 0 0 15px 0;"><%= activity.description || 'Preparando seu desafio interativo...' %></p>
+
+        <!-- Anúncio AdSense Intercalado -->
+        <div class="adsense-interstitial-box">
+            <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                📢 Espaço Publicitário AdSense
+            </div>
+            <div style="font-size: 0.75rem; color: #64748b;">Anúncios seguros para crianças aparecerão aqui</div>
+            
+            <!-- AdSense Script Tag dynamically injected when pub-id is configured -->
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="<%= process.env.ADSENSE_PUB_ID %>"
+                     data-ad-slot="1234567890"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+
+        <div style="font-size: 1.1rem; color: #e2e8f0;">
+            Redirecionando automaticamente em:
+        </div>
+        <div class="countdown-circle" id="countdown">5</div>
+        <br>
+        <a href="<%= activity.activity_url %>" id="btn-redirect-link" class="btn-go-now">
+            🚀 Ir para a Atividade Agora
+        </a>
+    </div>
+
+    <script>
+        let seconds = 5;
+        const targetUrl = "<%- activity.activity_url %>";
+        const countEl = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            seconds--;
+            if (countEl) countEl.innerText = seconds;
+            if (seconds <= 0) {
+                clearInterval(timer);
+                window.location.href = targetUrl;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
