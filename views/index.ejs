@@ -317,6 +317,27 @@
                                             </form>
                                         </div>
                                     </div>
+                                    
+                                     <!-- Native In-Feed Ad Card (Insere 1 Card de Anúncio a cada 4 Atividades) -->
+                                     <% if ((index + 1) % 4 === 0) { %>
+                                         <div class="activity-card native-ad-card animate-up" style="background: rgba(15, 23, 42, 0.8); border: 2px dashed #475569; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+                                             <div class="card-badges">
+                                                 <span class="badge-popular" style="background: #3b82f6;">RECOMENDADO 📢</span>
+                                             </div>
+                                             <div style="font-size: 0.8rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; margin-top: 15px;">
+                                                 📢 ESPAÇO PUBLICITÁRIO ADSENSE
+                                             </div>
+                                             <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 12px;">Anúncio Seguro</div>
+                                             <% if (process.env.ADSENSE_PUB_ID) { %>
+                                                 <ins class="adsbygoogle" style="display:block; width:100%" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567895"></ins>
+                                                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                                             <% } else { %>
+                                                 <div style="padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; font-size: 0.85rem; color: #cbd5e1; width: 100%;">
+                                                     Patrocinadores que apoiam a Educação & Robótica Educativa
+                                                 </div>
+                                             <% } %>
+                                         </div>
+                                     <% } %>
                                     <% }); %>
                     </div>
                 </section>
