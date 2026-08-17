@@ -171,6 +171,18 @@ app.get('/professor/certificado', (req, res) => {
   res.render('certificate_generator');
 });
 
+// Guia BNCC Indexável para SEO no Google
+app.get('/bncc', async (req, res) => {
+  const activities = await dbHelper.getActivities({});
+  res.render('bncc_guide', { bnccCode: null, activities });
+});
+
+app.get('/bncc/:code', async (req, res) => {
+  const code = req.params.code.toUpperCase();
+  const activities = await dbHelper.getActivities({ bncc: code });
+  res.render('bncc_guide', { bnccCode: code, activities });
+});
+
 // SEO Routes: robots.txt & dynamic sitemap.xml
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain');

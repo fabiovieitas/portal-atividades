@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= bnccCode ? 'Habilidade BNCC ' + bnccCode + ' - Jogos & Planos de Aula' : 'Guia Completo BNCC - Habilidades, Jogos & Diário de Classe' %> | Lab Kids</title>
+    <meta name="description" content="Encontre jogos digitais educativos, planos de aula e modelos de registro de diário de classe alinhados aos códigos da BNCC (Educação Infantil e Ensino Fundamental).">
+    <link rel="stylesheet" href="/css/style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: 'Fredoka', sans-serif; min-height: 100vh; padding: 20px 10px 60px 10px; margin: 0; }
+        .bncc-container { max-width: 1100px; margin: 0 auto; }
+        .hero-bncc { background: linear-gradient(135deg, #1e3a8a, #4338ca); border-radius: 28px; padding: 35px; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.1); }
+        .bncc-title { font-size: clamp(1.8rem, 4vw, 2.8rem); color: #fbbf24; margin-top: 10px; font-weight: 700; }
+        .bncc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .bncc-card { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 25px; transition: transform 0.2s; }
+        .bncc-card:hover { transform: translateY(-5px); border-color: #6366f1; }
+        .code-tag { background: #6366f1; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; display: inline-block; margin-bottom: 12px; }
+        .btn-act-play { display: inline-flex; align-items: center; gap: 8px; background: #10b981; color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 0.9rem; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="bncc-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <a href="/" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 700;">⬅️ Voltar ao Portal</a>
+            <span style="font-size: 1.2rem; font-weight: 700; color: #fbbf24;">📘 Guia BNCC Lab Kids</span>
+        </div>
+
+        <div class="hero-bncc">
+            <span style="background: rgba(255,255,255,0.2); color: white; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Base Nacional Comum Curricular</span>
+            <h1 class="bncc-title"><%= bnccCode ? 'Habilidade BNCC: ' + bnccCode : 'Catálogo de Habilidades BNCC & Jogos' %></h1>
+            <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 750px; margin: 10px auto 0 auto;">
+                Encontre atividades digitais, jogos interativos para datashow e textos prontos para o seu Diário de Classe organizados por código da BNCC.
+            </p>
+        </div>
+
+        <div class="bncc-grid">
+            <% if (activities && activities.length > 0) { %>
+                <% activities.forEach(act => { %>
+                    <div class="bncc-card">
+                        <span class="code-tag">BNCC: <%= act.bncc_code || 'Geral' %></span>
+                        <h3 style="margin: 0 0 8px 0; color: white; font-size: 1.25rem;"><%= act.title %></h3>
+                        <p style="color: #94a3b8; font-size: 0.95rem; margin: 0 0 12px 0;"><%= act.description %></p>
+                        <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">
+                            <strong>Disciplina:</strong> <%= act.subject || 'Geral' %> | <strong>Ano:</strong> <%= act.level %>º Ano
+                        </div>
+                        <a href="<%= act.activity_url %>" class="btn-act-play">🎮 Acessar Atividade</a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div style="grid-column: 1 / -1; text-align: center; padding: 50px; background: rgba(30,41,59,0.5); border-radius: 20px;">
+                    <h3>Nenhum jogo cadastrado especificamente para este código da BNCC ainda.</h3>
+                    <a href="/" style="color: #60a5fa;">Ver todas as atividades do portal ➔</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
