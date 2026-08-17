@@ -351,36 +351,12 @@ const dbHelper = {
           level: "1-5", category: "Matemática Divertida", subject: "Matemática", bncc_code: "EF01MA01, EF02MA05", status: "public", visits: 490
         },
         {
-          id: 17,
-          title: "Fábrica de Sílabas & Palavras",
-          description: "Junte sílabas simples para formar palavras e acelerar o processo de hipótese silábica e leitura.",
-          activity_url: "/atividades/fabrica-de-silabas",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
-          level: "1-5", category: "Alfabetização", subject: "Português", bncc_code: "EF01LP08, EF01LP10", status: "public", visits: 530
-        },
-        {
-          id: 18,
-          title: "Hábitos de Higiene & Saúde",
-          description: "Atividade interativa sobre a importância de escovar os dentes, tomar banho e lavar as mãos para prevenir doenças.",
-          activity_url: "/atividades/habitos-de-higiene",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
-          level: "1-5", category: "Ciências & Saúde", subject: "Ciências", bncc_code: "EF01CI01, EF02CI04", status: "public", visits: 410
-        },
-        {
           id: 19,
           title: "Desafio dos Fatos Rápidos da Adição",
           description: "Desenvolva o cálculo mental rápido e a agilidade nos fatos fundamentais da adição até 20.",
           activity_url: "/atividades/desafio-adicao",
           icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
           level: "1-5", category: "Matemática Rápida", subject: "Matemática", bncc_code: "EF01MA06, EF02MA05", status: "public", visits: 470
-        },
-        {
-          id: 20,
-          title: "Detetive da Ortografia (CH, LH, NH, RR, SS)",
-          description: "Desafio gamificado de ortografia e fixação dos principais dígrafos da Língua Portuguesa.",
-          activity_url: "/atividades/detetive-ortografia",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
-          level: "1-5", category: "Ortografia & Leitura", subject: "Português", bncc_code: "EF02LP01, EF03LP01", status: "public", visits: 550
         }
       ];
     }
@@ -1159,13 +1135,6 @@ async function initTables() {
           level: "1-5", category: "Matemática Divertida", bncc_code: "EF01MA01, EF02MA05", subject: "Matemática"
         },
         {
-          title: "Fábrica de Sílabas & Palavras",
-          description: "Junte sílabas simples para formar palavras e acelerar o processo de hipótese silábica e leitura.",
-          activity_url: "/atividades/fabrica-de-silabas",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
-          level: "1-5", category: "Alfabetização", bncc_code: "EF01LP08, EF01LP10", subject: "Português"
-        },
-        {
           title: "Hábitos de Higiene & Saúde",
           description: "Atividade interativa sobre a importância de escovar os dentes, tomar banho e lavar as mãos para prevenir doenças.",
           activity_url: "/atividades/habitos-de-higiene",
@@ -1178,13 +1147,6 @@ async function initTables() {
           activity_url: "/atividades/desafio-adicao",
           icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
           level: "1-5", category: "Matemática Rápida", bncc_code: "EF01MA06, EF02MA05", subject: "Matemática"
-        },
-        {
-          title: "Detetive da Ortografia (CH, LH, NH, RR, SS)",
-          description: "Desafio gamificado de ortografia e fixação dos principais dígrafos da Língua Portuguesa.",
-          activity_url: "/atividades/detetive-ortografia",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
-          level: "1-5", category: "Ortografia & Leitura", bncc_code: "EF02LP01, EF03LP01", subject: "Português"
         }
       ];
 
@@ -1334,13 +1296,6 @@ async function initTables() {
           content: `<h2>🟡 Aprendizado Concreto da Matemática</h2><p>Exploração interativa de dezenas e unidades virtuais.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA01</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Prática pedagógica interativa com o Material Dourado Virtual para composição e decomposição numérica (BNCC: EF01MA01, EF02MA05)."</em></div>`
         },
         {
-          title: "Fábrica de Sílabas: Acelere a Hipótese Silábica e Leitura na Alfabetização",
-          summary: "Guia completo de aplicação da Fábrica de Sílabas para alfabetização inicial, consciência fonológica e síntese de palavras.",
-          category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/fabrica-de-silabas",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
-          content: `<h2>🔤 Consciência Fonológica e Síntese Silábica</h2><p>Junção de sílabas simples para avanço na escrita e leitura.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP08</strong></li><li><strong>EF01LP10</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Atividade de formação de palavras e síntese de sílabas simples na Fábrica de Sílabas (BNCC: EF01LP08, EF01LP10)."</em></div>`
-        },
-        {
           title: "Hábitos de Higiene e Saúde: Prevenção e Autocuidado na Escola",
           summary: "Como trabalhar cuidados pessoais, banho, lavagem de mãos e escovação de dentes de forma lúdica nos anos iniciais.",
           category: "Ciências & Saúde", author: "Prof. Fábio Vieitas", activity_url: "/atividades/habitos-de-higiene",
@@ -1353,13 +1308,6 @@ async function initTables() {
           category: "Matemática Rápida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/desafio-adicao",
           image_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
           content: `<h2>⚡ Cálculo Mental Rápido</h2><p>Automatização dos fatos fundamentais da adição até 20.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA06</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Desenvolvimento de agilidade de cálculo mental nos Fatos Rápidos da Adição (BNCC: EF01MA06, EF02MA05)."</em></div>`
-        },
-        {
-          title: "Detetive da Ortografia: Dominando CH, LH, NH, RR e SS",
-          summary: "Como transformar a fixação de dígrafos e dificuldades ortográficas em um jogo envolvente de investigação.",
-          category: "Ortografia & Leitura", author: "Prof. Fábio Vieitas", activity_url: "/atividades/detetive-ortografia",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
-          content: `<h2>🕵️ Caça-Erros e Fixação de Dígrafos</h2><p>Identificação e ortografia correta com CH, LH, NH, RR e SS.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02LP01</strong></li><li><strong>EF03LP01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Investigação ortográfica e diferenciação de dígrafos no jogo Detetive da Ortografia (BNCC: EF02LP01, EF03LP01)."</em></div>`
         }
       ];
 
