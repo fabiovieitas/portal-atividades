@@ -3,56 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agente Ortográfico: O Resgate dos Dígrafos | Lab Kids</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@600;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <title>Agente Ortográfico: A Batalha Contra Dr. Grafia | Lab Kids</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
     body, html {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       overflow: hidden;
-      background-color: #070a12;
+      background-color: #060913;
       font-family: 'Fredoka', sans-serif;
       color: white;
     }
 
     /* Ambient Canvas */
     #bg-canvas {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       z-index: 1; pointer-events: none;
     }
 
-    /* Navigation Return Button */
+    /* Fixed Navigation Return Button */
     .btn-return-portal {
-      position: fixed;
-      top: 12px; left: 12px;
+      position: fixed; top: 12px; left: 12px;
       z-index: 99999;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-flex; align-items: center; gap: 8px;
       background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-weight: 800;
-      text-decoration: none;
+      color: white; padding: 8px 18px; border-radius: 50px;
+      font-weight: 800; text-decoration: none;
       box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
       border: 2px solid rgba(255, 255, 255, 0.4);
-      font-size: 0.88rem;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      font-size: 0.88rem; cursor: pointer;
+      transition: transform 0.2s;
     }
-    .btn-return-portal:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 25px rgba(239, 68, 68, 0.7); }
+    .btn-return-portal:hover { transform: translateY(-2px) scale(1.05); }
 
     /* AdSense Sidebars */
     .adsense-game-sidebar-left, .adsense-game-sidebar-right {
-      position: fixed;
-      top: 75px;
-      width: 160px;
-      height: 600px;
-      z-index: 9999;
-      display: none;
+      position: fixed; top: 75px; width: 160px; height: 600px;
+      z-index: 9999; display: none;
     }
     .adsense-game-sidebar-left { left: 12px; }
     .adsense-game-sidebar-right { right: 12px; }
@@ -60,354 +47,179 @@
       .adsense-game-sidebar-left, .adsense-game-sidebar-right { display: block !important; }
     }
 
-    /* Game Container */
+    /* Game Layout */
     #game-container {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px;
+      position: relative; z-index: 10;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between;
+      padding: 12px 15px;
     }
 
     /* Top HUD */
     .hud-header {
-      width: 100%;
-      max-width: 850px;
+      width: 100%; max-width: 850px;
       background: rgba(15, 23, 42, 0.92);
-      border: 2px solid #8b5cf6;
-      border-radius: 24px;
+      border: 2px solid #8b5cf6; border-radius: 20px;
       padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
       backdrop-filter: blur(12px);
-      margin-top: 5px;
-      flex-wrap: wrap;
-      gap: 10px;
+      flex-wrap: wrap; gap: 10px;
     }
 
-    .hud-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1rem;
-      font-weight: 700;
+    .stage-badge {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+      padding: 6px 16px; border-radius: 50px;
+      font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 900;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
     }
 
-    .hud-val {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: #f59e0b;
+    .hud-box { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 700; }
+    .hud-val { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 900; color: #f59e0b; }
+
+    /* BOSS ARENA HEADER */
+    .boss-arena-bar {
+      width: 100%; max-width: 850px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 3px solid #ef4444; border-radius: 20px;
+      padding: 12px 20px;
+      display: none; flex-direction: column; align-items: center; gap: 6px;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+      animation: pulse-boss 1.5s infinite alternate;
+    }
+    @keyframes pulse-boss {
+      0% { border-color: #ef4444; }
+      100% { border-color: #f59e0b; }
     }
 
-    .timer-badge {
-      background: linear-gradient(135deg, #10b981, #047857);
-      color: white;
-      padding: 6px 18px;
-      border-radius: 50px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 900;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .timer-badge.warning {
-      background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
-      animation: pulse-warn 0.6s infinite alternate;
-    }
-    @keyframes pulse-warn {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.08); }
+    .boss-title-row {
+      display: flex; justify-content: space-between; width: 100%;
+      font-weight: 900; font-size: 1.1rem; color: #f87171;
     }
 
-    .btn-pause {
-      background: #3b82f6;
-      color: white;
-      border: 2px solid rgba(255,255,255,0.4);
-      padding: 8px 16px;
-      border-radius: 50px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: transform 0.2s;
+    .boss-hp-track {
+      width: 100%; height: 16px; background: #1e293b;
+      border-radius: 10px; overflow: hidden; border: 2px solid #991b1b;
     }
-    .btn-pause:hover { transform: scale(1.08); }
-
-    /* Mascot Speech Bubble Area */
-    .mascot-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      max-width: 850px;
-      width: 100%;
-      margin: 8px 0;
+    .boss-hp-fill {
+      height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b);
+      width: 100%; transition: width 0.3s ease;
     }
 
-    .mascot-avatar {
-      font-size: 3rem;
+    /* Dialogue & Character Avatar Area */
+    .character-area {
+      display: flex; align-items: center; gap: 12px;
+      max-width: 850px; width: 100%; margin: 6px 0;
+    }
+
+    .avatar-box {
+      font-size: 3.2rem;
       background: rgba(30, 41, 59, 0.9);
-      border: 3px solid #f59e0b;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: 3px solid #f59e0b; border-radius: 50%;
+      width: 72px; height: 72px;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
       flex-shrink: 0;
-      animation: float-avatar 3s ease-in-out infinite;
-    }
-    @keyframes float-avatar {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      transition: transform 0.2s;
     }
 
     .speech-bubble {
       background: rgba(30, 41, 59, 0.95);
-      border: 2px solid #a855f7;
-      border-radius: 20px;
-      padding: 12px 18px;
-      font-size: 1rem;
-      color: #f3e8ff;
-      flex-grow: 1;
-      position: relative;
+      border: 2px solid #a855f7; border-radius: 20px;
+      padding: 12px 18px; font-size: 1rem; color: #f3e8ff;
+      flex-grow: 1; position: relative;
       box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
-    .speech-bubble::before {
-      content: '';
-      position: absolute;
-      left: -12px;
-      top: 50%;
-      transform: translateY(-50%);
-      border-width: 8px 12px 8px 0;
-      border-style: solid;
-      border-color: transparent #a855f7 transparent transparent;
-    }
 
-    /* Target Card */
+    /* Target Word Card */
     .target-card {
       background: rgba(15, 23, 42, 0.95);
-      border: 3px solid #38bdf8;
-      border-radius: 28px;
-      padding: 25px 15px;
-      width: 100%;
-      max-width: 780px;
+      border: 3px solid #38bdf8; border-radius: 28px;
+      padding: 22px 15px; width: 100%; max-width: 780px;
       text-align: center;
       box-shadow: 0 20px 50px rgba(56, 189, 248, 0.25);
-      position: relative;
-      margin: 5px 0;
+      position: relative; margin: 4px 0;
     }
 
     .target-word {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 900;
-      letter-spacing: 6px;
-      color: #ffffff;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 900; letter-spacing: 5px; color: #ffffff;
     }
 
     .gap-highlight {
-      color: #f43f5e;
-      background: rgba(244, 63, 94, 0.15);
-      border: 3px dashed #f43f5e;
-      padding: 2px 14px;
-      border-radius: 16px;
-      display: inline-block;
-      animation: pulse-gap 1.2s infinite;
-    }
-    @keyframes pulse-gap {
-      0%, 100% { border-color: #f43f5e; color: #f43f5e; }
-      50% { border-color: #fbbf24; color: #fbbf24; }
+      color: #f43f5e; background: rgba(244, 63, 94, 0.15);
+      border: 3px dashed #f43f5e; padding: 2px 12px; border-radius: 16px;
+      display: inline-block; animation: pulse-gap 1.2s infinite;
     }
 
-    .target-hint {
-      color: #94a3b8;
-      font-size: 1.05rem;
-      margin-top: 10px;
-      font-style: italic;
-    }
+    .target-hint { color: #94a3b8; font-size: 1.05rem; margin-top: 8px; font-style: italic; }
 
-    /* Time Floating Alert (+4s / -5s) */
-    .time-float {
-      position: absolute;
-      top: -20px;
-      right: 20px;
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 900;
-      pointer-events: none;
-      animation: float-up 1s forwards ease-out;
+    /* Timer Track */
+    .timer-track {
+      width: 100%; max-width: 780px; height: 10px;
+      background: #1e293b; border-radius: 10px; overflow: hidden;
+      margin-bottom: 8px;
     }
-    .time-float.plus { color: #10b981; }
-    .time-float.minus { color: #ef4444; }
-    @keyframes float-up {
-      0% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-40px); }
+    .timer-fill {
+      height: 100%; background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+      width: 100%; transition: width 0.1s linear;
     }
 
     /* Orbs Grid */
     .orbs-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      width: 100%;
-      max-width: 780px;
-      margin-bottom: 10px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 15px; width: 100%; max-width: 780px; margin-bottom: 8px;
     }
 
     .orb-btn {
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-      border: 3px solid #8b5cf6;
-      color: #ffffff;
+      border: 3px solid #8b5cf6; color: #ffffff;
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(2rem, 4.5vw, 2.8rem);
-      font-weight: 900;
-      padding: 16px 5px;
-      border-radius: 22px;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+      font-size: clamp(1.9rem, 4.2vw, 2.7rem);
+      font-weight: 900; padding: 15px 5px; border-radius: 20px;
+      cursor: pointer; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
       transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-
     .orb-btn:hover {
-      transform: translateY(-5px) scale(1.05);
-      border-color: #f59e0b;
-      box-shadow: 0 15px 35px rgba(245, 158, 11, 0.5);
-      background: linear-gradient(135deg, #3b0764 0%, #1e293b 100%);
+      transform: translateY(-4px) scale(1.05);
+      border-color: #f59e0b; box-shadow: 0 15px 35px rgba(245, 158, 11, 0.5);
     }
-
     .orb-btn.correct-pop {
       background: linear-gradient(135deg, #10b981, #047857) !important;
-      border-color: #34d399 !important;
-      transform: scale(1.12) !important;
+      border-color: #34d399 !important; transform: scale(1.1) !important;
     }
-
     .orb-btn.wrong-pop {
       background: linear-gradient(135deg, #ef4444, #991b1b) !important;
-      border-color: #fca5a5 !important;
-      animation: shake-err 0.4s ease;
-    }
-    @keyframes shake-err {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-10px); }
-      40%, 80% { transform: translateX(10px); }
+      border-color: #fca5a5 !important; animation: shake-err 0.4s ease;
     }
 
-    /* Power-ups Bar */
-    .powerups-bar {
-      display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-bottom: 8px;
-    }
-    .powerup-btn {
-      background: rgba(30, 41, 59, 0.9);
-      border: 2px solid #38bdf8;
-      color: white;
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform 0.2s;
-    }
-    .powerup-btn:hover:not(:disabled) { transform: scale(1.08); background: #0284c7; }
-    .powerup-btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: #475569; }
-
-    /* Screens Overlay */
+    /* Screen Overlays */
     .screen-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(8, 12, 20, 0.96);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 25px;
-      text-align: center;
-      overflow-y: auto;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(8, 12, 20, 0.97); z-index: 100;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 25px; text-align: center; overflow-y: auto;
     }
     .screen-overlay.hidden { display: none; }
 
-    .player-input-box {
-      margin: 15px 0;
-      width: 100%;
-      max-width: 380px;
-    }
-    .player-input {
-      width: 100%;
-      padding: 14px 20px;
-      border-radius: 50px;
-      border: 3px solid #8b5cf6;
-      background: #0f172a;
-      color: white;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
-      text-align: center;
-      outline: none;
-      box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-    }
-    .player-input:focus { border-color: #f59e0b; box-shadow: 0 0 25px rgba(245, 158, 11, 0.5); }
-
     .btn-action-main {
       background: linear-gradient(135deg, #10b981, #047857);
-      color: white;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      padding: 16px 40px;
-      border-radius: 50px;
-      border: 3px solid rgba(255, 255, 255, 0.4);
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
-      transition: transform 0.2s, box-shadow 0.2s;
-      margin-top: 15px;
-      text-decoration: none;
+      color: white; font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem; font-weight: 700; padding: 16px 40px;
+      border-radius: 50px; border: 3px solid rgba(255, 255, 255, 0.4);
+      cursor: pointer; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
+      transition: transform 0.2s; margin-top: 15px; text-decoration: none;
     }
-    .btn-action-main:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.7); }
+    .btn-action-main:hover { transform: translateY(-3px) scale(1.05); }
 
-    /* Leaderboard Box */
-    .leaderboard-box {
-      background: rgba(30, 41, 59, 0.85);
-      border: 2px solid #8b5cf6;
-      border-radius: 24px;
-      padding: 18px 25px;
-      width: 100%;
-      max-width: 480px;
-      margin: 15px 0;
-      text-align: left;
+    /* Stage Clear Modal Banner */
+    .stage-clear-banner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(56, 189, 248, 0.2));
+      border: 2px dashed #10b981; border-radius: 20px; padding: 20px 30px;
+      margin: 15px 0; max-width: 500px;
     }
-    .leaderboard-title {
-      font-size: 1.2rem;
-      color: #f59e0b;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .leader-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.95rem;
-    }
-    .leader-row:last-child { border-bottom: none; }
-    .leader-row.me { background: rgba(245, 158, 11, 0.2); border-radius: 10px; font-weight: 800; }
   </style>
 </head>
 <body>
@@ -435,62 +247,51 @@
     </div>
   </div>
 
-  <!-- OVERLAY 1: START & NOME DO ALUNO -->
+  <!-- OVERLAY 1: START SCREEN -->
   <div id="overlay-start" class="screen-overlay">
-    <div style="font-size: 4.5rem; margin-bottom: 5px; animation: float-avatar 3s infinite;">🦉🕵️‍♂️⚡</div>
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #f59e0b; margin-bottom: 5px;">AGENTE ORTOGRÁFICO</h1>
-    <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 580px; line-height: 1.5;">
-      O <strong>Dr. Grafia Traçoeira</strong> roubou os dígrafos do Dicionário! Você tem <strong>2 MINUTOS</strong> para salvar o máximo de palavras. Cada acerto concede <strong>+4s de bônus</strong>!
+    <div style="font-size: 4.5rem; margin-bottom: 5px; animation: float-avatar 3s infinite;">🗺️🐉⚔️</div>
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #f59e0b; margin-bottom: 5px;">AGENTE ORTOGRÁFICO: BATALHA DOS DÍGRAFOS</h1>
+    <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 600px; line-height: 1.5;">
+      O <strong>Dr. Grafia Traçoeira</strong> enviou 3 Monstrinhos de Dígrafos para dominar a Cidade das Palavras! Avance por <strong>4 FASES INCRÍVEIS</strong> e derrote os Chefões!
     </p>
 
-    <div class="player-input-box">
-      <input type="text" id="player-name-input" class="player-input" placeholder="Digite seu Nome de Agente..." maxlength="18" value="Agente Estrela">
+    <div style="background: rgba(139, 92, 246, 0.2); border: 2px dashed #8b5cf6; border-radius: 20px; padding: 15px 25px; margin: 15px 0; max-width: 520px; text-align: left;">
+      🗺️ <strong>Mapa de Fases:</strong><br>
+      • 🏛️ <strong>Fase 1:</strong> Distrito dos Espelhos (CH e LH)<br>
+      • 🌲 <strong>Fase 2:</strong> Floresta dos Ninhos (NH e RR)<br>
+      • 🏰 <strong>Fase 3:</strong> Fortaleza dos Ventos (SS, QU e GU)<br>
+      • 🦹‍♂️ <strong>Fase 4:</strong> Grande Chefão Dr. Grafia!
     </div>
 
-    <!-- Leaderboard Preview -->
-    <div class="leaderboard-box">
-      <div class="leaderboard-title">🏆 TOP 5 AGENTES DE ELITE</div>
-      <div id="leaderboard-preview-list">
-        <!-- Rendered via JS -->
-      </div>
-    </div>
-
-    <button class="btn-action-main" onclick="startGame()">INICIAR MISSÃO (2 MINUTOS) 🚀</button>
+    <button class="btn-action-main" onclick="startGame()">INICIAR JORNADA DAS FASES 🚀</button>
   </div>
 
-  <!-- OVERLAY 2: PAUSA -->
-  <div id="overlay-pause" class="screen-overlay hidden">
-    <div style="font-size: 4.5rem; margin-bottom: 10px;">⏸️</div>
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #38bdf8;">JOGO PAUSADO</h1>
-    <p style="color: #cbd5e1; font-size: 1.15rem; margin-bottom: 20px;">Respire fundo! O cronômetro está parado.</p>
+  <!-- OVERLAY 2: TRANSIÇÃO DE FASE -->
+  <div id="overlay-stage-clear" class="screen-overlay hidden">
+    <div style="font-size: 5rem; margin-bottom: 10px;">🎉⚔️</div>
+    <h1 id="stage-clear-title" style="font-family: 'Outfit', sans-serif; font-size: 2.4rem; color: #10b981;">FASE CONCLUÍDA!</h1>
     
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-      <button class="btn-action-main" onclick="resumeGame()">RETOMAR MISSÃO ▶️</button>
-      <button class="btn-action-main" style="background: linear-gradient(135deg, #ef4444, #991b1b);" onclick="startGame()">REINICIAR 🔄</button>
+    <div class="stage-clear-banner">
+      <p id="stage-clear-msg" style="font-size: 1.2rem; color: #f3e8ff; line-height: 1.5;"></p>
     </div>
+
+    <button class="btn-action-main" onclick="advanceStage()">AVANÇAR PARA A PRÓXIMA FASE ➡️</button>
   </div>
 
-  <!-- OVERLAY 3: RESULTADO FINAL & LEADERBOARD COMPLETO -->
+  <!-- OVERLAY 3: FIM DE JOGO / VITÓRIA SOBRE O CHEFÃO -->
   <div id="overlay-end" class="screen-overlay hidden">
-    <div id="end-icon" style="font-size: 5rem; margin-bottom: 5px;">🏆</div>
-    <h1 id="end-title" style="font-family: 'Outfit', sans-serif; font-size: 2.3rem; color: #f59e0b;">MISSÃO CONCLUÍDA!</h1>
-    <p id="end-desc" style="color: #cbd5e1; font-size: 1.1rem; max-width: 580px; margin: 10px 0; line-height: 1.5;"></p>
+    <div id="end-icon" style="font-size: 5.5rem; margin-bottom: 5px;">🏆</div>
+    <h1 id="end-title" style="font-family: 'Outfit', sans-serif; font-size: 2.3rem; color: #f59e0b;">VITÓRIA TRIUNFAL!</h1>
+    <p id="end-desc" style="color: #cbd5e1; font-size: 1.15rem; max-width: 580px; margin: 10px 0; line-height: 1.5;"></p>
 
     <div style="background: rgba(15, 23, 42, 0.9); border: 3px solid #8b5cf6; border-radius: 20px; padding: 15px 35px; margin: 10px 0;">
-      <div style="color: #94a3b8; font-size: 1rem;">Pontuação Final de <span id="final-player-name" style="color: #38bdf8; font-weight: bold;"></span></div>
+      <div style="color: #94a3b8; font-size: 1rem;">Pontuação Total da Batalha</div>
       <div id="end-score" style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 900; color: #10b981;">0</div>
     </div>
 
-    <div class="leaderboard-box">
-      <div class="leaderboard-title">🏆 RANKING DE ELITE DOS AGENTES (TOP 10)</div>
-      <div id="leaderboard-final-list">
-        <!-- Rendered via JS -->
-      </div>
-    </div>
-
     <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 10px;">
-      <button class="btn-action-main" onclick="startGame()">TENTAR NOVAMENTE 🔄</button>
-      <a href="/" class="btn-action-main" style="background: linear-gradient(135deg, #475569, #334155);">OUTROS JOGOS 🚀</a>
+      <button class="btn-action-main" onclick="startGame()">JOGAR NOVAMENTE 🔄</button>
+      <a href="/" class="btn-action-main" style="background: linear-gradient(135deg, #475569, #334155);">OUTRAS ATIVIDADES 🚀</a>
     </div>
   </div>
 
@@ -498,13 +299,10 @@
   <div id="game-container">
 
     <div class="hud-header">
-      <div class="timer-badge" id="timer-badge">
-        <span>⏱️</span>
-        <span id="timer-display">02:00</span>
-      </div>
+      <div class="stage-badge" id="hud-stage-name">FASE 1: ESPELHOS</div>
       <div class="hud-box">
-        <span>👤 Agente:</span>
-        <span id="hud-player-name" style="color: #38bdf8; font-weight: 800;"></span>
+        <span>❤️ HP:</span>
+        <span id="lives-display" style="font-size: 1.3rem;">❤️❤️❤️</span>
       </div>
       <div class="hud-box">
         <span>🔥 Combo:</span>
@@ -514,33 +312,37 @@
         <span>⭐ Pontos:</span>
         <span id="score-display" class="hud-val">0</span>
       </div>
-      <button class="btn-pause" onclick="pauseGame()">⏸️ PAUSA</button>
     </div>
 
-    <div class="mascot-area">
-      <div class="mascot-avatar" id="mascot-emoji">🧐</div>
-      <div class="speech-bubble" id="mascot-dialogue">
-        "Preste atenção! Apenas o dígrafo correto vai salvar a palavra!"
+    <!-- BOSS ARENA HUD BAR (Visible during Boss Fights) -->
+    <div class="boss-arena-bar" id="boss-bar">
+      <div class="boss-title-row">
+        <span id="boss-name-txt">👾 CHEFÃO: MONSTRO DO ESPELHO</span>
+        <span id="boss-hp-txt">HP: 3/3</span>
+      </div>
+      <div class="boss-hp-track">
+        <div id="boss-hp-fill" class="boss-hp-fill"></div>
+      </div>
+    </div>
+
+    <div class="character-area">
+      <div class="avatar-box" id="character-avatar">🧐</div>
+      <div class="speech-bubble" id="character-dialogue">
+        "Bem-vindo à Fase 1! Complete os casos para invocarmos o primeiro Chefão!"
       </div>
     </div>
 
     <div class="target-card">
-      <div id="time-float-container"></div>
       <div class="target-word" id="target-word-display">
-        CACHO<span class="gap-highlight">[ ? ]</span>O
+        ESPE[ ? ]O
       </div>
       <div class="target-hint" id="target-hint-display">
-        💡 Dica: Animal amigo do homem que late!
+        💡 Dica: Objeto que reflete a sua imagem!
       </div>
     </div>
 
-    <div class="powerups-bar">
-      <button class="powerup-btn" id="btn-freeze" onclick="useFreeze()">
-        🧊 Congelar 5s (<span id="count-freeze">1</span>)
-      </button>
-      <button class="powerup-btn" id="btn-lupa" onclick="useLupa()">
-        💡 Revelar Dica (<span id="count-lupa">1</span>)
-      </button>
+    <div class="timer-track">
+      <div id="timer-bar" class="timer-fill"></div>
     </div>
 
     <div class="orbs-grid" id="orbs-container">
@@ -550,7 +352,7 @@
   </div>
 
   <script>
-    // Web Audio API FX
+    // Web Audio FX
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playFx(type) {
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -567,6 +369,13 @@
         gain.gain.setValueAtTime(0.3, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
         osc.start(t); osc.stop(t + 0.15);
+      } else if (type === 'boss_hit') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, t);
+        osc.frequency.exponentialRampToValueAtTime(600, t + 0.3);
+        gain.gain.setValueAtTime(0.4, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+        osc.start(t); osc.stop(t + 0.3);
       } else if (type === 'miss') {
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(220, t);
@@ -574,336 +383,350 @@
         gain.gain.setValueAtTime(0.35, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
         osc.start(t); osc.stop(t + 0.3);
-      } else if (type === 'power') {
+      } else if (type === 'win') {
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, t);
-        osc.frequency.exponentialRampToValueAtTime(1200, t + 0.25);
-        gain.gain.setValueAtTime(0.3, t);
-        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
-        osc.start(t); osc.stop(t + 0.25);
+        osc.frequency.setValueAtTime(523, t);
+        osc.frequency.exponentialRampToValueAtTime(1046, t + 0.4);
+        gain.gain.setValueAtTime(0.4, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+        osc.start(t); osc.stop(t + 0.4);
       }
     }
 
-    // 100% UNAMBIGUOUS RIGOROUS DICTIONARY (ZERO OVERLAP)
-    const DICTIONARY = [
-      { word: "CACHO[ ? ]O", correct: "RR", choices: ["RR", "NH", "LH", "SS"], full: "CACHORRO", hint: "Animal amigo do homem que late!" },
-      { word: "GALI[ ? ]A", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "GALINHA", hint: "Ave do celeiro que bota ovos!" },
-      { word: "CO[ ? ]ER", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "COLHER", hint: "Talher usado para tomar sopa!" },
-      { word: "GIRA[ ? ]OL", correct: "SS", choices: ["SS", "RR", "LH", "NH"], full: "GIRASSOL", hint: "Flor amarela que se vira para o Sol!" },
-      { word: "ESPE[ ? ]O", correct: "LH", choices: ["LH", "RR", "CH", "SS"], full: "ESPELHO", hint: "Objeto que reflete a sua imagem!" },
-      { word: "MI[ ? ]OCA", correct: "NH", choices: ["NH", "RR", "CH", "SS"], full: "MINHOCA", hint: "Vive embaixo da terra no jardim!" },
-      { word: "TE[ ? ]ADO", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "TELHADO", hint: "Fica no topo da casa para cobrir!" },
-      { word: "BOCHE[ ? ]A", correct: "CH", choices: ["CH", "RR", "SS", "LH"], full: "BOCHECHA", hint: "Parte fofinha do nosso rosto!" },
-      { word: "GA[ ? ]AFA", correct: "RR", choices: ["RR", "NH", "LH", "SS"], full: "GARRAFA", hint: "Recipiente para guardar água gelada!" },
-      { word: "DESE[ ? ]O", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "DESENHO", hint: "Arte feita com lápis de cor no papel!" },
-      { word: "OVE[ ? ]A", correct: "LH", choices: ["LH", "RR", "NH", "CH"], full: "OVELHA", hint: "Animal fofinho que produz lã!" },
-      { word: "TO[ ? ]ADA", correct: "RR", choices: ["RR", "LH", "NH", "SS"], full: "TORRADA", hint: "Pão quentinho e crocante!" },
-      { word: "NI[ ? ]O", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "NINHO", hint: "Berço dos passarinhos no galho!" },
-      { word: "MO[ ? ]ILA", correct: "CH", choices: ["CH", "RR", "SS", "LH"], full: "MOCHILA", hint: "Bolsa para carregar o material escolar!" },
-      { word: "FO[ ? ]ETE", correct: "GU", choices: ["GU", "QU", "SS", "RR"], full: "FOGUETE", hint: "Nave espacial que vai até a Lua!" },
-      { word: "[ ? ]EIJO", correct: "QU", choices: ["QU", "GU", "RR", "SS"], full: "QUEIJO", hint: "Alimento amarelo que o rato adora!" },
-      { word: "[ ? ]ITARRA", correct: "GU", choices: ["GU", "QU", "CH", "LH"], full: "GUITARRA", hint: "Instrumento musical com cordas elétricas!" },
-      { word: "LE[ ? ]E", correct: "QU", choices: ["QU", "GU", "SS", "RR"], full: "LEQUE", hint: "Objeto usado para abanar no calor!" },
-      { word: "BARA[ ? ]O", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "BARALHO", hint: "Conjunto de cartas para jogar!" },
-      { word: "CHIN[ ? ]ELO", correct: "EL", choices: ["CH", "LH", "NH", "SS"], full: "CHINELO", hint: "Calçado confortável de usar em casa!" }
-    ];
-
-    const PROVOCATIVE_TALKS = [
-      "🧐 'Duvido você acertar essa sem errar!'",
-      "🦉 'Cuidado! O relógio tá correndo!'",
-      "⚡ 'Combo incrível! Você tá voando!'",
-      "🧐 'Dr. Grafia tá tremendo de medo de você!'",
-      "🔥 'Você é o pesadelo do Dr. Grafia!'"
+    // 4 STAGES WITH SPECIFIC THEMES & BOSSES
+    const STAGES = [
+      {
+        id: 1,
+        name: "🏛️ FASE 1: DISTRITO CH & LH",
+        bgHue: 270,
+        questions: [
+          { word: "ESPE[ ? ]O", correct: "LH", choices: ["LH", "RR", "CH", "SS"], full: "ESPELHO", hint: "Objeto que reflete sua imagem!" },
+          { word: "CO[ ? ]ER", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "COLHER", hint: "Talher usado para tomar sopa!" },
+          { word: "BOCHE[ ? ]A", correct: "CH", choices: ["CH", "RR", "SS", "LH"], full: "BOCHECHA", hint: "Parte fofinha do nosso rosto!" },
+          { word: "MO[ ? ]ILA", correct: "CH", choices: ["CH", "RR", "SS", "LH"], full: "MOCHILA", hint: "Bolsa para carregar o material escolar!" }
+        ],
+        boss: {
+          name: "👾 CHEFÃO: MONSTRO DO ESPELHO",
+          avatar: "👾",
+          maxHp: 3,
+          dialogue: "Bwahaha! Eu sou o Monstro do Espelho! Ninguém decifra meus dígrafos!",
+          questions: [
+            { word: "TE[ ? ]ADO", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "TELHADO", hint: "Topo da casa que nos protege da chuva!" },
+            { word: "[ ? ]APÉU", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "CHAPÉU", hint: "Acessório para cobrir a cabeça!" },
+            { word: "OVE[ ? ]A", correct: "LH", choices: ["LH", "RR", "NH", "CH"], full: "OVELHA", hint: "Animal fofinho que produz lã!" }
+          ]
+        }
+      },
+      {
+        id: 2,
+        name: "🌲 FASE 2: FLORESTA NH & RR",
+        bgHue: 140,
+        questions: [
+          { word: "GALI[ ? ]A", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "GALINHA", hint: "Ave do celeiro que bota ovos!" },
+          { word: "CACHO[ ? ]O", correct: "RR", choices: ["RR", "NH", "LH", "SS"], full: "CACHORRO", hint: "Animal amigo do homem que late!" },
+          { word: "MI[ ? ]OCA", correct: "NH", choices: ["NH", "RR", "CH", "SS"], full: "MINHOCA", hint: "Vive embaixo da terra no jardim!" },
+          { word: "TO[ ? ]ADA", correct: "RR", choices: ["RR", "LH", "NH", "SS"], full: "TORRADA", hint: "Pão quentinho e crocante!" }
+        ],
+        boss: {
+          name: "🐍 CHEFÃO: GARGANTA DA FLORESTA",
+          avatar: "🐍",
+          maxHp: 3,
+          dialogue: "Sssss! Achou que passaria pela minha floresta sem erração?",
+          questions: [
+            { word: "GA[ ? ]AFA", correct: "RR", choices: ["RR", "NH", "LH", "SS"], full: "GARRAFA", hint: "Recipiente para guardar água gelada!" },
+            { word: "DESE[ ? ]O", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "DESENHO", hint: "Arte feita com lápis de cor no papel!" },
+            { word: "NI[ ? ]O", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "NINHO", hint: "Berço dos passarinhos no galho!" }
+          ]
+        }
+      },
+      {
+        id: 3,
+        name: "🏰 FASE 3: FORTALEZA SS, QU & GU",
+        bgHue: 30,
+        questions: [
+          { word: "GIRA[ ? ]OL", correct: "SS", choices: ["SS", "RR", "LH", "NH"], full: "GIRASSOL", hint: "Flor amarela que se vira para o Sol!" },
+          { word: "FO[ ? ]ETE", correct: "GU", choices: ["GU", "QU", "SS", "RR"], full: "FOGUETE", hint: "Nave espacial que vai até a Lua!" },
+          { word: "[ ? ]EIJO", correct: "QU", choices: ["QU", "GU", "RR", "SS"], full: "QUEIJO", hint: "Alimento amarelo que o rato adora!" },
+          { word: "LE[ ? ]E", correct: "QU", choices: ["QU", "GU", "SS", "RR"], full: "LEQUE", hint: "Objeto usado para abanar no calor!" }
+        ],
+        boss: {
+          name: "🐉 CHEFÃO: DRAGÃO DOS VENTOS",
+          avatar: "🐉",
+          maxHp: 3,
+          dialogue: "RROARR! Ninguém supera as chamas dos meus dígrafos secretos!",
+          questions: [
+            { word: "[ ? ]ITARRA", correct: "GU", choices: ["GU", "QU", "CH", "LH"], full: "GUITARRA", hint: "Instrumento musical de cordas elétricas!" },
+            { word: "BARA[ ? ]O", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "BARALHO", hint: "Conjunto de cartas para jogar!" },
+            { word: "O[ ? ]O", correct: "SS", choices: ["SS", "RR", "LH", "CH"], full: "OSSO", hint: "Petisco favorito dos cães!" }
+          ]
+        }
+      },
+      {
+        id: 4,
+        name: "🦹‍♂️ FASE 4: O LABORATÓRIO DO DR. GRAFIA",
+        bgHue: 0,
+        questions: [], // Direct Boss Battle!
+        boss: {
+          name: "🦹‍♂️ DR. GRAFIA TRAÇOEIRA (CHEFÃO FINAL)",
+          avatar: "🦹‍♂️",
+          maxHp: 4,
+          dialogue: "Mwahaha! Você chegou até meu laboratório central! Mas agora sentirá o poder do meu Canhão Ortográfico!",
+          questions: [
+            { word: "CACHO[ ? ]O", correct: "RR", choices: ["RR", "NH", "LH", "SS"], full: "CACHORRO", hint: "Animal amigo que late!" },
+            { word: "CHO[ ? ]OLATE", correct: "CO", choices: ["CH", "LH", "NH", "SS"], full: "CHOCOLATE", hint: "Doce de cacau delicioso!" },
+            { word: "FO[ ? ]ETE", correct: "GU", choices: ["GU", "QU", "SS", "RR"], full: "FOGUETE", hint: "Nave que voa pro espaço!" },
+            { word: "GIRA[ ? ]OL", correct: "SS", choices: ["SS", "RR", "LH", "NH"], full: "GIRASSOL", hint: "Flor amarela radiante!" }
+          ]
+        }
+      }
     ];
 
     // Game Variables
-    let playerName = "Agente Estrela";
-    let gameQueue = [];
-    let currentIndex = 0;
+    let currentStageIndex = 0;
+    let currentQuestionIndex = 0;
+    let isBossFight = false;
+    let bossHp = 0;
     let score = 0;
     let combo = 0;
-    let timeSeconds = 120; // 2 Minutes total game timer!
-    let mainTimer = null;
-    let isPaused = false;
-    let isFrozen = false;
-    let freezeCount = 1;
-    let lupaCount = 1;
+    let lives = 3;
+    let timer = null;
+    let timeRemaining = 12; // 12 seconds per question
 
-    function shuffle(arr) {
-      return arr.sort(() => Math.random() - 0.5);
-    }
-
-    function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
-
-    // Leaderboard Functions
-    function getLeaderboard() {
-      try {
-        return JSON.parse(localStorage.getItem('detetive_leaderboard')) || [
-          { name: "Prof. Fábio", score: 2800 },
-          { name: "Agente Sofia", score: 2200 },
-          { name: "Agente Lucas", score: 1800 },
-          { name: "Agente Gabriel", score: 1400 },
-          { name: "Agente Beatriz", score: 1000 }
-        ];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveLeaderboard(name, sc) {
-      let board = getLeaderboard();
-      board.push({ name, score: sc });
-      board.sort((a, b) => b.score - a.score);
-      board = board.slice(0, 10);
-      localStorage.setItem('detetive_leaderboard', JSON.stringify(board));
-    }
-
-    function renderLeaderboards() {
-      const board = getLeaderboard();
-      
-      // Render Preview Top 5
-      const prevHtml = board.slice(0, 5).map((item, idx) => `
-        <div class="leader-row ${item.name === playerName ? 'me' : ''}">
-          <span>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '🎖️'} ${item.name}</span>
-          <span style="color: #f59e0b; font-weight: 800;">${item.score} PTS</span>
-        </div>
-      `).join('');
-      document.getElementById('leaderboard-preview-list').innerHTML = prevHtml;
-
-      // Render Final Top 10
-      const finalHtml = board.map((item, idx) => `
-        <div class="leader-row ${item.name === playerName ? 'me' : ''}">
-          <span>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}º`} ${item.name}</span>
-          <span style="color: #f59e0b; font-weight: 800;">${item.score} PTS</span>
-        </div>
-      `).join('');
-      document.getElementById('leaderboard-final-list').innerHTML = finalHtml;
+    function showOverlay(id) {
+      document.querySelectorAll('.screen-overlay').forEach(el => el.classList.add('hidden'));
+      if (id) document.getElementById(id).classList.remove('hidden');
     }
 
     function startGame() {
-      const input = document.getElementById('player-name-input').value.trim();
-      playerName = input || "Agente Anônimo";
-      document.getElementById('hud-player-name').innerText = playerName;
-      document.getElementById('final-player-name').innerText = playerName;
-
-      document.getElementById('overlay-start').classList.add('hidden');
-      document.getElementById('overlay-pause').classList.add('hidden');
-      document.getElementById('overlay-end').classList.add('hidden');
-
-      gameQueue = shuffle([...DICTIONARY]);
-      currentIndex = 0;
+      currentStageIndex = 0;
       score = 0;
       combo = 0;
-      timeSeconds = 120; // 2 Minutes!
-      isPaused = false;
-      isFrozen = false;
-      freezeCount = 1;
-      lupaCount = 1;
-
-      updateHUD();
-      startMainTimer();
-      nextQuestion();
+      lives = 3;
+      showOverlay(null);
+      loadStage(0);
     }
 
-    function startMainTimer() {
-      clearInterval(mainTimer);
-      mainTimer = setInterval(() => {
-        if (!isPaused && !isFrozen) {
-          timeSeconds--;
-          document.getElementById('timer-display').innerText = formatTime(timeSeconds);
+    function loadStage(stageIdx) {
+      currentStageIndex = stageIdx;
+      currentQuestionIndex = 0;
+      isBossFight = (stageIdx === 3); // Stage 4 is immediate Boss Fight!
 
-          const badge = document.getElementById('timer-badge');
-          if (timeSeconds <= 15) {
-            badge.classList.add('warning');
-          } else {
-            badge.classList.remove('warning');
-          }
-
-          if (timeSeconds <= 0) {
-            clearInterval(mainTimer);
-            endGame();
-          }
-        }
-      }, 1000);
+      const stage = STAGES[stageIdx];
+      document.getElementById('hud-stage-name').innerText = stage.name;
+      
+      if (isBossFight) {
+        startBossFight();
+      } else {
+        document.getElementById('boss-bar').style.display = 'none';
+        document.getElementById('character-avatar').innerText = '🧐';
+        document.getElementById('character-dialogue').innerText = `Bem-vindo à ${stage.name}! Resolva as palavras para atrair o Chefão!`;
+        loadQuestion();
+      }
     }
 
-    function showTimeFloat(txt, isPlus) {
-      const container = document.getElementById('time-float-container');
-      const el = document.createElement('div');
-      el.className = `time-float ${isPlus ? 'plus' : 'minus'}`;
-      el.innerText = txt;
-      container.appendChild(el);
-      setTimeout(() => el.remove(), 1000);
-    }
+    function loadQuestion() {
+      const stage = STAGES[currentStageIndex];
+      let item;
 
-    function updateHUD() {
-      document.getElementById('score-display').innerText = score;
-      document.getElementById('combo-display').innerText = `${combo}x`;
-      document.getElementById('timer-display').innerText = formatTime(timeSeconds);
-      document.getElementById('count-freeze').innerText = freezeCount;
-      document.getElementById('count-lupa').innerText = lupaCount;
-      document.getElementById('btn-freeze').disabled = freezeCount <= 0;
-      document.getElementById('btn-lupa').disabled = lupaCount <= 0;
-    }
-
-    function nextQuestion() {
-      if (currentIndex >= gameQueue.length) {
-        // Loop dictionary if player is super fast!
-        gameQueue = shuffle([...DICTIONARY]);
-        currentIndex = 0;
+      if (isBossFight) {
+        item = stage.boss.questions[currentQuestionIndex];
+      } else {
+        item = stage.questions[currentQuestionIndex];
       }
 
-      const item = gameQueue[currentIndex];
+      if (!item) {
+        if (!isBossFight) {
+          startBossFight();
+        } else {
+          stageCleared();
+        }
+        return;
+      }
+
+      // Render Word
       const formatted = item.word.replace('[ ? ]', '<span class="gap-highlight">[ ? ]</span>');
       document.getElementById('target-word-display').innerHTML = formatted;
       document.getElementById('target-hint-display').innerText = `💡 Dica: ${item.hint}`;
 
-      const talk = PROVOCATIVE_TALKS[Math.floor(Math.random() * PROVOCATIVE_TALKS.length)];
-      document.getElementById('mascot-dialogue').innerText = talk;
-      document.getElementById('mascot-emoji').innerText = '🧐';
-
+      // Render Choices
       const container = document.getElementById('orbs-container');
       container.innerHTML = '';
-      const choices = shuffle([...item.choices]);
+      const shuffledChoices = [...item.choices].sort(() => Math.random() - 0.5);
 
-      choices.forEach(ch => {
+      shuffledChoices.forEach(ch => {
         const btn = document.createElement('button');
         btn.className = 'orb-btn';
         btn.innerText = ch;
-        btn.onclick = () => selectChoice(ch, btn);
+        btn.onclick = () => selectChoice(ch, btn, item);
         container.appendChild(btn);
       });
+
+      startTimer();
     }
 
-    function selectChoice(selected, btn) {
-      if (isPaused) return;
-      const item = gameQueue[currentIndex];
+    function startBossFight() {
+      isBossFight = true;
+      currentQuestionIndex = 0;
+      const stage = STAGES[currentStageIndex];
+      const boss = stage.boss;
+
+      bossHp = boss.maxHp;
+      document.getElementById('boss-bar').style.display = 'flex';
+      document.getElementById('boss-name-txt').innerText = boss.name;
+      updateBossHpBar();
+
+      document.getElementById('character-avatar').innerText = boss.avatar;
+      document.getElementById('character-dialogue').innerText = `💥 ALERTA DE CHEFÃO! ${boss.dialogue}`;
+
+      loadQuestion();
+    }
+
+    function updateBossHpBar() {
+      const stage = STAGES[currentStageIndex];
+      const boss = stage.boss;
+      const pct = (bossHp / boss.maxHp) * 100;
+      document.getElementById('boss-hp-fill').style.width = `${Math.max(0, pct)}%`;
+      document.getElementById('boss-hp-txt').innerText = `HP: ${bossHp}/${boss.maxHp}`;
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timeRemaining = 12;
+      const bar = document.getElementById('timer-bar');
+      bar.style.width = '100%';
+
+      timer = setInterval(() => {
+        timeRemaining -= 0.1;
+        const pct = (timeRemaining / 12) * 100;
+        bar.style.width = `${Math.max(0, pct)}%`;
+
+        if (timeRemaining <= 0) {
+          clearInterval(timer);
+          handleTimeout();
+        }
+      }, 100);
+    }
+
+    function selectChoice(selected, btn, item) {
+      clearInterval(timer);
       const allBtns = document.querySelectorAll('.orb-btn');
       allBtns.forEach(b => b.onclick = null);
 
       if (selected === item.correct) {
-        playFx('hit');
-        btn.classList.add('correct-pop');
-        combo++;
-        timeSeconds += 4; // TIME REWARD! +4 SECONDS!
-        showTimeFloat('+4s Tempo!', true);
-
-        const pts = 100 + (combo * 25);
-        score += pts;
-
-        document.getElementById('mascot-emoji').innerText = '😎';
-        document.getElementById('mascot-dialogue').innerText = `🎉 PERFEITO! A palavra é ${item.full}! (+${pts} PTS / +4s)`;
-
-        // Milestone taunt every 5 streak
-        if (combo % 5 === 0) {
-          score += 200;
-          document.getElementById('mascot-dialogue').innerText = `🏆 MARCA INCRÍVEL! ${combo} ACERTOS SEGUIDOS! (+200 BÔNUS)!`;
+        if (isBossFight) {
+          playFx('boss_hit');
+          bossHp--;
+          updateBossHpBar();
+          btn.classList.add('correct-pop');
+          document.getElementById('character-avatar').innerText = '💥';
+          document.getElementById('character-dialogue').innerText = `⚡ GOLPE DIRETO NO CHEFÃO! A palavra era ${item.full}!`;
+        } else {
+          playFx('hit');
+          btn.classList.add('correct-pop');
+          combo++;
+          score += 150 + (combo * 20);
+          document.getElementById('character-avatar').innerText = '😎';
+          document.getElementById('character-dialogue').innerText = `🎉 PERFEITO! A palavra é ${item.full}!`;
         }
 
         setTimeout(() => {
-          currentIndex++;
+          currentQuestionIndex++;
+          if (isBossFight && bossHp <= 0) {
+            stageCleared();
+          } else {
+            loadQuestion();
+          }
           updateHUD();
-          nextQuestion();
-        }, 1000);
+        }, 1100);
 
       } else {
         playFx('miss');
         btn.classList.add('wrong-pop');
         combo = 0;
-        timeSeconds = Math.max(0, timeSeconds - 5); // TIME PENALTY! -5 SECONDS!
-        showTimeFloat('-5s Tempo!', false);
+        lives--;
 
         allBtns.forEach(b => {
           if (b.innerText === item.correct) b.classList.add('correct-pop');
         });
 
-        document.getElementById('mascot-emoji').innerText = '😱';
-        document.getElementById('mascot-dialogue').innerText = `❌ OPS! O dígrafo correto era "${item.correct}" (${item.full})! (-5s)`;
+        document.getElementById('character-avatar').innerText = '😱';
+        document.getElementById('character-dialogue').innerText = `❌ ERROU! A resposta certa era "${item.correct}" (${item.full})!`;
 
         setTimeout(() => {
-          currentIndex++;
-          updateHUD();
-          nextQuestion();
+          if (lives <= 0) {
+            endGame(false);
+          } else {
+            currentQuestionIndex++;
+            loadQuestion();
+            updateHUD();
+          }
         }, 1500);
       }
     }
 
-    function pauseGame() {
-      isPaused = true;
-      document.getElementById('overlay-pause').classList.remove('hidden');
+    function handleTimeout() {
+      playFx('miss');
+      combo = 0;
+      lives--;
+
+      document.getElementById('character-avatar').innerText = '⏰';
+      document.getElementById('character-dialogue').innerText = "⏰ TEMPO ESGOTADO! O ataque falhou!";
+
+      setTimeout(() => {
+        if (lives <= 0) {
+          endGame(false);
+        } else {
+          currentQuestionIndex++;
+          loadQuestion();
+          updateHUD();
+        }
+      }, 1500);
     }
 
-    function resumeGame() {
-      isPaused = false;
-      document.getElementById('overlay-pause').classList.add('hidden');
-    }
+    function stageCleared() {
+      playFx('win');
+      clearInterval(timer);
 
-    function useFreeze() {
-      if (freezeCount > 0 && !isFrozen && !isPaused) {
-        freezeCount--;
-        isFrozen = true;
-        playFx('power');
-        document.getElementById('mascot-dialogue').innerText = "🧊 CONGELAMENTO ATIVADO! Relógio pausado por 5 segundos!";
-        updateHUD();
-        setTimeout(() => {
-          isFrozen = false;
-          document.getElementById('mascot-dialogue').innerText = "⚡ O relógio voltou a rodar!";
-        }, 5000);
+      if (currentStageIndex >= STAGES.length - 1) {
+        endGame(true);
+      } else {
+        const stage = STAGES[currentStageIndex];
+        document.getElementById('stage-clear-title').innerText = `🎉 ${stage.name} CONCLUÍDA!`;
+        document.getElementById('stage-clear-msg').innerText = `Você derrotou o Chefão ${stage.boss.name}! Prepare-se para a próxima fase!`;
+        showOverlay('overlay-stage-clear');
       }
     }
 
-    function useLupa() {
-      if (lupaCount > 0 && !isPaused) {
-        lupaCount--;
-        playFx('power');
-        const item = gameQueue[currentIndex];
-        const allBtns = Array.from(document.querySelectorAll('.orb-btn'));
-        const wrongBtns = allBtns.filter(b => b.innerText !== item.correct);
-
-        wrongBtns.slice(0, 2).forEach(b => {
-          b.style.opacity = '0.2';
-          b.onclick = null;
-        });
-
-        document.getElementById('mascot-dialogue').innerText = "💡 SUPER LUPA! Duas opções incorretas foram eliminadas!";
-        updateHUD();
-      }
+    function advanceStage() {
+      showOverlay(null);
+      loadStage(currentStageIndex + 1);
     }
 
-    function endGame() {
-      clearInterval(mainTimer);
-      playFx('power');
+    function updateHUD() {
+      document.getElementById('score-display').innerText = score;
+      document.getElementById('combo-display').innerText = `${combo}x`;
+      document.getElementById('lives-display').innerText = '❤️'.repeat(Math.max(0, lives)) + '🖤'.repeat(Math.max(0, 3 - lives));
+    }
 
-      saveLeaderboard(playerName, score);
-      renderLeaderboards();
+    function endGame(victory) {
+      clearInterval(timer);
+      showOverlay('overlay-end');
 
-      const overlay = document.getElementById('overlay-end');
-      overlay.classList.remove('hidden');
       document.getElementById('end-score').innerText = score;
 
-      if (score >= 2500) {
-        document.getElementById('end-icon').innerText = '🏆⚡👑';
-        document.getElementById('end-title').innerText = 'AGENTE LENDÁRIO DE ELITE!';
-        document.getElementById('end-desc').innerText = `EXTRAORDINÁRIO, ${playerName}! Você salvou o dicionário e garantiu um lugar no topo do Ranking!`;
-      } else if (score >= 1200) {
-        document.getElementById('end-icon').innerText = '💼🔍';
-        document.getElementById('end-title').innerText = 'DETETIVE DE PRIMEIRA CLASSE!';
-        document.getElementById('end-desc').innerText = `Muito bem, ${playerName}! Sua rapidez garantiu uma excelente pontuação no ranking!`;
+      if (victory) {
+        playFx('win');
+        document.getElementById('end-icon').innerText = '👑🏆🌟';
+        document.getElementById('end-title').innerText = 'DR. GRAFIA DERROTADO!';
+        document.getElementById('end-desc').innerText = 'EXTRAORDINÁRIO! Você passou por TODAS AS 4 FASES e salvou a Cidade das Palavras do feitiço dos dígrafos!';
       } else {
-        document.getElementById('end-icon').innerText = '🌱🕵️';
-        document.getElementById('end-title').innerText = 'AGENTE EM TREINAMENTO';
-        document.getElementById('end-desc').innerText = `Boa tentativa, ${playerName}! Que tal tentar mais uma vez para subir posições no Ranking de Elite?`;
+        document.getElementById('end-icon').innerText = '☠️🐉';
+        document.getElementById('end-title').innerText = 'FIM DE JOGO!';
+        document.getElementById('end-desc').innerText = 'Seus corações acabaram durante a batalha. Não desista, tente novamente e supere os Chefões!';
       }
     }
 
-    // Initialize Leaderboard on Load
-    renderLeaderboards();
-
-    // Canvas Background Particle Animation
+    // Canvas Dynamic Background per Stage
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -915,19 +738,21 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 40; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         r: Math.random() * 3 + 1,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
         alpha: Math.random() * 0.5 + 0.2
       });
     }
 
     function drawBg() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const stage = STAGES[currentStageIndex] || STAGES[0];
+      
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
@@ -938,7 +763,7 @@
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(168, 85, 247, ${p.alpha})`;
+        ctx.fillStyle = `hsla(${stage.bgHue}, 80%, 60%, ${p.alpha})`;
         ctx.fill();
       });
       requestAnimationFrame(drawBg);
