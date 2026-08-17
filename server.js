@@ -133,11 +133,7 @@ async function getTeacherLevel(id) {
 // Routes
 app.get('/', async (req, res) => {
   const { level, search, category, bncc, subject } = req.query;
-  let activities = [];
-  
-  if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas')) {
-    activities = await dbHelper.getActivities({ level, search, category, bncc, subject });
-  }
+  let activities = await dbHelper.getActivities({ level, search, category, bncc, subject });
 
   const teacher = await getTeacher(req);
   if (teacher && activities.length > 0) {
@@ -189,6 +185,7 @@ app.get('/atividades/fabrica-de-silabas', (req, res) => res.render('fabrica_sila
 app.get('/atividades/habitos-de-higiene', (req, res) => res.render('habitos_higiene_presentation'));
 app.get('/atividades/desafio-adicao', (req, res) => res.render('desafio_adicao_presentation'));
 app.get('/atividades/detetive-ortografia', (req, res) => res.render('detetive_ortografia_presentation'));
+app.get('/atividades/level-up', (req, res) => res.render('levelup_presentation'));
 
 // SEO Routes: robots.txt & dynamic sitemap.xml
 app.get('/robots.txt', (req, res) => {
