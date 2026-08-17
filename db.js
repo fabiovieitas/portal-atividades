@@ -434,12 +434,12 @@ const dbHelper = {
     // Calculate class_count, favorite_count and safe fields for each teacher
     for (let t of teachers) {
       try {
-        const cls = await queryAll("SELECT id FROM teacher_classes WHERE teacher_id = ?", [t.id]);
+        const cls = await queryAll("SELECT * FROM teacher_classes WHERE teacher_id = ?", [t.id]);
         t.class_count = cls ? cls.length : 0;
       } catch(e) { t.class_count = 0; }
 
       try {
-        const favs = await queryAll("SELECT id FROM teacher_favorites WHERE teacher_id = ?", [t.id]);
+        const favs = await queryAll("SELECT * FROM teacher_favorites WHERE teacher_id = ?", [t.id]);
         t.favorite_count = favs ? favs.length : 0;
       } catch(e) { t.favorite_count = 0; }
 
