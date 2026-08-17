@@ -196,16 +196,18 @@
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 <% } %>
             </div>
-            <% } else { %>
+            <% } %>
 
-                <section class="challenges">
-                    <div class="section-header">
-                        <div class="header-content">
-                            <h2>
-                                <%= selectedLevel==='1-5' ? '🚀 Missões Kids' : '🔥 Desafios Tech' %>
-                            </h2>
-                            <a href="/" class="btn-back">⬅ Voltar</a>
-                        </div>
+            <section class="challenges">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>
+                            <%= selectedLevel==='1-5' ? '🚀 Missões Kids (1º ao 5º Ano)' : selectedLevel==='6-9' ? '🔥 Desafios Tech (6º ao 9º Ano)' : '🎮 Todas as Atividades & Missões' %>
+                        </h2>
+                        <% if (selectedLevel) { %>
+                            <a href="/" class="btn-back">⬅ Mostrar Todas</a>
+                        <% } %>
+                    </div>
                         
                         <!-- Search and Filter Bar -->
                         <div class="filter-bar glass-panel animate-up">
