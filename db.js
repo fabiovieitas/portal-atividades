@@ -1145,11 +1145,46 @@ async function initTables() {
           level: "6-9", category: "Eletrônica & Robótica", bncc_code: "EF08CI02, EF08CI05", subject: "Ciências"
         },
         {
-          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset",
-          description: "Simulador de escolhas, projeto de vida e tomada de decisão sobre finanças, estudos e cidadania.",
-          activity_url: "/games/missao-respeito/index.html",
+          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset [JOGO AUTORAL - AGENDA 21]",
+          description: "Simulador autoral de escolhas, desenvolvimento sustentável, projeto de vida e cidadania planetária alinhado à Agenda 21 e ODS da ONU.",
+          activity_url: "/atividades/level-up",
           icon_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-          level: "6-9", category: "Projeto de Vida", bncc_code: "EF06MA32, EF09MA20", subject: "Geral"
+          level: "6-9", category: "Jogo Autoral Lab Kids", bncc_code: "EF06MA32, EF09MA20", subject: "Projeto de Vida"
+        },
+        {
+          title: "Material Dourado Virtual",
+          description: "Manipule dezenas e unidades em tempo real para desenvolver o Sistema de Numeração Decimal de forma lúdica.",
+          activity_url: "/atividades/material-dourado",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3593/3593452.png",
+          level: "1-5", category: "Matemática Divertida", bncc_code: "EF01MA01, EF02MA05", subject: "Matemática"
+        },
+        {
+          title: "Fábrica de Sílabas & Palavras",
+          description: "Junte sílabas simples para formar palavras e acelerar o processo de hipótese silábica e leitura.",
+          activity_url: "/atividades/fabrica-de-silabas",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
+          level: "1-5", category: "Alfabetização", bncc_code: "EF01LP08, EF01LP10", subject: "Português"
+        },
+        {
+          title: "Hábitos de Higiene & Saúde",
+          description: "Atividade interativa sobre a importância de escovar os dentes, tomar banho e lavar as mãos para prevenir doenças.",
+          activity_url: "/atividades/habitos-de-higiene",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
+          level: "1-5", category: "Ciências & Saúde", bncc_code: "EF01CI01, EF02CI04", subject: "Ciências"
+        },
+        {
+          title: "Desafio dos Fatos Rápidos da Adição",
+          description: "Desenvolva o cálculo mental rápido e a agilidade nos fatos fundamentais da adição até 20.",
+          activity_url: "/atividades/desafio-adicao",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
+          level: "1-5", category: "Matemática Rápida", bncc_code: "EF01MA06, EF02MA05", subject: "Matemática"
+        },
+        {
+          title: "Detetive da Ortografia (CH, LH, NH, RR, SS)",
+          description: "Desafio gamificado de ortografia e fixação dos principais dígrafos da Língua Portuguesa.",
+          activity_url: "/atividades/detetive-ortografia",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
+          level: "1-5", category: "Ortografia & Leitura", bncc_code: "EF02LP01, EF03LP01", subject: "Português"
         }
       ];
 
@@ -1272,11 +1307,46 @@ async function initTables() {
           content: `<h2>⚡ Simulação Elétrica Segura</h2><p>Simulação virtual de componentes elétricos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF08CI02</strong></li><li><strong>EF08CI05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Simulação virtual de circuitos elétricos no Tinkercad (BNCC: EF08CI02, EF08CI05)."</em></div>`
         },
         {
-          title: "LEVEL UP O Jogo da Vida: Educação Financeira, Cidadania e Escolhas",
-          summary: "Guia para trabalhar responsabilidade, orçamento pessoal e Projeto de Vida com turmas dos anos finais.",
-          category: "Cidadania & Projeto de Vida", author: "Prof. Fábio Vieitas", activity_url: "/games/missao-respeito/index.html",
+          title: "LEVEL UP O Jogo da Vida: Educação Financeira, Cidadania e Escolhas (Agenda 21)",
+          summary: "Guia para trabalhar responsabilidade, orçamento pessoal, sustentabilidade planetária e Agenda 21 com turmas dos anos finais.",
+          category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/level-up",
           image_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-          content: `<h2>🎮 Projeto de Vida e Tomada de Decisão</h2><p>Educação financeira e escolhas de cidadania.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF06MA32</strong></li><li><strong>EF09MA20</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Educação financeira e tomada de decisões com o jogo LEVEL UP (BNCC: EF06MA32, EF09MA20)."</em></div>`
+          content: `<h2>🎮 Projeto de Vida e Tomada de Decisão</h2><p>Educação financeira, escolhas sustentáveis e cidadania global alinhadas à Agenda 21.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF06MA32</strong></li><li><strong>EF09MA20</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Educação financeira, cidadania e sustentabilidade com o jogo autoral LEVEL UP (BNCC: EF06MA32, EF09MA20)."</em></div>`
+        },
+        {
+          title: "Material Dourado Virtual: O Sistema de Numeração Decimal Concreto",
+          summary: "Como utilizar manipulação de barras e unidades virtuais para facilitar a compreensão de dezenas e centenas no Ensino Fundamental.",
+          category: "Matemática Divertida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/material-dourado",
+          image_url: "https://cdn-icons-png.flaticon.com/512/3593/3593452.png",
+          content: `<h2>🟡 Aprendizado Concreto da Matemática</h2><p>Exploração interativa de dezenas e unidades virtuais.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA01</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Prática pedagógica interativa com o Material Dourado Virtual para composição e decomposição numérica (BNCC: EF01MA01, EF02MA05)."</em></div>`
+        },
+        {
+          title: "Fábrica de Sílabas: Acelere a Hipótese Silábica e Leitura na Alfabetização",
+          summary: "Guia completo de aplicação da Fábrica de Sílabas para alfabetização inicial, consciência fonológica e síntese de palavras.",
+          category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/fabrica-de-silabas",
+          image_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
+          content: `<h2>🔤 Consciência Fonológica e Síntese Silábica</h2><p>Junção de sílabas simples para avanço na escrita e leitura.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP08</strong></li><li><strong>EF01LP10</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Atividade de formação de palavras e síntese de sílabas simples na Fábrica de Sílabas (BNCC: EF01LP08, EF01LP10)."</em></div>`
+        },
+        {
+          title: "Hábitos de Higiene e Saúde: Prevenção e Autocuidado na Escola",
+          summary: "Como trabalhar cuidados pessoais, banho, lavagem de mãos e escovação de dentes de forma lúdica nos anos iniciais.",
+          category: "Ciências & Saúde", author: "Prof. Fábio Vieitas", activity_url: "/atividades/habitos-de-higiene",
+          image_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
+          content: `<h2>🧼 Saúde e Autocuidado Infantil</h2><p>Reforço diário de hábitos saudáveis e prevenção de enfermidades.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01CI01</strong></li><li><strong>EF02CI04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Exploração de práticas de higiene corporal, escovação e cuidados com a saúde (BNCC: EF01CI01, EF02CI04)."</em></div>`
+        },
+        {
+          title: "Fatos Rápidos da Adição: Agilidade e Cálculo Mental Divertido",
+          summary: "Estratégias pedagógicas para trabalhar o cálculo mental e automatização da adição com jogos interativos.",
+          category: "Matemática Rápida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/desafio-adicao",
+          image_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
+          content: `<h2>⚡ Cálculo Mental Rápido</h2><p>Automatização dos fatos fundamentais da adição até 20.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA06</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Desenvolvimento de agilidade de cálculo mental nos Fatos Rápidos da Adição (BNCC: EF01MA06, EF02MA05)."</em></div>`
+        },
+        {
+          title: "Detetive da Ortografia: Dominando CH, LH, NH, RR e SS",
+          summary: "Como transformar a fixação de dígrafos e dificuldades ortográficas em um jogo envolvente de investigação.",
+          category: "Ortografia & Leitura", author: "Prof. Fábio Vieitas", activity_url: "/atividades/detetive-ortografia",
+          image_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
+          content: `<h2>🕵️ Caça-Erros e Fixação de Dígrafos</h2><p>Identificação e ortografia correta com CH, LH, NH, RR e SS.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02LP01</strong></li><li><strong>EF03LP01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Investigação ortográfica e diferenciação de dígrafos no jogo Detetive da Ortografia (BNCC: EF02LP01, EF03LP01)."</em></div>`
         }
       ];
 
