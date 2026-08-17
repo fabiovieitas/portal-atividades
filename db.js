@@ -760,7 +760,8 @@ async function initTables() {
     "ALTER TABLE students ADD COLUMN class_name TEXT;",
     "ALTER TABLE students ADD COLUMN student_pin TEXT DEFAULT '';",
     "ALTER TABLE activities ADD COLUMN bncc_code TEXT DEFAULT '';",
-    "ALTER TABLE activities ADD COLUMN subject TEXT DEFAULT 'Geral';"
+    "ALTER TABLE activities ADD COLUMN subject TEXT DEFAULT 'Geral';",
+    "ALTER TABLE news ADD COLUMN activity_url TEXT;"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}
