@@ -1308,26 +1308,11 @@ async function initTables() {
         },
         {
           title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset — Prevenção ao Bullying & Lei 14.811/2024",
-          summary: "Direcionamento estratégico e plano pedagógico de oratória para turmas do 6º ao 9º Ano com estética RPG/Battle Royale, conscientização sobre cyberbullying e valores de Honra e Lealdade.",
+          summary: "Guia pedagógico de simulação RPG para turmas do 6º ao 9º Ano sobre conscientização contra cyberbullying, saúde mental e responsabilidade jurídica.",
           category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/level-up",
           image_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
           content: `<h2>🛡️ Prevenção ao Bullying & Cyberbullying na Estética RPG</h2>
-<p>Direcionamento estratégico de palestra condensada (30 a 45 min) para engajamento de adolescentes da E.M. Profª Eleonora da Silva Pinto (Km 13) e escolas parceiras, conectando cultura gamer, saúde mental e responsabilidade jurídica.</p>
-
-<h3>🎮 Slide 1: Start Game (Servidor Eleonora Pinto / Km 13)</h3>
-<p><strong>Foco:</strong> Vida única sem botão de reset ou respawn. Cada escolha deixa rastros permanentes na conta e no servidor da escola.</p>
-
-<h3>⚠️ Slide 2: Bug no Sistema (Dano Crítico ao HP Mental)</h3>
-<p><strong>Foco:</strong> Dados de violência escolar e o impacto devastador da intimidação na saúde mental (depressão e exclusão moral).</p>
-
-<h3>📜 Slide 3: Update Patch (Lei 14.811/2024 & Art. 146-A)</h3>
-<p><strong>Foco:</strong> Fim da desculpa da 'zoeira'. Criminalização do bullying e reclusão para cyberbullying no Código Penal.</p>
-
-<h3>🛡️ Slide 4: Quest de Honra (Duo ou Covarde?)</h3>
-<p><strong>Foco:</strong> A responsabilidade ética de quem assiste, rir ou filma a agressão. Exercício de Lealdade e proteção aos vulneráveis.</p>
-
-<h3>🏆 Slide 5: Victory Screen (Guardiões do Servidor)</h3>
-<p><strong>Foco:</strong> Recrutamento dos estudantes para se tornarem os Guardiões de Honra do ambiente escolar.</p>
+<p>O jogo autoral LEVEL UP simula situações reais do cotidiano escolar e digital em formato RPG. Através de dilemas éticos, os alunos experimentam o impacto das suas escolhas na saúde mental dos colegas e conhecem os limites legais da intimidação sistemática sob a Lei 14.811/2024.</p>
 
 <h2>📘 Habilidades BNCC</h2>
 <ul>
