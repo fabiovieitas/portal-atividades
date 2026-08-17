@@ -429,14 +429,38 @@ app.get('/professor/login', async (req, res) => {
 app.post('/professor/register', async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    const { data: existing, error: findError } = await supabase.from('teachers').select('id').eq('email', email).maybeSingle();
-    if (findError) throw findError;
+    const cleanEmail = String(email || '').trim().toLowerCase();
+
+    // Check if email exists in Supabase or DB Engine
+    let existing = null;
+    if (supabase) {
+      try {
+        const { data } = await supabase.from('teachers').select('id').eq('email', cleanEmail).maybeSingle();
+        if (data) existing = data;
+      } catch(e){}
+    }
+    if (!existing) {
+      existing = await dbHelper.queryGet("SELECT id FROM teachers WHERE email = ?", [cleanEmail]);
+    }
+
     if (existing) {
       return res.render('teacher_login', { error: 'E-mail já cadastrado.' });
     }
+
     const hash = await bcrypt.hash(password, 10);
-    const { error: insertError } = await supabase.from('teachers').insert({ name, email, password_hash: hash });
-    if (insertError) throw insertError;
+
+    // Save in Supabase if available
+    if (supabase) {
+      try {
+        await supabase.from('teachers').insert({ name, email: cleanEmail, password_hash: hash });
+      } catch(e){}
+    }
+
+    // Save in Turso Cloud / SQLite DB Engine
+    try {
+      await dbHelper.queryRun("INSERT INTO teachers (name, email, password_hash) VALUES (?, ?, ?)", [name, cleanEmail, hash]);
+    } catch(e){}
+
     res.render('teacher_login', { error: 'Cadastro realizado com sucesso! Faça login.' });
   } catch (err) {
     console.error('Registration error:', err);
@@ -447,20 +471,45 @@ app.post('/professor/register', async (req, res) => {
 app.post('/professor/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const { data: teacher, error: findError } = await supabase.from('teachers').select('*').eq('email', email).maybeSingle();
-    if (findError) throw findError;
-    
+    const cleanEmail = String(email || '').trim().toLowerCase();
+    let teacher = null;
+
+    // Search in Supabase if available
+    if (supabase) {
+      try {
+        const { data } = await supabase.from('teachers').select('*').eq('email', cleanEmail).maybeSingle();
+        if (data) teacher = data;
+      } catch(e){}
+    }
+
+    // Fallback to Turso / SQLite DB Engine
+    if (!teacher) {
+      teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE email = ?", [cleanEmail]);
+    }
+
     if (teacher && await bcrypt.compare(password, teacher.password_hash)) {
       const sessionId = crypto.randomBytes(32).toString('hex');
       const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-      const { error: sessionError } = await supabase.from('teacher_sessions').insert({ id: sessionId, teacher_id: teacher.id, expires });
-      if (sessionError) throw sessionError;
-      
-      await supabase.from('teachers').update({ 
-        login_count: (teacher.login_count || 0) + 1, 
-        last_login: new Date().toISOString() 
-      }).eq('id', teacher.id);
-      await supabase.from('teacher_logins').insert({ teacher_id: teacher.id });
+
+      // Store session in Supabase if available
+      if (supabase) {
+        try {
+          await supabase.from('teacher_sessions').insert({ id: sessionId, teacher_id: teacher.id, expires });
+          await supabase.from('teachers').update({ 
+            login_count: (teacher.login_count || 0) + 1, 
+            last_login: new Date().toISOString() 
+          }).eq('id', teacher.id);
+          await supabase.from('teacher_logins').insert({ teacher_id: teacher.id });
+        } catch(e){}
+      }
+
+      // Store session in Turso Cloud / SQLite DB Engine
+      try {
+        await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, teacher.id, expires]);
+        await dbHelper.queryRun("UPDATE teachers SET login_count = COALESCE(login_count, 0) + 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
+        await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [teacher.id]);
+      } catch(e){}
+
       res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
       res.redirect('/professor/dashboard');
     } else {

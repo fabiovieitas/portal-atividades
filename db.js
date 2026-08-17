@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { createClient: createTursoClient } = require('@libsql/client');
+const { createClient: createSupabaseClient } = require('@supabase/supabase-js');
 const path = require('path');
 
 // Safely initialize local SQLite (only available when running locally in Node)
@@ -106,6 +107,19 @@ if (tursoUrl && tursoToken) {
   console.log('[DB Engine] Turso não configurado no .env, tentando SQLite local.');
 }
 
+// Safely initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL || 'https://ziaubnmbnpqgsiouoret.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+let supabase = null;
+try {
+  if (supabaseUrl && supabaseKey) {
+    supabase = createSupabaseClient(supabaseUrl, supabaseKey);
+    console.log('[DB Engine] Supabase Client conectado!');
+  }
+} catch (e) {
+  console.warn('[DB Engine] Falha ao conectar ao Supabase:', e.message);
+}
+
 // Memory Cache for Categories/Subjects
 let cachedMeta = null;
 let cachedMetaTime = 0;
@@ -159,6 +173,7 @@ async function queryRun(sql, args = []) {
 const dbHelper = {
   sqlite,
   tursoClient,
+  supabase,
   queryRun,
   queryAll,
   queryGet,
@@ -565,6 +580,40 @@ async function initTables() {
       activity_id INTEGER NOT NULL,
       score INTEGER DEFAULT 10,
       completed_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS teachers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      login_count INTEGER DEFAULT 0,
+      last_login DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS teacher_sessions (
+      id TEXT PRIMARY KEY,
+      teacher_id INTEGER NOT NULL,
+      expires DATETIME NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS teacher_logins (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      teacher_id INTEGER NOT NULL,
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS teacher_favorites (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      teacher_id INTEGER NOT NULL,
+      activity_id INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS teacher_classes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      teacher_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      grade_level TEXT,
+      access_code TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );`
   ];
 
