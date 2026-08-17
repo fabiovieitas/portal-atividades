@@ -167,6 +167,10 @@ app.get('/', async (req, res) => {
   });
 });
 
+app.get('/professor/certificado', (req, res) => {
+  res.render('certificate_generator');
+});
+
 app.get('/atividades/brincando-com-arie-1', async (req, res) => {
   res.render('arie_presentation');
 });
