@@ -73,6 +73,11 @@ function clearActivitiesCache() {
   cachedSubjects = null;
 }
 
+// Health check / Keep-Alive route (evita hibernação no Render)
+app.get('/ping', (req, res) => {
+  res.status(200).json({ status: 'ok', time: new Date().toISOString() });
+});
+
 // In-memory Cache for teacher sessions
 const sessionCache = new Map(); // sessionId -> { teacher, expires }
 
