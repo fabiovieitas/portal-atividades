@@ -1,654 +1,770 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detetive da Ortografia: Caça aos Dígrafos | Lab Kids</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body {
-            font-family: 'Fredoka', sans-serif;
-            background: #090d16;
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agente Ortográfico: O Resgate dos Dígrafos | Lab Kids</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@600;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #080c14;
+      font-family: 'Fredoka', sans-serif;
+      color: white;
+    }
 
-        /* Ambient Glow Background */
-        .bg-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(15, 23, 42, 0) 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
+    /* Canvas background for particles & laser effects */
+    #bg-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
 
-        /* Fixed Return Button */
-        .btn-return-portal {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 99999;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            font-size: 0.9rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-return-portal:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6); }
+    /* Fixed Navigation */
+    .btn-return-portal {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 99999;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-return-portal:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 25px rgba(239, 68, 68, 0.7); }
 
-        /* Main Game Wrapper */
-        .game-card {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 820px;
-            background: rgba(15, 23, 42, 0.92);
-            border-radius: 32px;
-            padding: 30px 25px;
-            border: 2px solid rgba(168, 85, 247, 0.5);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(168, 85, 247, 0.15);
-            text-align: center;
-            backdrop-filter: blur(16px);
-        }
+    /* AdSense Sidebars */
+    .adsense-game-sidebar-left, .adsense-game-sidebar-right {
+      position: fixed;
+      top: 75px;
+      width: 160px;
+      height: 600px;
+      z-index: 9999;
+      display: none;
+    }
+    .adsense-game-sidebar-left { left: 15px; }
+    .adsense-game-sidebar-right { right: 15px; }
+    @media (min-width: 1380px) {
+      .adsense-game-sidebar-left, .adsense-game-sidebar-right { display: block !important; }
+    }
 
-        /* Header Stats Bar */
-        .stats-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 20px;
-            padding: 12px 20px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    /* Game Container */
+    #game-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 15px;
+    }
 
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1rem;
-            font-weight: 700;
-        }
-        .stat-value {
-            color: #f59e0b;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 800;
-        }
+    /* Top HUD */
+    .hud-header {
+      width: 100%;
+      max-width: 850px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 2px solid #8b5cf6;
+      border-radius: 24px;
+      padding: 12px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+      backdrop-filter: blur(10px);
+      margin-top: 10px;
+    }
 
-        /* Provocative Banner Message */
-        .taunt-banner {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
-            border: 1px dashed #a855f7;
-            border-radius: 16px;
-            padding: 12px 18px;
-            font-size: 1.05rem;
-            color: #e9d5ff;
-            margin-bottom: 20px;
-            min-height: 54px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: pulse-border 2s infinite alternate;
-        }
-        @keyframes pulse-border {
-            0% { border-color: #a855f7; }
-            100% { border-color: #ec4899; }
-        }
+    .hud-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
 
-        /* Case File Word Display */
-        .case-file-box {
-            background: #0f172a;
-            border: 3px solid #f59e0b;
-            border-radius: 24px;
-            padding: 30px 20px;
-            margin: 15px 0 25px 0;
-            position: relative;
-            box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.1);
-        }
+    .hud-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #f59e0b;
+    }
 
-        .case-number {
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #f59e0b;
-            color: #0f172a;
-            font-weight: 800;
-            font-size: 0.8rem;
-            padding: 4px 16px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    .lives-container { font-size: 1.5rem; letter-spacing: 2px; }
 
-        .word-display {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 900;
-            letter-spacing: 4px;
-            color: #ffffff;
-        }
+    /* Mascot Speech Bubble */
+    .mascot-area {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      max-width: 850px;
+      width: 100%;
+      margin: 10px 0;
+    }
 
-        .word-display .blank {
-            color: #ec4899;
-            border-bottom: 4px dashed #ec4899;
-            padding: 0 8px;
-            animation: blink-blank 1s infinite;
-        }
-        @keyframes blink-blank {
-            0%, 100% { border-color: #ec4899; color: #ec4899; }
-            50% { border-color: #f59e0b; color: #f59e0b; }
-        }
+    .mascot-avatar {
+      font-size: 3.5rem;
+      background: rgba(30, 41, 59, 0.9);
+      border: 3px solid #f59e0b;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+      flex-shrink: 0;
+      animation: float-avatar 3s ease-in-out infinite;
+    }
+    @keyframes float-avatar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
 
-        .word-hint {
-            color: #94a3b8;
-            font-size: 1rem;
-            margin-top: 10px;
-            font-style: italic;
-        }
+    .speech-bubble {
+      background: rgba(30, 41, 59, 0.95);
+      border: 2px solid #a855f7;
+      border-radius: 20px;
+      padding: 14px 20px;
+      font-size: 1.05rem;
+      color: #f3e8ff;
+      flex-grow: 1;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 8px 12px 8px 0;
+      border-style: solid;
+      border-color: transparent #a855f7 transparent transparent;
+    }
 
-        /* Timer Bar */
-        .timer-container {
-            width: 100%;
-            height: 10px;
-            background: #1e293b;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
-        .timer-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
-            width: 100%;
-            transition: width 0.1s linear;
-        }
+    /* Main Target Card */
+    .target-card {
+      background: rgba(15, 23, 42, 0.95);
+      border: 3px solid #38bdf8;
+      border-radius: 32px;
+      padding: 30px 20px;
+      width: 100%;
+      max-width: 750px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(56, 189, 248, 0.25);
+      position: relative;
+      margin: 10px 0;
+    }
 
-        /* Digraph Selection Grid */
-        .choices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+    .target-word {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.8rem, 6.5vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: 6px;
+      color: #ffffff;
+    }
 
-        .choice-btn {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 2px solid #334155;
-            color: #f8fafc;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            padding: 16px 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
+    .gap-highlight {
+      color: #f43f5e;
+      background: rgba(244, 63, 94, 0.15);
+      border: 3px dashed #f43f5e;
+      padding: 2px 14px;
+      border-radius: 16px;
+      display: inline-block;
+      animation: pulse-gap 1.2s infinite;
+    }
+    @keyframes pulse-gap {
+      0%, 100% { border-color: #f43f5e; color: #f43f5e; }
+      50% { border-color: #fbbf24; color: #fbbf24; }
+    }
 
-        .choice-btn:hover {
-            border-color: #a855f7;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(168, 85, 247, 0.4);
-            background: linear-gradient(135deg, #3b0764, #1e293b);
-        }
+    .target-hint {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      margin-top: 12px;
+      font-style: italic;
+    }
 
-        .choice-btn:active {
-            transform: translateY(1px);
-        }
+    /* Timer Bar */
+    .timer-track {
+      width: 100%;
+      max-width: 750px;
+      height: 12px;
+      background: #1e293b;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .timer-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+      width: 100%;
+      transition: width 0.1s linear;
+    }
 
-        .choice-btn.correct {
-            background: linear-gradient(135deg, #10b981, #047857) !important;
-            border-color: #34d399 !important;
-            color: white !important;
-            animation: bounce-success 0.4s ease;
-        }
+    /* Interactive Floating Orbs / Choice Grid */
+    .orbs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      width: 100%;
+      max-width: 750px;
+      margin-bottom: 15px;
+    }
 
-        .choice-btn.wrong {
-            background: linear-gradient(135deg, #ef4444, #991b1b) !important;
-            border-color: #fca5a5 !important;
-            color: white !important;
-            animation: shake-error 0.4s ease;
-        }
+    .orb-btn {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 3px solid #8b5cf6;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 2.8rem);
+      font-weight: 900;
+      padding: 18px 5px;
+      border-radius: 24px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3), inset 0 0 15px rgba(139, 92, 246, 0.2);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
 
-        @keyframes bounce-success {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
+    .orb-btn:hover {
+      transform: translateY(-6px) scale(1.05);
+      border-color: #f59e0b;
+      box-shadow: 0 15px 35px rgba(245, 158, 11, 0.5), inset 0 0 20px rgba(245, 158, 11, 0.3);
+      background: linear-gradient(135deg, #3b0764 0%, #1e293b 100%);
+    }
 
-        @keyframes shake-error {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
+    .orb-btn.correct-pop {
+      background: linear-gradient(135deg, #10b981, #047857) !important;
+      border-color: #34d399 !important;
+      transform: scale(1.15) !important;
+      animation: pop-win 0.4s ease;
+    }
 
-        /* Combo Badge Floating Effect */
-        .combo-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #0f172a;
-            padding: 4px 14px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            margin-left: 8px;
-            animation: pop-combo 0.3s ease;
-        }
-        @keyframes pop-combo {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
+    .orb-btn.wrong-pop {
+      background: linear-gradient(135deg, #ef4444, #991b1b) !important;
+      border-color: #fca5a5 !important;
+      animation: shake-err 0.4s ease;
+    }
 
-        /* Screens (Start & End) */
-        .screen { display: none; }
-        .screen.active { display: block; }
+    @keyframes pop-win {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+      100% { transform: scale(1.15); }
+    }
+    @keyframes shake-err {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
 
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
-            color: white;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            padding: 16px 40px;
-            border-radius: 50px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 15px;
-            text-decoration: none;
-        }
-        .btn-action:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.7);
-        }
+    /* Power-ups Bar */
+    .powerups-bar {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .powerup-btn {
+      background: rgba(30, 41, 59, 0.9);
+      border: 2px solid #38bdf8;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .powerup-btn:hover:not(:disabled) { transform: scale(1.08); background: #0284c7; }
+    .powerup-btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: #475569; }
 
-        /* AdSense Sidebars */
-        .adsense-game-sidebar-left, .adsense-game-sidebar-right {
-            position: fixed;
-            top: 85px;
-            width: 160px;
-            height: 600px;
-            z-index: 9999;
-            display: none;
-        }
-        .adsense-game-sidebar-left { left: 15px; }
-        .adsense-game-sidebar-right { right: 15px; }
-        @media (min-width: 1350px) {
-            .adsense-game-sidebar-left, .adsense-game-sidebar-right { display: block !important; }
-        }
-    </style>
+    /* Screens Overlay */
+    .screen-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(8, 12, 20, 0.95);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      text-align: center;
+    }
+    .screen-overlay.hidden { display: none; }
+
+    .btn-action-main {
+      background: linear-gradient(135deg, #10b981, #047857);
+      color: white;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding: 18px 45px;
+      border-radius: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+    .btn-action-main:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.7); }
+  </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+  <canvas id="bg-canvas"></canvas>
 
-    <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
+  <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
 
-    <!-- AdSense Banners Laterais -->
-    <div class="adsense-game-sidebar-left">
-        <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
-            <div style="font-size: 0.7rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-1234567890123456" data-ad-slot="1234567891"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+  <!-- AdSense Banners Laterais -->
+  <div class="adsense-game-sidebar-left">
+    <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
+      <div style="font-size: 0.7rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
+      <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
+      <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-1234567890123456" data-ad-slot="1234567891"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+  <div class="adsense-game-sidebar-right">
+    <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
+      <div style="font-size: 0.7rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
+      <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
+      <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-1234567890123456" data-ad-slot="1234567892"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+  <!-- OVERLAY 1: HISTÓRIA & START -->
+  <div id="overlay-start" class="screen-overlay">
+    <div style="font-size: 5rem; margin-bottom: 10px; animation: float-avatar 3s infinite;">🦉🕵️‍♂️⚡</div>
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.6rem; color: #f59e0b; margin-bottom: 10px;">AGENTE ORTOGRÁFICO</h1>
+    <p style="color: #cbd5e1; font-size: 1.2rem; max-width: 620px; line-height: 1.6;">
+      O maquiavélico <strong>Dr. Grafia Traçoeira</strong> lançou um feitiço e roubou todos os <strong>Dígrafos (CH, LH, NH, RR, SS, QU, GU)</strong> do Dicionário Real!
+    </p>
+    <div style="background: rgba(139, 92, 246, 0.2); border: 2px dashed #8b5cf6; border-radius: 20px; padding: 15px 25px; margin: 20px 0; max-width: 520px;">
+      🧐 <strong>Missão do Inspetor Lupa:</strong> Destrua as bolhas com os dígrafos corretos, recupere o HP da cidade e derrote o vilão!
+    </div>
+    <button class="btn-action-main" onclick="startGame()">INICIAR MISSÃO DE RESGATE 🚀</button>
+  </div>
+
+  <!-- OVERLAY 2: RESULTADO FINAL -->
+  <div id="overlay-end" class="screen-overlay hidden">
+    <div id="end-icon" style="font-size: 5.5rem; margin-bottom: 10px;">🏆</div>
+    <h1 id="end-title" style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #f59e0b;">MISSÃO CONCLUÍDA!</h1>
+    <p id="end-desc" style="color: #cbd5e1; font-size: 1.2rem; max-width: 600px; margin: 15px 0; line-height: 1.6;"></p>
+    
+    <div style="background: rgba(15, 23, 42, 0.9); border: 3px solid #8b5cf6; border-radius: 24px; padding: 25px 40px; margin: 15px 0;">
+      <div style="color: #94a3b8; font-size: 1.1rem;">Pontuação Máxima</div>
+      <div id="end-score" style="font-family: 'Outfit', sans-serif; font-size: 3.8rem; font-weight: 900; color: #10b981;">0</div>
     </div>
 
-    <div class="adsense-game-sidebar-right">
-        <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
-            <div style="font-size: 0.7rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-1234567890123456" data-ad-slot="1234567892"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+      <button class="btn-action-main" onclick="startGame()">JOGAR NOVAMENTE 🔄</button>
+      <a href="/" class="btn-action-main" style="background: linear-gradient(135deg, #475569, #334155);">OUTROS JOGOS 🚀</a>
+    </div>
+  </div>
+
+  <!-- GAME INTERFACE -->
+  <div id="game-container">
+
+    <div class="hud-header">
+      <div class="hud-box">
+        <span>❤️ HP:</span>
+        <div id="lives-display" class="lives-container">❤️❤️❤️</div>
+      </div>
+      <div class="hud-box">
+        <span>🔥 Combo:</span>
+        <span id="combo-display" class="hud-val">0x</span>
+      </div>
+      <div class="hud-box">
+        <span>⭐ Pontos:</span>
+        <span id="score-display" class="hud-val">0</span>
+      </div>
     </div>
 
-    <div class="game-card">
+    <div class="mascot-area">
+      <div class="mascot-avatar" id="mascot-emoji">🧐</div>
+      <div class="speech-bubble" id="mascot-dialogue">
+        "Preste atenção, Agente! Encontre o dígrafo certo antes que a bomba zere!"
+      </div>
+    </div>
+
+    <div class="target-card">
+      <div class="target-word" id="target-word-display">
+        CACHO<span class="gap-highlight">[ ? ]</span>O
+      </div>
+      <div class="target-hint" id="target-hint-display">
+        💡 Dica: Animal amigo do homem que late!
+      </div>
+    </div>
+
+    <div class="timer-track">
+      <div id="timer-bar" class="timer-fill"></div>
+    </div>
+
+    <div class="powerups-bar">
+      <button class="powerup-btn" id="btn-freeze" onclick="useFreeze()">
+        🧊 Congelar Tempo (<span id="count-freeze">1</span>)
+      </button>
+      <button class="powerup-btn" id="btn-lupa" onclick="useLupa()">
+        💡 Revelar Dica (<span id="count-lupa">1</span>)
+      </button>
+    </div>
+
+    <div class="orbs-grid" id="orbs-container">
+      <!-- Orb buttons injected via JS -->
+    </div>
+
+  </div>
+
+  <script>
+    // Web Audio API Sound Synthesizer
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playFx(type) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      const t = audioCtx.currentTime;
+
+      if (type === 'hit') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, t);
+        osc.frequency.exponentialRampToValueAtTime(880, t + 0.15);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+        osc.start(t); osc.stop(t + 0.15);
+      } else if (type === 'miss') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(200, t);
+        osc.frequency.exponentialRampToValueAtTime(80, t + 0.3);
+        gain.gain.setValueAtTime(0.35, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+        osc.start(t); osc.stop(t + 0.3);
+      } else if (type === 'power') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, t);
+        osc.frequency.exponentialRampToValueAtTime(1200, t + 0.25);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+        osc.start(t); osc.stop(t + 0.25);
+      }
+    }
+
+    // 100% UNAMBIGUOUS RIGOROUS DICTIONARY OF DIGRAPHS
+    const DICTIONARY = [
+      { word: "CACHO[ ? ]O", correct: "RR", choices: ["RR", "SS", "CH", "NH"], full: "CACHORRO", hint: "Animal amigo do homem que late!" },
+      { word: "GALI[ ? ]A", correct: "NH", choices: ["NH", "LH", "CH", "SS"], full: "GALINHA", hint: "Aves do celeiro que bota ovos!" },
+      { word: "CO[ ? ]ER", correct: "LH", choices: ["LH", "CH", "NH", "RR"], full: "COLHER", hint: "Talher usado para tomar sopa!" },
+      { word: "PÁ[ ? ]ARO", correct: "SS", choices: ["SS", "RR", "CH", "NH"], full: "PÁSSARO", hint: "Animal de penas que voa alto!" },
+      { word: "[ ? ]APÉU", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "CHAPÉU", hint: "Acessório de cabeça contra o sol!" },
+      { word: "CA[ ? ]O", correct: "RR", choices: ["RR", "SS", "CH", "LH"], full: "CARRO", hint: "Veículo com 4 rodas que anda na estrada!" },
+      { word: "ESPE[ ? ]O", correct: "LH", choices: ["LH", "NH", "CH", "SS"], full: "ESPELHO", hint: "Objeto que reflete sua imagem!" },
+      { word: "MI[ ? ]OCA", correct: "NH", choices: ["NH", "LH", "CH", "RR"], full: "MINHOCA", hint: "Vive embaixo da terra no jardim!" },
+      { word: "[ ? ]OCOLATE", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "CHOCOLATE", hint: "Doce delicioso feito com cacau!" },
+      { word: "GIRA[ ? ]OL", correct: "SS", choices: ["SS", "RR", "LH", "NH"], full: "GIRASSOL", hint: "Flor amarela que segue o Sol!" },
+      { word: "TE[ ? ]ADO", correct: "LH", choices: ["LH", "CH", "NH", "RR"], full: "TELHADO", hint: "Fica no topo da casa para proteger da chuva!" },
+      { word: "BOCHE[ ? ]A", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "BOCHECHA", hint: "Parte fofinha do nosso rosto!" },
+      { word: "GA[ ? ]AFA", correct: "RR", choices: ["RR", "SS", "CH", "LH"], full: "GARRAFA", hint: "Recipiente para guardar água gelada!" },
+      { word: "DESE[ ? ]O", correct: "NH", choices: ["NH", "LH", "CH", "SS"], full: "DESENHO", hint: "Arte feita com lápis no papel!" },
+      { word: "O[ ? ]O", correct: "SS", choices: ["SS", "RR", "LH", "CH"], full: "OSSO", hint: "Petisco favorito dos cães!" },
+      { word: "OVE[ ? ]A", correct: "LH", choices: ["LH", "CH", "NH", "RR"], full: "OVELHA", hint: "Animal fofinho que produz lã!" },
+      { word: "[ ? ]INELO", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "CHINELO", hint: "Calçado confortável de usar em casa!" },
+      { word: "TO[ ? ]ADA", correct: "RR", choices: ["RR", "SS", "CH", "NH"], full: "TORRADA", hint: "Pão quentinho e crocante!" },
+      { word: "NI[ ? ]O", correct: "NH", choices: ["NH", "LH", "CH", "SS"], full: "NINHO", hint: "Berço dos passarinhos no galho!" },
+      { word: "MO[ ? ]ILA", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "MOCHILA", hint: "Bolsa para carregar o material escolar!" },
+      { word: "FO[ ? ]ETE", correct: "GU", choices: ["GU", "QU", "CH", "RR"], full: "FOGUETE", hint: "Nave espacial que vai até a Lua!" },
+      { word: "[ ? ]EIJO", correct: "QU", choices: ["QU", "GU", "CH", "SS"], full: "QUEIJO", hint: "Alimento amarelo que o rato adora!" },
+      { word: "[ ? ]ITARRA", correct: "GU", choices: ["GU", "QU", "CH", "LH"], full: "GUITARRA", hint: "Instrumento musical com cordas elétricas!" },
+      { word: "LE[ ? ]E", correct: "QU", choices: ["QU", "GU", "CH", "SS"], full: "LEQUE", hint: "Objeto usado para abanar no calor!" },
+      { word: "BARA[ ? ]O", correct: "LH", choices: ["LH", "NH", "CH", "SS"], full: "BARALHO", hint: "Conjunto de cartas de jogo!" }
+    ];
+
+    const PROVOCATIVE_TALKS = [
+      "🧐 'Duvido você acertar essa em menos de 3 segundos!'",
+      "🦉 'Cuidado! O Dr. Grafia tá rindo da sua demora!'",
+      "⚡ 'Que agilidade ortográfica! Mantém o ritmo!'",
+      "🧐 'Se errar essa, o robô coruja vai chorar!'",
+      "🔥 'Combo insano! Você é o pesadelo do Dr. Grafia!'"
+    ];
+
+    // Game Variables
+    let gameQueue = [];
+    let currentIndex = 0;
+    let score = 0;
+    let combo = 0;
+    let lives = 3;
+    let timer = null;
+    let timeRemaining = 8; // Fast-paced 8 seconds per question!
+    let freezeCount = 1;
+    let lupaCount = 1;
+    let isFrozen = false;
+
+    function shuffle(arr) {
+      return arr.sort(() => Math.random() - 0.5);
+    }
+
+    function startGame() {
+      document.getElementById('overlay-start').classList.add('hidden');
+      document.getElementById('overlay-end').classList.add('hidden');
+
+      gameQueue = shuffle([...DICTIONARY]);
+      currentIndex = 0;
+      score = 0;
+      combo = 0;
+      lives = 3;
+      freezeCount = 1;
+      lupaCount = 1;
+      isFrozen = false;
+
+      updateHUD();
+      nextQuestion();
+    }
+
+    function updateHUD() {
+      document.getElementById('score-display').innerText = score;
+      document.getElementById('combo-display').innerText = `${combo}x`;
+      document.getElementById('lives-display').innerText = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives);
+      document.getElementById('count-freeze').innerText = freezeCount;
+      document.getElementById('count-lupa').innerText = lupaCount;
+      document.getElementById('btn-freeze').disabled = freezeCount <= 0;
+      document.getElementById('btn-lupa').disabled = lupaCount <= 0;
+    }
+
+    function nextQuestion() {
+      if (lives <= 0 || currentIndex >= gameQueue.length) {
+        endGame();
+        return;
+      }
+
+      const item = gameQueue[currentIndex];
+
+      // Display Target Word
+      const formatted = item.word.replace('[ ? ]', '<span class="gap-highlight">[ ? ]</span>');
+      document.getElementById('target-word-display').innerHTML = formatted;
+      document.getElementById('target-hint-display').innerText = `💡 Dica: ${item.hint}`;
+
+      // Random Mascot Talk
+      const talk = PROVOCATIVE_TALKS[Math.floor(Math.random() * PROVOCATIVE_TALKS.length)];
+      document.getElementById('mascot-dialogue').innerText = talk;
+      document.getElementById('mascot-emoji').innerText = '🧐';
+
+      // Choices
+      const container = document.getElementById('orbs-container');
+      container.innerHTML = '';
+      const choices = shuffle([...item.choices]);
+
+      choices.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.className = 'orb-btn';
+        btn.innerText = ch;
+        btn.onclick = () => selectChoice(ch, btn);
+        container.appendChild(btn);
+      });
+
+      startTimer();
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      isFrozen = false;
+      timeRemaining = 8;
+      const bar = document.getElementById('timer-bar');
+      bar.style.width = '100%';
+
+      timer = setInterval(() => {
+        if (!isFrozen) {
+          timeRemaining -= 0.1;
+          const pct = (timeRemaining / 8) * 100;
+          bar.style.width = `${Math.max(0, pct)}%`;
+
+          if (timeRemaining <= 0) {
+            clearInterval(timer);
+            handleTimeout();
+          }
+        }
+      }, 100);
+    }
+
+    function selectChoice(selected, btn) {
+      clearInterval(timer);
+      const item = gameQueue[currentIndex];
+      const allBtns = document.querySelectorAll('.orb-btn');
+      allBtns.forEach(b => b.onclick = null);
+
+      if (selected === item.correct) {
+        playFx('hit');
+        btn.classList.add('correct-pop');
+        combo++;
+        const pts = 100 + (combo * 25) + Math.round(timeRemaining * 15);
+        score += pts;
         
-        <!-- SCREEN 1: START / PROVOCATIVE LAUNCHER -->
-        <div id="screen-start" class="screen active">
-            <div style="font-size: 4.5rem; margin-bottom: 10px; animation: float 3s infinite ease-in-out;">🕵️‍♂️🔍📜</div>
-            <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #f59e0b; margin-bottom: 10px;">DETETIVE DA ORTOGRAFIA</h1>
-            <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.6;">
-                O misterioso <strong>"Ladrão de Dígrafos"</strong> roubou as letras CH, LH, NH, RR e SS das palavras do museu! Seria você rápido o suficiente para solucionar os casos antes do tempo acabar?
-            </p>
-            <div style="background: rgba(168, 85, 247, 0.15); border: 1px solid #a855f7; border-radius: 16px; padding: 15px; margin: 20px auto; max-width: 500px; color: #e9d5ff;">
-                ⚡ <strong>Desafio do Xerife:</strong> Complete 10 casos sem errar para ganhar a Insígnia de Detetive Supremo!
-            </div>
-            <button class="btn-action" onclick="startGame()">ACEITAR DESAFIO 🚀</button>
-        </div>
+        document.getElementById('mascot-emoji').innerText = '😎';
+        document.getElementById('mascot-dialogue').innerText = `🎉 PERFEITO! A palavra é ${item.full}! (+${pts} PTS)`;
 
-        <!-- SCREEN 2: GAMEPLAY INTERFACE -->
-        <div id="screen-game" class="screen">
-            
-            <div class="stats-header">
-                <div class="stat-item">
-                    <span>🕵️ Caso:</span>
-                    <span id="case-counter" class="stat-value">1/10</span>
-                </div>
-                <div class="stat-item">
-                    <span>🔥 Combo:</span>
-                    <span id="combo-count" class="stat-value">0x</span>
-                </div>
-                <div class="stat-item">
-                    <span>⭐ Pontos:</span>
-                    <span id="score-val" class="stat-value">0</span>
-                </div>
-            </div>
+        setTimeout(() => {
+          currentIndex++;
+          updateHUD();
+          nextQuestion();
+        }, 1100);
 
-            <div id="taunt-text" class="taunt-banner">
-                💬 "Duvido você adivinhar qual dígrafo está faltando aqui!"
-            </div>
-
-            <div class="timer-container">
-                <div id="timer-bar" class="timer-bar"></div>
-            </div>
-
-            <div class="case-file-box">
-                <span class="case-number" id="case-tag">CASO SECRET - 01</span>
-                <div class="word-display" id="word-target">
-                    CA<span class="blank">??</span>ORRO
-                </div>
-                <div class="word-hint" id="word-hint">Dica: Um animal de estimação que late!</div>
-            </div>
-
-            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 15px;">Escolha o dígrafo correto para selar o caso:</p>
-
-            <div class="choices-grid" id="choices-container">
-                <!-- Choice Buttons injected via JS -->
-            </div>
-        </div>
-
-        <!-- SCREEN 3: VICTORY / GAMEOVER RANKING -->
-        <div id="screen-result" class="screen">
-            <div id="result-icon" style="font-size: 5rem; margin-bottom: 15px;">🏆</div>
-            <h1 id="result-title" style="font-family: 'Outfit', sans-serif; font-size: 2.4rem; color: #f59e0b;">INVESTIGAÇÃO CONCLUÍDA!</h1>
-            <p id="result-desc" style="color: #cbd5e1; font-size: 1.2rem; margin: 15px 0; line-height: 1.6;"></p>
-            
-            <div style="background: rgba(30, 41, 59, 0.8); border: 2px solid #a855f7; border-radius: 24px; padding: 25px; margin: 20px auto; max-width: 450px;">
-                <div style="font-size: 1.1rem; color: #94a3b8;">Pontuação Final</div>
-                <div id="final-score" style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 900; color: #10b981;">0</div>
-                <div id="badge-earned" style="margin-top: 10px; font-weight: 700; color: #f59e0b; font-size: 1.1rem;"></div>
-            </div>
-
-            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <button class="btn-action" onclick="startGame()">JOGAR NOVAMENTE 🔄</button>
-                <a href="/" class="btn-action" style="background: linear-gradient(135deg, #475569, #334155);">OUTRAS MISSÕES 🚀</a>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        // Sound FX Generator using Web Audio API
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      } else {
+        playFx('miss');
+        btn.classList.add('wrong-pop');
+        combo = 0;
+        lives--;
         
-        function playSound(type) {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+        allBtns.forEach(b => {
+          if (b.innerText === item.correct) b.classList.add('correct-pop');
+        });
 
-            const now = audioCtx.currentTime;
+        document.getElementById('mascot-emoji').innerText = '😱';
+        document.getElementById('mascot-dialogue').innerText = `❌ OPS! O dígrafo correto era "${item.correct}" (${item.full})!`;
 
-            if (type === 'correct') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(523.25, now); // C5
-                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
-                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                osc.start(now);
-                osc.stop(now + 0.3);
-            } else if (type === 'wrong') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(220, now); // A3
-                osc.frequency.exponentialRampToValueAtTime(110, now + 0.25); // A2
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-                osc.start(now);
-                osc.stop(now + 0.25);
-            } else if (type === 'win') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(440, now);
-                osc.frequency.exponentialRampToValueAtTime(880, now + 0.4);
-                gain.gain.setValueAtTime(0.4, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-                osc.start(now);
-                osc.stop(now + 0.5);
-            }
-        }
+        setTimeout(() => {
+          currentIndex++;
+          updateHUD();
+          nextQuestion();
+        }, 1600);
+      }
+    }
 
-        // Expanded Database of 30 Provocative Detective Cases
-        const ALL_CASES = [
-            { text: "CA___ORRO", correct: "RR", full: "CACHORRO", choices: ["RR", "CH", "SS", "LH"], hint: "Amigo fiel do homem que adora latir!" },
-            { text: "GA___INHA", correct: "NH", full: "GALINHA", choices: ["NH", "LH", "CH", "SS"], hint: "Aves do celeiro que bota ovos!" },
-            { text: "CO___ER", correct: "LH", full: "COLHER", choices: ["LH", "CH", "NH", "RR"], hint: "Talher usado para tomar sopa quentinha!" },
-            { text: "PA___ARO", correct: "SS", full: "PÁSSARO", choices: ["SS", "RR", "CH", "NH"], hint: "Animal de penas que voa pelos céus!" },
-            { text: "CHA___ÉU", correct: "CH", full: "CHAPÉU", choices: ["CH", "LH", "NH", "SS"], hint: "Acessório usado na cabeça contra o sol!" },
-            { text: "CAR___O", correct: "RR", full: "CARRO", choices: ["RR", "SS", "CH", "LH"], hint: "Veículo com quatro rodas e motor!" },
-            { text: "ES___ELHO", correct: "LH", full: "ESPELHO", choices: ["LH", "NH", "CH", "SS"], hint: "Reflete a sua imagem perfeitamente!" },
-            { text: "MIN___OCA", correct: "NH", full: "MINHOCA", choices: ["NH", "LH", "CH", "RR"], hint: "Vive embaixo da terra e ajuda no solo!" },
-            { text: "CHO___OLATE", correct: "CH", full: "CHOCOLATE", choices: ["CH", "LH", "NH", "SS"], hint: "Doce delicioso feito com cacau!" },
-            { text: "GIRAS___OL", correct: "SS", full: "GIRASSOL", choices: ["SS", "RR", "LH", "NH"], hint: "Flor amarela linda que segue o Sol!" },
-            { text: "TEL___ADO", correct: "LH", full: "TELHADO", choices: ["LH", "CH", "NH", "RR"], hint: "Fica no topo da casa para proteger da chuva!" },
-            { text: "BO___ECHA", correct: "CH", full: "BOCHECHA", choices: ["CH", "LH", "NH", "SS"], hint: "Parte fofinha do nosso rosto!" },
-            { text: "GAR___AFA", correct: "RR", full: "GARRAFA", choices: ["RR", "SS", "CH", "LH"], hint: "Recipiente para guardar água bem gelada!" },
-            { text: "DESE___O", correct: "NH", full: "DESENHO", choices: ["NH", "LH", "CH", "SS"], hint: "Arte feita com lápis de cor no papel!" },
-            { text: "OS___O", correct: "SS", full: "OSSO", choices: ["SS", "RR", "LH", "CH"], hint: "Petisco favorito dos cães!" },
-            { text: "OVE___A", correct: "LH", full: "OVELHA", choices: ["LH", "CH", "NH", "RR"], hint: "Animal fofinho que produz lã!" },
-            { text: "CHIN___ELO", correct: "CH", full: "CHINELO", choices: ["CH", "LH", "NH", "SS"], hint: "Calçado confortável para usar em casa!" },
-            { text: "SO___ORRO", correct: "RR", full: "SOCORRO", choices: ["RR", "SS", "CH", "NH"], hint: "Grito pedido de ajuda em emergências!" },
-            { text: "NIN___O", correct: "NH", full: "NINHO", choices: ["NH", "LH", "CH", "SS"], hint: "Casa construída pelos passarinhos!" },
-            { text: "MO___ILA", correct: "CH", full: "MOCHILA", choices: ["CH", "LH", "NH", "SS"], hint: "Bolsa usada para carregar os livros da escola!" }
-        ];
+    function handleTimeout() {
+      playFx('miss');
+      combo = 0;
+      lives--;
+      const item = gameQueue[currentIndex];
+      
+      document.getElementById('mascot-emoji').innerText = '⏰';
+      document.getElementById('mascot-dialogue').innerText = `⏰ O TEMPO ACABOU! A resposta certa era "${item.correct}"!`;
 
-        const PROVOCATIVE_TAUNTS = [
-            "💬 'Duvido você resolver esse caso em menos de 5 segundos!'",
-            "💬 'Ih! O Ladrão de Dígrafos disse que essa é difícil demais pra você!'",
-            "💬 'Mantenha o foco, Detetive! As letras não vão se encaixar sozinhas!'",
-            "💬 'Você tem olhos de águia ou precisa de um óculos de investigação?'",
-            "💬 'Impressionante! Mas será que você tanca a próxima rodada?'",
-            "💬 'Combo Ativo! Não deixe a peteca cair agora!'"
-        ];
+      setTimeout(() => {
+        currentIndex++;
+        updateHUD();
+        nextQuestion();
+      }, 1600);
+    }
 
-        // Game State Variables
-        let currentCases = [];
-        let currentIndex = 0;
-        let score = 0;
-        let combo = 0;
-        let timerInterval = null;
-        let timeLeft = 10;
-        const TIME_LIMIT = 10; // 10 seconds per question for maximum action!
+    function useFreeze() {
+      if (freezeCount > 0 && !isFrozen) {
+        freezeCount--;
+        isFrozen = true;
+        playFx('power');
+        document.getElementById('mascot-dialogue').innerText = "🧊 RAIO CONGELANTE ATIVADO! Tempo pausado!";
+        updateHUD();
+      }
+    }
 
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-        }
+    function useLupa() {
+      if (lupaCount > 0) {
+        lupaCount--;
+        playFx('power');
+        const item = gameQueue[currentIndex];
+        const allBtns = Array.from(document.querySelectorAll('.orb-btn'));
+        const wrongBtns = allBtns.filter(b => b.innerText !== item.correct);
+        
+        // Remove 2 wrong choices
+        wrongBtns.slice(0, 2).forEach(b => {
+          b.style.opacity = '0.2';
+          b.onclick = null;
+        });
 
-        function shuffle(array) {
-            return array.sort(() => Math.random() - 0.5);
-        }
+        document.getElementById('mascot-dialogue').innerText = "💡 LUPA MÁGICA! Duas opções incorretas foram eliminadas!";
+        updateHUD();
+      }
+    }
 
-        function startGame() {
-            currentCases = shuffle([...ALL_CASES]).slice(0, 10);
-            currentIndex = 0;
-            score = 0;
-            combo = 0;
-            showScreen('screen-game');
-            loadCase();
-        }
+    function endGame() {
+      clearInterval(timer);
+      const overlay = document.getElementById('overlay-end');
+      overlay.classList.remove('hidden');
 
-        function loadCase() {
-            if (currentIndex >= currentCases.length) {
-                endGame();
-                return;
-            }
+      document.getElementById('end-score').innerText = score;
 
-            const current = currentCases[currentIndex];
-            
-            // UI Updates
-            document.getElementById('case-counter').innerText = `${currentIndex + 1}/${currentCases.length}`;
-            document.getElementById('case-tag').innerText = `CASO CRIME - 0${currentIndex + 1}`;
-            document.getElementById('combo-count').innerText = `${combo}x`;
-            document.getElementById('score-val').innerText = score;
-            
-            // Random Taunt
-            const taunt = PROVOCATIVE_TAUNTS[Math.floor(Math.random() * PROVOCATIVE_TAUNTS.length)];
-            document.getElementById('taunt-text').innerText = taunt;
+      if (score >= 2000) {
+        document.getElementById('end-icon').innerText = '🏆⚡👑';
+        document.getElementById('end-title').innerText = 'AGENTE SUPREMO DA ORTOGRAFIA!';
+        document.getElementById('end-desc').innerText = 'INCRÍVEL! Você recuperou todos os dígrafos do Dicionário e derrotou o Dr. Grafia com maestria!';
+      } else if (score >= 1000) {
+        document.getElementById('end-icon').innerText = '💼🔍';
+        document.getElementById('end-title').innerText = 'DETETIVE DE ELITE!';
+        document.getElementById('end-desc').innerText = 'Excelente trabalho! A Cidade das Palavras está segura graças à sua rapidez!';
+      } else {
+        document.getElementById('end-icon').innerText = '🌱🕵️';
+        document.getElementById('end-title').innerText = 'AGENTE EM TREINAMENTO';
+        document.getElementById('end-desc').innerText = 'Você lutou bravamente, mas o Dr. Grafia ainda escapou. Que tal jogar novamente para conseguir a Insígnia Suprema?';
+      }
+    }
 
-            // Target word with styled blank
-            const formattedWord = current.text.replace('___', '<span class="blank">??</span>');
-            document.getElementById('word-target').innerHTML = formattedWord;
-            document.getElementById('word-hint').innerText = `💡 Dica: ${current.hint}`;
+    // Canvas Background Animation
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
 
-            // Shuffled Choice Buttons
-            const choicesContainer = document.getElementById('choices-container');
-            choicesContainer.innerHTML = '';
-            
-            const shuffledChoices = shuffle([...current.choices]);
-            shuffledChoices.forEach(choice => {
-                const btn = document.createElement('button');
-                btn.className = 'choice-btn';
-                btn.innerText = choice;
-                btn.onclick = () => handleChoice(choice, btn);
-                choicesContainer.appendChild(btn);
-            });
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-            // Start Timer
-            startTimer();
-        }
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 3 + 1,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        alpha: Math.random() * 0.5 + 0.2
+      });
+    }
 
-        function startTimer() {
-            clearInterval(timerInterval);
-            timeLeft = TIME_LIMIT;
-            const timerBar = document.getElementById('timer-bar');
-            timerBar.style.width = '100%';
+    function drawBg() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
 
-            timerInterval = setInterval(() => {
-                timeLeft -= 0.1;
-                const percentage = (timeLeft / TIME_LIMIT) * 100;
-                timerBar.style.width = `${Math.max(0, percentage)}%`;
-
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    handleTimeOut();
-                }
-            }, 100);
-        }
-
-        function handleChoice(selected, btnElement) {
-            clearInterval(timerInterval);
-            const current = currentCases[currentIndex];
-            const allBtns = document.querySelectorAll('.choice-btn');
-            allBtns.forEach(b => b.onclick = null); // Lock further clicks
-
-            if (selected === current.correct) {
-                playSound('correct');
-                btnElement.classList.add('correct');
-                combo++;
-                const speedBonus = Math.round(timeLeft * 20);
-                const pointsGained = 100 + (combo * 20) + speedBonus;
-                score += pointsGained;
-
-                document.getElementById('taunt-text').innerText = `✅ EXCELENTE! ${current.full}! (+${pointsGained} PTS)`;
-                
-                setTimeout(() => {
-                    currentIndex++;
-                    loadCase();
-                }, 1200);
-            } else {
-                playSound('wrong');
-                btnElement.classList.add('wrong');
-                combo = 0;
-                
-                // Highlight correct button
-                allBtns.forEach(b => {
-                    if (b.innerText === current.correct) b.classList.add('correct');
-                });
-
-                document.getElementById('taunt-text').innerText = `❌ INCORRETO! O vilão escapou! A palavra era ${current.full}!`;
-
-                setTimeout(() => {
-                    currentIndex++;
-                    loadCase();
-                }, 1800);
-            }
-        }
-
-        function handleTimeOut() {
-            playSound('wrong');
-            combo = 0;
-            const current = currentCases[currentIndex];
-            document.getElementById('taunt-text').innerText = `⏰ TEMPO ESGOTADO! O vilão levou o dígrafo de ${current.full}!`;
-            
-            setTimeout(() => {
-                currentIndex++;
-                loadCase();
-            }, 1800);
-        }
-
-        function endGame() {
-            clearInterval(timerInterval);
-            playSound('win');
-            showScreen('screen-result');
-
-            document.getElementById('final-score').innerText = score;
-
-            let rank = "";
-            let desc = "";
-            let icon = "🏆";
-
-            if (score >= 1800) {
-                icon = "🌟🕵️‍♂️⚡";
-                rank = "INSÍGNIA SUPREMA: XERIFE DA ORTOGRAFIA!";
-                desc = "EXTRAORDINÁRIO! Você prendeu o Ladrão de Dígrafos e recuperou todas as palavras do museu com agilidade mestre!";
-            } else if (score >= 1000) {
-                icon = "💼🔍";
-                rank = "INSÍGNIA DE AGENTE INVESTIGADOR!";
-                desc = "Muito bem! Sua capacidade de observação salvou a maioria dos casos da cidade!";
-            } else {
-                icon = "🌱🔍";
-                rank = "INSÍGNIA DE RECRUTA DA LUPA!";
-                desc = "Você completou a missão, mas o Ladrão de Dígrafos ainda deixou algumas armadilhas. Que tal tentar novamente e bater seu recorde?";
-            }
-
-            document.getElementById('result-icon').innerText = icon;
-            document.getElementById('result-title').innerText = rank;
-            document.getElementById('result-desc').innerText = desc;
-        }
-    </script>
-
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(168, 85, 247, ${p.alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(drawBg);
+    }
+    drawBg();
+  </script>
 </body>
 </html>
