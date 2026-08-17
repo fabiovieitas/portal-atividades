@@ -20,6 +20,13 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.json({ limit: '15mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'public', 'img', 'robot-icon-512.png')));
+app.get('/download/labkids.apk', (req, res) => {
+  const apkPath = path.join(__dirname, 'public', 'downloads', 'labkids.apk');
+  if (fs.existsSync(apkPath)) {
+    return res.download(apkPath, 'LabKids_v1.0.apk');
+  }
+  res.redirect('/manifest.json');
+});
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(cookieParser());
