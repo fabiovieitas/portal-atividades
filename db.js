@@ -235,7 +235,7 @@ const dbHelper = {
           title: "Brincando com Ariê 1",
           description: "Jogo educativo para auxílio à alfabetização, reconhecimento de cores, frutas e associação de palavras.",
           activity_url: "/atividades/brincando-com-arie-1",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081884.png",
+          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
           level: "1-5", category: "Alfabetização", subject: "Português", bncc_code: "EI02EF04, EI02ET06, EF01LP10", status: "public", visits: 500
         },
         {
@@ -299,7 +299,7 @@ const dbHelper = {
           title: "Tux Math - Matemática Divertida",
           description: "Jogo educativo arcade onde você ajuda o pinguim Tux a defender a cidade resolvendo equações!",
           activity_url: "/atividades/tux-math",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2165/2165683.png",
+          icon_url: "https://tuxmath.org/images/favicon.png",
           level: "1-5", category: "Matemática", subject: "Matemática", bncc_code: "EF01MA06, EF02MA05, EF03MA03", status: "public", visits: 420
         },
         {
@@ -331,7 +331,7 @@ const dbHelper = {
           title: "Laboratório de Circuitos (Tinkercad)",
           description: "Monte e simule circuitos elétricos, baterias e leds em um ambiente virtual interativo.",
           activity_url: "https://www.tinkercad.com/circuits",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3067/3067345.png",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/2853/2853173.png",
           level: "6-9", category: "Eletrônica & Robótica", subject: "Ciências", bncc_code: "EF08CI02, EF08CI05", status: "public", visits: 210
         },
         {
@@ -1017,7 +1017,7 @@ async function initTables() {
           title: "Brincando com Ariê 1",
           description: "Jogo educativo para Educação Infantil e 1º Ano! Atividades lúdicas de letras, formas, números e sons da natureza com o leãozinho Ariê.",
           activity_url: "/atividades/brincando-com-arie-1",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081884.png",
+          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
           level: "1-5", category: "Alfabetização", bncc_code: "EI02EF04, EI02ET06, EF01LP10", subject: "Português"
         },
         {
@@ -1073,7 +1073,7 @@ async function initTables() {
           title: "Tux Math - Matemática Divertida",
           description: "Jogo educativo arcade onde você ajuda o pinguim Tux a defender a cidade resolvendo equações de adição, subtração e multiplicação!",
           activity_url: "/atividades/tux-math",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2165/2165683.png",
+          icon_url: "https://tuxmath.org/images/favicon.png",
           level: "1-5", category: "Matemática", bncc_code: "EF01MA06, EF02MA05, EF03MA03", subject: "Matemática"
         },
         {
@@ -1101,7 +1101,7 @@ async function initTables() {
           title: "Laboratório de Circuitos (Tinkercad)",
           description: "Monte e simule circuitos elétricos, baterias, leds e resistores em um ambiente virtual interativo e seguro.",
           activity_url: "https://www.tinkercad.com/circuits",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3067/3067345.png",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/2853/2853173.png",
           level: "6-9", category: "Eletrônica & Robótica", bncc_code: "EF08CI02, EF08CI05", subject: "Ciências"
         },
         {
@@ -1144,7 +1144,7 @@ async function initTables() {
           title: "Brincando com Ariê 1: Alfabetização e Números na Educação Infantil",
           summary: "Descubra como o jogo Brincando com Ariê 1 desenvolve a consciência fonológica, contagem inicial e formas geométricas de maneira lúdica.",
           category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/brincando-com-arie-1",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3081/3081884.png",
+          image_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
           content: `<h2>🦁 Importância do Brincando com Ariê 1</h2><p>O jogo <strong>Brincando com Ariê 1</strong> desenvolve o reconhecimento de vogais, alfabeto e números iniciais.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EI02ET06</strong></li><li><strong>EF01LP10</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Uso do jogo digital Brincando com Ariê 1 para reconhecimento do alfabeto e contagem numérica inicial (BNCC: EI02ET06, EF01LP10)."</em></div>`
         },
         {
@@ -1200,7 +1200,7 @@ async function initTables() {
           title: "Tux Math: Cálculo Mental Divertido e Guia BNCC para Sala de Aula",
           summary: "Descubra como o jogo digital Tux Math estimula o cálculo mental rápido, reduz a ansiedade matemática e confira o texto pronto para o diário.",
           category: "Práticas Pedagógicas", author: "Prof. Fábio Vieitas", activity_url: "/atividades/tux-math",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2165/2165683.png",
+          image_url: "https://tuxmath.org/images/favicon.png",
           content: `<h2>🎮 O que é o Tux Math?</h2><p>Jogo arcade para defesa da cidade com equações matemáticas.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA06</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Desenvolvimento de cálculo mental rápido no Tux Math (BNCC: EF01MA06, EF02MA05)."</em></div>`
         },
         {
@@ -1228,7 +1228,7 @@ async function initTables() {
           title: "Laboratório de Circuitos Tinkercad: Simulação Virtual de Eletrônica",
           summary: "Como utilizar simulações virtuais seguras para ensinar componentes elétricos, leds e corrente no Ensino Fundamental II.",
           category: "Ciências & Robótica", author: "Prof. Fábio Vieitas", activity_url: "https://www.tinkercad.com/circuits",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3067/3067345.png",
+          image_url: "https://cdn-icons-png.flaticon.com/512/2853/2853173.png",
           content: `<h2>⚡ Simulação Elétrica Segura</h2><p>Simulação virtual de componentes elétricos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF08CI02</strong></li><li><strong>EF08CI05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Simulação virtual de circuitos elétricos no Tinkercad (BNCC: EF08CI02, EF08CI05)."</em></div>`
         },
         {
