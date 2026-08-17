@@ -183,6 +183,13 @@ app.get('/bncc/:code', async (req, res) => {
   res.render('bncc_guide', { bnccCode: code, activities });
 });
 
+// Presentation routes for 5 new top-demand games
+app.get('/atividades/material-dourado', (req, res) => res.render('material_dourado_presentation'));
+app.get('/atividades/fabrica-de-silabas', (req, res) => res.render('fabrica_silabas_presentation'));
+app.get('/atividades/habitos-de-higiene', (req, res) => res.render('habitos_higiene_presentation'));
+app.get('/atividades/desafio-adicao', (req, res) => res.render('desafio_adicao_presentation'));
+app.get('/atividades/detetive-ortografia', (req, res) => res.render('detetive_ortografia_presentation'));
+
 // SEO Routes: robots.txt & dynamic sitemap.xml
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain');

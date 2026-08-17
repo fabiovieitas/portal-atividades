@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hábitos de Higiene & Saúde Infantil | Lab Kids</title>
+    <style>
+        body { font-family: 'Fredoka', sans-serif; background: #0f172a; color: white; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 0 auto; background: #1e293b; border-radius: 24px; padding: 30px; border: 2px solid #06b6d4; }
+        .card-habit { background: #0f172a; border: 2px solid #38bdf8; border-radius: 16px; padding: 20px; margin: 15px; display: inline-block; width: 200px; cursor: pointer; transition: transform 0.2s; }
+        .card-habit:hover { transform: scale(1.05); border-color: #fbbf24; }
+        .icon-lg { font-size: 3.5rem; margin-bottom: 10px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧼 Hábitos de Higiene & Saúde 🪥</h1>
+        <p>Clique nos hábitos diários para aprender como cuidar do seu corpo e da sua saúde!</p>
+
+        <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+            <div class="card-habit" onclick="showTip('🧼 Lavar as Mãos', 'Lave as mãos com água e sabão antes das refeições e depois de brincar para eliminar os germes!')">
+                <span class="icon-lg">🧼</span>
+                <strong>Lavar as Mãos</strong>
+            </div>
+            <div class="card-habit" onclick="showTip('🪥 Escovar os Dentes', 'Escove os dentes após cada refeição e antes de dormir para manter o sorriso limpo e saudável!')">
+                <span class="icon-lg">🪥</span>
+                <strong>Escovar Dentes</strong>
+            </div>
+            <div class="card-habit" onclick="showTip('🚿 Tomar Banho', 'Tome banho todos os dias para limpa a pele e renovar as energias!')">
+                <span class="icon-lg">🚿</span>
+                <strong>Tomar Banho</strong>
+            </div>
+            <div class="card-habit" onclick="showTip('🍎 Alimentação Saudável', 'Coma frutas, legumes e beba bastante água todos os dias!')">
+                <span class="icon-lg">🍎</span>
+                <strong>Comer Frutas</strong>
+            </div>
+        </div>
+
+        <div id="tip-box" style="margin-top: 25px; padding: 20px; background: rgba(56, 189, 248, 0.1); border: 2px dashed #06b6d4; border-radius: 16px; font-size: 1.2rem; min-height: 50px;">
+            Clique em um hábito de higiene acima para ver a dica pedagógica!
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="/" style="color: #94a3b8; text-decoration: none;">⬅️ Voltar ao Portal Lab Kids</a>
+        </div>
+    </div>
+
+    <script>
+        function showTip(title, text) {
+            document.getElementById('tip-box').innerHTML = '<strong style="color: #fbbf24;">' + title + ':</strong> ' + text;
+        }
+    </script>
+</body>
+</html>

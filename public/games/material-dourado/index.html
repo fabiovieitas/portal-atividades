@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Dourado Virtual - Sistema Decimal | Lab Kids</title>
+    <style>
+        body { font-family: 'Fredoka', sans-serif; background: #0f172a; color: white; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 0 auto; background: #1e293b; border-radius: 24px; padding: 30px; border: 2px solid #3b82f6; }
+        .number-display { font-size: 3rem; font-weight: bold; color: #fbbf24; margin: 15px 0; }
+        .dourado-area { display: flex; justify-content: center; gap: 30px; margin: 25px 0; flex-wrap: wrap; background: #0f172a; padding: 20px; border-radius: 16px; min-height: 150px; align-items: flex-end; }
+        .barra-dezena { width: 25px; height: 140px; background: linear-gradient(135deg, #f59e0b, #d97706); border: 2px solid #fff; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .cubinho-unidade { width: 24px; height: 24px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: 2px solid #fff; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .btn-controls { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        button { padding: 12px 24px; border-radius: 50px; font-weight: bold; border: none; font-size: 1rem; cursor: pointer; transition: transform 0.2s; }
+        .btn-add-10 { background: #f59e0b; color: white; }
+        .btn-add-1 { background: #3b82f6; color: white; }
+        .btn-clear { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🟡 Material Dourado Virtual 🟦</h1>
+        <p>Monte o número usando Barras (Dezenas = 10) e Cubinhos (Unidades = 1)!</p>
+        
+        <div class="number-display" id="total-val">0</div>
+        <div style="font-size: 1.1rem; color: #cbd5e1;">
+            Dezenas: <strong id="cnt-10" style="color: #f59e0b;">0</strong> | Unidades: <strong id="cnt-1" style="color: #60a5fa;">0</strong>
+        </div>
+
+        <div class="dourado-area" id="dourado-display">
+            <!-- Items rendered dynamically -->
+        </div>
+
+        <div class="btn-controls">
+            <button class="btn-add-10" onclick="addValue(10)">+ 1 Barração (Dezena = 10)</button>
+            <button class="btn-add-1" onclick="addValue(1)">+ 1 Cubinho (Unidade = 1)</button>
+            <button class="btn-clear" onclick="resetAll()">🔄 Limpar Tudo</button>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="/" style="color: #94a3b8; text-decoration: none;">⬅️ Voltar ao Portal Lab Kids</a>
+        </div>
+    </div>
+
+    <script>
+        let total = 0;
+        let dezenas = 0;
+        let unidades = 0;
+
+        function addValue(val) {
+            if (val === 10) dezenas++;
+            if (val === 1) unidades++;
+            total += val;
+            render();
+        }
+
+        function resetAll() {
+            total = 0; dezenas = 0; unidades = 0;
+            render();
+        }
+
+        function render() {
+            document.getElementById('total-val').innerText = total;
+            document.getElementById('cnt-10').innerText = dezenas;
+            document.getElementById('cnt-1').innerText = unidades;
+
+            const area = document.getElementById('dourado-display');
+            area.innerHTML = '';
+
+            for (let i = 0; i < dezenas; i++) {
+                const b = document.createElement('div');
+                b.className = 'barra-dezena';
+                b.title = 'Dezena (10)';
+                area.appendChild(b);
+            }
+
+            const uGroup = document.createElement('div');
+            uGroup.style.display = 'flex';
+            uGroup.style.gap = '8px';
+            uGroup.style.flexWrap = 'wrap';
+            for (let i = 0; i < unidades; i++) {
+                const c = document.createElement('div');
+                c.className = 'cubinho-unidade';
+                c.title = 'Unidade (1)';
+                uGroup.appendChild(c);
+            }
+            area.appendChild(uGroup);
+        }
+        render();
+    </script>
+</body>
+</html>

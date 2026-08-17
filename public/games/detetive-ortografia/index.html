@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detetive da Ortografia (CH, LH, NH) | Lab Kids</title>
+    <style>
+        body { font-family: 'Fredoka', sans-serif; background: #0f172a; color: white; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 0 auto; background: #1e293b; border-radius: 24px; padding: 30px; border: 2px solid #a855f7; }
+        .word-box { font-size: 3.5rem; color: #fbbf24; font-weight: bold; margin: 20px 0; }
+        .digraph-btn { background: #a855f7; color: white; border: 2px solid #fff; font-size: 1.8rem; padding: 12px 28px; border-radius: 16px; margin: 8px; cursor: pointer; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .digraph-btn:hover { background: #9333ea; transform: scale(1.08); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🕵️ Detetive da Ortografia 🔍</h1>
+        <p>Descubra qual dígrafo (CH, LH, NH, RR, SS) completa a palavra corretamente!</p>
+
+        <div class="word-box" id="challenge-word">CA___ORRO</div>
+
+        <div>
+            <span class="digraph-btn" onclick="checkDigraph('RR')">RR</span>
+            <span class="digraph-btn" onclick="checkDigraph('CH')">CH</span>
+            <span class="digraph-btn" onclick="checkDigraph('LH')">LH</span>
+            <span class="digraph-btn" onclick="checkDigraph('NH')">NH</span>
+            <span class="digraph-btn" onclick="checkDigraph('SS')">SS</span>
+        </div>
+
+        <div style="margin-top: 25px; color: #10b981; font-size: 1.2rem;" id="feedback-msg"></div>
+
+        <div style="margin-top: 30px;">
+            <a href="/" style="color: #94a3b8; text-decoration: none;">⬅️ Voltar ao Portal Lab Kids</a>
+        </div>
+    </div>
+
+    <script>
+        const words = [
+            { text: 'CA___ORRO', correct: 'RR', full: 'CACHORRO' },
+            { text: 'GA___INHA', correct: 'NH', full: 'GALINHA' },
+            { text: 'CO___EIRA', correct: 'LH', full: 'COLHEIRA' },
+            { text: 'PA___ARO', correct: 'SS', full: 'PASSARO' },
+            { text: 'CHA___ÉU', correct: 'CH', full: 'CHAPÉU' }
+        ];
+        let idx = 0;
+
+        function loadWord() {
+            document.getElementById('challenge-word').innerText = words[idx].text;
+            document.getElementById('feedback-msg').innerText = '';
+        }
+
+        function checkDigraph(choice) {
+            if (choice === words[idx].correct) {
+                document.getElementById('feedback-msg').innerText = '🎉 Excelente! A palavra correta é ' + words[idx].full + '!';
+                setTimeout(() => {
+                    idx = (idx + 1) % words.length;
+                    loadWord();
+                }, 1500);
+            } else {
+                document.getElementById('feedback-msg').innerText = '❌ Ops! Tente outro dígrafo.';
+            }
+        }
+
+        loadWord();
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fábrica de Sílabas e Palavras | Lab Kids</title>
+    <style>
+        body { font-family: 'Fredoka', sans-serif; background: #0f172a; color: white; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 0 auto; background: #1e293b; border-radius: 24px; padding: 30px; border: 2px solid #10b981; }
+        .syllable-btn { background: #3b82f6; color: white; border: 2px solid #fff; font-size: 1.8rem; padding: 15px 25px; border-radius: 16px; margin: 8px; cursor: pointer; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .syllable-btn:hover { background: #2563eb; transform: scale(1.05); }
+        .word-display { font-size: 3rem; color: #fbbf24; background: #0f172a; border-radius: 16px; padding: 20px; min-height: 70px; margin: 20px 0; border: 2px dashed #f59e0b; }
+        .btn-clear { background: #ef4444; color: white; padding: 12px 28px; border-radius: 50px; font-weight: bold; border: none; cursor: pointer; font-size: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏭 Fábrica de Sílabas & Palavras 🔤</h1>
+        <p>Clique nas sílabas para montar palavras e praticar a leitura!</p>
+
+        <div class="word-display" id="assembled-word">...</div>
+
+        <div>
+            <span class="syllable-btn" onclick="addSyllable('BA')">BA</span>
+            <span class="syllable-btn" onclick="addSyllable('LA')">LA</span>
+            <span class="syllable-btn" onclick="addSyllable('CA')">CA</span>
+            <span class="syllable-btn" onclick="addSyllable('SA')">SA</span>
+            <span class="syllable-btn" onclick="addSyllable('BO')">BO</span>
+            <span class="syllable-btn" onclick="addSyllable('TO')">TO</span>
+            <span class="syllable-btn" onclick="addSyllable('GA')">GA</span>
+            <span class="syllable-btn" onclick="addSyllable('MA')">MA</span>
+            <span class="syllable-btn" onclick="addSyllable('PI')">PI</span>
+            <span class="syllable-btn" onclick="addSyllable('PA')">PA</span>
+        </div>
+
+        <div style="margin-top: 25px;">
+            <button class="btn-clear" onclick="clearWord()">🔄 Apagar Palavra</button>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="/" style="color: #94a3b8; text-decoration: none;">⬅️ Voltar ao Portal Lab Kids</a>
+        </div>
+    </div>
+
+    <script>
+        let currentWord = '';
+        function addSyllable(syl) {
+            currentWord += syl;
+            document.getElementById('assembled-word').innerText = currentWord;
+        }
+        function clearWord() {
+            currentWord = '';
+            document.getElementById('assembled-word').innerText = '...';
+        }
+    </script>
+</body>
+</html>
