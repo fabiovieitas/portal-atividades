@@ -8,13 +8,13 @@
   "description": "Jogos educativos, alfabetização, matemática e atividades interativas para a sala de aula.",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3662/3662817.png",
+      "src": "/img/robot-icon-512.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3662/3662817.png",
+      "src": "/img/robot-icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
