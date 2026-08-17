@@ -1,11 +1,18 @@
 {
-  "name": "Portal de Atividades Lab",
-  "short_name": "Portal Lab",
+  "name": "Lab Kids - Portal de Atividades Educativas",
+  "short_name": "Lab Kids",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#4a90e2",
+  "background_color": "#0f172a",
+  "theme_color": "#4f46e5",
+  "description": "Jogos educativos, alfabetização, matemática e atividades interativas para a sala de aula.",
   "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3662/3662817.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3662/3662817.png",
       "sizes": "512x512",
