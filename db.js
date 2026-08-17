@@ -373,12 +373,36 @@ const dbHelper = {
     return await queryGet("SELECT * FROM news WHERE id = ?", [id]);
   },
 
-  // 7. Get Teacher Session
+  // 7. Get Teacher Session & Teachers
   async getTeacherBySession(sessionId) {
     if (!sessionId) return null;
     const session = await queryGet("SELECT teacher_id, expires FROM teacher_sessions WHERE id = ?", [sessionId]);
     if (!session) return null;
     return await queryGet("SELECT id, name, email, password_hash FROM teachers WHERE id = ?", [session.teacher_id]);
+  },
+
+  async getTeachers() {
+    let teachers = [];
+    try {
+      teachers = await queryAll("SELECT * FROM teachers ORDER BY created_at DESC");
+    } catch(e){}
+
+    if (supabase) {
+      try {
+        const { data } = await supabase.from('teachers').select('*');
+        if (data && data.length > 0) {
+          const emails = new Set(teachers.map(t => String(t.email || '').toLowerCase()));
+          for (const t of data) {
+            if (t.email && !emails.has(String(t.email).toLowerCase())) {
+              teachers.push(t);
+              emails.add(String(t.email).toLowerCase());
+            }
+          }
+        }
+      } catch(e){}
+    }
+
+    return teachers;
   },
 
   // 8. Track Visit

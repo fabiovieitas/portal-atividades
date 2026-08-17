@@ -214,23 +214,17 @@ app.get('/admin', async (req, res) => {
       let teachers = [];
       let news = [];
 
-      const online = await dbHelper.isOnline();
-      if (online) {
-        try {
+      teachers = await dbHelper.getTeachers();
+      news = await dbHelper.getNews();
+      try {
+        if (supabase) {
           const { data: pc } = await supabase.from('comments').select('*').eq('approved', 0);
-          const { data: tc } = await supabase.from('teachers').select('*');
-          const { data: nw } = await supabase.from('news').select('*').order('created_at', { ascending: false });
-          pendingComments = pc || [];
-          teachers = tc || [];
-          news = nw || [];
-        } catch (e) {}
-      } else {
-        try {
-          pendingComments = dbHelper.sqlite.prepare("SELECT * FROM comments WHERE approved = 0").all();
-          teachers = dbHelper.sqlite.prepare("SELECT * FROM teachers").all();
-          news = dbHelper.sqlite.prepare("SELECT * FROM news ORDER BY created_at DESC").all();
-        } catch (e) {}
-      }
+          if (pc) pendingComments = pc;
+        }
+        if (!pendingComments || pendingComments.length === 0) {
+          pendingComments = await dbHelper.queryAll("SELECT * FROM comments WHERE approved = 0");
+        }
+      } catch (e) {}
 
       const schools = await dbHelper.getSchools();
       const classes = await dbHelper.getAllClasses();
