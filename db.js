@@ -336,11 +336,51 @@ const dbHelper = {
         },
         {
           id: 15,
-          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset",
-          description: "Simulador de escolhas, projeto de vida e tomada de decisão sobre finanças e cidadania.",
-          activity_url: "/games/missao-respeito/index.html",
+          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset [JOGO AUTORAL - AGENDA 21]",
+          description: "Simulador autoral de escolhas, desenvolvimento sustentável, projeto de vida e cidadania planetária alinhado à Agenda 21 e ODS da ONU.",
+          activity_url: "/atividades/level-up",
           icon_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-          level: "6-9", category: "Projeto de Vida", subject: "Geral", bncc_code: "EF06MA32, EF09MA20", status: "public", visits: 380
+          level: "6-9", category: "Jogo Autoral Lab Kids", subject: "Projeto de Vida", bncc_code: "EF06MA32, EF09MA20", status: "public", visits: 380
+        },
+        {
+          id: 16,
+          title: "Material Dourado Virtual",
+          description: "Manipule dezenas e unidades em tempo real para desenvolver o Sistema de Numeração Decimal de forma lúdica.",
+          activity_url: "/atividades/material-dourado",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3593/3593452.png",
+          level: "1-5", category: "Matemática Divertida", subject: "Matemática", bncc_code: "EF01MA01, EF02MA05", status: "public", visits: 490
+        },
+        {
+          id: 17,
+          title: "Fábrica de Sílabas & Palavras",
+          description: "Junte sílabas simples para formar palavras e acelerar o processo de hipótese silábica e leitura.",
+          activity_url: "/atividades/fabrica-de-silabas",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
+          level: "1-5", category: "Alfabetização", subject: "Português", bncc_code: "EF01LP08, EF01LP10", status: "public", visits: 530
+        },
+        {
+          id: 18,
+          title: "Hábitos de Higiene & Saúde",
+          description: "Atividade interativa sobre a importância de escovar os dentes, tomar banho e lavar as mãos para prevenir doenças.",
+          activity_url: "/atividades/habitos-de-higiene",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
+          level: "1-5", category: "Ciências & Saúde", subject: "Ciências", bncc_code: "EF01CI01, EF02CI04", status: "public", visits: 410
+        },
+        {
+          id: 19,
+          title: "Desafio dos Fatos Rápidos da Adição",
+          description: "Desenvolva o cálculo mental rápido e a agilidade nos fatos fundamentais da adição até 20.",
+          activity_url: "/atividades/desafio-adicao",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
+          level: "1-5", category: "Matemática Rápida", subject: "Matemática", bncc_code: "EF01MA06, EF02MA05", status: "public", visits: 470
+        },
+        {
+          id: 20,
+          title: "Detetive da Ortografia (CH, LH, NH, RR, SS)",
+          description: "Desafio gamificado de ortografia e fixação dos principais dígrafos da Língua Portuguesa.",
+          activity_url: "/atividades/detetive-ortografia",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
+          level: "1-5", category: "Ortografia & Leitura", subject: "Português", bncc_code: "EF02LP01, EF03LP01", status: "public", visits: 550
         }
       ];
     }

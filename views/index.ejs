@@ -196,17 +196,15 @@
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 <% } %>
             </div>
-            <% } %>
+            <% } else { %>
 
             <section class="challenges">
                 <div class="section-header">
                     <div class="header-content">
                         <h2>
-                            <%= selectedLevel==='1-5' ? '🚀 Missões Kids (1º ao 5º Ano)' : selectedLevel==='6-9' ? '🔥 Desafios Tech (6º ao 9º Ano)' : '🎮 Todas as Atividades & Missões' %>
+                            <%= selectedLevel==='1-5' ? '🚀 Missões Kids (1º ao 5º Ano)' : '🔥 Desafios Tech (6º ao 9º Ano)' %>
                         </h2>
-                        <% if (selectedLevel) { %>
-                            <a href="/" class="btn-back">⬅ Mostrar Todas</a>
-                        <% } %>
+                        <a href="/" class="btn-back">⬅ Voltar</a>
                     </div>
                         
                         <!-- Search and Filter Bar -->
@@ -349,6 +347,7 @@
                                     <% }); %>
                     </div>
                 </section>
+            <% } %>
 
                     <section class="about-author animate-up delay-4">
                         <div class="about-card glass-panel" onclick="openBioModal()" style="cursor: pointer; display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px;">
