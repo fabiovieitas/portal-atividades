@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação do Aplicativo Lab Kids | Tablets & Celulares</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0f172a; color: white; font-family: 'Fredoka', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; margin: 0; }
+        .install-card { background: #1e293b; border: 2px solid #3b82f6; border-radius: 28px; padding: 35px; max-width: 550px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.5); }
+        .robot-img { width: 100px; height: 100px; border-radius: 22px; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.3); }
+        .btn-action-install { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; width: 100%; padding: 16px 30px; border-radius: 50px; font-weight: 800; font-size: 1.25rem; text-decoration: none; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(16,185,129,0.4); margin: 15px 0; transition: transform 0.2s; }
+        .btn-action-install:hover { transform: scale(1.03); }
+        .step-box { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 15px; margin-top: 15px; text-align: left; font-size: 0.95rem; color: #cbd5e1; }
+    </style>
+</head>
+<body>
+    <div class="install-card">
+        <img src="/img/robot-icon-512.png" alt="Lab Kids 3D Robot" class="robot-img">
+        <h1 style="color: #fbbf24; margin: 0 0 10px 0; font-size: 2rem;">Lab Kids 🤖</h1>
+        <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 20px;">Aplicativo Educativo para Tablets e Celulares</p>
+
+        <button id="btn-trigger-install" onclick="triggerPwaInstall()" class="btn-action-install">
+            📱 INSTALAR APLICATIVO AGORA 🚀
+        </button>
+
+        <div class="step-box">
+            <strong style="color: #60a5fa; display: block; margin-bottom: 6px;">💡 Instruções de Instalação no Tablet:</strong>
+            1. Se a janela de instalação automática não abrir, toque nos <strong>3 pontinhos do Chrome (topo direito)</strong>.<br>
+            2. Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.<br>
+            3. Pronto! O app será criado na tela principal com a foto do <strong>Robozinho 3D</strong> e o nome <strong>Lab Kids</strong>.
+        </div>
+
+        <a href="/" style="display: inline-block; margin-top: 20px; color: #94a3b8; text-decoration: none; font-size: 0.9rem;">⬅️ Voltar ao Portal Lab Kids</a>
+    </div>
+
+    <script>
+        let deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('beforeinstallprompt captured!');
+        });
+
+        function triggerPwaInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        alert('✅ Aplicativo Lab Kids instalado com sucesso no tablet!');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert('📱 Para instalar no tablet: toque nos 3 PONTINHOS no canto superior do Chrome e selecione "Instalar aplicativo" ou "Adicionar à tela inicial"!');
+            }
+        }
+    </script>
+</body>
+</html>

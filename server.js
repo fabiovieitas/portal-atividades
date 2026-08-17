@@ -25,7 +25,7 @@ app.get('/download/labkids.apk', (req, res) => {
   if (fs.existsSync(apkPath)) {
     return res.download(apkPath, 'LabKids_v1.0.apk');
   }
-  res.redirect('/manifest.json');
+  res.render('apk_installer');
 });
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
