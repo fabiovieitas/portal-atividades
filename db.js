@@ -159,6 +159,9 @@ async function queryRun(sql, args = []) {
 const dbHelper = {
   sqlite,
   tursoClient,
+  queryRun,
+  queryAll,
+  queryGet,
 
   async isOnline() {
     return true;
@@ -166,7 +169,7 @@ const dbHelper = {
 
   // 1. Get Activities
   async getActivities({ level, search, category, bncc, subject, status = 'public', adminMode = false } = {}) {
-    let sql = "SELECT * FROM activities WHERE 1=1";
+    let sql = "SELECT * FROM activities WHERE title NOT LIKE '%Code.org%' AND title NOT LIKE '%Desenho com Robôs%'";
     const params = [];
 
     if (!adminMode) {
@@ -204,32 +207,6 @@ const dbHelper = {
 
     if (!rows || rows.length === 0) {
       rows = [
-        {
-          id: 1,
-          title: "Aventura com Code.org",
-          description: "Aprenda a programar jogando com o Minecraft! Resolva quebra-cabeças lógicos.",
-          activity_url: "https://code.org/minecraft",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/616/616430.png",
-          level: "1-5",
-          category: "Programação",
-          subject: "Tecnologia",
-          bncc_code: "EM13LGG101",
-          status: "public",
-          visits: 120
-        },
-        {
-          id: 2,
-          title: "Desenho com Robôs",
-          description: "Use comandos simples para guiar o robô artista e criar formas geométricas incríveis.",
-          activity_url: "https://scratch.mit.edu/projects/editor/?tutorial=getstarted",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
-          level: "1-5",
-          category: "Robótica",
-          subject: "Robótica",
-          bncc_code: "EF05MA18",
-          status: "public",
-          visits: 95
-        },
         {
           id: 3,
           title: "Laboratório de Circuitos",
@@ -609,6 +586,12 @@ async function initTables() {
     try { await queryRun(sql); } catch(e){}
   }
 
+  // Deletar atividades removidas a pedido do usuário
+  try {
+    await queryRun("DELETE FROM activities WHERE title LIKE '%Code.org%' OR title LIKE '%Desenho com Robôs%'");
+    await queryRun("DELETE FROM activities WHERE activity_url LIKE '%code.org%' OR activity_url LIKE '%scratch.mit.edu%'");
+  } catch(e){}
+
   try {
     const existing = await queryGet("SELECT COUNT(*) as cnt FROM schools");
     if (!existing || existing.cnt == 0) {
@@ -638,22 +621,6 @@ async function initTables() {
     if (!actCount || actCount.cnt == 0) {
       console.log('[DB Engine] Inserindo atividades padrão...');
       const seedActivities = [
-        {
-          title: "Aventura com Code.org",
-          description: "Aprenda a programar jogando com o Minecraft! Resolva quebra-cabeças lógicos.",
-          activity_url: "https://code.org/minecraft",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/616/616430.png",
-          level: "1-5",
-          category: "Programação"
-        },
-        {
-          title: "Desenho com Robôs",
-          description: "Use comandos simples para guiar o robô artista e criar formas geométricas incríveis.",
-          activity_url: "https://scratch.mit.edu/projects/editor/?tutorial=getstarted",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
-          level: "1-5",
-          category: "Robótica"
-        },
         {
           title: "Laboratório de Circuitos",
           description: "Monte circuitos elétricos virtuais e faça a lâmpada brilhar usando baterias e fios.",
