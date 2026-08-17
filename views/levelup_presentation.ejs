@@ -3,46 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEVEL UP: O Jogo da Vida não tem Botão de Reset [Agenda 21 & ODS ONU] | Lab Kids</title>
-    <meta name="description" content="Jogo autoral de simulação de vida alinhado à Agenda 21, Objetivos de Desenvolvimento Sustentável (ODS da ONU) e BNCC para o 6º ao 9º Ano.">
-    <link rel="stylesheet" href="/css/style.css?v=6">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>LEVEL UP: O Jogo da Vida não tem Botão de Reset [RPG Antibullying & Lei 14.811/2024] | Lab Kids</title>
+    <meta name="description" content="Jogo autoral em formato RPG e roteiro de palestra sobre prevenção ao Bullying, Cyberbullying, Lei 14.811/2024, Honra e Lealdade para o 6º ao 9º Ano.">
+    <link rel="stylesheet" href="/css/style.css?v=10">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Press+Start+2P&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        body { background: #0f172a; color: white; font-family: 'Fredoka', sans-serif; min-height: 100vh; padding: 20px 10px; margin: 0; }
-        .presentation-box { max-width: 850px; margin: 0 auto; background: #1e293b; border-radius: 28px; padding: 35px; border: 2px solid #7c3aed; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .badge-autoral { background: linear-gradient(135deg, #7c3aed, #4c1d95); color: #fbbf24; padding: 8px 22px; border-radius: 50px; font-weight: 800; font-size: 1rem; border: 2px solid #fbbf24; display: inline-block; margin-bottom: 15px; }
-        .badge-agenda21 { background: linear-gradient(135deg, #10b981, #047857); color: white; padding: 6px 18px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; margin: 5px; display: inline-block; border: 1px solid rgba(255,255,255,0.3); }
-        .bncc-chip { background: #6366f1; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; margin: 4px; display: inline-block; }
-        .btn-launch-game { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px 40px; border-radius: 50px; font-weight: 800; font-size: 1.3rem; text-decoration: none; box-shadow: 0 8px 25px rgba(16,185,129,0.4); border: 2px solid rgba(255,255,255,0.3); margin-top: 20px; }
+        body { background: #0b0f19; color: white; font-family: 'Outfit', sans-serif; min-height: 100vh; padding: 25px 15px; margin: 0; }
+        .presentation-box { max-width: 950px; margin: 0 auto; background: rgba(15, 23, 42, 0.95); border-radius: 28px; padding: 40px; border: 2px solid #8b5cf6; box-shadow: 0 25px 50px rgba(139, 92, 246, 0.25); backdrop-filter: blur(12px); }
+        .badge-autoral { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #f59e0b; padding: 10px 25px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; border: 2px solid #f59e0b; display: inline-block; margin-bottom: 15px; letter-spacing: 0.5px; }
+        .badge-theme { background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; margin: 5px; display: inline-block; border: 1px solid rgba(255,255,255,0.3); }
+        .bncc-chip { background: #4f46e5; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; margin: 4px; display: inline-block; }
+        .btn-launch-game { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(135deg, #10b981, #047857); color: white; padding: 20px 45px; border-radius: 50px; font-weight: 800; font-size: 1.35rem; text-decoration: none; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s, box-shadow 0.2s; width: 100%; max-width: 500px; margin: 25px auto 0 auto; }
+        .btn-launch-game:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6); }
+        .slide-card { background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 20px; padding: 25px; margin: 20px 0; text-align: left; }
+        .slide-card h3 { color: #38bdf8; font-size: 1.3rem; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .slide-direction { background: rgba(139, 92, 246, 0.15); border-left: 4px solid #8b5cf6; padding: 15px; border-radius: 0 12px 12px 0; margin-top: 15px; font-size: 0.98rem; color: #e2e8f0; }
+        .gamer-terms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; text-align: left; }
+        .term-card { background: #0f172a; border: 1px solid #334155; padding: 15px; border-radius: 16px; }
+        .term-card strong { color: #f59e0b; display: block; font-size: 1.1rem; margin-bottom: 5px; }
     </style>
 </head>
 <body>
     <div class="presentation-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <a href="/" style="color: white; text-decoration: none; font-weight: 700;">⬅️ Voltar ao Portal</a>
-            <span style="color: #fbbf24; font-weight: 700;">🌱 Agenda 21 & Jogo Autoral</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+            <a href="/" style="color: #94a3b8; text-decoration: none; font-weight: 700; font-size: 1rem;">⬅️ Voltar ao Portal</a>
+            <span style="color: #ef4444; font-weight: 800; font-size: 0.95rem; background: rgba(239, 68, 68, 0.15); padding: 6px 16px; border-radius: 50px;">🛡️ Prevenção ao Bullying & Cyberbullying</span>
         </div>
 
         <span class="badge-autoral">⭐ JOGO AUTORAL LAB KIDS ⭐</span>
-        <div style="margin-bottom: 10px;">
-            <span class="badge-agenda21">🌱 Alinhado à Agenda 21</span>
-            <span class="badge-agenda21">🌍 ODS ONU - Desenvolvimento Sustentável</span>
+        <div style="margin-bottom: 15px;">
+            <span class="badge-theme">⚔️ Estética RPG & Battle Royale</span>
+            <span class="badge-theme">📜 Lei 14.811/2024 (Art. 146-A)</span>
+            <span class="badge-theme">🛡️ Valores: Honra & Lealdade</span>
         </div>
 
-        <h1 style="color: #fbbf24; font-size: 2.3rem; margin: 10px 0;">LEVEL UP: O Jogo da Vida não tem Botão de Reset</h1>
-        <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 720px; margin: 10px auto;">
-            Simulador autoral de tomada de decisões, desenvolvimento sustentável, escolhas financeiras e cidadania planetária alinhado aos princípios da <strong>Agenda 21</strong> e aos <strong>ODS da ONU</strong> para turmas do 6º ao 9º Ano.
+        <h1 style="color: #f59e0b; font-size: 2.2rem; margin: 10px 0; font-family: 'Fredoka', sans-serif;">LEVEL UP: O Jogo da Vida não tem Botão de Reset</h1>
+        <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 800px; margin: 10px auto 25px auto; line-height: 1.6;">
+            Jogo autoral interativo em formato RPG e direcionamento pedagógico para palestras do 6º ao 9º Ano. Aborda o valor da vida única, o impacto do bullying no HP mental e as consequências jurídicas reais da intimidação sistemática sob a <strong>Lei 14.811/2024</strong>.
         </p>
 
         <div style="margin: 15px 0;">
-            <span class="bncc-chip">EF06MA32</span>
-            <span class="bncc-chip">EF09MA20</span>
-            <span class="bncc-chip">CG01 (Conhecimento)</span>
-            <span class="bncc-chip">CG06 (Projeto de Vida)</span>
+            <span class="bncc-chip">EF69LP55 (Cultura Digital)</span>
+            <span class="bncc-chip">EF07LP14 (Ética das Redes)</span>
+            <span class="bncc-chip">EF08LP14 (Argumentação & Respeito)</span>
+            <span class="bncc-chip">CG08 (Autocuidado & Saúde Mental)</span>
         </div>
 
-        <div style="margin: 25px 0;">
-            <a href="/games/missao-respeito/index.html" class="btn-launch-game">🎮 JOGAR LEVEL UP AGORA 🚀</a>
+        <div style="margin: 30px 0;">
+            <a href="/games/missao-respeito/index.html" class="btn-launch-game">🎮 INICIAR O JOGO LEVEL UP 🚀</a>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #334155; margin: 40px 0;">
+
+        <!-- ROTEIRO ESTRATÉGICO DA PALESTRA -->
+        <div style="text-align: left;">
+            <h2 style="color: #38bdf8; font-size: 1.8rem; margin-bottom: 10px;">📋 Estrutura da Palestra & Direcionamento Estratégico</h2>
+            <p style="color: #94a3b8; font-size: 1rem; margin-bottom: 25px;">Guia de oratória condensado (30 a 45 min) para engajamento de adolescentes usando linguagem gamer e autoridade pedagógica/jurídica.</p>
+
+            <div class="slide-card">
+                <h3>🎮 Slide 1: Start Game (Servidor Eleonora Pinto / Km 13)</h3>
+                <p><strong>Conceito Gamer:</strong> Título gamer e contextualização da escola como um "servidor em tempo real".</p>
+                <div class="slide-direction">
+                    <strong>🎤 Direcionamento para o Professor:</strong> Tom firme e acolhedor. Conecte a realidade local (EM Profª Eleonora da Silva Pinto, Km 13) ao conceito de que na vida real não existe respawn, botão de reset ou save antigo. Cada decisão deixa marcas permanentes na sua conta e na história do servidor da escola.
+                </div>
+            </div>
+
+            <div class="slide-card">
+                <h3>⚠️ Slide 2: Bug no Sistema (Dano Crítico ao HP Mental)</h3>
+                <p><strong>Conceito Gamer:</strong> Apresentação do impacto da violência moral e física no HP mental (depressão, ansiedade e morte social).</p>
+                <div class="slide-direction">
+                    <strong>🎤 Direcionamento para o Professor:</strong> Tom sério e impactante. Utilize os dados recentes sobre o aumento da violência escolar para causar um choque de realidade e silêncio absoluto na sala. Mostre que piadas de mau gosto não tiram apenas "XP", mas drenam a saúde mental até o dano crítico.
+                </div>
+            </div>
+
+            <div class="slide-card">
+                <h3>📜 Slide 3: Update Patch (Lei 14.811/2024 & Art. 146-A)</h3>
+                <p><strong>Conceito Gamer:</strong> Atualização das regras do jogo social. Criminalização do Bullying e reclusão para Cyberbullying.</p>
+                <div class="slide-direction">
+                    <strong>🎤 Direcionamento para o Professor:</strong> Tom de autoridade jurídica incontestável. Explique claramente a mudança da Lei 14.811/2024 e o Art. 146-A do Código Penal. Mostre que a "zoeira" sem limites acaba no exato momento em que começa a ficha criminal e o processo legal contra os responsáveis.
+                </div>
+            </div>
+
+            <div class="slide-card">
+                <h3>🛡️ Slide 4: Quest de Honra (Duo ou Covarde?)</h3>
+                <p><strong>Conceito Gamer:</strong> O valor da Lealdade vs. A covardia de assistir, rir ou filmar sem intervir.</p>
+                <div class="slide-direction">
+                    <strong>🎤 Direcionamento para o Professor:</strong> Táticas de confrontação de comportamento. Interrogue a plateia: <em>"Quem filma ou rir é o Duo que protege ou o covarde que ajuda o vilão?"</em>. Estimule a lealdade de grupo e o dever de não ser cúmplice da humilhação alheia.
+                </div>
+            </div>
+
+            <div class="slide-card">
+                <h3>🏆 Slide 5: Victory Screen (Guardiões do Servidor)</h3>
+                <p><strong>Conceito Gamer:</strong> Encerramento focado em transformação e aliança de honra.</p>
+                <div class="slide-direction">
+                    <strong>🎤 Direcionamento para o Professor:</strong> Tom inspirador de vitória. Encerre a palestra recrutando oficialmente os estudantes para se tornarem os Guardiões de Honra do servidor da EM Eleonora Pinto, protegendo os colegas e garantindo um ambiente seguro para todos.
+                </div>
+            </div>
+
+            <h3 style="color: #f59e0b; font-size: 1.4rem; margin-top: 35px;">🕹️ Glossário Gamer para Oratória Improvisada</h3>
+            <div class="gamer-terms-grid">
+                <div class="term-card">
+                    <strong>1. Tancar o Dano</strong>
+                    <span style="color: #cbd5e1; font-size: 0.9rem;">Suportar ataques em silêncio. Mostre que ninguém deve "tancar" a dor do bullying sozinho; peça suporte ao seu Duo.</span>
+                </div>
+                <div class="term-card">
+                    <strong>2. Build de Caráter</strong>
+                    <span style="color: #cbd5e1; font-size: 0.9rem;">O conjunto de atributos morais (Honra, Empatia e Coragem) que definem seu nível real no jogo da vida.</span>
+                </div>
+                <div class="term-card">
+                    <strong>3. Drop de Zombarias</strong>
+                    <span style="color: #cbd5e1; font-size: 0.9rem;">Descartar comentários tóxicos e afastar-se de 'amigos' que dão dano à sua saúde mental.</span>
+                </div>
+                <div class="term-card">
+                    <strong>4. Buff de Lealdade</strong>
+                    <span style="color: #cbd5e1; font-size: 0.9rem;">O poder ganho quando você defende um colega vulnerável em vez de filmar a humilhação.</span>
+                </div>
+                <div class="term-card">
+                    <strong>5. Game Over Legal</strong>
+                    <span style="color: #cbd5e1; font-size: 0.9rem;">Quando um ato impensado na internet gera um registro criminal definitivo na vida real.</span>
+                </div>
+            </div>
         </div>
     </div>
 </body>

@@ -1145,11 +1145,11 @@ async function initTables() {
           level: "6-9", category: "Eletrônica & Robótica", bncc_code: "EF08CI02, EF08CI05", subject: "Ciências"
         },
         {
-          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset [JOGO AUTORAL - AGENDA 21]",
-          description: "Simulador autoral de escolhas, desenvolvimento sustentável, projeto de vida e cidadania planetária alinhado à Agenda 21 e ODS da ONU.",
+          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset [JOGO AUTORAL]",
+          description: "Simulador RPG autoral de prevenção ao Bullying e Cyberbullying, Lei 14.811/2024, Honra, Lealdade e Proteção ao HP Mental no Servidor Escolar.",
           activity_url: "/atividades/level-up",
           icon_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-          level: "6-9", category: "Jogo Autoral Lab Kids", bncc_code: "EF06MA32, EF09MA20", subject: "Projeto de Vida"
+          level: "6-9", category: "Jogo Autoral Lab Kids", bncc_code: "EF69LP55, EF07LP14, EF08LP14", subject: "Cidadania & Ética"
         },
         {
           title: "Material Dourado Virtual",
@@ -1307,11 +1307,39 @@ async function initTables() {
           content: `<h2>⚡ Simulação Elétrica Segura</h2><p>Simulação virtual de componentes elétricos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF08CI02</strong></li><li><strong>EF08CI05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Simulação virtual de circuitos elétricos no Tinkercad (BNCC: EF08CI02, EF08CI05)."</em></div>`
         },
         {
-          title: "LEVEL UP O Jogo da Vida: Educação Financeira, Cidadania e Escolhas (Agenda 21)",
-          summary: "Guia para trabalhar responsabilidade, orçamento pessoal, sustentabilidade planetária e Agenda 21 com turmas dos anos finais.",
+          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset — Prevenção ao Bullying & Lei 14.811/2024",
+          summary: "Direcionamento estratégico e plano pedagógico de oratória para turmas do 6º ao 9º Ano com estética RPG/Battle Royale, conscientização sobre cyberbullying e valores de Honra e Lealdade.",
           category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/level-up",
           image_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-          content: `<h2>🎮 Projeto de Vida e Tomada de Decisão</h2><p>Educação financeira, escolhas sustentáveis e cidadania global alinhadas à Agenda 21.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF06MA32</strong></li><li><strong>EF09MA20</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Educação financeira, cidadania e sustentabilidade com o jogo autoral LEVEL UP (BNCC: EF06MA32, EF09MA20)."</em></div>`
+          content: `<h2>🛡️ Prevenção ao Bullying & Cyberbullying na Estética RPG</h2>
+<p>Direcionamento estratégico de palestra condensada (30 a 45 min) para engajamento de adolescentes da E.M. Profª Eleonora da Silva Pinto (Km 13) e escolas parceiras, conectando cultura gamer, saúde mental e responsabilidade jurídica.</p>
+
+<h3>🎮 Slide 1: Start Game (Servidor Eleonora Pinto / Km 13)</h3>
+<p><strong>Foco:</strong> Vida única sem botão de reset ou respawn. Cada escolha deixa rastros permanentes na conta e no servidor da escola.</p>
+
+<h3>⚠️ Slide 2: Bug no Sistema (Dano Crítico ao HP Mental)</h3>
+<p><strong>Foco:</strong> Dados de violência escolar e o impacto devastador da intimidação na saúde mental (depressão e exclusão moral).</p>
+
+<h3>📜 Slide 3: Update Patch (Lei 14.811/2024 & Art. 146-A)</h3>
+<p><strong>Foco:</strong> Fim da desculpa da 'zoeira'. Criminalização do bullying e reclusão para cyberbullying no Código Penal.</p>
+
+<h3>🛡️ Slide 4: Quest de Honra (Duo ou Covarde?)</h3>
+<p><strong>Foco:</strong> A responsabilidade ética de quem assiste, rir ou filma a agressão. Exercício de Lealdade e proteção aos vulneráveis.</p>
+
+<h3>🏆 Slide 5: Victory Screen (Guardiões do Servidor)</h3>
+<p><strong>Foco:</strong> Recrutamento dos estudantes para se tornarem os Guardiões de Honra do ambiente escolar.</p>
+
+<h2>📘 Habilidades BNCC</h2>
+<ul>
+  <li><strong>EF69LP55</strong> - Análise crítica dos impactos de publicações na cultura digital e redes sociais.</li>
+  <li><strong>EF07LP14</strong> - Práticas éticas de linguagem e convivência cidadã no ambiente escolar e virtual.</li>
+  <li><strong>EF08LP14</strong> - Construção de posicionamento empático e combate aos discursos de ódio e intimidação.</li>
+</ul>
+
+<h2>📝 Registro para o Diário de Classe</h2>
+<div style="background: #f1f5f9; padding: 20px; border-radius: 16px; border-left: 4px solid #8b5cf6;">
+<em>"Realização da atividade temática e simulação em formato RPG 'LEVEL UP: O Jogo da Vida não tem Botão de Reset', promovendo a conscientização sobre prevenção ao bullying, cyberbullying, saúde mental e a Lei 14.811/2024 (BNCC: EF69LP55, EF07LP14, EF08LP14)."</em>
+</div>`
         },
         {
           title: "Material Dourado Virtual: O Sistema de Numeração Decimal Concreto",
