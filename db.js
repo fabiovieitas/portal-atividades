@@ -294,6 +294,32 @@ const dbHelper = {
           bncc_code: "EI03CG04, EI03EO02, EF01CI01",
           status: "public",
           visits: 480
+        },
+        {
+          id: 8,
+          title: "Gartic.io - Desenho & Vocabulário",
+          description: "Jogo de desenho e adivinhação! Desenhe a palavra sorteada e adivinhe os traços dos outros jogadores em tempo real.",
+          activity_url: "/atividades/gartic",
+          icon_url: "https://gartic.io/static/images/avatar/1.png",
+          level: "1-5",
+          category: "Artes & Vocabulário",
+          subject: "Artes",
+          bncc_code: "EF15AR04, EF15AR02, EF01LP01",
+          status: "public",
+          visits: 520
+        },
+        {
+          id: 9,
+          title: "Akinator - O Gênio da Lógica",
+          description: "Jogo de lógica, classificação e dedução! Pense em um personagem e responda às perguntas do gênio Akinator.",
+          activity_url: "/atividades/akinator",
+          icon_url: "https://pt.akinator.com/assets/img/akinator.png",
+          level: "1-5",
+          category: "Lógica & Dedução",
+          subject: "Matemática",
+          bncc_code: "EF01MA09, EF02MA18, EF35LP05",
+          status: "public",
+          visits: 610
         }
       ];
     }
@@ -575,7 +601,9 @@ async function initTables() {
     "ALTER TABLE students ADD COLUMN medals_json TEXT DEFAULT '[]';",
     "ALTER TABLE students ADD COLUMN school_name TEXT;",
     "ALTER TABLE students ADD COLUMN class_name TEXT;",
-    "ALTER TABLE students ADD COLUMN student_pin TEXT DEFAULT '';"
+    "ALTER TABLE students ADD COLUMN student_pin TEXT DEFAULT '';",
+    "ALTER TABLE activities ADD COLUMN bncc_code TEXT DEFAULT '';",
+    "ALTER TABLE activities ADD COLUMN subject TEXT DEFAULT 'Geral';"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}
@@ -591,15 +619,20 @@ async function initTables() {
         'E.M. Profª Eleonora da Silva Pinto'
       ];
       for (const name of defaultSchools) {
-        await queryRun("INSERT INTO schools (name, city, active) VALUES (?, ?, 1)", [name, 'Angra dos Reis']);
+        try {
+          await queryRun("INSERT INTO schools (name) VALUES (?)", [name]);
+        } catch(e){}
       }
       const school1 = await queryGet("SELECT id FROM schools WHERE name LIKE '%Faísca%' LIMIT 1");
       if (school1) {
-        await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '3º Ano A', '3º Ano', '1234']);
-        await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '4º Ano A', '4º Ano', '1234']);
-        await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '5º Ano A', '5º Ano', '1234']);
+        try { await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '3º Ano A', '3º Ano', '1234']); } catch(e){}
+        try { await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '4º Ano A', '4º Ano', '1234']); } catch(e){}
+        try { await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin) VALUES (?, ?, ?, ?)", [school1.id, '5º Ano A', '5º Ano', '1234']); } catch(e){}
       }
     }
+  } catch(e) {
+    console.warn('[DB Engine Schools Warning]:', e.message);
+  }
 
     const actCount = await queryGet("SELECT COUNT(*) as cnt FROM activities");
     if (!actCount || actCount.cnt == 0) {
@@ -701,12 +734,59 @@ async function initTables() {
         await queryRun("UPDATE activities SET activity_url = '/atividades/pou-online' WHERE title LIKE '%Pou Online%'");
       }
 
+      // Seed Gartic.io
+      try {
+        const garticExists = await queryGet("SELECT id FROM activities WHERE title LIKE '%Gartic%' LIMIT 1");
+        if (!garticExists) {
+          console.log('[DB Engine] Inserindo atividade "Gartic.io"...');
+          await queryRun(
+            "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status, bncc_code, subject) VALUES (?, ?, ?, ?, ?, ?, 'public', ?, ?)",
+            [
+              "Gartic.io - Desenho & Vocabulário",
+              "Jogo de desenho e adivinhação! Desenhe a palavra sorteada e adivinhe os traços dos outros jogadores em tempo real.",
+              "/atividades/gartic",
+              "https://gartic.io/static/images/avatar/1.png",
+              "1-5",
+              "Artes & Vocabulário",
+              "EF15AR04, EF15AR02, EF01LP01",
+              "Artes"
+            ]
+          );
+        } else {
+          await queryRun("UPDATE activities SET activity_url = '/atividades/gartic' WHERE title LIKE '%Gartic%'");
+        }
+      } catch(e) {
+        console.error('[DB Engine Gartic Seed Error]:', e.message);
+      }
+
+      // Seed Akinator
+      try {
+        const akinatorExists = await queryGet("SELECT id FROM activities WHERE title LIKE '%Akinator%' LIMIT 1");
+        if (!akinatorExists) {
+          console.log('[DB Engine] Inserindo atividade "Akinator"...');
+          await queryRun(
+            "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status, bncc_code, subject) VALUES (?, ?, ?, ?, ?, ?, 'public', ?, ?)",
+            [
+              "Akinator - O Gênio da Lógica",
+              "Jogo de lógica, classificação e dedução! Pense em um personagem e responda às perguntas do gênio Akinator.",
+              "/atividades/akinator",
+              "https://pt.akinator.com/assets/img/akinator.png",
+              "1-5",
+              "Lógica & Dedução",
+              "EF01MA09, EF02MA18, EF35LP05",
+              "Matemática"
+            ]
+          );
+        } else {
+          await queryRun("UPDATE activities SET activity_url = '/atividades/akinator' WHERE title LIKE '%Akinator%'");
+        }
+      } catch(e) {
+        console.error('[DB Engine Akinator Seed Error]:', e.message);
+      }
+
     } catch(e) {
       console.error('[DB Engine Seed Error]:', e.message);
     }
-  } catch (err) {
-    console.error('[DB Engine Seed Warning]:', err.message);
-  }
 }
 
 initTables().catch(err => console.error('[DB Init Error]:', err.message));

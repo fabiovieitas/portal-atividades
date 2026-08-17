@@ -166,6 +166,14 @@ app.get('/atividades/pou-online', async (req, res) => {
   res.render('pou_online_presentation');
 });
 
+app.get('/atividades/gartic', async (req, res) => {
+  res.render('gartic_presentation');
+});
+
+app.get('/atividades/akinator', async (req, res) => {
+  res.render('akinator_presentation');
+});
+
 app.get('/atividade/:id', async (req, res) => {
   try {
     const activityId = req.params.id;

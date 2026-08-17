@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gartic.io - Desenho & Vocabulário | Apresentação & Guia | Lab Kids</title>
+    <link rel="stylesheet" href="/css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gartic-blue: #3b82f6;
+            --gartic-yellow: #eab308;
+            --bg-dark: #0f172a;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #f8fafc;
+            font-family: 'Fredoka', system-ui, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 10px 60px 10px;
+        }
+
+        .container-presentation {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Top Header Bar */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn-return-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-return-portal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+        }
+
+        /* Hero Banner Card */
+        .hero-card {
+            background: rgba(30, 27, 75, 0.85);
+            border: 3px solid #60a5fa;
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cover-img {
+            max-width: 280px;
+            height: auto;
+            border-radius: 20px;
+            border: 4px solid #facc15;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            margin: 15px 0 25px 0;
+            object-fit: cover;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .badges-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge-pill {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .badge-pill.gold {
+            background: rgba(234, 179, 8, 0.2);
+            color: #fde047;
+            border-color: rgba(234, 179, 8, 0.4);
+        }
+
+        .badge-pill.blue {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-launch-game {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #eab308, #ca8a04);
+            color: #0f172a;
+            font-size: 1.3rem;
+            font-weight: 800;
+            padding: 16px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(234, 179, 8, 0.4);
+            border: 2px solid #fef08a;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-launch-game:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 35px rgba(234, 179, 8, 0.6);
+        }
+
+        /* AdSense Container */
+        .adsense-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px dashed #475569;
+            border-radius: 16px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Information Grid */
+        .info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .info-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .info-card h2 {
+            font-family: 'Outfit', sans-serif;
+            color: #60a5fa;
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .info-card p {
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+        }
+
+        .bncc-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .bncc-list li {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid #3b82f6;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .bncc-code {
+            font-weight: 800;
+            color: #60a5fa;
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-presentation">
+
+        <!-- Top Navigation Header -->
+        <div class="top-nav">
+            <a href="/?level=1-5" class="btn-return-portal">
+                ⬅️ VOLTAR AO PORTAL (1º AO 5º ANO)
+            </a>
+            <div style="font-size: 0.9rem; color: #94a3b8; font-weight: 700;">
+                🎨 Expressão Artística, Vocabulário & Agilidade
+            </div>
+        </div>
+
+        <!-- Hero Card -->
+        <div class="hero-card">
+            <div class="badges-row">
+                <span class="badge-pill gold">🏆 Ensino Fundamental (1º ao 9º Ano)</span>
+                <span class="badge-pill">✏️ Artes Visuais & Português</span>
+                <span class="badge-pill blue">📘 BNCC Alinhado</span>
+            </div>
+
+            <h1 class="hero-title">🎨 Gartic.io - Desenho & Vocabulário</h1>
+            <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 650px; margin: 0 auto 15px auto;">
+                Solte a imaginação e exercite o vocabulário! Desenhe a palavra sorteada ou seja o mais rápido em adivinhar os traços dos seus colegas em tempo real!
+            </p>
+
+            <img src="https://gartic.io/static/images/avatar/1.png" alt="Gartic.io" class="hero-cover-img" style="background: #1e293b; padding: 10px;">
+
+            <div>
+                <a href="/games/gartic/index.html" class="btn-launch-game">
+                    🎮 INICIAR O JOGO AGORA 🚀
+                </a>
+            </div>
+        </div>
+
+        <!-- AdSense Container Banner -->
+        <div class="adsense-box">
+            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</div>
+            <div style="font-size: 0.7rem; color: #64748b;">Anúncios Educativos para Crianças & Escolas</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+
+        <!-- Information Cards -->
+        <div class="info-grid">
+
+            <!-- Card 1: Sobre o Jogo -->
+            <div class="info-card">
+                <h2>🎨 Sobre o Gartic.io</h2>
+                <p>
+                    O <strong>Gartic.io</strong> é um aclamado jogo multiplayer de desenho e adivinhação que desenvolve a **comunicação não-verbal, síntese visual e ortografia**.
+                </p>
+                <p>
+                    A cada rodada, um jogador é sorteado para representar graficamente uma palavra (objetos, animais, profissões, ações), enquanto os demais participantes tentam adivinhar a palavra correta o mais rápido possível digitando no chat.
+                </p>
+            </div>
+
+            <!-- Card 2: Informações Pedagógicas para Professores & Pais -->
+            <div class="info-card">
+                <h2>👩‍🏫 Informações aos Professores & Pais</h2>
+                <p><strong>Disciplinas Relacionadas:</strong> Artes Visuais, Língua Portuguesa & Comunicação</p>
+                <p><strong>Público-Alvo:</strong> Anos Iniciais e Finais do Ensino Fundamental</p>
+                <p><strong>Objetivos de Aprendizagem:</strong> Expressão gráfica, abstração visual, ampliação de vocabulário, associação entre significante e significado, e respeitar o tempo dos colegas.</p>
+
+                <h3 style="color: #60a5fa; font-size: 1.1rem; margin-top: 15px; margin-bottom: 8px;">📘 Habilidades da BNCC Enquadradas:</h3>
+                <ul class="bncc-list">
+                    <li><span class="bncc-code">EF15AR04:</span> Experimentar diferentes formas de expressão artística (desenho, pintura, colagem) fazendo uso sustentável de materiais e suportes digitais.</li>
+                    <li><span class="bncc-code">EF15AR02:</span> Explorar e reconhecer elementos constitutivos das artes visuais (ponto, linha, forma, cor, espaço, estrutura).</li>
+                    <li><span class="bncc-code">EF01LP01:</span> Reconhecer a relação entre elementos sonoros, visuais e a representação escrita de palavras e objetos.</li>
+                    <li><span class="bncc-code">EF35LP05:</span> Inferir o sentido de palavras ou expressões com base na representação e no contexto do jogo.</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Bottom CTA -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/games/gartic/index.html" class="btn-launch-game">
+                🎮 JOGAR GARTIC.IO AGORA 🚀
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
