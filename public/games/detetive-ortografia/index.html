@@ -11,42 +11,37 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #080c14;
+      background-color: #070a12;
       font-family: 'Fredoka', sans-serif;
       color: white;
     }
 
-    /* Canvas background for particles & laser effects */
+    /* Ambient Canvas */
     #bg-canvas {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 1; pointer-events: none;
     }
 
-    /* Fixed Navigation */
+    /* Navigation Return Button */
     .btn-return-portal {
       position: fixed;
-      top: 15px;
-      left: 15px;
+      top: 12px; left: 12px;
       z-index: 99999;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: linear-gradient(135deg, #ef4444, #dc2626);
       color: white;
-      padding: 10px 22px;
+      padding: 8px 18px;
       border-radius: 50px;
       font-weight: 800;
       text-decoration: none;
       box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
       border: 2px solid rgba(255, 255, 255, 0.4);
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .btn-return-portal:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 25px rgba(239, 68, 68, 0.7); }
 
@@ -59,8 +54,8 @@
       z-index: 9999;
       display: none;
     }
-    .adsense-game-sidebar-left { left: 15px; }
-    .adsense-game-sidebar-right { right: 15px; }
+    .adsense-game-sidebar-left { left: 12px; }
+    .adsense-game-sidebar-right { right: 12px; }
     @media (min-width: 1380px) {
       .adsense-game-sidebar-left, .adsense-game-sidebar-right { display: block !important; }
     }
@@ -75,59 +70,93 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 15px;
+      padding: 15px;
     }
 
     /* Top HUD */
     .hud-header {
       width: 100%;
       max-width: 850px;
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(15, 23, 42, 0.92);
       border: 2px solid #8b5cf6;
       border-radius: 24px;
-      padding: 12px 25px;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
-      backdrop-filter: blur(10px);
-      margin-top: 10px;
+      backdrop-filter: blur(12px);
+      margin-top: 5px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .hud-box {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 1.1rem;
+      gap: 8px;
+      font-size: 1rem;
       font-weight: 700;
     }
 
     .hud-val {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 900;
       color: #f59e0b;
     }
 
-    .lives-container { font-size: 1.5rem; letter-spacing: 2px; }
+    .timer-badge {
+      background: linear-gradient(135deg, #10b981, #047857);
+      color: white;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .timer-badge.warning {
+      background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
+      animation: pulse-warn 0.6s infinite alternate;
+    }
+    @keyframes pulse-warn {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
 
-    /* Mascot Speech Bubble */
+    .btn-pause {
+      background: #3b82f6;
+      color: white;
+      border: 2px solid rgba(255,255,255,0.4);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .btn-pause:hover { transform: scale(1.08); }
+
+    /* Mascot Speech Bubble Area */
     .mascot-area {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       max-width: 850px;
       width: 100%;
-      margin: 10px 0;
+      margin: 8px 0;
     }
 
     .mascot-avatar {
-      font-size: 3.5rem;
+      font-size: 3rem;
       background: rgba(30, 41, 59, 0.9);
       border: 3px solid #f59e0b;
       border-radius: 50%;
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -137,15 +166,15 @@
     }
     @keyframes float-avatar {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-5px); }
     }
 
     .speech-bubble {
       background: rgba(30, 41, 59, 0.95);
       border: 2px solid #a855f7;
       border-radius: 20px;
-      padding: 14px 20px;
-      font-size: 1.05rem;
+      padding: 12px 18px;
+      font-size: 1rem;
       color: #f3e8ff;
       flex-grow: 1;
       position: relative;
@@ -162,23 +191,23 @@
       border-color: transparent #a855f7 transparent transparent;
     }
 
-    /* Main Target Card */
+    /* Target Card */
     .target-card {
       background: rgba(15, 23, 42, 0.95);
       border: 3px solid #38bdf8;
-      border-radius: 32px;
-      padding: 30px 20px;
+      border-radius: 28px;
+      padding: 25px 15px;
       width: 100%;
-      max-width: 750px;
+      max-width: 780px;
       text-align: center;
       box-shadow: 0 20px 50px rgba(56, 189, 248, 0.25);
       position: relative;
-      margin: 10px 0;
+      margin: 5px 0;
     }
 
     .target-word {
       font-family: 'Outfit', sans-serif;
-      font-size: clamp(2.8rem, 6.5vw, 4.2rem);
+      font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 900;
       letter-spacing: 6px;
       color: #ffffff;
@@ -200,37 +229,37 @@
 
     .target-hint {
       color: #94a3b8;
-      font-size: 1.1rem;
-      margin-top: 12px;
+      font-size: 1.05rem;
+      margin-top: 10px;
       font-style: italic;
     }
 
-    /* Timer Bar */
-    .timer-track {
-      width: 100%;
-      max-width: 750px;
-      height: 12px;
-      background: #1e293b;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 15px;
-      border: 1px solid rgba(255,255,255,0.1);
+    /* Time Floating Alert (+4s / -5s) */
+    .time-float {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      pointer-events: none;
+      animation: float-up 1s forwards ease-out;
     }
-    .timer-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
-      width: 100%;
-      transition: width 0.1s linear;
+    .time-float.plus { color: #10b981; }
+    .time-float.minus { color: #ef4444; }
+    @keyframes float-up {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-40px); }
     }
 
-    /* Interactive Floating Orbs / Choice Grid */
+    /* Orbs Grid */
     .orbs-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 15px;
       width: 100%;
-      max-width: 750px;
-      margin-bottom: 15px;
+      max-width: 780px;
+      margin-bottom: 10px;
     }
 
     .orb-btn {
@@ -240,38 +269,30 @@
       font-family: 'Outfit', sans-serif;
       font-size: clamp(2rem, 4.5vw, 2.8rem);
       font-weight: 900;
-      padding: 18px 5px;
-      border-radius: 24px;
+      padding: 16px 5px;
+      border-radius: 22px;
       cursor: pointer;
-      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3), inset 0 0 15px rgba(139, 92, 246, 0.2);
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .orb-btn:hover {
-      transform: translateY(-6px) scale(1.05);
+      transform: translateY(-5px) scale(1.05);
       border-color: #f59e0b;
-      box-shadow: 0 15px 35px rgba(245, 158, 11, 0.5), inset 0 0 20px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 15px 35px rgba(245, 158, 11, 0.5);
       background: linear-gradient(135deg, #3b0764 0%, #1e293b 100%);
     }
 
     .orb-btn.correct-pop {
       background: linear-gradient(135deg, #10b981, #047857) !important;
       border-color: #34d399 !important;
-      transform: scale(1.15) !important;
-      animation: pop-win 0.4s ease;
+      transform: scale(1.12) !important;
     }
 
     .orb-btn.wrong-pop {
       background: linear-gradient(135deg, #ef4444, #991b1b) !important;
       border-color: #fca5a5 !important;
       animation: shake-err 0.4s ease;
-    }
-
-    @keyframes pop-win {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.25); }
-      100% { transform: scale(1.15); }
     }
     @keyframes shake-err {
       0%, 100% { transform: translateX(0); }
@@ -284,7 +305,7 @@
       display: flex;
       gap: 15px;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .powerup-btn {
       background: rgba(30, 41, 59, 0.9);
@@ -298,7 +319,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: transform 0.2s, background 0.2s;
+      transition: transform 0.2s;
     }
     .powerup-btn:hover:not(:disabled) { transform: scale(1.08); background: #0284c7; }
     .powerup-btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: #475569; }
@@ -307,7 +328,7 @@
     .screen-overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(8, 12, 20, 0.95);
+      background: rgba(8, 12, 20, 0.96);
       z-index: 100;
       display: flex;
       flex-direction: column;
@@ -315,25 +336,78 @@
       justify-content: center;
       padding: 25px;
       text-align: center;
+      overflow-y: auto;
     }
     .screen-overlay.hidden { display: none; }
+
+    .player-input-box {
+      margin: 15px 0;
+      width: 100%;
+      max-width: 380px;
+    }
+    .player-input {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: 3px solid #8b5cf6;
+      background: #0f172a;
+      color: white;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+      text-align: center;
+      outline: none;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    }
+    .player-input:focus { border-color: #f59e0b; box-shadow: 0 0 25px rgba(245, 158, 11, 0.5); }
 
     .btn-action-main {
       background: linear-gradient(135deg, #10b981, #047857);
       color: white;
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
-      padding: 18px 45px;
+      padding: 16px 40px;
       border-radius: 50px;
       border: 3px solid rgba(255, 255, 255, 0.4);
       cursor: pointer;
       box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
       transition: transform 0.2s, box-shadow 0.2s;
-      margin-top: 20px;
+      margin-top: 15px;
       text-decoration: none;
     }
     .btn-action-main:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.7); }
+
+    /* Leaderboard Box */
+    .leaderboard-box {
+      background: rgba(30, 41, 59, 0.85);
+      border: 2px solid #8b5cf6;
+      border-radius: 24px;
+      padding: 18px 25px;
+      width: 100%;
+      max-width: 480px;
+      margin: 15px 0;
+      text-align: left;
+    }
+    .leaderboard-title {
+      font-size: 1.2rem;
+      color: #f59e0b;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .leader-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.95rem;
+    }
+    .leader-row:last-child { border-bottom: none; }
+    .leader-row.me { background: rgba(245, 158, 11, 0.2); border-radius: 10px; font-weight: 800; }
   </style>
 </head>
 <body>
@@ -361,32 +435,61 @@
     </div>
   </div>
 
-  <!-- OVERLAY 1: HISTÓRIA & START -->
+  <!-- OVERLAY 1: START & NOME DO ALUNO -->
   <div id="overlay-start" class="screen-overlay">
-    <div style="font-size: 5rem; margin-bottom: 10px; animation: float-avatar 3s infinite;">🦉🕵️‍♂️⚡</div>
-    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.6rem; color: #f59e0b; margin-bottom: 10px;">AGENTE ORTOGRÁFICO</h1>
-    <p style="color: #cbd5e1; font-size: 1.2rem; max-width: 620px; line-height: 1.6;">
-      O maquiavélico <strong>Dr. Grafia Traçoeira</strong> lançou um feitiço e roubou todos os <strong>Dígrafos (CH, LH, NH, RR, SS, QU, GU)</strong> do Dicionário Real!
+    <div style="font-size: 4.5rem; margin-bottom: 5px; animation: float-avatar 3s infinite;">🦉🕵️‍♂️⚡</div>
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #f59e0b; margin-bottom: 5px;">AGENTE ORTOGRÁFICO</h1>
+    <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 580px; line-height: 1.5;">
+      O <strong>Dr. Grafia Traçoeira</strong> roubou os dígrafos do Dicionário! Você tem <strong>2 MINUTOS</strong> para salvar o máximo de palavras. Cada acerto concede <strong>+4s de bônus</strong>!
     </p>
-    <div style="background: rgba(139, 92, 246, 0.2); border: 2px dashed #8b5cf6; border-radius: 20px; padding: 15px 25px; margin: 20px 0; max-width: 520px;">
-      🧐 <strong>Missão do Inspetor Lupa:</strong> Destrua as bolhas com os dígrafos corretos, recupere o HP da cidade e derrote o vilão!
+
+    <div class="player-input-box">
+      <input type="text" id="player-name-input" class="player-input" placeholder="Digite seu Nome de Agente..." maxlength="18" value="Agente Estrela">
     </div>
-    <button class="btn-action-main" onclick="startGame()">INICIAR MISSÃO DE RESGATE 🚀</button>
+
+    <!-- Leaderboard Preview -->
+    <div class="leaderboard-box">
+      <div class="leaderboard-title">🏆 TOP 5 AGENTES DE ELITE</div>
+      <div id="leaderboard-preview-list">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <button class="btn-action-main" onclick="startGame()">INICIAR MISSÃO (2 MINUTOS) 🚀</button>
   </div>
 
-  <!-- OVERLAY 2: RESULTADO FINAL -->
-  <div id="overlay-end" class="screen-overlay hidden">
-    <div id="end-icon" style="font-size: 5.5rem; margin-bottom: 10px;">🏆</div>
-    <h1 id="end-title" style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #f59e0b;">MISSÃO CONCLUÍDA!</h1>
-    <p id="end-desc" style="color: #cbd5e1; font-size: 1.2rem; max-width: 600px; margin: 15px 0; line-height: 1.6;"></p>
+  <!-- OVERLAY 2: PAUSA -->
+  <div id="overlay-pause" class="screen-overlay hidden">
+    <div style="font-size: 4.5rem; margin-bottom: 10px;">⏸️</div>
+    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: #38bdf8;">JOGO PAUSADO</h1>
+    <p style="color: #cbd5e1; font-size: 1.15rem; margin-bottom: 20px;">Respire fundo! O cronômetro está parado.</p>
     
-    <div style="background: rgba(15, 23, 42, 0.9); border: 3px solid #8b5cf6; border-radius: 24px; padding: 25px 40px; margin: 15px 0;">
-      <div style="color: #94a3b8; font-size: 1.1rem;">Pontuação Máxima</div>
-      <div id="end-score" style="font-family: 'Outfit', sans-serif; font-size: 3.8rem; font-weight: 900; color: #10b981;">0</div>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+      <button class="btn-action-main" onclick="resumeGame()">RETOMAR MISSÃO ▶️</button>
+      <button class="btn-action-main" style="background: linear-gradient(135deg, #ef4444, #991b1b);" onclick="startGame()">REINICIAR 🔄</button>
+    </div>
+  </div>
+
+  <!-- OVERLAY 3: RESULTADO FINAL & LEADERBOARD COMPLETO -->
+  <div id="overlay-end" class="screen-overlay hidden">
+    <div id="end-icon" style="font-size: 5rem; margin-bottom: 5px;">🏆</div>
+    <h1 id="end-title" style="font-family: 'Outfit', sans-serif; font-size: 2.3rem; color: #f59e0b;">MISSÃO CONCLUÍDA!</h1>
+    <p id="end-desc" style="color: #cbd5e1; font-size: 1.1rem; max-width: 580px; margin: 10px 0; line-height: 1.5;"></p>
+
+    <div style="background: rgba(15, 23, 42, 0.9); border: 3px solid #8b5cf6; border-radius: 20px; padding: 15px 35px; margin: 10px 0;">
+      <div style="color: #94a3b8; font-size: 1rem;">Pontuação Final de <span id="final-player-name" style="color: #38bdf8; font-weight: bold;"></span></div>
+      <div id="end-score" style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 900; color: #10b981;">0</div>
     </div>
 
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-      <button class="btn-action-main" onclick="startGame()">JOGAR NOVAMENTE 🔄</button>
+    <div class="leaderboard-box">
+      <div class="leaderboard-title">🏆 RANKING DE ELITE DOS AGENTES (TOP 10)</div>
+      <div id="leaderboard-final-list">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 10px;">
+      <button class="btn-action-main" onclick="startGame()">TENTAR NOVAMENTE 🔄</button>
       <a href="/" class="btn-action-main" style="background: linear-gradient(135deg, #475569, #334155);">OUTROS JOGOS 🚀</a>
     </div>
   </div>
@@ -395,9 +498,13 @@
   <div id="game-container">
 
     <div class="hud-header">
+      <div class="timer-badge" id="timer-badge">
+        <span>⏱️</span>
+        <span id="timer-display">02:00</span>
+      </div>
       <div class="hud-box">
-        <span>❤️ HP:</span>
-        <div id="lives-display" class="lives-container">❤️❤️❤️</div>
+        <span>👤 Agente:</span>
+        <span id="hud-player-name" style="color: #38bdf8; font-weight: 800;"></span>
       </div>
       <div class="hud-box">
         <span>🔥 Combo:</span>
@@ -407,16 +514,18 @@
         <span>⭐ Pontos:</span>
         <span id="score-display" class="hud-val">0</span>
       </div>
+      <button class="btn-pause" onclick="pauseGame()">⏸️ PAUSA</button>
     </div>
 
     <div class="mascot-area">
       <div class="mascot-avatar" id="mascot-emoji">🧐</div>
       <div class="speech-bubble" id="mascot-dialogue">
-        "Preste atenção, Agente! Encontre o dígrafo certo antes que a bomba zere!"
+        "Preste atenção! Apenas o dígrafo correto vai salvar a palavra!"
       </div>
     </div>
 
     <div class="target-card">
+      <div id="time-float-container"></div>
       <div class="target-word" id="target-word-display">
         CACHO<span class="gap-highlight">[ ? ]</span>O
       </div>
@@ -425,13 +534,9 @@
       </div>
     </div>
 
-    <div class="timer-track">
-      <div id="timer-bar" class="timer-fill"></div>
-    </div>
-
     <div class="powerups-bar">
       <button class="powerup-btn" id="btn-freeze" onclick="useFreeze()">
-        🧊 Congelar Tempo (<span id="count-freeze">1</span>)
+        🧊 Congelar 5s (<span id="count-freeze">1</span>)
       </button>
       <button class="powerup-btn" id="btn-lupa" onclick="useLupa()">
         💡 Revelar Dica (<span id="count-lupa">1</span>)
@@ -445,7 +550,7 @@
   </div>
 
   <script>
-    // Web Audio API Sound Synthesizer
+    // Web Audio API FX
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playFx(type) {
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -464,8 +569,8 @@
         osc.start(t); osc.stop(t + 0.15);
       } else if (type === 'miss') {
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(200, t);
-        osc.frequency.exponentialRampToValueAtTime(80, t + 0.3);
+        osc.frequency.setValueAtTime(220, t);
+        osc.frequency.exponentialRampToValueAtTime(100, t + 0.3);
         gain.gain.setValueAtTime(0.35, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
         osc.start(t); osc.stop(t + 0.3);
@@ -479,80 +584,166 @@
       }
     }
 
-    // 100% UNAMBIGUOUS RIGOROUS DICTIONARY OF DIGRAPHS
+    // 100% UNAMBIGUOUS RIGOROUS DICTIONARY (ZERO OVERLAP)
     const DICTIONARY = [
-      { word: "CACHO[ ? ]O", correct: "RR", choices: ["RR", "SS", "CH", "NH"], full: "CACHORRO", hint: "Animal amigo do homem que late!" },
-      { word: "GALI[ ? ]A", correct: "NH", choices: ["NH", "LH", "CH", "SS"], full: "GALINHA", hint: "Aves do celeiro que bota ovos!" },
-      { word: "CO[ ? ]ER", correct: "LH", choices: ["LH", "CH", "NH", "RR"], full: "COLHER", hint: "Talher usado para tomar sopa!" },
-      { word: "PÁ[ ? ]ARO", correct: "SS", choices: ["SS", "RR", "CH", "NH"], full: "PÁSSARO", hint: "Animal de penas que voa alto!" },
-      { word: "[ ? ]APÉU", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "CHAPÉU", hint: "Acessório de cabeça contra o sol!" },
-      { word: "CA[ ? ]O", correct: "RR", choices: ["RR", "SS", "CH", "LH"], full: "CARRO", hint: "Veículo com 4 rodas que anda na estrada!" },
-      { word: "ESPE[ ? ]O", correct: "LH", choices: ["LH", "NH", "CH", "SS"], full: "ESPELHO", hint: "Objeto que reflete sua imagem!" },
-      { word: "MI[ ? ]OCA", correct: "NH", choices: ["NH", "LH", "CH", "RR"], full: "MINHOCA", hint: "Vive embaixo da terra no jardim!" },
-      { word: "[ ? ]OCOLATE", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "CHOCOLATE", hint: "Doce delicioso feito com cacau!" },
-      { word: "GIRA[ ? ]OL", correct: "SS", choices: ["SS", "RR", "LH", "NH"], full: "GIRASSOL", hint: "Flor amarela que segue o Sol!" },
-      { word: "TE[ ? ]ADO", correct: "LH", choices: ["LH", "CH", "NH", "RR"], full: "TELHADO", hint: "Fica no topo da casa para proteger da chuva!" },
-      { word: "BOCHE[ ? ]A", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "BOCHECHA", hint: "Parte fofinha do nosso rosto!" },
-      { word: "GA[ ? ]AFA", correct: "RR", choices: ["RR", "SS", "CH", "LH"], full: "GARRAFA", hint: "Recipiente para guardar água gelada!" },
-      { word: "DESE[ ? ]O", correct: "NH", choices: ["NH", "LH", "CH", "SS"], full: "DESENHO", hint: "Arte feita com lápis no papel!" },
-      { word: "O[ ? ]O", correct: "SS", choices: ["SS", "RR", "LH", "CH"], full: "OSSO", hint: "Petisco favorito dos cães!" },
-      { word: "OVE[ ? ]A", correct: "LH", choices: ["LH", "CH", "NH", "RR"], full: "OVELHA", hint: "Animal fofinho que produz lã!" },
-      { word: "[ ? ]INELO", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "CHINELO", hint: "Calçado confortável de usar em casa!" },
-      { word: "TO[ ? ]ADA", correct: "RR", choices: ["RR", "SS", "CH", "NH"], full: "TORRADA", hint: "Pão quentinho e crocante!" },
-      { word: "NI[ ? ]O", correct: "NH", choices: ["NH", "LH", "CH", "SS"], full: "NINHO", hint: "Berço dos passarinhos no galho!" },
-      { word: "MO[ ? ]ILA", correct: "CH", choices: ["CH", "LH", "NH", "SS"], full: "MOCHILA", hint: "Bolsa para carregar o material escolar!" },
-      { word: "FO[ ? ]ETE", correct: "GU", choices: ["GU", "QU", "CH", "RR"], full: "FOGUETE", hint: "Nave espacial que vai até a Lua!" },
-      { word: "[ ? ]EIJO", correct: "QU", choices: ["QU", "GU", "CH", "SS"], full: "QUEIJO", hint: "Alimento amarelo que o rato adora!" },
+      { word: "CACHO[ ? ]O", correct: "RR", choices: ["RR", "NH", "LH", "SS"], full: "CACHORRO", hint: "Animal amigo do homem que late!" },
+      { word: "GALI[ ? ]A", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "GALINHA", hint: "Ave do celeiro que bota ovos!" },
+      { word: "CO[ ? ]ER", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "COLHER", hint: "Talher usado para tomar sopa!" },
+      { word: "GIRA[ ? ]OL", correct: "SS", choices: ["SS", "RR", "LH", "NH"], full: "GIRASSOL", hint: "Flor amarela que se vira para o Sol!" },
+      { word: "ESPE[ ? ]O", correct: "LH", choices: ["LH", "RR", "CH", "SS"], full: "ESPELHO", hint: "Objeto que reflete a sua imagem!" },
+      { word: "MI[ ? ]OCA", correct: "NH", choices: ["NH", "RR", "CH", "SS"], full: "MINHOCA", hint: "Vive embaixo da terra no jardim!" },
+      { word: "TE[ ? ]ADO", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "TELHADO", hint: "Fica no topo da casa para cobrir!" },
+      { word: "BOCHE[ ? ]A", correct: "CH", choices: ["CH", "RR", "SS", "LH"], full: "BOCHECHA", hint: "Parte fofinha do nosso rosto!" },
+      { word: "GA[ ? ]AFA", correct: "RR", choices: ["RR", "NH", "LH", "SS"], full: "GARRAFA", hint: "Recipiente para guardar água gelada!" },
+      { word: "DESE[ ? ]O", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "DESENHO", hint: "Arte feita com lápis de cor no papel!" },
+      { word: "OVE[ ? ]A", correct: "LH", choices: ["LH", "RR", "NH", "CH"], full: "OVELHA", hint: "Animal fofinho que produz lã!" },
+      { word: "TO[ ? ]ADA", correct: "RR", choices: ["RR", "LH", "NH", "SS"], full: "TORRADA", hint: "Pão quentinho e crocante!" },
+      { word: "NI[ ? ]O", correct: "NH", choices: ["NH", "RR", "LH", "SS"], full: "NINHO", hint: "Berço dos passarinhos no galho!" },
+      { word: "MO[ ? ]ILA", correct: "CH", choices: ["CH", "RR", "SS", "LH"], full: "MOCHILA", hint: "Bolsa para carregar o material escolar!" },
+      { word: "FO[ ? ]ETE", correct: "GU", choices: ["GU", "QU", "SS", "RR"], full: "FOGUETE", hint: "Nave espacial que vai até a Lua!" },
+      { word: "[ ? ]EIJO", correct: "QU", choices: ["QU", "GU", "RR", "SS"], full: "QUEIJO", hint: "Alimento amarelo que o rato adora!" },
       { word: "[ ? ]ITARRA", correct: "GU", choices: ["GU", "QU", "CH", "LH"], full: "GUITARRA", hint: "Instrumento musical com cordas elétricas!" },
-      { word: "LE[ ? ]E", correct: "QU", choices: ["QU", "GU", "CH", "SS"], full: "LEQUE", hint: "Objeto usado para abanar no calor!" },
-      { word: "BARA[ ? ]O", correct: "LH", choices: ["LH", "NH", "CH", "SS"], full: "BARALHO", hint: "Conjunto de cartas de jogo!" }
+      { word: "LE[ ? ]E", correct: "QU", choices: ["QU", "GU", "SS", "RR"], full: "LEQUE", hint: "Objeto usado para abanar no calor!" },
+      { word: "BARA[ ? ]O", correct: "LH", choices: ["LH", "RR", "NH", "SS"], full: "BARALHO", hint: "Conjunto de cartas para jogar!" },
+      { word: "CHIN[ ? ]ELO", correct: "EL", choices: ["CH", "LH", "NH", "SS"], full: "CHINELO", hint: "Calçado confortável de usar em casa!" }
     ];
 
     const PROVOCATIVE_TALKS = [
-      "🧐 'Duvido você acertar essa em menos de 3 segundos!'",
-      "🦉 'Cuidado! O Dr. Grafia tá rindo da sua demora!'",
-      "⚡ 'Que agilidade ortográfica! Mantém o ritmo!'",
-      "🧐 'Se errar essa, o robô coruja vai chorar!'",
-      "🔥 'Combo insano! Você é o pesadelo do Dr. Grafia!'"
+      "🧐 'Duvido você acertar essa sem errar!'",
+      "🦉 'Cuidado! O relógio tá correndo!'",
+      "⚡ 'Combo incrível! Você tá voando!'",
+      "🧐 'Dr. Grafia tá tremendo de medo de você!'",
+      "🔥 'Você é o pesadelo do Dr. Grafia!'"
     ];
 
     // Game Variables
+    let playerName = "Agente Estrela";
     let gameQueue = [];
     let currentIndex = 0;
     let score = 0;
     let combo = 0;
-    let lives = 3;
-    let timer = null;
-    let timeRemaining = 8; // Fast-paced 8 seconds per question!
+    let timeSeconds = 120; // 2 Minutes total game timer!
+    let mainTimer = null;
+    let isPaused = false;
+    let isFrozen = false;
     let freezeCount = 1;
     let lupaCount = 1;
-    let isFrozen = false;
 
     function shuffle(arr) {
       return arr.sort(() => Math.random() - 0.5);
     }
 
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    // Leaderboard Functions
+    function getLeaderboard() {
+      try {
+        return JSON.parse(localStorage.getItem('detetive_leaderboard')) || [
+          { name: "Prof. Fábio", score: 2800 },
+          { name: "Agente Sofia", score: 2200 },
+          { name: "Agente Lucas", score: 1800 },
+          { name: "Agente Gabriel", score: 1400 },
+          { name: "Agente Beatriz", score: 1000 }
+        ];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveLeaderboard(name, sc) {
+      let board = getLeaderboard();
+      board.push({ name, score: sc });
+      board.sort((a, b) => b.score - a.score);
+      board = board.slice(0, 10);
+      localStorage.setItem('detetive_leaderboard', JSON.stringify(board));
+    }
+
+    function renderLeaderboards() {
+      const board = getLeaderboard();
+      
+      // Render Preview Top 5
+      const prevHtml = board.slice(0, 5).map((item, idx) => `
+        <div class="leader-row ${item.name === playerName ? 'me' : ''}">
+          <span>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '🎖️'} ${item.name}</span>
+          <span style="color: #f59e0b; font-weight: 800;">${item.score} PTS</span>
+        </div>
+      `).join('');
+      document.getElementById('leaderboard-preview-list').innerHTML = prevHtml;
+
+      // Render Final Top 10
+      const finalHtml = board.map((item, idx) => `
+        <div class="leader-row ${item.name === playerName ? 'me' : ''}">
+          <span>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}º`} ${item.name}</span>
+          <span style="color: #f59e0b; font-weight: 800;">${item.score} PTS</span>
+        </div>
+      `).join('');
+      document.getElementById('leaderboard-final-list').innerHTML = finalHtml;
+    }
+
     function startGame() {
+      const input = document.getElementById('player-name-input').value.trim();
+      playerName = input || "Agente Anônimo";
+      document.getElementById('hud-player-name').innerText = playerName;
+      document.getElementById('final-player-name').innerText = playerName;
+
       document.getElementById('overlay-start').classList.add('hidden');
+      document.getElementById('overlay-pause').classList.add('hidden');
       document.getElementById('overlay-end').classList.add('hidden');
 
       gameQueue = shuffle([...DICTIONARY]);
       currentIndex = 0;
       score = 0;
       combo = 0;
-      lives = 3;
+      timeSeconds = 120; // 2 Minutes!
+      isPaused = false;
+      isFrozen = false;
       freezeCount = 1;
       lupaCount = 1;
-      isFrozen = false;
 
       updateHUD();
+      startMainTimer();
       nextQuestion();
+    }
+
+    function startMainTimer() {
+      clearInterval(mainTimer);
+      mainTimer = setInterval(() => {
+        if (!isPaused && !isFrozen) {
+          timeSeconds--;
+          document.getElementById('timer-display').innerText = formatTime(timeSeconds);
+
+          const badge = document.getElementById('timer-badge');
+          if (timeSeconds <= 15) {
+            badge.classList.add('warning');
+          } else {
+            badge.classList.remove('warning');
+          }
+
+          if (timeSeconds <= 0) {
+            clearInterval(mainTimer);
+            endGame();
+          }
+        }
+      }, 1000);
+    }
+
+    function showTimeFloat(txt, isPlus) {
+      const container = document.getElementById('time-float-container');
+      const el = document.createElement('div');
+      el.className = `time-float ${isPlus ? 'plus' : 'minus'}`;
+      el.innerText = txt;
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 1000);
     }
 
     function updateHUD() {
       document.getElementById('score-display').innerText = score;
       document.getElementById('combo-display').innerText = `${combo}x`;
-      document.getElementById('lives-display').innerText = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives);
+      document.getElementById('timer-display').innerText = formatTime(timeSeconds);
       document.getElementById('count-freeze').innerText = freezeCount;
       document.getElementById('count-lupa').innerText = lupaCount;
       document.getElementById('btn-freeze').disabled = freezeCount <= 0;
@@ -560,24 +751,21 @@
     }
 
     function nextQuestion() {
-      if (lives <= 0 || currentIndex >= gameQueue.length) {
-        endGame();
-        return;
+      if (currentIndex >= gameQueue.length) {
+        // Loop dictionary if player is super fast!
+        gameQueue = shuffle([...DICTIONARY]);
+        currentIndex = 0;
       }
 
       const item = gameQueue[currentIndex];
-
-      // Display Target Word
       const formatted = item.word.replace('[ ? ]', '<span class="gap-highlight">[ ? ]</span>');
       document.getElementById('target-word-display').innerHTML = formatted;
       document.getElementById('target-hint-display').innerText = `💡 Dica: ${item.hint}`;
 
-      // Random Mascot Talk
       const talk = PROVOCATIVE_TALKS[Math.floor(Math.random() * PROVOCATIVE_TALKS.length)];
       document.getElementById('mascot-dialogue').innerText = talk;
       document.getElementById('mascot-emoji').innerText = '🧐';
 
-      // Choices
       const container = document.getElementById('orbs-container');
       container.innerHTML = '';
       const choices = shuffle([...item.choices]);
@@ -589,33 +777,10 @@
         btn.onclick = () => selectChoice(ch, btn);
         container.appendChild(btn);
       });
-
-      startTimer();
-    }
-
-    function startTimer() {
-      clearInterval(timer);
-      isFrozen = false;
-      timeRemaining = 8;
-      const bar = document.getElementById('timer-bar');
-      bar.style.width = '100%';
-
-      timer = setInterval(() => {
-        if (!isFrozen) {
-          timeRemaining -= 0.1;
-          const pct = (timeRemaining / 8) * 100;
-          bar.style.width = `${Math.max(0, pct)}%`;
-
-          if (timeRemaining <= 0) {
-            clearInterval(timer);
-            handleTimeout();
-          }
-        }
-      }, 100);
     }
 
     function selectChoice(selected, btn) {
-      clearInterval(timer);
+      if (isPaused) return;
       const item = gameQueue[currentIndex];
       const allBtns = document.querySelectorAll('.orb-btn');
       allBtns.forEach(b => b.onclick = null);
@@ -624,107 +789,121 @@
         playFx('hit');
         btn.classList.add('correct-pop');
         combo++;
-        const pts = 100 + (combo * 25) + Math.round(timeRemaining * 15);
+        timeSeconds += 4; // TIME REWARD! +4 SECONDS!
+        showTimeFloat('+4s Tempo!', true);
+
+        const pts = 100 + (combo * 25);
         score += pts;
-        
+
         document.getElementById('mascot-emoji').innerText = '😎';
-        document.getElementById('mascot-dialogue').innerText = `🎉 PERFEITO! A palavra é ${item.full}! (+${pts} PTS)`;
+        document.getElementById('mascot-dialogue').innerText = `🎉 PERFEITO! A palavra é ${item.full}! (+${pts} PTS / +4s)`;
+
+        // Milestone taunt every 5 streak
+        if (combo % 5 === 0) {
+          score += 200;
+          document.getElementById('mascot-dialogue').innerText = `🏆 MARCA INCRÍVEL! ${combo} ACERTOS SEGUIDOS! (+200 BÔNUS)!`;
+        }
 
         setTimeout(() => {
           currentIndex++;
           updateHUD();
           nextQuestion();
-        }, 1100);
+        }, 1000);
 
       } else {
         playFx('miss');
         btn.classList.add('wrong-pop');
         combo = 0;
-        lives--;
-        
+        timeSeconds = Math.max(0, timeSeconds - 5); // TIME PENALTY! -5 SECONDS!
+        showTimeFloat('-5s Tempo!', false);
+
         allBtns.forEach(b => {
           if (b.innerText === item.correct) b.classList.add('correct-pop');
         });
 
         document.getElementById('mascot-emoji').innerText = '😱';
-        document.getElementById('mascot-dialogue').innerText = `❌ OPS! O dígrafo correto era "${item.correct}" (${item.full})!`;
+        document.getElementById('mascot-dialogue').innerText = `❌ OPS! O dígrafo correto era "${item.correct}" (${item.full})! (-5s)`;
 
         setTimeout(() => {
           currentIndex++;
           updateHUD();
           nextQuestion();
-        }, 1600);
+        }, 1500);
       }
     }
 
-    function handleTimeout() {
-      playFx('miss');
-      combo = 0;
-      lives--;
-      const item = gameQueue[currentIndex];
-      
-      document.getElementById('mascot-emoji').innerText = '⏰';
-      document.getElementById('mascot-dialogue').innerText = `⏰ O TEMPO ACABOU! A resposta certa era "${item.correct}"!`;
+    function pauseGame() {
+      isPaused = true;
+      document.getElementById('overlay-pause').classList.remove('hidden');
+    }
 
-      setTimeout(() => {
-        currentIndex++;
-        updateHUD();
-        nextQuestion();
-      }, 1600);
+    function resumeGame() {
+      isPaused = false;
+      document.getElementById('overlay-pause').classList.add('hidden');
     }
 
     function useFreeze() {
-      if (freezeCount > 0 && !isFrozen) {
+      if (freezeCount > 0 && !isFrozen && !isPaused) {
         freezeCount--;
         isFrozen = true;
         playFx('power');
-        document.getElementById('mascot-dialogue').innerText = "🧊 RAIO CONGELANTE ATIVADO! Tempo pausado!";
+        document.getElementById('mascot-dialogue').innerText = "🧊 CONGELAMENTO ATIVADO! Relógio pausado por 5 segundos!";
         updateHUD();
+        setTimeout(() => {
+          isFrozen = false;
+          document.getElementById('mascot-dialogue').innerText = "⚡ O relógio voltou a rodar!";
+        }, 5000);
       }
     }
 
     function useLupa() {
-      if (lupaCount > 0) {
+      if (lupaCount > 0 && !isPaused) {
         lupaCount--;
         playFx('power');
         const item = gameQueue[currentIndex];
         const allBtns = Array.from(document.querySelectorAll('.orb-btn'));
         const wrongBtns = allBtns.filter(b => b.innerText !== item.correct);
-        
-        // Remove 2 wrong choices
+
         wrongBtns.slice(0, 2).forEach(b => {
           b.style.opacity = '0.2';
           b.onclick = null;
         });
 
-        document.getElementById('mascot-dialogue').innerText = "💡 LUPA MÁGICA! Duas opções incorretas foram eliminadas!";
+        document.getElementById('mascot-dialogue').innerText = "💡 SUPER LUPA! Duas opções incorretas foram eliminadas!";
         updateHUD();
       }
     }
 
     function endGame() {
-      clearInterval(timer);
+      clearInterval(mainTimer);
+      playFx('power');
+
+      saveLeaderboard(playerName, score);
+      renderLeaderboards();
+
       const overlay = document.getElementById('overlay-end');
       overlay.classList.remove('hidden');
-
       document.getElementById('end-score').innerText = score;
 
-      if (score >= 2000) {
+      if (score >= 2500) {
         document.getElementById('end-icon').innerText = '🏆⚡👑';
-        document.getElementById('end-title').innerText = 'AGENTE SUPREMO DA ORTOGRAFIA!';
-        document.getElementById('end-desc').innerText = 'INCRÍVEL! Você recuperou todos os dígrafos do Dicionário e derrotou o Dr. Grafia com maestria!';
-      } else if (score >= 1000) {
+        document.getElementById('end-title').innerText = 'AGENTE LENDÁRIO DE ELITE!';
+        document.getElementById('end-desc').innerText = `EXTRAORDINÁRIO, ${playerName}! Você salvou o dicionário e garantiu um lugar no topo do Ranking!`;
+      } else if (score >= 1200) {
         document.getElementById('end-icon').innerText = '💼🔍';
-        document.getElementById('end-title').innerText = 'DETETIVE DE ELITE!';
-        document.getElementById('end-desc').innerText = 'Excelente trabalho! A Cidade das Palavras está segura graças à sua rapidez!';
+        document.getElementById('end-title').innerText = 'DETETIVE DE PRIMEIRA CLASSE!';
+        document.getElementById('end-desc').innerText = `Muito bem, ${playerName}! Sua rapidez garantiu uma excelente pontuação no ranking!`;
       } else {
         document.getElementById('end-icon').innerText = '🌱🕵️';
         document.getElementById('end-title').innerText = 'AGENTE EM TREINAMENTO';
-        document.getElementById('end-desc').innerText = 'Você lutou bravamente, mas o Dr. Grafia ainda escapou. Que tal jogar novamente para conseguir a Insígnia Suprema?';
+        document.getElementById('end-desc').innerText = `Boa tentativa, ${playerName}! Que tal tentar mais uma vez para subir posições no Ranking de Elite?`;
       }
     }
 
-    // Canvas Background Animation
+    // Initialize Leaderboard on Load
+    renderLeaderboards();
+
+    // Canvas Background Particle Animation
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
