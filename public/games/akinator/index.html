@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Akinator - O Gênio da Lógica e Dedução | Portal Lab Kids</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -12,30 +13,15 @@
     }
     body, html {
       width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: #0f172a;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a 0%, #31103f 100%);
+      color: #ffffff;
       font-family: 'Fredoka', system-ui, -apple-system, sans-serif;
-    }
-
-    /* Game Container Frame */
-    .game-wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #0f172a;
-    }
-
-    .game-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #ffffff;
+      padding: 20px;
     }
 
     /* Fixed Back Button */
@@ -63,6 +49,70 @@
     .btn-return-portal:hover {
       transform: translateY(-2px) scale(1.03);
       box-shadow: 0 8px 25px rgba(239, 68, 68, 0.7);
+    }
+
+    /* Launcher Card */
+    .launcher-card {
+      background: rgba(49, 16, 63, 0.9);
+      border: 3px solid #a855f7;
+      border-radius: 28px;
+      max-width: 650px;
+      width: 100%;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      margin: 40px 0;
+    }
+
+    .launcher-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid #f59e0b;
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+      object-fit: cover;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.05);
+      padding: 10px;
+    }
+
+    .launcher-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .launcher-desc {
+      color: #cbd5e1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .btn-launch-direct {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #a855f7, #7e22ce);
+      color: white;
+      font-size: 1.35rem;
+      font-weight: 800;
+      padding: 18px 38px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
+      border: 2px solid #e9d5ff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-launch-direct:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 40px rgba(168, 85, 247, 0.7);
     }
 
     /* AdSense Sidebars (160x600 Skyscrapers) */
@@ -100,7 +150,7 @@
     ⬅️ VOLTAR AO PORTAL
   </a>
 
-  <!-- Anúncios Laterais AdSense (Esquerda e Direita) -->
+  <!-- Anúncios Laterais AdSense -->
   <div class="adsense-game-sidebar-left">
     <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
       <div style="font-size: 0.7rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
@@ -119,14 +169,17 @@
     </div>
   </div>
 
-  <!-- EMBED DO JOGO AKINATOR -->
-  <div class="game-wrapper">
-    <iframe 
-      src="https://pt.akinator.com/" 
-      class="game-iframe" 
-      allow="autoplay; fullscreen" 
-      allowfullscreen>
-    </iframe>
+  <!-- CARD DE INICIALIZAÇÃO DO JOGO AKINATOR -->
+  <div class="launcher-card">
+    <img src="https://pt.akinator.com/assets/img/akinator.png" alt="Akinator" class="launcher-img">
+    <h1 class="launcher-title">🧙‍♂️ Akinator - O Gênio da Lógica</h1>
+    <p class="launcher-desc">
+      O site do Akinator requer abertura direta para garantir a melhor experiência de jogo. Clique no botão abaixo para iniciar seu desafio de raciocínio!
+    </p>
+
+    <a href="https://pt.akinator.com/" target="_blank" rel="noopener noreferrer" class="btn-launch-direct">
+      🎮 ABRIR E JOGAR AKINATOR AGORA 🚀
+    </a>
   </div>
 
 </body>

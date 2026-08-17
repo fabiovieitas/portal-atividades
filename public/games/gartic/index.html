@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gartic.io - Jogo de Desenho e Adivinhação | Portal Lab Kids</title>
+  <title>Gartic.io - Desenho e Adivinhação | Portal Lab Kids</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -12,30 +13,15 @@
     }
     body, html {
       width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: #0f172a;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      color: #ffffff;
       font-family: 'Fredoka', system-ui, -apple-system, sans-serif;
-    }
-
-    /* Game Container Frame */
-    .game-wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #0f172a;
-    }
-
-    .game-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: #ffffff;
+      padding: 20px;
     }
 
     /* Fixed Back Button */
@@ -65,7 +51,71 @@
       box-shadow: 0 8px 25px rgba(239, 68, 68, 0.7);
     }
 
-    /* AdSense Sidebars (160x600 Skyscrapers) */
+    /* Launcher Card */
+    .launcher-card {
+      background: rgba(30, 27, 75, 0.9);
+      border: 3px solid #60a5fa;
+      border-radius: 28px;
+      max-width: 650px;
+      width: 100%;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      margin: 40px 0;
+    }
+
+    .launcher-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid #facc15;
+      box-shadow: 0 10px 30px rgba(234, 179, 8, 0.4);
+      object-fit: cover;
+      margin-bottom: 20px;
+      background: #1e293b;
+      padding: 10px;
+    }
+
+    .launcher-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .launcher-desc {
+      color: #cbd5e1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .btn-launch-direct {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      color: #0f172a;
+      font-size: 1.35rem;
+      font-weight: 800;
+      padding: 18px 38px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(234, 179, 8, 0.4);
+      border: 2px solid #fef08a;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-launch-direct:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 40px rgba(234, 179, 8, 0.6);
+    }
+
+    /* AdSense Sidebars */
     .adsense-game-sidebar-left {
       position: fixed;
       left: 15px;
@@ -100,7 +150,7 @@
     ⬅️ VOLTAR AO PORTAL
   </a>
 
-  <!-- Anúncios Laterais AdSense (Esquerda e Direita) -->
+  <!-- Anúncios Laterais AdSense -->
   <div class="adsense-game-sidebar-left">
     <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
       <div style="font-size: 0.7rem; color: #38bdf8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
@@ -119,14 +169,17 @@
     </div>
   </div>
 
-  <!-- EMBED DO JOGOS GARTIC.IO -->
-  <div class="game-wrapper">
-    <iframe 
-      src="https://gartic.io/" 
-      class="game-iframe" 
-      allow="autoplay; fullscreen; microphone; camera; geolocation" 
-      allowfullscreen>
-    </iframe>
+  <!-- CARD DE INICIALIZAÇÃO DO JOGO GARTIC.IO -->
+  <div class="launcher-card">
+    <img src="https://gartic.io/static/images/avatar/1.png" alt="Gartic.io" class="launcher-img">
+    <h1 class="launcher-title">🎨 Gartic.io - Desenho & Vocabulário</h1>
+    <p class="launcher-desc">
+      O Gartic.io requer abertura direta para salas em tempo real sem bloqueios. Clique no botão abaixo para entrar e se divertir desenhando!
+    </p>
+
+    <a href="https://gartic.io/" target="_blank" rel="noopener noreferrer" class="btn-launch-direct">
+      🎮 ABRIR E JOGAR GARTIC.IO AGORA 🚀
+    </a>
   </div>
 
 </body>
