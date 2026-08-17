@@ -312,6 +312,97 @@ const dbHelper = {
           bncc_code: "EF01MA09, EF02MA18, EF35LP05",
           status: "public",
           visits: 610
+        },
+        {
+          id: 10,
+          title: "Chapeuzinho e o Enigma",
+          description: "Ajude Chapeuzinho Vermelho a atravessar a floresta resolvendo quebra-cabeças de palavras, raciocínio e atenção!",
+          activity_url: "/atividades/chapeuzinho-enigma",
+          icon_url: "https://arietoy.com.br/assets_games/ch/chapeuzinho-enigma/screenshots/chapeuzinho-enigma-01.jpg",
+          level: "1-5",
+          category: "Alfabetização & Raciocínio",
+          subject: "Português",
+          bncc_code: "EF01LP02, EF01LP05, EF15AR04",
+          status: "public",
+          visits: 430
+        },
+        {
+          id: 11,
+          title: "Capitão Alberto e o Faraó",
+          description: "Uma aventura histórica pelo Egito Antigo! Desvende mistérios, hieróglifos e desafios de história e geografia.",
+          activity_url: "/atividades/capitao-alberto-farao",
+          icon_url: "https://arietoy.com.br/assets_games/ca/capitao-alberto-farao/screenshots/capitao-alberto-farao-01.jpg",
+          level: "1-5",
+          category: "História & Aventura",
+          subject: "História",
+          bncc_code: "EF01HI01, EF02HI02, EF03HI01",
+          status: "public",
+          visits: 390
+        },
+        {
+          id: 12,
+          title: "Ariê Colorir",
+          description: "Atividade artística interativa! Explore a paleta de cores, desenvolva a coordenação motora e crie obras com o Ariê.",
+          activity_url: "/atividades/arie-colorir",
+          icon_url: "https://arietoy.com.br/assets_games/ar/arie-colorir/screenshots/arie-colorir-01.jpg",
+          level: "1-5",
+          category: "Artes Visuais",
+          subject: "Artes",
+          bncc_code: "EF15AR04, EF15AR02, EI02CG05",
+          status: "public",
+          visits: 510
+        },
+        {
+          id: 13,
+          title: "Tabuada - O Chão é Lava!",
+          description: "Jogo dinâmico de matemática e agilidade! Calcule a tabuada rapidamente para salvar os personagens antes que o chão vire lava.",
+          activity_url: "/atividades/tabuada-chao-e-lava",
+          icon_url: "https://arietoy.com.br/assets_games/ta/tabuada-chao-e-lava/screenshots/tabuada-chao-e-lava-01.jpg",
+          level: "1-5",
+          category: "Matemática Divertida",
+          subject: "Matemática",
+          bncc_code: "EF02MA05, EF03MA03, EF04MA04",
+          status: "public",
+          visits: 670
+        },
+        {
+          id: 14,
+          title: "Caça-Palavras Temático",
+          description: "Desafio de leitura e ortografia! Encontre palavras escondidas por categorias temáticas como animais, frutas e escola.",
+          activity_url: "/atividades/caca-palavras-temas",
+          icon_url: "https://arietoy.com.br/assets_games/ca/caca-palavras-temas/screenshots/caca-palavras-temas-01.jpg",
+          level: "1-5",
+          category: "Vocabulário & Leitura",
+          subject: "Português",
+          bncc_code: "EF01LP02, EF02LP04, EF35LP05",
+          status: "public",
+          visits: 480
+        },
+        {
+          id: 15,
+          title: "Brincando com Ariê 2",
+          description: "Segunda edição do clássico jogo pedagógico! Desafios de sílabas, contagem de objetos, memória e associação.",
+          activity_url: "/atividades/brincando-com-arie-2",
+          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-2/screenshots/brincando-com-arie-2-01.jpg",
+          level: "1-5",
+          category: "Alfabetização",
+          subject: "Português",
+          bncc_code: "EI03EF04, EF01LP10, EF01MA01",
+          status: "public",
+          visits: 580
+        },
+        {
+          id: 16,
+          title: "Brincando com Ariê 3",
+          description: "Terceiro capítulo da série educativa! Exercícios avançados de escrita de palavras, operações simples e desafios de lógica.",
+          activity_url: "/atividades/brincando-com-arie-3",
+          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-3/screenshots/brincando-com-arie-3-01.jpg",
+          level: "1-5",
+          category: "Alfabetização Avançada",
+          subject: "Português",
+          bncc_code: "EF01LP12, EF02LP01, EF02MA05",
+          status: "public",
+          visits: 620
         }
       ];
     }
@@ -838,6 +929,139 @@ async function initTables() {
         }
       } catch(e) {
         console.error('[DB Engine Akinator Seed Error]:', e.message);
+      }
+      // Seed 7 new Ariê Toy games
+      const arieGames = [
+        {
+          title: "Chapeuzinho e o Enigma",
+          description: "Ajude Chapeuzinho Vermelho a atravessar a floresta resolvendo quebra-cabeças de palavras, raciocínio e atenção!",
+          activity_url: "/atividades/chapeuzinho-enigma",
+          icon_url: "https://arietoy.com.br/assets_games/ch/chapeuzinho-enigma/screenshots/chapeuzinho-enigma-01.jpg",
+          level: "1-5", category: "Alfabetização & Raciocínio", bncc_code: "EF01LP02, EF01LP05, EF15AR04", subject: "Português"
+        },
+        {
+          title: "Capitão Alberto e o Faraó",
+          description: "Uma aventura histórica pelo Egito Antigo! Desvende mistérios, hieróglifos e desafios de história e geografia.",
+          activity_url: "/atividades/capitao-alberto-farao",
+          icon_url: "https://arietoy.com.br/assets_games/ca/capitao-alberto-farao/screenshots/capitao-alberto-farao-01.jpg",
+          level: "1-5", category: "História & Aventura", bncc_code: "EF01HI01, EF02HI02, EF03HI01", subject: "História"
+        },
+        {
+          title: "Ariê Colorir",
+          description: "Atividade artística interativa! Explore a paleta de cores, desenvolva a coordenação motora e crie obras com o Ariê.",
+          activity_url: "/atividades/arie-colorir",
+          icon_url: "https://arietoy.com.br/assets_games/ar/arie-colorir/screenshots/arie-colorir-01.jpg",
+          level: "1-5", category: "Artes Visuais", bncc_code: "EF15AR04, EF15AR02, EI02CG05", subject: "Artes"
+        },
+        {
+          title: "Tabuada - O Chão é Lava!",
+          description: "Jogo dinâmico de matemática e agilidade! Calcule a tabuada rapidamente para salvar os personagens antes que o chão vire lava.",
+          activity_url: "/atividades/tabuada-chao-e-lava",
+          icon_url: "https://arietoy.com.br/assets_games/ta/tabuada-chao-e-lava/screenshots/tabuada-chao-e-lava-01.jpg",
+          level: "1-5", category: "Matemática Divertida", bncc_code: "EF02MA05, EF03MA03, EF04MA04", subject: "Matemática"
+        },
+        {
+          title: "Caça-Palavras Temático",
+          description: "Desafio de leitura e ortografia! Encontre palavras escondidas por categorias temáticas como animais, frutas e escola.",
+          activity_url: "/atividades/caca-palavras-temas",
+          icon_url: "https://arietoy.com.br/assets_games/ca/caca-palavras-temas/screenshots/caca-palavras-temas-01.jpg",
+          level: "1-5", category: "Vocabulário & Leitura", bncc_code: "EF01LP02, EF02LP04, EF35LP05", subject: "Português"
+        },
+        {
+          title: "Brincando com Ariê 2",
+          description: "Segunda edição do clássico jogo pedagógico! Desafios de sílabas, contagem de objetos, memória e associação.",
+          activity_url: "/atividades/brincando-com-arie-2",
+          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-2/screenshots/brincando-com-arie-2-01.jpg",
+          level: "1-5", category: "Alfabetização", bncc_code: "EI03EF04, EF01LP10, EF01MA01", subject: "Português"
+        },
+        {
+          title: "Brincando com Ariê 3",
+          description: "Terceiro capítulo da série educativa! Exercícios avançados de escrita de palavras, operações simples e desafios de lógica.",
+          activity_url: "/atividades/brincando-com-arie-3",
+          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-3/screenshots/brincando-com-arie-3-01.jpg",
+          level: "1-5", category: "Alfabetização Avançada", bncc_code: "EF01LP12, EF02LP01, EF02MA05", subject: "Português"
+        }
+      ];
+
+      for (const game of arieGames) {
+        try {
+          const exists = await queryGet("SELECT id FROM activities WHERE title LIKE ? LIMIT 1", [`%${game.title}%`]);
+          if (!exists) {
+            console.log(`[DB Engine] Inserindo atividade "${game.title}"...`);
+            await queryRun(
+              "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status, bncc_code, subject) VALUES (?, ?, ?, ?, ?, ?, 'public', ?, ?)",
+              [game.title, game.description, game.activity_url, game.icon_url, game.level, game.category, game.bncc_code, game.subject]
+            );
+          } else {
+            await queryRun("UPDATE activities SET activity_url = ?, icon_url = ?, bncc_code = ?, subject = ? WHERE id = ?", [game.activity_url, game.icon_url, game.bncc_code, game.subject, exists.id]);
+          }
+        } catch(e) {
+          console.error(`[DB Engine ${game.title} Seed Error]:`, e.message);
+        }
+      }
+
+      // Seed Blog Article for Tux Math
+      try {
+        const tuxArticle = await queryGet("SELECT id FROM news WHERE title LIKE '%Tux Math%' LIMIT 1");
+        if (!tuxArticle) {
+          console.log('[DB Engine] Inserindo mini artigo do blog para Tux Math...');
+          const articleTitle = "Tux Math: Cálculo Mental Divertido e Guia BNCC para Sala de Aula";
+          const articleSummary = "Descubra como o jogo digital Tux Math estimula o cálculo mental rápido, reduz a ansiedade matemática e confira o texto pronto para registrar no seu Diário de Classe.";
+          const articleContent = `<h2>🎮 O que é o Tux Math e qual sua Importância Pedagógica?</h2>
+<p>O <strong>Tux Math</strong> é um dos jogos educativos digitais mais eficazes e consagrados para o ensino de matemática nos anos iniciais do Ensino Fundamental. No jogo, cometas contendo equações matemáticas caem em direção às cidades, e o aluno assume o papel do pinguim Tux para defender a cidade digitando a resposta correta da operação matemática no teclado antes que o cometa atinja o solo.</p>
+<p>Diferente das fichas de exercícios impressas tradicionais, a mecânica de jogo arcade transforma a prática do cálculo mental em uma experiência imersiva e de alta motivação. O principal benefício pedagógico do Tux Math é o <strong>desenvolvimento da automatização das operações básicas</strong> (adição, subtração, multiplicação e divisão), permitindo que a criança libere recursos da memória de trabalho para problemas matemáticos mais complexos no futuro.</p>
+
+<div class="adsense-blog-inline" style="margin: 25px 0; padding: 15px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; text-align: center;">
+  <span style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1234567890123456" data-ad-slot="9876543210" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<h2>📘 Enquadramento com as Habilidades da BNCC</h2>
+<p>A aplicação do Tux Math em sala de aula ou no laboratório de informática contempla diretamente diversas habilidades de Matemática da Base Nacional Comum Curricular (BNCC):</p>
+<ul>
+  <li><strong>EF01MA06:</strong> Construir fatos básicos da adição e utilizá-los em procedimentos de cálculo para resolver problemas.</li>
+  <li><strong>EF02MA05:</strong> Construir fatos básicos da adição e subtração e utilizá-los no cálculo mental ou escrito.</li>
+  <li><strong>EF03MA03:</strong> Construir e utilizar fatos básicos da multiplicação e divisão para o cálculo mental ou escrito.</li>
+  <li><strong>EF04MA04:</strong> Utilizar as relações entre adição e subtração, bem como entre multiplicação e divisão, para ampliar as estratégias de cálculo mental.</li>
+</ul>
+
+<h2>👩‍🏫 Auxílios e Orientações para Professores</h2>
+<p>Para obter o melhor rendimento didático com a sua turma:</p>
+<ol>
+  <li><strong>Trabalho em Duplas Colaborativas:</strong> Coloque os alunos em duplas na sala de informática, onde um dita a resposta e o outro digita os números no teclado. Isso estimula a cooperação verbal.</li>
+  <li><strong>Progressão por Fases:</strong> Comece pelas fases de "Fatos Simples de Adição" (Soma até 10) no 1º e 2º Ano e avance gradativamente para "Subtração" e "Tabuada de Multiplicação" no 3º e 4º Ano.</li>
+  <li><strong>Roda de Conversa Prévia:</strong> Antes da atividade, revise estratégias de cálculo mental rápido (como arredondar números ou decomposição).</li>
+</ol>
+
+<div class="adsense-blog-inline" style="margin: 25px 0; padding: 15px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; text-align: center;">
+  <span style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</span>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1234567890123456" data-ad-slot="9876543211" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<h2 style="color: #4f46e5; background: #e0e7ff; padding: 15px 20px; border-radius: 14px; border-left: 6px solid #4338ca;">📝 Como registrar esta atividade no Diário de Classe (Resumo para Copiar e Colar)</h2>
+<p>Professores podem utilizar o texto resumido abaixo para realizar o registro oficial da aula no diário físico ou digital:</p>
+
+<div style="background: #f1f5f9; border: 2px dashed #6366f1; border-radius: 16px; padding: 20px; font-family: monospace; font-size: 1.05rem; color: #1e293b; margin: 15px 0;">
+  <strong>Modelo de Registro de Aula para o Diário:</strong><br><br>
+  <em>"Utilização do recurso digital pedagógico Tux Math para o desenvolvimento do cálculo mental rápido, agilidade de raciocínio lógico e consolidação dos fatos básicos das operações matemáticas de adição, subtração e multiplicação (Habilidades BNCC: EF01MA06, EF02MA05, EF03MA03)."</em>
+</div>`;
+
+          await queryRun(
+            "INSERT INTO news (title, summary, content, image_url, category, author) VALUES (?, ?, ?, ?, ?, ?)",
+            [
+              articleTitle,
+              articleSummary,
+              articleContent,
+              "https://tuxmath.org/images/favicon.png",
+              "Práticas Pedagógicas",
+              "Prof. Fábio Vieitas"
+            ]
+          );
+        }
+      } catch(e) {
+        console.error('[DB Engine Tux Math News Seed Error]:', e.message);
       }
 
     } catch(e) {

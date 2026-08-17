@@ -179,6 +179,34 @@ app.get('/atividades/akinator', async (req, res) => {
   res.render('akinator_presentation');
 });
 
+app.get('/atividades/chapeuzinho-enigma', async (req, res) => {
+  res.render('chapeuzinho_enigma_presentation');
+});
+
+app.get('/atividades/capitao-alberto-farao', async (req, res) => {
+  res.render('capitao_alberto_presentation');
+});
+
+app.get('/atividades/arie-colorir', async (req, res) => {
+  res.render('arie_colorir_presentation');
+});
+
+app.get('/atividades/tabuada-chao-e-lava', async (req, res) => {
+  res.render('tabuada_lava_presentation');
+});
+
+app.get('/atividades/caca-palavras-temas', async (req, res) => {
+  res.render('caca_palavras_presentation');
+});
+
+app.get('/atividades/brincando-com-arie-2', async (req, res) => {
+  res.render('arie2_presentation');
+});
+
+app.get('/atividades/brincando-com-arie-3', async (req, res) => {
+  res.render('arie3_presentation');
+});
+
 app.get('/atividade/:id', async (req, res) => {
   try {
     const activityId = req.params.id;
