@@ -171,6 +171,46 @@ app.get('/professor/certificado', (req, res) => {
   res.render('certificate_generator');
 });
 
+// SEO Routes: robots.txt & dynamic sitemap.xml
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.send(`User-agent: *\nAllow: /\nSitemap: https://${req.headers.host || 'labkids.site'}/sitemap.xml`);
+});
+
+app.get('/sitemap.xml', async (req, res) => {
+  try {
+    const host = req.headers.host || 'labkids.site';
+    const baseUrl = `https://${host}`;
+    const news = await dbHelper.getNews();
+    const activities = await dbHelper.getActivities({});
+
+    let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+    xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+    const mainPages = ['', '/noticias', '/aluno', '/professor/login', '/contato', '/privacidade', '/professor/certificado'];
+    mainPages.forEach(page => {
+      xml += `  <url><loc>${baseUrl}${page}</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n`;
+    });
+
+    (activities || []).forEach(act => {
+      if (act.activity_url && act.activity_url.startsWith('/')) {
+        xml += `  <url><loc>${baseUrl}${act.activity_url}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+      }
+    });
+
+    (news || []).forEach(art => {
+      xml += `  <url><loc>${baseUrl}/noticia/${art.id}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>\n`;
+    });
+
+    xml += `</urlset>`;
+
+    res.header('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (err) {
+    res.status(500).send('Error generating sitemap');
+  }
+});
+
 app.get('/atividades/brincando-com-arie-1', async (req, res) => {
   res.render('arie_presentation');
 });
