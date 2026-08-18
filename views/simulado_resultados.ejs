@@ -537,6 +537,85 @@
         <span><strong>Banco de Dados Preservado:</strong> Todas as submissões dos estudantes (1º ao 5º Ano) são permanentemente salvas no servidor Turso Cloud com registro exato de Data e Hora para análise de evolução.</span>
       </div>
 
+      <!-- Gabaritos Oficiais de Referência (1º ao 5º Ano) -->
+      <div class="gabarito-card" style="margin-top: 1rem; background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+        <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;" onclick="toggleGabarito()">
+          <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+            <span>🔑 Gabarito Oficial de Referência das Provas (1º ao 5º Ano)</span>
+          </h3>
+          <button style="background: #e0f2fe; color: #0369a1; border: none; padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 800; font-size: 0.8rem; cursor: pointer;" id="toggleGabaritoBtn">
+            ▼ Exibir Gabaritos Completo
+          </button>
+        </div>
+
+        <div id="gabaritoContent" style="display: none; margin-top: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+          <!-- 1º Ano -->
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
+              🥇 Gabarito 1º Ano
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #334155; line-height: 1.7;">
+              Q01: <strong>A</strong> | Q02: <strong>C</strong> | Q03: <strong>D</strong><br>
+              Q04: <strong>B</strong> | Q05: <strong>A</strong> | Q06: <strong>C</strong><br>
+              Q07: <strong>D</strong> | Q08: <strong>C</strong> | Q09: <strong>B</strong><br>
+              Q10: <strong>A</strong>
+            </div>
+          </div>
+
+          <!-- 2º Ano -->
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
+              🥈 Gabarito 2º Ano
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #334155; line-height: 1.7;">
+              Q01: <strong>A</strong> | Q02: <strong>B</strong> | Q03: <strong>A</strong><br>
+              Q04: <strong>C</strong> | Q05: 📜 <em>Redação</em><br>
+              Q06: <strong>C</strong> | Q07: <strong>B</strong> | Q08: <strong>D</strong><br>
+              Q09: <strong>B</strong> | Q10: <strong>C</strong>
+            </div>
+          </div>
+
+          <!-- 3º Ano -->
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
+              🥉 Gabarito 3º Ano
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #334155; line-height: 1.7;">
+              Q01: <strong>B</strong> | Q02: <strong>B</strong> | Q03: 📜 <em>Redação</em><br>
+              Q04: <strong>D</strong> | Q05: <strong>C</strong> | Q06: <strong>A</strong><br>
+              Q07: <strong>D</strong> | Q08: <strong>C</strong> | Q09: <strong>A</strong><br>
+              Q10: <strong>B</strong>
+            </div>
+          </div>
+
+          <!-- 4º Ano -->
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
+              🎯 Gabarito 4º Ano
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #334155; line-height: 1.7;">
+              Q01: <strong>B</strong> | Q02: <strong>D</strong> | Q03: 📜 <em>Redação</em><br>
+              Q04: <strong>B</strong> | Q05: <strong>B</strong> | Q06: <strong>B</strong><br>
+              Q07: <strong>B</strong> | Q08: <strong>A</strong> | Q09: <strong>C</strong><br>
+              Q10: <strong>A</strong>
+            </div>
+          </div>
+
+          <!-- 5º Ano -->
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem; border-left: 4px solid #10b981;">
+            <div style="font-weight: 800; color: #059669; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
+              🚀 Gabarito 5º Ano
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #334155; line-height: 1.7;">
+              Q01: <strong>B</strong> | Q02: <strong>B</strong> | Q03: 📜 <em>Redação</em><br>
+              Q04: <strong>C</strong> | Q05: <strong>D</strong> | Q06: <strong>B</strong><br>
+              Q07: <strong>B</strong> | Q08: <strong>C</strong> | Q09: <strong>B</strong><br>
+              Q10: <strong>C</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Filters Bar with Date System -->
       <div class="filters-bar">
         <div class="filter-group">
@@ -821,7 +900,25 @@
   </div>
 
   <script>
-    const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' };
+    const allAnswerKeys = {
+      'campos-1ano-agosto-2026': { 1:'A', 2:'C', 3:'D', 4:'B', 5:'A', 6:'C', 7:'D', 8:'C', 9:'B', 10:'A' },
+      'campos-2ano-agosto-2026': { 1:'A', 2:'B', 3:'A', 4:'C', 6:'C', 7:'B', 8:'D', 9:'B', 10:'C' },
+      'campos-3ano-agosto-2026': { 1:'B', 2:'B', 4:'D', 5:'C', 6:'A', 7:'D', 8:'C', 9:'A', 10:'B' },
+      'campos-4ano-agosto-2026': { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' },
+      'campos-5ano-agosto-2026': { 1:'B', 2:'B', 4:'C', 5:'D', 6:'B', 7:'B', 8:'C', 9:'B', 10:'C' }
+    };
+
+    function toggleGabarito() {
+      const content = document.getElementById('gabaritoContent');
+      const btn = document.getElementById('toggleGabaritoBtn');
+      if (content.style.display === 'none' || !content.style.display) {
+        content.style.display = 'grid';
+        btn.innerText = '▲ Ocultar Gabaritos';
+      } else {
+        content.style.display = 'none';
+        btn.innerText = '▼ Exibir Gabaritos Completo';
+      }
+    }
 
     function toggleDetails(idx) {
       const row = document.getElementById(`details-row-${idx}`);
@@ -904,9 +1001,10 @@
           schoolData[rowSchool].count++;
           schoolData[rowSchool].sumScore += score;
 
-          // Accumulate Question Correctness
+          // Accumulate Question Correctness dynamically per simulado
+          const targetKey = allAnswerKeys[rowSimulado] || allAnswerKeys['campos-5ano-agosto-2026'];
           for (let q in questionCorrect) {
-            if (answersObj[q] === answerKey[q]) {
+            if (answersObj[q] === targetKey[q]) {
               questionCorrect[q]++;
             }
           }
