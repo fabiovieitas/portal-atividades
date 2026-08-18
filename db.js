@@ -2,6 +2,7 @@ require('dotenv').config();
 const { createClient: createTursoClient } = require('@libsql/client');
 const { createClient: createSupabaseClient } = require('@supabase/supabase-js');
 const path = require('path');
+const fs = require('fs');
 
 // Safely initialize local SQLite (only available when running locally in Node)
 let sqlite = null;
@@ -563,6 +564,7 @@ const dbHelper = {
       "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
       [simulado_id, student_name, school_name || '', class_name || '', shift || 'Manhã', jsonStr, score || 0, max_score || 9, essay_text || '']
     );
+    await syncAutoBackupJSON();
   },
 
   async restoreSimuladoBackup(submissionsArray) {
@@ -592,6 +594,7 @@ const dbHelper = {
         console.warn('Erro ao restaurar item:', e.message);
       }
     }
+    await syncAutoBackupJSON();
     return { count: restored };
   },
 
@@ -629,16 +632,19 @@ const dbHelper = {
       "UPDATE simulado_submissions SET student_name = ?, school_name = ?, class_name = ?, shift = ? WHERE id = ?",
       [student_name, school_name, class_name, shift, id]
     );
+    await syncAutoBackupJSON();
   },
 
   async deleteSimuladoSubmission(id) {
     await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
+    await syncAutoBackupJSON();
   },
 
   async bulkDeleteSimuladoSubmissions(ids) {
     if (!Array.isArray(ids) || ids.length === 0) return;
     const placeholders = ids.map(() => '?').join(',');
     await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, ids);
+    await syncAutoBackupJSON();
   },
 
   async bulkMoveSimuladoSubmissions(ids, { class_name, shift, simulado_id }) {
@@ -655,6 +661,7 @@ const dbHelper = {
     args.push(...ids);
 
     await queryRun(`UPDATE simulado_submissions SET ${updates.join(', ')} WHERE id IN (${placeholders})`, args);
+    await syncAutoBackupJSON();
   },
 
   // 11. Students Management
@@ -1502,6 +1509,67 @@ async function initTables() {
       console.error('[DB Engine Seed Error]:', e.message);
     }
 }
+
+const AUTO_BACKUP_FILE = path.join(__dirname, 'simulado_backup_auto.json');
+
+async function syncAutoBackupJSON() {
+  try {
+    const records = await queryAll("SELECT * FROM simulado_submissions ORDER BY created_at ASC");
+    if (records && records.length > 0) {
+      fs.writeFileSync(AUTO_BACKUP_FILE, JSON.stringify(records, null, 2), 'utf-8');
+      console.log(`[Auto-Backup] ${records.length} registros salvos permanentemente em simulado_backup_auto.json`);
+    }
+  } catch (err) {
+    console.warn('[Auto-Backup Warn]:', err.message);
+  }
+}
+
+async function autoRestoreOnStartup() {
+  try {
+    if (!fs.existsSync(AUTO_BACKUP_FILE)) return;
+    const fileData = fs.readFileSync(AUTO_BACKUP_FILE, 'utf-8');
+    const backupList = JSON.parse(fileData);
+    if (!Array.isArray(backupList) || backupList.length === 0) return;
+
+    const existing = await queryAll("SELECT student_name, created_at FROM simulado_submissions");
+    const existingKeys = new Set(existing.map(r => `${r.student_name}_${r.created_at}`));
+
+    let restoredCount = 0;
+    for (const sub of backupList) {
+      if (!sub.student_name) continue;
+      const key = `${sub.student_name}_${sub.created_at}`;
+      if (!existingKeys.has(key)) {
+        const jsonStr = typeof sub.answers_json === 'object' ? JSON.stringify(sub.answers_json) : String(sub.answers_json || '{}');
+        await queryRun(
+          "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            sub.simulado_id || 'campos-4ano-agosto-2026',
+            sub.student_name,
+            sub.school_name || '',
+            sub.class_name || '',
+            sub.shift || 'Manhã',
+            jsonStr,
+            sub.score || 0,
+            sub.max_score || 9,
+            sub.essay_text || '',
+            sub.created_at || new Date().toISOString()
+          ]
+        );
+        restoredCount++;
+      }
+    }
+    if (restoredCount > 0) {
+      console.log(`[Auto-Restaurador] 🚀 ${restoredCount} registros de estudantes restaurados automaticamente do arquivo simulado_backup_auto.json!`);
+      await syncAutoBackupJSON();
+    }
+  } catch (err) {
+    console.warn('[Auto-Restaurador Error]:', err.message);
+  }
+}
+
+setTimeout(() => {
+  autoRestoreOnStartup().catch(console.warn);
+}, 2000);
 
 initTables().catch(err => console.error('[DB Init Error]:', err.message));
 
