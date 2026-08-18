@@ -672,11 +672,17 @@
             </div>
             <div class="form-group">
               <label for="schoolName">Escola Municipal</label>
-              <input type="text" id="schoolName" class="form-control" placeholder="Nome da escola..." value="E.M. Campos de Todos Nós">
+              <input type="text" id="schoolName" class="form-control" placeholder="Nome da escola..." value="E.M. Profª Eleonora da Silva Pinto">
             </div>
             <div class="form-group">
-              <label for="className">Turma</label>
-              <input type="text" id="className" class="form-control" placeholder="Ex: 4º Ano A" value="4º Ano A">
+              <label for="className">Turma do 4º Ano *</label>
+              <select id="className" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
+                <option value="4º Ano A">4º Ano A</option>
+                <option value="4º Ano B">4º Ano B</option>
+                <option value="4º Ano C">4º Ano C</option>
+                <option value="4º Ano D">4º Ano D</option>
+                <option value="4º Ano E">4º Ano E</option>
+              </select>
             </div>
           </div>
         </form>
@@ -1128,18 +1134,22 @@
   <!-- Result Modal -->
   <div class="result-modal" id="resultModal">
     <div class="result-content">
-      <div class="score-circle">
-        <span class="score-num" id="scoreValue">0</span>
-        <span class="score-total">de 9 Objetivas</span>
+      <div class="score-circle" style="background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%); border-color: #10b981; color: #15803d;">
+        <span class="score-num" style="font-size: 3rem;">✓</span>
       </div>
-      <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;" id="resultTitle">Simulado Concluído com Sucesso!</h2>
-      <p style="color: var(--text-muted); font-size: 0.95rem;" id="resultSubtitle">Suas respostas e a redação foram salvas no servidor!</p>
+      <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;" id="resultTitle">Simulado Entregue com Sucesso! 🎉</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;" id="resultSubtitle">Parabéns! Suas respostas e a redação foram entregues e salvas no sistema com sucesso.</p>
 
-      <div class="gabarito-list" id="gabaritoList">
-        <!-- Filled dynamically -->
+      <div style="background: #f8fafc; border-radius: 14px; padding: 1.2rem; text-align: left; margin-bottom: 1.5rem; font-size: 0.9rem; border: 1px solid #e2e8f0;">
+        <div style="display:flex; align-items:center; gap: 0.6rem; margin-bottom: 0.6rem; color: #059669; font-weight: 700;">
+          <span>✓</span> <span>9 Questões Objetivas salvas no servidor</span>
+        </div>
+        <div style="display:flex; align-items:center; gap: 0.6rem; color: #059669; font-weight: 700;">
+          <span>✓</span> <span id="essayDeliveryStatus">Redação (Questão 03) entregue para avaliação</span>
+        </div>
       </div>
 
-      <button class="modal-btn" onclick="window.location.href='/'">Voltar ao Início</button>
+      <button class="modal-btn" onclick="window.location.href='/'">Voltar ao Portal de Atividades</button>
     </div>
   </div>
 
@@ -1247,28 +1257,18 @@
 
       // Calculate score for objective questions
       let score = 0;
-      const gabaritoDetails = [];
-
       for (let i = 1; i <= 10; i++) {
         if (i === 3) continue; // Essay graded separately by teacher
         const studentOpt = studentAnswers[i] || '—';
         const correctOpt = answerKey[i];
-        const isCorrect = (studentOpt === correctOpt);
-        if (isCorrect) score++;
-
-        gabaritoDetails.push({
-          question: i,
-          studentOpt,
-          correctOpt,
-          isCorrect
-        });
+        if (studentOpt === correctOpt) score++;
       }
 
       const payload = {
         simulado_id: 'campos-4ano-agosto-2026',
         student_name: nameInput,
-        school_name: document.getElementById('schoolName').value.trim() || 'E.M. Campos de Todos Nós',
-        class_name: document.getElementById('className').value.trim() || '4º Ano A',
+        school_name: document.getElementById('schoolName').value.trim() || 'E.M. Profª Eleonora da Silva Pinto',
+        class_name: document.getElementById('className').value || '4º Ano A',
         answers_json: studentAnswers,
         score: score,
         max_score: 9,
@@ -1287,21 +1287,9 @@
         console.warn('Erro ao salvar no servidor:', err);
       }
 
-      // Display result modal
-      document.getElementById('scoreValue').innerText = score;
-      const listEl = document.getElementById('gabaritoList');
-      listEl.innerHTML = gabaritoDetails.map(item => `
-        <div class="gabarito-item">
-          <span>Questão ${item.question < 10 ? '0' + item.question : item.question}: Sua resposta <strong>${item.studentOpt}</strong></span>
-          <span class="${item.isCorrect ? 'badge-correct' : 'badge-wrong'}">
-            ${item.isCorrect ? '✓ Correto (Gabarito ' + item.correctOpt + ')' : '✗ Errado (Gabarito ' + item.correctOpt + ')'}
-          </span>
-        </div>
-      `).join('') + `
-        <div class="gabarito-item" style="background: #e0f2fe; margin-top: 0.5rem; padding: 0.5rem; border-radius: 8px;">
-          <span>Questão 03 (Redação): <strong>${studentAnswers[3] ? 'Enviada para correção do professor' : 'Não respondida'}</strong></span>
-        </div>
-      `;
+      // Display student confirmation modal without showing the answers key
+      const essayText = document.getElementById('q3Essay').value.trim();
+      document.getElementById('essayDeliveryStatus').innerText = essayText ? 'Redação (Questão 03) entregue com sucesso' : 'Redação não preenchida';
 
       document.getElementById('resultModal').classList.add('active');
 

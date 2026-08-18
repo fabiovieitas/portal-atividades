@@ -314,71 +314,7 @@ app.get('/admin/simulado/resultados', async (req, res) => {
       return res.json({ success: true, stats, submissions });
     }
 
-    res.send(`
-      <!DOCTYPE html>
-      <html lang="pt-BR">
-      <head>
-        <meta charset="UTF-8">
-        <title>Resultados do Simulado - Professor</title>
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-        <style>
-          body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; }
-          .card { background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 1000px; margin: 0 auto; }
-          h1 { font-family: 'Outfit', sans-serif; color: #0284c7; margin-bottom: 0.5rem; }
-          .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
-          .stat-box { background: #e0f2fe; padding: 1.2rem; border-radius: 12px; text-align: center; }
-          .stat-val { font-size: 2rem; font-weight: 800; color: #0369a1; }
-          table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-          th, td { border: 1px solid #e2e8f0; padding: 0.8rem; text-align: left; }
-          th { background: #f1f5f9; }
-          .essay-preview { background: #fffbeb; padding: 0.5rem; border-radius: 6px; font-size: 0.85rem; max-width: 300px; }
-        </style>
-      </head>
-      <body>
-        <div class="card">
-          <h1>📊 Painel de Resultados - Simulado 4º Ano (Campos)</h1>
-          <p>Projeto Campos de Todos Nós • Agosto/2026</p>
-          <div class="stats-grid">
-            <div class="stat-box">
-              <div class="stat-val">${stats.total}</div>
-              <div>Simulados Recebidos</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-val">${stats.avgScore} / 9</div>
-              <div>Média de Acertos Objetivos</div>
-            </div>
-          </div>
-
-          <h2>📋 Respostas dos Alunos</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Data/Hora</th>
-                <th>Estudante</th>
-                <th>Escola / Turma</th>
-                <th>Nota Objetiva</th>
-                <th>Redação (Questão 03)</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${submissions.map(s => `
-                <tr>
-                  <td>${new Date(s.created_at).toLocaleString('pt-BR')}</td>
-                  <td><strong>${s.student_name}</strong></td>
-                  <td>${s.school_name} - ${s.class_name}</td>
-                  <td><span style="font-weight:800; color:${s.score >= 6 ? '#10b981' : '#ef4444'}">${s.score} / ${s.max_score}</span></td>
-                  <td><div class="essay-preview">${s.essay_text ? s.essay_text : '<em>Sem redação</em>'}</div></td>
-                </tr>
-              `).join('')}
-              ${submissions.length === 0 ? '<tr><td colspan="5" style="text-align:center; padding: 2rem;">Nenhum simulado enviado até o momento.</td></tr>' : ''}
-            </tbody>
-          </table>
-          <br>
-          <a href="/" style="color: #0284c7; font-weight:700; text-decoration:none;">← Voltar ao Portal</a>
-        </div>
-      </body>
-      </html>
-    `);
+    res.render('simulado_resultados', { submissions, stats, simuladoId });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

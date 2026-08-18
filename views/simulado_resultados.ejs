@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados do Simulado - 4º Ano | Prefeitura de Campos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --success: #10b981;
+      --danger: #ef4444;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Screen-Only Header Actions */
+    .top-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .print-btn {
+      background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.4rem;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .print-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Card Box */
+    .dashboard-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+
+    .header-info h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .header-info p {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    /* Filters Bar */
+    .filters-bar {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      background: #f1f5f9;
+      padding: 1rem 1.2rem;
+      border-radius: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #475569;
+      text-transform: uppercase;
+    }
+
+    .filter-select {
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      outline: none;
+      background: white;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #e0f2fe;
+      border-radius: 14px;
+      padding: 1.2rem;
+      text-align: center;
+      border: 1px solid #bae6fd;
+    }
+
+    .stat-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #0369a1;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-lbl {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0369a1;
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      text-align: left;
+    }
+
+    th {
+      background: #f8fafc;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    tr.student-row:hover {
+      background: #f8fafc;
+    }
+
+    .score-badge {
+      padding: 0.3rem 0.7rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .score-high { background: #dcfce7; color: #15803d; }
+    .score-med { background: #fef3c7; color: #b45309; }
+    .score-low { background: #fee2e2; color: #b91c1c; }
+
+    .btn-toggle-answers {
+      background: #e0f2fe;
+      color: var(--primary-dark);
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .answers-detail-row {
+      display: none;
+      background: #f8fafc;
+    }
+
+    .answers-detail-row.active {
+      display: table-row;
+    }
+
+    .answers-box {
+      padding: 1rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px dashed #cbd5e1;
+      margin: 0.5rem 0;
+    }
+
+    .answers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .ans-chip {
+      background: #f1f5f9;
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .ans-chip.correct { background: #dcfce7; color: #166534; font-weight: 700; }
+    .ans-chip.wrong { background: #fee2e2; color: #991b1b; font-weight: 700; }
+
+    .essay-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #78350f;
+    }
+
+    /* PRINT SPECIFIC STYLES (@media print) */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+        color: black;
+      }
+      .top-actions, .filters-bar, .btn-toggle-answers {
+        display: none !important;
+      }
+      .dashboard-card {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+      }
+      .answers-detail-row {
+        display: table-row !important;
+      }
+      .print-header {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #000;
+        padding-bottom: 1rem;
+      }
+      .print-header h2 { font-size: 1.4rem; }
+      .print-header p { font-size: 0.9rem; }
+      table {
+        page-break-inside: auto;
+      }
+      tr { page-break-inside: avoid; page-break-after: auto; }
+    }
+
+    .print-header { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Top Action Bar -->
+    <div class="top-actions">
+      <a href="/admin" class="back-btn">← Voltar ao Painel Administrativo</a>
+      <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Gerar PDF do Relatório da Turma</button>
+    </div>
+
+    <!-- Printable Official Header -->
+    <div class="print-header">
+      <h2>PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES</h2>
+      <p>Secretaria Municipal de Educação, Ciência e Tecnologia • Projeto Campos de Todos Nós</p>
+      <h3>RELATÓRIO OFICIAL DE DESEMPENHO - SIMULADO 4º ANO (AGOSTO/2026)</h3>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="header-info">
+        <h1>📊 Painel de Resultados - Simulado Digital 4º Ano</h1>
+        <p>Acompanhamento de notas, espelho de respostas e redações (Projeto Campos de Todos Nós)</p>
+      </div>
+
+      <!-- Filters Bar -->
+      <div class="filters-bar">
+        <div class="filter-group">
+          <label for="filterClass">Filtrar por Turma:</label>
+          <select id="filterClass" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">Todas as Turmas</option>
+            <option value="4º Ano A">4º Ano A</option>
+            <option value="4º Ano B">4º Ano B</option>
+            <option value="4º Ano C">4º Ano C</option>
+            <option value="4º Ano D">4º Ano D</option>
+            <option value="4º Ano E">4º Ano E</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterSchool">Filtrar por Escola:</label>
+          <select id="filterSchool" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">Todas as Escolas</option>
+            <% const schoolsList = [...new Set(submissions.map(s => s.school_name || 'E.M. Profª Eleonora da Silva Pinto'))]; %>
+            <% schoolsList.forEach(sch => { %>
+              <option value="<%= sch %>"><%= sch %></option>
+            <% }); %>
+          </select>
+        </div>
+      </div>
+
+      <!-- Stats Summary -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val" id="statTotal"><%= submissions.length %></div>
+          <div class="stat-lbl">Total de Alunos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="statAvg"><%= stats.avgScore %> / 9</div>
+          <div class="stat-lbl">Média da Turma (Objetivas)</div>
+        </div>
+        <div class="stat-card" style="background: #dcfce7; border-color: #86efac;">
+          <div class="stat-val" style="color: #15803d;" id="statEssays">
+            <%= submissions.filter(s => s.essay_text && s.essay_text.length >= 10).length %>
+          </div>
+          <div class="stat-lbl" style="color: #15803d;">Redações Entregues</div>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="table-container">
+        <table id="submissionsTable">
+          <thead>
+            <tr>
+              <th>Data/Hora</th>
+              <th>Estudante</th>
+              <th>Escola / Turma</th>
+              <th>Nota Objetiva (0-9)</th>
+              <th>Ações / Espelho</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' }; %>
+            <% if (submissions.length === 0) { %>
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                  Nenhum simulado enviado até o momento.
+                </td>
+              </tr>
+            <% } %>
+            <% submissions.forEach((s, idx) => { %>
+              <% 
+                let parsedAns = {};
+                try { parsedAns = JSON.parse(s.answers_json || '{}'); } catch(e){}
+                const score = s.score || 0;
+                let badgeClass = 'score-high';
+                if (score < 5) badgeClass = 'score-low';
+                else if (score < 7) badgeClass = 'score-med';
+              %>
+              <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-score="<%= score %>">
+                <td><%= new Date(s.created_at).toLocaleString('pt-BR') %></td>
+                <td><strong><%= s.student_name %></strong></td>
+                <td><%= s.school_name %> <br><span style="font-weight:800; color:var(--primary);"><%= s.class_name %></span></td>
+                <td>
+                  <span class="score-badge <%= badgeClass %>"><%= score %> / 9 acertos</span>
+                </td>
+                <td>
+                  <button class="btn-toggle-answers" onclick="toggleDetails(<%= idx %>)">👁️ Ver Espelho de Respostas</button>
+                </td>
+              </tr>
+
+              <!-- Detailed Answers Expander Row -->
+              <tr class="answers-detail-row" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>">
+                <td colspan="5">
+                  <div class="answers-box">
+                    <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
+                      📋 Espelho Detalhado de Respostas — <%= s.student_name %> (<%= s.class_name %>)
+                    </h4>
+                    
+                    <div class="answers-grid">
+                      <% for(let q = 1; q <= 10; q++) { %>
+                        <% if (q === 3) continue; %>
+                        <% 
+                          const stOpt = parsedAns[q] || '—';
+                          const corOpt = answerKey[q];
+                          const isOk = (stOpt === corOpt);
+                        %>
+                        <div class="ans-chip <%= isOk ? 'correct' : 'wrong' %>">
+                          <span>Q<%= q < 10 ? '0'+q : q %>: Marcou <strong><%= stOpt %></strong></span>
+                          <span><%= isOk ? '✓' : '✗ (Gabarito ' + corOpt + ')' %></span>
+                        </div>
+                      <% } %>
+                    </div>
+
+                    <!-- Essay Box -->
+                    <div class="essay-box">
+                      <strong style="display:block; margin-bottom: 0.3rem;">📜 Questão 03 — Redação (Continuação da História do Ururau/Rio Paraíba):</strong>
+                      <p><em>"<%= s.essay_text ? s.essay_text : 'Nenhum texto inserido pelo estudante.' %>"</em></p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleDetails(idx) {
+      const row = document.getElementById(`details-row-${idx}`);
+      if(row) row.classList.toggle('active');
+    }
+
+    function applyFilters() {
+      const selectedClass = document.getElementById('filterClass').value;
+      const selectedSchool = document.getElementById('filterSchool').value;
+
+      const mainRows = document.querySelectorAll('tr.student-row');
+      let visibleCount = 0;
+      let totalScore = 0;
+      let visibleEssays = 0;
+
+      mainRows.forEach((row, idx) => {
+        const rowClass = row.getAttribute('data-class');
+        const rowSchool = row.getAttribute('data-school');
+        const score = parseInt(row.getAttribute('data-score')) || 0;
+        const detailRow = document.getElementById(`details-row-${idx}`);
+
+        const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass);
+        const schoolMatch = (selectedSchool === 'ALL' || rowSchool === selectedSchool);
+
+        if (classMatch && schoolMatch) {
+          row.style.display = '';
+          visibleCount++;
+          totalScore += score;
+          
+          if (detailRow) {
+            const essayText = detailRow.querySelector('.essay-box p').innerText;
+            if (essayText && !essayText.includes('Nenhum texto')) visibleEssays++;
+          }
+        } else {
+          row.style.display = 'none';
+          if(detailRow) detailRow.style.display = 'none';
+        }
+      });
+
+      // Update Live Stats
+      document.getElementById('statTotal').innerText = visibleCount;
+      const avg = visibleCount > 0 ? (totalScore / visibleCount).toFixed(1) : 0;
+      document.getElementById('statAvg').innerText = `${avg} / 9`;
+      document.getElementById('statEssays').innerText = visibleEssays;
+    }
+  </script>
+</body>
+</html>
