@@ -49,10 +49,10 @@
                 <span class="nav-icon" style="font-size: 1.4rem;">🏫</span>
                 <span class="nav-text" style="font-weight: 700;">Escolas & Turmas</span>
             </button>
-            <a href="/admin/simulado/resultados" class="nav-item" style="margin-bottom: 10px; text-decoration: none; display: flex; align-items: center;">
+            <button class="nav-item" onclick="switchTab('simulados', this)" style="margin-bottom: 10px;">
                 <span class="nav-icon" style="font-size: 1.4rem;">📝</span>
-                <span class="nav-text" style="font-weight: 700; color: #0284c7;">Simulados 4º Ano</span>
-            </a>
+                <span class="nav-text" style="font-weight: 700; color: #0284c7;">Simulados</span>
+            </button>
             <button class="nav-item" onclick="switchTab('settings', this)" style="margin-bottom: 10px;">
                 <span class="nav-icon" style="font-size: 1.4rem;">⚙️</span>
                 <span class="nav-text" style="font-weight: 700;">Configurações</span>
@@ -586,6 +586,94 @@
                             <% } %>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIMULADOS TAB (Gestão de Simulados por Escola, Ano e Turma) -->
+        <div id="simulados-tab" class="tab-content" style="display:none">
+            <div class="admin-card-new glass-panel" style="margin-bottom: 25px; border-left: 6px solid #0284c7;">
+                <h2 style="color: #0369a1; font-family: 'Outfit', sans-serif;">📝 Central de Simulados & Avaliações Municipais</h2>
+                <p style="color: #64748b; margin-bottom: 20px;">Selecione a Escola, o Ano Escolar e a Turma para visualizar os relatórios e gerenciar o simulado.</p>
+
+                <!-- Cascading Filter Form -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; background: #f8fafc; padding: 20px; border-radius: 14px; border: 1px solid #e2e8f0;">
+                    <div class="input-group">
+                        <label style="font-weight: 700; color: #475569;">1. Escolha a Escola Municipal</label>
+                        <select id="simSchoolSelect" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
+                            <option value="ALL">Todas as Escolas</option>
+                            <% (schools || []).forEach(s => { %>
+                                <option value="<%= s.name %>"><%= s.name %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label style="font-weight: 700; color: #475569;">2. Escolha o Ano Escolar</label>
+                        <select id="simGradeSelect" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
+                            <option value="4º Ano">4º Ano (Ensino Fundamental)</option>
+                            <option value="5º Ano">5º Ano (Ensino Fundamental)</option>
+                            <option value="3º Ano">3º Ano (Ensino Fundamental)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label style="font-weight: 700; color: #475569;">3. Escolha a Turma</label>
+                        <select id="simClassSelect" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
+                            <option value="ALL">Todas as Turmas do Ano</option>
+                            <option value="4º Ano A">4º Ano A</option>
+                            <option value="4º Ano B">4º Ano B</option>
+                            <option value="4º Ano C">4º Ano C</option>
+                            <option value="4º Ano D">4º Ano D</option>
+                            <option value="4º Ano E">4º Ano E</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a id="openSimuladoResultsBtn" href="/admin/simulado/resultados" class="btn-submit" style="background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 800;">
+                        📊 Ver Notas, Respostas e Gerar PDF da Turma Selecionada
+                    </a>
+                    <button onclick="switchTab('schools', document.querySelector('.nav-item:nth-child(5)'))" class="btn-submit" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; font-weight: 700;">
+                        ⚙️ Cadastrar / Editar Escolas e Turmas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Simulados Grid -->
+            <div class="admin-card-new glass-panel">
+                <h2>Simulados Disponíveis no Portal</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Simulado / Prova</th>
+                                <th>Ano / Público</th>
+                                <th>Bimestre</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>📝 Simulado Digital 4º Ano: Campos de Todos Nós</strong><br>
+                                    <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Geografia, Ciências e Arte</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">4º Ano</span></td>
+                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right;">
+                                    <a href="/atividades/simulado-campos-4ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️</a>
+                                    <a href="/admin/simulado/resultados" class="btn-icon" title="Ver Resultados da Turma" style="display: inline-flex; background: #dcfce7; color: #15803d;">📊</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 0.9rem; color: #92400e;">
+                    <strong>💡 Novos Simulados:</strong> Quando você enviar os arquivos dos simulados dos demais anos (3º Ano, 5º Ano, etc.), eles serão inseridos automaticamente nesta central!
                 </div>
             </div>
         </div>

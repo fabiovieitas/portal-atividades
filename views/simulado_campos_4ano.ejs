@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulado Digital 4º Ano - Campos dos Goytacazes | Portal de Atividades</title>
+  <title>Simulado Oficial 4º Ano - Campos dos Goytacazes (Blocos 1 e 2 - Agosto/2026)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
       --card-bg: #ffffff;
       --text: #0f172a;
       --text-muted: #64748b;
-      --border: #e2e8f0;
+      --border: #cbd5e1;
       --radius: 16px;
       --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
       --shadow-hover: 0 20px 30px -10px rgba(2, 132, 199, 0.15);
@@ -131,7 +131,7 @@
       padding: 1.5rem;
       box-shadow: var(--shadow);
       margin-bottom: 2rem;
-      border: 2px solid #e0f2fe;
+      border: 2px solid #bae6fd;
     }
 
     .student-card h2 {
@@ -185,6 +185,73 @@
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
+    /* Full Intro Reading Box */
+    .intro-reading-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      border: 2px solid #e0f2fe;
+    }
+
+    .dialog-container {
+      background: #f8fafc;
+      border-left: 5px solid var(--primary);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .dialog-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .speech-line {
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .speech-speaker {
+      font-weight: 800;
+      color: #0369a1;
+    }
+
+    .project-box {
+      background: #fffbeb;
+      border: 2px solid #fde68a;
+      border-radius: 14px;
+      padding: 1.5rem;
+      color: #78350f;
+    }
+
+    .project-box h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      color: #92400e;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .project-box p {
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
+    }
+
+    .project-box p:last-child {
+      margin-bottom: 0;
+    }
+
     /* Question Cards */
     .question-card {
       background: white;
@@ -229,65 +296,17 @@
       font-weight: 600;
     }
 
-    /* Dialog Box Component */
-    .dialog-box {
-      background: #f8fafc;
-      border-left: 4px solid var(--accent);
+    .q-image-container {
+      text-align: center;
+      margin: 1.2rem 0;
+    }
+
+    .q-image {
+      max-width: 100%;
+      height: auto;
       border-radius: 12px;
-      padding: 1rem 1.2rem;
-      margin-bottom: 1.2rem;
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-
-    .avatar-icon {
-      width: 44px;
-      height: 44px;
-      background: #fef3c7;
-      color: #b45309;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-
-    .dialog-content strong {
-      color: #92400e;
-      display: block;
-      font-size: 0.85rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .dialog-content p {
-      font-size: 0.95rem;
-      color: #334155;
-    }
-
-    /* Text Content Container */
-    .story-box {
-      background: #fffbeb;
-      border: 2px solid #fde68a;
-      border-radius: 14px;
-      padding: 1.4rem;
-      margin-bottom: 1.2rem;
-      color: #78350f;
-    }
-
-    .story-box h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
-      margin-bottom: 0.6rem;
-      color: #92400e;
-    }
-
-    .story-box p {
-      font-size: 0.95rem;
-      line-height: 1.7;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
     .question-text {
@@ -295,6 +314,7 @@
       font-weight: 700;
       color: #1e293b;
       margin-bottom: 1.2rem;
+      line-height: 1.6;
     }
 
     /* Options List */
@@ -356,10 +376,19 @@
       color: white;
     }
 
+    .official-source-tag {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-top: 1rem;
+      text-align: right;
+    }
+
     /* Essay Question Textarea */
     .essay-textarea {
       width: 100%;
-      min-height: 160px;
+      min-height: 180px;
       padding: 1rem;
       border: 2px solid var(--border);
       border-radius: 12px;
@@ -483,12 +512,6 @@
       box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
     }
 
-    .bubble-dot.essay-done {
-      background: var(--success);
-      border-color: var(--success);
-      color: white;
-    }
-
     /* Submit Button */
     .submit-btn {
       width: 100%;
@@ -529,7 +552,6 @@
       justify-content: center;
       align-items: center;
       padding: 1rem;
-      overflow-y: auto;
     }
 
     .result-modal.active {
@@ -539,7 +561,7 @@
     .result-content {
       background: white;
       border-radius: 24px;
-      max-width: 600px;
+      max-width: 550px;
       width: 100%;
       padding: 2.5rem 2rem;
       text-align: center;
@@ -552,59 +574,6 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    .score-circle {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-      color: var(--primary-dark);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1.5rem auto;
-      border: 4px solid var(--primary);
-    }
-
-    .score-num {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.5rem;
-      font-weight: 900;
-      line-height: 1;
-    }
-
-    .score-total {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    /* Feedback list in result */
-    .gabarito-list {
-      text-align: left;
-      margin: 1.5rem 0;
-      background: #f8fafc;
-      border-radius: 12px;
-      padding: 1rem;
-      max-height: 200px;
-      overflow-y: auto;
-      font-size: 0.85rem;
-    }
-
-    .gabarito-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.4rem 0;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .gabarito-item:last-child {
-      border-bottom: none;
-    }
-
-    .badge-correct { color: var(--success); font-weight: 800; }
-    .badge-wrong { color: var(--danger); font-weight: 800; }
-
     .modal-btn {
       background: var(--primary);
       color: white;
@@ -616,25 +585,6 @@
       font-size: 1rem;
       cursor: pointer;
     }
-
-    /* Table styles for Q7 */
-    .table-custom {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-      font-size: 0.9rem;
-    }
-
-    .table-custom th, .table-custom td {
-      border: 1px solid var(--border);
-      padding: 0.6rem 0.8rem;
-      text-align: left;
-    }
-
-    .table-custom th {
-      background: #f1f5f9;
-      font-weight: 800;
-    }
   </style>
 </head>
 <body>
@@ -645,8 +595,8 @@
       <div class="header-branding">
         <span class="header-badge">Campos dos Goytacazes</span>
         <div class="header-title">
-          <h1>SIMULADO DIGITAL - 4º ANO</h1>
-          <p>Projeto Campos de Todos Nós • Blocos 1 e 2 (Agosto/2026)</p>
+          <h1>SIMULADO DIGITAL OFICIAL - 4º ANO</h1>
+          <p>Secretaria Municipal de Educação • Projeto Campos de Todos Nós (Blocos 1 e 2 - Agosto/2026)</p>
         </div>
       </div>
       <a href="/" class="nav-back-btn">
@@ -658,7 +608,7 @@
   <!-- Main Grid -->
   <main class="main-container">
     
-    <!-- Left Column: Student Info & Questions -->
+    <!-- Left Column: Reading Passages & Questions -->
     <div class="content-col">
 
       <!-- Student Identification Box -->
@@ -671,8 +621,8 @@
               <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
             </div>
             <div class="form-group">
-              <label for="schoolName">Escola Municipal</label>
-              <input type="text" id="schoolName" class="form-control" placeholder="Nome da escola..." value="E.M. Profª Eleonora da Silva Pinto">
+              <label for="schoolName">Escola Municipal *</label>
+              <input type="text" id="schoolName" class="form-control" placeholder="Nome da escola..." value="E.M. Profª Eleonora da Silva Pinto" required>
             </div>
             <div class="form-group">
               <label for="className">Turma do 4º Ano *</label>
@@ -688,269 +638,276 @@
         </form>
       </section>
 
-      <!-- QUESTÃO 1 (Língua Portuguesa) -->
+      <!-- INTRODUCTORY READING TEXT (Unabridged) -->
+      <section class="intro-reading-card">
+        <div class="dialog-container">
+          <div class="dialog-title">💬 Leia o diálogo abaixo entre a professora Bia, Mirela e Enzo para responder às questões:</div>
+          <div class="speech-line"><span class="speech-speaker">Professora Bia:</span> "Pessoal, vocês conhecem a lenda do Ururau da Lapa?"</div>
+          <div class="speech-line"><span class="speech-speaker">Enzo:</span> "Eu conheço! Dizem que o Ururau era um enorme jacaré que vivia nas águas do rio Paraíba do Sul, perto da Lapa."</div>
+          <div class="speech-line"><span class="speech-speaker">Mirela:</span> "Minha avó contou que essa é uma das lendas mais famosas de Campos dos Goytacazes. Ela faz parte da história e da cultura da nossa cidade."</div>
+          <div class="speech-line"><span class="speech-speaker">Professora Bia:</span> "Muito bem! As lendas são histórias transmitidas de geração em geração. Elas ajudam a preservar a memória, as tradições e a identidade do nosso povo."</div>
+          <div class="speech-line"><span class="speech-speaker">Enzo:</span> "Então, mesmo sendo uma lenda, ela é importante porque faz parte da cultura de Campos!"</div>
+          <div class="speech-line"><span class="speech-speaker">Professora Bia:</span> "Exatamente! Conhecer a Lenda do Ururau da Lapa é também conhecer um pedacinho da história e do folclore campista. Por isso, devemos valorizar e preservar as histórias da nossa cidade."</div>
+        </div>
+
+        <div class="project-box">
+          <h3>🏛️ Projeto: Campos de Todos Nós!</h3>
+          <p>Campos dos Goytacazes é uma das maiores cidades do estado do Rio de Janeiro e possui uma história, uma cultura e uma natureza muito especiais. O rio Paraíba do Sul faz parte da vida do município e ajudou no seu desenvolvimento ao longo dos anos. Nossa cidade também é rica em tradições. Uma delas é a Lenda do Ururau da Lapa, que conta a história de um enorme jacaré que vivia nas águas do rio Paraíba do Sul, próximo ao Cais da Lapa. Essa lenda faz parte do folclore campista e ajuda a preservar a memória e a identidade do nosso povo.</p>
+          <p>Outra importante manifestação cultural é o Jongo, uma das tradições afro-brasileiras mais antigas de Campos. Com cantos, tambores e dança, o jongo representa a resistência, o respeito aos ancestrais e a valorização da cultura negra. Em nossa cidade, essa tradição é preservada por grupos como o Congola, liderado pela Mestra Noinha, e foi reconhecida como Patrimônio Cultural Imaterial pelo Iphan. Conhecer os pontos turísticos, as lendas, as tradições e a história de Campos é uma forma de valorizar nossa cidade e exercer a cidadania.</p>
+          <p><strong>Agora é sua vez! Leia as questões com atenção e mostre tudo o que você aprendeu sobre Campos dos Goytacazes e os conteúdos estudados neste bimestre. Boa prova!</strong></p>
+        </div>
+      </section>
+
+      <!-- QUESTÃO 01 (Língua Portuguesa) -->
       <article class="question-card" id="q-card-1">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 01 • Língua Portuguesa</span>
-          <span class="bncc-tag">BNCC EF35LP05</span>
-        </div>
-
-        <div class="dialog-box">
-          <div class="avatar-icon">👩‍🏫</div>
-          <div class="dialog-content">
-            <strong>Professora Bia conversa com Mirela:</strong>
-            <p>"Mirela, quando dizemos que a comunidade de Campos precisa <em>preservar</em> o Rio Paraíba do Sul e os patrimônios históricos da nossa cidade, o que essa palavra significa no texto?"</p>
-          </div>
+          <span class="bncc-tag">BNCC EF35LP05 / 4EF12_P</span>
         </div>
 
         <p class="question-text">
-          Assinale a opção em que a palavra <strong>PRESERVAR</strong> possui o mesmo sentido empregado na fala da Professora Bia:
+          No texto, a professora Bia diz que as lendas ajudam a <em>preservar</em> a memória, as tradições e a identidade do nosso povo. Pela leitura do diálogo, a palavra <strong>PRESERVAR</strong> significa:
         </p>
 
         <div class="options-grid">
           <label class="option-label">
             <input type="radio" name="q1" value="A" class="option-input" onchange="updateCartao(1, 'A')">
             <span class="option-badge">A</span>
-            <span>Destruir as áreas antigas para construir novas estradas.</span>
+            <span>Esquecer com o passar do tempo.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q1" value="B" class="option-input" onchange="updateCartao(1, 'B')">
             <span class="option-badge">B</span>
-            <span>Proteger, cuidar e manter conservado contra danos ou destruição.</span>
+            <span>Guardar, cuidar e manter vivo para as próximas gerações.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q1" value="C" class="option-input" onchange="updateCartao(1, 'C')">
             <span class="option-badge">C</span>
-            <span>Esconder as riquezas naturais para que ninguém possa visitar.</span>
+            <span>Inventar novas histórias todos os dias.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q1" value="D" class="option-input" onchange="updateCartao(1, 'D')">
             <span class="option-badge">D</span>
-            <span>Vender os monumentos históricos para outras cidades.</span>
+            <span>Mudar completamente os costumes da cidade.</span>
           </label>
         </div>
+
+        <div class="official-source-tag">FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.</div>
       </article>
 
-      <!-- QUESTÃO 2 (Língua Portuguesa) -->
+      <!-- QUESTÃO 02 (Língua Portuguesa) -->
       <article class="question-card" id="q-card-2">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 02 • Língua Portuguesa</span>
-          <span class="bncc-tag">BNCC EF35LP06</span>
+          <span class="bncc-tag">BNCC EF05LP07 / 4EF22_P</span>
         </div>
 
-        <div class="dialog-box">
-          <div class="avatar-icon">👦</div>
-          <div class="dialog-content">
-            <strong>Enzo explicou ao grupo:</strong>
-            <p>"Os moradores ficaram muito felizes <strong>porque</strong> o Museu Histórico de Campos foi restaurado e reaberto para visitação das escolas."</p>
-          </div>
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p1_2.png" alt="Ilustração Simulado" class="q-image">
         </div>
 
         <p class="question-text">
-          A palavra destacada <strong>PORQUE</strong> estabelece na frase uma relação de:
+          No diálogo, Enzo afirma: <em>"Então, mesmo sendo uma lenda, ela é importante <strong>porque</strong> faz parte da cultura de Campos!"</em> A palavra <strong>PORQUE</strong> indica que:
         </p>
 
         <div class="options-grid">
           <label class="option-label">
             <input type="radio" name="q2" value="A" class="option-input" onchange="updateCartao(2, 'A')">
             <span class="option-badge">A</span>
-            <span>Tempo.</span>
+            <span>Enzo está comparando a lenda com outra história.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q2" value="B" class="option-input" onchange="updateCartao(2, 'B')">
             <span class="option-badge">B</span>
-            <span>Oposição.</span>
+            <span>Enzo está dizendo quando a lenda aconteceu.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q2" value="C" class="option-input" onchange="updateCartao(2, 'C')">
             <span class="option-badge">C</span>
-            <span>Dúvida.</span>
+            <span>Enzo está mostrando onde a lenda aconteceu.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q2" value="D" class="option-input" onchange="updateCartao(2, 'D')">
             <span class="option-badge">D</span>
-            <span>Causa ou Motivo.</span>
+            <span>Enzo está explicando o motivo de a lenda ser importante.</span>
           </label>
         </div>
+
+        <div class="official-source-tag">FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.</div>
       </article>
 
-      <!-- QUESTÃO 3 (Produção Textual / Redação) -->
+      <!-- QUESTÃO 03 (Produção Textual / Redação) -->
       <article class="question-card" id="q-card-3">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 03 • Produção Textual (Redação)</span>
-          <span class="bncc-tag">BNCC EF35LP25</span>
+          <span class="bncc-tag">BNCC EF15LP01 / 5EF16_P</span>
         </div>
 
-        <div class="story-box">
-          <h3>📜 O Misterioso Encontro no Rio Paraíba do Sul</h3>
-          <p>
-            <em>"Era uma noite tranquila às margens do rio Paraíba do Sul. Mirela e Enzo estavam no Cais da Lapa observando as luzes refletidas na água, quando de repente viram algo brilhar intensamente perto das pedras..."</em>
-          </p>
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p3_2.png" alt="Ururau da Lapa" class="q-image">
         </div>
 
         <p class="question-text">
-          Continue a história acima! Escreva o que Mirela e Enzo encontraram, o que aconteceu em seguida e como essa aventura terminou (mínimo de 5 linhas):
+          A Lenda do Ururau da Lapa faz parte do folclore de Campos dos Goytacazes. As lendas são histórias que passam de geração em geração e ajudam a preservar a cultura, as tradições e a memória de um povo. Agora é a sua vez!
         </p>
 
-        <textarea id="q3Essay" class="essay-textarea" placeholder="Continue a história aqui com suas palavras..." oninput="updateEssayCartao()"></textarea>
+        <div class="project-box" style="margin-bottom: 1.2rem;">
+          <p><strong>Leia o início da história abaixo:</strong></p>
+          <p><em>"Era uma noite tranquila às margens do rio Paraíba do Sul. De repente, um enorme jacaré chamado Ururau apareceu nas águas, chamando a atenção de todos que estavam perto da Lapa..."</em></p>
+        </div>
+
+        <p class="question-text">
+          Continue essa história, criando uma narrativa com começo, meio e fim. Não se esqueça de:
+        </p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1.2rem; font-size: 0.95rem; color: #334155;">
+          <li>Dar continuidade à história apresentada;</li>
+          <li>Escrever frases completas;</li>
+          <li>Organizar bem as ideias;</li>
+          <li>Criar um final interessante para a narrativa.</li>
+        </ul>
+
+        <p class="question-text">✍️ Use sua imaginação e capriche na escrita!</p>
+
+        <textarea id="q3Essay" class="essay-textarea" placeholder="Continue a história do Ururau da Lapa aqui..." oninput="updateEssayCartao()"></textarea>
       </article>
 
-      <!-- QUESTÃO 4 (Língua Portuguesa) -->
+      <!-- QUESTÃO 04 (Língua Portuguesa) -->
       <article class="question-card" id="q-card-4">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 04 • Língua Portuguesa</span>
-          <span class="bncc-tag">BNCC EF35LP21</span>
+          <span class="bncc-tag">BNCC EF15LP01 / 4EF02_E</span>
         </div>
 
-        <div class="story-box">
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p4_2.png" alt="Lenda da Curva da Loira" class="q-image">
+        </div>
+
+        <div class="project-box" style="margin-bottom: 1.2rem;">
           <h3>👻 A Lenda da Curva da Loira</h3>
-          <p>
-            Dizem os antigos pescadores de Campos que, em noites de lua cheia, uma misteriosa luz surge na curva do rio próximo ao Trevo. Quem passa por lá escuta um suave canto. Enzo ficou curioso para saber como o mistério começou...
-          </p>
+          <p>Há muitos anos, os moradores de Campos dos Goytacazes contam uma história muito conhecida: a Lenda da Curva da Loira.</p>
+          <p>Segundo a lenda, em uma estrada da cidade que vai para a praia do Farol, existe uma curva onde, durante a noite, algumas pessoas dizem ter visto uma mulher loira vestida de branco. Conta-se que ela aparece de repente para os motoristas e, logo depois, desaparece misteriosamente.</p>
+          <p>Ninguém sabe ao certo quem era essa mulher nem se a história realmente aconteceu. Por isso, a Curva da Loira é considerada uma lenda, ou seja, uma narrativa popular transmitida de geração em geração que faz parte da cultura e da memória de Campos dos Goytacazes.</p>
         </div>
 
         <p class="question-text">
-          No texto das lendas populares, o <strong>conflito gerador</strong> da narrativa é o momento em que:
+          Se você fosse continuar essa história, marque a alternativa que apresenta o melhor conflito gerador para iniciar uma narrativa:
         </p>
 
         <div class="options-grid">
           <label class="option-label">
             <input type="radio" name="q4" value="A" class="option-input" onchange="updateCartao(4, 'A')">
             <span class="option-badge">A</span>
-            <span>Os pescadores vão dormir cedo na praia.</span>
+            <span>Enzo e Mirela passeavam tranquilamente pela praça quando resolveram tomar um sorvete.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q4" value="B" class="option-input" onchange="updateCartao(4, 'B')">
             <span class="option-badge">B</span>
-            <span>Um fato misterioso ou inesperado quebra a rotina normal do lugar.</span>
+            <span>Durante uma viagem à noite, o carro da família de Enzo passou pela Curva da Loira e, de repente, uma mulher vestida de branco apareceu no meio da estrada.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q4" value="C" class="option-input" onchange="updateCartao(4, 'C')">
             <span class="option-badge">C</span>
-            <span>O sol nasce e todos voltam para a escola.</span>
+            <span>A professora Bia organizou uma exposição sobre os pontos turísticos de Campos na escola.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q4" value="D" class="option-input" onchange="updateCartao(4, 'D')">
             <span class="option-badge">D</span>
-            <span>A prefeitura faz a limpeza do canal.</span>
+            <span>Mirela passou a tarde lendo um livro sobre a história da cidade.</span>
           </label>
         </div>
       </article>
 
-      <!-- QUESTÃO 5 (Geografia) -->
+      <!-- QUESTÃO 05 (Geografia) -->
       <article class="question-card" id="q-card-5">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 05 • Geografia</span>
           <span class="bncc-tag">BNCC EF04GE11</span>
         </div>
 
-        <div class="dialog-box">
-          <div class="avatar-icon">🗺️</div>
-          <div class="dialog-content">
-            <strong>Projeto Campos de Todos Nós:</strong>
-            <p>O cartaz oficial da prefeitura apresenta a frase: <em>"Campos dos Goytacazes: Preservando nossa história e valorizando nossas comunidades."</em></p>
-          </div>
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p4_3.png" alt="Cartaz Campos de Todos Nós" class="q-image">
         </div>
 
         <p class="question-text">
-          Qual é o principal objetivo de divulgarmos cartazes e campanhas como essa nas escolas municipais?
+          Observe o cartaz do projeto "Campos de Todos Nós". O cartaz apresenta monumentos, patrimônios históricos, elementos da natureza e personagens que representam a cidade de Campos dos Goytacazes. O principal objetivo desse projeto é:
         </p>
 
         <div class="options-grid">
           <label class="option-label">
             <input type="radio" name="q5" value="A" class="option-input" onchange="updateCartao(5, 'A')">
             <span class="option-badge">A</span>
-            <span>Incentivar o consumo de produtos importados de outros países.</span>
+            <span>Incentivar as pessoas a deixarem a cidade para conhecer outros municípios.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q5" value="B" class="option-input" onchange="updateCartao(5, 'B')">
             <span class="option-badge">B</span>
-            <span>Conscientizar os cidadãos sobre o valor da identidade e patrimônio local.</span>
+            <span>Valorizar os pontos históricos, culturais e ambientais de Campos e incentivar o cuidado com a cidade.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q5" value="C" class="option-input" onchange="updateCartao(5, 'C')">
             <span class="option-badge">C</span>
-            <span>Proibir o acesso de estudantes aos museus e praças da cidade.</span>
+            <span>Mostrar apenas os locais mais modernos do município.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q5" value="D" class="option-input" onchange="updateCartao(5, 'D')">
             <span class="option-badge">D</span>
-            <span>Apenas ornamentar as paredes sem qualquer função educativa.</span>
+            <span>Ensinar somente as regras de trânsito para os estudantes.</span>
           </label>
         </div>
       </article>
 
-      <!-- QUESTÃO 6 (Artes Visual) -->
+      <!-- QUESTÃO 06 (Artes Visuais) -->
       <article class="question-card" id="q-card-6">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 06 • Artes Visuais</span>
-          <span class="bncc-tag">BNCC EF15AR04</span>
+          <span class="bncc-tag">BNCC EF15AR01 / EF15AR25</span>
         </div>
 
-        <div class="dialog-box">
-          <div class="avatar-icon">🥁</div>
-          <div class="dialog-content">
-            <strong>Cultura & Patrimônio Imaterial:</strong>
-            <p>A apresentação do <strong>Jongo da Noinha</strong> reúne atabaques, saias rodadas coloridas, dança em roda e cantos tradicionais passados de geração em geração.</p>
-          </div>
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p5_2.png" alt="Jongo da Noinha" class="q-image">
         </div>
 
         <p class="question-text">
-          Os elementos visuais (cores das roupas, instrumentos e movimentos da dança) no Jongo servem para:
+          Observe o cartaz do projeto "Campos de Todos Nós". A professora Bia, Enzo e Mirela ajudaram a criar esse cartaz para incentivar as pessoas a conhecerem e valorizarem os patrimônios históricos de Campos dos Goytacazes. Para isso, foram utilizadas cores vivas, ilustrações e diferentes tamanhos de letras. O uso desses elementos visuais no cartaz tem a finalidade de:
         </p>
 
         <div class="options-grid">
           <label class="option-label">
             <input type="radio" name="q6" value="A" class="option-input" onchange="updateCartao(6, 'A')">
             <span class="option-badge">A</span>
-            <span>Substituir as aulas de matemática por exercícios físicos.</span>
+            <span>Deixar o cartaz mais difícil de entender.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q6" value="B" class="option-input" onchange="updateCartao(6, 'B')">
             <span class="option-badge">B</span>
-            <span>Expressar a identidade cultural, a ancestralidade e o ritmo da tradição.</span>
+            <span>Chamar a atenção das pessoas e transmitir a mensagem de forma clara.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q6" value="C" class="option-input" onchange="updateCartao(6, 'C')">
             <span class="option-badge">C</span>
-            <span>Mostrar como funciona uma fábrica de tecidos industriais.</span>
+            <span>Ocupar os espaços vazios da folha sem transmitir informações.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q6" value="D" class="option-input" onchange="updateCartao(6, 'D')">
             <span class="option-badge">D</span>
-            <span>Copiar estilos musicais modernos de fora do Brasil.</span>
+            <span>Mostrar apenas desenhos bonitos, sem relação com o tema.</span>
           </label>
         </div>
       </article>
 
-      <!-- QUESTÃO 7 (Matemática - Ordenação) -->
+      <!-- QUESTÃO 07 (Matemática - Ordenação) -->
       <article class="question-card" id="q-card-7">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 07 • Matemática</span>
-          <span class="bncc-tag">BNCC EF04MA01</span>
+          <span class="bncc-tag">BNCC EF04MA01 – 4EF01_M</span>
+        </div>
+
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p5_3.png" alt="Tabela de Visitantes" class="q-image">
         </div>
 
         <p class="question-text">
-          Observe a tabela de visitantes registrados nos pontos turísticos de Campos durante o último ano:
-        </p>
-
-        <table class="table-custom">
-          <thead>
-            <tr>
-              <th>Ponto Turístico / Cultural</th>
-              <th>Número de Visitantes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Solar do Colégio</td><td>9.730</td></tr>
-            <tr><td>Museu Histórico de Campos</td><td>12.845</td></tr>
-            <tr><td>Lira de Apolo</td><td>15.208</td></tr>
-            <tr><td>Catedral Santíssimo Salvador</td><td>18.412</td></tr>
-          </tbody>
-        </table>
-
-        <p class="question-text">
-          Assinale a opção que apresenta os pontos turísticos em <strong>ORDEM CRESCENTE</strong> de número de visitantes (do menor para o maior):
+          Observe a tabela de visitantes registrados nos pontos turísticos de Campos durante o último ano. Assinale a opção que apresenta os pontos turísticos em <strong>ORDEM CRESCENTE</strong> de número de visitantes (do menor para o maior):
         </p>
 
         <div class="options-grid">
@@ -977,15 +934,19 @@
         </div>
       </article>
 
-      <!-- QUESTÃO 8 (Matemática - Decomposição) -->
+      <!-- QUESTÃO 08 (Matemática - Decomposição) -->
       <article class="question-card" id="q-card-8">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 08 • Matemática</span>
-          <span class="bncc-tag">BNCC EF04MA02</span>
+          <span class="bncc-tag">BNCC EF03MA02 / EF04MA02 – 4EF02_M</span>
+        </div>
+
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p6_2.png" alt="Decomposição Numérica" class="q-image">
         </div>
 
         <p class="question-text">
-          O ano de fundação de uma tradicional escola municipal de Campos é representado pelo número <strong>2.005</strong>. Qual é a decomposição correta desse número em suas ordens numéricas?
+          O ano de fundação registrado de uma tradicional instituição de Campos é representado pelo número <strong>2.005</strong>. Qual é a decomposição correta desse número em suas ordens numéricas?
         </p>
 
         <div class="options-grid">
@@ -1012,15 +973,19 @@
         </div>
       </article>
 
-      <!-- QUESTÃO 9 (Matemática - Valor Posicional) -->
+      <!-- QUESTÃO 09 (Matemática - Valor Posicional) -->
       <article class="question-card" id="q-card-9">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 09 • Matemática</span>
-          <span class="bncc-tag">BNCC EF04MA01</span>
+          <span class="bncc-tag">BNCC EF03MA02 / EF04MA02 – 4EF03_M</span>
+        </div>
+
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p6_3.png" alt="Valor Posicional Centenas" class="q-image">
         </div>
 
         <p class="question-text">
-          No número de visitantes do Museu Histórico (<strong>12.845</strong>), qual é o algarismo que ocupa a ordem das <strong>CENTENAS SIMPLES</strong>?
+          A professora Bia contou a Enzo e Mirela que 12.845 pessoas participaram de atividades de visitação e valorização dos patrimônios históricos de Campos dos Goytacazes. Enzo observou o número <strong>12.845</strong> e quis descobrir o valor posicional de seus algarismos. No número 12.845, qual algarismo ocupa a ordem das <strong>CENTENAS SIMPLES</strong>?
         </p>
 
         <div class="options-grid">
@@ -1042,7 +1007,7 @@
           <label class="option-label">
             <input type="radio" name="q9" value="D" class="option-input" onchange="updateCartao(9, 'D')">
             <span class="option-badge">D</span>
-            <span>5</span>
+            <span>4</span>
           </label>
         </div>
       </article>
@@ -1054,38 +1019,34 @@
           <span class="bncc-tag">BNCC EF04CI04</span>
         </div>
 
-        <div class="dialog-box">
-          <div class="avatar-icon">🌿</div>
-          <div class="dialog-content">
-            <strong>Passeio Ecológico ao Rio Paraíba:</strong>
-            <p>A turma do 4º Ano visitou a área de preservação ambiental perto da foz do rio e observou água limpa, plantas aquáticas, peixes, garças e a areia das margens.</p>
-          </div>
+        <div class="q-image-container">
+          <img src="/img/simulado/simulado_img_p7_2.png" alt="Ambientes Naturais" class="q-image">
         </div>
 
         <p class="question-text">
-          Esses elementos observados pelos alunos representam componentes dos ambientes naturais classificados como:
+          A Professora Bia, Enzo e Mirela conheceram diferentes pontos de Campos dos Goytacazes. Na Lagoa de Cima e na Praia do Farol de São Tomé, observaram água, areia, plantas e diversos animais. Ao visitarem a Catedral do Santíssimo Salvador, perceberam que ela é uma construção histórica feita pelas pessoas. Pensando no que aprenderam sobre os ambientes, marque a alternativa que apresenta somente elementos que fazem parte dos ambientes naturais visitados pela turma:
         </p>
 
         <div class="options-grid">
           <label class="option-label">
             <input type="radio" name="q10" value="A" class="option-input" onchange="updateCartao(10, 'A')">
             <span class="option-badge">A</span>
-            <span>Fatores vivos (bióticos) e fatores não vivos (abióticos) do ecossistema.</span>
+            <span>Água, plantas, animais e areia.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q10" value="B" class="option-input" onchange="updateCartao(10, 'B')">
             <span class="option-badge">B</span>
-            <span>Materiais sintéticos produzidos exclusivamente por fábricas plásticas.</span>
+            <span>Torres, bancos, altar e paredes.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q10" value="C" class="option-input" onchange="updateCartao(10, 'C')">
             <span class="option-badge">C</span>
-            <span>Elementos artificiais criados para decoração de computadores.</span>
+            <span>Vitrais, água, altar e animais.</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q10" value="D" class="option-input" onchange="updateCartao(10, 'D')">
             <span class="option-badge">D</span>
-            <span>Substâncias químicas nocivas que destroem a vegetação.</span>
+            <span>Paredes, areia, bancos e plantas.</span>
           </label>
         </div>
       </article>
@@ -1105,7 +1066,6 @@
         </div>
 
         <div class="bubble-grid">
-          <!-- Rows 1 to 10 -->
           <% for(let i = 1; i <= 10; i++) { %>
             <div class="bubble-row">
               <span class="bubble-row-q" onclick="scrollToQuestion(<%= i %>)">Q<%= i < 10 ? '0' + i : i %></span>
@@ -1134,8 +1094,8 @@
   <!-- Result Modal -->
   <div class="result-modal" id="resultModal">
     <div class="result-content">
-      <div class="score-circle" style="background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%); border-color: #10b981; color: #15803d;">
-        <span class="score-num" style="font-size: 3rem;">✓</span>
+      <div class="score-circle" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%); border: 4px solid #10b981; color: #15803d; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+        <span style="font-size: 3rem; font-weight: 900;">✓</span>
       </div>
       <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;" id="resultTitle">Simulado Entregue com Sucesso! 🎉</h2>
       <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;" id="resultSubtitle">Parabéns! Suas respostas e a redação foram entregues e salvas no sistema com sucesso.</p>
@@ -1153,20 +1113,8 @@
     </div>
   </div>
 
-  <!-- Audio Pop Synth -->
   <script>
-    const answerKey = {
-      1: 'B',
-      2: 'D',
-      4: 'B',
-      5: 'B',
-      6: 'B',
-      7: 'B',
-      8: 'A',
-      9: 'C',
-      10: 'A'
-    };
-
+    const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' };
     const studentAnswers = {};
 
     function playPopSound() {
@@ -1175,8 +1123,8 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08); // A5
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08);
         gain.gain.setValueAtTime(0.15, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
         osc.connect(gain);
@@ -1203,13 +1151,11 @@
       studentAnswers[qNum] = opt;
       playPopSound();
 
-      // Clear previous dots in row
       ['A', 'B', 'C', 'D'].forEach(o => {
         const dot = document.getElementById(`b-${qNum}-${o}`);
         if(dot) dot.classList.remove('selected');
       });
 
-      // Highlight selected dot
       const selectedDot = document.getElementById(`b-${qNum}-${opt}`);
       if(selectedDot) selectedDot.classList.add('selected');
 
@@ -1255,10 +1201,9 @@
         }
       }
 
-      // Calculate score for objective questions
       let score = 0;
       for (let i = 1; i <= 10; i++) {
-        if (i === 3) continue; // Essay graded separately by teacher
+        if (i === 3) continue;
         const studentOpt = studentAnswers[i] || '—';
         const correctOpt = answerKey[i];
         if (studentOpt === correctOpt) score++;
@@ -1287,7 +1232,6 @@
         console.warn('Erro ao salvar no servidor:', err);
       }
 
-      // Display student confirmation modal without showing the answers key
       const essayText = document.getElementById('q3Essay').value.trim();
       document.getElementById('essayDeliveryStatus').innerText = essayText ? 'Redação (Questão 03) entregue com sucesso' : 'Redação não preenchida';
 

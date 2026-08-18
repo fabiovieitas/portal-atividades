@@ -173,12 +173,12 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     th, td {
       border: 1px solid var(--border);
-      padding: 0.8rem 1rem;
+      padding: 0.75rem 0.9rem;
       text-align: left;
     }
 
@@ -187,7 +187,7 @@
       font-weight: 800;
       color: #475569;
       text-transform: uppercase;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     tr.student-row:hover {
@@ -199,6 +199,7 @@
       border-radius: 50px;
       font-weight: 800;
       font-size: 0.85rem;
+      display: inline-block;
     }
 
     .score-high { background: #dcfce7; color: #15803d; }
@@ -233,43 +234,36 @@
       margin: 0.5rem 0;
     }
 
-    .answers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 0.6rem;
-      margin-bottom: 1rem;
-    }
-
-    .ans-chip {
+    .answers-summary-pill {
+      font-family: monospace;
+      font-size: 0.8rem;
       background: #f1f5f9;
       padding: 0.4rem 0.6rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      display: flex;
-      justify-content: space-between;
+      border-radius: 6px;
+      color: #334155;
+      line-height: 1.5;
     }
-
-    .ans-chip.correct { background: #dcfce7; color: #166534; font-weight: 700; }
-    .ans-chip.wrong { background: #fee2e2; color: #991b1b; font-weight: 700; }
 
     .essay-box {
       background: #fffbeb;
       border: 1px solid #fde68a;
-      padding: 1rem;
+      padding: 0.8rem;
       border-radius: 10px;
-      font-size: 0.9rem;
-      line-height: 1.6;
+      font-size: 0.85rem;
+      line-height: 1.5;
       color: #78350f;
+      margin-top: 0.5rem;
     }
 
-    /* PRINT SPECIFIC STYLES (@media print) */
+    /* PRINT SPECIFIC STYLES (@media print) - Resumido de 1 página */
     @media print {
       body {
         background: white;
         padding: 0;
         color: black;
+        font-size: 10pt;
       }
-      .top-actions, .filters-bar, .btn-toggle-answers {
+      .top-actions, .filters-bar, .btn-toggle-answers, .essay-box-full {
         display: none !important;
       }
       .dashboard-card {
@@ -277,22 +271,30 @@
         border: none;
         padding: 0;
       }
-      .answers-detail-row {
-        display: table-row !important;
-      }
       .print-header {
         display: block !important;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         border-bottom: 2px solid #000;
-        padding-bottom: 1rem;
+        padding-bottom: 0.5rem;
       }
-      .print-header h2 { font-size: 1.4rem; }
-      .print-header p { font-size: 0.9rem; }
+      .print-header h2 { font-size: 1.2rem; margin-bottom: 2px; }
+      .print-header p { font-size: 0.8rem; }
+      .answers-summary-pill {
+        display: block !important;
+        font-size: 7.5pt;
+        background: transparent;
+        border: none;
+        padding: 0;
+      }
       table {
-        page-break-inside: auto;
+        width: 100%;
+        border-collapse: collapse;
       }
-      tr { page-break-inside: avoid; page-break-after: auto; }
+      th, td {
+        padding: 4px 6px;
+        font-size: 8.5pt;
+      }
     }
 
     .print-header { display: none; }
@@ -304,20 +306,20 @@
     <!-- Top Action Bar -->
     <div class="top-actions">
       <a href="/admin" class="back-btn">← Voltar ao Painel Administrativo</a>
-      <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Gerar PDF do Relatório da Turma</button>
+      <button class="print-btn" onclick="window.print()">🖨️ Imprimir PDF Resumido da Turma</button>
     </div>
 
     <!-- Printable Official Header -->
     <div class="print-header">
       <h2>PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES</h2>
       <p>Secretaria Municipal de Educação, Ciência e Tecnologia • Projeto Campos de Todos Nós</p>
-      <h3>RELATÓRIO OFICIAL DE DESEMPENHO - SIMULADO 4º ANO (AGOSTO/2026)</h3>
+      <h3>RELATÓRIO RESUMIDO DE RESPOSTAS E DESEMPENHO DA TURMA — SIMULADO 4º ANO</h3>
     </div>
 
     <div class="dashboard-card">
       <div class="header-info">
         <h1>📊 Painel de Resultados - Simulado Digital 4º Ano</h1>
-        <p>Acompanhamento de notas, espelho de respostas e redações (Projeto Campos de Todos Nós)</p>
+        <p>Relatório de desempenho e consulta de respostas dos estudantes</p>
       </div>
 
       <!-- Filters Bar -->
@@ -364,16 +366,16 @@
         </div>
       </div>
 
-      <!-- Results Table -->
+      <!-- Results Compact Table -->
       <div class="table-container">
         <table id="submissionsTable">
           <thead>
             <tr>
-              <th>Data/Hora</th>
               <th>Estudante</th>
               <th>Escola / Turma</th>
-              <th>Nota Objetiva (0-9)</th>
-              <th>Ações / Espelho</th>
+              <th>Respostas Marcadas (Q1 a Q10)</th>
+              <th>Resultado Parcial</th>
+              <th class="no-print">Ações / Detalhes</th>
             </tr>
           </thead>
           <tbody>
@@ -393,45 +395,46 @@
                 let badgeClass = 'score-high';
                 if (score < 5) badgeClass = 'score-low';
                 else if (score < 7) badgeClass = 'score-med';
+
+                // Build compact summary string of student options
+                const summaryList = [];
+                for(let q=1; q<=10; q++) {
+                  if(q===3) {
+                    summaryList.push(`Q3: ${s.essay_text ? 'Redação Ok' : 'Sem Redação'}`);
+                  } else {
+                    summaryList.push(`Q${q}:${parsedAns[q] || '-'}`);
+                  }
+                }
+                const summaryStr = summaryList.join(' | ');
               %>
               <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-score="<%= score %>">
-                <td><%= new Date(s.created_at).toLocaleString('pt-BR') %></td>
-                <td><strong><%= s.student_name %></strong></td>
-                <td><%= s.school_name %> <br><span style="font-weight:800; color:var(--primary);"><%= s.class_name %></span></td>
+                <td>
+                  <strong><%= s.student_name %></strong><br>
+                  <span style="font-size:0.75rem; color:#64748b;"><%= new Date(s.created_at).toLocaleString('pt-BR') %></span>
+                </td>
+                <td>
+                  <%= s.school_name %><br>
+                  <span style="font-weight:800; color:var(--primary);"><%= s.class_name %></span>
+                </td>
+                <td>
+                  <div class="answers-summary-pill"><%= summaryStr %></div>
+                </td>
                 <td>
                   <span class="score-badge <%= badgeClass %>"><%= score %> / 9 acertos</span>
                 </td>
-                <td>
-                  <button class="btn-toggle-answers" onclick="toggleDetails(<%= idx %>)">👁️ Ver Espelho de Respostas</button>
+                <td class="no-print">
+                  <button class="btn-toggle-answers" onclick="toggleDetails(<%= idx %>)">👁️ Ver Redação</button>
                 </td>
               </tr>
 
-              <!-- Detailed Answers Expander Row -->
-              <tr class="answers-detail-row" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>">
+              <!-- Detailed Answers Expander Row (On Screen) -->
+              <tr class="answers-detail-row no-print" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>">
                 <td colspan="5">
                   <div class="answers-box">
                     <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
-                      📋 Espelho Detalhado de Respostas — <%= s.student_name %> (<%= s.class_name %>)
+                      📜 Redação da Questão 03 — <%= s.student_name %> (<%= s.class_name %>)
                     </h4>
-                    
-                    <div class="answers-grid">
-                      <% for(let q = 1; q <= 10; q++) { %>
-                        <% if (q === 3) continue; %>
-                        <% 
-                          const stOpt = parsedAns[q] || '—';
-                          const corOpt = answerKey[q];
-                          const isOk = (stOpt === corOpt);
-                        %>
-                        <div class="ans-chip <%= isOk ? 'correct' : 'wrong' %>">
-                          <span>Q<%= q < 10 ? '0'+q : q %>: Marcou <strong><%= stOpt %></strong></span>
-                          <span><%= isOk ? '✓' : '✗ (Gabarito ' + corOpt + ')' %></span>
-                        </div>
-                      <% } %>
-                    </div>
-
-                    <!-- Essay Box -->
                     <div class="essay-box">
-                      <strong style="display:block; margin-bottom: 0.3rem;">📜 Questão 03 — Redação (Continuação da História do Ururau/Rio Paraíba):</strong>
                       <p><em>"<%= s.essay_text ? s.essay_text : 'Nenhum texto inserido pelo estudante.' %>"</em></p>
                     </div>
                   </div>
