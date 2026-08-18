@@ -255,49 +255,151 @@
       margin-top: 0.5rem;
     }
 
-    /* PRINT SPECIFIC STYLES (@media print) - Resumido de 1 página */
+    .print-header { display: none; }
+
+    /* SMART PRINT STYLES (@media print) */
     @media print {
-      body {
-        background: white;
-        padding: 0;
-        color: black;
-        font-size: 10pt;
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
       }
-      .top-actions, .filters-bar, .btn-toggle-answers, .essay-box-full {
+
+      body {
+        background: white !important;
+        padding: 0 !important;
+        color: #000 !important;
+        font-size: 9pt !important;
+      }
+
+      .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .top-actions, .filters-bar, .no-print, .header-info, .btn-toggle-answers {
         display: none !important;
       }
+
       .dashboard-card {
-        box-shadow: none;
-        border: none;
-        padding: 0;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        background: transparent !important;
       }
+
+      .stats-grid {
+        display: flex !important;
+        justify-content: space-around !important;
+        gap: 0.5rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      .stat-card {
+        padding: 0.5rem 1rem !important;
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+      }
+
+      .stat-val {
+        font-size: 1.4rem !important;
+      }
+
+      .stat-lbl {
+        font-size: 0.75rem !important;
+      }
+
+      /* Official Print Header */
       .print-header {
         display: block !important;
         text-align: center;
-        margin-bottom: 1rem;
-        border-bottom: 2px solid #000;
-        padding-bottom: 0.5rem;
+        margin-bottom: 1.2rem;
+        border-bottom: 2px solid #0f172a;
+        padding-bottom: 0.6rem;
       }
-      .print-header h2 { font-size: 1.2rem; margin-bottom: 2px; }
-      .print-header p { font-size: 0.8rem; }
+
+      .print-header h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 900;
+        margin-bottom: 0.2rem;
+        color: #000;
+      }
+
+      .print-header p {
+        font-size: 0.8rem;
+        color: #334155;
+        margin-bottom: 0.4rem;
+      }
+
+      .print-meta-bar {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        font-weight: 700;
+        background: #f8fafc;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+        margin-top: 0.4rem;
+      }
+
+      /* Smart Table & Page Break Control */
+      table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        page-break-inside: auto;
+      }
+
+      thead {
+        display: table-header-group; /* Repeats table headers at top of page 2, 3... */
+      }
+
+      tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      tr.student-row {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      tr.answers-detail-row {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      th, td {
+        border: 1px solid #64748b !important;
+        padding: 5px 7px !important;
+        font-size: 8pt !important;
+      }
+
+      th {
+        background: #e2e8f0 !important;
+        color: #000 !important;
+        font-weight: 800 !important;
+      }
+
       .answers-summary-pill {
         display: block !important;
-        font-size: 7.5pt;
-        background: transparent;
-        border: none;
-        padding: 0;
+        font-size: 7.5pt !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        color: #000 !important;
+        font-weight: 600 !important;
       }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th, td {
-        padding: 4px 6px;
-        font-size: 8.5pt;
+
+      .score-badge {
+        padding: 0.15rem 0.5rem !important;
+        font-size: 7.5pt !important;
+        border: 1px solid #000 !important;
       }
     }
-
-    .print-header { display: none; }
   </style>
 </head>
 <body>
@@ -306,14 +408,19 @@
     <!-- Top Action Bar -->
     <div class="top-actions">
       <a href="/admin" class="back-btn">← Voltar ao Painel Administrativo</a>
-      <button class="print-btn" onclick="window.print()">🖨️ Imprimir PDF Resumido da Turma</button>
+      <button class="print-btn" onclick="window.print()">🖨️ Imprimir PDF Inteligente da Turma</button>
     </div>
 
     <!-- Printable Official Header -->
     <div class="print-header">
       <h2>PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES</h2>
       <p>Secretaria Municipal de Educação, Ciência e Tecnologia • Projeto Campos de Todos Nós</p>
-      <h3>RELATÓRIO RESUMIDO DE RESPOSTAS E DESEMPENHO DA TURMA — SIMULADO 4º ANO</h3>
+      <h3 style="font-family:'Outfit'; font-size: 1rem; color: #0284c7;">RELATÓRIO OFICIAL DE DESEMPENHO DO SIMULADO (4º ANO)</h3>
+      <div class="print-meta-bar">
+        <span>Escola: <span id="printSchoolLabel">Todas as Escolas</span></span>
+        <span>Turma: <span id="printClassLabel">Todas as Turmas</span></span>
+        <span>Data: <%= new Date().toLocaleDateString('pt-BR') %></span>
+      </div>
     </div>
 
     <div class="dashboard-card">
@@ -371,6 +478,7 @@
         <table id="submissionsTable">
           <thead>
             <tr>
+              <th style="width: 40px; text-align: center;">#</th>
               <th>Estudante</th>
               <th>Escola / Turma</th>
               <th>Respostas Marcadas (Q1 a Q10)</th>
@@ -382,7 +490,7 @@
             <% const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' }; %>
             <% if (submissions.length === 0) { %>
               <tr>
-                <td colspan="5" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                <td colspan="6" style="text-align: center; padding: 2rem; color: #94a3b8;">
                   Nenhum simulado enviado até o momento.
                 </td>
               </tr>
@@ -400,7 +508,7 @@
                 const summaryList = [];
                 for(let q=1; q<=10; q++) {
                   if(q===3) {
-                    summaryList.push(`Q3: ${s.essay_text ? 'Redação Ok' : 'Sem Redação'}`);
+                    summaryList.push(`Q3:${s.essay_text ? 'Redação' : '-'}`);
                   } else {
                     summaryList.push(`Q${q}:${parsedAns[q] || '-'}`);
                   }
@@ -408,6 +516,7 @@
                 const summaryStr = summaryList.join(' | ');
               %>
               <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-score="<%= score %>">
+                <td style="text-align: center; font-weight: 800; color: #64748b;"><%= idx + 1 %></td>
                 <td>
                   <strong><%= s.student_name %></strong><br>
                   <span style="font-size:0.75rem; color:#64748b;"><%= new Date(s.created_at).toLocaleString('pt-BR') %></span>
@@ -429,7 +538,7 @@
 
               <!-- Detailed Answers Expander Row (On Screen) -->
               <tr class="answers-detail-row no-print" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>">
-                <td colspan="5">
+                <td colspan="6">
                   <div class="answers-box">
                     <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
                       📜 Redação da Questão 03 — <%= s.student_name %> (<%= s.class_name %>)
@@ -457,6 +566,9 @@
     function applyFilters() {
       const selectedClass = document.getElementById('filterClass').value;
       const selectedSchool = document.getElementById('filterSchool').value;
+
+      document.getElementById('printClassLabel').innerText = selectedClass === 'ALL' ? 'Todas as Turmas' : selectedClass;
+      document.getElementById('printSchoolLabel').innerText = selectedSchool === 'ALL' ? 'Todas as Escolas' : selectedSchool;
 
       const mainRows = document.querySelectorAll('tr.student-row');
       let visibleCount = 0;
@@ -493,6 +605,17 @@
       document.getElementById('statAvg').innerText = `${avg} / 9`;
       document.getElementById('statEssays').innerText = visibleEssays;
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const schoolParam = urlParams.get('school');
+      const classParam = urlParams.get('class');
+
+      if (schoolParam) document.getElementById('filterSchool').value = schoolParam;
+      if (classParam) document.getElementById('filterClass').value = classParam;
+
+      applyFilters();
+    });
   </script>
 </body>
 </html>
