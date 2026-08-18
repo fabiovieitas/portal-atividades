@@ -745,7 +745,7 @@
     function updateEssayCartao() {
       const essay = document.getElementById('q3Essay').value.trim();
       const badge = document.getElementById('essayStatusBadge');
-      if (essay.length >= 15) {
+      if (essay.length >= 2) {
         studentAnswers[3] = essay;
         badge.innerText = '✓ Texto Concluído';
         badge.style.background = '#10b981';
@@ -803,16 +803,20 @@
         answers_json: studentAnswers,
         score: score,
         max_score: 9,
-        essay_text: document.getElementById('q3Essay').value.trim()
+        essay_text: document.getElementById('q3Essay') ? document.getElementById('q3Essay').value.trim() : ''
       };
 
       try {
-        await fetch('/api/simulado/submit', {
+        const res = await fetch('/api/simulado/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-      } catch(err) {}
+        const data = await res.json();
+        if (!data.success) console.warn('Erro ao salvar:', data.error);
+      } catch(err) {
+        console.error('Erro de conexao ao enviar:', err);
+      }
 
       document.getElementById('resultModal').classList.add('active');
       if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
