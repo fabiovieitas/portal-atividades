@@ -3,51 +3,714 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hábitos de Higiene & Saúde Infantil | Lab Kids</title>
+    <title>Super Agente da Saúde: Batalha Contra os Germes! | Lab Kids</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; background: #0f172a; color: white; margin: 0; padding: 20px; text-align: center; }
-        .container { max-width: 800px; margin: 0 auto; background: #1e293b; border-radius: 24px; padding: 30px; border: 2px solid #06b6d4; }
-        .card-habit { background: #0f172a; border: 2px solid #38bdf8; border-radius: 16px; padding: 20px; margin: 15px; display: inline-block; width: 200px; cursor: pointer; transition: transform 0.2s; }
-        .card-habit:hover { transform: scale(1.05); border-color: #fbbf24; }
-        .icon-lg { font-size: 3.5rem; margin-bottom: 10px; display: block; }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: #090d16;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 15px;
+        }
+
+        #canvas-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .game-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 850px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 3px solid #06b6d4;
+            border-radius: 28px;
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(6, 182, 212, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .header-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid #334155;
+            padding: 12px 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+        }
+
+        .stat-box {
+            display: flex;
+            gap: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .stat-item { display: flex; align-items: center; gap: 6px; }
+        .val-score { color: #fbbf24; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+        .val-combo { color: #ec4899; }
+
+        /* BOSS FIGHT AREA */
+        .boss-card {
+            width: 100%;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+            border: 2px solid #ef4444;
+            border-radius: 22px;
+            padding: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.25);
+            transition: transform 0.1s ease;
+        }
+        .boss-card.shake { animation: shakeAnim 0.3s ease; }
+        @keyframes shakeAnim {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-10px, 0); }
+            40% { transform: translate(10px, 0); }
+            60% { transform: translate(-10px, 0); }
+            80% { transform: translate(5px, 0); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .boss-avatar {
+            font-size: 4.5rem;
+            margin-bottom: 5px;
+            display: inline-block;
+            filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.6));
+            animation: floatBoss 2s infinite ease-in-out;
+        }
+        @keyframes floatBoss {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.05); }
+        }
+
+        .boss-title { font-size: 1.3rem; font-weight: 700; color: #f87171; margin-bottom: 8px; }
+
+        .hp-bar-outer {
+            width: 100%;
+            max-width: 400px;
+            height: 22px;
+            background: #1e293b;
+            border: 2px solid #475569;
+            border-radius: 50px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .hp-bar-inner {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+        }
+        .hp-text {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 800; text-shadow: 0 1px 3px #000;
+        }
+
+        /* QUESTION CARD */
+        .question-box {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.85);
+            border: 2px solid #38bdf8;
+            border-radius: 22px;
+            padding: 22px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .question-title {
+            font-size: 1.25rem; font-weight: 700; color: #38bdf8; margin-bottom: 12px;
+        }
+        .question-text {
+            font-size: 1.2rem; font-weight: 600; color: #f8fafc; line-height: 1.5;
+        }
+
+        /* OPTIONS GRID */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+        }
+
+        .btn-opt {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 2px solid #334155;
+            color: #f1f5f9;
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+        .btn-opt:hover {
+            border-color: #06b6d4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+            background: linear-gradient(135deg, #1e293b, #164e63);
+        }
+        .btn-opt:active { transform: translateY(0); }
+        .opt-icon { font-size: 1.6rem; }
+
+        .btn-opt.correct {
+            background: linear-gradient(135deg, #059669, #10b981) !important;
+            border-color: #34d399 !important;
+            color: #fff !important;
+            animation: pulseGreen 0.4s ease;
+        }
+        .btn-opt.wrong {
+            background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+            border-color: #f87171 !important;
+            color: #fff !important;
+            animation: pulseRed 0.4s ease;
+        }
+
+        @keyframes pulseGreen { 0% { transform: scale(1); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+        @keyframes pulseRed { 0% { transform: scale(1); } 50% { transform: scale(0.96); } 100% { transform: scale(1); } }
+
+        /* OVERLAYS & MODALS */
+        .modal-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(9, 13, 22, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 28px;
+            padding: 30px;
+            text-align: center;
+            z-index: 50;
+        }
+        .modal-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; }
+        .modal-sub { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 25px; max-width: 550px; line-height: 1.5; }
+
+        .btn-action {
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: #fff;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            font-family: 'Fredoka', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4);
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(6, 182, 212, 0.6);
+        }
+
+        .back-link {
+            margin-top: 15px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #38bdf8; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🧼 Hábitos de Higiene & Saúde 🪥</h1>
-        <p>Clique nos hábitos diários para aprender como cuidar do seu corpo e da sua saúde!</p>
+    <canvas id="canvas-bg"></canvas>
 
-        <div style="display: flex; justify-content: center; flex-wrap: wrap;">
-            <div class="card-habit" onclick="showTip('🧼 Lavar as Mãos', 'Lave as mãos com água e sabão antes das refeições e depois de brincar para eliminar os germes!')">
-                <span class="icon-lg">🧼</span>
-                <strong>Lavar as Mãos</strong>
-            </div>
-            <div class="card-habit" onclick="showTip('🪥 Escovar os Dentes', 'Escove os dentes após cada refeição e antes de dormir para manter o sorriso limpo e saudável!')">
-                <span class="icon-lg">🪥</span>
-                <strong>Escovar Dentes</strong>
-            </div>
-            <div class="card-habit" onclick="showTip('🚿 Tomar Banho', 'Tome banho todos os dias para limpa a pele e renovar as energias!')">
-                <span class="icon-lg">🚿</span>
-                <strong>Tomar Banho</strong>
-            </div>
-            <div class="card-habit" onclick="showTip('🍎 Alimentação Saudável', 'Coma frutas, legumes e beba bastante água todos os dias!')">
-                <span class="icon-lg">🍎</span>
-                <strong>Comer Frutas</strong>
+    <div class="game-wrapper">
+        <!-- HEADER STATS -->
+        <div class="header-bar">
+            <div class="badge" id="stage-badge">FASE 1: SABÃO NEON</div>
+            <div class="stat-box">
+                <div class="stat-item">⭐ <span class="val-score" id="score-val">0</span></div>
+                <div class="stat-item">🔥 <span class="val-combo" id="combo-val">x1</span></div>
             </div>
         </div>
 
-        <div id="tip-box" style="margin-top: 25px; padding: 20px; background: rgba(56, 189, 248, 0.1); border: 2px dashed #06b6d4; border-radius: 16px; font-size: 1.2rem; min-height: 50px;">
-            Clique em um hábito de higiene acima para ver a dica pedagógica!
+        <!-- BOSS FIGHT DISPLAY -->
+        <div class="boss-card" id="boss-card">
+            <span class="boss-avatar" id="boss-avatar">🦠</span>
+            <div class="boss-title" id="boss-name">Monstro da Sujeira (Bactéria da Mão)</div>
+            <div class="hp-bar-outer">
+                <div class="hp-bar-inner" id="boss-hp-inner"></div>
+                <div class="hp-text" id="boss-hp-text">HP: 3/3</div>
+            </div>
         </div>
 
-        <div style="margin-top: 30px;">
-            <a href="/" style="color: #94a3b8; text-decoration: none;">⬅️ Voltar ao Portal Lab Kids</a>
+        <!-- QUESTION CONTAINER -->
+        <div class="question-box">
+            <div class="question-title" id="q-category">🧼 Higiene das Mãos & Prevenção</div>
+            <div class="question-text" id="q-text">Qual é a melhor forma de eliminar os germes das mãos antes de comer?</div>
+        </div>
+
+        <!-- OPTIONS GRID -->
+        <div class="options-grid" id="options-grid">
+            <!-- Rendered dynamically -->
+        </div>
+
+        <a href="/" class="back-link">⬅️ Voltar ao Portal Lab Kids</a>
+
+        <!-- MODAL OVERLAY (STAGE CLEAR / VICTORY / INTRO) -->
+        <div class="modal-overlay" id="game-modal">
+            <div class="modal-title" id="modal-title" style="color: #38bdf8;">🧼 SUPER AGENTE DA SAÚDE</div>
+            <div class="modal-sub" id="modal-sub">
+                Os Germes Mutantes invadiram a cidade! Use seu conhecimento sobre **Lavar as Mãos, Escovação, Banho e Alimentação** para derrotar os 4 Chefões dos Germes!
+            </div>
+            <button class="btn-action" onclick="startGame()">⚔️ INICIAR BATALHA CONTRA OS GERMES 🚀</button>
         </div>
     </div>
 
     <script>
-        function showTip(title, text) {
-            document.getElementById('tip-box').innerHTML = '<strong style="color: #fbbf24;">' + title + ':</strong> ' + text;
+        // WEB AUDIO SYNTHESIZER
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioCtx();
+        }
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.15); // A5
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'hit') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.linearRampToValueAtTime(110, now + 0.2);
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else if (type === 'wrong') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.linearRampToValueAtTime(90, now + 0.3);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'win') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.setValueAtTime(554.37, now + 0.1);
+                osc.frequency.setValueAtTime(659.25, now + 0.2);
+                osc.frequency.setValueAtTime(880, now + 0.3);
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            }
+        }
+
+        // CANVAS BACKGROUND PARTICLES
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let hue = 180;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * -1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; }
+            }
+            draw() {
+                ctx.fillStyle = `hsl(${hue}, 80%, 60%)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        for (let i = 0; i < 45; i++) particles.push(new Particle());
+
+        function animateBg() {
+            ctx.fillStyle = 'rgba(9, 13, 22, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // GAME DATA: 4 STAGES & BOSSES
+        const STAGES = [
+            {
+                id: 1,
+                name: "FASE 1: SABÃO NEON 🧼",
+                bossName: "Monstro da Sujeira (Bactéria da Mão)",
+                bossAvatar: "🦠",
+                bossMaxHp: 3,
+                hue: 180,
+                questions: [
+                    {
+                        category: "🧼 Lavagem de Mãos",
+                        question: "Qual é a forma correta e mais eficiente de lavar as mãos?",
+                        options: [
+                            { text: "Água corrente + sabão por 20 segundos esfregando dedos e unhas", correct: true, icon: "✨" },
+                            { text: "Apenas molhar rapidamente as pontas dos dedos na água", correct: false, icon: "🚫" },
+                            { text: "Passar a mão na calça para tirar o suor", correct: false, icon: "❌" },
+                            { text: "Usar apenas perfume para disfarçar a sujeira", correct: false, icon: "⚠️" }
+                        ]
+                    },
+                    {
+                        category: "🧼 Prevenção Diária",
+                        question: "Em qual momento é OBRIGATÓRIO lavar as mãos para não transmitir bactérias?",
+                        options: [
+                            { text: "Antes de comer e após ir ao banheiro ou brincar na terra", correct: true, icon: "🍎" },
+                            { text: "Apenas quando a mão estiver visivelmente preta de lama", correct: false, icon: "👀" },
+                            { text: "Uma vez por semana é suficiente", correct: false, icon: "⌛" },
+                            { text: "Não precisa lavar se for comer pastel de feira", correct: false, icon: "🥟" }
+                        ]
+                    },
+                    {
+                        category: "🧼 Micro-organismos",
+                        question: "O que acontece quando comemos com as mãos sujas de bactérias invisíveis?",
+                        options: [
+                            { text: "Os germes entram no corpo e podem causar dor de barriga e febre", correct: true, icon: "🤒" },
+                            { text: "As bactérias deixam a comida mais gostosa", correct: false, icon: "🍟" },
+                            { text: "Nada acontece, nosso corpo absorve as sujeiras sem problemas", correct: false, icon: "🛡️" },
+                            { text: "Viramos super-heróis imunes a doenças", correct: false, icon: "🦸" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "FASE 2: ESCOVA LASER 🪥",
+                bossName: "Rei da Cárie & Tartaro Tooth",
+                bossAvatar: "👾",
+                bossMaxHp: 3,
+                hue: 120,
+                questions: [
+                    {
+                        category: "🪥 Saúde Bucal",
+                        question: "Quantas vezes ao dia devemos escovar os dentes no mínimo?",
+                        options: [
+                            { text: "3 vezes ao dia (após o café, almoço e antes de dormir)", correct: true, icon: "🦷" },
+                            { text: "Uma vez no domingo à noite", correct: false, icon: "📅" },
+                            { text: "Apenas quando sentir dor no dente", correct: false, icon: "💥" },
+                            { text: "Somente quando comer chiclete", correct: false, icon: "🍬" }
+                        ]
+                    },
+                    {
+                        category: "🪥 Fio Dental & Proteção",
+                        question: "Para que serve o fio dental na higiene bucal diária?",
+                        options: [
+                            { text: "Remover restos de comida entre os dentes onde a escova não alcança", correct: true, icon: "🧵" },
+                            { text: "Fazer laços coloridos na língua", correct: false, icon: "🎀" },
+                            { text: "Trocar o fio dental por palito de dente de madeira", correct: false, icon: "🪵" },
+                            { text: "Secar a boca antes de dormir", correct: false, icon: "💨" }
+                        ]
+                    },
+                    {
+                        category: "🪥 Inimigo dos Dentes",
+                        question: "Qual alimento em excesso é o maior causador de cáries nos dentes?",
+                        options: [
+                            { text: "Doces, refrigerantes e açúcares sem escovação logo após", correct: true, icon: "🍭" },
+                            { text: "Arroz, feijão e salada de alface", correct: false, icon: "🥗" },
+                            { text: "Água mineral pura", correct: false, icon: "💧" },
+                            { text: "Maçã e banana frescas", correct: false, icon: "🍌" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "FASE 3: DUCHA TURBO 🚿",
+                bossName: "Imperador do Chulé & Poeira",
+                bossAvatar: "👹",
+                bossMaxHp: 3,
+                hue: 30,
+                questions: [
+                    {
+                        category: "🚿 Banho & Cuidado Corporal",
+                        question: "Por que tomar banho todos os dias é fundamental para a saúde?",
+                        options: [
+                            { text: "Remove o suor, sujo da pele e previne assaduras e micoses", correct: true, icon: "🧼" },
+                            { text: "Apenas para gastar shampoo de morango", correct: false, icon: "🍓" },
+                            { text: "Para poder brincar na chuva dentro de casa", correct: false, icon: "🌧️" },
+                            { text: "Banho não é necessário no inverno", correct: false, icon: "❄️" }
+                        ]
+                    },
+                    {
+                        category: "🚿 Pés & Calçados",
+                        question: "Como evitar o famoso 'chulé' e fungos entre os dedos dos pés?",
+                        options: [
+                            { text: "Secar muito bem entre os dedos após o banho e usar meias limpas", correct: true, icon: "🧦" },
+                            { text: "Calçar o tênis molhado logo após sair do banho", correct: false, icon: "👟" },
+                            { text: "Dormir de sapato sem lavar os pés", correct: false, icon: "🥾" },
+                            { text: "Passar desodorante de axila nas solas do tênis", correct: false, icon: "💨" }
+                        ]
+                    },
+                    {
+                        category: "🚿 Roupas Limpas",
+                        question: "Por que devemos trocar de roupa íntima e meias todos os dias?",
+                        options: [
+                            { text: "Porque acumulam umidade e bactérias que causam odores e infecções", correct: true, icon: "👕" },
+                            { text: "Para combinar com a cor da mochila", correct: false, icon: "🎒" },
+                            { text: "Só deve trocar se a roupa rasgar na brincadeira", correct: false, icon: "✂️" },
+                            { text: "Para a máquina de lavar trabalhar mais", correct: false, icon: "🧺" }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: 4,
+                name: "FASE FINAL: ESCUDO BIOLÓGICO 🍎",
+                bossName: "Dr. Virus Mega-Mutante (CHEFÃO FINAL)",
+                bossAvatar: "👑☠️",
+                bossMaxHp: 4,
+                hue: 0,
+                questions: [
+                    {
+                        category: "🍎 Nutrição & Imunidade",
+                        question: "Quais alimentos fortalecem nosso sistema imunológico contra vírus e resfriados?",
+                        options: [
+                            { text: "Frutas ricas em Vitamina C (Laranja, Acerola) e vegetais coloridos", correct: true, icon: "🍊" },
+                            { text: "Salgadinhos de pacote e refrigerantes diários", correct: false, icon: "🥤" },
+                            { text: "Balas de goma e chicletes no almoço", correct: false, icon: "🍬" },
+                            { text: "Comida industrializada frita no óleo velho", correct: false, icon: "🍟" }
+                        ]
+                    },
+                    {
+                        category: "💧 Hidratação Corporal",
+                        question: "Qual bebida é indispensável para o bom funcionamento do corpo e da memória?",
+                        options: [
+                            { text: "Água potável mineral (beber ao longo de todo o dia)", correct: true, icon: "💧" },
+                            { text: "Refrigerante de cola gelado", correct: false, icon: "🥫" },
+                            { text: "Suco em pó artificial com muito açúcar", correct: false, icon: "🧃" },
+                            { text: "Café ultra forte com energético", correct: false, icon: "☕" }
+                        ]
+                    },
+                    {
+                        category: "💤 Sono & Recuperação",
+                        question: "Por que dormir de 8 a 10 horas por noite é vital para crianças em idade escolar?",
+                        options: [
+                            { text: "O cérebro fixa o aprendizado do dia e o corpo produz hormônio do crescimento", correct: true, icon: "🌙" },
+                            { text: "Apenas para não assistir o jornal na TV", correct: false, icon: "📺" },
+                            { text: "Para sonhar que está num parque de diversões", correct: false, icon: "🎡" },
+                            { text: "Dormir é perda de tempo, o ideal é jogar celular até 4h da manhã", correct: false, icon: "📱" }
+                        ]
+                    },
+                    {
+                        category: "🦠 Proteção Coletiva",
+                        question: "Ao tossir ou espirrar perto dos colegas de classe, qual a atitude correta?",
+                        options: [
+                            { text: "Cobrir a boca com a dobra do cotovelo (ou lenço de papel)", correct: true, icon: "💪" },
+                            { text: "Espirrar diretamente no rosto do amigo do lado", correct: false, icon: "🤧" },
+                            { text: "Espirrar nas mãos e passar nas carteiras da escola", correct: false, icon: "🏫" },
+                            { text: "Gritar bem alto sem cobrir nada", correct: false, icon: "🗣️" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // GAME STATE
+        let currentStageIdx = 0;
+        let currentQIdx = 0;
+        let score = 0;
+        let combo = 1;
+        let bossHp = 3;
+        let isAnswering = false;
+
+        function startGame() {
+            initAudio();
+            document.getElementById('game-modal').style.display = 'none';
+            currentStageIdx = 0;
+            score = 0;
+            combo = 1;
+            loadStage();
+        }
+
+        function loadStage() {
+            const stage = STAGES[currentStageIdx];
+            currentQIdx = 0;
+            bossHp = stage.bossMaxHp;
+            hue = stage.hue;
+
+            document.getElementById('stage-badge').innerText = stage.name;
+            document.getElementById('boss-name').innerText = stage.bossName;
+            document.getElementById('boss-avatar').innerText = stage.bossAvatar;
+            updateBossHp();
+            loadQuestion();
+        }
+
+        function updateBossHp() {
+            const stage = STAGES[currentStageIdx];
+            const pct = Math.max(0, (bossHp / stage.bossMaxHp) * 100);
+            document.getElementById('boss-hp-inner').style.width = pct + '%';
+            document.getElementById('boss-hp-text').innerText = `HP: ${bossHp}/${stage.bossMaxHp}`;
+        }
+
+        function loadQuestion() {
+            isAnswering = false;
+            const stage = STAGES[currentStageIdx];
+            const q = stage.questions[currentQIdx];
+
+            document.getElementById('score-val').innerText = score;
+            document.getElementById('combo-val').innerText = 'x' + combo;
+            document.getElementById('q-category').innerText = q.category;
+            document.getElementById('q-text').innerText = q.question;
+
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = '';
+
+            // Shuffle options for variety
+            const shuffledOpts = [...q.options].sort(() => Math.random() - 0.5);
+
+            shuffledOpts.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-opt';
+                btn.innerHTML = `<span class="opt-icon">${opt.icon}</span> <span>${opt.text}</span>`;
+                btn.onclick = () => handleAnswer(opt, btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(opt, btn) {
+            if (isAnswering) return;
+            isAnswering = true;
+
+            const bossCard = document.getElementById('boss-card');
+
+            if (opt.correct) {
+                btn.classList.add('correct');
+                playSound('correct');
+                playSound('hit');
+                bossCard.classList.add('shake');
+                setTimeout(() => bossCard.classList.remove('shake'), 350);
+
+                bossHp--;
+                score += 150 * combo;
+                combo++;
+                updateBossHp();
+
+                if (bossHp <= 0) {
+                    // BOSS DEFEATED!
+                    setTimeout(() => advanceStage(), 700);
+                    return;
+                }
+            } else {
+                btn.classList.add('wrong');
+                playSound('wrong');
+                combo = 1;
+                document.getElementById('combo-val').innerText = 'x1';
+            }
+
+            setTimeout(() => {
+                const stage = STAGES[currentStageIdx];
+                currentQIdx = (currentQIdx + 1) % stage.questions.length;
+                loadQuestion();
+            }, 1000);
+        }
+
+        function advanceStage() {
+            currentStageIdx++;
+            if (currentStageIdx >= STAGES.length) {
+                // VICTORY!
+                playSound('win');
+                showVictoryModal();
+            } else {
+                playSound('win');
+                const nextStage = STAGES[currentStageIdx];
+                const modal = document.getElementById('game-modal');
+                document.getElementById('modal-title').style.color = '#34d399';
+                document.getElementById('modal-title').innerText = '🎉 CHEFÃO DERROTADO!';
+                document.getElementById('modal-sub').innerHTML = `
+                    Excelente trabalho, Super Agente!<br>
+                    Você eliminou a ameaça da fase anterior. Prepare-se para entrar na **${nextStage.name}**!
+                `;
+                const btn = modal.querySelector('.btn-action');
+                btn.innerText = '🚀 AVANÇAR PARA A PRÓXIMA FASE ⚔️';
+                btn.onclick = () => {
+                    modal.style.display = 'none';
+                    loadStage();
+                };
+                modal.style.display = 'flex';
+            }
+        }
+
+        function showVictoryModal() {
+            const modal = document.getElementById('game-modal');
+            document.getElementById('modal-title').style.color = '#fbbf24';
+            document.getElementById('modal-title').innerText = '🏆 CIDADE SALVA DOS GERMES!';
+            document.getElementById('modal-sub').innerHTML = `
+                Parabéns! Você demonstrou ser um verdadeiro **Mestre dos Hábitos de Higiene e Saúde**!<br><br>
+                ⭐ **Pontuação Final**: <strong style="color:#fbbf24; font-size: 1.5rem;">${score} PONTOS</strong><br>
+                🏅 **Medalha BNCC**: Agente de Saúde Nota 10!
+            `;
+            const btn = modal.querySelector('.btn-action');
+            btn.innerText = '🔄 JOGAR NOVAMENTE 🚀';
+            btn.onclick = () => startGame();
+            modal.style.display = 'flex';
         }
     </script>
 </body>
