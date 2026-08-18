@@ -99,38 +99,50 @@
 
     /* Filters Bar */
     .filters-bar {
-      display: flex;
-      gap: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
       margin: 1.5rem 0;
-      background: #f1f5f9;
-      padding: 1rem 1.2rem;
-      border-radius: 14px;
-      flex-wrap: wrap;
-      align-items: center;
+      background: #f8fafc;
+      padding: 1.2rem;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
     }
 
     .filter-group {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+      width: 100%;
     }
 
     .filter-group label {
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: #475569;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .filter-select {
-      padding: 0.5rem 0.8rem;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.65rem 0.9rem;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
       font-family: inherit;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
       background: white;
+      color: #1e293b;
+      transition: all 0.2s;
+    }
+
+    .filter-select:focus {
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
 
     /* Stats Grid */
@@ -474,7 +486,7 @@
       </div>
 
       <!-- Filters Bar with Date System -->
-      <div class="filters-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+      <div class="filters-bar">
         <div class="filter-group">
           <label for="filterSimulado">📝 Simulado / Caderno:</label>
           <select id="filterSimulado" class="filter-select" onchange="applyFilters()">
