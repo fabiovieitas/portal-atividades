@@ -385,6 +385,33 @@
       text-align: right;
     }
 
+    /* Table Styles for Q7 */
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .custom-table th, .custom-table td {
+      border: 1px solid #cbd5e1;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+
+    .custom-table th {
+      background: #0284c7;
+      color: white;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+    }
+
+    .custom-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
     /* Essay Question Textarea */
     .essay-textarea {
       width: 100%;
@@ -771,7 +798,7 @@
         <textarea id="q3Essay" class="essay-textarea" placeholder="Continue a história do Ururau da Lapa aqui..." oninput="updateEssayCartao()"></textarea>
       </article>
 
-      <!-- QUESTÃO 04 (Língua Portuguesa) -->
+      <!-- QUESTÃO 04 (Língua Portuguesa - Unabridged) -->
       <article class="question-card" id="q-card-4">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 04 • Língua Portuguesa</span>
@@ -785,12 +812,17 @@
         <div class="project-box" style="margin-bottom: 1.2rem;">
           <h3>👻 A Lenda da Curva da Loira</h3>
           <p>Há muitos anos, os moradores de Campos dos Goytacazes contam uma história muito conhecida: a Lenda da Curva da Loira.</p>
-          <p>Segundo a lenda, em uma estrada da cidade que vai para a praia do Farol, existe uma curva onde, durante a noite, algumas pessoas dizem ter visto uma mulher loira vestida de branco. Conta-se que ela aparece de repente para os motoristas e, logo depois, desaparece misteriosamente.</p>
+          <p>Segundo a lenda, em uma estrada da cidade existe uma curva onde, durante a noite, algumas pessoas dizem ter visto uma mulher loira vestida de branco. Conta-se que ela aparece de repente para os motoristas e, logo depois, desaparece misteriosamente.</p>
           <p>Ninguém sabe ao certo quem era essa mulher nem se a história realmente aconteceu. Por isso, a Curva da Loira é considerada uma lenda, ou seja, uma narrativa popular transmitida de geração em geração que faz parte da cultura e da memória de Campos dos Goytacazes.</p>
         </div>
 
+        <div class="dialog-container" style="margin-bottom: 1.2rem; background: #e0f2fe; border-color: #0284c7;">
+          <strong style="color: #0369a1;">Leia o trecho da Lenda da Curva da Loira:</strong>
+          <p style="margin-top: 0.5rem; font-size: 0.95rem;"><em>"Segundo a lenda, em uma estrada da cidade que vai para a praia do Farol, existe uma curva onde, durante a noite, algumas pessoas dizem ter visto uma mulher loira vestida de branco. Conta-se que ela aparece de repente para os motoristas e, logo depois, desaparece misteriosamente."</em></p>
+        </div>
+
         <p class="question-text">
-          Se você fosse continuar essa história, marque a alternativa que apresenta o melhor conflito gerador para iniciar uma narrativa:
+          Se você fosse continuar essa história, marque a alternativa que apresenta o <strong>MELHOR CONFLITO GERADOR</strong> para iniciar uma narrativa:
         </p>
 
         <div class="options-grid">
@@ -895,46 +927,73 @@
         </div>
       </article>
 
-      <!-- QUESTÃO 07 (Matemática - Ordenação) -->
+      <!-- QUESTÃO 07 (Matemática - Tabela Limpa Sem Manchas) -->
       <article class="question-card" id="q-card-7">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 07 • Matemática</span>
           <span class="bncc-tag">BNCC EF04MA01 – 4EF01_M</span>
         </div>
 
-        <div class="q-image-container">
-          <img src="/img/simulado/simulado_img_p5_3.png" alt="Tabela de Visitantes" class="q-image">
-        </div>
+        <p class="question-text">
+          Durante o projeto "Campos de Todos Nós!", a turma pesquisou alguns patrimônios históricos do município e descobriu a quantidade aproximada de visitantes que eles receberam em um determinado período:
+        </p>
+
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Patrimônio Histórico / Cultural</th>
+              <th>Número de Visitantes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🏛️ Museu Histórico de Campos</td>
+              <td><strong>12.845</strong></td>
+            </tr>
+            <tr>
+              <td>🏫 Solar do Colégio</td>
+              <td><strong>9.730</strong></td>
+            </tr>
+            <tr>
+              <td>🎵 Lira de Apolo</td>
+              <td><strong>15.208</strong></td>
+            </tr>
+            <tr>
+              <td>⛪ Catedral do Santíssimo Salvador</td>
+              <td><strong>18.412</strong></td>
+            </tr>
+          </tbody>
+        </table>
 
         <p class="question-text">
-          Observe a tabela de visitantes registrados nos pontos turísticos de Campos durante o último ano. Assinale a opção que apresenta os pontos turísticos em <strong>ORDEM CRESCENTE</strong> de número de visitantes (do menor para o maior):
+          Observando os números apresentados, marque a alternativa que mostra os patrimônios em <strong>ORDEM CRESCENTE</strong> do número de visitantes (do menor para o maior):
         </p>
 
         <div class="options-grid">
           <label class="option-label">
             <input type="radio" name="q7" value="A" class="option-input" onchange="updateCartao(7, 'A')">
             <span class="option-badge">A</span>
-            <span>Catedral (18.412) < Lira de Apolo (15.208) < Museu Histórico (12.845) < Solar do Colégio (9.730).</span>
+            <span>Catedral (18.412) → Lira de Apolo (15.208) → Museu Histórico (12.845) → Solar do Colégio (9.730).</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q7" value="B" class="option-input" onchange="updateCartao(7, 'B')">
             <span class="option-badge">B</span>
-            <span>Solar do Colégio (9.730) < Museu Histórico (12.845) < Lira de Apolo (15.208) < Catedral (18.412).</span>
+            <span>Solar do Colégio (9.730) → Museu Histórico (12.845) → Lira de Apolo (15.208) → Catedral do Santíssimo Salvador (18.412).</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q7" value="C" class="option-input" onchange="updateCartao(7, 'C')">
             <span class="option-badge">C</span>
-            <span>Museu Histórico (12.845) < Solar do Colégio (9.730) < Catedral (18.412) < Lira de Apolo (15.208).</span>
+            <span>Museu Histórico (12.845) → Solar do Colégio (9.730) → Catedral (18.412) → Lira de Apolo (15.208).</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q7" value="D" class="option-input" onchange="updateCartao(7, 'D')">
             <span class="option-badge">D</span>
-            <span>Lira de Apolo (15.208) < Catedral (18.412) < Solar do Colégio (9.730) < Museu Histórico (12.845).</span>
+            <span>Lira de Apolo (15.208) → Museu Histórico (12.845) → Solar do Colégio (9.730) → Catedral do Santíssimo Salvador (18.412).</span>
           </label>
         </div>
       </article>
 
-      <!-- QUESTÃO 08 (Matemática - Decomposição) -->
+      <!-- QUESTÃO 08 (Matemática - Enunciado Completo do PDF) -->
       <article class="question-card" id="q-card-8">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 08 • Matemática</span>
@@ -942,11 +1001,15 @@
         </div>
 
         <div class="q-image-container">
-          <img src="/img/simulado/simulado_img_p6_2.png" alt="Decomposição Numérica" class="q-image">
+          <img src="/img/simulado/simulado_img_p5_2.png" alt="Jongo da Noinha" class="q-image" style="max-height: 250px;">
         </div>
 
         <p class="question-text">
-          O ano de fundação registrado de uma tradicional instituição de Campos é representado pelo número <strong>2.005</strong>. Qual é a decomposição correta desse número em suas ordens numéricas?
+          Durante o projeto "Campos de Todos Nós!", a Professora Bia levou Enzo e Mirela para conhecerem a história do <strong>Jongo de Noinha</strong>, uma importante manifestação cultural de Campos dos Goytacazes. Eles aprenderam que, no ano de <strong>2005</strong>, o Jongo foi reconhecido como Patrimônio Cultural Imaterial pelo IPHAN.
+        </p>
+
+        <p class="question-text">
+          Depois da visita, a professora escreveu o número <strong>2.005</strong> no quadro e perguntou: <em>Qual é a decomposição correta desse número?</em>
         </p>
 
         <div class="options-grid">
@@ -958,34 +1021,34 @@
           <label class="option-label">
             <input type="radio" name="q8" value="B" class="option-input" onchange="updateCartao(8, 'B')">
             <span class="option-badge">B</span>
-            <span>200 + 5</span>
+            <span>2.000 + 50 + 5</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q8" value="C" class="option-input" onchange="updateCartao(8, 'C')">
             <span class="option-badge">C</span>
-            <span>20 + 50</span>
+            <span>200 + 5</span>
           </label>
           <label class="option-label">
             <input type="radio" name="q8" value="D" class="option-input" onchange="updateCartao(8, 'D')">
             <span class="option-badge">D</span>
-            <span>2.000 + 50</span>
+            <span>2.000 + 500</span>
           </label>
         </div>
       </article>
 
-      <!-- QUESTÃO 09 (Matemática - Valor Posicional) -->
+      <!-- QUESTÃO 09 (Matemática - Enunciado Completo do PDF) -->
       <article class="question-card" id="q-card-9">
         <div class="question-header">
           <span class="question-tag">QUESTÃO 09 • Matemática</span>
           <span class="bncc-tag">BNCC EF03MA02 / EF04MA02 – 4EF03_M</span>
         </div>
 
-        <div class="q-image-container">
-          <img src="/img/simulado/simulado_img_p6_3.png" alt="Valor Posicional Centenas" class="q-image">
-        </div>
+        <p class="question-text">
+          A professora Bia contou a Enzo e Mirela que <strong>12.845</strong> pessoas participaram de atividades de visitação e valorização dos patrimônios históricos de Campos dos Goytacazes. Enzo observou o número 12.845 e quis descobrir o valor posicional de seus algarismos.
+        </p>
 
         <p class="question-text">
-          A professora Bia contou a Enzo e Mirela que 12.845 pessoas participaram de atividades de visitação e valorização dos patrimônios históricos de Campos dos Goytacazes. Enzo observou o número <strong>12.845</strong> e quis descobrir o valor posicional de seus algarismos. No número 12.845, qual algarismo ocupa a ordem das <strong>CENTENAS SIMPLES</strong>?
+          No número <strong>12.845</strong>, qual algarismo ocupa a ordem das <strong>CENTENAS SIMPLES</strong>?
         </p>
 
         <div class="options-grid">
