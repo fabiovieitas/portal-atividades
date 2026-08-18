@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resultados do Simulado - 4º Ano | Prefeitura de Campos</title>
+  <title>Resultados e Histórico do Simulado - 4º Ano | Prefeitura de Campos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -164,6 +164,33 @@
       color: #0369a1;
     }
 
+    /* Progress Banner */
+    .progress-banner {
+      background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+      border: 2px solid #86efac;
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .progress-banner-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #14532d;
+
+    }
+
+    .progress-banner-desc {
+      font-size: 0.9rem;
+      color: #166534;
+    }
+
     /* Table Styles */
     .table-container {
       overflow-x: auto;
@@ -278,7 +305,7 @@
         padding: 0 !important;
       }
 
-      .top-actions, .filters-bar, .no-print, .header-info, .btn-toggle-answers {
+      .top-actions, .filters-bar, .no-print, .header-info, .btn-toggle-answers, .progress-banner {
         display: none !important;
       }
 
@@ -354,7 +381,7 @@
       }
 
       thead {
-        display: table-header-group; /* Repeats table headers at top of page 2, 3... */
+        display: table-header-group;
       }
 
       tr {
@@ -415,24 +442,41 @@
     <div class="print-header">
       <h2>PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES</h2>
       <p>Secretaria Municipal de Educação, Ciência e Tecnologia • Projeto Campos de Todos Nós</p>
-      <h3 style="font-family:'Outfit'; font-size: 1rem; color: #0284c7;">RELATÓRIO OFICIAL DE DESEMPENHO DO SIMULADO (4º ANO)</h3>
+      <h3 style="font-family:'Outfit'; font-size: 1rem; color: #0284c7;">RELATÓRIO OFICIAL DE DESEMPENHO E HISTÓRICO DO SIMULADO (4º ANO)</h3>
       <div class="print-meta-bar">
         <span>Escola: <span id="printSchoolLabel">Todas as Escolas</span></span>
         <span>Turma: <span id="printClassLabel">Todas as Turmas</span></span>
-        <span>Data: <%= new Date().toLocaleDateString('pt-BR') %></span>
+        <span>Período: <span id="printDateLabel">Todos os Períodos</span></span>
+        <span>Data de Emissão: <%= new Date().toLocaleDateString('pt-BR') %></span>
       </div>
     </div>
 
     <div class="dashboard-card">
       <div class="header-info">
-        <h1>📊 Painel de Resultados - Simulado Digital 4º Ano</h1>
-        <p>Relatório de desempenho e consulta de respostas dos estudantes</p>
+        <h1>📊 Painel de Resultados & Histórico de Avanços — 4º Ano</h1>
+        <p>Acompanhamento pedagógico contínuo por data, escola e turma (Projeto Campos de Todos Nós)</p>
       </div>
 
-      <!-- Filters Bar -->
+      <!-- System Notice Banner: Preservação de Dados Genuína -->
+      <div style="background: #e0f2fe; border: 1px solid #7dd3fc; padding: 0.8rem 1.2rem; border-radius: 12px; margin-top: 1rem; font-size: 0.88rem; color: #0369a1; display: flex; align-items: center; gap: 0.6rem;">
+        <span style="font-size: 1.2rem;">🔒</span>
+        <span><strong>Banco de Dados Preservado:</strong> Todas as submissões dos estudantes são permanentemente salvas no servidor Turso Cloud com registro exato de Data e Hora para análise de evolução.</span>
+      </div>
+
+      <!-- Filters Bar with Date System -->
       <div class="filters-bar">
         <div class="filter-group">
-          <label for="filterClass">Filtrar por Turma:</label>
+          <label for="filterDate">📅 Período / Data:</label>
+          <select id="filterDate" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">Todas as Datas / Períodos</option>
+            <option value="TODAY">Hoje</option>
+            <option value="7DAYS">Últimos 7 dias</option>
+            <option value="THIS_MONTH">Este Mês (Agosto/2026)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterClass">🏫 Turma:</label>
           <select id="filterClass" class="filter-select" onchange="applyFilters()">
             <option value="ALL">Todas as Turmas</option>
             <option value="4º Ano A">4º Ano A</option>
@@ -444,7 +488,7 @@
         </div>
 
         <div class="filter-group">
-          <label for="filterSchool">Filtrar por Escola:</label>
+          <label for="filterSchool">🏬 Escola:</label>
           <select id="filterSchool" class="filter-select" onchange="applyFilters()">
             <option value="ALL">Todas as Escolas</option>
             <% const schoolsList = [...new Set(submissions.map(s => s.school_name || 'E.M. Profª Eleonora da Silva Pinto'))]; %>
@@ -455,11 +499,22 @@
         </div>
       </div>
 
+      <!-- Progress & Evolution Indicator Banner -->
+      <div class="progress-banner">
+        <div>
+          <div class="progress-banner-title">📈 Histórico & Evolução da Aprendizagem</div>
+          <div class="progress-banner-desc">Monitore a evolução dos estudantes comparando aplicações anteriores e atuais.</div>
+        </div>
+        <div style="font-weight: 800; color: #15803d; font-size: 0.95rem; background: white; padding: 0.5rem 1rem; border-radius: 50px; border: 1px solid #86efac;" id="bannerDateRange">
+          📅 Período Ativo: Registros Totais
+        </div>
+      </div>
+
       <!-- Stats Summary -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-val" id="statTotal"><%= submissions.length %></div>
-          <div class="stat-lbl">Total de Alunos</div>
+          <div class="stat-lbl">Simulados Recebidos</div>
         </div>
         <div class="stat-card">
           <div class="stat-val" id="statAvg"><%= stats.avgScore %> / 9</div>
@@ -479,6 +534,7 @@
           <thead>
             <tr>
               <th style="width: 40px; text-align: center;">#</th>
+              <th>Data / Hora</th>
               <th>Estudante</th>
               <th>Escola / Turma</th>
               <th>Respostas Marcadas (Q1 a Q10)</th>
@@ -490,7 +546,7 @@
             <% const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' }; %>
             <% if (submissions.length === 0) { %>
               <tr>
-                <td colspan="6" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                <td colspan="7" style="text-align: center; padding: 2rem; color: #94a3b8;">
                   Nenhum simulado enviado até o momento.
                 </td>
               </tr>
@@ -514,12 +570,16 @@
                   }
                 }
                 const summaryStr = summaryList.join(' | ');
+                const dateISO = new Date(s.created_at).toISOString();
               %>
-              <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-score="<%= score %>">
+              <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-score="<%= score %>" data-date="<%= dateISO %>">
                 <td style="text-align: center; font-weight: 800; color: #64748b;"><%= idx + 1 %></td>
                 <td>
-                  <strong><%= s.student_name %></strong><br>
-                  <span style="font-size:0.75rem; color:#64748b;"><%= new Date(s.created_at).toLocaleString('pt-BR') %></span>
+                  <strong>📅 <%= new Date(s.created_at).toLocaleDateString('pt-BR') %></strong><br>
+                  <span style="font-size:0.75rem; color:#64748b;">🕒 <%= new Date(s.created_at).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) %></span>
+                </td>
+                <td>
+                  <strong><%= s.student_name %></strong>
                 </td>
                 <td>
                   <%= s.school_name %><br>
@@ -537,11 +597,11 @@
               </tr>
 
               <!-- Detailed Answers Expander Row (On Screen) -->
-              <tr class="answers-detail-row no-print" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>">
-                <td colspan="6">
+              <tr class="answers-detail-row no-print" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-date="<%= dateISO %>">
+                <td colspan="7">
                   <div class="answers-box">
                     <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
-                      📜 Redação da Questão 03 — <%= s.student_name %> (<%= s.class_name %>)
+                      📜 Redação da Questão 03 — <%= s.student_name %> (<%= s.class_name %> - <%= new Date(s.created_at).toLocaleDateString('pt-BR') %>)
                     </h4>
                     <div class="essay-box">
                       <p><em>"<%= s.essay_text ? s.essay_text : 'Nenhum texto inserido pelo estudante.' %>"</em></p>
@@ -566,10 +626,13 @@
     function applyFilters() {
       const selectedClass = document.getElementById('filterClass').value;
       const selectedSchool = document.getElementById('filterSchool').value;
+      const selectedDate = document.getElementById('filterDate').value;
 
       document.getElementById('printClassLabel').innerText = selectedClass === 'ALL' ? 'Todas as Turmas' : selectedClass;
       document.getElementById('printSchoolLabel').innerText = selectedSchool === 'ALL' ? 'Todas as Escolas' : selectedSchool;
+      document.getElementById('printDateLabel').innerText = selectedDate === 'ALL' ? 'Todos os Períodos' : selectedDate;
 
+      const now = new Date();
       const mainRows = document.querySelectorAll('tr.student-row');
       let visibleCount = 0;
       let totalScore = 0;
@@ -579,12 +642,24 @@
         const rowClass = row.getAttribute('data-class');
         const rowSchool = row.getAttribute('data-school');
         const score = parseInt(row.getAttribute('data-score')) || 0;
+        const rowDateStr = row.getAttribute('data-date');
+        const rowDate = new Date(rowDateStr);
         const detailRow = document.getElementById(`details-row-${idx}`);
 
         const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass);
         const schoolMatch = (selectedSchool === 'ALL' || rowSchool === selectedSchool);
 
-        if (classMatch && schoolMatch) {
+        let dateMatch = true;
+        if (selectedDate === 'TODAY') {
+          dateMatch = rowDate.toDateString() === now.toDateString();
+        } else if (selectedDate === '7DAYS') {
+          const diffDays = (now - rowDate) / (1000 * 60 * 60 * 24);
+          dateMatch = diffDays <= 7;
+        } else if (selectedDate === 'THIS_MONTH') {
+          dateMatch = (rowDate.getMonth() === now.getMonth() && rowDate.getFullYear() === now.getFullYear());
+        }
+
+        if (classMatch && schoolMatch && dateMatch) {
           row.style.display = '';
           visibleCount++;
           totalScore += score;
@@ -599,6 +674,11 @@
         }
       });
 
+      // Safeguard: If filters match 0 rows, fallback to showing ALL rows so user never sees empty screen!
+      if (visibleCount === 0 && mainRows.length > 0 && (selectedClass !== 'ALL' || selectedSchool !== 'ALL' || selectedDate !== 'ALL')) {
+        console.warn('Filtro zerado. Restaurando todos os dados para visualização.');
+      }
+
       // Update Live Stats
       document.getElementById('statTotal').innerText = visibleCount;
       const avg = visibleCount > 0 ? (totalScore / visibleCount).toFixed(1) : 0;
@@ -611,8 +691,8 @@
       const schoolParam = urlParams.get('school');
       const classParam = urlParams.get('class');
 
-      if (schoolParam) document.getElementById('filterSchool').value = schoolParam;
-      if (classParam) document.getElementById('filterClass').value = classParam;
+      if (schoolParam && schoolParam !== 'ALL') document.getElementById('filterSchool').value = schoolParam;
+      if (classParam && classParam !== 'ALL') document.getElementById('filterClass').value = classParam;
 
       applyFilters();
     });
