@@ -448,6 +448,34 @@
         display: table-header-group;
       }
 
+      /* Gabarito Oficial no PDF */
+      .gabarito-card {
+        display: block !important;
+        border: 1.5px solid #64748b !important;
+        padding: 0.6rem !important;
+        margin-bottom: 0.8rem !important;
+        border-radius: 8px !important;
+        background: #ffffff !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      #gabaritoContent {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        gap: 0.5rem !important;
+        margin-top: 0.4rem !important;
+      }
+
+      #toggleGabaritoBtn {
+        display: none !important;
+      }
+
+      .gabarito-item[style*="display: none"] {
+        display: none !important;
+      }
+
       tr {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
@@ -456,11 +484,15 @@
       tr.student-row {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
       }
 
       tr.answers-detail-row {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
+        page-break-before: avoid !important;
+        break-before: avoid !important;
       }
 
       th, td {
@@ -550,7 +582,7 @@
 
         <div id="gabaritoContent" style="display: none; margin-top: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
           <!-- 1º Ano -->
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-1ano-agosto-2026" data-grade="1º Ano" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
               🥇 Gabarito 1º Ano
             </div>
@@ -563,7 +595,7 @@
           </div>
 
           <!-- 2º Ano -->
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-2ano-agosto-2026" data-grade="2º Ano" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
               🥈 Gabarito 2º Ano
             </div>
@@ -576,7 +608,7 @@
           </div>
 
           <!-- 3º Ano -->
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-3ano-agosto-2026" data-grade="3º Ano" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
               🥉 Gabarito 3º Ano
             </div>
@@ -589,7 +621,7 @@
           </div>
 
           <!-- 4º Ano -->
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-4ano-agosto-2026" data-grade="4º Ano" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
               🎯 Gabarito 4º Ano
             </div>
@@ -602,7 +634,7 @@
           </div>
 
           <!-- 5º Ano -->
-          <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem; border-left: 4px solid #10b981;">
+          <div class="gabarito-item" data-simulado="campos-5ano-agosto-2026" data-grade="5º Ano" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem; border-left: 4px solid #10b981;">
             <div style="font-weight: 800; color: #059669; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
               🚀 Gabarito 5º Ano
             </div>
@@ -872,14 +904,14 @@
                   <span class="score-badge <%= badgeClass %>"><%= score %> / 9 acertos</span>
                 </td>
                 <td class="no-print" style="white-space: nowrap;">
-                  <button class="btn-toggle-answers" onclick="toggleDetails(<%= idx %>)">👁️ Redação</button>
+                  <button class="btn-toggle-answers" onclick="toggleDetails('<%= s.id %>')">👁️ Redação</button>
                   <button class="btn-edit" onclick="openEditModal(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`, `<%= s.school_name.replace(/`/g, '') %>`, `<%= s.class_name %>`, `<%= s.shift || 'Manhã' %>`)" style="background:#0284c7; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">✏️ Editar</button>
                   <button class="btn-delete" onclick="deleteStudentSubmission(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`)" style="background:#ef4444; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">🗑️ Apagar</button>
                 </td>
               </tr>
 
               <!-- Detailed Answers Expander Row (On Screen & PDF Print) -->
-              <tr class="answers-detail-row <%= s.essay_text ? 'has-essay' : 'no-print' %>" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-date="<%= dateISO %>">
+              <tr class="answers-detail-row <%= s.essay_text ? 'has-essay' : 'no-print' %>" id="details-row-<%= s.id %>" data-id="<%= s.id %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-date="<%= dateISO %>">
                 <td colspan="8">
                   <div class="answers-box">
                     <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
@@ -940,6 +972,22 @@
       let visibleCount = 0;
       let totalScore = 0;
       let visibleEssays = 0;
+
+      // Filter Gabarito Cards based on selectedSimulado and selectedClass
+      const gabaritoItems = document.querySelectorAll('.gabarito-item');
+      gabaritoItems.forEach(item => {
+        const itemSimulado = item.getAttribute('data-simulado');
+        const itemGrade = item.getAttribute('data-grade');
+
+        const simMatch = (selectedSimulado === 'ALL' || itemSimulado === selectedSimulado);
+        const classMatch = (selectedClass === 'ALL' || itemGrade === selectedClass || (selectedClass && selectedClass.includes(itemGrade)));
+
+        if (simMatch && classMatch) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
 
       // Comparative Data Accumulators
       const shiftData = {
