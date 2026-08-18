@@ -306,7 +306,7 @@ app.post('/api/simulado/submit', async (req, res) => {
 
 app.get('/admin/simulado/resultados', async (req, res) => {
   try {
-    const simuladoId = req.query.simulado_id || 'campos-4ano-agosto-2026';
+    const simuladoId = req.query.simulado_id || 'ALL';
     const submissions = await dbHelper.getSimuladoSubmissions(simuladoId);
     const stats = await dbHelper.getSimuladoStats(simuladoId);
     

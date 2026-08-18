@@ -564,18 +564,26 @@ const dbHelper = {
     );
   },
 
-  async getSimuladoSubmissions(simulado_id = 'campos-4ano-agosto-2026') {
+  async getSimuladoSubmissions(simulado_id = 'ALL') {
+    if (!simulado_id || simulado_id === 'ALL') {
+      return await queryAll("SELECT * FROM simulado_submissions ORDER BY created_at DESC");
+    }
     return await queryAll(
       "SELECT * FROM simulado_submissions WHERE simulado_id = ? ORDER BY created_at DESC",
       [simulado_id]
     );
   },
 
-  async getSimuladoStats(simulado_id = 'campos-4ano-agosto-2026') {
-    const rows = await queryAll(
-      "SELECT score, max_score FROM simulado_submissions WHERE simulado_id = ?",
-      [simulado_id]
-    );
+  async getSimuladoStats(simulado_id = 'ALL') {
+    let rows = [];
+    if (!simulado_id || simulado_id === 'ALL') {
+      rows = await queryAll("SELECT score, max_score FROM simulado_submissions");
+    } else {
+      rows = await queryAll(
+        "SELECT score, max_score FROM simulado_submissions WHERE simulado_id = ?",
+        [simulado_id]
+      );
+    }
     const total = rows.length;
     if (total === 0) return { total: 0, avgScore: 0 };
     const sum = rows.reduce((acc, r) => acc + (r.score || 0), 0);

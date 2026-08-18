@@ -674,9 +674,32 @@
         }
       });
 
-      // Safeguard: If filters match 0 rows, fallback to showing ALL rows so user never sees empty screen!
+      // Safeguard: If filters match 0 rows, auto-reset to ALL so user NEVER sees an empty screen!
       if (visibleCount === 0 && mainRows.length > 0 && (selectedClass !== 'ALL' || selectedSchool !== 'ALL' || selectedDate !== 'ALL')) {
-        console.warn('Filtro zerado. Restaurando todos os dados para visualização.');
+        console.warn('Filtro zerado. Restaurando exibição de todas as turmas/escolas.');
+        document.getElementById('filterClass').value = 'ALL';
+        document.getElementById('filterSchool').value = 'ALL';
+        document.getElementById('filterDate').value = 'ALL';
+        
+        document.getElementById('printClassLabel').innerText = 'Todas as Turmas';
+        document.getElementById('printSchoolLabel').innerText = 'Todas as Escolas';
+        document.getElementById('printDateLabel').innerText = 'Todos os Períodos';
+
+        visibleCount = 0;
+        totalScore = 0;
+        visibleEssays = 0;
+
+        mainRows.forEach((row, idx) => {
+          row.style.display = '';
+          visibleCount++;
+          const score = parseInt(row.getAttribute('data-score')) || 0;
+          totalScore += score;
+          const detailRow = document.getElementById(`details-row-${idx}`);
+          if (detailRow) {
+            const essayText = detailRow.querySelector('.essay-box p').innerText;
+            if (essayText && !essayText.includes('Nenhum texto')) visibleEssays++;
+          }
+        });
       }
 
       // Update Live Stats
@@ -687,13 +710,10 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const schoolParam = urlParams.get('school');
-      const classParam = urlParams.get('class');
-
-      if (schoolParam && schoolParam !== 'ALL') document.getElementById('filterSchool').value = schoolParam;
-      if (classParam && classParam !== 'ALL') document.getElementById('filterClass').value = classParam;
-
+      // By default, always show ALL students unless explicitly filtered
+      document.getElementById('filterSchool').value = 'ALL';
+      document.getElementById('filterClass').value = 'ALL';
+      document.getElementById('filterDate').value = 'ALL';
       applyFilters();
     });
   </script>
