@@ -834,8 +834,8 @@
         const detailRow = document.getElementById(`details-row-${idx}`);
 
         const simuladoMatch = (selectedSimulado === 'ALL' || rowSimulado === selectedSimulado);
-        const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass);
-        const schoolMatch = (selectedSchool === 'ALL' || rowSchool === selectedSchool);
+        const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass || (rowClass && selectedClass && rowClass.includes(selectedClass)));
+        const schoolMatch = (selectedSchool === 'ALL' || rowSchool === selectedSchool || (rowSchool && selectedSchool && rowSchool.includes(selectedSchool)));
         const shiftMatch = (selectedShift === 'ALL' || rowShift === selectedShift);
 
         let dateMatch = true;
