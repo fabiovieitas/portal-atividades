@@ -300,14 +300,14 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 10mm 12mm;
+        margin: 8mm 10mm;
       }
 
       body {
         background: white !important;
         padding: 0 !important;
         color: #000 !important;
-        font-size: 9pt !important;
+        font-size: 8.5pt !important;
       }
 
       .container {
@@ -317,7 +317,7 @@
         padding: 0 !important;
       }
 
-      .top-actions, .filters-bar, .no-print, .header-info, .btn-toggle-answers, .progress-banner {
+      .top-actions, .filters-bar, .no-print, .header-info, .btn-toggle-answers, .progress-banner, .btn-edit, .btn-delete {
         display: none !important;
       }
 
@@ -332,22 +332,74 @@
         display: flex !important;
         justify-content: space-around !important;
         gap: 0.5rem !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 0.8rem !important;
       }
 
       .stat-card {
-        padding: 0.5rem 1rem !important;
-        background: #f1f5f9 !important;
+        padding: 0.4rem 0.8rem !important;
+        background: #f8fafc !important;
         border: 1px solid #cbd5e1 !important;
-        border-radius: 8px !important;
+        border-radius: 6px !important;
       }
 
       .stat-val {
-        font-size: 1.4rem !important;
+        font-size: 1.3rem !important;
       }
 
       .stat-lbl {
         font-size: 0.75rem !important;
+      }
+
+      /* Painel Comparativo & Taxa de Acertos no PDF */
+      .comparative-container {
+        display: block !important;
+        margin: 0.8rem 0 !important;
+        padding: 0.8rem !important;
+        background: #ffffff !important;
+        border: 1.5px solid #64748b !important;
+        border-radius: 10px !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      #questionComparisonGrid {
+        display: grid !important;
+        grid-template-columns: repeat(9, 1fr) !important;
+        gap: 0.3rem !important;
+      }
+
+      #questionComparisonGrid > div {
+        padding: 0.3rem 0.1rem !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 6px !important;
+        background: #f8fafc !important;
+        text-align: center !important;
+      }
+
+      /* Redação dos Alunos no PDF */
+      tr.answers-detail-row.has-essay {
+        display: table-row !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .answers-box {
+        padding: 0.5rem 0.8rem !important;
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 8px !important;
+        margin: 0.3rem 0 !important;
+      }
+
+      .essay-box {
+        background: #fffbeb !important;
+        border: 1px solid #fde68a !important;
+        padding: 0.5rem 0.8rem !important;
+        border-radius: 6px !important;
+        font-size: 8.5pt !important;
+        line-height: 1.4 !important;
+        color: #000 !important;
       }
 
       /* Official Print Header */
@@ -580,7 +632,7 @@
       </div>
 
       <!-- Section: Painel Comparativo de Desempenho (Tempo Real) -->
-      <div class="comparative-container no-print" style="margin: 1.5rem 0 2rem 0; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03);">
+      <div class="comparative-container" style="margin: 1.5rem 0 2rem 0; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03);">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
@@ -588,7 +640,7 @@
             </h3>
             <p style="font-size: 0.88rem; color: #64748b; margin-top: 0.2rem;">Comparação instantânea entre Escolas, Turnos (Manhã x Tarde) e Taxa de Acertos por Questão</p>
           </div>
-          <span style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; font-weight: 800; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid #bae6fd;">
+          <span class="no-print" style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; font-weight: 800; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid #bae6fd;">
             ⚡ Atualização Dinâmica
           </span>
         </div>
@@ -716,8 +768,8 @@
                 </td>
               </tr>
 
-              <!-- Detailed Answers Expander Row (On Screen) -->
-              <tr class="answers-detail-row no-print" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-date="<%= dateISO %>">
+              <!-- Detailed Answers Expander Row (On Screen & PDF Print) -->
+              <tr class="answers-detail-row <%= s.essay_text ? 'has-essay' : 'no-print' %>" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-date="<%= dateISO %>">
                 <td colspan="7">
                   <div class="answers-box">
                     <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
