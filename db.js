@@ -78,6 +78,18 @@ try {
       class_name TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+    CREATE TABLE IF NOT EXISTS simulado_submissions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      simulado_id TEXT DEFAULT 'campos-4ano-agosto-2026',
+      student_name TEXT NOT NULL,
+      school_name TEXT,
+      class_name TEXT,
+      answers_json TEXT NOT NULL,
+      score INTEGER DEFAULT 0,
+      max_score INTEGER DEFAULT 9,
+      essay_text TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   try { sqlite.exec("ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;"); } catch(e){}
@@ -544,6 +556,35 @@ const dbHelper = {
     await queryRun("DELETE FROM school_classes WHERE id = ?", [id]);
   },
 
+  // Simulado Digital Submissions
+  async saveSimuladoSubmission({ simulado_id = 'campos-4ano-agosto-2026', student_name, school_name, class_name, answers_json, score, max_score = 9, essay_text }) {
+    await queryRun(
+      "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
+      [simulado_id, student_name, school_name || '', class_name || '', JSON.stringify(answers_json || {}), score || 0, max_score || 9, essay_text || '']
+    );
+  },
+
+  async getSimuladoSubmissions(simulado_id = 'campos-4ano-agosto-2026') {
+    return await queryAll(
+      "SELECT * FROM simulado_submissions WHERE simulado_id = ? ORDER BY created_at DESC",
+      [simulado_id]
+    );
+  },
+
+  async getSimuladoStats(simulado_id = 'campos-4ano-agosto-2026') {
+    const rows = await queryAll(
+      "SELECT score, max_score FROM simulado_submissions WHERE simulado_id = ?",
+      [simulado_id]
+    );
+    const total = rows.length;
+    if (total === 0) return { total: 0, avgScore: 0 };
+    const sum = rows.reduce((acc, r) => acc + (r.score || 0), 0);
+    return {
+      total,
+      avgScore: (sum / total).toFixed(1)
+    };
+  },
+
   // 11. Students Management
   async getStudentsByClass(classId) {
     return await queryAll("SELECT * FROM students WHERE class_id = ? ORDER BY name ASC", [classId]);
@@ -698,6 +739,18 @@ async function initTables() {
       name TEXT NOT NULL,
       grade_level TEXT,
       access_code TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS simulado_submissions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      simulado_id TEXT DEFAULT 'campos-4ano-agosto-2026',
+      student_name TEXT NOT NULL,
+      school_name TEXT,
+      class_name TEXT,
+      answers_json TEXT NOT NULL,
+      score INTEGER DEFAULT 0,
+      max_score INTEGER DEFAULT 9,
+      essay_text TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );`
   ];
@@ -935,6 +988,13 @@ async function initTables() {
           activity_url: "/atividades/brincando-com-arie-3",
           icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-3/screenshots/brincando-com-arie-3-01.jpg",
           level: "1-5", category: "Alfabetização Avançada", bncc_code: "EF01LP12, EF02LP01, EF02MA05", subject: "Português"
+        },
+        {
+          title: "📝 Simulado Digital 4º Ano: Campos de Todos Nós (Agosto/2026)",
+          description: "Simulado digital oficial do Projeto Campos de Todos Nós! 10 questões interativas com cartão resposta em tempo real, redação e correção automática.",
+          activity_url: "/atividades/simulado-campos-4ano",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3593/3593452.png",
+          level: "1-5", category: "Simulados & Avaliações", bncc_code: "EF35LP05, EF04GE11, EF04MA01, EF04CI04", subject: "Geral"
         }
       ];
 

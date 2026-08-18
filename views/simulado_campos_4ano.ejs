@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado Digital 4º Ano - Campos dos Goytacazes | Portal de Atividades</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --danger: #ef4444;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      --shadow-hover: 0 20px 30px -10px rgba(2, 132, 199, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    /* Top Navigation Header */
+    .top-header {
+      background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%);
+      color: white;
+      padding: 1.5rem 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .top-header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .header-branding {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-title h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .header-title p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .nav-back-btn {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .nav-back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Main Container Layout */
+    .main-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Student Info Box */
+    .student-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      border: 2px solid #e0f2fe;
+    }
+
+    .student-card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 650px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-control {
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Question Cards */
+    .question-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+      scroll-margin-top: 100px;
+    }
+
+    .question-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px dashed #f1f5f9;
+    }
+
+    .question-tag {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.4rem 0.9rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .bncc-tag {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: #f1f5f9;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    /* Dialog Box Component */
+    .dialog-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .avatar-icon {
+      width: 44px;
+      height: 44px;
+      background: #fef3c7;
+      color: #b45309;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .dialog-content strong {
+      color: #92400e;
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .dialog-content p {
+      font-size: 0.95rem;
+      color: #334155;
+    }
+
+    /* Text Content Container */
+    .story-box {
+      background: #fffbeb;
+      border: 2px solid #fde68a;
+      border-radius: 14px;
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      color: #78350f;
+    }
+
+    .story-box h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+      color: #92400e;
+    }
+
+    .story-box p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .question-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Options List */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: center;
+      padding: 0.9rem 1.2rem;
+      background: #f8fafc;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .option-label:hover {
+      background: #f0f9ff;
+      border-color: #7dd3fc;
+    }
+
+    .option-input {
+      display: none;
+    }
+
+    .option-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      color: var(--text-muted);
+      margin-right: 1rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .option-input:checked + .option-label {
+      background: #e0f2fe;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+    }
+
+    .option-input:checked + .option-label .option-badge {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* Essay Question Textarea */
+    .essay-textarea {
+      width: 100%;
+      min-height: 160px;
+      padding: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      outline: none;
+      resize: vertical;
+      transition: all 0.2s;
+    }
+
+    .essay-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Sticky Sidebar - Cartão Resposta */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+
+    .cartao-resposta-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border: 2px solid #bae6fd;
+    }
+
+    .cartao-header {
+      text-align: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .cartao-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.2rem;
+    }
+
+    .cartao-header p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0.8rem 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+      transition: width 0.3s ease;
+    }
+
+    .bubble-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .bubble-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 0.5rem 0.8rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+
+    .bubble-row-q {
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      width: 38px;
+      cursor: pointer;
+    }
+
+    .bubble-row-q:hover {
+      color: var(--primary);
+    }
+
+    .bubbles-options {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .bubble-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .bubble-dot.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+    }
+
+    .bubble-dot.essay-done {
+      background: var(--success);
+      border-color: var(--success);
+      color: white;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+      width: 100%;
+      margin-top: 1.5rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 24px rgba(16, 185, 129, 0.4);
+    }
+
+    /* Result Overlay Modal */
+    .result-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .result-modal.active {
+      display: flex;
+    }
+
+    .result-content {
+      background: white;
+      border-radius: 24px;
+      max-width: 600px;
+      width: 100%;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+      color: var(--primary-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem auto;
+      border: 4px solid var(--primary);
+    }
+
+    .score-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .score-total {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* Feedback list in result */
+    .gabarito-list {
+      text-align: left;
+      margin: 1.5rem 0;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1rem;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+    }
+
+    .gabarito-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .gabarito-item:last-child {
+      border-bottom: none;
+    }
+
+    .badge-correct { color: var(--success); font-weight: 800; }
+    .badge-wrong { color: var(--danger); font-weight: 800; }
+
+    .modal-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* Table styles for Q7 */
+    .table-custom {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .table-custom th, .table-custom td {
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+    }
+
+    .table-custom th {
+      background: #f1f5f9;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Banner -->
+  <header class="top-header">
+    <div class="top-header-container">
+      <div class="header-branding">
+        <span class="header-badge">Campos dos Goytacazes</span>
+        <div class="header-title">
+          <h1>SIMULADO DIGITAL - 4º ANO</h1>
+          <p>Projeto Campos de Todos Nós • Blocos 1 e 2 (Agosto/2026)</p>
+        </div>
+      </div>
+      <a href="/" class="nav-back-btn">
+        <span>← Voltar ao Portal</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="main-container">
+    
+    <!-- Left Column: Student Info & Questions -->
+    <div class="content-col">
+
+      <!-- Student Identification Box -->
+      <section class="student-card">
+        <h2>👤 Identificação do Estudante</h2>
+        <form id="student-form" onsubmit="event.preventDefault();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="studentName">Nome Completo do Estudante *</label>
+              <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
+            </div>
+            <div class="form-group">
+              <label for="schoolName">Escola Municipal</label>
+              <input type="text" id="schoolName" class="form-control" placeholder="Nome da escola..." value="E.M. Campos de Todos Nós">
+            </div>
+            <div class="form-group">
+              <label for="className">Turma</label>
+              <input type="text" id="className" class="form-control" placeholder="Ex: 4º Ano A" value="4º Ano A">
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- QUESTÃO 1 (Língua Portuguesa) -->
+      <article class="question-card" id="q-card-1">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 01 • Língua Portuguesa</span>
+          <span class="bncc-tag">BNCC EF35LP05</span>
+        </div>
+
+        <div class="dialog-box">
+          <div class="avatar-icon">👩‍🏫</div>
+          <div class="dialog-content">
+            <strong>Professora Bia conversa com Mirela:</strong>
+            <p>"Mirela, quando dizemos que a comunidade de Campos precisa <em>preservar</em> o Rio Paraíba do Sul e os patrimônios históricos da nossa cidade, o que essa palavra significa no texto?"</p>
+          </div>
+        </div>
+
+        <p class="question-text">
+          Assinale a opção em que a palavra <strong>PRESERVAR</strong> possui o mesmo sentido empregado na fala da Professora Bia:
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q1" value="A" class="option-input" onchange="updateCartao(1, 'A')">
+            <span class="option-badge">A</span>
+            <span>Destruir as áreas antigas para construir novas estradas.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q1" value="B" class="option-input" onchange="updateCartao(1, 'B')">
+            <span class="option-badge">B</span>
+            <span>Proteger, cuidar e manter conservado contra danos ou destruição.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q1" value="C" class="option-input" onchange="updateCartao(1, 'C')">
+            <span class="option-badge">C</span>
+            <span>Esconder as riquezas naturais para que ninguém possa visitar.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q1" value="D" class="option-input" onchange="updateCartao(1, 'D')">
+            <span class="option-badge">D</span>
+            <span>Vender os monumentos históricos para outras cidades.</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 2 (Língua Portuguesa) -->
+      <article class="question-card" id="q-card-2">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 02 • Língua Portuguesa</span>
+          <span class="bncc-tag">BNCC EF35LP06</span>
+        </div>
+
+        <div class="dialog-box">
+          <div class="avatar-icon">👦</div>
+          <div class="dialog-content">
+            <strong>Enzo explicou ao grupo:</strong>
+            <p>"Os moradores ficaram muito felizes <strong>porque</strong> o Museu Histórico de Campos foi restaurado e reaberto para visitação das escolas."</p>
+          </div>
+        </div>
+
+        <p class="question-text">
+          A palavra destacada <strong>PORQUE</strong> estabelece na frase uma relação de:
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q2" value="A" class="option-input" onchange="updateCartao(2, 'A')">
+            <span class="option-badge">A</span>
+            <span>Tempo.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q2" value="B" class="option-input" onchange="updateCartao(2, 'B')">
+            <span class="option-badge">B</span>
+            <span>Oposição.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q2" value="C" class="option-input" onchange="updateCartao(2, 'C')">
+            <span class="option-badge">C</span>
+            <span>Dúvida.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q2" value="D" class="option-input" onchange="updateCartao(2, 'D')">
+            <span class="option-badge">D</span>
+            <span>Causa ou Motivo.</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 3 (Produção Textual / Redação) -->
+      <article class="question-card" id="q-card-3">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 03 • Produção Textual (Redação)</span>
+          <span class="bncc-tag">BNCC EF35LP25</span>
+        </div>
+
+        <div class="story-box">
+          <h3>📜 O Misterioso Encontro no Rio Paraíba do Sul</h3>
+          <p>
+            <em>"Era uma noite tranquila às margens do rio Paraíba do Sul. Mirela e Enzo estavam no Cais da Lapa observando as luzes refletidas na água, quando de repente viram algo brilhar intensamente perto das pedras..."</em>
+          </p>
+        </div>
+
+        <p class="question-text">
+          Continue a história acima! Escreva o que Mirela e Enzo encontraram, o que aconteceu em seguida e como essa aventura terminou (mínimo de 5 linhas):
+        </p>
+
+        <textarea id="q3Essay" class="essay-textarea" placeholder="Continue a história aqui com suas palavras..." oninput="updateEssayCartao()"></textarea>
+      </article>
+
+      <!-- QUESTÃO 4 (Língua Portuguesa) -->
+      <article class="question-card" id="q-card-4">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 04 • Língua Portuguesa</span>
+          <span class="bncc-tag">BNCC EF35LP21</span>
+        </div>
+
+        <div class="story-box">
+          <h3>👻 A Lenda da Curva da Loira</h3>
+          <p>
+            Dizem os antigos pescadores de Campos que, em noites de lua cheia, uma misteriosa luz surge na curva do rio próximo ao Trevo. Quem passa por lá escuta um suave canto. Enzo ficou curioso para saber como o mistério começou...
+          </p>
+        </div>
+
+        <p class="question-text">
+          No texto das lendas populares, o <strong>conflito gerador</strong> da narrativa é o momento em que:
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q4" value="A" class="option-input" onchange="updateCartao(4, 'A')">
+            <span class="option-badge">A</span>
+            <span>Os pescadores vão dormir cedo na praia.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q4" value="B" class="option-input" onchange="updateCartao(4, 'B')">
+            <span class="option-badge">B</span>
+            <span>Um fato misterioso ou inesperado quebra a rotina normal do lugar.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q4" value="C" class="option-input" onchange="updateCartao(4, 'C')">
+            <span class="option-badge">C</span>
+            <span>O sol nasce e todos voltam para a escola.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q4" value="D" class="option-input" onchange="updateCartao(4, 'D')">
+            <span class="option-badge">D</span>
+            <span>A prefeitura faz a limpeza do canal.</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 5 (Geografia) -->
+      <article class="question-card" id="q-card-5">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 05 • Geografia</span>
+          <span class="bncc-tag">BNCC EF04GE11</span>
+        </div>
+
+        <div class="dialog-box">
+          <div class="avatar-icon">🗺️</div>
+          <div class="dialog-content">
+            <strong>Projeto Campos de Todos Nós:</strong>
+            <p>O cartaz oficial da prefeitura apresenta a frase: <em>"Campos dos Goytacazes: Preservando nossa história e valorizando nossas comunidades."</em></p>
+          </div>
+        </div>
+
+        <p class="question-text">
+          Qual é o principal objetivo de divulgarmos cartazes e campanhas como essa nas escolas municipais?
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q5" value="A" class="option-input" onchange="updateCartao(5, 'A')">
+            <span class="option-badge">A</span>
+            <span>Incentivar o consumo de produtos importados de outros países.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q5" value="B" class="option-input" onchange="updateCartao(5, 'B')">
+            <span class="option-badge">B</span>
+            <span>Conscientizar os cidadãos sobre o valor da identidade e patrimônio local.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q5" value="C" class="option-input" onchange="updateCartao(5, 'C')">
+            <span class="option-badge">C</span>
+            <span>Proibir o acesso de estudantes aos museus e praças da cidade.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q5" value="D" class="option-input" onchange="updateCartao(5, 'D')">
+            <span class="option-badge">D</span>
+            <span>Apenas ornamentar as paredes sem qualquer função educativa.</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 6 (Artes Visual) -->
+      <article class="question-card" id="q-card-6">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 06 • Artes Visuais</span>
+          <span class="bncc-tag">BNCC EF15AR04</span>
+        </div>
+
+        <div class="dialog-box">
+          <div class="avatar-icon">🥁</div>
+          <div class="dialog-content">
+            <strong>Cultura & Patrimônio Imaterial:</strong>
+            <p>A apresentação do <strong>Jongo da Noinha</strong> reúne atabaques, saias rodadas coloridas, dança em roda e cantos tradicionais passados de geração em geração.</p>
+          </div>
+        </div>
+
+        <p class="question-text">
+          Os elementos visuais (cores das roupas, instrumentos e movimentos da dança) no Jongo servem para:
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q6" value="A" class="option-input" onchange="updateCartao(6, 'A')">
+            <span class="option-badge">A</span>
+            <span>Substituir as aulas de matemática por exercícios físicos.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q6" value="B" class="option-input" onchange="updateCartao(6, 'B')">
+            <span class="option-badge">B</span>
+            <span>Expressar a identidade cultural, a ancestralidade e o ritmo da tradição.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q6" value="C" class="option-input" onchange="updateCartao(6, 'C')">
+            <span class="option-badge">C</span>
+            <span>Mostrar como funciona uma fábrica de tecidos industriais.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q6" value="D" class="option-input" onchange="updateCartao(6, 'D')">
+            <span class="option-badge">D</span>
+            <span>Copiar estilos musicais modernos de fora do Brasil.</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 7 (Matemática - Ordenação) -->
+      <article class="question-card" id="q-card-7">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 07 • Matemática</span>
+          <span class="bncc-tag">BNCC EF04MA01</span>
+        </div>
+
+        <p class="question-text">
+          Observe a tabela de visitantes registrados nos pontos turísticos de Campos durante o último ano:
+        </p>
+
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Ponto Turístico / Cultural</th>
+              <th>Número de Visitantes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Solar do Colégio</td><td>9.730</td></tr>
+            <tr><td>Museu Histórico de Campos</td><td>12.845</td></tr>
+            <tr><td>Lira de Apolo</td><td>15.208</td></tr>
+            <tr><td>Catedral Santíssimo Salvador</td><td>18.412</td></tr>
+          </tbody>
+        </table>
+
+        <p class="question-text">
+          Assinale a opção que apresenta os pontos turísticos em <strong>ORDEM CRESCENTE</strong> de número de visitantes (do menor para o maior):
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q7" value="A" class="option-input" onchange="updateCartao(7, 'A')">
+            <span class="option-badge">A</span>
+            <span>Catedral (18.412) < Lira de Apolo (15.208) < Museu Histórico (12.845) < Solar do Colégio (9.730).</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q7" value="B" class="option-input" onchange="updateCartao(7, 'B')">
+            <span class="option-badge">B</span>
+            <span>Solar do Colégio (9.730) < Museu Histórico (12.845) < Lira de Apolo (15.208) < Catedral (18.412).</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q7" value="C" class="option-input" onchange="updateCartao(7, 'C')">
+            <span class="option-badge">C</span>
+            <span>Museu Histórico (12.845) < Solar do Colégio (9.730) < Catedral (18.412) < Lira de Apolo (15.208).</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q7" value="D" class="option-input" onchange="updateCartao(7, 'D')">
+            <span class="option-badge">D</span>
+            <span>Lira de Apolo (15.208) < Catedral (18.412) < Solar do Colégio (9.730) < Museu Histórico (12.845).</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 8 (Matemática - Decomposição) -->
+      <article class="question-card" id="q-card-8">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 08 • Matemática</span>
+          <span class="bncc-tag">BNCC EF04MA02</span>
+        </div>
+
+        <p class="question-text">
+          O ano de fundação de uma tradicional escola municipal de Campos é representado pelo número <strong>2.005</strong>. Qual é a decomposição correta desse número em suas ordens numéricas?
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q8" value="A" class="option-input" onchange="updateCartao(8, 'A')">
+            <span class="option-badge">A</span>
+            <span>2.000 + 5</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q8" value="B" class="option-input" onchange="updateCartao(8, 'B')">
+            <span class="option-badge">B</span>
+            <span>200 + 5</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q8" value="C" class="option-input" onchange="updateCartao(8, 'C')">
+            <span class="option-badge">C</span>
+            <span>20 + 50</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q8" value="D" class="option-input" onchange="updateCartao(8, 'D')">
+            <span class="option-badge">D</span>
+            <span>2.000 + 50</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 9 (Matemática - Valor Posicional) -->
+      <article class="question-card" id="q-card-9">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 09 • Matemática</span>
+          <span class="bncc-tag">BNCC EF04MA01</span>
+        </div>
+
+        <p class="question-text">
+          No número de visitantes do Museu Histórico (<strong>12.845</strong>), qual é o algarismo que ocupa a ordem das <strong>CENTENAS SIMPLES</strong>?
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q9" value="A" class="option-input" onchange="updateCartao(9, 'A')">
+            <span class="option-badge">A</span>
+            <span>1</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q9" value="B" class="option-input" onchange="updateCartao(9, 'B')">
+            <span class="option-badge">B</span>
+            <span>2</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q9" value="C" class="option-input" onchange="updateCartao(9, 'C')">
+            <span class="option-badge">C</span>
+            <span>8</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q9" value="D" class="option-input" onchange="updateCartao(9, 'D')">
+            <span class="option-badge">D</span>
+            <span>5</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- QUESTÃO 10 (Ciências) -->
+      <article class="question-card" id="q-card-10">
+        <div class="question-header">
+          <span class="question-tag">QUESTÃO 10 • Ciências Naturais</span>
+          <span class="bncc-tag">BNCC EF04CI04</span>
+        </div>
+
+        <div class="dialog-box">
+          <div class="avatar-icon">🌿</div>
+          <div class="dialog-content">
+            <strong>Passeio Ecológico ao Rio Paraíba:</strong>
+            <p>A turma do 4º Ano visitou a área de preservação ambiental perto da foz do rio e observou água limpa, plantas aquáticas, peixes, garças e a areia das margens.</p>
+          </div>
+        </div>
+
+        <p class="question-text">
+          Esses elementos observados pelos alunos representam componentes dos ambientes naturais classificados como:
+        </p>
+
+        <div class="options-grid">
+          <label class="option-label">
+            <input type="radio" name="q10" value="A" class="option-input" onchange="updateCartao(10, 'A')">
+            <span class="option-badge">A</span>
+            <span>Fatores vivos (bióticos) e fatores não vivos (abióticos) do ecossistema.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q10" value="B" class="option-input" onchange="updateCartao(10, 'B')">
+            <span class="option-badge">B</span>
+            <span>Materiais sintéticos produzidos exclusivamente por fábricas plásticas.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q10" value="C" class="option-input" onchange="updateCartao(10, 'C')">
+            <span class="option-badge">C</span>
+            <span>Elementos artificiais criados para decoração de computadores.</span>
+          </label>
+          <label class="option-label">
+            <input type="radio" name="q10" value="D" class="option-input" onchange="updateCartao(10, 'D')">
+            <span class="option-badge">D</span>
+            <span>Substâncias químicas nocivas que destroem a vegetação.</span>
+          </label>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Right Column: Cartão Resposta (Sticky Panel) -->
+    <aside class="sidebar">
+      <div class="cartao-resposta-card">
+        <div class="cartao-header">
+          <h3>📋 Cartão Resposta</h3>
+          <p>Sincronizado em tempo real</p>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <span id="progressText" style="font-size: 0.8rem; font-weight: 800; color: var(--primary);">0 de 10 respondidas</span>
+        </div>
+
+        <div class="bubble-grid">
+          <!-- Rows 1 to 10 -->
+          <% for(let i = 1; i <= 10; i++) { %>
+            <div class="bubble-row">
+              <span class="bubble-row-q" onclick="scrollToQuestion(<%= i %>)">Q<%= i < 10 ? '0' + i : i %></span>
+              <% if (i === 3) { %>
+                <span id="essayStatusBadge" style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; background: #f1f5f9; padding: 0.2rem 0.6rem; border-radius: 50px;">Aguardando Redação</span>
+              <% } else { %>
+                <div class="bubbles-options">
+                  <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
+                  <div class="bubble-dot" id="b-<%= i %>-B" onclick="selectFromBubble(<%= i %>, 'B')">B</div>
+                  <div class="bubble-dot" id="b-<%= i %>-C" onclick="selectFromBubble(<%= i %>, 'C')">C</div>
+                  <div class="bubble-dot" id="b-<%= i %>-D" onclick="selectFromBubble(<%= i %>, 'D')">D</div>
+                </div>
+              <% } %>
+            </div>
+          <% } %>
+        </div>
+
+        <button class="submit-btn" onclick="submitSimulado()">
+          <span>🚀 FINALIZAR E ENVIAR</span>
+        </button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Result Modal -->
+  <div class="result-modal" id="resultModal">
+    <div class="result-content">
+      <div class="score-circle">
+        <span class="score-num" id="scoreValue">0</span>
+        <span class="score-total">de 9 Objetivas</span>
+      </div>
+      <h2 style="font-family: 'Outfit', sans-serif; font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;" id="resultTitle">Simulado Concluído com Sucesso!</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;" id="resultSubtitle">Suas respostas e a redação foram salvas no servidor!</p>
+
+      <div class="gabarito-list" id="gabaritoList">
+        <!-- Filled dynamically -->
+      </div>
+
+      <button class="modal-btn" onclick="window.location.href='/'">Voltar ao Início</button>
+    </div>
+  </div>
+
+  <!-- Audio Pop Synth -->
+  <script>
+    const answerKey = {
+      1: 'B',
+      2: 'D',
+      4: 'B',
+      5: 'B',
+      6: 'B',
+      7: 'B',
+      8: 'A',
+      9: 'C',
+      10: 'A'
+    };
+
+    const studentAnswers = {};
+
+    function playPopSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08); // A5
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.08);
+      } catch(e){}
+    }
+
+    function scrollToQuestion(qNum) {
+      const el = document.getElementById(`q-card-${qNum}`);
+      if(el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function selectFromBubble(qNum, opt) {
+      const radio = document.querySelector(`input[name="q${qNum}"][value="${opt}"]`);
+      if(radio) {
+        radio.checked = true;
+        updateCartao(qNum, opt);
+      }
+    }
+
+    function updateCartao(qNum, opt) {
+      studentAnswers[qNum] = opt;
+      playPopSound();
+
+      // Clear previous dots in row
+      ['A', 'B', 'C', 'D'].forEach(o => {
+        const dot = document.getElementById(`b-${qNum}-${o}`);
+        if(dot) dot.classList.remove('selected');
+      });
+
+      // Highlight selected dot
+      const selectedDot = document.getElementById(`b-${qNum}-${opt}`);
+      if(selectedDot) selectedDot.classList.add('selected');
+
+      updateProgress();
+    }
+
+    function updateEssayCartao() {
+      const essay = document.getElementById('q3Essay').value.trim();
+      const badge = document.getElementById('essayStatusBadge');
+      if (essay.length >= 15) {
+        studentAnswers[3] = essay;
+        badge.innerText = '✓ Texto Concluído';
+        badge.style.background = '#10b981';
+        badge.style.color = 'white';
+      } else {
+        delete studentAnswers[3];
+        badge.innerText = 'Aguardando Redação';
+        badge.style.background = '#f1f5f9';
+        badge.style.color = '#94a3b8';
+      }
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const totalAnswered = Object.keys(studentAnswers).length;
+      const pct = (totalAnswered / 10) * 100;
+      document.getElementById('progressFill').style.width = `${pct}%`;
+      document.getElementById('progressText').innerText = `${totalAnswered} de 10 respondidas`;
+    }
+
+    async function submitSimulado() {
+      const nameInput = document.getElementById('studentName').value.trim();
+      if (!nameInput) {
+        alert('Por favor, informe seu Nome Completo na caixa de identificação antes de enviar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      const totalAnswered = Object.keys(studentAnswers).length;
+      if (totalAnswered < 10) {
+        if (!confirm(`Você respondeu ${totalAnswered} de 10 questões. Deseja realmente finalizar e enviar o simulado assim mesmo?`)) {
+          return;
+        }
+      }
+
+      // Calculate score for objective questions
+      let score = 0;
+      const gabaritoDetails = [];
+
+      for (let i = 1; i <= 10; i++) {
+        if (i === 3) continue; // Essay graded separately by teacher
+        const studentOpt = studentAnswers[i] || '—';
+        const correctOpt = answerKey[i];
+        const isCorrect = (studentOpt === correctOpt);
+        if (isCorrect) score++;
+
+        gabaritoDetails.push({
+          question: i,
+          studentOpt,
+          correctOpt,
+          isCorrect
+        });
+      }
+
+      const payload = {
+        simulado_id: 'campos-4ano-agosto-2026',
+        student_name: nameInput,
+        school_name: document.getElementById('schoolName').value.trim() || 'E.M. Campos de Todos Nós',
+        class_name: document.getElementById('className').value.trim() || '4º Ano A',
+        answers_json: studentAnswers,
+        score: score,
+        max_score: 9,
+        essay_text: document.getElementById('q3Essay').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/simulado/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        console.log('[Simulado Submit Response]:', data);
+      } catch(err) {
+        console.warn('Erro ao salvar no servidor:', err);
+      }
+
+      // Display result modal
+      document.getElementById('scoreValue').innerText = score;
+      const listEl = document.getElementById('gabaritoList');
+      listEl.innerHTML = gabaritoDetails.map(item => `
+        <div class="gabarito-item">
+          <span>Questão ${item.question < 10 ? '0' + item.question : item.question}: Sua resposta <strong>${item.studentOpt}</strong></span>
+          <span class="${item.isCorrect ? 'badge-correct' : 'badge-wrong'}">
+            ${item.isCorrect ? '✓ Correto (Gabarito ' + item.correctOpt + ')' : '✗ Errado (Gabarito ' + item.correctOpt + ')'}
+          </span>
+        </div>
+      `).join('') + `
+        <div class="gabarito-item" style="background: #e0f2fe; margin-top: 0.5rem; padding: 0.5rem; border-radius: 8px;">
+          <span>Questão 03 (Redação): <strong>${studentAnswers[3] ? 'Enviada para correção do professor' : 'Não respondida'}</strong></span>
+        </div>
+      `;
+
+      document.getElementById('resultModal').classList.add('active');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
