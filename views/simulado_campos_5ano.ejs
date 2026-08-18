@@ -15,8 +15,8 @@
 
   <style>
     :root {
-      --primary: #8b5cf6;
-      --primary-dark: #7c3aed;
+      --primary: #7c3aed;
+      --primary-dark: #6d28d9;
       --primary-light: #f3e8ff;
       --accent: #f59e0b;
       --bg-gradient: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
@@ -26,7 +26,7 @@
       --border-color: #cbd5e1;
       --radius-lg: 20px;
       --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 10px 25px -5px rgba(139, 92, 246, 0.1);
+      --shadow-md: 0 10px 25px -5px rgba(124, 58, 237, 0.1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -80,7 +80,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
     }
 
     .main-layout {
@@ -131,7 +131,44 @@
     .form-control:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    }
+
+    .reading-box {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border-left: 6px solid var(--primary);
+      box-shadow: var(--shadow-sm);
+      line-height: 1.7;
+    }
+    .reading-box h3 {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--primary-dark);
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+    .reading-box p {
+      font-size: 0.98rem;
+      color: #334155;
+      margin-bottom: 1rem;
+    }
+
+    .dialogue-box {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .dialogue-line {
+      margin-bottom: 0.6rem;
+    }
+    .dialogue-line strong {
+      color: var(--primary-dark);
     }
 
     .question-card {
@@ -166,6 +203,16 @@
       margin-bottom: 1.25rem;
     }
 
+    .q-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      margin: 1rem 0 1.5rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
+      display: block;
+    }
+
     .options-grid {
       display: flex;
       flex-direction: column;
@@ -173,7 +220,7 @@
     }
     .option-label {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       padding: 1rem 1.25rem;
       border: 2px solid #e2e8f0;
       border-radius: 14px;
@@ -186,6 +233,7 @@
       background: #faf5ff;
     }
     .option-label input[type="radio"] {
+      margin-top: 0.25rem;
       margin-right: 1rem;
       width: 20px;
       height: 20px;
@@ -194,17 +242,19 @@
     .option-text {
       font-size: 1rem;
       font-weight: 600;
+      line-height: 1.5;
     }
 
     .essay-textarea {
       width: 100%;
-      min-height: 140px;
+      min-height: 150px;
       padding: 1rem;
       border: 2px solid var(--border-color);
       border-radius: 14px;
       font-family: 'Outfit', sans-serif;
       font-size: 1rem;
       resize: vertical;
+      line-height: 1.6;
     }
 
     .gabarito-sidebar {
@@ -374,22 +424,32 @@
         </form>
       </section>
 
-      <!-- Intro Context Text -->
-      <div style="background: white; border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; border-left: 6px solid var(--primary); box-shadow: var(--shadow-sm);">
-        <h3 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); margin-bottom: 0.5rem;">📖 Projeto: Campos de Todos Nós!</h3>
-        <p style="font-size: 0.95rem; line-height: 1.6; color: #334155;">
-          CAMPOS DOS GOYTACAZES É UMA DAS MAIORES CIDADES DO ESTADO DO RIO DE JANEIRO E POSSUI UMA HISTÓRIA, UMA CULTURA E UMA NATUREZA MUITO ESPECIAIS. O RIO PARAÍBA DO SUL, A LENDA DO URURAU DA LAPA, O JONGO E O FAROL DE SÃO TOMÉ FAZEM PARTE DA MEMÓRIA E DA IDENTIDADE DO NOSSO POVO.
+      <!-- Full Introductory Text -->
+      <section class="reading-box">
+        <h3>📖 Projeto: Campos de Todos Nós!</h3>
+        <p>
+          Campos dos Goytacazes é uma das maiores cidades do estado do Rio de Janeiro e possui uma história, uma cultura e uma natureza muito especiais. O rio Paraíba do Sul faz parte da vida do município e ajudou no seu desenvolvimento ao longo dos anos. Nossa cidade também é rica em tradições. Uma delas é a <strong>Lenda do Ururau da Lapa</strong>, que conta a história de um enorme jacaré que vivia nas águas do rio Paraíba do Sul, próximo ao Cais da Lapa. Essa lenda faz parte do folclore campista e ajuda a preservar a memória e a identidade do nosso povo.
         </p>
-      </div>
+        <p>
+          Outra importante manifestação cultural é o <strong>Jongo</strong>, uma das tradições afro-brasileiras mais antigas de Campos. Com cantos, tambores e dança, o jongo representa a resistência, o respeito aos ancestrais e a valorização da cultura negra. Em nossa cidade, essa tradição é preservada por grupos como o Congola, liderado pela Mestra Noinha, e foi reconhecida como Patrimônio Cultural Imaterial pelo Iphan. Conhecer os pontos turísticos, as lendas, as tradições e a história de Campos é uma forma de valorizar nossa cidade e exercer a cidadania.
+        </p>
+        <div style="font-size: 0.8rem; color: var(--text-muted); font-style: italic; border-top: 1px solid #e2e8f0; pt-2; margin-top: 1rem;">
+          FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+        </div>
 
-      <!-- Dialogue Block -->
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.2rem; margin-bottom: 2rem; font-size: 0.95rem; line-height: 1.6;">
-        <strong style="color: var(--primary-dark);">💬 Diálogo entre Professora Bia, Mirela e Enzo:</strong><br><br>
-        <strong>Professora Bia:</strong> Pessoal, vocês conhecem a lenda do Ururau da Lapa?<br>
-        <strong>Enzo:</strong> Eu conheço! Dizem que o Ururau era um enorme jacaré que vivia nas águas do rio Paraíba do Sul, perto da Lapa.<br>
-        <strong>Mirela:</strong> Minha avó contou que essa é uma das lendas mais famosas de Campos. Ela faz parte da história e da cultura da nossa cidade.<br>
-        <strong>Professora Bia:</strong> Muito bem! As lendas ajudam a preservar a memória, as tradições e a identidade do nosso povo.
-      </div>
+        <!-- Dialogue Box -->
+        <div class="dialogue-box">
+          <div style="font-weight: 700; color: var(--primary-dark); margin-bottom: 0.6rem;">
+            💬 Leia o diálogo abaixo entre a professora Bia, Mirela e Enzo para responder as questões 01 e 02:
+          </div>
+          <div class="dialogue-line"><strong>Professora Bia:</strong> Pessoal, vocês conhecem a lenda do Ururau da Lapa?</div>
+          <div class="dialogue-line"><strong>Enzo:</strong> Eu conheço! Dizem que o Ururau era um enorme jacaré que vivia nas águas do rio Paraíba do Sul, perto da Lapa.</div>
+          <div class="dialogue-line"><strong>Mirela:</strong> Minha avó contou que essa é uma das lendas mais famosas de Campos dos Goytacazes. Ela faz parte da história e da cultura da nossa cidade.</div>
+          <div class="dialogue-line"><strong>Professora Bia:</strong> Muito bem! As lendas são histórias transmitidas de geração em geração. Elas ajudam a preservar a memória, as tradições e a identidade do nosso povo.</div>
+          <div class="dialogue-line"><strong>Enzo:</strong> Então, mesmo sendo uma lenda, ela é importante porque faz parte da cultura de Campos!</div>
+          <div class="dialogue-line"><strong>Professora Bia:</strong> Exatamente! Conhecer a Lenda do Ururau da Lapa é também conhecer um pedacinho da história e do folclore campista. Por isso, devemos valorizar e preservar as histórias da nossa cidade.</div>
+        </div>
+      </section>
 
       <!-- Question 1 -->
       <div class="question-card" id="q-card-1">
@@ -398,13 +458,13 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
         </div>
         <div class="q-text">
-          DE ACORDO COM O TEXTO, A LENDA DO URURAU DA LAPA É IMPORTANTE PARA CAMPOS DOS GOYTACAZES, POIS:
+          De acordo com o texto, a <strong>Lenda do Ururau da Lapa</strong> é importante para Campos dos Goytacazes, pois:
         </div>
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span class="option-text">A) ENSINA COMO CUIDAR DO RIO PARAÍBA DO SUL.</span></label>
-          <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span class="option-text">B) FAZ PARTE DA HISTÓRIA, DA CULTURA E DAS TRADIÇÕES DO POVO CAMPISTA.</span></label>
-          <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span class="option-text">C) CONTA A HISTÓRIA DE UM JACARÉ QUE REALMENTE VIVE NA CIDADE.</span></label>
-          <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span class="option-text">D) EXPLICA COMO SURGIU A CIDADE DE CAMPOS DOS GOYTACAZES.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span class="option-text">A) ensina como cuidar do Rio Paraíba do Sul.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span class="option-text">B) faz parte da história, da cultura e das tradições do povo campista.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span class="option-text">C) conta a história de um jacaré que realmente vive na cidade.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span class="option-text">D) explica como surgiu a cidade de Campos dos Goytacazes.</span></label>
         </div>
       </div>
 
@@ -415,29 +475,54 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
         </div>
         <div class="q-text">
-          SEGUNDO O DIÁLOGO, AS LENDAS AJUDAM A PRESERVAR:
+          Segundo o diálogo entre a Professora Bia, Mirela e Enzo, as lendas ajudam a preservar:
         </div>
+        <img src="/images/simulado_5ano_q2_livro.png" alt="Professora Bia apresentando a Lenda do Ururau" class="q-image">
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q2" value="A" onclick="updateCartao(2, 'A')"> <span class="option-text">A) OS ANIMAIS QUE VIVEM NO RIO PARAÍBA DO SUL.</span></label>
-          <label class="option-label"><input type="radio" name="q2" value="B" onclick="updateCartao(2, 'B')"> <span class="option-text">B) A MEMÓRIA, AS TRADIÇÕES E A IDENTIDADE DO POVO.</span></label>
-          <label class="option-label"><input type="radio" name="q2" value="C" onclick="updateCartao(2, 'C')"> <span class="option-text">C) AS CONSTRUÇÕES ANTIGAS DA CIDADE DE CAMPOS.</span></label>
-          <label class="option-label"><input type="radio" name="q2" value="D" onclick="updateCartao(2, 'D')"> <span class="option-text">D) AS REGRAS PARA PROTEGER O MEIO AMBIENTE.</span></label>
+          <label class="option-label"><input type="radio" name="q2" value="A" onclick="updateCartao(2, 'A')"> <span class="option-text">A) os animais que vem no rio Paraíba do Sul.</span></label>
+          <label class="option-label"><input type="radio" name="q2" value="B" onclick="updateCartao(2, 'B')"> <span class="option-text">B) a memória, as tradições e a identidade do povo.</span></label>
+          <label class="option-label"><input type="radio" name="q2" value="C" onclick="updateCartao(2, 'C')"> <span class="option-text">C) as construções antigas da cidade de Campos.</span></label>
+          <label class="option-label"><input type="radio" name="q2" value="D" onclick="updateCartao(2, 'D')"> <span class="option-text">D) as regras para proteger o meio ambiente.</span></label>
         </div>
       </div>
 
-      <!-- Question 3 (Escrita) -->
+      <!-- Question 3 (Redação / Resposta Escrita) -->
       <div class="question-card" id="q-card-3" style="border-left: 6px solid var(--primary);">
         <div class="question-header">
           <span class="q-number">Questão 03</span>
           <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark);">✍️ Produção de Texto (Reescrita da Lenda)</span>
         </div>
         <div class="q-text">
-          IMAGINE QUE VOCÊ ESTAVA PRESENTE QUANDO A HISTÓRIA DO URURAU DA LAPA ACONTECEU.<br>
-          <strong>REESCREVA O FINAL DA LENDA, CONTANDO COM SUAS PALAVRAS O QUE ACONTECEU DEPOIS DA APARIÇÃO DO URURAU.</strong><br>
-          <small style="color: var(--text-muted);">Dica: Escreva com sentido, frases completas e dê um desfecho interessante para a história!</small>
+          A lenda do Ururau da Lapa é uma história do folclore de Campos dos Goytacazes. As lendas são contadas de geração em geração para preservar a cultura, as tradições e a memória de um povo.<br><br>
+          <strong>AGORA É A SUA VEZ!</strong><br>
+          Imagine que você estava presente quando a história do Ururau da Lapa aconteceu. <strong>Reescreva o final da lenda</strong>, contando com suas palavras o que aconteceu depois da aparição do Ururau.<br><br>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1rem; font-size: 0.9rem; color: #475569; margin-bottom: 1rem;">
+            <strong>Não se esqueça de:</strong>
+            <ul style="margin-left: 1.2rem; margin-top: 0.4rem; display: flex; flex-direction: column; gap: 0.2rem;">
+              <li>✓ Escrever um final com sentido;</li>
+              <li>✓ Utilizar frases completas;</li>
+              <li>✓ Organizar bem as ideias;</li>
+              <li>✓ Dar um desfecho interessante para a história.</li>
+            </ul>
+          </div>
         </div>
-        <textarea id="q3Essay" class="essay-textarea" placeholder="Reescreva o final da lenda aqui..." oninput="updateEssayCartao()"></textarea>
+        <textarea id="q3Essay" class="essay-textarea" placeholder="Capriche na criatividade e escreva o final da lenda aqui..." oninput="updateEssayCartao()"></textarea>
       </div>
+
+      <!-- Reading Text for Questions 4 & 5 (Curva da Loira) -->
+      <section class="reading-box">
+        <h3>📖 A Lenda da Curva da Loira</h3>
+        <p>
+          Há muitos anos, os moradores de Campos dos Goytacazes contam uma história muito conhecida: a <strong>Lenda da Curva da Loira</strong>.
+        </p>
+        <p>
+          Segundo a lenda, em uma estrada da cidade que vai para a praia do Farol, existe uma curva onde, durante a noite, algumas pessoas dizem ter visto uma mulher loira vestida de branco. Conta-se que ela aparece de repente para os motoristas e, logo depois, desaparece misteriosamente.
+        </p>
+        <p>
+          Ninguém sabe ao certo quem era essa mulher nem se a história realmente aconteceu. Por isso, a Curva da Loira é considerada uma lenda, ou seja, uma narrativa popular transmitida de geração em geração que faz parte da cultura e da memória de Campos dos Goytacazes.
+        </p>
+        <img src="/images/simulado_5ano_q4_curvaloira.png" alt="Cena da Curva da Loira" class="q-image">
+      </section>
 
       <!-- Question 4 -->
       <div class="question-card" id="q-card-4">
@@ -446,14 +531,13 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
         </div>
         <div class="q-text">
-          LEIA O TEXTO DA <strong>LENDA DA CURVA DA LOIRA</strong> (Estrada que vai para a praia do Farol).<br><br>
-          O QUE TORNA A CURVA DA LOIRA UMA LENDA É QUE:
+          O que torna a <strong>Curva da Loira</strong> uma lenda é que:
         </div>
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q4" value="A" onclick="updateCartao(4, 'A')"> <span class="option-text">A) ELA CONTA UM FATO COMPROVADO POR DOCUMENTOS HISTÓRICOS.</span></label>
-          <label class="option-label"><input type="radio" name="q4" value="B" onclick="updateCartao(4, 'B')"> <span class="option-text">B) É UMA HISTÓRIA INVENTADA PARA EXPLICAR AS REGRAS DE TRÂNSITO.</span></label>
-          <label class="option-label"><input type="radio" name="q4" value="C" onclick="updateCartao(4, 'C')"> <span class="option-text">C) É UMA NARRATIVA POPULAR TRANSMITIDA DE GERAÇÃO EM GERAÇÃO, FAZENDO PARTE DA CULTURA DA CIDADE.</span></label>
-          <label class="option-label"><input type="radio" name="q4" value="D" onclick="updateCartao(4, 'D')"> <span class="option-text">D) FOI ESCRITA POR UM JORNALISTA PARA INFORMAR A POPULAÇÃO SOBRE DADOS GEOGRÁFICOS.</span></label>
+          <label class="option-label"><input type="radio" name="q4" value="A" onclick="updateCartao(4, 'A')"> <span class="option-text">A) ela conta um fato comprovado por documentos históricos.</span></label>
+          <label class="option-label"><input type="radio" name="q4" value="B" onclick="updateCartao(4, 'B')"> <span class="option-text">B) é uma história inventada para explicar as regras de trânsito.</span></label>
+          <label class="option-label"><input type="radio" name="q4" value="C" onclick="updateCartao(4, 'C')"> <span class="option-text">C) é uma narrativa popular transmitida de geração em geração, fazendo parte da cultura da cidade.</span></label>
+          <label class="option-label"><input type="radio" name="q4" value="D" onclick="updateCartao(4, 'D')"> <span class="option-text">D) foi escrita por um jornalista para informar a população sobre dados geográficos.</span></label>
         </div>
       </div>
 
@@ -464,13 +548,13 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa / Humor</span>
         </div>
         <div class="q-text">
-          A IMAGEM DA CURVA DA LOIRA DEIXA A CENA ENGRAÇADA PRINCIPALMENTE PORQUE:
+          A imagem da Curva da Loira deixa a cena engraçada principalmente porque:
         </div>
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q5" value="A" onclick="updateCartao(5, 'A')"> <span class="option-text">A) MOSTRA UMA SITUAÇÃO COMUM DO TRÂNSITO, SEM NENHUM DETALHE DIFERENTE.</span></label>
-          <label class="option-label"><input type="radio" name="q5" value="B" onclick="updateCartao(5, 'B')"> <span class="option-text">B) EXPLICA COMO SURGIU A ESTRADA ONDE ACONTECE A LENDA.</span></label>
-          <label class="option-label"><input type="radio" name="q5" value="C" onclick="updateCartao(5, 'C')"> <span class="option-text">C) APRESENTA INFORMAÇÕES REAIS SOBRE UM ACIDENTE DE TRÂNSITO OCORRIDO NUMA AVENIDA.</span></label>
-          <label class="option-label"><input type="radio" name="q5" value="D" onclick="updateCartao(5, 'D')"> <span class="option-text">D) MISTURA UMA PERSONAGEM DE UMA LENDA COM UMA ATITUDE INESPERADA E DIVERTIDA, PROVOCANDO HUMOR.</span></label>
+          <label class="option-label"><input type="radio" name="q5" value="A" onclick="updateCartao(5, 'A')"> <span class="option-text">A) mostra uma situação comum do trânsito, sem nenhum detalhe diferente.</span></label>
+          <label class="option-label"><input type="radio" name="q5" value="B" onclick="updateCartao(5, 'B')"> <span class="option-text">B) explica como surgiu a estrada onde acontece a lenda.</span></label>
+          <label class="option-label"><input type="radio" name="q5" value="C" onclick="updateCartao(5, 'C')"> <span class="option-text">C) apresenta informações reais sobre um acidente de trânsito que ocorre numa avenida.</span></label>
+          <label class="option-label"><input type="radio" name="q5" value="D" onclick="updateCartao(5, 'D')"> <span class="option-text">D) mistura uma personagem de uma lenda com uma atitude inesperada e divertida, provocando humor.</span></label>
         </div>
       </div>
 
@@ -478,16 +562,17 @@
       <div class="question-card" id="q-card-6">
         <div class="question-header">
           <span class="q-number">Questão 06</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #7c3aed;">Arte</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #7c3aed;">Arte / Patrimônio</span>
         </div>
         <div class="q-text">
-          OBSERVE O CARTAZ SOBRE OS PATRIMÔNIOS HISTÓRICOS E CULTURAIS DE CAMPOS DOS GOYTACAZES. OS PATRIMÔNIOS QUE APARECEM NA IMAGEM SÃO:
+          Observe atentamente o cartaz sobre os patrimônios históricos e culturais de Campos dos Goytacazes. Nele, são apresentados alguns patrimônios importantes da cidade. Os que aparecem na imagem são:
         </div>
+        <img src="/images/simulado_5ano_q6_patrimonios.png" alt="Patrimônios Históricos de Campos" class="q-image">
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q6" value="A" onclick="updateCartao(6, 'A')"> <span class="option-text">A) MUSEU NACIONAL E CRISTO REDENTOR.</span></label>
-          <label class="option-label"><input type="radio" name="q6" value="B" onclick="updateCartao(6, 'B')"> <span class="option-text">B) FAROL DE SÃO THOMÉ, CATEDRAL DO SANTÍSSIMO SALVADOR E CÂMARA MUNICIPAL DE VEREADORES.</span></label>
-          <label class="option-label"><input type="radio" name="q6" value="C" onclick="updateCartao(6, 'C')"> <span class="option-text">C) TEATRO MUNICIPAL DO RIO DE JANEIRO E PÃO DE AÇÚCAR.</span></label>
-          <label class="option-label"><input type="radio" name="q6" value="D" onclick="updateCartao(6, 'D')"> <span class="option-text">D) PRAÇA DOS TRÊS PODERES E MUSEU IMPERIAL.</span></label>
+          <label class="option-label"><input type="radio" name="q6" value="A" onclick="updateCartao(6, 'A')"> <span class="option-text">A) Museu Nacional e Cristo Redentor.</span></label>
+          <label class="option-label"><input type="radio" name="q6" value="B" onclick="updateCartao(6, 'B')"> <span class="option-text">B) Farol de São Thomé, Catedral do Santíssimo Salvador e Câmara Municipal de Vereadores.</span></label>
+          <label class="option-label"><input type="radio" name="q6" value="C" onclick="updateCartao(6, 'C')"> <span class="option-text">C) Teatro Municipal do Rio de Janeiro e Pão de Açúcar.</span></label>
+          <label class="option-label"><input type="radio" name="q6" value="D" onclick="updateCartao(6, 'D')"> <span class="option-text">D) Praça dos Três Poderes e Museu Imperial.</span></label>
         </div>
       </div>
 
@@ -498,11 +583,11 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
         </div>
         <div class="q-text">
-          ESTUDANTES ORGANIZARAM UM MURAL COM 10 ESPAÇOS IGUAIS PARA COLOCAR FOTOS DE CAMPOS:<br>
-          • ENZO UTILIZOU <strong>3/10</strong> DO MURAL (LAGOA DE CIMA).<br>
-          • MIRELA UTILIZOU <strong>5/10</strong> DO MURAL (FAROL DE SÃO TOMÉ).<br>
-          • EDUCARÉ UTILIZOU <strong>2/10</strong> DO MURAL (CATEDRAL DO SANTÍSSIMO SALVADOR).<br><br>
-          ORGANIZANDO AS FRAÇÕES DA <strong>MENOR PARA A MAIOR</strong> (ORDEM CRESCENTE), TEMOS:
+          Durante o projeto “Campos de Todos Nós!”, a professora Bia, Enzo, Mirela e o Educaréitaram alguns pontos importantes de Campos dos Goytacazes. Depois da visita, eles organizaram um mural com 10 espaços iguais para colocar fotografias dos lugares pesquisados.<br><br>
+          • Enzo utilizou <strong>3/10</strong> do mural com fotos da Lagoa de Cima.<br>
+          • Mirela utilizou <strong>5/10</strong> com fotos do Farol de São Tomé.<br>
+          • O Educaré utilizou <strong>2/10</strong> com fotos da Catedral do Santíssimo Salvador.<br><br>
+          A professora Bia pediu que eles organizassem as frações da <strong>menor para a maior (ordem crescente)</strong>. Qual alternativa apresenta a ordem crescente correta?
         </div>
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="q7" value="A" onclick="updateCartao(7, 'A')"> <span class="option-text">A) 5/10 – 3/10 – 2/10</span></label>
@@ -519,14 +604,15 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
         </div>
         <div class="q-text">
-          PARA A EXPOSIÇÃO, FORAM PREPARADOS <strong>8 PAINÉIS</strong>. EM CADA PAINEL, OS ESTUDANTES COLOCARAM <strong>24 FOTOGRAFIAS</strong> DE PONTOS TURÍSTICOS DE CAMPOS.<br><br>
-          QUANTAS FOTOGRAFIAS FORAM UTILIZADAS AO TODO NOS 8 PAINÉIS? (8 × 24)
+          A professora Bia, Enzo, Mirela e o Educaré organizaram uma exposição sobre os pontos turísticos, históricos e ambientais de Campos dos Goytacazes.<br><br>
+          Para a exposição, foram preparados <strong>8 painéis</strong>. Em cada painel, os estudantes colocaram <strong>24 fotografias</strong> de lugares como a Lagoa de Cima, o Farol de São Tomé e a Catedral do Santíssimo Salvador.<br><br>
+          Quantas fotografias foram utilizadas ao todo nos 8 painéis? (8 × 24)
         </div>
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')"> <span class="option-text">A) 32 FOTOGRAFIAS.</span></label>
-          <label class="option-label"><input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')"> <span class="option-text">B) 96 FOTOGRAFIAS.</span></label>
-          <label class="option-label"><input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')"> <span class="option-text">C) 192 FOTOGRAFIAS.</span></label>
-          <label class="option-label"><input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')"> <span class="option-text">D) 242 FOTOGRAFIAS.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')"> <span class="option-text">A) 32 fotografias.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')"> <span class="option-text">B) 96 fotografias.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')"> <span class="option-text">C) 192 fotografias.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')"> <span class="option-text">D) 242 fotografias.</span></label>
         </div>
       </div>
 
@@ -537,14 +623,14 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
         </div>
         <div class="q-text">
-          A TURMA PRODUZIU <strong>144 CARTÕES</strong> COM IMAGENS DA LAGOA DE CIMA, DO FAROL DE SÃO TOMÉ E DA CATEDRAL. A PROFESSORA BIA DECIDIU REPARTIR IGUALMENTE OS CARTÕES ENTRE <strong>12 GRUPOS</strong> DE ESTUDANTES.<br><br>
-          QUANTOS CARTÕES CADA GRUPO RECEBEU? (144 ÷ 12)
+          Para apresentar os trabalhos, a turma produziu <strong>144 cartões</strong> com imagens da Lagoa de Cima, do Farol de São Tomé, da Catedral do Santíssimo Salvador e de outros pontos importantes da cidade. A professora Bia decidiu repartir igualmente os cartões entre <strong>12 grupos</strong> de estudantes.<br><br>
+          Quantos cartões cada grupo recebeu? (144 ÷ 12)
         </div>
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span class="option-text">A) 10 CARTÕES.</span></label>
-          <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span class="option-text">B) 12 CARTÕES.</span></label>
-          <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span class="option-text">C) 14 CARTÕES.</span></label>
-          <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span class="option-text">D) 16 CARTÕES.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span class="option-text">A) 10 cartões.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span class="option-text">B) 12 cartões.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span class="option-text">C) 14 cartões.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span class="option-text">D) 16 cartões.</span></label>
         </div>
       </div>
 
@@ -555,14 +641,15 @@
           <span style="font-size: 0.85rem; font-weight: 700; color: #059669;">Ciências da Natureza</span>
         </div>
         <div class="q-text">
-          DURANTE A VISITA AOS PONTOS NATURAIS DE CAMPOS (RIO PARAÍBA DO SUL, LAGOA DE CIMA E FAROL DE SÃO TOMÉ), A PROFESSORA EXPLICOU QUE TODOS PODEM COLABORAR PARA CONSERVAR ESSES AMBIENTES.<br><br>
-          MARQUE A ATITUDE QUE AJUDA A PRESERVAR ESSES RECURSOS NATURAIS:
+          A Professora Bia levou Enzo e Mirela para conhecer alguns dos principais pontos naturais de Campos dos Goytacazes, como o rio Paraíba do Sul, a Lagoa de Cima e a praia do Farol de São Tomé. Durante a visita, eles aprenderam que esses locais são importantes para a natureza, para o lazer da população e para diversas atividades econômicas. A professora explicou que todos podem colaborar para conservar esses ambientes.<br><br>
+          Marque a atitude que ajuda a preservar esses recursos naturais:
         </div>
+        <img src="/images/simulado_5ano_q10_patrimonios.png" alt="Recursos Naturais e Patrimônios de Campos" class="q-image">
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q10" value="A" onclick="updateCartao(10, 'A')"> <span class="option-text">A) JOGAR LIXO NAS MARGENS DOS RIOS E LAGOAS.</span></label>
-          <label class="option-label"><input type="radio" name="q10" value="B" onclick="updateCartao(10, 'B')"> <span class="option-text">B) DESCARTAR ÓLEO DE COZINHA DIRETAMENTE NA ÁGUA.</span></label>
-          <label class="option-label"><input type="radio" name="q10" value="C" onclick="updateCartao(10, 'C')"> <span class="option-text">C) ECONOMIZAR ÁGUA E EVITAR A POLUIÇÃO DOS RIOS, LAGOAS E PRAIAS.</span></label>
-          <label class="option-label"><input type="radio" name="q10" value="D" onclick="updateCartao(10, 'D')"> <span class="option-text">D) RETIRAR AS PLANTAS E LEVAR PARA CASA.</span></label>
+          <label class="option-label"><input type="radio" name="q10" value="A" onclick="updateCartao(10, 'A')"> <span class="option-text">A) Jogar lixo nas margens dos rios e lagoas.</span></label>
+          <label class="option-label"><input type="radio" name="q10" value="B" onclick="updateCartao(10, 'B')"> <span class="option-text">B) Descartar óleo de cozinha diretamente na água.</span></label>
+          <label class="option-label"><input type="radio" name="q10" value="C" onclick="updateCartao(10, 'C')"> <span class="option-text">C) Economizar água e evitar a poluição dos rios, lagoas e praias.</span></label>
+          <label class="option-label"><input type="radio" name="q10" value="D" onclick="updateCartao(10, 'D')"> <span class="option-text">D) retirar as plantas e levar para casa.</span></label>
         </div>
       </div>
 
