@@ -463,18 +463,30 @@
 
     <div class="dashboard-card">
       <div class="header-info">
-        <h1>📊 Painel de Resultados & Histórico de Avanços — 4º Ano</h1>
-        <p>Acompanhamento pedagógico contínuo por data, escola e turma (Projeto Campos de Todos Nós)</p>
+        <h1>📊 Painel Geral de Resultados & Avanços (1º ao 5º Ano)</h1>
+        <p>Acompanhamento pedagógico contínuo por simulado, ano, escola e turno (Projeto Campos de Todos Nós)</p>
       </div>
 
       <!-- System Notice Banner: Preservação de Dados Genuína -->
       <div style="background: #e0f2fe; border: 1px solid #7dd3fc; padding: 0.8rem 1.2rem; border-radius: 12px; margin-top: 1rem; font-size: 0.88rem; color: #0369a1; display: flex; align-items: center; gap: 0.6rem;">
         <span style="font-size: 1.2rem;">🔒</span>
-        <span><strong>Banco de Dados Preservado:</strong> Todas as submissões dos estudantes são permanentemente salvas no servidor Turso Cloud com registro exato de Data e Hora para análise de evolução.</span>
+        <span><strong>Banco de Dados Preservado:</strong> Todas as submissões dos estudantes (1º ao 5º Ano) são permanentemente salvas no servidor Turso Cloud com registro exato de Data e Hora para análise de evolução.</span>
       </div>
 
       <!-- Filters Bar with Date System -->
-      <div class="filters-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+      <div class="filters-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+        <div class="filter-group">
+          <label for="filterSimulado">📝 Simulado / Caderno:</label>
+          <select id="filterSimulado" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">Todos os Simulados (1º ao 5º)</option>
+            <option value="campos-1ano-agosto-2026">🥇 1º Ano (Agosto/2026)</option>
+            <option value="campos-2ano-agosto-2026">🥈 2º Ano (Agosto/2026)</option>
+            <option value="campos-3ano-agosto-2026">🥉 3º Ano (Agosto/2026)</option>
+            <option value="campos-4ano-agosto-2026">🎯 4º Ano (Agosto/2026)</option>
+            <option value="campos-5ano-agosto-2026">🚀 5º Ano (Agosto/2026)</option>
+          </select>
+        </div>
+
         <div class="filter-group">
           <label for="filterDate">📅 Período / Data:</label>
           <select id="filterDate" class="filter-select" onchange="applyFilters()">
@@ -489,7 +501,11 @@
           <label for="filterClass">🏫 Turma / Ano:</label>
           <select id="filterClass" class="filter-select" onchange="applyFilters()">
             <option value="ALL">Todas as Turmas / Anos</option>
+            <option value="1º Ano">1º Ano</option>
+            <option value="2º Ano">2º Ano</option>
+            <option value="3º Ano">3º Ano</option>
             <option value="4º Ano">4º Ano</option>
+            <option value="5º Ano">5º Ano</option>
           </select>
         </div>
 
@@ -661,19 +677,19 @@
                 const summaryStr = summaryList.join(' | ');
                 const dateISO = new Date(s.created_at).toISOString();
               %>
-              <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-score="<%= score %>" data-date="<%= dateISO %>" data-answers='<%= JSON.stringify(parsedAns) %>'>
+              <tr class="student-row" id="student-row-<%= s.id %>" data-id="<%= s.id %>" data-simulado="<%= s.simulado_id || 'campos-4ano-agosto-2026' %>" data-student="<%= s.student_name %>" data-school="<%= s.school_name %>" data-class="<%= s.class_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-score="<%= score %>" data-date="<%= dateISO %>" data-answers='<%= JSON.stringify(parsedAns) %>'>
                 <td style="text-align: center; font-weight: 800; color: #64748b;"><%= idx + 1 %></td>
                 <td>
                   <strong>📅 <%= new Date(s.created_at).toLocaleDateString('pt-BR') %></strong><br>
                   <span style="font-size:0.75rem; color:#64748b;">🕒 <%= new Date(s.created_at).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) %></span>
                 </td>
                 <td>
-                  <strong><%= s.student_name %></strong>
+                  <strong class="student-name-text"><%= s.student_name %></strong>
                 </td>
                 <td>
-                  <%= s.school_name %><br>
-                  <span style="font-weight:800; color:var(--primary);"><%= s.class_name %></span> • 
-                  <span style="font-size:0.78rem; font-weight:700; color:#d97706; background:#fffbeb; padding:0.15rem 0.5rem; border-radius:50px; border:1px solid #fde68a;"><%= s.shift === 'Tarde' ? '🌤️ Tarde' : '☀️ Manhã' %></span>
+                  <span class="school-name-text"><%= s.school_name %></span><br>
+                  <span class="class-name-text" style="font-weight:800; color:var(--primary);"><%= s.class_name %></span> • 
+                  <span class="shift-name-text" style="font-size:0.78rem; font-weight:700; color:#d97706; background:#fffbeb; padding:0.15rem 0.5rem; border-radius:50px; border:1px solid #fde68a;"><%= s.shift === 'Tarde' ? '🌤️ Tarde' : '☀️ Manhã' %></span>
                 </td>
                 <td>
                   <div class="answers-summary-pill"><%= summaryStr %></div>
@@ -681,8 +697,10 @@
                 <td>
                   <span class="score-badge <%= badgeClass %>"><%= score %> / 9 acertos</span>
                 </td>
-                <td class="no-print">
-                  <button class="btn-toggle-answers" onclick="toggleDetails(<%= idx %>)">👁️ Ver Redação</button>
+                <td class="no-print" style="white-space: nowrap;">
+                  <button class="btn-toggle-answers" onclick="toggleDetails(<%= idx %>)">👁️ Redação</button>
+                  <button class="btn-edit" onclick="openEditModal(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`, `<%= s.school_name.replace(/`/g, '') %>`, `<%= s.class_name %>`, `<%= s.shift || 'Manhã' %>`)" style="background:#0284c7; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">✏️ Editar</button>
+                  <button class="btn-delete" onclick="deleteStudentSubmission(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`)" style="background:#ef4444; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">🗑️ Apagar</button>
                 </td>
               </tr>
 
@@ -718,6 +736,7 @@
     }
 
     function applyFilters() {
+      const selectedSimulado = document.getElementById('filterSimulado') ? document.getElementById('filterSimulado').value : 'ALL';
       const selectedClass = document.getElementById('filterClass').value;
       const selectedSchool = document.getElementById('filterSchool').value;
       const selectedDate = document.getElementById('filterDate').value;
@@ -738,6 +757,7 @@
       const questionCorrect = { 1:0, 2:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0 };
 
       mainRows.forEach((row, idx) => {
+        const rowSimulado = row.getAttribute('data-simulado') || 'campos-4ano-agosto-2026';
         const rowClass = row.getAttribute('data-class');
         const rowSchool = row.getAttribute('data-school') || 'E.M. Profª Eleonora da Silva Pinto';
         const rowShift = row.getAttribute('data-shift') || 'Manhã';
@@ -749,6 +769,7 @@
 
         const detailRow = document.getElementById(`details-row-${idx}`);
 
+        const simuladoMatch = (selectedSimulado === 'ALL' || rowSimulado === selectedSimulado);
         const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass);
         const schoolMatch = (selectedSchool === 'ALL' || rowSchool === selectedSchool);
         const shiftMatch = (selectedShift === 'ALL' || rowShift === selectedShift);
@@ -763,7 +784,7 @@
           dateMatch = (rowDate.getMonth() === now.getMonth() && rowDate.getFullYear() === now.getFullYear());
         }
 
-        if (classMatch && schoolMatch && shiftMatch && dateMatch) {
+        if (simuladoMatch && classMatch && schoolMatch && shiftMatch && dateMatch) {
           row.style.display = '';
           visibleCount++;
           totalScore += score;
@@ -797,7 +818,8 @@
       });
 
       // Safeguard: If filters match 0 rows, auto-reset to ALL
-      if (visibleCount === 0 && mainRows.length > 0 && (selectedClass !== 'ALL' || selectedSchool !== 'ALL' || selectedShift !== 'ALL' || selectedDate !== 'ALL')) {
+      if (visibleCount === 0 && mainRows.length > 0 && (selectedSimulado !== 'ALL' || selectedClass !== 'ALL' || selectedSchool !== 'ALL' || selectedShift !== 'ALL' || selectedDate !== 'ALL')) {
+        if (document.getElementById('filterSimulado')) document.getElementById('filterSimulado').value = 'ALL';
         document.getElementById('filterClass').value = 'ALL';
         document.getElementById('filterSchool').value = 'ALL';
         document.getElementById('filterDate').value = 'ALL';
@@ -878,12 +900,99 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // By default, always show ALL students unless explicitly filtered
+      if (document.getElementById('filterSimulado')) document.getElementById('filterSimulado').value = 'ALL';
       document.getElementById('filterSchool').value = 'ALL';
       document.getElementById('filterClass').value = 'ALL';
       document.getElementById('filterDate').value = 'ALL';
       applyFilters();
     });
+
+    // --- ESTUDANTES: EDITAR & APAGAR ---
+    function openEditModal(id, studentName, schoolName, className, shift) {
+      document.getElementById('editSubmissionId').value = id;
+      document.getElementById('editStudentName').value = studentName;
+      document.getElementById('editSchoolName').value = schoolName;
+      document.getElementById('editClassName').value = className || '4º Ano';
+      document.getElementById('editShiftName').value = shift || 'Manhã';
+      document.getElementById('editStudentModal').style.display = 'flex';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editStudentModal').style.display = 'none';
+    }
+
+    async function saveStudentEdit(event) {
+      event.preventDefault();
+      const id = document.getElementById('editSubmissionId').value;
+      const student_name = document.getElementById('editStudentName').value.trim();
+      const school_name = document.getElementById('editSchoolName').value.trim();
+      const class_name = document.getElementById('editClassName').value;
+      const shift = document.getElementById('editShiftName').value;
+
+      try {
+        const res = await fetch(`/api/admin/simulado/submission/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ student_name, school_name, class_name, shift })
+        });
+        const data = await res.json();
+        if (data.success) {
+          // Update DOM Row
+          const row = document.getElementById(`student-row-${id}`);
+          if (row) {
+            row.setAttribute('data-student', student_name);
+            row.setAttribute('data-school', school_name);
+            row.setAttribute('data-class', class_name);
+            row.setAttribute('data-shift', shift);
+
+            const nameEl = row.querySelector('.student-name-text');
+            if (nameEl) nameEl.innerText = student_name;
+
+            const schoolEl = row.querySelector('.school-name-text');
+            if (schoolEl) schoolEl.innerText = school_name;
+
+            const classEl = row.querySelector('.class-name-text');
+            if (classEl) classEl.innerText = class_name;
+
+            const shiftEl = row.querySelector('.shift-name-text');
+            if (shiftEl) {
+              shiftEl.innerText = (shift === 'Tarde' ? '🌤️ Tarde' : '☀️ Manhã');
+            }
+          }
+          closeEditModal();
+          applyFilters();
+          alert('✅ Registro do estudante atualizado com sucesso!');
+        } else {
+          alert('Erro ao atualizar: ' + data.error);
+        }
+      } catch (err) {
+        alert('Erro ao se comunicar com o servidor: ' + err.message);
+      }
+    }
+
+    async function deleteStudentSubmission(id, studentName) {
+      if (!confirm(`⚠️ Tem certeza que deseja APAGAR permanentemente o registro de "${studentName}"?\nEsta ação não poderá ser desfeita.`)) {
+        return;
+      }
+      try {
+        const res = await fetch(`/api/admin/simulado/submission/${id}`, {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (data.success) {
+          const row = document.getElementById(`student-row-${id}`);
+          if (row) row.remove();
+          const detailRow = document.getElementById(`details-row-${id}`);
+          if (detailRow) detailRow.remove();
+          applyFilters();
+          alert('🗑️ Registro apagado com sucesso!');
+        } else {
+          alert('Erro ao apagar: ' + data.error);
+        }
+      } catch(err) {
+        alert('Erro ao se comunicar com o servidor: ' + err.message);
+      }
+    }
 
     function openRestoreModal() {
       document.getElementById('restoreModal').style.display = 'flex';
@@ -921,6 +1030,53 @@
       reader.readAsText(file);
     }
   </script>
+
+  <!-- Modal de Edição de Estudante -->
+  <div id="editStudentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(6px); z-index:1000; justify-content:center; align-items:center; padding:1rem;">
+    <div style="background:white; border-radius:20px; max-width:480px; width:100%; padding:2rem; text-align:left; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); border-top: 6px solid #0284c7;">
+      <h3 style="font-family:'Outfit', sans-serif; font-size:1.4rem; color:#0369a1; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem;">
+        ✏️ Editar Registro do Estudante
+      </h3>
+      <form id="editStudentForm" onsubmit="saveStudentEdit(event)">
+        <input type="hidden" id="editSubmissionId">
+        
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:0.3rem;">Nome Completo do Estudante *</label>
+          <input type="text" id="editStudentName" class="filter-select" style="width:100%; box-sizing:border-box;" required>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:0.3rem;">Escola Municipal *</label>
+          <input type="text" id="editSchoolName" class="filter-select" style="width:100%; box-sizing:border-box;" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+          <div>
+            <label style="display:block; font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:0.3rem;">Turma / Ano *</label>
+            <select id="editClassName" class="filter-select" style="width:100%;">
+              <option value="1º Ano">1º Ano</option>
+              <option value="2º Ano">2º Ano</option>
+              <option value="3º Ano">3º Ano</option>
+              <option value="4º Ano">4º Ano</option>
+              <option value="5º Ano">5º Ano</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block; font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:0.3rem;">Turno *</label>
+            <select id="editShiftName" class="filter-select" style="width:100%;">
+              <option value="Manhã">☀️ Manhã</option>
+              <option value="Tarde">🌤️ Tarde</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.8rem;">
+          <button type="button" onclick="closeEditModal()" style="background:#f1f5f9; color:#475569; border:none; padding:0.7rem 1.2rem; border-radius:10px; font-weight:700; font-family:'Outfit'; cursor:pointer;">Cancelar</button>
+          <button type="submit" style="background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:white; border:none; padding:0.7rem 1.4rem; border-radius:10px; font-weight:800; font-family:'Outfit'; cursor:pointer;">💾 Salvar Alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Restore Backup Modal -->
   <div id="restoreModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(6px); z-index:1000; justify-content:center; align-items:center; padding:1rem;">

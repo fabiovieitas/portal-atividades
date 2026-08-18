@@ -385,6 +385,29 @@ app.post('/api/admin/simulado/backup/import', async (req, res) => {
   }
 });
 
+// Editar registro de aluno no simulado
+app.put('/api/admin/simulado/submission/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { student_name, school_name, class_name, shift } = req.body;
+    await dbHelper.updateSimuladoSubmission(id, { student_name, school_name, class_name, shift });
+    res.json({ success: true, message: 'Registro do estudante atualizado com sucesso!' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Apagar registro de aluno no simulado
+app.delete('/api/admin/simulado/submission/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await dbHelper.deleteSimuladoSubmission(id);
+    res.json({ success: true, message: 'Registro do estudante apagado com sucesso!' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.get('/admin/simulado/resultados', async (req, res) => {
   try {
     const simuladoId = req.query.simulado_id || 'ALL';

@@ -624,6 +624,17 @@ const dbHelper = {
     };
   },
 
+  async updateSimuladoSubmission(id, { student_name, school_name, class_name, shift }) {
+    await queryRun(
+      "UPDATE simulado_submissions SET student_name = ?, school_name = ?, class_name = ?, shift = ? WHERE id = ?",
+      [student_name, school_name, class_name, shift, id]
+    );
+  },
+
+  async deleteSimuladoSubmission(id) {
+    await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
+  },
+
   // 11. Students Management
   async getStudentsByClass(classId) {
     return await queryAll("SELECT * FROM students WHERE class_id = ? ORDER BY name ASC", [classId]);
