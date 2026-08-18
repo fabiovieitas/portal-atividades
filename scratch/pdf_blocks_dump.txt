@@ -1,0 +1,373 @@
+
+==================== PAGE 1 ====================
+[56.6, 120.5] SIMULADO - 4º ANO
+BLOCOS 1 E 2 - AGOSTO/2026
+---
+[52.0, 243.8] Nome do(a) estudante
+---
+[43.6, 324.6] Data
+---
+[470.3, 408.9] Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.
+---
+[327.8, 613.4] A        B        C        D
+---
+[110.5, 613.4] A        B        C        D
+---
+[85.3, 639.8] 1
+---
+[299.3, 639.9] 6
+---
+[85.3, 670.6] 2
+---
+[299.3, 670.8] 7
+---
+[85.3, 701.3] 3
+---
+[299.3, 701.7] 8
+---
+[118.9, 705.3] Resposta escrita
+---
+[80.0, 733.5] 4
+---
+[297.1, 734.1] 9
+---
+[80.0, 762.0] 5
+---
+[297.1, 762.7] 10
+---
+
+==================== PAGE 2 ====================
+[26.3, 47.3] Projeto: Campos de Todos Nós!
+---
+[25.3, 77.0] Campos dos Goytacazes é uma das maiores cidades do estado do Rio de Janeiro e possui uma história,
+---
+[25.3, 98.2] uma cultura e uma natureza muito especiais. O rio Paraíba do Sul faz parte da vida do município e ajudou no
+---
+[25.3, 119.4] seu desenvolvimento ao longo dos anos. Nossa cidade também é rica em tradições. Uma delas é a Lenda do
+---
+[25.3, 140.5] Ururau da Lapa, que conta a história de um enorme jacaré que vivia nas águas do rio Paraíba do Sul, próximo
+---
+[25.3, 161.7] ao Cais da Lapa. Essa lenda faz parte do folclore campista e ajuda a preservar a memória e a identidade do
+---
+[25.3, 182.9] nosso povo.
+---
+[25.3, 204.1] Outra importante manifestação cultural é o Jongo, uma das tradições afro-brasileiras mais antigas de
+---
+[25.3, 225.3] Campos. Com cantos, tambores e dança, o jongo representa a resistência, o respeito aos ancestrais e a
+---
+[25.3, 246.4] valorização da cultura negra. Em nossa cidade, essa tradição é preservada por grupos como o Congola,
+---
+[25.3, 267.6] liderado pela Mestra Noinha, e foi reconhecida como Patrimônio Cultural Imaterial pelo Iphan. Conhecer os
+---
+[25.3, 288.8] pontos turísticos, as lendas, as tradições e a história de Campos é uma forma de valorizar nossa cidade e
+---
+[25.3, 310.0] exercer a cidadania.
+---
+[333.9, 310.0] FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA
+---
+[384.9, 320.0] PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+---
+[25.3, 331.1] Agora é sua vez! Leia as questões com atenção e mostre tudo o que você aprendeu sobre Campos dos
+---
+[25.3, 352.3] Goytacazes e os conteúdos estudados neste bimestre. Boa prova!
+---
+[27.1, 374.3] Leia o diáolgo abaixo entre a professora Bia, Mirela e Enzo para responder as questões.
+Professora Bia: Pessoal, vocês conhecem a lenda do Ururau da Lapa?
+Enzo: Eu conheço! Dizem que o Ururau era um enorme jacaré que vivia nas águas do rio Paraíba do Sul,
+perto da Lapa. 
+Mirela: Minha avó contou que essa é uma das lendas mais famosas de Campos dos Goytacazes. Ela faz
+parte da história e da cultura da nossa cidade.
+Professora Bia: Muito bem! As lendas são histórias transmitidas de geração em geração. Elas ajudam a
+preservar a memória, as tradições e a identidade do nosso povo.
+Enzo: Então, mesmo sendo uma lenda, ela é importante porque faz parte da cultura de Campos!
+Professora Bia: Exatamente! Conhecer a Lenda do Ururau da Lapa é também conhecer um pedacinho
+da história e do folclore campista. Por isso, devemos valorizar e preservar as histórias da nossa cidade.
+---
+[339.8, 546.6] FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA
+---
+[390.8, 556.6] PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+---
+[29.0, 575.8] Questão 01
+---
+[29.0, 607.3] No texto, a professora Bia diz que as lendas ajudam a preservar a memória, as
+tradições e a identidade do nosso povo. Pela leitura do diálogo, a palavra preservar
+significa:
+---
+[29.0, 665.8] A)       Esquecer com o passar do tempo.
+---
+[29.0, 689.1] B)        Guardar, cuidar e manter vivo para as próximas gerações.
+---
+[29.0, 712.4] C)        Inventar novas histórias todos os dias.
+---
+[29.0, 735.6] D)         Mudar completamente os costumes da cidade.
+---
+
+==================== PAGE 3 ====================
+[34.3, 75.3] Questão 02
+---
+[27.2, 98.2] No diálogo, Enzo afirma: "Então, mesmo sendo uma
+---
+[556.6, 100.2] Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI),
+---
+[27.2, 121.5] lenda, ela é importante porque faz parte da cultura de
+---
+[27.2, 144.7] Campos!" A palavra porque indica que:
+---
+[562.1, 166.0] 2026.
+---
+[27.2, 168.0] A)        Enzo está comparando a lenda com outra história.
+---
+[27.2, 191.2] B)        Enzo está dizendo quando a lenda aconteceu.
+---
+[27.2, 214.5] C)        Enzo está mostrando onde a lenda aconteceu.
+---
+[27.2, 237.8] D)       Enzo está explicando o motivo de a lenda ser importante.
+---
+[26.9, 259.3] Questão 03
+---
+[26.9, 295.3] A Lenda do Ururau da Lapa faz parte do folclore de Campos dos Goytacazes. As lendas são
+---
+[26.9, 317.8] histórias que passam de geração em geração e ajudam a preservar a cultura, as tradições e a
+---
+[26.9, 340.3] memória de um povo. Agora é a sua vez!
+---
+[26.9, 362.8] Leia o início da história abaixo:
+---
+[26.9, 385.3] "Era uma noite tranquila às margens do rio Paraíba do Sul. De repente, um enorme jacaré
+---
+[26.9, 407.8] chamado Ururau apareceu nas águas, chamando a atenção de todos que estavam perto da
+---
+[26.9, 430.3] Lapa..."
+---
+[335.0, 430.9] FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA
+---
+[386.0, 440.9] PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+---
+[26.9, 452.8] Continue essa história, criando uma narrativa com começo, meio e fim.
+---
+[26.9, 475.3] Não se esqueça de:
+---
+[47.3, 497.8] dar continuidade à história apresentada;
+---
+[47.3, 520.4] escrever frases completas;
+---
+[47.3, 542.9] organizar bem as ideias;
+---
+[47.3, 565.4] criar um final interessante para a narrativa.
+---
+[26.9, 587.9] ✍️ Use sua imaginação e capriche na escrita!
+---
+[26.9, 743.9] _____________________________________________________________________________________________________
+---
+[26.9, 765.7] _____________________________________________________________________________________________________
+---
+
+==================== PAGE 4 ====================
+[26.6, 54.6] Leia o texto para responder às questões.
+---
+[26.6, 69.7] A Lenda da Curva da Loira
+    Há muitos anos, os moradores de Campos dos
+Goytacazes contam uma história muito conhecida: a
+Lenda da Curva da Loira.
+      Segundo a lenda, em uma estrada da cidade existe
+uma curva onde, durante a noite, algumas pessoas
+dizem ter visto uma mulher loira vestida de branco.
+Conta-se que ela aparece de repente para os
+motoristas 
+e, 
+logo 
+depois, 
+desaparece
+misteriosamente.
+    Ninguém sabe ao certo quem era essa mulher nem
+se a história realmente aconteceu. Por isso, a Curva da
+Loira é considerada uma lenda, ou seja, uma narrativa
+popular transmitida de geração em geração que faz
+parte da cultura e da memória de Campos dos
+Goytacazes.
+---
+[546.4, 101.0] Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI),
+---
+[554.2, 193.2] 2026.
+---
+[149.8, 298.5] FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA
+---
+[212.5, 306.5] MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+---
+[35.0, 315.0] Questão 04
+---
+[26.6, 336.0] Leia o trecho da Lenda da Curva da Loira.
+Segundo a lenda, em uma estrada da cidade que vai para a praia do Farol, existe uma curva onde,
+durante a noite, algumas pessoas dizem ter visto uma mulher loira vestida de branco. Conta-se que
+ela aparece de repente para os motoristas e, logo depois, desaparece misteriosamente.
+    Se você fosse continuar essa história, marque a alternativa que apresenta o melhor conflito
+gerador para iniciar uma narrativa.
+---
+[26.6, 451.6] A)      Enzo e Mirela passeavam tranquilamente pela praça quando resolveram tomar um
+sorvete.
+B)           Durante uma viagem à noite, o carro da família de Enzo passou pela Curva da Loira e,
+de repente, uma mulher vestida de branco apareceu no meio da estrada.
+C)       A professora Bia organizou uma exposição sobre os pontos turísticos de Campos na
+escola.
+D)           Mirela passou a tarde lendo um livro sobre a história da cidade.
+---
+[35.7, 587.8] Questão 05
+---
+[26.1, 611.2] Observe o cartaz do projeto "Campos de Todos Nós".
+      O cartaz apresenta monumentos, patrimônios históricos, elementos da natureza e
+personagens que representam a cidade de Campos dos  
+Goytacazes. O principal objetivo desse projeto é
+---
+[511.1, 652.9] Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.
+---
+[26.1, 693.7] A)          incentivar as pessoas a deixarem a cidade para 
+conhecer outros municípios.
+---
+[26.1, 736.8] B)          valorizar os pontos históricos, culturais e ambientais
+de Campos e incentivar o cuidado com a cidade.
+---
+
+==================== PAGE 5 ====================
+[29.4, 61.9] C)         mostrar apenas os locais mais modernos do município.
+---
+[29.4, 94.9] D)         ensinar somente as regras de trânsito para os estudantes.
+---
+[31.3, 127.4] Questão 06
+---
+[25.8, 150.2] Observe o cartaz do projeto "Campos de Todos Nós".
+---
+[25.8, 174.2] A professora Bia, Enzo e Mirela ajudaram a criar esse cartaz para incentivar as pessoas a
+---
+[25.8, 198.2] conhecerem e valorizarem os patrimônios históricos de Campos dos Goytacazes. Para isso,
+---
+[25.8, 222.2] foram utilizadas cores vivas, ilustrações e diferentes tamanhos de letras.
+---
+[25.8, 246.2] O uso desses elementos visuais no cartaz tem a finalidade de
+---
+[25.8, 270.2] A)         deixar o cartaz mais difícil de entender.
+---
+[25.8, 294.2] B)         chamar a atenção das pessoas e transmitir a mensagem de forma clara.
+---
+[25.8, 318.2] C)         ocupar os espaços vazios da folha sem transmitir informações.
+---
+[25.8, 342.2] D)         mostrar apenas desenhos bonitos, sem relação com o tema.
+---
+[434.8, 360.3] Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI),
+---
+[440.7, 431.5] 2026.
+---
+[23.7, 525.4] Questão 07
+---
+
+==================== PAGE 6 ====================
+[21.5, 191.4] Questão 08
+---
+[135.0, 306.9] __
+---
+[25.1, 501.4] Questão 09
+---
+[27.9, 525.8] A professora Bia contou a Enzo e Mirela que 12.845 pessoas participaram de atividades de
+visitação e valorização dos patrimônios históricos de Campos dos Goytacazes.
+        Enzo observou o número 12.845 e quis descobrir o valor posicional de seus algarismos.
+No número 12.845, qual algarismo ocupa a ordem das centenas?
+---
+[27.9, 608.3] A)           1
+---
+[27.9, 641.3] B)           2
+---
+[27.9, 674.3] C)           8
+---
+[27.9, 707.3] D)           4
+---
+
+==================== PAGE 7 ====================
+[27.9, 72.2] Questão 10
+---
+[26.5, 94.5] A Professora Bia, Enzo e Mirela conheceram diferentes pontos de Campos dos Goytacazes.
+Na Lagoa de Cima e na Praia do Farol de São Tomé, observaram água, areia, plantas e diversos
+animais. Ao visitarem a Catedral do Santíssimo Salvador, perceberam que ela é uma construção
+histórica feita pelas pessoas.
+     Pensando no que aprenderam sobre os ambientes, marque a alternativa que  apresenta
+somente elementos que fazem parte dos ambientes naturais visitados pela turma.
+---
+[26.5, 210.1] A)        Água, plantas, animais e areia.
+---
+[26.5, 243.1] B)        Torres, bancos, altar e paredes.
+---
+[26.5, 276.1] C)         Vitrais, água, altar e animais.
+---
+[26.5, 309.1] D)        Paredes, areia, bancos e plantas.
+---
+
+==================== PAGE 8 ====================
+[159.1, 60.1] Gabarito Simulado - 4º ANO
+---
+[185.3, 92.9] Bloco 1e 2  - AGOSTO
+---
+[276.4, 175.8] Bloco 1
+---
+[65.6, 224.7] Questão
+Resposta
+Habilidade
+Área
+---
+[166.6, 264.5] 1
+B
+EF35LP05 / 4EF12_P
+Linguagens (LP)
+---
+[166.6, 304.2] 2
+D
+EF05LP07 / 4EF22_P
+Linguagens (LP)
+---
+[303.8, 338.6] EF15LP01 e
+5EF16_P,
+Linguagens (LP)
+---
+[166.6, 339.2] 3
+RESPOSTA
+PESSOAL
+---
+[166.6, 389.6] 4
+B
+EF15LP01 – 4EF02_E
+Linguagens (LP)
+---
+[166.6, 429.3] 5
+B
+EF04GE11
+Ciências Humanas
+---
+[166.6, 463.8] 6
+B
+EF15AR01 -
+EF15AR25
+---
+[431.5, 472.6] Arte
+---
+[276.4, 506.1] Bloco 2
+---
+[166.6, 549.2] 7
+B
+EF04MA01 – NU
+4EF01_M
+Matemática
+---
+[166.6, 594.6] 8
+A
+EF03MA02 EF04MA02
+– NU 4EF02_M
+Matemática
+---
+[166.6, 637.6] 9
+C
+EF03MA02 / EF04MA02 –
+NU 4EF03_M
+Matemática
+---
+[160.6, 682.8] 10
+A
+EF04CI04
+Ciências da Natureza
+---

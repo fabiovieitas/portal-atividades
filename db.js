@@ -556,12 +556,43 @@ const dbHelper = {
     await queryRun("DELETE FROM school_classes WHERE id = ?", [id]);
   },
 
-  // Simulado Digital Submissions
-  async saveSimuladoSubmission({ simulado_id = 'campos-4ano-agosto-2026', student_name, school_name, class_name, answers_json, score, max_score = 9, essay_text }) {
+  // Simulado Digital Submissions & Backup Management
+  async saveSimuladoSubmission({ simulado_id = 'campos-4ano-agosto-2026', student_name, school_name, class_name, shift = 'Manhã', answers_json, score, max_score = 9, essay_text }) {
+    const jsonStr = typeof answers_json === 'object' ? JSON.stringify(answers_json || {}) : String(answers_json || '{}');
     await queryRun(
-      "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
-      [simulado_id, student_name, school_name || '', class_name || '', JSON.stringify(answers_json || {}), score || 0, max_score || 9, essay_text || '']
+      "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
+      [simulado_id, student_name, school_name || '', class_name || '', shift || 'Manhã', jsonStr, score || 0, max_score || 9, essay_text || '']
     );
+  },
+
+  async restoreSimuladoBackup(submissionsArray) {
+    if (!Array.isArray(submissionsArray)) return { count: 0 };
+    let restored = 0;
+    for (const sub of submissionsArray) {
+      if (!sub.student_name) continue;
+      const jsonStr = typeof sub.answers_json === 'object' ? JSON.stringify(sub.answers_json) : String(sub.answers_json || '{}');
+      try {
+        await queryRun(
+          "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            sub.simulado_id || 'campos-4ano-agosto-2026',
+            sub.student_name,
+            sub.school_name || '',
+            sub.class_name || '',
+            sub.shift || 'Manhã',
+            jsonStr,
+            sub.score || 0,
+            sub.max_score || 9,
+            sub.essay_text || '',
+            sub.created_at || new Date().toISOString()
+          ]
+        );
+        restored++;
+      } catch(e) {
+        console.warn('Erro ao restaurar item:', e.message);
+      }
+    }
+    return { count: restored };
   },
 
   async getSimuladoSubmissions(simulado_id = 'ALL') {
@@ -755,6 +786,7 @@ async function initTables() {
       student_name TEXT NOT NULL,
       school_name TEXT,
       class_name TEXT,
+      shift TEXT DEFAULT 'Manhã',
       answers_json TEXT NOT NULL,
       score INTEGER DEFAULT 0,
       max_score INTEGER DEFAULT 9,
@@ -776,7 +808,8 @@ async function initTables() {
     "ALTER TABLE students ADD COLUMN student_pin TEXT DEFAULT '';",
     "ALTER TABLE activities ADD COLUMN bncc_code TEXT DEFAULT '';",
     "ALTER TABLE activities ADD COLUMN subject TEXT DEFAULT 'Geral';",
-    "ALTER TABLE news ADD COLUMN activity_url TEXT;"
+    "ALTER TABLE news ADD COLUMN activity_url TEXT;",
+    "ALTER TABLE simulado_submissions ADD COLUMN shift TEXT DEFAULT 'Manhã';"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}

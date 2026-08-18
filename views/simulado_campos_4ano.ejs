@@ -642,7 +642,7 @@
       <section class="student-card">
         <h2>👤 Identificação do Estudante</h2>
         <form id="student-form" onsubmit="event.preventDefault();">
-          <div class="form-grid">
+          <div class="form-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr;">
             <div class="form-group">
               <label for="studentName">Nome Completo do Estudante *</label>
               <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
@@ -652,13 +652,20 @@
               <input type="text" id="schoolName" class="form-control" placeholder="Nome da escola..." value="E.M. Profª Eleonora da Silva Pinto" required>
             </div>
             <div class="form-group">
-              <label for="className">Turma do 4º Ano *</label>
+              <label for="className">Turma *</label>
               <select id="className" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
                 <option value="4º Ano A">4º Ano A</option>
                 <option value="4º Ano B">4º Ano B</option>
                 <option value="4º Ano C">4º Ano C</option>
                 <option value="4º Ano D">4º Ano D</option>
                 <option value="4º Ano E">4º Ano E</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="shiftName">Turno *</label>
+              <select id="shiftName" class="form-control" style="font-weight: 700; color: #d97706;">
+                <option value="Manhã">☀️ Manhã</option>
+                <option value="Tarde">🌤️ Tarde</option>
               </select>
             </div>
           </div>
@@ -1277,6 +1284,7 @@
         student_name: nameInput,
         school_name: document.getElementById('schoolName').value.trim() || 'E.M. Profª Eleonora da Silva Pinto',
         class_name: document.getElementById('className').value || '4º Ano A',
+        shift: document.getElementById('shiftName').value || 'Manhã',
         answers_json: studentAnswers,
         score: score,
         max_score: 9,

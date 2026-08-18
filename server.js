@@ -286,12 +286,13 @@ app.get('/atividades/simulado-campos-4ano', async (req, res) => {
 
 app.post('/api/simulado/submit', async (req, res) => {
   try {
-    const { simulado_id, student_name, school_name, class_name, answers_json, score, max_score, essay_text } = req.body;
+    const { simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text } = req.body;
     await dbHelper.saveSimuladoSubmission({
       simulado_id: simulado_id || 'campos-4ano-agosto-2026',
       student_name,
       school_name,
       class_name,
+      shift: shift || 'Manhã',
       answers_json,
       score,
       max_score,
@@ -300,6 +301,45 @@ app.post('/api/simulado/submit', async (req, res) => {
     res.json({ success: true, message: 'Simulado enviado e salvo no servidor com sucesso!' });
   } catch (err) {
     console.error('[Simulado API Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Export Backup JSON
+app.get('/api/admin/simulado/backup/export', async (req, res) => {
+  try {
+    const submissions = await dbHelper.getSimuladoSubmissions('ALL');
+    const backupData = {
+      exported_at: new Date().toISOString(),
+      system: 'Portal de Atividades - Campos dos Goytacazes',
+      total_records: submissions.length,
+      submissions: submissions
+    };
+    const dateStr = new Date().toISOString().split('T')[0];
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="simulado_backup_${dateStr}.json"`);
+    res.send(JSON.stringify(backupData, null, 2));
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Import Backup JSON
+app.post('/api/admin/simulado/backup/import', async (req, res) => {
+  try {
+    const { backup_data } = req.body;
+    let submissionsToRestore = [];
+    if (typeof backup_data === 'string') {
+      const parsed = JSON.parse(backup_data);
+      submissionsToRestore = parsed.submissions || parsed;
+    } else if (backup_data && backup_data.submissions) {
+      submissionsToRestore = backup_data.submissions;
+    } else if (Array.isArray(backup_data)) {
+      submissionsToRestore = backup_data;
+    }
+    const result = await dbHelper.restoreSimuladoBackup(submissionsToRestore);
+    res.json({ success: true, restored: result.count, message: `Backup restaurado com sucesso! ${result.count} registros recolocados.` });
+  } catch(err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
