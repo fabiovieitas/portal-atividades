@@ -143,13 +143,17 @@ async function queryAll(sql, args = []) {
   if (tursoClient) {
     try {
       const res = await tursoClient.execute({ sql, args });
-      return res.rows || [];
+      if (res.rows && res.rows.length > 0) return res.rows;
     } catch (err) {
       console.error('[Turso Query Error]:', err.message);
     }
   }
   if (sqlite) {
-    return sqlite.prepare(sql).all(...args);
+    try {
+      return sqlite.prepare(sql).all(...args);
+    } catch (err) {
+      console.error('[SQLite Query Error]:', err.message);
+    }
   }
   return [];
 }
@@ -158,13 +162,17 @@ async function queryGet(sql, args = []) {
   if (tursoClient) {
     try {
       const res = await tursoClient.execute({ sql, args });
-      return res.rows[0] || null;
+      if (res.rows && res.rows[0]) return res.rows[0];
     } catch (err) {
       console.error('[Turso Query Error]:', err.message);
     }
   }
   if (sqlite) {
-    return sqlite.prepare(sql).get(...args) || null;
+    try {
+      return sqlite.prepare(sql).get(...args) || null;
+    } catch (err) {
+      console.error('[SQLite Query Error]:', err.message);
+    }
   }
   return null;
 }
@@ -173,13 +181,16 @@ async function queryRun(sql, args = []) {
   if (tursoClient) {
     try {
       await tursoClient.execute({ sql, args });
-      return;
     } catch (err) {
       console.error('[Turso Run Error]:', err.message);
     }
   }
   if (sqlite) {
-    sqlite.prepare(sql).run(...args);
+    try {
+      sqlite.prepare(sql).run(...args);
+    } catch (err) {
+      console.error('[SQLite Run Error]:', err.message);
+    }
   }
 }
 
@@ -884,41 +895,6 @@ async function initTables() {
     }
   } catch(e) {
     console.warn('[DB Engine Schools Warning]:', e.message);
-  }
-
-  try {
-    const simCount = await queryGet("SELECT COUNT(*) as cnt FROM simulado_submissions");
-    if (!simCount || simCount.cnt == 0) {
-      console.log('[DB Engine] Inserindo submissões iniciais do simulado...');
-      await queryRun(
-        "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, answers_json, score, max_score, essay_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          'campos-4ano-agosto-2026',
-          'Lucas Gabriel da Silva',
-          'E.M. Profª Eleonora da Silva Pinto',
-          '4º Ano B',
-          JSON.stringify({"1":"B","2":"D","3":"Mirela e Enzo viram uma pedra reluzente no Rio Paraíba do Sul...","4":"B","5":"B","6":"B","7":"B","8":"A","9":"C","10":"A"}),
-          9,
-          9,
-          'Mirela e Enzo viram uma pedra reluzente no Rio Paraíba do Sul...'
-        ]
-      );
-      await queryRun(
-        "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, answers_json, score, max_score, essay_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          'campos-4ano-agosto-2026',
-          'Mariana Ribeiro',
-          'E.M. José Giró Faísca',
-          '4º Ano A',
-          JSON.stringify({"1":"B","2":"D","3":"Texto da história"}),
-          8,
-          9,
-          'Texto da história'
-        ]
-      );
-    }
-  } catch(e) {
-    console.warn('[DB Engine Simulado Seed Warning]:', e.message);
   }
 
     const actCount = await queryGet("SELECT COUNT(*) as cnt FROM activities");
