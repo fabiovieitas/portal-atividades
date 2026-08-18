@@ -143,7 +143,7 @@ async function queryAll(sql, args = []) {
   if (tursoClient) {
     try {
       const res = await tursoClient.execute({ sql, args });
-      if (res.rows && res.rows.length > 0) return res.rows;
+      if (res && res.rows) return res.rows;
     } catch (err) {
       console.error('[Turso Query Error]:', err.message);
     }
@@ -1486,14 +1486,17 @@ async function initTables() {
     }
 }
 
+const MASTER_BACKUP_FILE = path.join(__dirname, 'simulado_backup_master.json');
 const AUTO_BACKUP_FILE = path.join(__dirname, 'simulado_backup_auto.json');
 
 async function syncAutoBackupJSON() {
   try {
     const records = await queryAll("SELECT * FROM simulado_submissions ORDER BY created_at ASC");
     if (records && records.length > 0) {
-      fs.writeFileSync(AUTO_BACKUP_FILE, JSON.stringify(records, null, 2), 'utf-8');
-      console.log(`[Auto-Backup] ${records.length} registros salvos permanentemente em simulado_backup_auto.json`);
+      const jsonContent = JSON.stringify(records, null, 2);
+      try { fs.writeFileSync(AUTO_BACKUP_FILE, jsonContent, 'utf-8'); } catch(e){}
+      try { fs.writeFileSync(MASTER_BACKUP_FILE, jsonContent, 'utf-8'); } catch(e){}
+      console.log(`[Auto-Backup] ${records.length} registros salvos permanentemente.`);
     }
   } catch (err) {
     console.warn('[Auto-Backup Warn]:', err.message);
@@ -1502,13 +1505,17 @@ async function syncAutoBackupJSON() {
 
 async function autoRestoreOnStartup() {
   try {
-    if (!fs.existsSync(AUTO_BACKUP_FILE)) return;
-    const fileData = fs.readFileSync(AUTO_BACKUP_FILE, 'utf-8');
-    const backupList = JSON.parse(fileData);
+    let backupList = [];
+    if (fs.existsSync(MASTER_BACKUP_FILE)) {
+      backupList = JSON.parse(fs.readFileSync(MASTER_BACKUP_FILE, 'utf-8'));
+    } else if (fs.existsSync(AUTO_BACKUP_FILE)) {
+      backupList = JSON.parse(fs.readFileSync(AUTO_BACKUP_FILE, 'utf-8'));
+    }
+
     if (!Array.isArray(backupList) || backupList.length === 0) return;
 
     const existing = await queryAll("SELECT student_name, created_at FROM simulado_submissions");
-    const existingKeys = new Set(existing.map(r => `${r.student_name}_${r.created_at}`));
+    const existingKeys = new Set((existing || []).map(r => `${r.student_name}_${r.created_at}`));
 
     let restoredCount = 0;
     for (const sub of backupList) {
@@ -1535,7 +1542,7 @@ async function autoRestoreOnStartup() {
       }
     }
     if (restoredCount > 0) {
-      console.log(`[Auto-Restaurador] 🚀 ${restoredCount} registros de estudantes restaurados automaticamente do arquivo simulado_backup_auto.json!`);
+      console.log(`[Auto-Restaurador] 🚀 ${restoredCount} registros de estudantes restaurados automaticamente do backup mestre!`);
       await syncAutoBackupJSON();
     }
   } catch (err) {
@@ -1545,9 +1552,9 @@ async function autoRestoreOnStartup() {
 
 setTimeout(() => {
   autoRestoreOnStartup().catch(console.warn);
-}, 2000);
+}, 1000);
 
-initTables().catch(err => console.error('[DB Init Error]:', err.message));
+initTables().then(() => autoRestoreOnStartup()).catch(err => console.error('[DB Init Error]:', err.message));
 
 module.exports = dbHelper;
 
