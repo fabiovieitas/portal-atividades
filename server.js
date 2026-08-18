@@ -408,6 +408,34 @@ app.delete('/api/admin/simulado/submission/:id', async (req, res) => {
   }
 });
 
+// Ação em Lote: Apagar múltiplos alunos
+app.post('/api/admin/simulado/submissions/bulk-delete', async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, error: 'Nenhum ID fornecido.' });
+    }
+    await dbHelper.bulkDeleteSimuladoSubmissions(ids);
+    res.json({ success: true, message: `${ids.length} registros apagados com sucesso!` });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Ação em Lote: Mover/Alterar múltiplos alunos (Turma / Turno / Simulado)
+app.post('/api/admin/simulado/submissions/bulk-move', async (req, res) => {
+  try {
+    const { ids, class_name, shift, simulado_id } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, error: 'Nenhum ID fornecido.' });
+    }
+    await dbHelper.bulkMoveSimuladoSubmissions(ids, { class_name, shift, simulado_id });
+    res.json({ success: true, message: `${ids.length} registros atualizados com sucesso!` });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.get('/admin/simulado/resultados', async (req, res) => {
   try {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');

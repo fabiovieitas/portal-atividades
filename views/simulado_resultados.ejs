@@ -600,6 +600,18 @@
             <% }); %>
           </select>
         </div>
+
+        <div class="filter-group">
+          <label for="sortOrder">🔀 Ordenar Por:</label>
+          <select id="sortOrder" class="filter-select" onchange="applyFilters()">
+            <option value="DATE_DESC">🕒 Finalização (Mais Recentes)</option>
+            <option value="DATE_ASC">⏳ Finalização (Mais Antigos)</option>
+            <option value="SCORE_DESC">🏆 Maiores Notas Primeiro</option>
+            <option value="SCORE_ASC">📉 Menores Notas Primeiro</option>
+            <option value="NAME_ASC">🔤 Nome do Aluno (A - Z)</option>
+            <option value="NAME_DESC">🔠 Nome do Aluno (Z - A)</option>
+          </select>
+        </div>
       </div>
 
       <!-- Progress & Evolution Indicator Banner -->
@@ -697,11 +709,27 @@
         </div>
       </div>
 
+      <!-- Bulk Actions Floating Bar -->
+      <div id="bulkActionsBar" style="display:none; background:#0f172a; color:white; padding:0.8rem 1.2rem; border-radius:14px; margin-bottom:1rem; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; box-shadow:0 10px 25px rgba(0,0,0,0.15);">
+        <div style="font-weight:700; font-size:0.9rem; display:flex; align-items:center; gap:0.6rem;">
+          <span style="background:#0284c7; color:white; padding:0.2rem 0.6rem; border-radius:50px; font-size:0.8rem;" id="selectedCountBadge">0 selecionados</span>
+          <span>Ações em Lote para Estudantes Selecionados:</span>
+        </div>
+        <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+          <button onclick="openBulkMoveModal()" style="background:#0284c7; color:white; border:none; padding:0.5rem 0.9rem; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">📦 Mover Selecionados</button>
+          <button onclick="printSelectedSubmissions()" style="background:#10b981; color:white; border:none; padding:0.5rem 0.9rem; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">📄 PDF dos Selecionados</button>
+          <button onclick="deleteSelectedSubmissions()" style="background:#ef4444; color:white; border:none; padding:0.5rem 0.9rem; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">🗑️ Apagar Selecionados</button>
+        </div>
+      </div>
+
       <!-- Results Compact Table -->
       <div class="table-container">
         <table id="submissionsTable">
           <thead>
             <tr>
+              <th class="no-print" style="width: 35px; text-align: center;">
+                <input type="checkbox" id="selectAllCheck" onclick="toggleSelectAll(this)" style="width:17px; height:17px; cursor:pointer;" title="Selecionar Todos">
+              </th>
               <th style="width: 40px; text-align: center;">#</th>
               <th>Data / Hora</th>
               <th>Estudante</th>
@@ -715,7 +743,7 @@
             <% const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' }; %>
             <% if (submissions.length === 0) { %>
               <tr>
-                <td colspan="7" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                <td colspan="8" style="text-align: center; padding: 2rem; color: #94a3b8;">
                   Nenhum simulado enviado até o momento.
                 </td>
               </tr>
@@ -742,6 +770,9 @@
                 const dateISO = new Date(s.created_at).toISOString();
               %>
               <tr class="student-row" id="student-row-<%= s.id %>" data-id="<%= s.id %>" data-simulado="<%= s.simulado_id || 'campos-4ano-agosto-2026' %>" data-student="<%= s.student_name %>" data-school="<%= s.school_name %>" data-class="<%= s.class_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-score="<%= score %>" data-date="<%= dateISO %>" data-answers='<%= JSON.stringify(parsedAns) %>'>
+                <td class="no-print" style="text-align: center;">
+                  <input type="checkbox" class="student-checkbox" value="<%= s.id %>" onclick="updateBulkActionsBar()" style="width:17px; height:17px; cursor:pointer;">
+                </td>
                 <td style="text-align: center; font-weight: 800; color: #64748b;"><%= idx + 1 %></td>
                 <td>
                   <strong>📅 <%= new Date(s.created_at).toLocaleDateString('pt-BR') %></strong><br>
@@ -770,7 +801,7 @@
 
               <!-- Detailed Answers Expander Row (On Screen & PDF Print) -->
               <tr class="answers-detail-row <%= s.essay_text ? 'has-essay' : 'no-print' %>" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-date="<%= dateISO %>">
-                <td colspan="7">
+                <td colspan="8">
                   <div class="answers-box">
                     <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
                       📜 Redação da Questão 03 — <%= s.student_name %> (<%= s.class_name %> - <%= new Date(s.created_at).toLocaleDateString('pt-BR') %>)
@@ -805,6 +836,7 @@
       const selectedSchool = document.getElementById('filterSchool').value;
       const selectedDate = document.getElementById('filterDate').value;
       const selectedShift = document.getElementById('filterShift') ? document.getElementById('filterShift').value : 'ALL';
+      const sortOrder = document.getElementById('sortOrder') ? document.getElementById('sortOrder').value : 'DATE_DESC';
 
       const now = new Date();
       const mainRows = document.querySelectorAll('tr.student-row');
@@ -820,7 +852,10 @@
       const schoolData = {};
       const questionCorrect = { 1:0, 2:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0 };
 
+      const rowPairs = [];
+
       mainRows.forEach((row, idx) => {
+        const rowId = row.getAttribute('data-id') || idx;
         const rowSimulado = row.getAttribute('data-simulado') || 'campos-4ano-agosto-2026';
         const rowClass = row.getAttribute('data-class');
         const rowSchool = row.getAttribute('data-school') || 'E.M. Profª Eleonora da Silva Pinto';
@@ -831,7 +866,7 @@
         let answersObj = {};
         try { answersObj = JSON.parse(row.getAttribute('data-answers') || '{}'); } catch(e){}
 
-        const detailRow = document.getElementById(`details-row-${idx}`);
+        const detailRow = document.getElementById(`details-row-${rowId}`) || document.getElementById(`details-row-${idx}`);
 
         const simuladoMatch = (selectedSimulado === 'ALL' || rowSimulado === selectedSimulado);
         const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass || (rowClass && selectedClass && rowClass.includes(selectedClass)));
@@ -879,7 +914,34 @@
           row.style.display = 'none';
           if(detailRow) detailRow.style.display = 'none';
         }
+
+        rowPairs.push({ main: row, detail: detailRow });
       });
+
+      // --- ORDENAÇÃO DINÂMICA DAS LINHAS NA TABELA ---
+      rowPairs.sort((a, b) => {
+        const aScore = parseInt(a.main.getAttribute('data-score')) || 0;
+        const bScore = parseInt(b.main.getAttribute('data-score')) || 0;
+        const aDate = new Date(a.main.getAttribute('data-date')).getTime() || 0;
+        const bDate = new Date(b.main.getAttribute('data-date')).getTime() || 0;
+        const aName = (a.main.getAttribute('data-student') || '').toLowerCase();
+        const bName = (b.main.getAttribute('data-student') || '').toLowerCase();
+
+        if (sortOrder === 'SCORE_DESC') return bScore - aScore;
+        if (sortOrder === 'SCORE_ASC') return aScore - bScore;
+        if (sortOrder === 'DATE_ASC') return aDate - bDate;
+        if (sortOrder === 'NAME_ASC') return aName.localeCompare(bName, 'pt-BR');
+        if (sortOrder === 'NAME_DESC') return bName.localeCompare(aName, 'pt-BR');
+        return bDate - aDate; // DATE_DESC por padrão
+      });
+
+      const tbody = document.querySelector('#submissionsTable tbody');
+      if (tbody) {
+        rowPairs.forEach((pair) => {
+          tbody.appendChild(pair.main);
+          if (pair.detail) tbody.appendChild(pair.detail);
+        });
+      }
 
       // Safeguard: If filters match 0 rows, auto-reset to ALL
       if (visibleCount === 0 && mainRows.length > 0 && (selectedSimulado !== 'ALL' || selectedClass !== 'ALL' || selectedSchool !== 'ALL' || selectedShift !== 'ALL' || selectedDate !== 'ALL')) {
@@ -961,6 +1023,8 @@
         });
         qGrid.innerHTML = qHTML;
       }
+
+      updateBulkActionsBar();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -968,8 +1032,134 @@
       document.getElementById('filterSchool').value = 'ALL';
       document.getElementById('filterClass').value = 'ALL';
       document.getElementById('filterDate').value = 'ALL';
+      if (document.getElementById('sortOrder')) document.getElementById('sortOrder').value = 'DATE_DESC';
       applyFilters();
     });
+
+    // --- SELEÇÃO EM LOTE & AÇÕES EM MASSA ---
+    function toggleSelectAll(master) {
+      const checkboxes = document.querySelectorAll('tr.student-row:not([style*="display: none"]) .student-checkbox');
+      checkboxes.forEach(cb => cb.checked = master.checked);
+      updateBulkActionsBar();
+    }
+
+    function updateBulkActionsBar() {
+      const checked = document.querySelectorAll('.student-checkbox:checked');
+      const bar = document.getElementById('bulkActionsBar');
+      const badge = document.getElementById('selectedCountBadge');
+      if (checked.length > 0) {
+        bar.style.display = 'flex';
+        badge.innerText = `${checked.length} selecionado(s)`;
+      } else {
+        bar.style.display = 'none';
+        const master = document.getElementById('selectAllCheck');
+        if (master) master.checked = false;
+      }
+    }
+
+    async function deleteSelectedSubmissions() {
+      const checked = document.querySelectorAll('.student-checkbox:checked');
+      const ids = Array.from(checked).map(cb => parseInt(cb.value));
+      if (ids.length === 0) return;
+
+      if (!confirm(`⚠️ Tem certeza que deseja APAGAR permanentemente os ${ids.length} estudante(s) selecionado(s)?\nEsta ação não poderá ser desfeita.`)) {
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/simulado/submissions/bulk-delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ids })
+        });
+        const data = await res.json();
+        if (data.success) {
+          ids.forEach(id => {
+            const row = document.getElementById(`student-row-${id}`);
+            if (row) row.remove();
+            const detailRow = document.getElementById(`details-row-${id}`);
+            if (detailRow) detailRow.remove();
+          });
+          updateBulkActionsBar();
+          applyFilters();
+          alert(`🗑️ ${ids.length} registro(s) apagado(s) com sucesso!`);
+        } else {
+          alert('Erro ao apagar: ' + data.error);
+        }
+      } catch(err) {
+        alert('Erro ao se comunicar com o servidor: ' + err.message);
+      }
+    }
+
+    function openBulkMoveModal() {
+      const checked = document.querySelectorAll('.student-checkbox:checked');
+      if (checked.length === 0) return;
+      document.getElementById('bulkMoveCountLabel').innerText = checked.length;
+      document.getElementById('bulkMoveModal').style.display = 'flex';
+    }
+
+    function closeBulkMoveModal() {
+      document.getElementById('bulkMoveModal').style.display = 'none';
+    }
+
+    async function executeBulkMove(event) {
+      event.preventDefault();
+      const checked = document.querySelectorAll('.student-checkbox:checked');
+      const ids = Array.from(checked).map(cb => parseInt(cb.value));
+      if (ids.length === 0) return;
+
+      const targetClass = document.getElementById('bulkTargetClass').value;
+      const targetShift = document.getElementById('bulkTargetShift').value;
+      const targetSimulado = document.getElementById('bulkTargetSimulado').value;
+
+      try {
+        const res = await fetch('/api/admin/simulado/submissions/bulk-move', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ids,
+            class_name: targetClass !== 'NO_CHANGE' ? targetClass : undefined,
+            shift: targetShift !== 'NO_CHANGE' ? targetShift : undefined,
+            simulado_id: targetSimulado !== 'NO_CHANGE' ? targetSimulado : undefined
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert(`📦 ${ids.length} estudante(s) movido(s)/atualizado(s) com sucesso!`);
+          closeBulkMoveModal();
+          window.location.reload();
+        } else {
+          alert('Erro ao mover: ' + data.error);
+        }
+      } catch (err) {
+        alert('Erro de comunicação: ' + err.message);
+      }
+    }
+
+    function printSelectedSubmissions() {
+      const checked = document.querySelectorAll('.student-checkbox:checked');
+      if (checked.length === 0) {
+        alert('Por favor, marque as caixas de seleção dos alunos que você deseja incluir no PDF!');
+        return;
+      }
+      const selectedIds = new Set(Array.from(checked).map(cb => cb.value));
+      
+      const allMainRows = document.querySelectorAll('tr.student-row');
+      allMainRows.forEach(row => {
+        const id = row.getAttribute('data-id');
+        const detailRow = document.getElementById(`details-row-${id}`);
+        if (!selectedIds.has(id)) {
+          row.style.display = 'none';
+          if (detailRow) detailRow.style.display = 'none';
+        }
+      });
+
+      window.print();
+
+      setTimeout(() => {
+        applyFilters();
+      }, 1000);
+    }
 
     // --- ESTUDANTES: EDITAR & APAGAR ---
     function openEditModal(id, studentName, schoolName, className, shift) {
@@ -1094,6 +1284,56 @@
       reader.readAsText(file);
     }
   </script>
+
+  <!-- Modal de Movimentação em Lote (Mover Estudantes Selecionados) -->
+  <div id="bulkMoveModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(6px); z-index:1000; justify-content:center; align-items:center; padding:1rem;">
+    <div style="background:white; border-radius:20px; max-width:480px; width:100%; padding:2rem; text-align:left; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); border-top: 6px solid #0284c7;">
+      <h3 style="font-family:'Outfit', sans-serif; font-size:1.4rem; color:#0369a1; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem;">
+        📦 Mover / Alterar <span id="bulkMoveCountLabel">0</span> Estudante(s) em Lote
+      </h3>
+      <p style="font-size:0.85rem; color:#64748b; margin-bottom:1.2rem;">Escolha os novos campos para aplicar a todos os alunos selecionados:</p>
+      
+      <form onsubmit="executeBulkMove(event)">
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:0.3rem;">Nova Turma / Ano</label>
+          <select id="bulkTargetClass" class="filter-select" style="width:100%;">
+            <option value="NO_CHANGE">-- Manter Atual --</option>
+            <option value="1º Ano">1º Ano</option>
+            <option value="2º Ano">2º Ano</option>
+            <option value="3º Ano">3º Ano</option>
+            <option value="4º Ano">4º Ano</option>
+            <option value="5º Ano">5º Ano</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label style="display:block; font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:0.3rem;">Novo Turno</label>
+          <select id="bulkTargetShift" class="filter-select" style="width:100%;">
+            <option value="NO_CHANGE">-- Manter Atual --</option>
+            <option value="Manhã">☀️ Manhã</option>
+            <option value="Tarde">🌤️ Tarde</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <label style="display:block; font-weight:700; font-size:0.85rem; color:#475569; margin-bottom:0.3rem;">Novo Simulado / Caderno</label>
+          <select id="bulkTargetSimulado" class="filter-select" style="width:100%;">
+            <option value="NO_CHANGE">-- Manter Atual --</option>
+            <option value="campos-1ano-agosto-2026">🥇 1º Ano (Agosto/2026)</option>
+            <option value="campos-2ano-agosto-2026">🥈 2º Ano (Agosto/2026)</option>
+            <option value="campos-3ano-agosto-2026">🥉 3º Ano (Agosto/2026)</option>
+            <option value="campos-4ano-agosto-2026">🎯 4º Ano (Agosto/2026)</option>
+            <option value="campos-5ano-agosto-2026">🚀 5º Ano (Agosto/2026)</option>
+          </select>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.8rem;">
+          <button type="button" onclick="closeBulkMoveModal()" style="background:#f1f5f9; color:#475569; border:none; padding:0.7rem 1.2rem; border-radius:10px; font-weight:700; font-family:'Outfit'; cursor:pointer;">Cancelar</button>
+          <button type="submit" style="background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:white; border:none; padding:0.7rem 1.4rem; border-radius:10px; font-weight:800; font-family:'Outfit'; cursor:pointer;">🚀 Aplicar Alterações em Lote</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Modal de Edição de Estudante -->
   <div id="editStudentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(6px); z-index:1000; justify-content:center; align-items:center; padding:1rem;">

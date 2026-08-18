@@ -635,6 +635,28 @@ const dbHelper = {
     await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
   },
 
+  async bulkDeleteSimuladoSubmissions(ids) {
+    if (!Array.isArray(ids) || ids.length === 0) return;
+    const placeholders = ids.map(() => '?').join(',');
+    await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, ids);
+  },
+
+  async bulkMoveSimuladoSubmissions(ids, { class_name, shift, simulado_id }) {
+    if (!Array.isArray(ids) || ids.length === 0) return;
+    const placeholders = ids.map(() => '?').join(',');
+    const updates = [];
+    const args = [];
+
+    if (class_name) { updates.push('class_name = ?'); args.push(class_name); }
+    if (shift) { updates.push('shift = ?'); args.push(shift); }
+    if (simulado_id) { updates.push('simulado_id = ?'); args.push(simulado_id); }
+
+    if (updates.length === 0) return;
+    args.push(...ids);
+
+    await queryRun(`UPDATE simulado_submissions SET ${updates.join(', ')} WHERE id IN (${placeholders})`, args);
+  },
+
   // 11. Students Management
   async getStudentsByClass(classId) {
     return await queryAll("SELECT * FROM students WHERE class_id = ? ORDER BY name ASC", [classId]);
