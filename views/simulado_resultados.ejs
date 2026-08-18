@@ -474,7 +474,7 @@
       </div>
 
       <!-- Filters Bar with Date System -->
-      <div class="filters-bar">
+      <div class="filters-bar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
         <div class="filter-group">
           <label for="filterDate">📅 Período / Data:</label>
           <select id="filterDate" class="filter-select" onchange="applyFilters()">
@@ -486,22 +486,35 @@
         </div>
 
         <div class="filter-group">
-          <label for="filterClass">🏫 Turma:</label>
+          <label for="filterClass">🏫 Turma / Ano:</label>
           <select id="filterClass" class="filter-select" onchange="applyFilters()">
-            <option value="ALL">Todas as Turmas</option>
-            <option value="4º Ano A">4º Ano A</option>
-            <option value="4º Ano B">4º Ano B</option>
-            <option value="4º Ano C">4º Ano C</option>
-            <option value="4º Ano D">4º Ano D</option>
-            <option value="4º Ano E">4º Ano E</option>
+            <option value="ALL">Todas as Turmas / Anos</option>
+            <option value="4º Ano">4º Ano</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <label for="filterSchool">🏬 Escola:</label>
+          <label for="filterShift">☀️ Turno:</label>
+          <select id="filterShift" class="filter-select" onchange="applyFilters()">
+            <option value="ALL">Todos os Turnos</option>
+            <option value="Manhã">☀️ Manhã</option>
+            <option value="Tarde">🌤️ Tarde</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filterSchool">🏬 Escola Municipal:</label>
           <select id="filterSchool" class="filter-select" onchange="applyFilters()">
             <option value="ALL">Todas as Escolas</option>
-            <% const schoolsList = [...new Set(submissions.map(s => s.school_name || 'E.M. Profª Eleonora da Silva Pinto'))]; %>
+            <% 
+              const defaultSchoolsList = [
+                'E.M. Profª Eleonora da Silva Pinto',
+                'E.M. José Giró Faísca',
+                'E.M. Luis Carlos de Lacerda'
+              ];
+              const dynamicSchools = [...new Set(submissions.map(s => s.school_name).filter(Boolean))];
+              const schoolsList = [...new Set([...defaultSchoolsList, ...dynamicSchools])];
+            %>
             <% schoolsList.forEach(sch => { %>
               <option value="<%= sch %>"><%= sch %></option>
             <% }); %>
@@ -535,6 +548,72 @@
             <%= submissions.filter(s => s.essay_text && s.essay_text.length >= 10).length %>
           </div>
           <div class="stat-lbl" style="color: #15803d;">Redações Entregues</div>
+        </div>
+      </div>
+
+      <!-- Section: Painel Comparativo de Desempenho (Tempo Real) -->
+      <div class="comparative-container no-print" style="margin: 1.5rem 0 2rem 0; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+              <span>📊 Painel Comparativo de Desempenho</span>
+            </h3>
+            <p style="font-size: 0.88rem; color: #64748b; margin-top: 0.2rem;">Comparação instantânea entre Escolas, Turnos (Manhã x Tarde) e Taxa de Acertos por Questão</p>
+          </div>
+          <span style="font-size: 0.8rem; background: #e0f2fe; color: #0369a1; font-weight: 800; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid #bae6fd;">
+            ⚡ Atualização Dinâmica
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+          <!-- Card 1: Comparativo por Turno (Manhã vs Tarde) -->
+          <div style="background: white; border-radius: 16px; padding: 1.2rem; border: 1px solid #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <h4 style="font-family: 'Fredoka', sans-serif; color: #0284c7; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span>☀️ vs 🌤️</span> <span>Comparativo por Turno</span>
+            </h4>
+            <div id="shiftComparisonContainer" style="display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Manhã -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 0.3rem;">
+                  <span>☀️ Turno Manhã</span>
+                  <span id="shiftManhaStats">0 alunos • Média: 0.0</span>
+                </div>
+                <div style="background: #f1f5f9; height: 12px; border-radius: 50px; overflow: hidden;">
+                  <div id="shiftManhaBar" style="background: linear-gradient(90deg, #f59e0b, #d97706); height: 100%; width: 0%; transition: width 0.5s;"></div>
+                </div>
+              </div>
+              <!-- Tarde -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 0.3rem;">
+                  <span>🌤️ Turno Tarde</span>
+                  <span id="shiftTardeStats">0 alunos • Média: 0.0</span>
+                </div>
+                <div style="background: #f1f5f9; height: 12px; border-radius: 50px; overflow: hidden;">
+                  <div id="shiftTardeBar" style="background: linear-gradient(90deg, #0284c7, #0369a1); height: 100%; width: 0%; transition: width 0.5s;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Comparativo por Escola -->
+          <div style="background: white; border-radius: 16px; padding: 1.2rem; border: 1px solid #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <h4 style="font-family: 'Fredoka', sans-serif; color: #059669; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span>🏫</span> <span>Comparativo por Escola</span>
+            </h4>
+            <div id="schoolComparisonContainer" style="display: flex; flex-direction: column; gap: 0.8rem; max-height: 200px; overflow-y: auto;">
+              <!-- Dynamic content via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Taxa de Acertos por Questão (Q1 a Q10) -->
+        <div style="background: white; border-radius: 16px; padding: 1.2rem; border: 1px solid #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.03); margin-top: 1.5rem;">
+          <h4 style="font-family: 'Fredoka', sans-serif; color: #7c3aed; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🎯</span> <span>Comparativo por Questão (Taxa de Acertos do Grupo)</span>
+          </h4>
+          <div id="questionComparisonGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.8rem; text-align: center;">
+            <!-- Populated dynamically via JS -->
+          </div>
         </div>
       </div>
 
@@ -582,7 +661,7 @@
                 const summaryStr = summaryList.join(' | ');
                 const dateISO = new Date(s.created_at).toISOString();
               %>
-              <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-score="<%= score %>" data-date="<%= dateISO %>">
+              <tr class="student-row" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-score="<%= score %>" data-date="<%= dateISO %>" data-answers='<%= JSON.stringify(parsedAns) %>'>
                 <td style="text-align: center; font-weight: 800; color: #64748b;"><%= idx + 1 %></td>
                 <td>
                   <strong>📅 <%= new Date(s.created_at).toLocaleDateString('pt-BR') %></strong><br>
@@ -608,7 +687,7 @@
               </tr>
 
               <!-- Detailed Answers Expander Row (On Screen) -->
-              <tr class="answers-detail-row no-print" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-date="<%= dateISO %>">
+              <tr class="answers-detail-row no-print" id="details-row-<%= idx %>" data-class="<%= s.class_name %>" data-school="<%= s.school_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-date="<%= dateISO %>">
                 <td colspan="7">
                   <div class="answers-box">
                     <h4 style="font-family:'Outfit'; color:#0369a1; margin-bottom: 0.6rem;">
@@ -629,19 +708,20 @@
   </div>
 
   <script>
+    const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' };
+
     function toggleDetails(idx) {
       const row = document.getElementById(`details-row-${idx}`);
-      if(row) row.classList.toggle('active');
+      if (row) {
+        row.style.display = (row.style.display === 'table-row') ? 'none' : 'table-row';
+      }
     }
 
     function applyFilters() {
       const selectedClass = document.getElementById('filterClass').value;
       const selectedSchool = document.getElementById('filterSchool').value;
       const selectedDate = document.getElementById('filterDate').value;
-
-      document.getElementById('printClassLabel').innerText = selectedClass === 'ALL' ? 'Todas as Turmas' : selectedClass;
-      document.getElementById('printSchoolLabel').innerText = selectedSchool === 'ALL' ? 'Todas as Escolas' : selectedSchool;
-      document.getElementById('printDateLabel').innerText = selectedDate === 'ALL' ? 'Todos os Períodos' : selectedDate;
+      const selectedShift = document.getElementById('filterShift') ? document.getElementById('filterShift').value : 'ALL';
 
       const now = new Date();
       const mainRows = document.querySelectorAll('tr.student-row');
@@ -649,16 +729,29 @@
       let totalScore = 0;
       let visibleEssays = 0;
 
+      // Comparative Data Accumulators
+      const shiftData = {
+        'Manhã': { count: 0, sumScore: 0 },
+        'Tarde': { count: 0, sumScore: 0 }
+      };
+      const schoolData = {};
+      const questionCorrect = { 1:0, 2:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0 };
+
       mainRows.forEach((row, idx) => {
         const rowClass = row.getAttribute('data-class');
-        const rowSchool = row.getAttribute('data-school');
+        const rowSchool = row.getAttribute('data-school') || 'E.M. Profª Eleonora da Silva Pinto';
+        const rowShift = row.getAttribute('data-shift') || 'Manhã';
         const score = parseInt(row.getAttribute('data-score')) || 0;
         const rowDateStr = row.getAttribute('data-date');
         const rowDate = new Date(rowDateStr);
+        let answersObj = {};
+        try { answersObj = JSON.parse(row.getAttribute('data-answers') || '{}'); } catch(e){}
+
         const detailRow = document.getElementById(`details-row-${idx}`);
 
         const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass);
         const schoolMatch = (selectedSchool === 'ALL' || rowSchool === selectedSchool);
+        const shiftMatch = (selectedShift === 'ALL' || rowShift === selectedShift);
 
         let dateMatch = true;
         if (selectedDate === 'TODAY') {
@@ -670,7 +763,7 @@
           dateMatch = (rowDate.getMonth() === now.getMonth() && rowDate.getFullYear() === now.getFullYear());
         }
 
-        if (classMatch && schoolMatch && dateMatch) {
+        if (classMatch && schoolMatch && shiftMatch && dateMatch) {
           row.style.display = '';
           visibleCount++;
           totalScore += score;
@@ -679,45 +772,109 @@
             const essayText = detailRow.querySelector('.essay-box p').innerText;
             if (essayText && !essayText.includes('Nenhum texto')) visibleEssays++;
           }
+
+          // Accumulate Shift Comparative
+          const shiftKey = rowShift.includes('Tarde') ? 'Tarde' : 'Manhã';
+          if (!shiftData[shiftKey]) shiftData[shiftKey] = { count: 0, sumScore: 0 };
+          shiftData[shiftKey].count++;
+          shiftData[shiftKey].sumScore += score;
+
+          // Accumulate School Comparative
+          if (!schoolData[rowSchool]) schoolData[rowSchool] = { count: 0, sumScore: 0 };
+          schoolData[rowSchool].count++;
+          schoolData[rowSchool].sumScore += score;
+
+          // Accumulate Question Correctness
+          for (let q in questionCorrect) {
+            if (answersObj[q] === answerKey[q]) {
+              questionCorrect[q]++;
+            }
+          }
         } else {
           row.style.display = 'none';
           if(detailRow) detailRow.style.display = 'none';
         }
       });
 
-      // Safeguard: If filters match 0 rows, auto-reset to ALL so user NEVER sees an empty screen!
-      if (visibleCount === 0 && mainRows.length > 0 && (selectedClass !== 'ALL' || selectedSchool !== 'ALL' || selectedDate !== 'ALL')) {
-        console.warn('Filtro zerado. Restaurando exibição de todas as turmas/escolas.');
+      // Safeguard: If filters match 0 rows, auto-reset to ALL
+      if (visibleCount === 0 && mainRows.length > 0 && (selectedClass !== 'ALL' || selectedSchool !== 'ALL' || selectedShift !== 'ALL' || selectedDate !== 'ALL')) {
         document.getElementById('filterClass').value = 'ALL';
         document.getElementById('filterSchool').value = 'ALL';
         document.getElementById('filterDate').value = 'ALL';
-        
-        document.getElementById('printClassLabel').innerText = 'Todas as Turmas';
-        document.getElementById('printSchoolLabel').innerText = 'Todas as Escolas';
-        document.getElementById('printDateLabel').innerText = 'Todos os Períodos';
-
-        visibleCount = 0;
-        totalScore = 0;
-        visibleEssays = 0;
-
-        mainRows.forEach((row, idx) => {
-          row.style.display = '';
-          visibleCount++;
-          const score = parseInt(row.getAttribute('data-score')) || 0;
-          totalScore += score;
-          const detailRow = document.getElementById(`details-row-${idx}`);
-          if (detailRow) {
-            const essayText = detailRow.querySelector('.essay-box p').innerText;
-            if (essayText && !essayText.includes('Nenhum texto')) visibleEssays++;
-          }
-        });
+        if (document.getElementById('filterShift')) document.getElementById('filterShift').value = 'ALL';
+        applyFilters();
+        return;
       }
 
-      // Update Live Stats
+      // Update Live General Stats
       document.getElementById('statTotal').innerText = visibleCount;
       const avg = visibleCount > 0 ? (totalScore / visibleCount).toFixed(1) : 0;
       document.getElementById('statAvg').innerText = `${avg} / 9`;
       document.getElementById('statEssays').innerText = visibleEssays;
+
+      // Update Comparative Panel: Turno (Manhã vs Tarde)
+      const mCount = shiftData['Manhã'].count;
+      const mAvg = mCount > 0 ? (shiftData['Manhã'].sumScore / mCount).toFixed(1) : 0;
+      const mPct = (mAvg / 9) * 100;
+      document.getElementById('shiftManhaStats').innerText = `${mCount} aluno(s) • Média: ${mAvg} / 9`;
+      document.getElementById('shiftManhaBar').style.width = `${mPct}%`;
+
+      const tCount = shiftData['Tarde'].count;
+      const tAvg = tCount > 0 ? (shiftData['Tarde'].sumScore / tCount).toFixed(1) : 0;
+      const tPct = (tAvg / 9) * 100;
+      document.getElementById('shiftTardeStats').innerText = `${tCount} aluno(s) • Média: ${tAvg} / 9`;
+      document.getElementById('shiftTardeBar').style.width = `${tPct}%`;
+
+      // Update Comparative Panel: Escolas
+      const schoolContainer = document.getElementById('schoolComparisonContainer');
+      if (schoolContainer) {
+        let schoolHTML = '';
+        const schoolKeys = Object.keys(schoolData);
+        if (schoolKeys.length === 0) {
+          schoolHTML = '<div style="font-size:0.85rem; color:#94a3b8;">Nenhum dado de escola no filtro.</div>';
+        } else {
+          schoolKeys.forEach(sch => {
+            const cnt = schoolData[sch].count;
+            const schAvg = cnt > 0 ? (schoolData[sch].sumScore / cnt).toFixed(1) : 0;
+            const schPct = (schAvg / 9) * 100;
+            schoolHTML += `
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:700; color:#334155; margin-bottom:0.2rem;">
+                  <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:180px;">${sch}</span>
+                  <span>${cnt} al. • Média: ${schAvg}</span>
+                </div>
+                <div style="background:#f1f5f9; height:10px; border-radius:50px; overflow:hidden;">
+                  <div style="background:linear-gradient(90deg, #10b981, #059669); height:100%; width:${schPct}%; transition:width 0.5s;"></div>
+                </div>
+              </div>
+            `;
+          });
+        }
+        schoolContainer.innerHTML = schoolHTML;
+      }
+
+      // Update Comparative Panel: Questões
+      const qGrid = document.getElementById('questionComparisonGrid');
+      if (qGrid) {
+        let qHTML = '';
+        const qNums = [1, 2, 4, 5, 6, 7, 8, 9, 10];
+        qNums.forEach(q => {
+          const correct = questionCorrect[q] || 0;
+          const pct = visibleCount > 0 ? Math.round((correct / visibleCount) * 100) : 0;
+          let color = '#10b981';
+          if (pct < 50) color = '#ef4444';
+          else if (pct < 75) color = '#f59e0b';
+          
+          qHTML += `
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:0.6rem 0.4rem;">
+              <div style="font-weight:800; font-size:0.8rem; color:#475569;">Q${q < 10 ? '0'+q : q}</div>
+              <div style="font-size:1.1rem; font-weight:900; color:${color}; margin:0.2rem 0;">${pct}%</div>
+              <div style="font-size:0.7rem; color:#94a3b8;">${correct}/${visibleCount} acertos</div>
+            </div>
+          `;
+        });
+        qGrid.innerHTML = qHTML;
+      }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
