@@ -575,6 +575,21 @@ const dbHelper = {
       "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
       [simulado_id, student_name, school_name || '', class_name || '', shift || 'Manhã', jsonStr, score || 0, max_score || 9, essay_text || '']
     );
+    if (supabase) {
+      try {
+        await supabase.from('simulado_submissions').insert([{
+          simulado_id: simulado_id || 'campos-4ano-agosto-2026',
+          student_name,
+          school_name: school_name || '',
+          class_name: class_name || '',
+          shift: shift || 'Manhã',
+          answers_json: jsonStr,
+          score: score || 0,
+          max_score: max_score || 9,
+          essay_text: essay_text || ''
+        }]);
+      } catch(e) { console.warn('[Supabase Sync Warn]:', e.message); }
+    }
     await syncAutoBackupJSON();
   },
 
@@ -600,6 +615,22 @@ const dbHelper = {
             sub.created_at || new Date().toISOString()
           ]
         );
+        if (supabase) {
+          try {
+            await supabase.from('simulado_submissions').insert([{
+              simulado_id: sub.simulado_id || 'campos-4ano-agosto-2026',
+              student_name: sub.student_name,
+              school_name: sub.school_name || '',
+              class_name: sub.class_name || '',
+              shift: sub.shift || 'Manhã',
+              answers_json: jsonStr,
+              score: sub.score || 0,
+              max_score: sub.max_score || 9,
+              essay_text: sub.essay_text || '',
+              created_at: sub.created_at || new Date().toISOString()
+            }]);
+          } catch(e){}
+        }
         restored++;
       } catch(e) {
         console.warn('Erro ao restaurar item:', e.message);
@@ -610,13 +641,27 @@ const dbHelper = {
   },
 
   async getSimuladoSubmissions(simulado_id = 'ALL') {
+    let rows = [];
     if (!simulado_id || simulado_id === 'ALL') {
-      return await queryAll("SELECT * FROM simulado_submissions ORDER BY created_at DESC");
+      rows = await queryAll("SELECT * FROM simulado_submissions ORDER BY created_at DESC");
+    } else {
+      rows = await queryAll(
+        "SELECT * FROM simulado_submissions WHERE simulado_id = ? ORDER BY created_at DESC",
+        [simulado_id]
+      );
     }
-    return await queryAll(
-      "SELECT * FROM simulado_submissions WHERE simulado_id = ? ORDER BY created_at DESC",
-      [simulado_id]
-    );
+    // Fallback to Supabase Cloud if primary returns empty
+    if ((!rows || rows.length === 0) && supabase) {
+      try {
+        let query = supabase.from('simulado_submissions').select('*').order('created_at', { ascending: false });
+        if (simulado_id && simulado_id !== 'ALL') {
+          query = query.eq('simulado_id', simulado_id);
+        }
+        const { data } = await query;
+        if (data && data.length > 0) return data;
+      } catch(e) {}
+    }
+    return rows;
   },
 
   async getSimuladoStats(simulado_id = 'ALL') {
@@ -643,11 +688,19 @@ const dbHelper = {
       "UPDATE simulado_submissions SET student_name = ?, school_name = ?, class_name = ?, shift = ? WHERE id = ?",
       [student_name, school_name, class_name, shift, id]
     );
+    if (supabase) {
+      try {
+        await supabase.from('simulado_submissions').update({ student_name, school_name, class_name, shift }).eq('id', id);
+      } catch(e){}
+    }
     await syncAutoBackupJSON();
   },
 
   async deleteSimuladoSubmission(id) {
     await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
+    if (supabase) {
+      try { await supabase.from('simulado_submissions').delete().eq('id', id); } catch(e){}
+    }
     await syncAutoBackupJSON();
   },
 
@@ -655,6 +708,9 @@ const dbHelper = {
     if (!Array.isArray(ids) || ids.length === 0) return;
     const placeholders = ids.map(() => '?').join(',');
     await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, ids);
+    if (supabase) {
+      try { await supabase.from('simulado_submissions').delete().in('id', ids); } catch(e){}
+    }
     await syncAutoBackupJSON();
   },
 
@@ -672,6 +728,17 @@ const dbHelper = {
     args.push(...ids);
 
     await queryRun(`UPDATE simulado_submissions SET ${updates.join(', ')} WHERE id IN (${placeholders})`, args);
+
+    if (supabase) {
+      try {
+        const payload = {};
+        if (class_name) payload.class_name = class_name;
+        if (shift) payload.shift = shift;
+        if (simulado_id) payload.simulado_id = simulado_id;
+        await supabase.from('simulado_submissions').update(payload).in('id', ids);
+      } catch(e){}
+    }
+
     await syncAutoBackupJSON();
   },
 

@@ -154,3 +154,19 @@ CREATE TABLE IF NOT EXISTS teacher_planning (
     planned_date DATE NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 17. Submissões do Simulado Digital
+CREATE TABLE IF NOT EXISTS simulado_submissions (
+    id SERIAL PRIMARY KEY,
+    simulado_id TEXT DEFAULT 'campos-4ano-agosto-2026',
+    student_name TEXT NOT NULL,
+    school_name TEXT,
+    class_name TEXT,
+    shift TEXT DEFAULT 'Manhã',
+    answers_json TEXT NOT NULL,
+    score INTEGER DEFAULT 0,
+    max_score INTEGER DEFAULT 9,
+    essay_text TEXT,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
