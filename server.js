@@ -410,6 +410,7 @@ app.delete('/api/admin/simulado/submission/:id', async (req, res) => {
 
 app.get('/admin/simulado/resultados', async (req, res) => {
   try {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     const simuladoId = req.query.simulado_id || 'ALL';
     const submissions = await dbHelper.getSimuladoSubmissions(simuladoId);
     const stats = await dbHelper.getSimuladoStats(simuladoId);
