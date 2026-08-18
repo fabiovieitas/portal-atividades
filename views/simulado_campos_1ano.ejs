@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado 1º Ano — Projeto Campos de Todos Nós (Agosto/2026)</title>
+
+  <!-- Google Fonts: Fredoka (Friendly/Kids) and Outfit (Modern UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --accent: #f59e0b;
+      --accent-green: #10b981;
+      --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --radius-lg: 20px;
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 10px 25px -5px rgba(2, 132, 199, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-header {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #bae6fd;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .brand-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .simulado-badge {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: white;
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+
+    .main-layout {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+      flex: 1;
+    }
+
+    .student-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+      border: 1px solid #bae6fd;
+    }
+    .student-card h2 {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr 1fr;
+      gap: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    .question-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid #e2e8f0;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    .q-number {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+      background: var(--primary-light);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+    }
+    .q-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 1.25rem;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafafa;
+    }
+    .option-label:hover {
+      border-color: #bae6fd;
+      background: #f0f9ff;
+    }
+    .option-label input[type="radio"] {
+      margin-right: 1rem;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary);
+    }
+    .option-text {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .gabarito-sidebar {
+      position: sticky;
+      top: 90px;
+      height: fit-content;
+    }
+    .cartao-resposta {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      border: 2px solid #bae6fd;
+    }
+    .cartao-title {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .bubbles-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .bubble-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 0.4rem 0.8rem;
+      border-radius: 10px;
+    }
+    .bubble-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+    .bubble-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: #64748b;
+      cursor: pointer;
+    }
+    .bubble-dot.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      transition: transform 0.2s;
+    }
+    .submit-btn:hover { transform: translateY(-2px); }
+
+    .result-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .result-modal.active { display: flex; }
+    .result-content {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    }
+    .modal-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="header-container">
+      <a href="/" class="brand-logo">
+        <span style="font-size: 2rem;">🏛️</span>
+        <div>
+          <div class="brand-title">Projeto Campos de Todos Nós!</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted);">Prefeitura Municipal de Campos dos Goytacazes</div>
+        </div>
+      </a>
+      <div class="simulado-badge">
+        <span>📝 SIMULADO 1º ANO — AGOSTO/2026</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+    <div class="questions-column">
+      
+      <!-- Student Card -->
+      <section class="student-card">
+        <h2>👤 Identificação do Estudante</h2>
+        <form id="student-form" onsubmit="event.preventDefault();">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="studentName">Nome Completo do Estudante *</label>
+              <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
+            </div>
+            <div class="form-group">
+              <label for="schoolName">Escola Municipal *</label>
+              <select id="schoolName" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
+                <% if (typeof schools !== 'undefined' && schools.length > 0) { %>
+                  <% schools.forEach(sch => { %>
+                    <option value="<%= sch.name %>"><%= sch.name %></option>
+                  <% }); %>
+                <% } else { %>
+                  <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
+                  <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
+                  <option value="E.M. Luis Carlos de Lacerda">E.M. Luis Carlos de Lacerda</option>
+                <% } %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="className">Ano Escolar *</label>
+              <select id="className" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
+                <option value="1º Ano">1º Ano</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="shiftName">Turno *</label>
+              <select id="shiftName" class="form-control" style="font-weight: 700; color: #d97706;">
+                <option value="Manhã">☀️ Manhã</option>
+                <option value="Tarde">🌤️ Tarde</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- Intro Context Text -->
+      <div style="background: white; border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; border-left: 6px solid var(--primary); box-shadow: var(--shadow-sm);">
+        <h3 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); margin-bottom: 0.5rem;">📖 Passaporte da Cultura Campista</h3>
+        <p style="font-size: 0.95rem; line-height: 1.6; color: #334155;">
+          JÚLIA E KELVIN VÃO CONHECER A CULTURA DE CAMPOS. A PROFESSORA MOSTROU IMAGENS DE FESTAS, DANÇAS, LENDAS E COMIDAS DA NOSSA CIDADE. A TURMA VIU O BOI PINTADINHO, A MANA CHICA, O JONGO, A FOLIA DE REIS, O CHUVISCO, A LENDA DO URURAU DA LAPA E O RIO PARAÍBA DO SUL. GOYTARÉ TAMBÉM PARTICIPOU!
+        </p>
+      </div>
+
+      <!-- Question 1 -->
+      <div class="question-card" id="q-card-1">
+        <div class="question-header">
+          <span class="q-number">Questão 01</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
+        </div>
+        <div class="q-text">
+          A PROFESSORA ORGANIZOU ALGUMAS PALAVRAS DO PROJETO. OBSERVE:<br><br>
+          <div style="display: flex; gap: 0.5rem; justify-content: center; background: #f8fafc; padding: 1rem; border-radius: 12px; font-weight: 700;">
+            <span>[ COMIDAS ]</span> <span>[ DANÇAS ]</span> <span style="color: #ef4444;">[ _______ ]</span> <span>[ LENDAS ]</span>
+          </div><br>
+          QUAL PALAVRA DEVE SER COLOCADA NO ESPAÇO PARA MANTER A ORDEM ALFABÉTICA?
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span class="option-text">A) FESTAS.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span class="option-text">B) ZEBRA.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span class="option-text">C) CASA.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span class="option-text">D) PIPA.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="question-card" id="q-card-2">
+        <div class="question-header">
+          <span class="q-number">Questão 02</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
+        </div>
+        <div class="q-text">
+          <strong>URURAU DA LAPA</strong><br>
+          CONTA A LENDA QUE, HÁ MUITO TEMPO, VIVIA UM GRANDE JACARÉ CHAMADO URURAU. ELE MORAVA NAS ÁGUAS DO RIO PARAÍBA DO SUL, PERTO DA LAPA, EM CAMPOS DOS GOYTACAZES. COM O TEMPO, O URURAU DA LAPA VIROU UMA LENDA MUITO CONHECIDA E PASSOU A FAZER PARTE DA CULTURA POPULAR CAMPISTA.<br><br>
+          O TEXTO É:
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q2" value="A" onclick="updateCartao(2, 'A')"> <span class="option-text">A) UMA RECEITA.</span></label>
+          <label class="option-label"><input type="radio" name="q2" value="B" onclick="updateCartao(2, 'B')"> <span class="option-text">B) UM CARTAZ.</span></label>
+          <label class="option-label"><input type="radio" name="q2" value="C" onclick="updateCartao(2, 'C')"> <span class="option-text">C) UMA LENDA.</span></label>
+          <label class="option-label"><input type="radio" name="q2" value="D" onclick="updateCartao(2, 'D')"> <span class="option-text">D) UMA LISTA DE COMPRAS.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="question-card" id="q-card-3">
+        <div class="question-header">
+          <span class="q-number">Questão 03</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
+        </div>
+        <div class="q-text">
+          OBSERVE O CARTAZ COM A FRASE: <em>"VENHA VER O PROJETO CULTURAL POPULAR DE CAMPOS - DIA: SEXTA-FEIRA - LOCAL: ESCOLA"</em>.<br><br>
+          ESSE CARTAZ SERVE PARA:
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q3" value="A" onclick="updateCartao(3, 'A')"> <span class="option-text">A) VENDER UMA BOLA.</span></label>
+          <label class="option-label"><input type="radio" name="q3" value="B" onclick="updateCartao(3, 'B')"> <span class="option-text">B) ENSINAR UMA RECEITA.</span></label>
+          <label class="option-label"><input type="radio" name="q3" value="C" onclick="updateCartao(3, 'C')"> <span class="option-text">C) CONTAR UMA BRINCADEIRA.</span></label>
+          <label class="option-label"><input type="radio" name="q3" value="D" onclick="updateCartao(3, 'D')"> <span class="option-text">D) CONVIDAR UMA PESSOA.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="question-card" id="q-card-4">
+        <div class="question-header">
+          <span class="q-number">Questão 04</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #7c3aed;">Arte</span>
+        </div>
+        <div class="q-text">
+          JÚLIA E KELVIN OBSERVARAM UMA APRESENTAÇÃO DO BOI PINTADINHO. ELES PERCEBERAM AS CORES, AS FITAS E OS MOVIMENTOS DO BOI.<br><br>
+          O QUE ELES ESTAVAM CONHECENDO?
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q4" value="A" onclick="updateCartao(4, 'A')"> <span class="option-text">A) UMA BRINCADEIRA DE SALA DE AULA.</span></label>
+          <label class="option-label"><input type="radio" name="q4" value="B" onclick="updateCartao(4, 'B')"> <span class="option-text">B) UMA MANIFESTAÇÃO DA CULTURA POPULAR.</span></label>
+          <label class="option-label"><input type="radio" name="q4" value="C" onclick="updateCartao(4, 'C')"> <span class="option-text">C) UMA CORRIDA DE ANIMAIS.</span></label>
+          <label class="option-label"><input type="radio" name="q4" value="D" onclick="updateCartao(4, 'D')"> <span class="option-text">D) UM JOGO DE FUTEBOL.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="question-card" id="q-card-5">
+        <div class="question-header">
+          <span class="q-number">Questão 05</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #059669;">Ciências Humanas</span>
+        </div>
+        <div class="q-text">
+          A AVÓ DE JÚLIA CONTOU QUE, QUANDO ERA MAIS NOVA, VIA PESSOAS DANÇANDO JONGO EM CAMPOS. ELA EXPLICOU QUE ESSA DANÇA FAZ PARTE DAS HISTÓRIAS E LEMBRANÇAS DA CIDADE.<br><br>
+          OUVIR ESSAS HISTÓRIAS AJUDA JÚLIA A:
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q5" value="A" onclick="updateCartao(5, 'A')"> <span class="option-text">A) CONHECER E VALORIZAR A MEMÓRIA DE CAMPOS.</span></label>
+          <label class="option-label"><input type="radio" name="q5" value="B" onclick="updateCartao(5, 'B')"> <span class="option-text">B) APRENDER AS REGRAS DE UM JOGO.</span></label>
+          <label class="option-label"><input type="radio" name="q5" value="C" onclick="updateCartao(5, 'C')"> <span class="option-text">C) CONHECER OS CARROS DA CIDADE.</span></label>
+          <label class="option-label"><input type="radio" name="q5" value="D" onclick="updateCartao(5, 'D')"> <span class="option-text">D) ESCOLHER BRINQUEDOS PARA A ESCOLA.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 6 -->
+      <div class="question-card" id="q-card-6">
+        <div class="question-header">
+          <span class="q-number">Questão 06</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #059669;">Ciências Humanas</span>
+        </div>
+        <div class="q-text">
+          JÚLIA E KELVIN ESTÃO DESCOBRINDO AS PAISAGENS DE CAMPOS DOS GOYTACAZES. ELES APRENDERAM QUE EM NOSSA CIDADE HÁ RIOS, LAGOAS E PRAIA.<br><br>
+          QUAL ALTERNATIVA APRESENTA UMA PRAIA DE CAMPOS DOS GOYTACAZES?
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q6" value="A" onclick="updateCartao(6, 'A')"> <span class="option-text">A) LAGOA DE CIMA.</span></label>
+          <label class="option-label"><input type="radio" name="q6" value="B" onclick="updateCartao(6, 'B')"> <span class="option-text">B) RIO PARAÍBA DO SUL.</span></label>
+          <label class="option-label"><input type="radio" name="q6" value="C" onclick="updateCartao(6, 'C')"> <span class="option-text">C) FAROL DE SÃO TOMÉ.</span></label>
+          <label class="option-label"><input type="radio" name="q6" value="D" onclick="updateCartao(6, 'D')"> <span class="option-text">D) LAGOA FEA (FEIA).</span></label>
+        </div>
+      </div>
+
+      <!-- Question 7 -->
+      <div class="question-card" id="q-card-7">
+        <div class="question-header">
+          <span class="q-number">Questão 07</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
+        </div>
+        <div class="q-text">
+          PARA O MURAL DA CULTURA, JÚLIA CONTOU <strong>10 FITAS</strong> E KELVIN CONTOU <strong>9 FITAS</strong>.<br><br>
+          QUEM CONTOU MAIS FITAS?
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q7" value="A" onclick="updateCartao(7, 'A')"> <span class="option-text">A) NINGUÉM.</span></label>
+          <label class="option-label"><input type="radio" name="q7" value="B" onclick="updateCartao(7, 'B')"> <span class="option-text">B) KELVIN.</span></label>
+          <label class="option-label"><input type="radio" name="q7" value="C" onclick="updateCartao(7, 'C')"> <span class="option-text">C) GOYTARÉ.</span></label>
+          <label class="option-label"><input type="radio" name="q7" value="D" onclick="updateCartao(7, 'D')"> <span class="option-text">D) JÚLIA.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 8 -->
+      <div class="question-card" id="q-card-8">
+        <div class="question-header">
+          <span class="q-number">Questão 08</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
+        </div>
+        <div class="q-text">
+          GOYTARÉ AJUDOU A ENFEITAR O BOI PINTADINHO. ELE TINHA <strong>6 FITAS</strong>. GANHOU MAIS <strong>3 FITAS</strong>.<br><br>
+          QUANTAS FITAS GOYTARÉ TEM AGORA?
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')"> <span class="option-text">A) 7.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')"> <span class="option-text">B) 8.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')"> <span class="option-text">C) 9.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')"> <span class="option-text">D) 10.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 9 -->
+      <div class="question-card" id="q-card-9">
+        <div class="question-header">
+          <span class="q-number">Questão 09</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
+        </div>
+        <div class="q-text">
+          JÚLIA TINHA <strong>9 BOIS PINTADINHOS</strong>. ELA COLOCOU <strong>6 BOIS PINTADINHOS</strong> NO MURAL.<br><br>
+          QUANTOS BOIS PINTADINHOS JÚLIA DEIXOU SOBRE A MESA?
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span class="option-text">A) 1.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span class="option-text">B) 3.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span class="option-text">C) 5.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span class="option-text">D) 2.</span></label>
+        </div>
+      </div>
+
+      <!-- Question 10 -->
+      <div class="question-card" id="q-card-10">
+        <div class="question-header">
+          <span class="q-number">Questão 10</span>
+          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Ciências da Natureza</span>
+        </div>
+        <div class="q-text">
+          NO PROJETO CAMPOS DE TODOS NÓS, JÚLIA E KELVIN PARTICIPARAM DE ATIVIDADES SOBRE A CULTURA CAMPISTA. DEPOIS DE TANTA DIVERSÃO, A PROFESSORA PERGUNTOU:<br><br>
+          QUAL CUIDADO FAZ BEM PARA O NOSSO CORPO?
+        </div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q10" value="A" onclick="updateCartao(10, 'A')"> <span class="option-text">A) BEBER ÁGUA QUANDO SENTIR SEDE.</span></label>
+          <label class="option-label"><input type="radio" name="q10" value="B" onclick="updateCartao(10, 'B')"> <span class="option-text">B) FICAR MUITO TEMPO NO SOL.</span></label>
+          <label class="option-label"><input type="radio" name="q10" value="C" onclick="updateCartao(10, 'C')"> <span class="option-text">C) BRINCAR SEM PARAR PARA DESCANSAR.</span></label>
+          <label class="option-label"><input type="radio" name="q10" value="D" onclick="updateCartao(10, 'D')"> <span class="option-text">D) COMER COM AS MÃOS SUJAS.</span></label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sidebar Cartão de Respostas -->
+    <aside class="gabarito-sidebar">
+      <div class="cartao-resposta">
+        <div class="cartao-title">📌 Cartão de Respostas</div>
+        
+        <div style="background: #f1f5f9; height: 8px; border-radius: 50px; margin-bottom: 1rem; overflow: hidden;">
+          <div id="progressFill" style="background: var(--primary); height: 100%; width: 0%; transition: width 0.3s;"></div>
+        </div>
+        <div id="progressText" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-align: center; margin-bottom: 1.2rem;">
+          0 de 10 respondidas
+        </div>
+
+        <div class="bubbles-list">
+          <% for(let i=1; i<=10; i++) { %>
+            <div class="bubble-row">
+              <span style="font-weight: 700; font-size: 0.85rem; color: #475569;">Q<%= i < 10 ? '0'+i : i %></span>
+              <div class="bubble-dots">
+                <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
+                <div class="bubble-dot" id="b-<%= i %>-B" onclick="selectFromBubble(<%= i %>, 'B')">B</div>
+                <div class="bubble-dot" id="b-<%= i %>-C" onclick="selectFromBubble(<%= i %>, 'C')">C</div>
+                <div class="bubble-dot" id="b-<%= i %>-D" onclick="selectFromBubble(<%= i %>, 'D')">D</div>
+              </div>
+            </div>
+          <% } %>
+        </div>
+
+        <button class="submit-btn" onclick="submitSimulado()">
+          <span>🚀 FINALIZAR E ENVIAR</span>
+        </button>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Result Modal -->
+  <div class="result-modal" id="resultModal">
+    <div class="result-content">
+      <div class="score-circle" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%); border: 4px solid #10b981; color: #15803d; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+        <span style="font-size: 3rem; font-weight: 900;">✓</span>
+      </div>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;">Simulado Entregue com Sucesso! 🎉</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Parabéns! Suas respostas do 1º Ano foram salvas com sucesso no sistema.</p>
+      <button class="modal-btn" onclick="window.location.href='/'">Voltar ao Portal de Atividades</button>
+    </div>
+  </div>
+
+  <!-- Missing Questions Modal -->
+  <div class="result-modal" id="missingModal">
+    <div class="result-content" style="max-width: 500px; text-align: center; border-top: 6px solid #ef4444;">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem; color: #ef4444;">⚠️</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; color: #dc2626; font-size: 1.6rem; margin-bottom: 0.5rem;">Atenção, Explorador!</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.2rem;">Você ainda tem questões não respondidas. Responda a todas as questões para concluir:</p>
+      <div id="missingQuestionsList" style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 1rem; text-align: left; max-height: 180px; overflow-y: auto; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: #991b1b; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem;"></div>
+      <button class="modal-btn" onclick="closeMissingModal()" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">✏️ Voltar e Responder Questões</button>
+    </div>
+  </div>
+
+  <script>
+    const answerKey = { 1:'A', 2:'C', 3:'D', 4:'B', 5:'A', 6:'C', 7:'D', 8:'C', 9:'B', 10:'A' };
+    const studentAnswers = {};
+
+    function closeMissingModal() {
+      document.getElementById('missingModal').classList.remove('active');
+    }
+
+    function selectFromBubble(qNum, opt) {
+      const radio = document.querySelector(`input[name="q${qNum}"][value="${opt}"]`);
+      if(radio) {
+        radio.checked = true;
+        updateCartao(qNum, opt);
+      }
+    }
+
+    function updateCartao(qNum, opt) {
+      studentAnswers[qNum] = opt;
+      ['A', 'B', 'C', 'D'].forEach(o => {
+        const dot = document.getElementById(`b-${qNum}-${o}`);
+        if(dot) dot.classList.remove('selected');
+      });
+      const selectedDot = document.getElementById(`b-${qNum}-${opt}`);
+      if(selectedDot) selectedDot.classList.add('selected');
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const totalAnswered = Object.keys(studentAnswers).length;
+      const pct = (totalAnswered / 10) * 100;
+      document.getElementById('progressFill').style.width = `${pct}%`;
+      document.getElementById('progressText').innerText = `${totalAnswered} de 10 respondidas`;
+    }
+
+    async function submitSimulado() {
+      const nameInput = document.getElementById('studentName').value.trim();
+      if (!nameInput) {
+        alert('Por favor, informe seu Nome Completo antes de enviar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      const missing = [];
+      for (let i = 1; i <= 10; i++) {
+        if (!studentAnswers[i]) {
+          missing.push(`Questão ${i < 10 ? '0' + i : i}`);
+        }
+      }
+
+      if (missing.length > 0) {
+        document.getElementById('missingQuestionsList').innerHTML = missing.map(q => `<div>• ${q}</div>`).join('');
+        document.getElementById('missingModal').classList.add('active');
+        return;
+      }
+
+      let score = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (studentAnswers[i] === answerKey[i]) score++;
+      }
+
+      const payload = {
+        simulado_id: 'campos-1ano-agosto-2026',
+        student_name: nameInput,
+        school_name: document.getElementById('schoolName').value.trim(),
+        class_name: document.getElementById('className').value || '1º Ano',
+        shift: document.getElementById('shiftName').value || 'Manhã',
+        answers_json: studentAnswers,
+        score: score,
+        max_score: 10,
+        essay_text: ''
+      };
+
+      try {
+        await fetch('/api/simulado/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch(err) {}
+
+      document.getElementById('resultModal').classList.add('active');
+      if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    }
+  </script>
+</body>
+</html>

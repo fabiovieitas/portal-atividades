@@ -279,13 +279,49 @@ app.get('/atividades/brincando-com-arie-3', async (req, res) => {
   res.render('arie3_presentation');
 });
 
-// Simulado Digital 4º Ano Campos dos Goytacazes
+// Simulados Digitais Campos dos Goytacazes (1º ao 5º Ano)
+app.get('/atividades/simulado-campos-1ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_1ano', { schools });
+  } catch(e) {
+    res.render('simulado_campos_1ano', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-2ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_2ano', { schools });
+  } catch(e) {
+    res.render('simulado_campos_2ano', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-3ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_3ano', { schools });
+  } catch(e) {
+    res.render('simulado_campos_3ano', { schools: [] });
+  }
+});
+
 app.get('/atividades/simulado-campos-4ano', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
     res.render('simulado_campos_4ano', { schools });
   } catch(e) {
     res.render('simulado_campos_4ano', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-5ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_5ano', { schools });
+  } catch(e) {
+    res.render('simulado_campos_5ano', { schools: [] });
   }
 });
 

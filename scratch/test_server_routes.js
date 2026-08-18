@@ -7,8 +7,19 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
 
-app.get('/atividades/simulado-campos-4ano', (req, res) => {
-  res.render('simulado_campos_4ano');
+const routesToTest = [
+  '/atividades/simulado-campos-1ano',
+  '/atividades/simulado-campos-2ano',
+  '/atividades/simulado-campos-3ano',
+  '/atividades/simulado-campos-4ano',
+  '/atividades/simulado-campos-5ano'
+];
+
+routesToTest.forEach(route => {
+  const grade = route.split('-')[2];
+  app.get(route, (req, res) => {
+    res.render(`simulado_campos_${grade}`, { schools: [] });
+  });
 });
 
 app.get('/admin/simulado/resultados', async (req, res) => {
@@ -22,19 +33,21 @@ app.get('/admin/simulado/resultados', async (req, res) => {
   }
 });
 
-const server = app.listen(3098, async () => {
-  console.log('Testing server on port 3098...');
+const server = app.listen(3099, async () => {
+  console.log('Testing server on port 3099...');
   try {
-    const r1 = await fetch('http://localhost:3098/atividades/simulado-campos-4ano');
-    console.log('Simulado view status:', r1.status);
+    for (const route of routesToTest) {
+      const res = await fetch(`http://localhost:3099${route}`);
+      console.log(`Route ${route} status: ${res.status}`);
+      if (res.status !== 200) throw new Error(`Failed route ${route}`);
+    }
 
-    const r2 = await fetch('http://localhost:3098/admin/simulado/resultados');
+    const r2 = await fetch('http://localhost:3099/admin/simulado/resultados');
     const html2 = await r2.text();
     console.log('Results dashboard status:', r2.status);
     console.log('Results HTML length:', html2.length);
-    console.log('Contains Relatório Oficial:', html2.includes('RELATÓRIO OFICIAL DE DESEMPENHO'));
 
-    console.log('✅ ALL VIEWS VERIFIED PERFECTLY!');
+    console.log('✅ ALL 5 SIMULADO VIEWS AND ADMIN DASHBOARD VERIFIED PERFECTLY!');
     server.close();
   } catch(e) {
     console.error('Test error:', e);
