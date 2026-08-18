@@ -642,23 +642,29 @@
       <section class="student-card">
         <h2>👤 Identificação do Estudante</h2>
         <form id="student-form" onsubmit="event.preventDefault();">
-          <div class="form-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr;">
+          <div class="form-grid" style="grid-template-columns: 2fr 2fr 1fr 1fr;">
             <div class="form-group">
               <label for="studentName">Nome Completo do Estudante *</label>
               <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
             </div>
             <div class="form-group">
               <label for="schoolName">Escola Municipal *</label>
-              <input type="text" id="schoolName" class="form-control" placeholder="Nome da escola..." value="E.M. Profª Eleonora da Silva Pinto" required>
+              <select id="schoolName" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
+                <% if (typeof schools !== 'undefined' && schools.length > 0) { %>
+                  <% schools.forEach(sch => { %>
+                    <option value="<%= sch.name %>"><%= sch.name %></option>
+                  <% }); %>
+                <% } else { %>
+                  <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
+                  <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
+                  <option value="E.M. Luis Carlos de Lacerda">E.M. Luis Carlos de Lacerda</option>
+                <% } %>
+              </select>
             </div>
             <div class="form-group">
-              <label for="className">Turma *</label>
+              <label for="className">Ano Escolar *</label>
               <select id="className" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
-                <option value="4º Ano A">4º Ano A</option>
-                <option value="4º Ano B">4º Ano B</option>
-                <option value="4º Ano C">4º Ano C</option>
-                <option value="4º Ano D">4º Ano D</option>
-                <option value="4º Ano E">4º Ano E</option>
+                <option value="4º Ano">4º Ano</option>
               </select>
             </div>
             <div class="form-group">
@@ -1183,9 +1189,33 @@
     </div>
   </div>
 
+  <!-- Modal Elegante de Questões Incompletas -->
+  <div class="result-modal" id="missingModal">
+    <div class="result-content" style="max-width: 500px; text-align: center; border-top: 6px solid #ef4444;">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem; color: #ef4444;">⚠️</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; color: #dc2626; font-size: 1.6rem; margin-bottom: 0.5rem;">
+        Atenção, Explorador!
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.2rem;">
+        Você ainda tem questões não respondidas. Responda a todas as questões para concluir o simulado:
+      </p>
+
+      <div id="missingQuestionsList" style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 1rem; text-align: left; max-height: 180px; overflow-y: auto; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: #991b1b; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem;">
+      </div>
+
+      <button class="modal-btn" onclick="closeMissingModal()" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 10px 20px rgba(220,38,38,0.3);">
+        ✏️ Voltar e Responder Questões
+      </button>
+    </div>
+  </div>
+
   <script>
     const answerKey = { 1:'B', 2:'D', 4:'B', 5:'B', 6:'B', 7:'B', 8:'A', 9:'C', 10:'A' };
     const studentAnswers = {};
+
+    function closeMissingModal() {
+      document.getElementById('missingModal').classList.remove('active');
+    }
 
     function playPopSound() {
       try {
@@ -1264,11 +1294,23 @@
         return;
       }
 
-      const totalAnswered = Object.keys(studentAnswers).length;
-      if (totalAnswered < 10) {
-        if (!confirm(`Você respondeu ${totalAnswered} de 10 questões. Deseja realmente finalizar e enviar o simulado assim mesmo?`)) {
-          return;
+      // Check for missing questions
+      const missing = [];
+      for (let i = 1; i <= 10; i++) {
+        if (!studentAnswers[i]) {
+          if (i === 3) {
+            missing.push('Questão 03 (Redação / Produção de Texto)');
+          } else {
+            missing.push(`Questão ${i < 10 ? '0' + i : i}`);
+          }
         }
+      }
+
+      if (missing.length > 0) {
+        const listDiv = document.getElementById('missingQuestionsList');
+        listDiv.innerHTML = missing.map(q => `<div>• ${q}</div>`).join('');
+        document.getElementById('missingModal').classList.add('active');
+        return;
       }
 
       let score = 0;
@@ -1283,7 +1325,7 @@
         simulado_id: 'campos-4ano-agosto-2026',
         student_name: nameInput,
         school_name: document.getElementById('schoolName').value.trim() || 'E.M. Profª Eleonora da Silva Pinto',
-        class_name: document.getElementById('className').value || '4º Ano A',
+        class_name: document.getElementById('className').value || '4º Ano',
         shift: document.getElementById('shiftName').value || 'Manhã',
         answers_json: studentAnswers,
         score: score,

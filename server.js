@@ -281,7 +281,12 @@ app.get('/atividades/brincando-com-arie-3', async (req, res) => {
 
 // Simulado Digital 4º Ano Campos dos Goytacazes
 app.get('/atividades/simulado-campos-4ano', async (req, res) => {
-  res.render('simulado_campos_4ano');
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_4ano', { schools });
+  } catch(e) {
+    res.render('simulado_campos_4ano', { schools: [] });
+  }
 });
 
 app.post('/api/simulado/submit', async (req, res) => {
