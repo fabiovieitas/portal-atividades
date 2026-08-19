@@ -633,10 +633,27 @@ document.addEventListener('DOMContentLoaded', () => {
     triggerFireworksBarrage();
   }
 
+  function stopAllAndReturnHome() {
+    if (state.timerId) {
+      clearTimeout(state.timerId);
+      state.timerId = null;
+    }
+    state.isPaused = false;
+    state.currentIndex = 0;
+    state.sublevelListIndex = 0;
+    audioMgr.stopBGM();
+    audioMgr.stopSpeech();
+    dom.btnPauseToggle.textContent = '⏸️';
+    dom.btnPauseToggle.classList.remove('active');
+    showScreen('screen-config');
+  }
+
   function setupControlButtons() {
     dom.btnNext.addEventListener('click', nextCard);
     dom.btnPrev.addEventListener('click', prevCard);
     dom.btnPauseToggle.addEventListener('click', togglePause);
+    dom.btnStopMenu.addEventListener('click', stopAllAndReturnHome);
+    if (dom.btnBackMenu) dom.btnBackMenu.addEventListener('click', stopAllAndReturnHome);
 
     dom.btnSpeak.addEventListener('click', () => {
       const item = state.currentDeck[state.currentIndex];

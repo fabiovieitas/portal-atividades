@@ -520,6 +520,45 @@ body {
   background: linear-gradient(135deg, var(--color-purple), var(--color-primary));
 }
 
+/* Animações & Efeitos Especiais de Projeção Datashow Pro */
+@keyframes cardDatashowPop {
+  0% { transform: scale(0.88) translateY(18px); opacity: 0; }
+  60% { transform: scale(1.04) translateY(-4px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.word-card {
+  animation: cardDatashowPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.syllable {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(56, 189, 248, 0.25));
+  border: 3px solid #38bdf8;
+  border-radius: 22px;
+  padding: 6px 18px;
+  margin: 0 6px;
+  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+  color: #0f172a;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.syllable:hover {
+  transform: scale(1.15) translateY(-3px);
+  background: linear-gradient(135deg, #0284c7, #38bdf8);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.7);
+}
+
+@keyframes mascotJump {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(6deg) scale(1.1); }
+}
+
+.mascot-container.happy .mascot-avatar {
+  animation: mascotJump 0.6s ease infinite alternate;
+}
+
 /* VINHETA, RESPIRAÇÃO E VITÓRIA */
 #screen-intro {
   background: var(--color-bg-gradient);

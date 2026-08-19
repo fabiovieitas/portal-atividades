@@ -69,38 +69,103 @@
         📰 Blog de Notícias
     </a>
 
-    <!-- Scrolling Comments Sidebar -->
-    <div class="comments-sidebar">
-        <div class="sidebar-header">
-            <span>💬 Feed de Alunos</span>
+    <!-- Vitrine de Jogos Educativos (Sidebar Canto Direito) -->
+    <div class="games-showcase-sidebar">
+        <div class="showcase-header">
+            <span>🎮 Vitrine de Jogos</span>
+            <span class="showcase-badge">DESTAQUES 🔥</span>
         </div>
-        <div class="comments-ticker">
-            <div class="ticker-content">
-                <% if (comments && comments.length > 0) { %>
-                    <% comments.forEach(comment => { %>
-                        <div class="ticker-item animate-up">
-                            <div class="ticker-avatar"><%= comment.avatar || '🤖' %></div>
-                            <div class="ticker-text">
-                                <strong><%= comment.student_name %>:</strong>
-                                <span>"<%= comment.comment_text %>"</span>
-                                <small><%= comment.school_name %> | <%= comment.activity_title %></small>
-                            </div>
-                        </div>
-                    <% }); %>
-                    <!-- Repeat for smooth loop -->
-                    <% comments.forEach(comment => { %>
-                        <div class="ticker-item animate-up">
-                            <div class="ticker-avatar"><%= comment.avatar || '🤖' %></div>
-                            <div class="ticker-text">
-                                <strong><%= comment.student_name %>:</strong>
-                                <span>"<%= comment.comment_text %>"</span>
-                                <small><%= comment.school_name %> | <%= comment.activity_title %></small>
-                            </div>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <div class="ticker-item">Seja o primeiro a comentar! 🚀</div>
-                <% } %>
+        <div class="showcase-ticker">
+            <div class="showcase-content">
+                <a href="/atividades/leitura-datashow" class="showcase-item">
+                    <div class="showcase-icon">📺</div>
+                    <div class="showcase-info">
+                        <strong>⭐ Leitura no Datashow</strong>
+                        <span class="showcase-tag">Alfabetização & Datashow</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/1" class="showcase-item">
+                    <div class="showcase-icon">🔤</div>
+                    <div class="showcase-info">
+                        <strong>Fábrica de Sílabas</strong>
+                        <span class="showcase-tag">Português • 1º ao 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/2" class="showcase-item">
+                    <div class="showcase-icon">🔍</div>
+                    <div class="showcase-info">
+                        <strong>Caça-Palavras Interativo</strong>
+                        <span class="showcase-tag">Vocabulário • 1º ao 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/3" class="showcase-item">
+                    <div class="showcase-icon">🔢</div>
+                    <div class="showcase-info">
+                        <strong>Desafio dos Números</strong>
+                        <span class="showcase-tag">Matemática • 1º ao 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/5" class="showcase-item">
+                    <div class="showcase-icon">🐊</div>
+                    <div class="showcase-info">
+                        <strong>O Lenda do Ururau de Campos</strong>
+                        <span class="showcase-tag">História & Cultura • 4º e 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/4" class="showcase-item">
+                    <div class="showcase-icon">🦁</div>
+                    <div class="showcase-info">
+                        <strong>Akinator dos Animais</strong>
+                        <span class="showcase-tag">Ciências & Lógica • 1º ao 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/6" class="showcase-item">
+                    <div class="showcase-icon">🐒</div>
+                    <div class="showcase-info">
+                        <strong>Brincando com Ariê 1</strong>
+                        <span class="showcase-tag">Alfabetização & Jogos</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <!-- Repetição para Loop Infinito Contínuo -->
+                <a href="/atividades/leitura-datashow" class="showcase-item">
+                    <div class="showcase-icon">📺</div>
+                    <div class="showcase-info">
+                        <strong>⭐ Leitura no Datashow</strong>
+                        <span class="showcase-tag">Alfabetização & Datashow</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/1" class="showcase-item">
+                    <div class="showcase-icon">🔤</div>
+                    <div class="showcase-info">
+                        <strong>Fábrica de Sílabas</strong>
+                        <span class="showcase-tag">Português • 1º ao 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/2" class="showcase-item">
+                    <div class="showcase-icon">🔍</div>
+                    <div class="showcase-info">
+                        <strong>Caça-Palavras Interativo</strong>
+                        <span class="showcase-tag">Vocabulário • 1º ao 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
+                <a href="/atividade/3" class="showcase-item">
+                    <div class="showcase-icon">🔢</div>
+                    <div class="showcase-info">
+                        <strong>Desafio dos Números</strong>
+                        <span class="showcase-tag">Matemática • 1º ao 5º Ano</span>
+                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
@@ -151,65 +216,6 @@
     </style>
 
     <main class="container">
-        <!-- Central de Simulados Municipais (1º ao 5º Ano) -->
-        <section class="simulados-portal-section" style="margin: 1.5rem 0 2.5rem 0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 2rem; border-radius: 24px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.25); border: 2px solid #0284c7;">
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-                <span style="background: rgba(2, 132, 199, 0.25); color: #38bdf8; font-weight: 800; font-family: 'Fredoka', sans-serif; padding: 0.4rem 1.2rem; border-radius: 50px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; border: 1px solid #0284c7;">
-                    🏛️ PROJETO CAMPOS DE TODOS NÓS
-                </span>
-                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; margin-top: 0.8rem; color: #ffffff;">
-                    📝 Central de Simulados Municipais (1º ao 5º Ano)
-                </h2>
-                <p style="color: #94a3b8; font-family: 'Outfit', sans-serif; font-size: 1rem; max-width: 650px; margin: 0.4rem auto 0 auto;">
-                    Selecione o ano escolar do aluno para realizar o simulado digital oficial da Secretaria Municipal de Educação:
-                </p>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1.2rem;">
-                <!-- 1º Ano (ATIVO 🔥) -->
-                <a href="/atividades/simulado-campos-1ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🥇</div>
-                    <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">1º Ano</h3>
-                    <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
-                </a>
-
-                <!-- 2º Ano (ATIVO 🔥) -->
-                <a href="/atividades/simulado-campos-2ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🥈</div>
-                    <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">2º Ano</h3>
-                    <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
-                </a>
-
-                <!-- 3º Ano (ATIVO 🔥) -->
-                <a href="/atividades/simulado-campos-3ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); border: 2px solid #fbbf24; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🥉</div>
-                    <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">3º Ano</h3>
-                    <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
-                </a>
-
-                <!-- 4º Ano (ATIVO 🔥) -->
-                <a href="/atividades/simulado-campos-4ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🎯</div>
-                    <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">4º Ano</h3>
-                    <span style="font-size: 0.8rem; background: #f59e0b; color: #000; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
-                </a>
-
-                <!-- 5º Ano (ATIVO 🔥) -->
-                <a href="/atividades/simulado-campos-5ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); border: 2px solid #a78bfa; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🚀</div>
-                    <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">5º Ano</h3>
-                    <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- ESPAÇO PARA ADSENSE (CRIANÇAS/COPPA) -->
-        <div style="background: rgba(0,0,0,0.3); color: #888; text-align: center; padding: 15px; border: 2px dashed #555; margin: 20px 0; border-radius: 12px; font-weight: bold; font-size: 0.9em;">
-            Espaço Publicitário AdSense<br>
-            <small>Anúncios seguros para crianças aparecerão aqui.</small>
-        </div>
-
-
         <% if (!selectedLevel) { %>
             <section class="selection-screen">
                 <div class="selection-grid">
@@ -249,6 +255,60 @@
                 <% } %>
             </div>
             <% } else { %>
+
+            <!-- Central de Simulados Municipais (Exibido apenas na aba de 1º ao 5º Ano) -->
+            <% if (selectedLevel === '1-5') { %>
+            <section class="simulados-portal-section" style="margin: 1rem 0 2.5rem 0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 2rem; border-radius: 24px; color: white; box-shadow: 0 20px 40px rgba(0,0,0,0.25); border: 2px solid #0284c7;">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <span style="background: rgba(2, 132, 199, 0.25); color: #38bdf8; font-weight: 800; font-family: 'Fredoka', sans-serif; padding: 0.4rem 1.2rem; border-radius: 50px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; border: 1px solid #0284c7;">
+                        🏛️ PROJETO CAMPOS DE TODOS NÓS
+                    </span>
+                    <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; margin-top: 0.8rem; color: #ffffff;">
+                        📝 Central de Simulados Municipais (1º ao 5º Ano)
+                    </h2>
+                    <p style="color: #94a3b8; font-family: 'Outfit', sans-serif; font-size: 1rem; max-width: 650px; margin: 0.4rem auto 0 auto;">
+                        Selecione o ano escolar do aluno para realizar o simulado digital oficial da Secretaria Municipal de Educação:
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1.2rem;">
+                    <!-- 1º Ano (ATIVO 🔥) -->
+                    <a href="/atividades/simulado-campos-1ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🥇</div>
+                        <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">1º Ano</h3>
+                        <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
+                    </a>
+
+                    <!-- 2º Ano (ATIVO 🔥) -->
+                    <a href="/atividades/simulado-campos-2ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🥈</div>
+                        <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">2º Ano</h3>
+                        <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
+                    </a>
+
+                    <!-- 3º Ano (ATIVO 🔥) -->
+                    <a href="/atividades/simulado-campos-3ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #d97706 0%, #b45309 100%); border: 2px solid #fbbf24; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🥉</div>
+                        <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">3º Ano</h3>
+                        <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
+                    </a>
+
+                    <!-- 4º Ano (ATIVO 🔥) -->
+                    <a href="/atividades/simulado-campos-4ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(2, 132, 199, 0.4); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🎯</div>
+                        <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">4º Ano</h3>
+                        <span style="font-size: 0.8rem; background: #f59e0b; color: #000; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
+                    </a>
+
+                    <!-- 5º Ano (ATIVO 🔥) -->
+                    <a href="/atividades/simulado-campos-5ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); border: 2px solid #a78bfa; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                        <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🚀</div>
+                        <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">5º Ano</h3>
+                        <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
+                    </a>
+                </div>
+            </section>
+            <% } %>
 
             <section class="challenges">
                 <div class="section-header">

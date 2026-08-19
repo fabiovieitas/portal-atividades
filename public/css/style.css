@@ -823,6 +823,140 @@ main {
     cursor: pointer;
 }
 
+/* Vitrine de Jogos Sidebar (Canto Direito) */
+.games-showcase-sidebar {
+    position: fixed;
+    right: 20px;
+    top: 90px;
+    width: 295px;
+    height: calc(100vh - 120px);
+    max-height: 650px;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(16px);
+    border: 2px solid rgba(56, 189, 248, 0.4);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.showcase-header {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    padding: 14px 16px;
+    color: white;
+    font-weight: 800;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #38bdf8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.showcase-badge {
+    background: #f59e0b;
+    color: #000;
+    font-size: 0.68rem;
+    padding: 3px 8px;
+    border-radius: 50px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.showcase-ticker {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    padding: 12px 0;
+}
+
+.showcase-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: showcaseVertical 38s linear infinite;
+    padding: 0 12px;
+}
+
+.showcase-content:hover {
+    animation-play-state: paused;
+}
+
+@keyframes showcaseVertical {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+}
+
+.showcase-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(30, 41, 59, 0.85);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 10px 12px;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.showcase-item:hover {
+    transform: translateX(-4px) scale(1.02);
+    border-color: #38bdf8;
+    background: linear-gradient(135deg, rgba(3, 105, 161, 0.6) 0%, rgba(15, 23, 42, 0.9) 100%);
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
+}
+
+.showcase-icon {
+    font-size: 2.2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    min-height: 48px;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.1);
+}
+
+.showcase-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.showcase-info strong {
+    color: #ffffff;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.showcase-tag {
+    color: #38bdf8;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.showcase-play-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-top: 4px;
+    width: fit-content;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
 /* Global Responsiveness */
 body {
     padding-right: 320px; /* Space for sidebar */
@@ -830,14 +964,8 @@ body {
 
 @media (max-width: 1300px) {
     body { padding-right: 0; }
-    .comments-sidebar {
-        transform: translateX(100%);
-        box-shadow: none;
-    }
-    
-    .comments-sidebar.active {
-        transform: translateX(0);
-        box-shadow: -10px 0 50px rgba(0,0,0,0.3);
+    .comments-sidebar, .games-showcase-sidebar {
+        display: none !important;
     }
     
     .fixed-teacher-btn {
