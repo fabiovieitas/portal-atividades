@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     contentFilter: 'all',
     gameMode: 'cards',
     mode: 'auto-10',
+    wordsLimit: '10',
     customSeconds: 7,
     musicStyle: 'alegre',
     autoSublevelAdvance: true,
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     selectGameMode: document.getElementById('select-game-mode'),
     selectMode: document.getElementById('select-mode'),
+    selectWordsLimit: document.getElementById('select-words-limit'),
     inputCustomSeconds: document.getElementById('input-custom-seconds'),
     selectMusicStyle: document.getElementById('select-music-style'),
     btnPreviewMusic: document.getElementById('btn-preview-music'),
@@ -398,8 +400,14 @@ document.addEventListener('DOMContentLoaded', () => {
       items = items.filter(i => i.text.length >= 4);
     }
 
+    shuffleArray(items);
+
+    if (state.wordsLimit && state.wordsLimit !== 'all') {
+      const limit = parseInt(state.wordsLimit) || 10;
+      items = items.slice(0, limit);
+    }
+
     state.currentDeck = items.length ? items : [...subData.items];
-    shuffleArray(state.currentDeck);
 
     dom.presLevelTitle.textContent = `Subnível ${sublevelCode}: ${subData.title.split(':')[1] || subData.title}`;
     state.currentIndex = 0;
@@ -451,7 +459,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (state.gameMode === 'cards' && (state.mode.startsWith('auto-') || state.mode === 'custom')) {
       let seconds = 10;
-      if (state.mode === 'custom') {
+      if (state.mode === 'auto-accelerate') {
+        seconds = Math.max(2.5, 10 - state.currentIndex * 1.0);
+        setMascotSpeech(`⚡ Aceleração! Tempo: ${seconds.toFixed(1)}s 🔥`, "happy");
+      } else if (state.mode === 'custom') {
         seconds = state.customSeconds || 7;
       } else {
         seconds = parseInt(state.mode.replace('auto-', '')) || 10;
@@ -641,11 +652,24 @@ document.addEventListener('DOMContentLoaded', () => {
     state.isPaused = false;
     state.currentIndex = 0;
     state.sublevelListIndex = 0;
+    state.currentDeck = [];
     audioMgr.stopBGM();
     audioMgr.stopSpeech();
-    dom.btnPauseToggle.textContent = '⏸️';
-    dom.btnPauseToggle.classList.remove('active');
+    
+    if (dom.modalStep2) {
+      dom.modalStep2.classList.remove('active');
+      dom.modalStep2.style.display = 'none';
+    }
+    if (dom.modalStep3) {
+      dom.modalStep3.classList.remove('active');
+      dom.modalStep3.style.display = 'none';
+    }
+    if (dom.btnPauseToggle) {
+      dom.btnPauseToggle.textContent = '⏸️';
+      dom.btnPauseToggle.classList.remove('active');
+    }
     showScreen('screen-config');
+    window.scrollTo(0, 0);
   }
 
   function setupControlButtons() {

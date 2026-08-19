@@ -77,95 +77,44 @@
         </div>
         <div class="showcase-ticker">
             <div class="showcase-content">
-                <a href="/atividades/leitura-datashow" class="showcase-item">
-                    <div class="showcase-icon">📺</div>
-                    <div class="showcase-info">
-                        <strong>⭐ Leitura no Datashow</strong>
-                        <span class="showcase-tag">Alfabetização & Datashow</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/1" class="showcase-item">
-                    <div class="showcase-icon">🔤</div>
-                    <div class="showcase-info">
-                        <strong>Fábrica de Sílabas</strong>
-                        <span class="showcase-tag">Português • 1º ao 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/2" class="showcase-item">
-                    <div class="showcase-icon">🔍</div>
-                    <div class="showcase-info">
-                        <strong>Caça-Palavras Interativo</strong>
-                        <span class="showcase-tag">Vocabulário • 1º ao 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/3" class="showcase-item">
-                    <div class="showcase-icon">🔢</div>
-                    <div class="showcase-info">
-                        <strong>Desafio dos Números</strong>
-                        <span class="showcase-tag">Matemática • 1º ao 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/5" class="showcase-item">
-                    <div class="showcase-icon">🐊</div>
-                    <div class="showcase-info">
-                        <strong>O Lenda do Ururau de Campos</strong>
-                        <span class="showcase-tag">História & Cultura • 4º e 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/4" class="showcase-item">
-                    <div class="showcase-icon">🦁</div>
-                    <div class="showcase-info">
-                        <strong>Akinator dos Animais</strong>
-                        <span class="showcase-tag">Ciências & Lógica • 1º ao 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/6" class="showcase-item">
-                    <div class="showcase-icon">🐒</div>
-                    <div class="showcase-info">
-                        <strong>Brincando com Ariê 1</strong>
-                        <span class="showcase-tag">Alfabetização & Jogos</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <!-- Repetição para Loop Infinito Contínuo -->
-                <a href="/atividades/leitura-datashow" class="showcase-item">
-                    <div class="showcase-icon">📺</div>
-                    <div class="showcase-info">
-                        <strong>⭐ Leitura no Datashow</strong>
-                        <span class="showcase-tag">Alfabetização & Datashow</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/1" class="showcase-item">
-                    <div class="showcase-icon">🔤</div>
-                    <div class="showcase-info">
-                        <strong>Fábrica de Sílabas</strong>
-                        <span class="showcase-tag">Português • 1º ao 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/2" class="showcase-item">
-                    <div class="showcase-icon">🔍</div>
-                    <div class="showcase-info">
-                        <strong>Caça-Palavras Interativo</strong>
-                        <span class="showcase-tag">Vocabulário • 1º ao 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
-                <a href="/atividade/3" class="showcase-item">
-                    <div class="showcase-icon">🔢</div>
-                    <div class="showcase-info">
-                        <strong>Desafio dos Números</strong>
-                        <span class="showcase-tag">Matemática • 1º ao 5º Ano</span>
-                        <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
-                    </div>
-                </a>
+                <% const showcaseList = (typeof showcaseActivities !== 'undefined' && showcaseActivities && showcaseActivities.length > 0) ? showcaseActivities : (activities || []); %>
+                <% if (showcaseList && showcaseList.length > 0) { %>
+                    <% showcaseList.forEach(act => { %>
+                        <a href="/atividade/<%= act.id %>" class="showcase-item">
+                            <div class="showcase-icon-box">
+                                <img src="<%= act.icon_url || '/img/default-icon.png' %>" alt="<%= act.title %>" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
+                            </div>
+                            <div class="showcase-info">
+                                <strong class="showcase-title"><%= act.title %></strong>
+                                <span class="showcase-tag"><%= act.category || 'Jogo Educativo' %> • <%= act.level || '1º ao 5º' %></span>
+                                <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                            </div>
+                        </a>
+                    <% }); %>
+                    <!-- Repetição para Loop Infinito Contínuo -->
+                    <% showcaseList.forEach(act => { %>
+                        <a href="/atividade/<%= act.id %>" class="showcase-item">
+                            <div class="showcase-icon-box">
+                                <img src="<%= act.icon_url || '/img/default-icon.png' %>" alt="<%= act.title %>" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
+                            </div>
+                            <div class="showcase-info">
+                                <strong class="showcase-title"><%= act.title %></strong>
+                                <span class="showcase-tag"><%= act.category || 'Jogo Educativo' %> • <%= act.level || '1º ao 5º' %></span>
+                                <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                            </div>
+                        </a>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Fallback se não houver lista pronta -->
+                    <a href="/atividades/leitura-datashow" class="showcase-item">
+                        <div class="showcase-icon-box"><img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png"></div>
+                        <div class="showcase-info">
+                            <strong class="showcase-title">⭐ Leitura no Datashow</strong>
+                            <span class="showcase-tag">Alfabetização & Datashow</span>
+                            <span class="showcase-play-btn">JOGAR AGORA 🎮</span>
+                        </div>
+                    </a>
+                <% } %>
             </div>
         </div>
     </div>

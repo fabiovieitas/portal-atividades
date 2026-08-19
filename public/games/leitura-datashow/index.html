@@ -131,9 +131,22 @@
             <option value="auto-8">Automático (8 segundos)</option>
             <option value="auto-10" selected>Automático (10 segundos)</option>
             <option value="auto-15">Automático (15 segundos)</option>
+            <option value="auto-accelerate">⚡ Aceleração Gradual (Cada vez mais rápido! 🔥)</option>
             <option value="custom">Tempo Personalizado...</option>
           </select>
           <input type="number" id="input-custom-seconds" class="form-input" style="display: none; margin-top: 0.4rem;" placeholder="Segundos" min="1" max="60" value="7">
+        </div>
+
+        <!-- Palavras por Fase -->
+        <div style="flex: 1; min-width: 200px;">
+          <label for="select-words-limit">📊 Palavras por Fase / Rodada:</label>
+          <select id="select-words-limit" class="form-input">
+            <option value="5">5 Palavras (Rápido)</option>
+            <option value="10" selected>10 Palavras (Padrão)</option>
+            <option value="15">15 Palavras (Médio)</option>
+            <option value="20">20 Palavras (Longo)</option>
+            <option value="all">Todas as Palavras do Nível</option>
+          </select>
         </div>
 
         <!-- Filtro de Conteúdo -->
