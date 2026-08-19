@@ -112,64 +112,82 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
   function initConfigUI() {
     showScreen('screen-config');
-    dom.inputSchoolName.value = state.schoolName;
+    if (dom.inputSchoolName) dom.inputSchoolName.value = state.schoolName;
     
     renderStep1LevelsGrid();
     populateVoiceDropdown();
 
-    dom.inputSchoolName.addEventListener('input', (e) => {
-      state.schoolName = e.target.value.trim() || 'Escola';
-      localStorage.setItem('datashow_school_name', state.schoolName);
-    });
+    if (dom.inputSchoolName) {
+      dom.inputSchoolName.addEventListener('input', (e) => {
+        state.schoolName = e.target.value.trim() || 'Escola';
+        localStorage.setItem('datashow_school_name', state.schoolName);
+      });
+    }
 
-    dom.selectContentFilter.addEventListener('change', (e) => {
-      state.contentFilter = e.target.value;
-    });
+    if (dom.selectVoice) {
+      dom.selectVoice.addEventListener('change', (e) => {
+        if (audioMgr) audioMgr.setVoiceSettings(e.target.value);
+      });
+    }
 
-    dom.selectVoice.addEventListener('change', (e) => {
-      audioMgr.setVoiceSettings(e.target.value);
-    });
+    if (dom.btnPreviewVoice) {
+      dom.btnPreviewVoice.addEventListener('click', () => {
+        if (audioMgr) {
+          audioMgr.initContext();
+          audioMgr.previewVoice();
+        }
+      });
+    }
 
-    dom.btnPreviewVoice.addEventListener('click', () => {
-      audioMgr.initContext();
-      audioMgr.previewVoice();
-    });
+    if (dom.btnPreviewMusic) {
+      dom.btnPreviewMusic.addEventListener('click', () => {
+        if (audioMgr) {
+          audioMgr.initContext();
+          audioMgr.setMusicStyle(state.musicStyle);
+          audioMgr.previewBGM();
+        }
+      });
+    }
 
-    dom.btnPreviewMusic.addEventListener('click', () => {
-      audioMgr.initContext();
-      audioMgr.setMusicStyle(state.musicStyle);
-      audioMgr.previewBGM();
-    });
+    if (dom.selectGameMode) {
+      dom.selectGameMode.addEventListener('change', (e) => {
+        state.gameMode = e.target.value;
+      });
+    }
 
-    dom.selectGameMode.addEventListener('change', (e) => {
-      state.gameMode = e.target.value;
-    });
+    if (dom.selectMode) {
+      dom.selectMode.addEventListener('change', (e) => {
+        state.mode = e.target.value;
+        if (dom.inputCustomSeconds) dom.inputCustomSeconds.style.display = (state.mode === 'custom') ? 'block' : 'none';
+      });
+    }
 
-    dom.selectMode.addEventListener('change', (e) => {
-      state.mode = e.target.value;
-      dom.inputCustomSeconds.style.display = (state.mode === 'custom') ? 'block' : 'none';
-    });
+    if (dom.inputCustomSeconds) {
+      dom.inputCustomSeconds.addEventListener('input', (e) => {
+        state.customSeconds = parseInt(e.target.value) || 5;
+      });
+    }
 
-    dom.inputCustomSeconds.addEventListener('input', (e) => {
-      state.customSeconds = parseInt(e.target.value) || 5;
-    });
+    if (dom.selectMusicStyle) {
+      dom.selectMusicStyle.addEventListener('change', (e) => {
+        state.musicStyle = e.target.value;
+        if (audioMgr) audioMgr.setMusicStyle(state.musicStyle);
+      });
+    }
 
-    dom.selectMusicStyle.addEventListener('change', (e) => {
-      state.musicStyle = e.target.value;
-      audioMgr.setMusicStyle(state.musicStyle);
-    });
-
-    dom.btnCloseModal2.addEventListener('click', closeStep2Modal);
-    dom.btnGotoStep3.addEventListener('click', openStep3Modal);
-    dom.btnCloseModal3.addEventListener('click', closeStep3Modal);
-    dom.btnConfirmStart.addEventListener('click', startIntroSequence);
+    if (dom.btnCloseModal2) dom.btnCloseModal2.addEventListener('click', closeStep2Modal);
+    if (dom.btnGotoStep3) dom.btnGotoStep3.addEventListener('click', openStep3Modal);
+    if (dom.btnCloseModal3) dom.btnCloseModal3.addEventListener('click', closeStep3Modal);
+    if (dom.btnConfirmStart) dom.btnConfirmStart.addEventListener('click', window.startIntroSequenceGlobal);
     
-    dom.btnRepeatLevel.addEventListener('click', () => {
-      startIntroSequence();
-    });
+    if (dom.btnRepeatLevel) {
+      dom.btnRepeatLevel.addEventListener('click', () => {
+        window.startIntroSequenceGlobal();
+      });
+    }
 
-    dom.btnBackMenu.addEventListener('click', stopAllAndReturnHome);
-    dom.btnStopMenu.addEventListener('click', stopAllAndReturnHome);
+    if (dom.btnBackMenu) dom.btnBackMenu.addEventListener('click', stopAllAndReturnHome);
+    if (dom.btnStopMenu) dom.btnStopMenu.addEventListener('click', stopAllAndReturnHome);
 
     setupControlButtons();
     setupKeyboardShortcuts();
@@ -662,44 +680,56 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setupControlButtons() {
-    dom.btnNext.addEventListener('click', nextCard);
-    dom.btnPrev.addEventListener('click', prevCard);
-    dom.btnPauseToggle.addEventListener('click', togglePause);
+    if (dom.btnNext) dom.btnNext.addEventListener('click', nextCard);
+    if (dom.btnPrev) dom.btnPrev.addEventListener('click', prevCard);
+    if (dom.btnPauseToggle) dom.btnPauseToggle.addEventListener('click', togglePause);
     
     if (dom.btnTopStop) dom.btnTopStop.addEventListener('click', stopAllAndReturnHome);
     if (dom.btnStopMenu) dom.btnStopMenu.addEventListener('click', stopAllAndReturnHome);
     if (dom.btnBackMenu) dom.btnBackMenu.addEventListener('click', stopAllAndReturnHome);
     if (dom.btnCloseModal2) dom.btnCloseModal2.addEventListener('click', stopAllAndReturnHome);
 
-    dom.btnSpeak.addEventListener('click', () => {
-      const item = state.currentDeck[state.currentIndex];
-      if (item) audioMgr.speak(item.text, 0.82, 1.0);
-    });
+    if (dom.btnSpeak) {
+      dom.btnSpeak.addEventListener('click', () => {
+        const item = state.currentDeck[state.currentIndex];
+        if (item && audioMgr) audioMgr.speak(item.text, 0.82, 1.0);
+      });
+    }
 
-    dom.btnSyllable.addEventListener('click', () => {
-      state.showSyllables = !state.showSyllables;
-      dom.btnSyllable.classList.toggle('active', state.showSyllables);
-      renderCurrentCard();
-    });
+    if (dom.btnSyllable) {
+      dom.btnSyllable.addEventListener('click', () => {
+        state.showSyllables = !state.showSyllables;
+        dom.btnSyllable.classList.toggle('active', state.showSyllables);
+        renderCurrentCard();
+      });
+    }
 
-    dom.btnImage.addEventListener('click', () => {
-      state.showImage = !state.showImage;
-      dom.btnImage.classList.toggle('active', state.showImage);
-      renderCurrentCard();
-    });
+    if (dom.btnImage) {
+      dom.btnImage.addEventListener('click', () => {
+        state.showImage = !state.showImage;
+        dom.btnImage.classList.toggle('active', state.showImage);
+        renderCurrentCard();
+      });
+    }
 
-    dom.btnMusic.addEventListener('click', () => {
-      const isMuted = audioMgr.toggleMute();
-      dom.btnMusic.classList.toggle('active', !isMuted);
-    });
+    if (dom.btnMusic) {
+      dom.btnMusic.addEventListener('click', () => {
+        if (audioMgr) {
+          const isMuted = audioMgr.toggleMute();
+          dom.btnMusic.classList.toggle('active', !isMuted);
+        }
+      });
+    }
 
-    dom.btnFullscreen.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen().catch(() => {});
-      }
-    });
+    if (dom.btnFullscreen) {
+      dom.btnFullscreen.addEventListener('click', () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+    }
   }
 
   function setupKeyboardShortcuts() {
