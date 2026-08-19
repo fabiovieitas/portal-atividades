@@ -256,7 +256,7 @@
   <section id="screen-presentation" class="app-screen">
     <header class="pres-header">
       <div id="pres-level-title" class="pres-level-badge">Subnível 1.1</div>
-      <button id="btn-top-stop" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; padding: 4px 16px; border-radius: 20px; font-size: 0.85rem; width: auto;" title="Parar Total e Voltar ao Início do Jogo (Passo 1)">🛑 PARAR JOGO (PASSO 1)</button>
+      <button id="btn-top-stop" onclick="stopAllAndReturnHomeGlobal()" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; padding: 4px 16px; border-radius: 20px; font-size: 0.85rem; width: auto;" title="Parar Total e Voltar ao Início do Jogo (Passo 1)">🛑 PARAR JOGO (PASSO 1)</button>
       <div id="pres-progress-count" class="pres-progress">1 / 10</div>
     </header>
 
@@ -281,7 +281,7 @@
     <!-- Barra de Controles -->
     <footer class="pres-controls-bar">
       <button onclick="window.location.href='/'" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; font-weight: bold; width: auto; padding: 0 16px;" title="Voltar ao Portal Principal">⬅️ Portal</button>
-      <button id="btn-stop-menu" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; width: auto; padding: 0 16px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);" title="Parar Total e Voltar ao Início do Jogo (ESC / Home)">🛑 STOP (INÍCIO)</button>
+      <button id="btn-stop-menu" onclick="stopAllAndReturnHomeGlobal()" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; width: auto; padding: 0 16px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);" title="Parar Total e Voltar ao Início do Jogo (ESC / Home)">🛑 STOP (INÍCIO)</button>
       <button id="btn-prev" class="ctrl-btn" title="Palavra Anterior (Seta Esquerda)">⬅️</button>
       <button id="btn-pause-toggle" class="ctrl-btn" title="Pausar / Continuar Tempo (Teclado: P)">⏸️</button>
       <button id="btn-speak" class="ctrl-btn" title="Ouvir Pronúncia (Teclado: S)">🔊</button>
@@ -306,7 +306,7 @@
       <button id="btn-repeat-level" class="btn-start" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
         🔄 REPETIR ESTE NÍVEL
       </button>
-      <button id="btn-back-menu" class="btn-start" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
+      <button id="btn-back-menu" onclick="stopAllAndReturnHomeGlobal()" class="btn-start" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
         🏠 MENU DO JOGO
       </button>
       <button onclick="window.location.href='/'" class="btn-start" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);">

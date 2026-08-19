@@ -261,21 +261,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     closeStep3Modal();
+    dom.modalStep2.style.display = 'flex';
     dom.modalStep2.classList.add('active');
   }
 
   function closeStep2Modal() {
     dom.modalStep2.classList.remove('active');
+    dom.modalStep2.style.display = 'none';
   }
 
   function openStep3Modal() {
     closeStep2Modal();
     dom.modalStep3Title.textContent = `⚙️ Passo 3: Ajustes da Rodada (Subnível ${state.selectedSublevel})`;
+    dom.modalStep3.style.display = 'flex';
     dom.modalStep3.classList.add('active');
   }
 
   function closeStep3Modal() {
     dom.modalStep3.classList.remove('active');
+    dom.modalStep3.style.display = 'none';
   }
 
   function startIntroSequence() {
@@ -645,15 +649,17 @@ document.addEventListener('DOMContentLoaded', () => {
     triggerFireworksBarrage();
   }
 
-  function stopAllAndReturnHome() {
+  window.stopAllAndReturnHomeGlobal = function() {
     clearAllGameTimers();
 
     state.isPaused = false;
     state.currentIndex = 0;
     state.sublevelListIndex = 0;
     state.currentDeck = [];
-    audioMgr.stopBGM();
-    audioMgr.stopSpeech();
+    if (audioMgr) {
+      audioMgr.stopBGM();
+      audioMgr.stopSpeech();
+    }
     
     if (dom.modalStep2) {
       dom.modalStep2.classList.remove('active');
@@ -674,6 +680,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showScreen('screen-config');
     window.scrollTo(0, 0);
+  };
+
+  function stopAllAndReturnHome() {
+    window.stopAllAndReturnHomeGlobal();
   }
 
   function setupControlButtons() {
