@@ -175,17 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupKeyboardShortcuts();
   }
 
-  function stopAllAndReturnHome() {
-    if (state.timerId) {
-      clearTimeout(state.timerId);
-      state.timerId = null;
-    }
-    audioMgr.stopBGM();
-    closeStep2Modal();
-    closeStep3Modal();
-    showScreen('screen-config');
-  }
-
   function populateVoiceDropdown() {
     const voices = audioMgr.getAvailableVoices();
     dom.selectVoice.innerHTML = '<option value="natural" selected>Voz Humana HD (Recomendada)</option>';
@@ -469,8 +458,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (state.gameMode === 'cards' && (state.mode.startsWith('auto-') || state.mode === 'custom')) {
       let seconds = 10;
-      if (state.mode === 'auto-accelerate') {
-        seconds = Math.max(2.5, 8.0 - state.currentIndex * 0.7);
+      if (state.mode.startsWith('auto-accel-')) {
+        const startSecs = parseFloat(state.mode.replace('auto-accel-', '')) || 8;
+        const step = startSecs <= 5 ? 0.4 : 0.7;
+        seconds = Math.max(1.8, startSecs - state.currentIndex * step);
         setMascotSpeech(`⚡ Aceleração! Tempo: ${seconds.toFixed(1)}s 🔥`, "happy");
       } else if (state.mode === 'custom') {
         seconds = state.customSeconds || 7;
