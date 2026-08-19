@@ -48,7 +48,7 @@ const WORDS_DATABASE = {
   },
 
   2: {
-    title: "Nível 2: Sílabas Simples (B, C, D, F, M, P, T, V)",
+    title: "Nível 2: Sílabas Simples (B, C, D, F, M, P, T, V, L, N, R, S)",
     description: "Associação consoante + vogal sem acentos.",
     sublevels: {
       "2.1": {
@@ -65,7 +65,10 @@ const WORDS_DATABASE = {
           { text: "DA", syllables: ["DA"], image: "🎲", hint: "Dado" },
           { text: "DE", syllables: ["DE"], image: "☝️", hint: "Dedo" },
           { text: "DI", syllables: ["DI"], image: "💎", hint: "Dia" },
-          { text: "DO", syllables: ["DO"], image: "🍬", hint: "Doce" }
+          { text: "DO", syllables: ["DO"], image: "🍬", hint: "Doce" },
+          { text: "DU", syllables: ["DU"], image: "🧚", hint: "Duende" },
+          { text: "BIA", syllables: ["BI", "A"], image: "👧", hint: "Nome de menina" },
+          { text: "BOBO", syllables: ["BO", "BO"], image: "🤡", hint: "Engraçado" }
         ]
       },
       "2.2": {
@@ -80,8 +83,12 @@ const WORDS_DATABASE = {
           { text: "ME", syllables: ["ME"], image: "🍯", hint: "Mel" },
           { text: "MI", syllables: ["MI"], image: "🐱", hint: "Miau" },
           { text: "MO", syllables: ["MO"], image: "🪙", hint: "Moeda" },
+          { text: "MU", syllables: ["MU"], image: "🧱", hint: "Muro" },
           { text: "PA", syllables: ["PA"], image: "🦆", hint: "Pato" },
-          { text: "PO", syllables: ["PO"], image: "🍿", hint: "Pipoca" }
+          { text: "PE", syllables: ["PE"], image: "🦶", hint: "Pé" },
+          { text: "PI", syllables: ["PI"], image: "🐥", hint: "Piu" },
+          { text: "PO", syllables: ["PO"], image: "🍿", hint: "Pipoca" },
+          { text: "PU", syllables: ["PU"], image: "🦘", hint: "Pulo" }
         ]
       },
       "2.3": {
@@ -96,8 +103,15 @@ const WORDS_DATABASE = {
           { text: "VE", syllables: ["VE"], image: "🕯️", hint: "Vela" },
           { text: "VI", syllables: ["VI"], image: "🎻", hint: "Violão" },
           { text: "VO", syllables: ["VO"], image: "👵", hint: "Vovo" },
+          { text: "VU", syllables: ["VU"], image: "🌋", hint: "Vulcão" },
           { text: "LA", syllables: ["LA"], image: "🥛", hint: "Lata" },
           { text: "LE", syllables: ["LE"], image: "🦁", hint: "Leao" },
+          { text: "LI", syllables: ["LI"], image: "🍋", hint: "Limao" },
+          { text: "LO", syllables: ["LO"], image: "🐺", hint: "Lobo" },
+          { text: "LU", syllables: ["LU"], image: "🌙", hint: "Lua" },
+          { text: "NA", syllables: ["NA"], image: "⛵", hint: "Navio" },
+          { text: "NE", syllables: ["NE"], image: "❄️", hint: "Neve" },
+          { text: "NI", syllables: ["NI"], image: "🪹", hint: "Ninho" },
           { text: "NO", syllables: ["NO"], image: "☁️", hint: "Nuvem" }
         ]
       }
@@ -120,7 +134,12 @@ const WORDS_DATABASE = {
           { text: "LIVRO", syllables: ["LI", "VRO"], image: "📚", hint: "Para ler histórias" },
           { text: "BOTA", syllables: ["BO", "TA"], image: "🥾", hint: "Calçado para chuva" },
           { text: "FACA", syllables: ["FA", "CA"], image: "🔪", hint: "Usa na cozinha" },
-          { text: "BOCA", syllables: ["BO", "CA"], image: "👄", hint: "Para falar e comer" }
+          { text: "BOCA", syllables: ["BO", "CA"], image: "👄", hint: "Para falar e comer" },
+          { text: "LATA", syllables: ["LA", "TA"], image: "🥫", hint: "Embalagem de metal" },
+          { text: "BICO", syllables: ["BI", "CO"], image: "🍼", hint: "Bico de mamadeira ou ave" },
+          { text: "VELA", syllables: ["VE", "LA"], image: "🕯️", hint: "Ilumina quando falta luz" },
+          { text: "ROPA", syllables: ["RO", "PA"], image: "👕", hint: "Vestimenta do dia" },
+          { text: "TAPE", syllables: ["TA", "PE"], image: "🛋️", hint: "Tapete macio" }
         ]
       },
       "3.2": {
@@ -135,7 +154,11 @@ const WORDS_DATABASE = {
           { text: "PERU", syllables: ["PE", "RU"], image: "🦃", hint: "Ave grande" },
           { text: "LOBO", syllables: ["LO", "BO"], image: "🐺", hint: "Uiva para a lua" },
           { text: "FOCA", syllables: ["FO", "CA"], image: "🦭", hint: "Bate palminha no mar" },
-          { text: "URSO", syllables: ["UR", "SO"], image: "🐻", hint: "Gosta de mel" }
+          { text: "URSO", syllables: ["UR", "SO"], image: "🐻", hint: "Gosta de mel" },
+          { text: "GALO", syllables: ["GA", "LO"], image: "🐓", hint: "Canta de manhã" },
+          { text: "PUMA", syllables: ["PU", "MA"], image: "🐆", hint: "Felis rápido" },
+          { text: "MICO", syllables: ["MI", "CO"], image: "🐒", hint: "Macaquinho sapeca" },
+          { text: "RATO", syllables: ["RA", "TO"], image: "🐭", hint: "Roedor espertinho" }
         ]
       },
       "3.3": {
@@ -148,9 +171,13 @@ const WORDS_DATABASE = {
           { text: "PERA", syllables: ["PE", "RA"], image: "🍐", hint: "Fruta suculenta" },
           { text: "FIGO", syllables: ["FI", "GO"], image: "🫐", hint: "Fruta rochinha" },
           { text: "MAÇÃ", syllables: ["MA", "ÇÃ"], image: "🍎", hint: "Vermelha e docinha" },
-          { text: "SOJA", syllables: ["SO", "JA"], image: "ia", hint: "Grão saudável" },
+          { text: "SOJA", syllables: ["SO", "JA"], image: "🌱", hint: "Grão saudável" },
           { text: "LAMA", syllables: ["LA", "MA"], image: "🧱", hint: "Terra com água" },
-          { text: "ROSA", syllables: ["RO", "SA"], image: "🌹", hint: "Flor cheirosa" }
+          { text: "ROSA", syllables: ["RO", "SA"], image: "🌹", hint: "Flor cheirosa" },
+          { text: "CANA", syllables: ["CA", "NA"], image: "🌾", hint: "Planta do açúcar" },
+          { text: "COCO", syllables: ["CO", "CO"], image: "🥥", hint: "Água refrescante" },
+          { text: "UVA", syllables: ["U", "VA"], image: "🍇", hint: "Cacho roxo ou verde" },
+          { text: "LIMA", syllables: ["LI", "MA"], image: "🍋", hint: "Fruta cítrica" }
         ]
       }
     }

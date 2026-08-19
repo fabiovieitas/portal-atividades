@@ -285,6 +285,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function startIntroSequence() {
     closeStep2Modal();
     closeStep3Modal();
+
+    const selLimit = document.getElementById('select-words-limit');
+    if (selLimit) state.wordsLimit = selLimit.value;
+
+    const selImg = document.getElementById('select-show-image');
+    if (selImg) state.showImage = (selImg.value === 'yes');
+
+    const selGame = document.getElementById('select-game-mode');
+    if (selGame) state.gameMode = selGame.value;
+
+    const selMode = document.getElementById('select-mode');
+    if (selMode) state.mode = selMode.value;
+
     audioMgr.initContext();
 
     showScreen('screen-intro');
@@ -394,15 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const subData = lvlData.sublevels[sublevelCode];
 
     let items = [...subData.items];
-
-    if (state.contentFilter === 'vowels') {
-      items = items.filter(i => i.text.length <= 3 && !i.text.includes(' '));
-    } else if (state.contentFilter === 'syllables') {
-      items = items.filter(i => i.text.length <= 4 && !i.text.includes(' '));
-    } else if (state.contentFilter === 'words') {
-      items = items.filter(i => i.text.length >= 4);
-    }
-
     shuffleArray(items);
 
     if (state.wordsLimit && state.wordsLimit !== 'all') {
@@ -445,6 +449,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (state.gameMode === 'build') {
       renderBuildSyllableGame(item);
+    } else if (state.gameMode === 'flash') {
+      renderFlashMemoryGame(item);
+    } else if (state.gameMode === 'detetive') {
+      renderDetetiveGame(item);
     } else {
       renderStandardCardWord(item);
     }
@@ -455,6 +463,22 @@ document.addEventListener('DOMContentLoaded', () => {
     audioMgr.playCardFlip();
 
     scheduleNextAutoCard();
+  }
+
+  function renderFlashMemoryGame(item) {
+    renderStandardCardWord(item);
+    setMascotSpeech("Memorize rápido! ⚡", "happy");
+    setTimeout(() => {
+      if (state.gameMode === 'flash' && dom.cardWordContainer) {
+        dom.cardWordContainer.innerHTML = `<div class="word-display" style="color: #fbbf24; cursor: pointer;" onclick="this.innerHTML='${item.text}'">❓ ❓ ❓ (Clique para ver)</div>`;
+        setMascotSpeech("Qual era a palavra? Fale em voz alta! 🗣️", "happy");
+      }
+    }, 1800);
+  }
+
+  function renderDetetiveGame(item) {
+    dom.cardWordContainer.innerHTML = `<div class="word-display" style="color: #38bdf8; cursor: pointer;" onclick="this.innerHTML='${item.text}'">🕵️ 🔒 [ CLIQUE PARA REVELAR ]</div>`;
+    setMascotSpeech("Descubra a palavra pela imagem e dica! 🕵️", "idle");
   }
 
   function scheduleNextAutoCard() {
@@ -650,36 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.stopAllAndReturnHomeGlobal = function() {
-    clearAllGameTimers();
-
-    state.isPaused = false;
-    state.currentIndex = 0;
-    state.sublevelListIndex = 0;
-    state.currentDeck = [];
-    if (audioMgr) {
-      audioMgr.stopBGM();
-      audioMgr.stopSpeech();
-    }
-    
-    if (dom.modalStep2) {
-      dom.modalStep2.classList.remove('active');
-      dom.modalStep2.style.display = 'none';
-    }
-    if (dom.modalStep3) {
-      dom.modalStep3.classList.remove('active');
-      dom.modalStep3.style.display = 'none';
-    }
-    if (dom.btnPauseToggle) {
-      dom.btnPauseToggle.textContent = '⏸️';
-      dom.btnPauseToggle.classList.remove('active');
-    }
-
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    }
-
-    showScreen('screen-config');
-    window.scrollTo(0, 0);
+    window.location.reload();
   };
 
   function stopAllAndReturnHome() {
