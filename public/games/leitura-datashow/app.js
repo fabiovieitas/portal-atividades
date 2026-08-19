@@ -282,9 +282,15 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.modalStep3.style.display = 'none';
   }
 
-  function startIntroSequence() {
-    closeStep2Modal();
-    closeStep3Modal();
+  window.startIntroSequenceGlobal = function() {
+    if (dom.modalStep2) {
+      dom.modalStep2.classList.remove('active');
+      dom.modalStep2.style.display = 'none';
+    }
+    if (dom.modalStep3) {
+      dom.modalStep3.classList.remove('active');
+      dom.modalStep3.style.display = 'none';
+    }
 
     const selLimit = document.getElementById('select-words-limit');
     if (selLimit) state.wordsLimit = selLimit.value;
@@ -298,49 +304,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const selMode = document.getElementById('select-mode');
     if (selMode) state.mode = selMode.value;
 
-    audioMgr.initContext();
+    if (window.audioMgr) {
+      window.audioMgr.initContext();
+    }
 
-    showScreen('screen-intro');
-
-    dom.introSchoolName.textContent = state.schoolName;
-    dom.countdownNum.textContent = '3';
-    dom.countdownNum.className = 'countdown-number';
-
-    const introSpeech = `Estamos prontos Alunos da ${state.schoolName}?`;
-    audioMgr.speak(introSpeech, 0.82, 1.0);
-
-    const lvlData = WORDS_DATABASE[state.selectedLevel];
+    const lvlData = WORDS_DATABASE[state.selectedLevel] || WORDS_DATABASE[1];
     if (lvlData && lvlData.sublevels) {
       state.currentSublevelList = Object.keys(lvlData.sublevels);
       state.sublevelListIndex = state.currentSublevelList.indexOf(state.selectedSublevel);
       if (state.sublevelListIndex === -1) state.sublevelListIndex = 0;
     }
 
-    state.introTimeout1 = setTimeout(() => {
-      let count = 3;
-      dom.countdownNum.textContent = count;
-      audioMgr.playCountBeep(count);
+    const targetSub = state.selectedSublevel || (state.currentSublevelList && state.currentSublevelList[0]) || '1.1';
+    initSublevelDeck(targetSub);
+  };
 
-      state.introInterval = setInterval(() => {
-        count--;
-        if (count > 0) {
-          dom.countdownNum.textContent = count;
-          audioMgr.playCountBeep(count);
-        } else {
-          if (state.introInterval) { clearInterval(state.introInterval); state.introInterval = null; }
-          dom.countdownNum.textContent = 'JÁ!';
-          dom.countdownNum.classList.add('ja');
-          audioMgr.playStartFanfare();
-          audioMgr.speak('Já!', 1.0, 1.1);
-          
-          triggerConfettiBurst(false);
-
-          state.introTimeout2 = setTimeout(() => {
-            initSublevelDeck(state.currentSublevelList[state.sublevelListIndex]);
-          }, 1200);
-        }
-      }, 1000);
-    }, 2400);
+  function startIntroSequence() {
+    window.startIntroSequenceGlobal();
   }
 
   function playSublevelTransition(nextSublevelCode) {
