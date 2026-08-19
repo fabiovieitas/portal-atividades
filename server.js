@@ -157,10 +157,13 @@ app.get('/', async (req, res) => {
     activities = activities.map(a => ({ ...a, is_favorite: favIds.includes(a.id) }));
   }
 
+  const comments = await dbHelper.getApprovedComments(15);
+  const { categories, subjects } = await dbHelper.getCategoriesAndSubjects();
+  const projects = await dbHelper.getProjects(12);
   const showcaseActivities = await dbHelper.getActivities({});
 
   res.render('index', { 
-    activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories, subjects, search, 
+    activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories: categories || [], subjects: subjects || [], search, 
     selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher
   });
 });
