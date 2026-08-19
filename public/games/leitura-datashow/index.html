@@ -131,7 +131,7 @@
             <option value="auto-8">Automático (8 segundos)</option>
             <option value="auto-10" selected>Automático (10 segundos)</option>
             <option value="auto-15">Automático (15 segundos)</option>
-            <option value="auto-accelerate">⚡ Aceleração Gradual (Cada vez mais rápido! 🔥)</option>
+            <option value="auto-accelerate">⚡ Aceleração Gradual (Inicia em 8s e acelera! 🔥)</option>
             <option value="custom">Tempo Personalizado...</option>
           </select>
           <input type="number" id="input-custom-seconds" class="form-input" style="display: none; margin-top: 0.4rem;" placeholder="Segundos" min="1" max="60" value="7">
@@ -253,6 +253,7 @@
   <section id="screen-presentation" class="app-screen">
     <header class="pres-header">
       <div id="pres-level-title" class="pres-level-badge">Subnível 1.1</div>
+      <button id="btn-top-stop" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; padding: 4px 16px; border-radius: 20px; font-size: 0.85rem; width: auto;" title="Parar Total e Voltar ao Início do Jogo (Passo 1)">🛑 PARAR JOGO (PASSO 1)</button>
       <div id="pres-progress-count" class="pres-progress">1 / 10</div>
     </header>
 

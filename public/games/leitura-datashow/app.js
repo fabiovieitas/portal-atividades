@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnPrev: document.getElementById('btn-prev'),
     btnPauseToggle: document.getElementById('btn-pause-toggle'),
     btnStopMenu: document.getElementById('btn-stop-menu'),
+    btnTopStop: document.getElementById('btn-top-stop'),
     btnSpeak: document.getElementById('btn-speak'),
     btnSyllable: document.getElementById('btn-syllable'),
     btnImage: document.getElementById('btn-image'),
@@ -95,6 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target) {
       target.classList.add('active');
     }
+  }
+
+  function clearAllGameTimers() {
+    if (state.timerId) { clearTimeout(state.timerId); state.timerId = null; }
+    if (state.introTimeout1) { clearTimeout(state.introTimeout1); state.introTimeout1 = null; }
+    if (state.introInterval) { clearInterval(state.introInterval); state.introInterval = null; }
+    if (state.introTimeout2) { clearTimeout(state.introTimeout2); state.introTimeout2 = null; }
+    if (state.transitionInterval) { clearInterval(state.transitionInterval); state.transitionInterval = null; }
+    if (state.transitionTimeout) { clearTimeout(state.transitionTimeout); state.transitionTimeout = null; }
   }
 
   // ----------------------------------------------------
@@ -300,18 +310,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (state.sublevelListIndex === -1) state.sublevelListIndex = 0;
     }
 
-    setTimeout(() => {
+    state.introTimeout1 = setTimeout(() => {
       let count = 3;
       dom.countdownNum.textContent = count;
       audioMgr.playCountBeep(count);
 
-      const interval = setInterval(() => {
+      state.introInterval = setInterval(() => {
         count--;
         if (count > 0) {
           dom.countdownNum.textContent = count;
           audioMgr.playCountBeep(count);
         } else {
-          clearInterval(interval);
+          if (state.introInterval) { clearInterval(state.introInterval); state.introInterval = null; }
           dom.countdownNum.textContent = 'JÁ!';
           dom.countdownNum.classList.add('ja');
           audioMgr.playStartFanfare();
@@ -319,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
           
           triggerConfettiBurst(false);
 
-          setTimeout(() => {
+          state.introTimeout2 = setTimeout(() => {
             initSublevelDeck(state.currentSublevelList[state.sublevelListIndex]);
           }, 1200);
         }
@@ -348,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     audioMgr.speak(`${phrase} Vamos respirar.`, 0.82, 1.0);
 
     let count = 8;
-    const interval = setInterval(() => {
+    state.transitionInterval = setInterval(() => {
       count--;
       dom.transCountdown.textContent = count;
 
@@ -362,11 +372,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (count <= 0) {
-        clearInterval(interval);
+        if (state.transitionInterval) { clearInterval(state.transitionInterval); state.transitionInterval = null; }
         dom.transCountdown.textContent = "VAI!";
         audioMgr.playStartFanfare();
 
-        setTimeout(() => {
+        state.transitionTimeout = setTimeout(() => {
           initSublevelDeck(nextSublevelCode);
         }, 800);
       }
@@ -460,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.gameMode === 'cards' && (state.mode.startsWith('auto-') || state.mode === 'custom')) {
       let seconds = 10;
       if (state.mode === 'auto-accelerate') {
-        seconds = Math.max(2.5, 10 - state.currentIndex * 1.0);
+        seconds = Math.max(2.5, 8.0 - state.currentIndex * 0.7);
         setMascotSpeech(`⚡ Aceleração! Tempo: ${seconds.toFixed(1)}s 🔥`, "happy");
       } else if (state.mode === 'custom') {
         seconds = state.customSeconds || 7;
@@ -645,10 +655,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function stopAllAndReturnHome() {
-    if (state.timerId) {
-      clearTimeout(state.timerId);
-      state.timerId = null;
-    }
+    clearAllGameTimers();
+
     state.isPaused = false;
     state.currentIndex = 0;
     state.sublevelListIndex = 0;
@@ -668,6 +676,11 @@ document.addEventListener('DOMContentLoaded', () => {
       dom.btnPauseToggle.textContent = '⏸️';
       dom.btnPauseToggle.classList.remove('active');
     }
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+
     showScreen('screen-config');
     window.scrollTo(0, 0);
   }
@@ -676,8 +689,11 @@ document.addEventListener('DOMContentLoaded', () => {
     dom.btnNext.addEventListener('click', nextCard);
     dom.btnPrev.addEventListener('click', prevCard);
     dom.btnPauseToggle.addEventListener('click', togglePause);
-    dom.btnStopMenu.addEventListener('click', stopAllAndReturnHome);
+    
+    if (dom.btnTopStop) dom.btnTopStop.addEventListener('click', stopAllAndReturnHome);
+    if (dom.btnStopMenu) dom.btnStopMenu.addEventListener('click', stopAllAndReturnHome);
     if (dom.btnBackMenu) dom.btnBackMenu.addEventListener('click', stopAllAndReturnHome);
+    if (dom.btnCloseModal2) dom.btnCloseModal2.addEventListener('click', stopAllAndReturnHome);
 
     dom.btnSpeak.addEventListener('click', () => {
       const item = state.currentDeck[state.currentIndex];
