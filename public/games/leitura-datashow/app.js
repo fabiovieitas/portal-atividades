@@ -447,10 +447,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (state.gameMode === 'build') {
       renderBuildSyllableGame(item);
-    } else if (state.gameMode === 'flash') {
-      renderFlashMemoryGame(item);
-    } else if (state.gameMode === 'detetive') {
-      renderDetetiveGame(item);
     } else {
       renderStandardCardWord(item);
     }
@@ -461,22 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
     audioMgr.playCardFlip();
 
     scheduleNextAutoCard();
-  }
-
-  function renderFlashMemoryGame(item) {
-    renderStandardCardWord(item);
-    setMascotSpeech("Memorize rápido! ⚡", "happy");
-    setTimeout(() => {
-      if (state.gameMode === 'flash' && dom.cardWordContainer) {
-        dom.cardWordContainer.innerHTML = `<div class="word-display" style="color: #fbbf24; cursor: pointer;" onclick="this.innerHTML='${item.text}'">❓ ❓ ❓ (Clique para ver)</div>`;
-        setMascotSpeech("Qual era a palavra? Fale em voz alta! 🗣️", "happy");
-      }
-    }, 1800);
-  }
-
-  function renderDetetiveGame(item) {
-    dom.cardWordContainer.innerHTML = `<div class="word-display" style="color: #38bdf8; cursor: pointer;" onclick="this.innerHTML='${item.text}'">🕵️ 🔒 [ CLIQUE PARA REVELAR ]</div>`;
-    setMascotSpeech("Descubra a palavra pela imagem e dica! 🕵️", "idle");
   }
 
   function scheduleNextAutoCard() {
@@ -545,9 +525,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderBuildSyllableGame(item) {
-    const syllables = item.syllables || [item.text];
-    const shuffledSyllables = [...syllables];
-    shuffleArray(shuffledSyllables);
+    const syllables = item.syllables ? [...item.syllables] : [item.text];
+    
+    // Pool de sílabas distratoras para tornar a montagem desafiadora e divertida
+    const distractorPool = ["PA", "MA", "CA", "TO", "BO", "SO", "RA", "LA", "DE", "TA", "FA", "VA", "MI", "NE"];
+    
+    let blocksToShuffle = [...syllables];
+
+    // Para 1 ou 2 sílabas, adicionar distratores para criar um desafio real
+    if (syllables.length === 1) {
+      const extra = distractorPool.filter(s => !syllables.includes(s));
+      blocksToShuffle.push(extra[0], extra[1]);
+    } else if (syllables.length === 2) {
+      const extra = distractorPool.filter(s => !syllables.includes(s));
+      blocksToShuffle.push(extra[0]);
+    }
+
+    // Garantir que a ordem inicial dos blocos NUNCA seja igual à sequência correta
+    let attempts = 0;
+    do {
+      shuffleArray(blocksToShuffle);
+      attempts++;
+    } while (blocksToShuffle.slice(0, syllables.length).join('') === syllables.join('') && attempts < 10);
+
+    if (blocksToShuffle.slice(0, syllables.length).join('') === syllables.join('')) {
+      blocksToShuffle.reverse();
+    }
 
     state.buildAssembledSyllables = [];
 
@@ -557,12 +560,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const slotsRow = document.createElement('div');
     slotsRow.className = 'assembled-slots-row';
     slotsRow.id = 'assembled-slots-row';
-    slotsRow.innerHTML = '<span style="color: #64748b; font-size: 1.5rem;">Clique nas sílabas para montar...</span>';
+    slotsRow.innerHTML = '<span style="color: #64748b; font-size: 1.5rem;">Clique nas sílabas para montar a palavra...</span>';
 
     const blocksRow = document.createElement('div');
     blocksRow.className = 'shuffled-blocks-row';
 
-    shuffledSyllables.forEach((syl) => {
+    blocksToShuffle.forEach((syl) => {
       const block = document.createElement('button');
       block.className = 'syllable-block';
       block.textContent = syl;
