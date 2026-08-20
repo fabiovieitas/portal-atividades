@@ -67,6 +67,30 @@
       </div>
 
 
+      <!-- SELETOR DE MODO DA ATIVIDADE NA TELA PRINCIPAL (PASSO 1) -->
+      <div class="form-group" style="background: rgba(56, 189, 248, 0.1); border: 2px solid #38bdf8; padding: 1rem 1.2rem; border-radius: 20px; margin-bottom: 1.2rem;">
+        <label for="select-game-mode-step1" style="font-size: 1.15rem; color: #38bdf8; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;">
+          🎮 Modo da Atividade Coletiva no Datashow:
+        </label>
+        <select id="select-game-mode-step1" class="form-input" style="font-weight: 700; background: #0f172a; border-color: #38bdf8;">
+          <option value="cards" selected>📺 Leitura em Cards Gigantes (Padrão)</option>
+          <option value="build">🧩 Monte a Palavra (Sílabas Interativas)</option>
+          <option value="forca">🎯 A Palavra Misteriosa (Forca da Turma)</option>
+          <option value="frase">🧩 Quebra-Cabeça de Frases Coletivo</option>
+          <option value="eco">🔊 ECO Silábico (Leitura Coral no Ritmo)</option>
+          <option value="rima">🔎 Caça às Rimas no Datashow</option>
+          <option value="roleta">⚡ Roda da Velocidade (Roleta 3D)</option>
+          <option value="acao">🎨 Palavra e Ação (Teatro & Mímica)</option>
+          <option value="intruso">🎒 O Inseto / Intruso do Grupo</option>
+          <option value="corrida">🏁 Corrida de Leitura (Times 🏎️ x 💙)</option>
+          <option value="silaba_magica">🔤 Primeira Sílaba Mágica</option>
+          <option value="storytelling">📖 Storytelling Coletivo (Crie a História)</option>
+        </select>
+        <div style="font-size: 0.85rem; color: #fbbf24; margin-top: 0.4rem; font-weight: 600;">
+          ✨ Escolha o modo de dinâmica para a sala de aula ou mantenha em Cards Gigantes!
+        </div>
+      </div>
+
       <!-- Nome da Escola -->
       <div class="form-group">
         <label for="input-school-name">🏫 Nome da Escola ou Turma:</label>
@@ -82,7 +106,7 @@
       </div>
 
       <div style="font-size: 0.95rem; color: #94a3b8; margin-top: 0.5rem;">
-        💡 Ao selecionar o Nível, você escolherá o Subnível (Passo 2) e as opções da aula (Passo 3).
+        💡 Ao selecionar o Nível, você escolherá o Subnível (Passo 2) e pode ajustar todas as opções (Passo 3).
       </div>
 
     </div>
@@ -324,9 +348,9 @@
 
   <canvas id="confetti-canvas"></canvas>
 
-  <script src="words-data.js"></script>
-  <script src="audio-manager.js"></script>
-  <script src="app.js"></script>
+  <script src="words-data.js?v=9.0"></script>
+  <script src="audio-manager.js?v=9.0"></script>
+  <script src="app.js?v=9.0"></script>
 
 </body>
 </html>

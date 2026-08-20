@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     selectVoice: document.getElementById('select-voice'),
     btnPreviewVoice: document.getElementById('btn-preview-voice'),
 
+    selectGameModeStep1: document.getElementById('select-game-mode-step1'),
     selectGameMode: document.getElementById('select-game-mode'),
     selectMode: document.getElementById('select-mode'),
     selectWordsLimit: document.getElementById('select-words-limit'),
@@ -149,9 +150,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    if (dom.selectGameModeStep1) {
+      dom.selectGameModeStep1.addEventListener('change', (e) => {
+        state.gameMode = e.target.value;
+        if (dom.selectGameMode) dom.selectGameMode.value = e.target.value;
+      });
+    }
+
     if (dom.selectGameMode) {
       dom.selectGameMode.addEventListener('change', (e) => {
         state.gameMode = e.target.value;
+        if (dom.selectGameModeStep1) dom.selectGameModeStep1.value = e.target.value;
       });
     }
 

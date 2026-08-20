@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const srcDir = 'C:\\Users\\fabiovieitas\\.gemini\\antigravity-ide\\scratch\\sistema-leitura-datashow';
-const destDir = path.join(__dirname, '..', 'public', 'games', 'leitura-datashow');
+const srcDir = path.join(__dirname, '..', 'public', 'games', 'leitura-datashow');
+const destDir = 'C:\\Users\\fabiovieitas\\.gemini\\antigravity-ide\\scratch\\sistema-leitura-datashow';
 
 if (!fs.existsSync(destDir)) {
   fs.mkdirSync(destDir, { recursive: true });
@@ -16,4 +16,4 @@ for (const file of files) {
   console.log(`Copied ${file} -> ${destFile}`);
 }
 
-console.log('Copy finished successfully!');
+console.log('Copy from public to .gemini scratch finished successfully!');
