@@ -447,6 +447,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (state.gameMode === 'build') {
       renderBuildSyllableGame(item);
+    } else if (state.gameMode === 'forca') {
+      renderForcaGame(item);
+    } else if (state.gameMode === 'frase') {
+      renderFraseGame(item);
+    } else if (state.gameMode === 'eco') {
+      renderEcoGame(item);
+    } else if (state.gameMode === 'rima') {
+      renderRimaGame(item);
+    } else if (state.gameMode === 'roleta') {
+      renderRoletaGame(item);
+    } else if (state.gameMode === 'acao') {
+      renderAcaoGame(item);
+    } else if (state.gameMode === 'intruso') {
+      renderIntrusoGame(item);
+    } else if (state.gameMode === 'corrida') {
+      renderCorridaGame(item);
+    } else if (state.gameMode === 'silaba_magica') {
+      renderSilabaMagicaGame(item);
+    } else if (state.gameMode === 'storytelling') {
+      renderStorytellingGame(item);
     } else {
       renderStandardCardWord(item);
     }
@@ -623,6 +643,545 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1200);
       }
     }
+  }
+
+  /* ==========================================================================
+     10 NOVOS MODOS DE ATIVIDADES COLETIVAS PARA DATASHOW
+     ========================================================================== */
+
+  // 1. FORCA DA TURMA (A PALAVRA MISTERIOSA)
+  function renderForcaGame(item) {
+    const textUpper = item.text.toUpperCase();
+    const letters = textUpper.split('');
+    if (!state.forcaRevealedLetters) state.forcaRevealedLetters = [];
+
+    setMascotSpeech("Qual é A PALAVRA MISTERIOSA? Escolham as letras! 🎯", "happy");
+
+    const container = document.createElement('div');
+    container.className = 'forca-container';
+
+    const slotsRow = document.createElement('div');
+    slotsRow.className = 'forca-word-slots';
+
+    let isComplete = true;
+    letters.forEach(ch => {
+      const slot = document.createElement('div');
+      slot.className = 'forca-slot';
+      if (ch === ' ' || ch === '-' || state.forcaRevealedLetters.includes(ch)) {
+        slot.textContent = ch;
+        slot.classList.add('revealed');
+      } else {
+        slot.textContent = '_';
+        isComplete = false;
+      }
+      slotsRow.appendChild(slot);
+    });
+
+    const keyboardGrid = document.createElement('div');
+    keyboardGrid.className = 'keyboard-grid';
+
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+    alphabet.forEach(letter => {
+      const btn = document.createElement('button');
+      btn.className = 'key-btn';
+      btn.textContent = letter;
+
+      if (state.forcaRevealedLetters.includes(letter)) {
+        if (textUpper.includes(letter)) {
+          btn.classList.add('used-correct');
+        } else {
+          btn.classList.add('used-wrong');
+        }
+      }
+
+      btn.addEventListener('click', () => {
+        if (state.forcaRevealedLetters.includes(letter)) return;
+
+        state.forcaRevealedLetters.push(letter);
+
+        if (textUpper.includes(letter)) {
+          audioMgr.playTone(600, 'sine', 0.15, 0.2);
+          setMascotSpeech(`Boa! A letra ${letter} existe na palavra! 🎉`, "happy");
+        } else {
+          audioMgr.playTone(220, 'sawtooth', 0.2, 0.2);
+          setMascotSpeech(`Ops! A letra ${letter} não tem. Tente outra! 🦉`, "idle");
+        }
+
+        renderCurrentCard();
+      });
+
+      keyboardGrid.appendChild(btn);
+    });
+
+    container.appendChild(slotsRow);
+    container.appendChild(keyboardGrid);
+
+    dom.cardWordContainer.innerHTML = '';
+    dom.cardWordContainer.appendChild(container);
+
+    if (isComplete && state.forcaRevealedLetters.length > 0) {
+      audioMgr.playStartFanfare();
+      audioMgr.speak(item.text, 0.82, 1.0);
+      setMascotSpeech(`PARABÉNS TURMA! Descobriram a palavra "${item.text}"! 🏆`, "happy");
+      triggerConfettiBurst(true);
+    }
+  }
+
+  // 2. QUEBRA-CABEÇA DE FRASES COLETIVO
+  function renderFraseGame(item) {
+    const words = item.text.split(' ');
+    let blocksToShuffle = [...words];
+    shuffleArray(blocksToShuffle);
+
+    if (!state.fraseAssembledWords) state.fraseAssembledWords = [];
+    setMascotSpeech("Monte a frase colocando as palavras na ordem certa! 🧩", "happy");
+
+    const container = document.createElement('div');
+    container.className = 'syllable-game-box';
+
+    const slotsRow = document.createElement('div');
+    slotsRow.className = 'assembled-slots-row';
+    slotsRow.id = 'frase-slots-row';
+    slotsRow.innerHTML = '<span style="color: #64748b; font-size: 1.4rem;">Clique nas palavras para formar a frase...</span>';
+
+    const blocksRow = document.createElement('div');
+    blocksRow.className = 'shuffled-blocks-row';
+
+    blocksToShuffle.forEach(w => {
+      const block = document.createElement('button');
+      block.className = 'syllable-block';
+      block.style.fontSize = '1.4rem';
+      block.textContent = w;
+
+      block.addEventListener('click', () => {
+        if (block.classList.contains('used')) return;
+        block.classList.add('used');
+        audioMgr.playTone(500 + state.fraseAssembledWords.length * 80, 'sine', 0.15, 0.2);
+        state.fraseAssembledWords.push(w);
+
+        slotsRow.innerHTML = '';
+        state.fraseAssembledWords.forEach(wordItem => {
+          const slot = document.createElement('span');
+          slot.className = 'slot-item';
+          slot.style.fontSize = '2rem';
+          slot.textContent = wordItem + ' ';
+          slotsRow.appendChild(slot);
+        });
+
+        if (state.fraseAssembledWords.length === words.length) {
+          if (state.fraseAssembledWords.join(' ') === words.join(' ')) {
+            audioMgr.playStartFanfare();
+            audioMgr.speak(item.text, 0.82, 1.0);
+            setMascotSpeech("Perfeito! Frase montada com sucesso! 🎉", "happy");
+            triggerConfettiBurst(false);
+          } else {
+            audioMgr.playTone(200, 'sawtooth', 0.3, 0.2);
+            setMascotSpeech("Quase lá! Vamos tentar a ordem novamente! 🦉", "idle");
+            setTimeout(() => {
+              state.fraseAssembledWords = [];
+              renderCurrentCard();
+            }, 1500);
+          }
+        }
+      });
+
+      blocksRow.appendChild(block);
+    });
+
+    container.appendChild(blocksRow);
+    container.appendChild(slotsRow);
+
+    dom.cardWordContainer.innerHTML = '';
+    dom.cardWordContainer.appendChild(container);
+  }
+
+  // 3. ECO SILÁBICO (LEITURA CORAL NO RITMO)
+  function renderEcoGame(item) {
+    setMascotSpeech("ECO SILÁBICO! Acompanhem o ritmo da batida em coro! 🔊🎶", "happy");
+
+    const syllables = item.syllables || [item.text];
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.alignItems = 'center';
+    container.style.gap = '1.5rem';
+
+    const beatBox = document.createElement('div');
+    beatBox.className = 'eco-beat-circle';
+    beatBox.id = 'eco-beat-box';
+    beatBox.textContent = syllables[0];
+
+    const subtitle = document.createElement('div');
+    subtitle.style.fontSize = '1.8rem';
+    subtitle.style.color = '#38bdf8';
+    subtitle.style.fontWeight = '700';
+    subtitle.textContent = `Palavra: ${item.text}`;
+
+    container.appendChild(beatBox);
+    container.appendChild(subtitle);
+
+    dom.cardWordContainer.innerHTML = '';
+    dom.cardWordContainer.appendChild(container);
+
+    let step = 0;
+    if (state.ecoInterval) clearInterval(state.ecoInterval);
+
+    state.ecoInterval = setInterval(() => {
+      if (state.isPaused) return;
+      const currentSyl = syllables[step % syllables.length];
+      beatBox.textContent = currentSyl;
+      beatBox.classList.add('eco-pulse');
+      audioMgr.playTone(440 + (step % syllables.length) * 80, 'sine', 0.12, 0.3);
+
+      setTimeout(() => beatBox.classList.remove('eco-pulse'), 250);
+      step++;
+    }, 800);
+  }
+
+  // 4. CAÇA ÀS RIMAS NO DATASHOW
+  function renderRimaGame(item) {
+    setMascotSpeech(`Qual palavra RIMA com "${item.text}"? 🔎`, "happy");
+
+    const rimaPairs = {
+      "BOLA": ["MOLA 🌀", "COLA 🧴", "SACOLA 🛍️"],
+      "CASA": ["ASA 🪶", "MASA 🍞", "VASA 🏺"],
+      "GATO": ["PATO 🦆", "RATO 🐭", "SAPO 🐸"],
+      "SOL": ["GIRASSOL 🌻", "FAROL 🚨", "CARACOL 🐌"],
+      "LUA": ["RUA 🛣️", "SUA 👧", "CRUA 🥕"]
+    };
+
+    const targetRima = rimaPairs[item.text] ? rimaPairs[item.text][0] : "MOLA 🌀";
+    const distractors = ["BATA 👕", "COPO 🥛", "DADO 🎲", "PEIXE 🐟", "URSO 🐻", "FOGO 🔥"];
+
+    const options = [targetRima];
+    while (options.length < 4) {
+      const rand = distractors[Math.floor(Math.random() * distractors.length)];
+      if (!options.includes(rand)) options.push(rand);
+    }
+    shuffleArray(options);
+
+    dom.cardWordContainer.innerHTML = `
+      <div style="font-size: 2.5rem; font-weight: 800; color: #ec4899; margin-bottom: 0.5rem;">
+        ${item.text} ${item.image || ''}
+      </div>
+      <div class="options-quad-grid" id="rima-options-grid"></div>
+    `;
+
+    const grid = document.getElementById('rima-options-grid');
+    options.forEach(opt => {
+      const card = document.createElement('button');
+      card.className = 'option-quad-card';
+      card.textContent = opt;
+
+      card.addEventListener('click', () => {
+        if (opt === targetRima) {
+          card.classList.add('correct');
+          audioMgr.playStartFanfare();
+          setMascotSpeech(`EXCELENTE! ${opt} rima com ${item.text}! 🎉`, "happy");
+          triggerConfettiBurst(true);
+        } else {
+          card.classList.add('wrong');
+          audioMgr.playTone(200, 'sawtooth', 0.2, 0.2);
+          setMascotSpeech("Essa não rima! Tente outra palavra... 🦉", "idle");
+        }
+      });
+
+      grid.appendChild(card);
+    });
+  }
+
+  // 5. RODA DA VELOCIDADE (ROLETA 3D)
+  function renderRoletaGame(item) {
+    setMascotSpeech("RODA DA VELOCIDADE! Clique para girar a roleta! 🎡⚡", "happy");
+
+    const container = document.createElement('div');
+    container.className = 'roulette-wrapper';
+
+    const pointer = document.createElement('div');
+    pointer.className = 'roulette-pointer';
+    pointer.textContent = '🔻';
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'roulette-canvas';
+    canvas.width = 320;
+    canvas.height = 320;
+
+    const spinBtn = document.createElement('button');
+    spinBtn.className = 'btn-start';
+    spinBtn.style.marginTop = '1rem';
+    spinBtn.textContent = '🎡 GIRAR ROLETA!';
+
+    container.appendChild(pointer);
+    container.appendChild(canvas);
+    container.appendChild(spinBtn);
+
+    dom.cardWordContainer.innerHTML = '';
+    dom.cardWordContainer.appendChild(container);
+
+    const ctx = canvas.getContext('2d');
+    const wordsList = state.currentDeck.slice(0, 8).map(i => i.text);
+    const colors = ['#ec4899', '#38bdf8', '#10b981', '#fbbf24', '#8b5cf6', '#f43f5e', '#06b6d4', '#a855f7'];
+
+    function drawWheel(angle = 0) {
+      const slice = (2 * Math.PI) / wordsList.length;
+      ctx.clearRect(0, 0, 320, 320);
+      wordsList.forEach((word, idx) => {
+        ctx.beginPath();
+        ctx.fillStyle = colors[idx % colors.length];
+        ctx.moveTo(160, 160);
+        ctx.arc(160, 160, 150, angle + idx * slice, angle + (idx + 1) * slice);
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(160, 160);
+        ctx.rotate(angle + (idx + 0.5) * slice);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 16px Outfit, sans-serif';
+        ctx.fillText(word, 130, 6);
+        ctx.restore();
+      });
+    }
+
+    drawWheel(0);
+
+    spinBtn.addEventListener('click', () => {
+      spinBtn.disabled = true;
+      let currentAngle = 0;
+      let speed = 0.4 + Math.random() * 0.3;
+
+      const spinInterval = setInterval(() => {
+        currentAngle += speed;
+        speed *= 0.97;
+        drawWheel(currentAngle);
+        audioMgr.playTone(300 + Math.random() * 200, 'sine', 0.05, 0.1);
+
+        if (speed < 0.005) {
+          clearInterval(spinInterval);
+          spinBtn.disabled = false;
+          audioMgr.playStartFanfare();
+          audioMgr.speak(item.text, 0.82, 1.0);
+          setMascotSpeech(`SORTEADA A PALAVRA: "${item.text}"! Leiam juntos! 📢`, "happy");
+          triggerConfettiBurst(false);
+        }
+      }, 30);
+    });
+  }
+
+  // 6. PALAVRA E AÇÃO (TEATRO & MÍMICA)
+  function renderAcaoGame(item) {
+    setMascotSpeech(`PALAVRA E AÇÃO! Façam a mímica de "${item.text}" todos juntos! 🦘🎭`, "happy");
+
+    dom.cardWordContainer.innerHTML = `
+      <div style="font-size: clamp(3rem, 7vw, 5rem); font-weight: 900; color: #ec4899; margin-bottom: 1rem;">
+        ${item.text} ${item.image || '🎭'}
+      </div>
+      <div style="font-size: 1.8rem; color: #38bdf8; font-weight: 700; background: rgba(56, 189, 248, 0.15); padding: 0.8rem 2rem; border-radius: 20px;">
+        ⏱️ MÍMICA EM AÇÃO: <span id="mimica-timer" style="color: #fbbf24; font-size: 2.2rem;">10</span>s
+      </div>
+    `;
+
+    let timeLeft = 10;
+    const timerEl = document.getElementById('mimica-timer');
+    if (state.acaoInterval) clearInterval(state.acaoInterval);
+
+    state.acaoInterval = setInterval(() => {
+      if (state.isPaused) return;
+      timeLeft--;
+      if (timerEl) timerEl.textContent = timeLeft;
+      audioMgr.playTone(400, 'sine', 0.1, 0.1);
+
+      if (timeLeft <= 0) {
+        clearInterval(state.acaoInterval);
+        audioMgr.playStartFanfare();
+        setMascotSpeech(`SENSACIONAL TURMA! Mímica de "${item.text}" realizada com nota 10! 🏆`, "happy");
+        triggerConfettiBurst(true);
+      }
+    }, 1000);
+  }
+
+  // 7. O INSETO / INTRUSO DO GRUPO
+  function renderIntrusoGame(item) {
+    setMascotSpeech("Qual destas cartas É O INTRUSO do grupo? 🎒🕵️", "happy");
+
+    const categoryItems = [
+      { text: "GATO 🐱", isIntruso: false },
+      { text: "SAPO 🐸", isIntruso: false },
+      { text: "VACA 🐮", isIntruso: false },
+      { text: "PIPA 🪁", isIntruso: true }
+    ];
+
+    shuffleArray(categoryItems);
+
+    dom.cardWordContainer.innerHTML = `
+      <div class="options-quad-grid" id="intruso-grid"></div>
+    `;
+
+    const grid = document.getElementById('intruso-grid');
+    categoryItems.forEach(cardData => {
+      const card = document.createElement('button');
+      card.className = 'option-quad-card';
+      card.textContent = cardData.text;
+
+      card.addEventListener('click', () => {
+        if (cardData.isIntruso) {
+          card.classList.add('correct');
+          audioMgr.playStartFanfare();
+          setMascotSpeech(`ACERTOU! ${cardData.text} é o intruso (não é um animal)! 🎯`, "happy");
+          triggerConfettiBurst(true);
+        } else {
+          card.classList.add('wrong');
+          audioMgr.playTone(200, 'sawtooth', 0.2, 0.2);
+          setMascotSpeech("Esse faz parte do grupo! Procure o intruso... 🦉", "idle");
+        }
+      });
+
+      grid.appendChild(card);
+    });
+  }
+
+  // 8. CORRIDA DE LEITURA (TIMES VERMELHO X AZUL)
+  function renderCorridaGame(item) {
+    if (state.raceRedPos === undefined) state.raceRedPos = 0;
+    if (state.raceBluePos === undefined) state.raceBluePos = 0;
+    if (state.raceTurn === undefined) state.raceTurn = 'red';
+
+    const turnText = state.raceTurn === 'red' ? '🏎️ VEZ DO TIME VERMELHO!' : '💙 VEZ DO TIME AZUL!';
+    setMascotSpeech(`${turnText} Leiam a palavra: "${item.text}"! 🏁`, "happy");
+
+    const container = document.createElement('div');
+    container.className = 'race-arena-container';
+
+    container.innerHTML = `
+      <div style="font-size: 3rem; font-weight: 900; color: #ec4899;">${item.text} ${item.image || ''}</div>
+
+      <div class="race-track-row">
+        <div class="race-team-badge" style="background: #ef4444;">🏎️ Time Vermelho</div>
+        <div class="race-track-lane">
+          <div class="race-car-avatar" style="left: ${state.raceRedPos * 18}%;">🏎️</div>
+        </div>
+      </div>
+
+      <div class="race-track-row">
+        <div class="race-team-badge" style="background: #3b82f6;">💙 Time Azul</div>
+        <div class="race-track-lane">
+          <div class="race-car-avatar" style="left: ${state.raceBluePos * 18}%;">🏎️</div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 0.5rem;">
+        <button id="btn-race-correct" class="btn-start" style="padding: 0.8rem 2rem; font-size: 1.2rem;">
+          ✅ TIME LEU CORRETAMENTE (+1)
+        </button>
+      </div>
+    `;
+
+    dom.cardWordContainer.innerHTML = '';
+    dom.cardWordContainer.appendChild(container);
+
+    document.getElementById('btn-race-correct').addEventListener('click', () => {
+      audioMgr.playTone(600, 'sine', 0.2, 0.2);
+
+      if (state.raceTurn === 'red') {
+        state.raceRedPos = Math.min(5, state.raceRedPos + 1);
+        state.raceTurn = 'blue';
+      } else {
+        state.raceBluePos = Math.min(5, state.raceBluePos + 1);
+        state.raceTurn = 'red';
+      }
+
+      if (state.raceRedPos >= 5 || state.raceBluePos >= 5) {
+        const winner = state.raceRedPos >= 5 ? 'TIME VERMELHO 🏎️' : 'TIME AZUL 💙';
+        audioMgr.playStartFanfare();
+        setMascotSpeech(`🏆 PARABÉNS AO ${winner}! CAMPEÃO DA CORRIDA DE LEITURA! 🎉`, "happy");
+        triggerConfettiBurst(true);
+        state.raceRedPos = 0;
+        state.raceBluePos = 0;
+      } else {
+        renderCurrentCard();
+      }
+    });
+  }
+
+  // 9. PRIMEIRA SÍLABA MÁGICA
+  function renderSilabaMagicaGame(item) {
+    const syllables = item.syllables || [item.text];
+    const correctFirst = syllables[0];
+
+    setMascotSpeech("Qual é a PRIMEIRA SÍLABA MÁGICA desta palavra? 🔤✨", "happy");
+
+    const distractors = ["PA", "BO", "CA", "TO", "LA", "DE", "FA", "MI"].filter(s => s !== correctFirst);
+    const options = [correctFirst];
+    while (options.length < 4) {
+      const rand = distractors[Math.floor(Math.random() * distractors.length)];
+      if (!options.includes(rand)) options.push(rand);
+    }
+    shuffleArray(options);
+
+    const restWord = syllables.slice(1).join('') || '...';
+
+    dom.cardWordContainer.innerHTML = `
+      <div style="font-size: clamp(3rem, 7vw, 5rem); font-weight: 900; color: #38bdf8; margin-bottom: 1rem;">
+        <span style="border-bottom: 4px dashed #fbbf24; padding: 0 10px; color: #fbbf24;">❓</span> ${restWord} ${item.image || ''}
+      </div>
+      <div class="options-quad-grid" id="silaba-magica-grid"></div>
+    `;
+
+    const grid = document.getElementById('silaba-magica-grid');
+    options.forEach(syl => {
+      const card = document.createElement('button');
+      card.className = 'option-quad-card';
+      card.textContent = syl;
+
+      card.addEventListener('click', () => {
+        if (syl === correctFirst) {
+          card.classList.add('correct');
+          audioMgr.playStartFanfare();
+          audioMgr.speak(item.text, 0.82, 1.0);
+          setMascotSpeech(`SÍLABA CORRETA! ${syl} + ${restWord} = ${item.text}! 🎉`, "happy");
+          triggerConfettiBurst(true);
+        } else {
+          card.classList.add('wrong');
+          audioMgr.playTone(200, 'sawtooth', 0.2, 0.2);
+          setMascotSpeech("Ops! Essa não é a primeira sílaba. Tente outra! 🦉", "idle");
+        }
+      });
+
+      grid.appendChild(card);
+    });
+  }
+
+  // 10. STORYTELLING COLETIVO (CRIE A HISTÓRIA)
+  function renderStorytellingGame(item) {
+    setMascotSpeech("STORYTELLING COLETIVO! Crie uma história usando estas 3 palavras mágicas! 📖✨", "happy");
+
+    const sampleWords = state.currentDeck.slice(0, 3);
+    dom.cardWordContainer.innerHTML = `
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        ${sampleWords.map(w => `
+          <div style="background: linear-gradient(135deg, #fbbf24, #d97706); color: white; padding: 1rem 1.8rem; border-radius: 20px; font-weight: 800; font-size: 1.8rem; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
+            ${w.text} ${w.image || ''}
+          </div>
+        `).join('')}
+      </div>
+
+      <div style="font-size: 1.5rem; color: #38bdf8; font-weight: 700; margin-bottom: 1rem;">
+        💡 Ideia: "Era uma vez um ${sampleWords[0]?.text || 'gato'} que encontrou..."
+      </div>
+
+      <button id="btn-finish-story" class="btn-start" style="padding: 0.8rem 2.5rem; font-size: 1.3rem;">
+        🎉 TURMA CONCLUIU A HISTÓRIA!
+      </button>
+    `;
+
+    document.getElementById('btn-finish-story').addEventListener('click', () => {
+      audioMgr.playStartFanfare();
+      setMascotSpeech("HISTÓRIA INCRÍVEL! A turma mandou muito bem na imaginação! 🏆✨", "happy");
+      triggerConfettiBurst(true);
+    });
   }
 
   function setMascotSpeech(text, emotion = "idle") {
