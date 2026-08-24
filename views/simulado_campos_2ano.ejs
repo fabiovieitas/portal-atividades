@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulado 2º Ano — Projeto Campos de Todos Nós (Agosto/2026)</title>
+  <title>Simulado: 2º Ano — Blocos 1 e 2 (Agosto/2026) | Projeto Campos de Todos Nós</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Canvas Confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -26,7 +26,7 @@
       --border-color: #cbd5e1;
       --radius-lg: 20px;
       --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 10px 25px -5px rgba(16, 185, 129, 0.1);
+      --shadow-md: 0 10px 25px -5px rgba(16, 185, 129, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,11 +39,12 @@
       flex-direction: column;
     }
 
+    /* Top Sticky Navigation Header */
     .top-header {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 2px solid #a7f3d0;
-      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 3px solid #a7f3d0;
+      padding: 0.75rem 2rem;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -60,12 +61,12 @@
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
       text-decoration: none;
     }
     .brand-title {
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       color: var(--primary-dark);
       font-weight: 700;
     }
@@ -85,7 +86,7 @@
 
     .main-layout {
       max-width: 1200px;
-      margin: 2rem auto;
+      margin: 1.5rem auto 3rem auto;
       padding: 0 1.5rem;
       display: grid;
       grid-template-columns: 1fr 340px;
@@ -93,13 +94,55 @@
       flex: 1;
     }
 
+    /* Official PDF Header Image Banner */
+    .official-pdf-banner {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #a7f3d0;
+      background: white;
+    }
+    .official-pdf-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Title Block matching Page 1 of PDF */
+    .simulado-pdf-titlecard {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      border: 3px solid #0f172a;
+      text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+    .simulado-pdf-titlecard h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.1rem;
+      color: #0f172a;
+      letter-spacing: 1px;
+      margin-bottom: 0.2rem;
+    }
+    .simulado-pdf-titlecard h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      color: #334155;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    /* Student Form Card */
     .student-card {
       background: white;
       border-radius: var(--radius-lg);
       padding: 1.5rem 2rem;
       box-shadow: var(--shadow-md);
       margin-bottom: 2rem;
-      border: 1px solid #a7f3d0;
+      border: 2px solid #a7f3d0;
     }
     .student-card h2 {
       font-family: 'Fredoka', sans-serif;
@@ -114,7 +157,7 @@
     }
     .form-group label {
       display: block;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.85rem;
       color: var(--text-muted);
       margin-bottom: 0.4rem;
@@ -134,36 +177,213 @@
       box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
     }
 
+    /* Cover Passaporte Block (Page 1) */
+    .cover-section-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 2px solid #a7f3d0;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.75rem;
+      align-items: start;
+    }
+    .cover-content h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem;
+      color: var(--primary-dark);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 3px solid #dcfce7;
+      padding-bottom: 0.5rem;
+    }
+    .cover-content p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .cover-poster-img {
+      width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      border: 2px solid #cbd5e1;
+      display: block;
+    }
+    .ai-caption {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-style: italic;
+      margin-top: 0.4rem;
+      text-align: center;
+    }
+
+    /* Intro Section Block (Page 2) */
+    .intro-page2-card {
+      background: #f0fdf4;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 2px solid #6ee7b7;
+    }
+    .intro-page2-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 1.75rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+    .intro-page2-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 700;
+      color: #0f172a;
+      text-transform: uppercase;
+    }
+    .intro-page2-img {
+      width: 100%;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      border: 2px solid #a7f3d0;
+    }
+    .intro-page2-footer {
+      background: #dcfce7;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    /* Question Cards */
     .question-card {
       background: white;
       border-radius: var(--radius-lg);
       padding: 2rem;
       margin-bottom: 2rem;
       box-shadow: var(--shadow-md);
-      border: 1px solid #e2e8f0;
+      border: 2px solid #e2e8f0;
+      position: relative;
     }
     .question-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.25rem;
       padding-bottom: 0.75rem;
       border-bottom: 2px solid #f1f5f9;
     }
+    .q-number-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
     .q-number {
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: var(--primary-dark);
       background: var(--primary-light);
-      padding: 0.4rem 1rem;
+      padding: 0.4rem 1.2rem;
       border-radius: 50px;
+      font-weight: 700;
+      border: 1px solid #a7f3d0;
     }
-    .q-text {
+    .audio-btn {
+      background: #eff6ff;
+      color: #0284c7;
+      border: 2px solid #bae6fd;
+      border-radius: 50px;
+      padding: 0.35rem 0.85rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .audio-btn:hover {
+      background: #0284c7;
+      color: white;
+      border-color: #0284c7;
+    }
+    .audio-btn.speaking {
+      background: #f59e0b;
+      color: white;
+      border-color: #d97706;
+      animation: pulse 1.2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .q-subject-badge {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0369a1;
+      background: #e0f2fe;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+    }
+
+    .q-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      color: #0f172a;
+      margin-bottom: 0.85rem;
+      text-transform: uppercase;
+    }
+    .q-passage {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      background: #f8fafc;
+      padding: 1.25rem;
+      border-radius: 14px;
+      border-left: 5px solid var(--primary);
+    }
+    .fonte-rodape {
+      font-size: 0.75rem;
+      color: #64748b;
+      font-style: italic;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .q-prompt {
       font-size: 1.1rem;
       line-height: 1.6;
-      font-weight: 600;
-      color: var(--text-main);
+      font-weight: 800;
+      color: #0f172a;
       margin-bottom: 1.25rem;
+      text-transform: uppercase;
+    }
+
+    .q-image-container {
+      margin: 1rem 0 1.25rem 0;
+      text-align: center;
+    }
+    .q-image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border: 2px solid #e2e8f0;
     }
 
     .options-grid {
@@ -187,29 +407,78 @@
     }
     .option-label input[type="radio"] {
       margin-right: 1rem;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       accent-color: var(--primary);
     }
     .option-text {
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e293b;
+      text-transform: uppercase;
     }
 
-    .essay-textarea {
-      width: 100%;
-      min-height: 120px;
-      padding: 1rem;
-      border: 2px solid var(--border-color);
-      border-radius: 14px;
+    /* Convite Interactive Section (Questão 5) */
+    .convite-card-container {
+      background: #fffbeb;
+      border: 3px dashed #f59e0b;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.15);
+    }
+    .convite-header-banner {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+      text-align: center;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.8rem;
+      padding: 0.6rem;
+      border-radius: 12px;
+      margin-bottom: 1.25rem;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);
+    }
+    .convite-form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .convite-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #78350f;
+    }
+    .convite-input {
+      flex: 1;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid #fcd34d;
+      border-radius: 10px;
       font-family: 'Outfit', sans-serif;
       font-size: 1rem;
-      resize: vertical;
+      font-weight: 700;
+      background: white;
+    }
+    .convite-input:focus {
+      outline: none;
+      border-color: #d97706;
     }
 
+    /* CDU Quadro de Ordens Section (Questão 8) */
+    .cdu-grid-container {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    /* Sidebar Gabarito Sheet */
     .gabarito-sidebar {
       position: sticky;
-      top: 90px;
+      top: 85px;
       height: fit-content;
     }
     .cartao-resposta {
@@ -222,7 +491,7 @@
     .cartao-title {
       font-family: 'Fredoka', sans-serif;
       color: var(--primary-dark);
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       margin-bottom: 1rem;
       text-align: center;
     }
@@ -236,30 +505,34 @@
       align-items: center;
       justify-content: space-between;
       background: #f8fafc;
-      padding: 0.4rem 0.8rem;
-      border-radius: 10px;
+      padding: 0.45rem 0.85rem;
+      border-radius: 12px;
+      border: 1px solid #f1f5f9;
     }
     .bubble-dots {
       display: flex;
       gap: 0.4rem;
     }
     .bubble-dot {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 2px solid #cbd5e1;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: 0.75rem;
+      font-weight: 800;
+      font-size: 0.8rem;
       color: #64748b;
       cursor: pointer;
+      transition: all 0.15s;
     }
     .bubble-dot.selected {
       background: var(--primary);
       color: white;
       border-color: var(--primary-dark);
+      transform: scale(1.1);
+      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.4);
     }
 
     .submit-btn {
@@ -270,14 +543,57 @@
       padding: 1rem;
       border-radius: 14px;
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       cursor: pointer;
-      margin-top: 1.5rem;
+      margin-top: 1.25rem;
       box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .submit-btn:hover { transform: translateY(-2px); }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(16, 185, 129, 0.4);
+    }
 
+    .teacher-gabarito-toggle-btn {
+      width: 100%;
+      background: #f1f5f9;
+      color: #475569;
+      border: 2px solid #cbd5e1;
+      padding: 0.6rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .teacher-gabarito-toggle-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* Floating Mascot Ururau */
+    .floating-mascot {
+      position: fixed;
+      bottom: 20px;
+      right: 25px;
+      z-index: 90;
+      width: 110px;
+      height: auto;
+      pointer-events: none;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.25));
+      animation: floatMascot 4s ease-in-out infinite;
+    }
+    @keyframes floatMascot {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* Modals */
     .result-modal {
       display: none;
       position: fixed;
@@ -294,7 +610,7 @@
       background: white;
       border-radius: 24px;
       padding: 2.5rem;
-      max-width: 500px;
+      max-width: 550px;
       width: 100%;
       text-align: center;
       box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
@@ -311,18 +627,36 @@
       cursor: pointer;
       margin-top: 1.5rem;
     }
+
+    /* Gabarito BNCC Table Modal */
+    .gabarito-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .gabarito-table th, .gabarito-table td {
+      border: 1px solid #cbd5e1;
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+    }
+    .gabarito-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Top Header -->
+  <!-- Top Sticky Header -->
   <header class="top-header">
     <div class="header-container">
       <a href="/" class="brand-logo">
-        <span style="font-size: 2rem;">🏛️</span>
+        <span style="font-size: 2.2rem;">🏛️</span>
         <div>
           <div class="brand-title">Projeto Campos de Todos Nós!</div>
-          <div style="font-size: 0.8rem; color: var(--text-muted);">Prefeitura Municipal de Campos dos Goytacazes</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Prefeitura Municipal de Campos dos Goytacazes</div>
         </div>
       </a>
       <div class="simulado-badge">
@@ -334,13 +668,24 @@
   <main class="main-layout">
     <div class="questions-column">
       
-      <!-- Student Card -->
+      <!-- Official Header Image Banner (Page 1 Header) -->
+      <div class="official-pdf-banner">
+        <img src="/img/simulado/2ano/header_banner.png" alt="Prefeitura de Campos - Secretaria de Educação, Ciência e Tecnologia - PAE">
+      </div>
+
+      <!-- Title Block matching Page 1 of PDF -->
+      <section class="simulado-pdf-titlecard">
+        <h1>SIMULADO: 2º ANO</h1>
+        <h2>BLOCOS 1 E 2 - AGOSTO/2026</h2>
+      </section>
+
+      <!-- Student Identification Card -->
       <section class="student-card">
-        <h2>👤 Identificação do Estudante</h2>
+        <h2>👤 Identificação do(a) Estudante</h2>
         <form id="student-form" onsubmit="event.preventDefault();">
           <div class="form-grid">
-            <div class="form-group">
-              <label for="studentName">Nome Completo do Estudante *</label>
+            <div class="form-group" style="grid-column: span 2;">
+              <label for="studentName">Nome do(a) estudante *</label>
               <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
             </div>
             <div class="form-group">
@@ -374,43 +719,103 @@
         </form>
       </section>
 
-      <!-- Intro Context Text -->
-      <div style="background: white; border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; border-left: 6px solid var(--primary); box-shadow: var(--shadow-sm);">
-        <h3 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); margin-bottom: 0.5rem;">📖 Passaporte da Cultura Campista</h3>
-        <p style="font-size: 0.95rem; line-height: 1.6; color: #334155;">
-          A PROFESSORA SARA, LUCAS E GOYTARÉ RECEBERAM UM PASSAPORTE MUITO ESPECIAL: O PASSAPORTE DA CULTURA CAMPISTA! JUNTOS, EMBARCARAM EM UMA DESCOBERTA SOBRE A CULTURA DE CAMPOS DOS GOYTACAZES. CONHECERAM FESTAS, DANÇAS, SABORES, LENDAS E LUGARES QUE FAZEM PARTE DA NOSSA CIDADE.
-        </p>
-      </div>
+      <!-- Page 1 Cover Section: Passaporte da Cultura Campista -->
+      <section class="cover-section-card">
+        <div class="cover-content">
+          <h3>PASSAPORTE DA CULTURA CAMPISTA</h3>
+          <p>CAMPOS DOS GOYTACAZES POSSUI UM RICO PATRIMÔNIO CULTURAL MATERIAL E IMATERIAL, QUE REPRESENTA A HISTÓRIA, AS TRADIÇÕES E A IDENTIDADE DO POVO CAMPISTA.</p>
+          <p>O BOI PINTADINHO, O JONGO, A FOLIA DE REIS, A MANA CHICA DO CABOIO, A LENDA DO URURAU DA LAPA E O TRADICIONAL CHUVISCO FAZEM PARTE DA CULTURA LOCAL.</p>
+          <p>A PRAIA DO FAROL DE SÃO TOMÉ, A LAGOA DE CIMA E O RIO PARAÍBA DO SUL TAMBÉM SÃO IMPORTANTES REFERÊNCIAS DA HISTÓRIA, DA MEMÓRIA, DA CULTURA E DA PAISAGEM DE CAMPOS DOS GOYTACAZES.</p>
+          <div class="fonte-rodape">
+            FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+          </div>
+        </div>
+        <div>
+          <img src="/img/simulado/2ano/p1_poster.png" alt="Projeto Campos de Todos Nós - Cartaz Oficial" class="cover-poster-img">
+          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
+        </div>
+      </section>
 
-      <!-- Question 1 -->
+      <!-- Page 2 Intro Block (Texto Completo exatamente como no PDF) -->
+      <section class="intro-page2-card">
+        <div style="display: grid; grid-template-columns: 1fr 380px; gap: 1.75rem; align-items: start; margin-bottom: 1.5rem;">
+          <div class="intro-page2-text">
+            <p style="margin-bottom: 1rem;">A PROFESSORA SARA, LUCAS E GOYTARÉ RECEBERAM UM PASSAPORTE MUITO ESPECIAL: O PASSAPORTE DA CULTURA CAMPISTA!</p>
+            <p style="margin-bottom: 1rem;">JUNTOS, ELES EMBARCARAM EM UMA DESCOBERTA SOBRE A CULTURA DE CAMPOS DOS GOYTACAZES.</p>
+            <p>CONHECERAM FESTAS, DANÇAS, SABORES, LENDAS E LUGARES QUE FAZEM PARTE DA HISTÓRIA E DAS TRADIÇÕES DA NOSSA CIDADE.</p>
+          </div>
+          <div>
+            <img src="/img/simulado/2ano/p2_intro.png" alt="Professora Sara, Lucas e Goytaré no Passaporte Cultural" class="intro-page2-img">
+            <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
+          </div>
+        </div>
+        <div class="intro-page2-text" style="margin-bottom: 1.25rem;">
+          <p style="margin-bottom: 0.75rem;">DURANTE ESSA AVENTURA, ELES DESCOBRIRAM O BOI PINTADINHO, O JONGO, A FOLIA DE REIS, A MANA CHICA DO CABOIO, O CHUVISCO E A LENDA DO URURAU DA LAPA.</p>
+          <p>ELES TAMBÉM CONHECERAM LUGARES IMPORTANTES COMO O FAROL DE SÃO TOMÉ, A LAGOA DE CIMA, A LAGOA FEA E O RIO PARAÍBA DO SUL.</p>
+        </div>
+        <div class="intro-page2-footer">
+          AGORA É A SUA VEZ! LEIA COM ATENÇÃO E MARQUE A RESPOSTA CERTA.
+        </div>
+      </section>
+
+      <!-- QUESTÃO 1 -->
       <div class="question-card" id="q-card-1">
         <div class="question-header">
-          <span class="q-number">Questão 01</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
+          <div class="q-number-box">
+            <span class="q-number">QUESTÃO 1 -</span>
+            <button class="audio-btn" onclick="readAloud(1)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
-        <div class="q-text">
-          <strong>O BOI PINTADINHO: ALEGRIA DA CULTURA CAMPISTA</strong><br>
-          O BOI PINTADINHO É UMA TRADIÇÃO MUITO ALEGRE DA CULTURA POPULAR DE CAMPOS DOS GOYTACAZES. COM SUAS CORES, FITAS, MÚSICAS E DANÇAS, ELE ANIMA AS FESTAS E ENCANTA CRIANÇAS E ADULTOS.<br><br>
-          QUAL É O ASSUNTO DO TEXTO?
+        
+        <div class="q-title">O BOI PINTADINHO: ALEGRIA DA CULTURA CAMPISTA</div>
+        <div class="q-passage" id="text-q1">
+          O BOI PINTADINHO É UMA TRADIÇÃO MUITO ALEGRE DA CULTURA POPULAR DE CAMPOS DOS GOYTACAZES. COM SUAS CORES, FITAS, MÚSICAS E DANÇAS, ELE ANIMA AS FESTAS E ENCANTA CRIANÇAS E ADULTOS. ESSA TRADIÇÃO FAZ PARTE DA HISTÓRIA E DA CULTURA DO POVO CAMPISTA E É PASSADA DE GERAÇÃO EM GERAÇÃO.
         </div>
-        <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span class="option-text">A) O BOI PINTADINHO E SUA IMPORTÂNCIA PARA A CULTURA CAMPISTA.</span></label>
-          <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span class="option-text">B) AS BRINCADEIRAS REALIZADAS PELAS CRIANÇAS NA ESCOLA.</span></label>
-          <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span class="option-text">C) OS LUGARES TURÍSTICOS VISITADOS EM CAMPOS DOS GOYTACAZES.</span></label>
-          <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span class="option-text">D) AS COMIDAS TÍPICAS PREPARADAS NAS FESTAS DA CIDADE.</span></label>
+        <div class="fonte-rodape">
+          FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 140px; gap: 1.25rem; align-items: end;">
+          <div>
+            <div class="q-prompt">QUAL É O ASSUNTO DO TEXTO?</div>
+            <div class="options-grid">
+              <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span class="option-text">A) O BOI PINTADINHO E SUA IMPORTÂNCIA PARA A CULTURA CAMPISTA.</span></label>
+              <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span class="option-text">B) AS BRINCADEIRAS REALIZADAS PELAS CRIANÇAS NA ESCOLA.</span></label>
+              <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span class="option-text">C) OS LUGARES TURÍSTICOS VISITADOS EM CAMPOS DOS GOYTACAZES.</span></label>
+              <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span class="option-text">D) AS COMIDAS TÍPICAS PREPARADAS NAS FESTAS DA CIDADE.</span></label>
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <img src="/img/simulado/2ano/q1_lucas.png" alt="Lucas Estudante" style="max-width: 120px; border-radius: 12px;">
+          </div>
         </div>
       </div>
 
-      <!-- Question 2 -->
+      <!-- QUESTÃO 2 -->
       <div class="question-card" id="q-card-2">
         <div class="question-header">
-          <span class="q-number">Questão 02</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
+          <div class="q-number-box">
+            <span class="q-number">QUESTÃO 2 -</span>
+            <button class="audio-btn" onclick="readAloud(2)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
-        <div class="q-text">
-          GOYTARÉ VIU UMA APRESENTAÇÃO DE JONGO NA EXPOSIÇÃO E FICOU MUITO <strong>ANIMADO</strong>. ELE GOSTOU DE VER A DANÇA E DE OUVIR O SOM DOS TAMBORES.<br><br>
-          NA FRASE, A PALAVRA <strong>ANIMADO</strong> INDICA QUE GOYTARÉ ESTAVA:
+
+        <div style="display: grid; grid-template-columns: 1fr 310px; gap: 1.5rem; align-items: start; margin-bottom: 1.25rem;">
+          <div class="q-passage" id="text-q2" style="margin-bottom: 0;">
+            GOYTARÉ VIU UMA APRESENTAÇÃO DE JONGO NA EXPOSIÇÃO E FICOU MUITO <strong style="color: var(--primary-dark); font-size: 1.15rem;">ANIMADO</strong>.
+            <br><br>
+            ELE GOSTOU DE VER A DANÇA E DE OUVIR O SOM DOS TAMBORES.
+          </div>
+          <div>
+            <img src="/img/simulado/2ano/q2_jongo.png" alt="Apresentação de Jongo" style="width: 100%; border-radius: 14px; border: 2px solid #cbd5e1;">
+            <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
+          </div>
         </div>
+
+        <div class="q-prompt">NA FRASE, A PALAVRA <span style="color: var(--primary-dark);">ANIMADO</span> INDICA QUE GOYTARÉ ESTAVA</div>
+
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="q2" value="A" onclick="updateCartao(2, 'A')"> <span class="option-text">A) CANSADO.</span></label>
           <label class="option-label"><input type="radio" name="q2" value="B" onclick="updateCartao(2, 'B')"> <span class="option-text">B) ALEGRE.</span></label>
@@ -419,16 +824,26 @@
         </div>
       </div>
 
-      <!-- Question 3 -->
+      <!-- QUESTÃO 3 -->
       <div class="question-card" id="q-card-3">
         <div class="question-header">
-          <span class="q-number">Questão 03</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
+          <div class="q-number-box">
+            <span class="q-number">QUESTÃO 3 -</span>
+            <button class="audio-btn" onclick="readAloud(3)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
-        <div class="q-text">
-          LEIA A TIRINHA: GOYTARÉ APARECEU TODO ENFEITADO E DISSE: <em>"GOYTARÉ JÁ VEIO PRONTO PARA A FESTA!"</em><br><br>
-          O QUE DEIXA A TIRINHA ENGRAÇADA É:
+
+        <div class="q-prompt" id="text-q3">LEIA A TIRINHA ABAIXO:</div>
+        
+        <!-- Imagem da Tirinha (3 quadrinhos) -->
+        <div class="q-image-container">
+          <img src="/img/simulado/2ano/q3_tirinha.png" alt="Tirinha da Cultura Campista - 3 Quadrinhos" style="max-width: 520px; width: 100%;">
+          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
         </div>
+
+        <div class="q-prompt">O QUE DEIXA A TIRINHA ENGRAÇADA É:</div>
+
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="q3" value="A" onclick="updateCartao(3, 'A')"> <span class="option-text">A) GOYTARÉ APARECEU TODO ENFEITADO PARA A FESTA.</span></label>
           <label class="option-label"><input type="radio" name="q3" value="B" onclick="updateCartao(3, 'B')"> <span class="option-text">B) AMANDA ESQUECEU O CARTAZ EM CASA.</span></label>
@@ -437,16 +852,29 @@
         </div>
       </div>
 
-      <!-- Question 4 -->
+      <!-- QUESTÃO 4 -->
       <div class="question-card" id="q-card-4">
         <div class="question-header">
-          <span class="q-number">Questão 04</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Língua Portuguesa</span>
+          <div class="q-number-box">
+            <span class="q-number">QUESTÃO 4 -</span>
+            <button class="audio-btn" onclick="readAloud(4)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
-        <div class="q-text">
-          GOYTARÉ ESTAVA ANIMADO PARA COMPLETAR SEU PASSAPORTE DA CULTURA CAMPISTA! AO LADO DE LUCAS E DA PROFESSORA SARA, ELE EMBARCOU EM UMA DIVERTIDA AVENTURA.<br><br>
-          QUEM É O PERSONAGEM QUE APARECE NO INÍCIO DESSE TRECHO?
+
+        <div style="display: grid; grid-template-columns: 1fr 330px; gap: 1.5rem; align-items: start; margin-bottom: 1.25rem;">
+          <div class="q-passage" id="text-q4" style="margin-bottom: 0;">
+            GOYTARÉ ESTAVA ANIMADO PARA COMPLETAR SEU PASSAPORTE DA CULTURA CAMPISTA!
+            <br><br>
+            AO LADO DE LUCAS E DA PROFESSORA SARA, ELE EMBARCOU EM UMA DIVERTIDA AVENTURA PELAS ESTAÇÕES DO PROJETO, DESCOBRINDO HISTÓRIAS, TRADIÇÕES E LUGARES ESPECIAIS DE CAMPOS DOS GOYTACAZES.
+          </div>
+          <div>
+            <img src="/img/simulado/2ano/q4_estacoes.png" alt="Estações do Projeto Cultura Popular" style="width: 100%; border-radius: 14px; border: 2px solid #cbd5e1;">
+          </div>
         </div>
+
+        <div class="q-prompt">QUEM É O PERSONAGEM QUE APARECE NO INÍCIO DESSE TRECHO?</div>
+
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="q4" value="A" onclick="updateCartao(4, 'A')"> <span class="option-text">A) A ESCOLA.</span></label>
           <label class="option-label"><input type="radio" name="q4" value="B" onclick="updateCartao(4, 'B')"> <span class="option-text">B) O FAROL.</span></label>
@@ -455,35 +883,94 @@
         </div>
       </div>
 
-      <!-- Question 5 (Escrita) -->
-      <div class="question-card" id="q-card-5" style="border-left: 6px solid #10b981;">
+      <!-- QUESTÃO 5 (Produção de Texto - Convite) -->
+      <div class="question-card" id="q-card-5" style="border-left: 6px solid var(--primary);">
         <div class="question-header">
-          <span class="q-number">Questão 05</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #10b981;">✍️ Produção de Texto (Convite)</span>
+          <div class="q-number-box">
+            <span class="q-number" style="background: #dcfce7; color: var(--primary-dark);">QUESTÃO 5 -</span>
+            <button class="audio-btn" onclick="readAloud(5)"><span class="spk-icon">🔊</span> Ouvir Instruções</button>
+          </div>
+          <span class="q-subject-badge" style="background: #dcfce7; color: var(--primary-dark);">✍️ Produção de Texto (Convite)</span>
         </div>
-        <div class="q-text">
-          A PROFESSORA SARA PEDIU QUE A TURMA ESCREVESSE UM CONVITE PARA AS FAMÍLIAS VISITAREM A EXPOSIÇÃO.<br>
-          <strong>ESCREVA UM CONVITE PARA O "PASSAPORTE DA CULTURA CAMPISTA"</strong> USANDO AS INFORMAÇÕES:
-          <ul style="margin: 0.5rem 0 1rem 1.5rem; font-size: 0.95rem; color: #475569;">
-            <li><strong>EVENTO:</strong> PASSAPORTE DA CULTURA CAMPISTA</li>
-            <li><strong>LOCAL:</strong> ESCOLA</li>
-            <li><strong>CONVIDADOS:</strong> FAMÍLIAS DOS ALUNOS</li>
-            <li><strong>DATA:</strong> 22/08/2026</li>
-          </ul>
+
+        <div class="q-passage" id="text-q5">
+          A PROFESSORA SARA PEDIU QUE A TURMA ESCREVESSE UM CONVITE PARA AS FAMÍLIAS VISITAREM A EXPOSIÇÃO.
+          <br><br>
+          <strong>ESCREVA UM CONVITE PARA CHAMAR AS FAMÍLIAS PARA O “PASSAPORTE DA CULTURA CAMPISTA”.</strong>
+          <br><br>
+          <strong>USE AS INFORMAÇÕES:</strong>
+          <br>
+          EVENTO: PASSAPORTE DA CULTURA CAMPISTA
+          <br>
+          LOCAL: ESCOLA
+          <br>
+          CONVIDADOS: FAMÍLIAS DOS ALUNOS
+          <br>
+          DATA: 22/08/2026
         </div>
-        <textarea id="q5Essay" class="essay-textarea" placeholder="Escreva seu convite aqui..." oninput="updateEssayCartao()"></textarea>
+
+        <!-- Modelo Gráfico Oficial do Convite (PDF) -->
+        <div class="q-image-container">
+          <img src="/img/simulado/2ano/q5_convite.png" alt="Cartão Modelo do Convite Ilustrado" style="max-width: 700px; width: 100%; border-radius: 16px; border: 2px solid #fcd34d;">
+          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
+        </div>
+
+        <!-- Preenchimento Interativo do Convite -->
+        <div class="convite-card-container">
+          <div class="convite-header-banner">✉️ PREENCHA O SEU CONVITE</div>
+          <div class="convite-form-grid">
+            <div class="convite-row">
+              <span>VENHA PARTICIPAR DO</span>
+              <input type="text" id="conviteEvento" class="convite-input" placeholder="PASSAPORTE DA CULTURA CAMPISTA" oninput="syncConviteText()">
+            </div>
+            <div class="convite-row">
+              <span>DATA:</span>
+              <input type="text" id="conviteData" class="convite-input" style="max-width: 220px;" placeholder="22/08/2026" oninput="syncConviteText()">
+            </div>
+            <div class="convite-row">
+              <span>O ENCONTRO SERÁ NA</span>
+              <input type="text" id="conviteLocal" class="convite-input" placeholder="ESCOLA" oninput="syncConviteText()">
+            </div>
+            <div class="convite-row">
+              <span>CONVIDAMOS</span>
+              <input type="text" id="conviteConvidados" class="convite-input" placeholder="FAMÍLIAS DOS ALUNOS" oninput="syncConviteText()">
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <label style="display: block; font-weight: 800; font-size: 0.95rem; color: #334155; margin-bottom: 0.5rem;">
+            📝 TEXTO COMPLETO DO CONVITE GERADO:
+          </label>
+          <textarea id="q5Essay" class="convite-input" style="width: 100%; min-height: 110px; resize: vertical;" placeholder="Preencha os campos acima ou escreva aqui seu convite..." oninput="updateEssayCartao()"></textarea>
+        </div>
       </div>
 
-      <!-- Question 6 -->
+      <!-- QUESTÃO 6 -->
       <div class="question-card" id="q-card-6">
         <div class="question-header">
-          <span class="q-number">Questão 06</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #059669;">Ciências Humanas</span>
+          <div class="q-number-box">
+            <span class="q-number">QUESTÃO 6 -</span>
+            <button class="audio-btn" onclick="readAloud(6)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Língua Portuguesa e Ciências Humanas</span>
         </div>
-        <div class="q-text">
-          LUCAS CONHECEU A LENDA DO URURAU DA LAPA: HÁ MUITO TEMPO, UM GRANDE JACARÉ VIVIA NAS ÁGUAS PRÓXIMAS À LAPA...<br><br>
-          DE ACORDO COM O TEXTO, A HISTÓRIA APRESENTADA REFERE-SE A QUAL LENDA?
+
+        <div class="q-prompt" style="margin-bottom: 0.5rem;">LUCAS CONHECEU UMA LENDA MUITO FAMOSA DE CAMPOS DOS GOYTACAZES:</div>
+        <div style="font-family: 'Fredoka', sans-serif; font-size: 1.35rem; color: var(--primary-dark); text-align: center; margin-bottom: 1rem; text-transform: uppercase;">
+          A LENDA DO URURAU DA LAPA
         </div>
+        <div class="q-passage" id="text-q6">
+          CONTA-SE QUE, HÁ MUITO TEMPO, UM GRANDE JACARÉ, CHAMADO URURAU, VIVIA NAS ÁGUAS PRÓXIMAS À LAPA. SUA HISTÓRIA FOI CONTADA DE GERAÇÃO EM GERAÇÃO E SE TORNOU UMA DAS LENDAS CONHECIDAS DA CULTURA CAMPISTA.
+          <br><br>
+          DEPOIS DA LEITURA, LUCAS FEZ UMA ANOTAÇÃO EM SEU PASSAPORTE DA CULTURA CAMPISTA.
+        </div>
+        <div class="fonte-rodape">
+          FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
+        </div>
+
+        <div class="q-prompt">DE ACORDO COM O TEXTO, A HISTÓRIA APRESENTADA REFERE-SE A QUAL LENDA?</div>
+
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="q6" value="A" onclick="updateCartao(6, 'A')"> <span class="option-text">A) O BOI PINTADINHO.</span></label>
           <label class="option-label"><input type="radio" name="q6" value="B" onclick="updateCartao(6, 'B')"> <span class="option-text">B) O CHUVISCO.</span></label>
@@ -492,16 +979,32 @@
         </div>
       </div>
 
-      <!-- Question 7 -->
+      <!-- QUESTÃO 7 -->
       <div class="question-card" id="q-card-7">
         <div class="question-header">
-          <span class="q-number">Questão 07</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
+          <div class="q-number-box">
+            <span class="q-number" style="background: #fef3c7; color: #b45309;">QUESTÃO 7 -</span>
+            <button class="audio-btn" onclick="readAloud(7)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Matemática</span>
         </div>
-        <div class="q-text">
-          NA ESTAÇÃO DO BOI PINTADINHO PASSARAM <strong>128 VISITANTES</strong>. NA ESTAÇÃO DO FAROL DE SÃO TOMÉ PASSARAM <strong>136 VISITANTES</strong>.<br><br>
-          QUAL ESTAÇÃO RECEBEU MAIS VISITANTES?
+
+        <div class="q-passage" id="text-q7">
+          A PROFESSORA SARA CONTOU OS VISITANTES DE DUAS ESTAÇÕES DO PROJETO.
+          <br><br>
+          NA ESTAÇÃO DO BOI PINTADINHO, PASSARAM <strong style="color: #b45309;">128 VISITANTES</strong>.
+          <br><br>
+          NA ESTAÇÃO DO FAROL DE SÃO TOMÉ, PASSARAM <strong style="color: #b45309;">136 VISITANTES</strong>.
         </div>
+
+        <!-- Imagem do PDF da Questão 7 (Estações do Boi Pintadinho 128 vs Farol 136) -->
+        <div class="q-image-container">
+          <img src="/img/simulado/2ano/q7_estacoes.png" alt="Estação do Boi Pintadinho e Estação do Farol de São Tomé" style="max-width: 550px; width: 100%; border-radius: 14px; border: 2px solid #cbd5e1;">
+          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
+        </div>
+
+        <div class="q-prompt">QUAL ESTAÇÃO RECEBEU MAIS VISITANTES?</div>
+
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="q7" value="A" onclick="updateCartao(7, 'A')"> <span class="option-text">A) BOI PINTADINHO.</span></label>
           <label class="option-label"><input type="radio" name="q7" value="B" onclick="updateCartao(7, 'B')"> <span class="option-text">B) FAROL DE SÃO TOMÉ.</span></label>
@@ -510,55 +1013,88 @@
         </div>
       </div>
 
-      <!-- Question 8 -->
+      <!-- QUESTÃO 8 -->
       <div class="question-card" id="q-card-8">
         <div class="question-header">
-          <span class="q-number">Questão 08</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
+          <div class="q-number-box">
+            <span class="q-number" style="background: #fef3c7; color: #b45309;">QUESTÃO 8 -</span>
+            <button class="audio-btn" onclick="readAloud(8)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Matemática</span>
         </div>
-        <div class="q-text">
-          PARA ENFEITAR A EXPOSIÇÃO, LUCAS SEPAROU <strong>124 BANDEIRINHAS</strong>. DEPOIS, GOYTARÉ TROUXE MAIS <strong>35 BANDEIRINHAS</strong>.<br><br>
-          QUANTAS BANDEIRINHAS ELES TÊM AO TODO?
+
+        <div class="cdu-grid-container">
+          <div class="q-passage" id="text-q8" style="margin-bottom: 0;">
+            PARA ENFEITAR A EXPOSIÇÃO, LUCAS SEPAROU <strong style="color: #b45309;">124 BANDEIRINHAS</strong>.
+            <br><br>
+            DEPOIS, GOYTARÉ TROUXE MAIS <strong style="color: #b45309;">35 BANDEIRINHAS</strong>.
+          </div>
+          <div style="text-align: center;">
+            <img src="/img/simulado/2ano/q8_cdu.png" alt="Quadro de Ordens C D U" style="max-width: 280px; border-radius: 12px; border: 2px solid #cbd5e1;">
+          </div>
         </div>
+
+        <div class="q-prompt" style="margin-top: 1.25rem;">QUANTAS BANDEIRINHAS ELES TÊM AO TODO?</div>
+
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')"> <span class="option-text">A) 149.</span></label>
-          <label class="option-label"><input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')"> <span class="option-text">B) 179.</span></label>
-          <label class="option-label"><input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')"> <span class="option-text">C) 169.</span></label>
-          <label class="option-label"><input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')"> <span class="option-text">D) 159.</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')"> <span class="option-text">A) 149</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')"> <span class="option-text">B) 179</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')"> <span class="option-text">C) 169</span></label>
+          <label class="option-label"><input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')"> <span class="option-text">D) 159</span></label>
         </div>
       </div>
 
-      <!-- Question 9 -->
+      <!-- QUESTÃO 9 -->
       <div class="question-card" id="q-card-9">
         <div class="question-header">
-          <span class="q-number">Questão 09</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #d97706;">Matemática</span>
+          <div class="q-number-box">
+            <span class="q-number" style="background: #fef3c7; color: #b45309;">QUESTÃO 9 -</span>
+            <button class="audio-btn" onclick="readAloud(9)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Matemática</span>
         </div>
-        <div class="q-text">
-          NA ESTAÇÃO DO JONGO, JÚLIA MARCOU UMA SEQUÊNCIA NOS CARTÕES DOS PASSOS:<br><br>
-          <div style="display: flex; gap: 0.5rem; justify-content: center; font-weight: 800; background: #f8fafc; padding: 0.8rem; border-radius: 12px;">
-            <span>[ 110 ]</span> <span>[ 120 ]</span> <span>[ 130 ]</span> <span style="color: #ef4444;">[ ____ ]</span> <span>[ 150 ]</span>
-          </div><br>
-          QUAL NÚMERO COMPLETA A SEQUÊNCIA?
+
+        <div class="q-passage" id="text-q9">
+          NA ESTAÇÃO DO JONGO, JÚLIA MARCOU UMA SEQUÊNCIA NOS CARTÕES DOS PASSOS.
         </div>
+
+        <div class="q-prompt" style="margin-bottom: 0.5rem;">OBSERVE:</div>
+        
+        <!-- Imagem Original dos Cartões (PDF / Enviada pelo Usuário) -->
+        <div class="q-image-container">
+          <img src="/img/simulado/2ano/q9_sequencia.png" alt="Sequência de Cartões dos Passos: 110, 120, 130, ____, 150" style="max-width: 520px; width: 100%; border-radius: 12px;">
+        </div>
+
+        <div class="q-prompt">QUAL NÚMERO COMPLETA A SEQUÊNCIA?</div>
+
         <div class="options-grid">
-          <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span class="option-text">A) 135.</span></label>
-          <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span class="option-text">B) 140.</span></label>
-          <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span class="option-text">C) 145.</span></label>
-          <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span class="option-text">D) 160.</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span class="option-text">A) 135</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span class="option-text">B) 140</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span class="option-text">C) 145</span></label>
+          <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span class="option-text">D) 160</span></label>
         </div>
       </div>
 
-      <!-- Question 10 -->
+      <!-- QUESTÃO 10 -->
       <div class="question-card" id="q-card-10">
         <div class="question-header">
-          <span class="q-number">Questão 10</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: #0284c7;">Ciências da Natureza</span>
+          <div class="q-number-box">
+            <span class="q-number" style="background: #e0f2fe; color: #0369a1;">QUESTÃO 10 -</span>
+            <button class="audio-btn" onclick="readAloud(10)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
+          </div>
+          <span class="q-subject-badge" style="background: #e0f2fe; color: #0369a1;">Ciências da Natureza</span>
         </div>
-        <div class="q-text">
-          DURANTE O PROJETO, LUCAS PARTICIPOU DE UMA APRESENTAÇÃO DE JONGO. DEPOIS DE DANÇAR E SE DIVERTIR, LUCAS FICOU COM SEDE.<br><br>
-          QUAL ATITUDE MOSTRA QUE LUCAS ESTÁ CUIDANDO DA SAÚDE?
+
+        <div class="q-passage" id="text-q10">
+          DURANTE O PROJETO CULTURA POPULAR DE CAMPOS DOS GOYTACAZES, LUCAS E A PROFESSORA SARA PARTICIPARAM DE UMA APRESENTAÇÃO DE JONGO. DEPOIS DE DANÇAR E SE DIVERTIR, LUCAS FICOU COM SEDE.
         </div>
+
+        <div class="q-image-container">
+          <img src="/img/simulado/2ano/q10_saude.png" alt="Lucas Bebendo Água e Cuidando da Saúde" style="max-width: 540px;">
+        </div>
+
+        <div class="q-prompt">QUAL ATITUDE MOSTRA QUE LUCAS ESTÁ CUIDANDO DA SAÚDE?</div>
+
         <div class="options-grid">
           <label class="option-label"><input type="radio" name="q10" value="A" onclick="updateCartao(10, 'A')"> <span class="option-text">A) CONTINUAR BRINCANDO MESMO COM MUITA SEDE.</span></label>
           <label class="option-label"><input type="radio" name="q10" value="B" onclick="updateCartao(10, 'B')"> <span class="option-text">B) FICAR MUITO TEMPO NO SOL SEM BEBER ÁGUA.</span></label>
@@ -574,7 +1110,7 @@
       <div class="cartao-resposta">
         <div class="cartao-title">📌 Cartão de Respostas</div>
         
-        <div style="background: #f1f5f9; height: 8px; border-radius: 50px; margin-bottom: 1rem; overflow: hidden;">
+        <div style="background: #f1f5f9; height: 10px; border-radius: 50px; margin-bottom: 1rem; overflow: hidden;">
           <div id="progressFill" style="background: var(--primary); height: 100%; width: 0%; transition: width 0.3s;"></div>
         </div>
         <div id="progressText" style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-align: center; margin-bottom: 1.2rem;">
@@ -584,9 +1120,9 @@
         <div class="bubbles-list">
           <% for(let i=1; i<=10; i++) { %>
             <div class="bubble-row">
-              <span style="font-weight: 700; font-size: 0.85rem; color: #475569;">Q<%= i < 10 ? '0'+i : i %></span>
+              <span style="font-weight: 800; font-size: 0.85rem; color: #334155;">Q<%= i < 10 ? '0'+i : i %></span>
               <% if (i === 5) { %>
-                <span id="essayStatusBadge" style="font-size: 0.75rem; font-weight: 700; background: #f1f5f9; color: #94a3b8; padding: 0.2rem 0.6rem; border-radius: 50px;">Aguardando Convite</span>
+                <span id="essayStatusBadge" style="font-size: 0.75rem; font-weight: 700; background: #f1f5f9; color: #94a3b8; padding: 0.25rem 0.6rem; border-radius: 50px;">Aguardando Convite</span>
               <% } else { %>
                 <div class="bubble-dots">
                   <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
@@ -602,9 +1138,16 @@
         <button class="submit-btn" onclick="submitSimulado()">
           <span>🚀 FINALIZAR E ENVIAR</span>
         </button>
+
+        <button class="teacher-gabarito-toggle-btn" onclick="toggleGabaritoModal()">
+          <span>📊 Ver Gabarito & Habilidades BNCC (Professor)</span>
+        </button>
       </div>
     </aside>
   </main>
+
+  <!-- Mascote Ururau Flutuante no Canto Inferior Direito (PDF) -->
+  <img src="/img/simulado/2ano/mascot_ururau.png" alt="Mascote Ururau" class="floating-mascot">
 
   <!-- Result Modal -->
   <div class="result-modal" id="resultModal">
@@ -612,8 +1155,8 @@
       <div class="score-circle" style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%); border: 4px solid #10b981; color: #15803d; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
         <span style="font-size: 3rem; font-weight: 900;">✓</span>
       </div>
-      <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;">Simulado Entregue com Sucesso! 🎉</h2>
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Parabéns! Suas respostas do 2º Ano foram salvas com sucesso no sistema.</p>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.7rem; color: #0f172a; margin-bottom: 0.5rem;">Simulado Entregue com Sucesso! 🎉</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">Parabéns! Suas respostas do 2º Ano foram registradas no sistema.</p>
       <button class="modal-btn" onclick="window.location.href='/'">Voltar ao Portal de Atividades</button>
     </div>
   </div>
@@ -622,16 +1165,55 @@
   <div class="result-modal" id="missingModal">
     <div class="result-content" style="max-width: 500px; text-align: center; border-top: 6px solid #ef4444;">
       <div style="font-size: 3rem; margin-bottom: 0.5rem; color: #ef4444;">⚠️</div>
-      <h2 style="font-family: 'Fredoka', sans-serif; color: #dc2626; font-size: 1.6rem; margin-bottom: 0.5rem;">Atenção, Explorador!</h2>
-      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.2rem;">Você ainda tem questões não respondidas. Responda a todas as questões para concluir:</p>
+      <h2 style="font-family: 'Fredoka', sans-serif; color: #dc2626; font-size: 1.6rem; margin-bottom: 0.5rem;">Atenção, Estudante!</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.2rem;">Você ainda tem questões pendentes. Responda a todas para concluir:</p>
       <div id="missingQuestionsList" style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 1rem; text-align: left; max-height: 180px; overflow-y: auto; margin-bottom: 1.5rem; font-family: 'Outfit', sans-serif; font-weight: 700; color: #991b1b; font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.4rem;"></div>
       <button class="modal-btn" onclick="closeMissingModal()" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">✏️ Voltar e Responder Questões</button>
+    </div>
+  </div>
+
+  <!-- Teacher Gabarito BNCC Modal (Page 7 of PDF) -->
+  <div class="result-modal" id="gabaritoModal">
+    <div class="result-content" style="max-width: 750px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+        <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.4rem;">📊 Gabarito & Matriz de Habilidades BNCC (2º Ano)</h2>
+        <button onclick="toggleGabaritoModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+      <table class="gabarito-table">
+        <thead>
+          <tr>
+            <th>Questão</th>
+            <th>Gabarito</th>
+            <th>Habilidade BNCC</th>
+            <th>Área do Conhecimento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>A</strong></td><td>EF02LP12 / EF02HI05</td><td>Língua Portuguesa e Ciências Humanas</td></tr>
+          <tr><td>2</td><td><strong>B</strong></td><td>EF02LP10</td><td>Língua Portuguesa</td></tr>
+          <tr><td>3</td><td><strong>A</strong></td><td>EF15LP14</td><td>Língua Portuguesa</td></tr>
+          <tr><td>4</td><td><strong>C</strong></td><td>EF15LP03</td><td>Língua Portuguesa</td></tr>
+          <tr><td>5</td><td><strong>ESCRITA</strong></td><td>EF02LP13</td><td>Língua Portuguesa</td></tr>
+          <tr><td>6</td><td><strong>C</strong></td><td>EF15LP03 / EF02HI05</td><td>Língua Portuguesa e Ciências Humanas</td></tr>
+          <tr><td>7</td><td><strong>B</strong></td><td>EF02MA03</td><td>Matemática</td></tr>
+          <tr><td>8</td><td><strong>D</strong></td><td>EF02MA06</td><td>Matemática</td></tr>
+          <tr><td>9</td><td><strong>B</strong></td><td>EF02MA09</td><td>Matemática</td></tr>
+          <tr><td>10</td><td><strong>C</strong></td><td>EF02CI03</td><td>Ciências da Natureza</td></tr>
+        </tbody>
+      </table>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="modal-btn" onclick="toggleGabaritoModal()">Fechar Gabarito</button>
+      </div>
     </div>
   </div>
 
   <script>
     const answerKey = { 1:'A', 2:'B', 3:'A', 4:'C', 6:'C', 7:'B', 8:'D', 9:'B', 10:'C' };
     const studentAnswers = {};
+
+    function toggleGabaritoModal() {
+      document.getElementById('gabaritoModal').classList.toggle('active');
+    }
 
     function closeMissingModal() {
       document.getElementById('missingModal').classList.remove('active');
@@ -654,6 +1236,17 @@
       const selectedDot = document.getElementById(`b-${qNum}-${opt}`);
       if(selectedDot) selectedDot.classList.add('selected');
       updateProgress();
+    }
+
+    function syncConviteText() {
+      const evento = document.getElementById('conviteEvento').value.trim() || 'PASSAPORTE DA CULTURA CAMPISTA';
+      const data = document.getElementById('conviteData').value.trim() || '22/08/2026';
+      const local = document.getElementById('conviteLocal').value.trim() || 'ESCOLA';
+      const convidados = document.getElementById('conviteConvidados').value.trim() || 'FAMÍLIAS DOS ALUNOS';
+
+      const fullText = `CONVITE:\nVENHA PARTICIPAR DO ${evento}.\nDATA: ${data}.\nO ENCONTRO SERÁ NA ${local}.\nCONVIDAMOS ${convidados}.`;
+      document.getElementById('q5Essay').value = fullText;
+      updateEssayCartao();
     }
 
     function updateEssayCartao() {
@@ -680,6 +1273,44 @@
       document.getElementById('progressText').innerText = `${totalAnswered} de 10 respondidas`;
     }
 
+    /* Web Speech API Text-to-Speech (Leitura da Questão em Voz Alta) */
+    let currentUtterance = null;
+    function readAloud(qNum) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        
+        let textToRead = "";
+        if (qNum === 1) textToRead = "Questão 1. " + document.getElementById('text-q1').innerText + " Qual é o assunto do texto?";
+        else if (qNum === 2) textToRead = "Questão 2. " + document.getElementById('text-q2').innerText + " Na frase, a palavra animado indica que Goytaré estava?";
+        else if (qNum === 3) textToRead = "Questão 3. Leia a tirinha abaixo. O que deixa a tirinha engraçada é?";
+        else if (qNum === 4) textToRead = "Questão 4. " + document.getElementById('text-q4').innerText + " Quem é o personagem que aparece no início desse trecho?";
+        else if (qNum === 5) textToRead = "Questão 5. " + document.getElementById('text-q5').innerText;
+        else if (qNum === 6) textToRead = "Questão 6. A lenda do Ururau da Lapa. " + document.getElementById('text-q6').innerText + " De acordo com o texto, a história apresentada refere-se a qual lenda?";
+        else if (qNum === 7) textToRead = "Questão 7. " + document.getElementById('text-q7').innerText + " Qual estação recebeu mais visitantes?";
+        else if (qNum === 8) textToRead = "Questão 8. " + document.getElementById('text-q8').innerText + " Quantas bandeirinhas eles têm ao todo?";
+        else if (qNum === 9) textToRead = "Questão 9. " + document.getElementById('text-q9').innerText + " Qual número completa a sequência: 110, 120, 130, espaço, 150?";
+        else if (qNum === 10) textToRead = "Questão 10. " + document.getElementById('text-q10').innerText + " Qual atitude mostra que Lucas está cuidando da saúde?";
+
+        const utterance = new SpeechSynthesisUtterance(textToRead);
+        utterance.lang = 'pt-BR';
+        utterance.rate = 0.95;
+
+        const btns = document.querySelectorAll('.audio-btn');
+        btns.forEach(b => b.classList.remove('speaking'));
+
+        const targetBtn = document.querySelector(`#q-card-${qNum} .audio-btn`);
+        if(targetBtn) targetBtn.classList.add('speaking');
+
+        utterance.onend = () => {
+          if(targetBtn) targetBtn.classList.remove('speaking');
+        };
+
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("O seu navegador não suporta leitura de áudio em voz alta.");
+      }
+    }
+
     async function submitSimulado() {
       const nameInput = document.getElementById('studentName').value.trim();
       if (!nameInput) {
@@ -691,7 +1322,7 @@
       const missing = [];
       for (let i = 1; i <= 10; i++) {
         if (!studentAnswers[i]) {
-          if (i === 5) missing.push('Questão 05 (Produção de Convite)');
+          if (i === 5) missing.push('Questão 05 (Produção do Convite)');
           else missing.push(`Questão ${i < 10 ? '0' + i : i}`);
         }
       }
@@ -729,7 +1360,7 @@
       } catch(err) {}
 
       document.getElementById('resultModal').classList.add('active');
-      if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
     }
   </script>
 </body>
