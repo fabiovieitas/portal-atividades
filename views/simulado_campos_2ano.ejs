@@ -720,7 +720,7 @@
       </section>
 
       <!-- Page 1 Cover Section: Passaporte da Cultura Campista -->
-      <section class="cover-section-card">
+      <section class="cover-section-card" style="grid-template-columns: 1fr;">
         <div class="cover-content">
           <h3>PASSAPORTE DA CULTURA CAMPISTA</h3>
           <p>CAMPOS DOS GOYTACAZES POSSUI UM RICO PATRIMÔNIO CULTURAL MATERIAL E IMATERIAL, QUE REPRESENTA A HISTÓRIA, AS TRADIÇÕES E A IDENTIDADE DO POVO CAMPISTA.</p>
@@ -730,27 +730,15 @@
             FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
           </div>
         </div>
-        <div>
-          <img src="/img/simulado/2ano/p1_poster.png" alt="Projeto Campos de Todos Nós - Cartaz Oficial" class="cover-poster-img">
-          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
-        </div>
       </section>
 
       <!-- Page 2 Intro Block (Texto Completo exatamente como no PDF) -->
       <section class="intro-page2-card">
-        <div style="display: grid; grid-template-columns: 1fr 380px; gap: 1.75rem; align-items: start; margin-bottom: 1.5rem;">
-          <div class="intro-page2-text">
-            <p style="margin-bottom: 1rem;">A PROFESSORA SARA, LUCAS E GOYTARÉ RECEBERAM UM PASSAPORTE MUITO ESPECIAL: O PASSAPORTE DA CULTURA CAMPISTA!</p>
-            <p style="margin-bottom: 1rem;">JUNTOS, ELES EMBARCARAM EM UMA DESCOBERTA SOBRE A CULTURA DE CAMPOS DOS GOYTACAZES.</p>
-            <p>CONHECERAM FESTAS, DANÇAS, SABORES, LENDAS E LUGARES QUE FAZEM PARTE DA HISTÓRIA E DAS TRADIÇÕES DA NOSSA CIDADE.</p>
-          </div>
-          <div>
-            <img src="/img/simulado/2ano/p2_intro.png" alt="Professora Sara, Lucas e Goytaré no Passaporte Cultural" class="intro-page2-img">
-            <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
-          </div>
-        </div>
-        <div class="intro-page2-text" style="margin-bottom: 1.25rem;">
-          <p style="margin-bottom: 0.75rem;">DURANTE ESSA AVENTURA, ELES DESCOBRIRAM O BOI PINTADINHO, O JONGO, A FOLIA DE REIS, A MANA CHICA DO CABOIO, O CHUVISCO E A LENDA DO URURAU DA LAPA.</p>
+        <div class="intro-page2-text" style="margin-bottom: 1.5rem;">
+          <p style="margin-bottom: 1rem;">A PROFESSORA SARA, LUCAS E GOYTARÉ RECEBERAM UM PASSAPORTE MUITO ESPECIAL: O PASSAPORTE DA CULTURA CAMPISTA!</p>
+          <p style="margin-bottom: 1rem;">JUNTOS, ELES EMBARCARAM EM UMA DESCOBERTA SOBRE A CULTURA DE CAMPOS DOS GOYTACAZES.</p>
+          <p style="margin-bottom: 1rem;">CONHECERAM FESTAS, DANÇAS, SABORES, LENDAS E LUGARES QUE FAZEM PARTE DA HISTÓRIA E DAS TRADIÇÕES DA NOSSA CIDADE.</p>
+          <p style="margin-bottom: 1rem;">DURANTE ESSA AVENTURA, ELES DESCOBRIRAM O BOI PINTADINHO, O JONGO, A FOLIA DE REIS, A MANA CHICA DO CABOIO, O CHUVISCO E A LENDA DO URURAU DA LAPA.</p>
           <p>ELES TAMBÉM CONHECERAM LUGARES IMPORTANTES COMO O FAROL DE SÃO TOMÉ, A LAGOA DE CIMA, A LAGOA FEA E O RIO PARAÍBA DO SUL.</p>
         </div>
         <div class="intro-page2-footer">
@@ -776,19 +764,12 @@
           FONTE: ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE EM INFORMAÇÕES OFICIAIS DA PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES.
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 140px; gap: 1.25rem; align-items: end;">
-          <div>
-            <div class="q-prompt">QUAL É O ASSUNTO DO TEXTO?</div>
-            <div class="options-grid">
-              <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span class="option-text">A) O BOI PINTADINHO E SUA IMPORTÂNCIA PARA A CULTURA CAMPISTA.</span></label>
-              <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span class="option-text">B) AS BRINCADEIRAS REALIZADAS PELAS CRIANÇAS NA ESCOLA.</span></label>
-              <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span class="option-text">C) OS LUGARES TURÍSTICOS VISITADOS EM CAMPOS DOS GOYTACAZES.</span></label>
-              <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span class="option-text">D) AS COMIDAS TÍPICAS PREPARADAS NAS FESTAS DA CIDADE.</span></label>
-            </div>
-          </div>
-          <div style="text-align: center;">
-            <img src="/img/simulado/2ano/q1_lucas.png" alt="Lucas Estudante" style="max-width: 120px; border-radius: 12px;">
-          </div>
+        <div class="q-prompt">QUAL É O ASSUNTO DO TEXTO?</div>
+        <div class="options-grid">
+          <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span class="option-text">A) O BOI PINTADINHO E SUA IMPORTÂNCIA PARA A CULTURA CAMPISTA.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span class="option-text">B) AS BRINCADEIRAS REALIZADAS PELAS CRIANÇAS NA ESCOLA.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span class="option-text">C) OS LUGARES TURÍSTICOS VISITADOS EM CAMPOS DOS GOYTACAZES.</span></label>
+          <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span class="option-text">D) AS COMIDAS TÍPICAS PREPARADAS NAS FESTAS DA CIDADE.</span></label>
         </div>
       </div>
 
@@ -802,16 +783,10 @@
           <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 310px; gap: 1.5rem; align-items: start; margin-bottom: 1.25rem;">
-          <div class="q-passage" id="text-q2" style="margin-bottom: 0;">
-            GOYTARÉ VIU UMA APRESENTAÇÃO DE JONGO NA EXPOSIÇÃO E FICOU MUITO <strong style="color: var(--primary-dark); font-size: 1.15rem;">ANIMADO</strong>.
-            <br><br>
-            ELE GOSTOU DE VER A DANÇA E DE OUVIR O SOM DOS TAMBORES.
-          </div>
-          <div>
-            <img src="/img/simulado/2ano/q2_jongo.png" alt="Apresentação de Jongo" style="width: 100%; border-radius: 14px; border: 2px solid #cbd5e1;">
-            <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
-          </div>
+        <div class="q-passage" id="text-q2">
+          GOYTARÉ VIU UMA APRESENTAÇÃO DE JONGO NA EXPOSIÇÃO E FICOU MUITO <strong style="color: var(--primary-dark); font-size: 1.15rem;">ANIMADO</strong>.
+          <br><br>
+          ELE GOSTOU DE VER A DANÇA E DE OUVIR O SOM DOS TAMBORES.
         </div>
 
         <div class="q-prompt">NA FRASE, A PALAVRA <span style="color: var(--primary-dark);">ANIMADO</span> INDICA QUE GOYTARÉ ESTAVA</div>
@@ -835,12 +810,6 @@
         </div>
 
         <div class="q-prompt" id="text-q3">LEIA A TIRINHA ABAIXO:</div>
-        
-        <!-- Imagem da Tirinha (3 quadrinhos) -->
-        <div class="q-image-container">
-          <img src="/img/simulado/2ano/q3_tirinha.png" alt="Tirinha da Cultura Campista - 3 Quadrinhos" style="max-width: 520px; width: 100%;">
-          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
-        </div>
 
         <div class="q-prompt">O QUE DEIXA A TIRINHA ENGRAÇADA É:</div>
 
@@ -862,15 +831,10 @@
           <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 330px; gap: 1.5rem; align-items: start; margin-bottom: 1.25rem;">
-          <div class="q-passage" id="text-q4" style="margin-bottom: 0;">
-            GOYTARÉ ESTAVA ANIMADO PARA COMPLETAR SEU PASSAPORTE DA CULTURA CAMPISTA!
-            <br><br>
-            AO LADO DE LUCAS E DA PROFESSORA SARA, ELE EMBARCOU EM UMA DIVERTIDA AVENTURA PELAS ESTAÇÕES DO PROJETO, DESCOBRINDO HISTÓRIAS, TRADIÇÕES E LUGARES ESPECIAIS DE CAMPOS DOS GOYTACAZES.
-          </div>
-          <div>
-            <img src="/img/simulado/2ano/q4_estacoes.png" alt="Estações do Projeto Cultura Popular" style="width: 100%; border-radius: 14px; border: 2px solid #cbd5e1;">
-          </div>
+        <div class="q-passage" id="text-q4">
+          GOYTARÉ ESTAVA ANIMADO PARA COMPLETAR SEU PASSAPORTE DA CULTURA CAMPISTA!
+          <br><br>
+          AO LADO DE LUCAS E DA PROFESSORA SARA, ELE EMBARCOU EM UMA DIVERTIDA AVENTURA PELAS ESTAÇÕES DO PROJETO, DESCOBRINDO HISTÓRIAS, TRADIÇÕES E LUGARES ESPECIAIS DE CAMPOS DOS GOYTACAZES.
         </div>
 
         <div class="q-prompt">QUEM É O PERSONAGEM QUE APARECE NO INÍCIO DESSE TRECHO?</div>
@@ -907,12 +871,6 @@
           CONVIDADOS: FAMÍLIAS DOS ALUNOS
           <br>
           DATA: 22/08/2026
-        </div>
-
-        <!-- Modelo Gráfico Oficial do Convite (PDF) -->
-        <div class="q-image-container">
-          <img src="/img/simulado/2ano/q5_convite.png" alt="Cartão Modelo do Convite Ilustrado" style="max-width: 700px; width: 100%; border-radius: 16px; border: 2px solid #fcd34d;">
-          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
         </div>
 
         <!-- Preenchimento Interativo do Convite -->
@@ -997,12 +955,6 @@
           NA ESTAÇÃO DO FAROL DE SÃO TOMÉ, PASSARAM <strong style="color: #b45309;">136 VISITANTES</strong>.
         </div>
 
-        <!-- Imagem do PDF da Questão 7 (Estações do Boi Pintadinho 128 vs Farol 136) -->
-        <div class="q-image-container">
-          <img src="/img/simulado/2ano/q7_estacoes.png" alt="Estação do Boi Pintadinho e Estação do Farol de São Tomé" style="max-width: 550px; width: 100%; border-radius: 14px; border: 2px solid #cbd5e1;">
-          <div class="ai-caption">Imagem ilustrativa criada por inteligência artificial (ChatGPT/OpenAI), 2026.</div>
-        </div>
-
         <div class="q-prompt">QUAL ESTAÇÃO RECEBEU MAIS VISITANTES?</div>
 
         <div class="options-grid">
@@ -1023,15 +975,10 @@
           <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Matemática</span>
         </div>
 
-        <div class="cdu-grid-container">
-          <div class="q-passage" id="text-q8" style="margin-bottom: 0;">
-            PARA ENFEITAR A EXPOSIÇÃO, LUCAS SEPAROU <strong style="color: #b45309;">124 BANDEIRINHAS</strong>.
-            <br><br>
-            DEPOIS, GOYTARÉ TROUXE MAIS <strong style="color: #b45309;">35 BANDEIRINHAS</strong>.
-          </div>
-          <div style="text-align: center;">
-            <img src="/img/simulado/2ano/q8_cdu.png" alt="Quadro de Ordens C D U" style="max-width: 280px; border-radius: 12px; border: 2px solid #cbd5e1;">
-          </div>
+        <div class="q-passage" id="text-q8">
+          PARA ENFEITAR A EXPOSIÇÃO, LUCAS SEPAROU <strong style="color: #b45309;">124 BANDEIRINHAS</strong>.
+          <br><br>
+          DEPOIS, GOYTARÉ TROUXE MAIS <strong style="color: #b45309;">35 BANDEIRINHAS</strong>.
         </div>
 
         <div class="q-prompt" style="margin-top: 1.25rem;">QUANTAS BANDEIRINHAS ELES TÊM AO TODO?</div>
@@ -1059,11 +1006,6 @@
         </div>
 
         <div class="q-prompt" style="margin-bottom: 0.5rem;">OBSERVE:</div>
-        
-        <!-- Imagem Original dos Cartões (PDF / Enviada pelo Usuário) -->
-        <div class="q-image-container">
-          <img src="/img/simulado/2ano/q9_sequencia.png" alt="Sequência de Cartões dos Passos: 110, 120, 130, ____, 150" style="max-width: 520px; width: 100%; border-radius: 12px;">
-        </div>
 
         <div class="q-prompt">QUAL NÚMERO COMPLETA A SEQUÊNCIA?</div>
 
@@ -1087,10 +1029,6 @@
 
         <div class="q-passage" id="text-q10">
           DURANTE O PROJETO CULTURA POPULAR DE CAMPOS DOS GOYTACAZES, LUCAS E A PROFESSORA SARA PARTICIPARAM DE UMA APRESENTAÇÃO DE JONGO. DEPOIS DE DANÇAR E SE DIVERTIR, LUCAS FICOU COM SEDE.
-        </div>
-
-        <div class="q-image-container">
-          <img src="/img/simulado/2ano/q10_saude.png" alt="Lucas Bebendo Água e Cuidando da Saúde" style="max-width: 540px;">
         </div>
 
         <div class="q-prompt">QUAL ATITUDE MOSTRA QUE LUCAS ESTÁ CUIDANDO DA SAÚDE?</div>
