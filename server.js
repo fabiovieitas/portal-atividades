@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const compression = require('compression');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -12,13 +13,16 @@ const supabase = dbHelper.supabase;
 
 const app = express();
 
-
-// Database initialization (Now handled via Supabase Dashboard/SQL)
+// Enable Gzip/Brotli compression
+app.use(compression());
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.json({ limit: '15mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1d',
+  etag: true
+}));
 app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'public', 'img', 'robot-icon-512.png')));
 app.get('/download/labkids.apk', (req, res) => {
   const apkPath = path.join(__dirname, 'public', 'downloads', 'labkids.apk');
@@ -84,6 +88,69 @@ function clearActivitiesCache() {
 // Health check / Keep-Alive route (evita hibernação no Render)
 app.get('/ping', (req, res) => {
   res.status(200).json({ status: 'ok', time: new Date().toISOString() });
+});
+
+// DiceBear Avatar API Endpoint
+const { createAvatar } = require('@dicebear/core');
+const collection = require('@dicebear/collection');
+
+app.get('/api/avatar', (req, res) => {
+  try {
+    const seed = req.query.seed || 'aluno';
+    const styleName = req.query.style || 'bottts';
+    const style = collection[styleName] || collection.bottts;
+    
+    const avatar = createAvatar(style, {
+      seed: seed,
+      size: parseInt(req.query.size) || 128
+    });
+    
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
+    res.send(avatar.toString());
+  } catch (err) {
+    console.error('Avatar error:', err);
+    res.status(500).send('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="40" fill="#4f46e5"/></svg>');
+  }
+});
+
+// Global Search API Endpoint para busca instantânea (Ctrl+K)
+app.get('/api/search', async (req, res) => {
+  try {
+    const query = (req.query.q || '').trim().toLowerCase();
+    if (!query) return res.json({ results: [] });
+
+    const activities = await dbHelper.getPublicActivities();
+    const filtered = (activities || []).filter(a => 
+      (a.title && a.title.toLowerCase().includes(query)) ||
+      (a.category && a.category.toLowerCase().includes(query)) ||
+      (a.subject && a.subject.toLowerCase().includes(query)) ||
+      (a.bncc_code && a.bncc_code.toLowerCase().includes(query)) ||
+      (a.target_years && a.target_years.toLowerCase().includes(query))
+    ).slice(0, 10);
+
+    res.json({ results: filtered });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Teacher Dashboard Dynamic Stats API
+app.get('/api/teacher/stats', async (req, res) => {
+  try {
+    const teacher = await getTeacher(req);
+    if (!teacher) return res.status(401).json({ error: 'Não autorizado' });
+
+    const activities = await dbHelper.getPublicActivities();
+    const teacherActs = (activities || []).filter(a => a.teacher_id === teacher.id);
+
+    res.json({
+      totalActivities: teacherActs.length,
+      activities: teacherActs
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // In-memory Cache for teacher sessions

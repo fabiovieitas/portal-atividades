@@ -1566,3 +1566,285 @@ body {
 
 .btn-icon-small { background: rgba(74, 144, 226, 0.1); border: none; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 1rem; }
 .btn-icon-small:hover { background: var(--primary); color: white; transform: scale(1.1); }
+
+/* ==========================================================================
+   SUPORTE A TEMAS DINÂMICOS (Light / Dark / Kids) & GLASSMORPHISM
+   ========================================================================== */
+[data-theme="dark"] {
+    --bg: #0f172a;
+    --dark: #f8fafc;
+    --light: #1e293b;
+    --white: #1e293b;
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] body {
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .activity-card,
+[data-theme="dark"] .header-nav,
+[data-theme="dark"] .student-card {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f8fafc;
+}
+
+[data-theme="kids"] {
+    --primary: #ff4757;
+    --secondary: #ffa502;
+    --accent: #2ed573;
+    --bg: #fff0f3;
+}
+
+[data-theme="kids"] body {
+    background: linear-gradient(135deg, #ffeaa7 0%, #ff7675 100%);
+}
+
+/* Glassmorphic UI Classes */
+.glass-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+    border-radius: 20px;
+}
+
+/* Alternador de Tema */
+.theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.theme-toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ==========================================================================
+   BUSCA INSTANTÂNEA E COMMAND PALETTE (Ctrl + K)
+   ========================================================================== */
+.cmd-palette-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10vh;
+    animation: fadeInCmd 0.2s ease-out;
+}
+
+@keyframes fadeInCmd {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.cmd-palette-modal {
+    width: 90%;
+    max-width: 650px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .cmd-palette-modal {
+    background: #1e293b;
+    color: #f8fafc;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.cmd-palette-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    gap: 12px;
+}
+
+[data-theme="dark"] .cmd-palette-header {
+    border-bottom-color: #334155;
+}
+
+.cmd-palette-header .search-icon {
+    font-size: 1.3rem;
+}
+
+.cmd-palette-header input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.1rem;
+    font-family: var(--font-main);
+    background: transparent;
+    color: inherit;
+}
+
+.cmd-shortcut-badge {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.cmd-results-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 12px;
+}
+
+.cmd-empty-state, .cmd-loading-state, .cmd-error-state {
+    padding: 30px;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.cmd-result-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    gap: 14px;
+    transition: background 0.2s;
+}
+
+.cmd-result-item:hover {
+    background: #f1f5f9;
+}
+
+[data-theme="dark"] .cmd-result-item:hover {
+    background: #334155;
+}
+
+.cmd-result-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--primary);
+}
+
+.cmd-result-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 0.75rem;
+}
+
+.badge-cat, .badge-sub, .badge-year {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+.badge-cat { background: rgba(74, 144, 226, 0.15); color: #2563eb; }
+.badge-sub { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+.badge-year { background: rgba(168, 85, 247, 0.15); color: #9333ea; }
+
+.cmd-palette-footer {
+    padding: 10px 20px;
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    font-size: 0.8rem;
+    color: #64748b;
+    text-align: right;
+}
+
+[data-theme="dark"] .cmd-palette-footer {
+    background: #0f172a;
+    border-top-color: #334155;
+}
+
+/* ==========================================================================
+   AVATAR PICKER DICEBEAR
+   ========================================================================== */
+.avatar-picker-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-bottom: 24px;
+}
+
+[data-theme="dark"] .avatar-picker-card {
+    background: rgba(30, 41, 59, 0.9);
+}
+
+.avatar-preview img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    padding: 6px;
+    border: 3px solid var(--primary);
+    object-fit: cover;
+}
+
+.avatar-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.avatar-picker-label {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.avatar-style-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.avatar-style-btn {
+    background: #e2e8f0;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.avatar-style-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* Animação suave para abas */
+.fade-in-panel {
+    animation: fadeInTab 0.3s ease-in-out;
+}
+
+@keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}

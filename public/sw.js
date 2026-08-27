@@ -1,44 +1,65 @@
-const CACHE_NAME = 'portal-lab-v3';
+const CACHE_NAME = 'portal-lab-v4';
 
-// Remover assets estáticos da raiz para evitar cache eterno da index
-const assets = [
-  '/img/logo-prof.png'
+const STATIC_ASSETS = [
+  '/img/logo-prof.png',
+  '/css/style.css',
+  '/js/app-enhancements.js',
+  '/manifest.json'
 ];
 
 self.addEventListener('install', e => {
-  self.skipWaiting(); // Força a atualização imediata
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      cache.addAll(assets);
+      return cache.addAll(STATIC_ASSETS);
     })
   );
 });
 
 self.addEventListener('activate', e => {
-  // Limpa os caches antigos (v1, v2, etc)
   e.waitUntil(
     caches.keys().then(keys => {
-      return Promise.all(keys
-        .filter(key => key !== CACHE_NAME)
-        .map(key => caches.delete(key))
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
       );
     })
   );
 });
 
 self.addEventListener('fetch', e => {
-  // Estratégia Network First (Busca na rede, se falhar pega do cache)
+  if (e.request.method !== 'GET') return;
+
+  const url = new URL(e.request.url);
+
+  // Stale-While-Revalidate para CSS, JS, Imagens e Fontes
+  if (url.pathname.match(/\.(css|js|png|jpg|jpeg|svg|webp|woff2?)$/i)) {
+    e.respondWith(
+      caches.open(CACHE_NAME).then(cache => {
+        return cache.match(e.request).then(cachedResponse => {
+          const fetchPromise = fetch(e.request).then(networkResponse => {
+            if (networkResponse && networkResponse.status === 200) {
+              cache.put(e.request, networkResponse.clone());
+            }
+            return networkResponse;
+          }).catch(() => cachedResponse);
+
+          return cachedResponse || fetchPromise;
+        });
+      })
+    );
+    return;
+  }
+
+  // Network-First para páginas HTML/EJS com fallback para cache offline
   e.respondWith(
-    fetch(e.request).then(response => {
-      // Se a rede funcionou, atualiza o cache silenciosamente (opcional, mas bom pra offline)
-      if (e.request.method === 'GET') {
-        const resClone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(e.request, resClone));
-      }
-      return response;
-    }).catch(() => {
-      // Se a rede falhar (offline), busca no cache
-      return caches.match(e.request);
-    })
+    fetch(e.request)
+      .then(response => {
+        if (response.status === 200) {
+          const resClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(e.request, resClone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
