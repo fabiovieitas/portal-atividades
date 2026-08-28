@@ -51,8 +51,8 @@
 
 <body class="<%= selectedLevel ? 'view-list' : 'view-selection' %>">
 
-    <!-- Active Student Bar & Global Controls -->
-    <div id="active-student-bar" style="position: fixed; top: 15px; left: 20px; z-index: 1000; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 2px solid #3b82f6; padding: 6px 14px; border-radius: 50px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+    <!-- Active Student Bar -->
+    <div id="active-student-bar" style="position: fixed; top: 15px; left: 20px; z-index: 1000; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 2px solid #3b82f6; padding: 6px 14px; border-radius: 50px; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
         <a href="/aluno" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; font-family: 'Fredoka', sans-serif;">
             <div id="nav-student-avatar" style="font-size: 1.5rem;">📱</div>
             <div>
@@ -60,16 +60,6 @@
                 <div id="nav-student-sub" style="font-size: 0.75rem; color: #94a3b8;">Criar Avatar & Ver Medalhas</div>
             </div>
         </a>
-
-        <!-- Botão Busca Instantânea Ctrl+K -->
-        <button id="search-trigger" class="open-cmd-palette-btn" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 6px 12px; border-radius: 20px; font-weight: 700; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
-            <span>🔍 Buscar</span> <span style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 6px; font-size: 0.7rem;">Ctrl+K</span>
-        </button>
-
-        <!-- Alternador de Temas -->
-        <button id="theme-toggle-btn" class="theme-toggle-btn" title="Mudar Tema (Claro / Escuro / Kids)">
-            <span>☀️ Claro</span>
-        </button>
     </div>
 
     <!-- Botões Fixos -->

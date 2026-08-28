@@ -90,50 +90,55 @@ app.get('/ping', (req, res) => {
   res.status(200).json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// DiceBear Avatar API Endpoint
+// DiceBear Avatar Native Engine
 const { createAvatar } = require('@dicebear/core');
 const collection = require('@dicebear/collection');
 
-app.get('/api/avatar', (req, res) => {
+const dicebearStyleMap = {
+  'bottts': collection.bottts,
+  'adventurer': collection.adventurer,
+  'pixel-art': collection.pixelArt,
+  'pixelArt': collection.pixelArt,
+  'lorelei': collection.lorelei,
+  'big-smile': collection.bigSmile,
+  'bigSmile': collection.bigSmile,
+  'fun-emoji': collection.funEmoji,
+  'funEmoji': collection.funEmoji,
+  'voxel-art': collection.bottts,
+  'avataaars': collection.avataaars,
+  'openPeeps': collection.openPeeps,
+  'personas': collection.personas
+};
+
+const handleAvatarRequest = (req, res) => {
   try {
-    const seed = req.query.seed || 'aluno';
-    const styleName = req.query.style || 'bottts';
-    const style = collection[styleName] || collection.bottts;
-    
-    const avatar = createAvatar(style, {
-      seed: seed,
-      size: parseInt(req.query.size) || 128
-    });
-    
+    const rawStyle = req.query.style || 'bottts';
+    const style = dicebearStyleMap[rawStyle] || collection.bottts;
+    const seed = req.query.seed || 'Student';
+    const bg = (req.query.backgroundColor || req.query.bg || 'b6e3f4').replace('#', '');
+
+    const options = {
+      seed: seed
+    };
+
+    if (bg && bg !== 'transparent') {
+      options.backgroundColor = [bg];
+    }
+
+    const avatar = createAvatar(style, options);
+
     res.setHeader('Content-Type', 'image/svg+xml');
     res.setHeader('Cache-Control', 'public, max-age=604800, immutable');
-    res.send(avatar.toString());
+    return res.send(avatar.toString());
   } catch (err) {
     console.error('Avatar error:', err);
-    res.status(500).send('<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="40" fill="#4f46e5"/></svg>');
+    res.setHeader('Content-Type', 'image/svg+xml');
+    return res.send('<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#ff4757"/></svg>');
   }
-});
+};
 
-// Global Search API Endpoint para busca instantânea (Ctrl+K)
-app.get('/api/search', async (req, res) => {
-  try {
-    const query = (req.query.q || '').trim().toLowerCase();
-    if (!query) return res.json({ results: [] });
-
-    const activities = await dbHelper.getPublicActivities();
-    const filtered = (activities || []).filter(a => 
-      (a.title && a.title.toLowerCase().includes(query)) ||
-      (a.category && a.category.toLowerCase().includes(query)) ||
-      (a.subject && a.subject.toLowerCase().includes(query)) ||
-      (a.bncc_code && a.bncc_code.toLowerCase().includes(query)) ||
-      (a.target_years && a.target_years.toLowerCase().includes(query))
-    ).slice(0, 10);
-
-    res.json({ results: filtered });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+app.get('/api/avatar', handleAvatarRequest);
+app.get('/api/avatar-proxy', handleAvatarRequest);
 
 // Teacher Dashboard Dynamic Stats API
 app.get('/api/teacher/stats', async (req, res) => {
@@ -1363,52 +1368,6 @@ app.post('/api/comment', async (req, res) => {
 app.get('/api/stats', async (req, res) => {
   const { data: topActivities } = await supabase.from('activities').select('title, visits').order('visits', { ascending: false }).limit(5);
   res.json(topActivities || []);
-});
-
-// Avatar SVG Proxy Endpoint (Bypasses adblockers/firewalls/CORS on client devices)
-app.get('/api/avatar-proxy', async (req, res) => {
-  try {
-    const style = req.query.style || 'voxel-art';
-    const bg = req.query.bg || 'e55b5b';
-
-    const query = { ...req.query };
-    delete query.style;
-    if (query.backgroundColor === 'transparent') delete query.backgroundColor;
-    if (query.bg === 'transparent') delete query.bg;
-
-    const params = new URLSearchParams(query);
-    const dicebearUrl = `https://api.dicebear.com/10.x/${encodeURIComponent(style)}/svg?${params.toString()}`;
-
-    const fetchRes = await fetch(dicebearUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
-    });
-
-    if (!fetchRes.ok) {
-      console.error('DiceBear proxy non-200:', fetchRes.status, dicebearUrl);
-      const fallbackUrl = `https://api.dicebear.com/10.x/${encodeURIComponent(style)}/svg?seed=${encodeURIComponent(req.query.seed || 'StudentVoxel')}`;
-      const fbRes = await fetch(fallbackUrl);
-      if (fbRes.ok) {
-        const svg = await fbRes.text();
-        res.setHeader('Content-Type', 'image/svg+xml');
-        res.setHeader('Cache-Control', 'public, max-age=86400');
-        return res.send(svg);
-      }
-
-      res.setHeader('Content-Type', 'image/svg+xml');
-      return res.send(`<svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" rx="20" fill="#${bg.replace('#','')}"/><text x="100" y="105" font-size="50" text-anchor="middle">🧊</text></svg>`);
-    }
-
-    const svgText = await fetchRes.text();
-    res.setHeader('Content-Type', 'image/svg+xml');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
-    return res.send(svgText);
-  } catch (err) {
-    console.error('Avatar proxy error:', err);
-    res.setHeader('Content-Type', 'image/svg+xml');
-    return res.send(`<svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" rx="20" fill="#e55b5b"/><text x="100" y="105" font-size="50" text-anchor="middle">🧊</text></svg>`);
-  }
 });
 
 const PORT = process.env.PORT || 3000;
