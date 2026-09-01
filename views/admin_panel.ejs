@@ -98,8 +98,8 @@
             <div class="admin-alert-banner" style="background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%); margin-top: 15px; cursor: pointer;" onclick="window.location.href='/admin/simulado/resultados'">
                 <div class="alert-icon">📝</div>
                 <div class="alert-info">
-                    <strong>Simulado Digital 4º Ano (Campos dos Goytacazes - Agosto/2026)</strong>
-                    <span>Clique aqui para abrir o painel de resultados, turmas, notas e gerar relatórios em PDF 🚀</span>
+                    <strong>Central de Simulados & Avaliações Digitais (1º ao 5º Ano)</strong>
+                    <span>Clique aqui para abrir o painel de resultados, turmas, notas e gerar relatórios em PDF de todos os anos 🚀</span>
                 </div>
             </div>
             <div class="stats-grid">
@@ -610,29 +610,27 @@
 
                     <div class="input-group">
                         <label style="font-weight: 700; color: #475569;">2. Escolha o Ano Escolar</label>
-                        <select id="simGradeSelect" onchange="updateSimuladoResultsUrl()" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
+                        <select id="simGradeSelect" onchange="onSimGradeChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
+                            <option value="ALL">Todos os Anos (1º ao 5º)</option>
+                            <option value="1º Ano">1º Ano (Ensino Fundamental)</option>
+                            <option value="2º Ano">2º Ano (Ensino Fundamental)</option>
+                            <option value="3º Ano">3º Ano (Ensino Fundamental)</option>
                             <option value="4º Ano">4º Ano (Ensino Fundamental)</option>
                             <option value="5º Ano">5º Ano (Ensino Fundamental)</option>
-                            <option value="3º Ano">3º Ano (Ensino Fundamental)</option>
                         </select>
                     </div>
 
                     <div class="input-group">
                         <label style="font-weight: 700; color: #475569;">3. Escolha a Turma</label>
                         <select id="simClassSelect" onchange="updateSimuladoResultsUrl()" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
-                            <option value="ALL">Todas as Turmas do Ano</option>
-                            <option value="4º Ano A">4º Ano A</option>
-                            <option value="4º Ano B">4º Ano B</option>
-                            <option value="4º Ano C">4º Ano C</option>
-                            <option value="4º Ano D">4º Ano D</option>
-                            <option value="4º Ano E">4º Ano E</option>
+                            <option value="ALL">Todas as Turmas (1º ao 5º)</option>
                         </select>
                     </div>
                 </div>
 
                 <div style="margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
                     <a id="openSimuladoResultsBtn" href="/admin/simulado/resultados" class="btn-submit" style="background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 800;">
-                        📊 Ver Notas, Respostas e Gerar PDF da Turma Selecionada
+                        📊 Ver Notas, Respostas e Gerar PDF da Seleção
                     </a>
                     <button onclick="switchTab('schools', document.querySelectorAll('.nav-item')[4])" class="btn-submit" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; font-weight: 700;">
                         ⚙️ Cadastrar / Editar Escolas e Turmas
@@ -642,7 +640,15 @@
 
             <!-- Active Simulados Grid -->
             <div class="admin-card-new glass-panel">
-                <h2>Simulados Disponíveis no Portal</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h2>Simulados Disponíveis no Portal (1º ao 5º Ano)</h2>
+                        <p style="color: #64748b; font-size: 0.9rem; margin-top: 3px;">Acesse a prova interativa dos alunos ou consulte os relatórios de desempenho de cada ano.</p>
+                    </div>
+                    <a href="/admin/simulado/resultados" class="btn-submit" style="background: #0284c7; color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; display: inline-flex; align-items: center; gap: 6px;">
+                        📈 Ver Painel Geral Unificado
+                    </a>
+                </div>
                 <div class="table-responsive">
                     <table class="admin-table">
                         <thead>
@@ -655,25 +661,83 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- 1º Ano -->
                             <tr>
                                 <td>
-                                    <strong>📝 Simulado Digital 4º Ano: Campos de Todos Nós</strong><br>
+                                    <strong>🥇 Simulado Digital 1º Ano: Campos de Todos Nós</strong><br>
+                                    <small style="color: #64748b;">10 Questões Interativas • Alfabetização, Matemática e Saberes Locais</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">1º Ano</span></td>
+                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-1ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-1ano-agosto-2026" class="btn-icon" title="Ver Resultados do 1º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <!-- 2º Ano -->
+                            <tr>
+                                <td>
+                                    <strong>🥈 Simulado Digital 2º Ano: Campos de Todos Nós</strong><br>
+                                    <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Redação e História Local</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">2º Ano</span></td>
+                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-2ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-2ano-agosto-2026" class="btn-icon" title="Ver Resultados do 2º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <!-- 3º Ano -->
+                            <tr>
+                                <td>
+                                    <strong>🥉 Simulado Digital 3º Ano: Campos de Todos Nós</strong><br>
+                                    <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Redação e Ciências</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3º Ano</span></td>
+                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-3ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-3ano-agosto-2026" class="btn-icon" title="Ver Resultados do 3º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <!-- 4º Ano -->
+                            <tr>
+                                <td>
+                                    <strong>🎯 Simulado Digital 4º Ano: Campos de Todos Nós</strong><br>
                                     <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Geografia, Ciências e Arte</small>
                                 </td>
                                 <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">4º Ano</span></td>
                                 <td>Agosto / 2026</td>
                                 <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
-                                <td style="text-align: right;">
-                                    <a href="/atividades/simulado-campos-4ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️</a>
-                                    <a href="/admin/simulado/resultados" class="btn-icon" title="Ver Resultados da Turma" style="display: inline-flex; background: #dcfce7; color: #15803d;">📊</a>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-4ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-4ano-agosto-2026" class="btn-icon" title="Ver Resultados do 4º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <!-- 5º Ano -->
+                            <tr>
+                                <td>
+                                    <strong>🚀 Simulado Digital 5º Ano: Campos de Todos Nós</strong><br>
+                                    <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Redação e Meio Ambiente</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">5º Ano</span></td>
+                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-5ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-5ano-agosto-2026" class="btn-icon" title="Ver Resultados do 5º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 0.9rem; color: #92400e;">
-                    <strong>💡 Novos Simulados:</strong> Quando você enviar os arquivos dos simulados dos demais anos (3º Ano, 5º Ano, etc.), eles serão inseridos automaticamente nesta central!
+                <div style="background: #f0fdf4; border: 1px solid #86efac; padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 0.9rem; color: #166534; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.3rem;">✅</span>
+                    <span><strong>Todos os 5 Cadernos Ativos:</strong> As provas do 1º ao 5º Ano estão integradas com gravação automática de notas, redações e sincronização multiescola na nuvem.</span>
                 </div>
             </div>
         </div>
@@ -883,12 +947,53 @@
             if (res.ok) location.reload();
         }
 
+        function onSimGradeChange() {
+            const grade = document.getElementById('simGradeSelect')?.value || 'ALL';
+            const classSelect = document.getElementById('simClassSelect');
+            if (!classSelect) return;
+
+            classSelect.innerHTML = '';
+            const allOpt = document.createElement('option');
+            allOpt.value = 'ALL';
+            allOpt.innerText = grade === 'ALL' ? 'Todas as Turmas (1º ao 5º)' : `Todas as Turmas do ${grade}`;
+            classSelect.appendChild(allOpt);
+
+            if (grade !== 'ALL') {
+                ['A', 'B', 'C', 'D', 'E'].forEach(letter => {
+                    const opt = document.createElement('option');
+                    opt.value = `${grade} ${letter}`;
+                    opt.innerText = `${grade} ${letter}`;
+                    classSelect.appendChild(opt);
+                });
+            }
+            updateSimuladoResultsUrl();
+        }
+
         function updateSimuladoResultsUrl() {
             const school = document.getElementById('simSchoolSelect')?.value || 'ALL';
+            const grade = document.getElementById('simGradeSelect')?.value || 'ALL';
             const classVal = document.getElementById('simClassSelect')?.value || 'ALL';
             const btn = document.getElementById('openSimuladoResultsBtn');
             if (btn) {
-                btn.href = `/admin/simulado/resultados?school=${encodeURIComponent(school)}&class=${encodeURIComponent(classVal)}`;
+                const params = new URLSearchParams();
+                if (school !== 'ALL') params.set('school', school);
+                if (grade !== 'ALL') {
+                    const gradeToSimId = {
+                        '1º Ano': 'campos-1ano-agosto-2026',
+                        '2º Ano': 'campos-2ano-agosto-2026',
+                        '3º Ano': 'campos-3ano-agosto-2026',
+                        '4º Ano': 'campos-4ano-agosto-2026',
+                        '5º Ano': 'campos-5ano-agosto-2026'
+                    };
+                    if (gradeToSimId[grade]) params.set('simulado_id', gradeToSimId[grade]);
+                }
+                if (classVal !== 'ALL') {
+                    params.set('class', classVal);
+                } else if (grade !== 'ALL') {
+                    params.set('class', grade);
+                }
+                const queryString = params.toString() ? `?${params.toString()}` : '';
+                btn.href = `/admin/simulado/resultados${queryString}`;
             }
         }
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resultados e Histórico do Simulado - 4º Ano | Prefeitura de Campos</title>
+  <title>Resultados e Histórico dos Simulados - 1º ao 5º Ano | Prefeitura de Campos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -532,14 +532,17 @@
     <div class="top-actions">
       <a href="/admin" class="back-btn">← Voltar ao Painel Administrativo</a>
       <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+        <button class="print-btn" onclick="refreshData()" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+          ⚡ Atualizar em Tempo Real
+        </button>
         <a href="/api/admin/simulado/backup/export" class="print-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none;">
-          📥 Baixar Backup de Segurança (JSON)
+          📥 Baixar Backup (JSON)
         </a>
         <button class="print-btn" onclick="openRestoreModal()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
           📤 Restaurar Backup
         </button>
         <button class="print-btn" onclick="window.print()">
-          🖨️ Imprimir PDF Inteligente da Turma
+          🖨️ Imprimir PDF Inteligente
         </button>
       </div>
     </div>
@@ -548,7 +551,7 @@
     <div class="print-header">
       <h2>PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES</h2>
       <p>Secretaria Municipal de Educação, Ciência e Tecnologia • Projeto Campos de Todos Nós</p>
-      <h3 style="font-family:'Outfit'; font-size: 1rem; color: #0284c7;">RELATÓRIO OFICIAL DE DESEMPENHO E HISTÓRICO DO SIMULADO (4º ANO)</h3>
+      <h3 id="printReportTitle" style="font-family:'Outfit'; font-size: 1rem; color: #0284c7;">RELATÓRIO OFICIAL DE DESEMPENHO E HISTÓRICO DOS SIMULADOS (1º AO 5º ANO)</h3>
       <div class="print-meta-bar">
         <span>Escola: <span id="printSchoolLabel">Todas as Escolas</span></span>
         <span>Turma: <span id="printClassLabel">Todas as Turmas</span></span>
@@ -904,7 +907,7 @@
                   <div class="answers-summary-pill"><%= summaryStr %></div>
                 </td>
                 <td>
-                  <span class="score-badge <%= badgeClass %>"><%= score %> / 9 acertos</span>
+                  <span class="score-badge <%= badgeClass %>"><%= score %> / <%= s.max_score || (s.simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9) %> acertos</span>
                 </td>
                 <td class="no-print" style="white-space: nowrap;">
                   <button class="btn-toggle-answers" onclick="toggleDetails('<%= s.id %>')">👁️ Redação</button>
@@ -1106,8 +1109,21 @@
       // Update Live General Stats
       document.getElementById('statTotal').innerText = visibleCount;
       const avg = visibleCount > 0 ? (totalScore / visibleCount).toFixed(1) : 0;
-      document.getElementById('statAvg').innerText = `${avg} / 9`;
+      const maxScoreRef = selectedSimulado === 'campos-1ano-agosto-2026' ? 10 : (selectedSimulado === 'ALL' ? '9-10' : 9);
+      document.getElementById('statAvg').innerText = `${avg} / ${maxScoreRef}`;
       document.getElementById('statEssays').innerText = visibleEssays;
+
+      // Update Print Header dynamically
+      const printTitle = document.getElementById('printReportTitle');
+      if (printTitle) {
+        let simName = '1º AO 5º ANO';
+        if (selectedSimulado === 'campos-1ano-agosto-2026' || selectedClass === '1º Ano' || (selectedClass && selectedClass.includes('1º Ano'))) simName = '1º ANO';
+        else if (selectedSimulado === 'campos-2ano-agosto-2026' || selectedClass === '2º Ano' || (selectedClass && selectedClass.includes('2º Ano'))) simName = '2º ANO';
+        else if (selectedSimulado === 'campos-3ano-agosto-2026' || selectedClass === '3º Ano' || (selectedClass && selectedClass.includes('3º Ano'))) simName = '3º ANO';
+        else if (selectedSimulado === 'campos-4ano-agosto-2026' || selectedClass === '4º Ano' || (selectedClass && selectedClass.includes('4º Ano'))) simName = '4º ANO';
+        else if (selectedSimulado === 'campos-5ano-agosto-2026' || selectedClass === '5º Ano' || (selectedClass && selectedClass.includes('5º Ano'))) simName = '5º ANO';
+        printTitle.innerText = `RELATÓRIO OFICIAL DE DESEMPENHO E HISTÓRICO DO SIMULADO (${simName})`;
+      }
 
       // Update Comparative Panel: Turno (Manhã vs Tarde)
       const mCount = shiftData['Manhã'].count;
@@ -1176,11 +1192,42 @@
       updateBulkActionsBar();
     }
 
+    function refreshData() {
+      const btn = event?.target;
+      if (btn) btn.innerHTML = '⌛ Atualizando...';
+      location.reload();
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
-      if (document.getElementById('filterSimulado')) document.getElementById('filterSimulado').value = 'ALL';
-      document.getElementById('filterSchool').value = 'ALL';
-      document.getElementById('filterClass').value = 'ALL';
-      document.getElementById('filterDate').value = 'ALL';
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramSimulado = urlParams.get('simulado_id') || urlParams.get('simulado');
+      const paramSchool = urlParams.get('school');
+      const paramClass = urlParams.get('class') || urlParams.get('grade');
+      const paramShift = urlParams.get('shift');
+      const paramDate = urlParams.get('date');
+
+      if (paramSimulado && document.getElementById('filterSimulado')) {
+        document.getElementById('filterSimulado').value = paramSimulado;
+      }
+      if (paramSchool && document.getElementById('filterSchool')) {
+        document.getElementById('filterSchool').value = paramSchool;
+      }
+      if (paramClass && document.getElementById('filterClass')) {
+        const select = document.getElementById('filterClass');
+        const opts = Array.from(select.options).map(o => o.value);
+        if (opts.includes(paramClass)) {
+          select.value = paramClass;
+        } else {
+          const found = opts.find(o => o.toLowerCase().includes(paramClass.toLowerCase()));
+          if (found) select.value = found;
+        }
+      }
+      if (paramShift && document.getElementById('filterShift')) {
+        document.getElementById('filterShift').value = paramShift;
+      }
+      if (paramDate && document.getElementById('filterDate')) {
+        document.getElementById('filterDate').value = paramDate;
+      }
       if (document.getElementById('sortOrder')) document.getElementById('sortOrder').value = 'DATE_DESC';
       applyFilters();
     });
