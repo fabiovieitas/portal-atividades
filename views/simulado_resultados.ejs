@@ -300,7 +300,7 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 8mm 10mm;
+        margin: 10mm 12mm;
       }
 
       body {
@@ -317,7 +317,20 @@
         padding: 0 !important;
       }
 
-      .top-actions, .filters-bar, .no-print, .header-info, .btn-toggle-answers, .progress-banner, .btn-edit, .btn-delete {
+      /* OCULTAR COMPLETAMENTE NA IMPRESSÃO: Banners, Painel Comparativo, Gabarito, Estatísticas e Botões */
+      .top-actions, 
+      .filters-bar, 
+      .no-print, 
+      .header-info, 
+      .btn-toggle-answers, 
+      .progress-banner, 
+      .btn-edit, 
+      .btn-delete,
+      .system-notice-banner,
+      .comparative-container,
+      .gabarito-card,
+      .stats-grid,
+      #bulkActionsBar {
         display: none !important;
       }
 
@@ -328,53 +341,35 @@
         background: transparent !important;
       }
 
-      .stats-grid {
-        display: flex !important;
-        justify-content: space-around !important;
-        gap: 0.5rem !important;
-        margin-bottom: 0.8rem !important;
-      }
-
-      .stat-card {
-        padding: 0.4rem 0.8rem !important;
-        background: #f8fafc !important;
-        border: 1px solid #cbd5e1 !important;
-        border-radius: 6px !important;
-      }
-
-      .stat-val {
-        font-size: 1.3rem !important;
-      }
-
-      .stat-lbl {
-        font-size: 0.75rem !important;
-      }
-
-      /* Painel Comparativo & Taxa de Acertos no PDF */
-      .comparative-container {
+      /* Cabeçalho de Impressão Oficial: APENAS Escola, Turma, Ano e Data */
+      .print-header {
         display: block !important;
-        margin: 0.8rem 0 !important;
-        padding: 0.8rem !important;
-        background: #ffffff !important;
-        border: 1.5px solid #64748b !important;
-        border-radius: 10px !important;
-        box-shadow: none !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
+        margin-bottom: 12px !important;
+        border-bottom: 2px solid #000 !important;
+        padding-bottom: 8px !important;
       }
 
-      #questionComparisonGrid {
+      .print-meta-grid {
         display: grid !important;
-        grid-template-columns: repeat(9, 1fr) !important;
-        gap: 0.3rem !important;
+        grid-template-columns: 2fr 1fr 1fr 1fr !important;
+        gap: 8px !important;
+        font-size: 9.5pt !important;
+        color: #000 !important;
       }
 
-      #questionComparisonGrid > div {
-        padding: 0.3rem 0.1rem !important;
+      .print-meta-item {
+        background: #f8fafc !important;
+        padding: 6px 10px !important;
         border: 1px solid #cbd5e1 !important;
         border-radius: 6px !important;
-        background: #f8fafc !important;
-        text-align: center !important;
+        display: flex !important;
+        gap: 5px !important;
+        align-items: center !important;
+      }
+
+      .print-meta-item strong {
+        color: #000 !important;
+        font-weight: 800 !important;
       }
 
       /* Redação dos Alunos no PDF */
@@ -402,41 +397,6 @@
         color: #000 !important;
       }
 
-      /* Official Print Header */
-      .print-header {
-        display: block !important;
-        text-align: center;
-        margin-bottom: 1.2rem;
-        border-bottom: 2px solid #0f172a;
-        padding-bottom: 0.6rem;
-      }
-
-      .print-header h2 {
-        font-family: 'Outfit', sans-serif;
-        font-size: 1.2rem;
-        font-weight: 900;
-        margin-bottom: 0.2rem;
-        color: #000;
-      }
-
-      .print-header p {
-        font-size: 0.8rem;
-        color: #334155;
-        margin-bottom: 0.4rem;
-      }
-
-      .print-meta-bar {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8rem;
-        font-weight: 700;
-        background: #f8fafc;
-        padding: 0.4rem 0.8rem;
-        border-radius: 6px;
-        border: 1px solid #cbd5e1;
-        margin-top: 0.4rem;
-      }
-
       /* Smart Table & Page Break Control */
       table {
         width: 100% !important;
@@ -446,34 +406,6 @@
 
       thead {
         display: table-header-group;
-      }
-
-      /* Gabarito Oficial no PDF */
-      .gabarito-card {
-        display: block !important;
-        border: 1.5px solid #64748b !important;
-        padding: 0.6rem !important;
-        margin-bottom: 0.8rem !important;
-        border-radius: 8px !important;
-        background: #ffffff !important;
-        box-shadow: none !important;
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-      }
-
-      #gabaritoContent {
-        display: grid !important;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
-        gap: 0.5rem !important;
-        margin-top: 0.4rem !important;
-      }
-
-      #toggleGabaritoBtn {
-        display: none !important;
-      }
-
-      .gabarito-item[style*="display: none"] {
-        display: none !important;
       }
 
       tr {
@@ -498,7 +430,7 @@
       th, td {
         border: 1px solid #64748b !important;
         padding: 5px 7px !important;
-        font-size: 8pt !important;
+        font-size: 8.5pt !important;
       }
 
       th {
@@ -509,7 +441,7 @@
 
       .answers-summary-pill {
         display: block !important;
-        font-size: 7.5pt !important;
+        font-size: 8pt !important;
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
@@ -519,7 +451,7 @@
 
       .score-badge {
         padding: 0.15rem 0.5rem !important;
-        font-size: 7.5pt !important;
+        font-size: 8pt !important;
         border: 1px solid #000 !important;
       }
     }
@@ -547,16 +479,21 @@
       </div>
     </div>
 
-    <!-- Printable Official Header -->
+    <!-- Printable Header: APENAS Escola, Turma, Ano e Data -->
     <div class="print-header">
-      <h2>PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES</h2>
-      <p>Secretaria Municipal de Educação, Ciência e Tecnologia • Projeto Campos de Todos Nós</p>
-      <h3 id="printReportTitle" style="font-family:'Outfit'; font-size: 1rem; color: #0284c7;">RELATÓRIO OFICIAL DE DESEMPENHO E HISTÓRICO DOS SIMULADOS (1º AO 5º ANO)</h3>
-      <div class="print-meta-bar">
-        <span>Escola: <span id="printSchoolLabel">Todas as Escolas</span></span>
-        <span>Turma: <span id="printClassLabel">Todas as Turmas</span></span>
-        <span>Período: <span id="printDateLabel">Todos os Períodos</span></span>
-        <span>Data de Emissão: <%= new Date().toLocaleDateString('pt-BR') %></span>
+      <div class="print-meta-grid">
+        <div class="print-meta-item">
+          <strong>Escola:</strong> <span id="printSchoolLabel">Todas as Escolas</span>
+        </div>
+        <div class="print-meta-item">
+          <strong>Ano:</strong> <span id="printGradeLabel">Todos os Anos</span>
+        </div>
+        <div class="print-meta-item">
+          <strong>Turma:</strong> <span id="printClassLabel">Todas as Turmas</span>
+        </div>
+        <div class="print-meta-item">
+          <strong>Data:</strong> <span id="printDateLabel"><%= new Date().toLocaleDateString('pt-BR') %></span>
+        </div>
       </div>
     </div>
 
@@ -567,7 +504,7 @@
       </div>
 
       <!-- System Notice Banner: Preservação de Dados Genuína -->
-      <div style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 0.8rem 1.2rem; border-radius: 12px; margin-top: 1rem; font-size: 0.88rem; color: #166534; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem;">
+      <div class="system-notice-banner no-print" style="background: #f0fdf4; border: 1.5px solid #86efac; padding: 0.8rem 1.2rem; border-radius: 12px; margin-top: 1rem; font-size: 0.88rem; color: #166534; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem;">
         <div style="display: flex; align-items: center; gap: 0.6rem;">
           <span style="font-size: 1.2rem;">🛡️</span>
           <span><strong>Proteção Multiescola Ativa:</strong> Gravação Dupla em Nuvem (Turso Cloud + Supabase) com Auto-Reconciliação e Backup Mestre Integrado. Resiliência total de dados para todas as escolas.</span>
@@ -576,7 +513,7 @@
       </div>
 
       <!-- Gabaritos Oficiais de Referência (1º ao 5º Ano) -->
-      <div class="gabarito-card" style="margin-top: 1rem; background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+      <div class="gabarito-card no-print" style="margin-top: 1rem; background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
         <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;" onclick="toggleGabarito()">
           <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
             <span>🔑 Gabarito Oficial de Referência das Provas (1º ao 5º Ano)</span>
@@ -761,7 +698,7 @@
       </div>
 
       <!-- Section: Painel Comparativo de Desempenho (Tempo Real) -->
-      <div class="comparative-container" style="margin: 1.5rem 0 2rem 0; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03);">
+      <div class="comparative-container no-print" style="margin: 1.5rem 0 2rem 0; background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03);">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; margin: 0;">
@@ -1113,16 +1050,40 @@
       document.getElementById('statAvg').innerText = `${avg} / ${maxScoreRef}`;
       document.getElementById('statEssays').innerText = visibleEssays;
 
-      // Update Print Header dynamically
-      const printTitle = document.getElementById('printReportTitle');
-      if (printTitle) {
-        let simName = '1º AO 5º ANO';
-        if (selectedSimulado === 'campos-1ano-agosto-2026' || selectedClass === '1º Ano' || (selectedClass && selectedClass.includes('1º Ano'))) simName = '1º ANO';
-        else if (selectedSimulado === 'campos-2ano-agosto-2026' || selectedClass === '2º Ano' || (selectedClass && selectedClass.includes('2º Ano'))) simName = '2º ANO';
-        else if (selectedSimulado === 'campos-3ano-agosto-2026' || selectedClass === '3º Ano' || (selectedClass && selectedClass.includes('3º Ano'))) simName = '3º ANO';
-        else if (selectedSimulado === 'campos-4ano-agosto-2026' || selectedClass === '4º Ano' || (selectedClass && selectedClass.includes('4º Ano'))) simName = '4º ANO';
-        else if (selectedSimulado === 'campos-5ano-agosto-2026' || selectedClass === '5º Ano' || (selectedClass && selectedClass.includes('5º Ano'))) simName = '5º ANO';
-        printTitle.innerText = `RELATÓRIO OFICIAL DE DESEMPENHO E HISTÓRICO DO SIMULADO (${simName})`;
+      // Update Print Header dynamically (APENAS Escola, Turma, Ano e Data)
+      const schoolLabel = document.getElementById('printSchoolLabel');
+      const gradeLabel = document.getElementById('printGradeLabel');
+      const classLabel = document.getElementById('printClassLabel');
+      const dateLabel = document.getElementById('printDateLabel');
+
+      if (schoolLabel) {
+        schoolLabel.innerText = (selectedSchool === 'ALL' || !selectedSchool) ? 'Todas as Escolas' : selectedSchool;
+      }
+
+      if (gradeLabel) {
+        let gradeName = 'Todos os Anos (1º ao 5º)';
+        if (selectedSimulado === 'campos-1ano-agosto-2026' || selectedClass.includes('1º Ano')) gradeName = '1º Ano';
+        else if (selectedSimulado === 'campos-2ano-agosto-2026' || selectedClass.includes('2º Ano')) gradeName = '2º Ano';
+        else if (selectedSimulado === 'campos-3ano-agosto-2026' || selectedClass.includes('3º Ano')) gradeName = '3º Ano';
+        else if (selectedSimulado === 'campos-4ano-agosto-2026' || selectedClass.includes('4º Ano')) gradeName = '4º Ano';
+        else if (selectedSimulado === 'campos-5ano-agosto-2026' || selectedClass.includes('5º Ano')) gradeName = '5º Ano';
+        gradeLabel.innerText = gradeName;
+      }
+
+      if (classLabel) {
+        classLabel.innerText = (selectedClass === 'ALL' || !selectedClass) ? 'Todas as Turmas' : selectedClass;
+      }
+
+      if (dateLabel) {
+        if (selectedDate === 'TODAY') {
+          dateLabel.innerText = new Date().toLocaleDateString('pt-BR') + ' (Hoje)';
+        } else if (selectedDate === '7DAYS') {
+          dateLabel.innerText = 'Últimos 7 dias';
+        } else if (selectedDate === 'THIS_MONTH') {
+          dateLabel.innerText = 'Este Mês';
+        } else {
+          dateLabel.innerText = new Date().toLocaleDateString('pt-BR');
+        }
       }
 
       // Update Comparative Panel: Turno (Manhã vs Tarde)
