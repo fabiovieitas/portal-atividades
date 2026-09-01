@@ -101,7 +101,10 @@ try {
 }
 
 // Turso Cloud Client setup
-let tursoUrl = process.env.TURSO_DATABASE_URL || 'libsql://portal-atividades-fabiovieitas.aws-ap-south-1.turso.io';
+let tursoUrl = process.env.TURSO_DATABASE_URL || 'libsql://portal-atividades-fabiovieitas.turso.io';
+if (tursoUrl.includes('aws-ap-south-1.')) {
+  tursoUrl = tursoUrl.replace('aws-ap-south-1.', '');
+}
 const tursoToken = process.env.TURSO_AUTH_TOKEN || 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3ODY2NDM4NDcsImlkIjoiMDE5ZmZjNDQtZTIwMS03NTA2LTg4NjctNzk0NTYyMWY5MDk5Iiwia2lkIjoiekZRMlpBUnYxLVVNR2c1OGNFTWFiWGdkS3J4Y3FoeU9CTUpOVVdHVDBfOCIsInJpZCI6ImRhZGVjYWM3LTQ5ZTctNGFlMS1iMzNkLTBiNjgwZGU3M2JlYSJ9.6bF1mKnc5EI5YvHvDUijg60mWqzaN2Zf0XQNTS1xOOmuC3G187q9gxVQLJzSWWD6teTQLUEVNDHK4V4VZmYoBg';
 
 let tursoClient = null;
@@ -112,7 +115,7 @@ if (tursoUrl && tursoToken) {
       tursoUrl = tursoUrl.replace('libsql://', 'https://');
     }
     tursoClient = createTursoClient({ url: tursoUrl, authToken: tursoToken });
-    console.log('[DB Engine] Turso Cloud conectado!');
+    console.log('[DB Engine] Turso Cloud conectado com sucesso!');
   } catch (e) {
     console.warn('[DB Engine] Falha ao iniciar Turso Client:', e.message);
   }

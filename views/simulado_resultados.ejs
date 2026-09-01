@@ -944,10 +944,10 @@
 
       mainRows.forEach((row, idx) => {
         const rowId = row.getAttribute('data-id') || idx;
-        const rowSimulado = row.getAttribute('data-simulado') || 'campos-4ano-agosto-2026';
-        const rowClass = row.getAttribute('data-class');
-        const rowSchool = row.getAttribute('data-school') || 'E.M. Profª Eleonora da Silva Pinto';
-        const rowShift = row.getAttribute('data-shift') || 'Manhã';
+        const rowSimulado = (row.getAttribute('data-simulado') || '').trim();
+        const rowClass = (row.getAttribute('data-class') || '').trim();
+        const rowSchool = (row.getAttribute('data-school') || '').trim();
+        const rowShift = (row.getAttribute('data-shift') || '').trim();
         const score = parseInt(row.getAttribute('data-score')) || 0;
         const rowDateStr = row.getAttribute('data-date');
         const rowDate = new Date(rowDateStr);
@@ -956,10 +956,10 @@
 
         const detailRow = document.getElementById(`details-row-${rowId}`) || document.getElementById(`details-row-${idx}`);
 
-        const simuladoMatch = (selectedSimulado === 'ALL' || rowSimulado === selectedSimulado);
-        const classMatch = (selectedClass === 'ALL' || rowClass === selectedClass || (rowClass && selectedClass && rowClass.includes(selectedClass)));
-        const schoolMatch = (selectedSchool === 'ALL' || rowSchool === selectedSchool || (rowSchool && selectedSchool && rowSchool.includes(selectedSchool)));
-        const shiftMatch = (selectedShift === 'ALL' || rowShift === selectedShift);
+        const simuladoMatch = (selectedSimulado === 'ALL' || !selectedSimulado || rowSimulado === selectedSimulado);
+        const classMatch = (selectedClass === 'ALL' || !selectedClass || rowClass === selectedClass || rowClass.toLowerCase().includes(selectedClass.toLowerCase()) || selectedClass.toLowerCase().includes(rowClass.toLowerCase()));
+        const schoolMatch = (selectedSchool === 'ALL' || !selectedSchool || rowSchool === selectedSchool || rowSchool.toLowerCase().includes(selectedSchool.toLowerCase()) || selectedSchool.toLowerCase().includes(rowSchool.toLowerCase()));
+        const shiftMatch = (selectedShift === 'ALL' || !selectedShift || rowShift === selectedShift || rowShift.toLowerCase().includes(selectedShift.toLowerCase()));
 
         let dateMatch = true;
         if (selectedDate === 'TODAY') {
