@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório Executivo de Gestão Pedagógica — OP | Portal Lab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --primary-light: #e0e7ff;
+      --accent: #0284c7;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --card-bg: #ffffff;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Header */
+    .top-header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .top-header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.65rem 1.2rem;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-print:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1280px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Printable Header Banner */
+    .op-doc-header {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      box-shadow: var(--shadow);
+      border: 2px solid #cbd5e1;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .op-doc-header .titles {
+      flex: 1;
+    }
+
+    .op-doc-header h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.6rem;
+      color: #1e1b4b;
+      margin-bottom: 0.3rem;
+    }
+
+    .op-doc-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .op-doc-header .doc-meta {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem 1.5rem;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .filter-group label {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .filter-select {
+      padding: 0.6rem 0.9rem;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      outline: none;
+      background: white;
+    }
+    .filter-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Executive KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+    }
+
+    .kpi-total::before { background: var(--primary); }
+    .kpi-avg::before { background: var(--accent); }
+    .kpi-low::before { background: var(--danger); }
+    .kpi-med::before { background: var(--warning); }
+    .kpi-high::before { background: var(--accent); }
+
+    .kpi-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .kpi-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .kpi-sub {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* Formatação Condicional de Cores */
+    .color-low { color: #dc2626 !important; }
+    .color-med { color: #d97706 !important; }
+    .color-high { color: #0284c7 !important; }
+
+    .bg-low { background: #fef2f2; border: 1.5px solid #fca5a5; color: #b91c1c; }
+    .bg-med { background: #fffbeb; border: 1.5px solid #fcd34d; color: #b45309; }
+    .bg-high { background: #f0f9ff; border: 1.5px solid #7dd3fc; color: #0369a1; }
+
+    /* Charts Section */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (max-width: 960px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .chart-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 280px;
+      width: 100%;
+    }
+
+    /* Tables Section */
+    .table-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+
+    .table-header-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .table-header-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .op-table-wrapper {
+      overflow-x: auto;
+    }
+
+    table.op-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    table.op-table th, table.op-table td {
+      padding: 0.85rem 1rem;
+      border: 1px solid var(--border);
+    }
+
+    table.op-table th {
+      background: #f8fafc;
+      font-weight: 800;
+      color: #334155;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    table.op-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .badge-pill {
+      padding: 0.25rem 0.65rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      display: inline-block;
+      text-align: center;
+    }
+
+    /* Pedagogical Recommendations & Signatures */
+    .pedagogical-notes {
+      background: #faf5ff;
+      border: 2px dashed #c084fc;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .pedagogical-notes h3 {
+      font-family: 'Fredoka', sans-serif;
+      color: #6b21a8;
+      font-size: 1.15rem;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pedagogical-notes ul {
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+      color: #581c87;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .signatures-block {
+      display: none;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px dashed #94a3b8;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .signature-line {
+      border-top: 1.5px solid #0f172a;
+      padding-top: 0.5rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    /* Print Styles (@media print) */
+    @media print {
+      body {
+        background: white;
+        color: black;
+        font-size: 9.5pt;
+      }
+      .no-print, .top-header, .filter-bar {
+        display: none !important;
+      }
+      .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .op-doc-header {
+        border: 2px solid black;
+        box-shadow: none;
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+      .op-doc-header h1 { font-size: 1.3rem; }
+      .op-doc-header h2 { font-size: 0.9rem; }
+      .kpi-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .kpi-card {
+        padding: 0.6rem;
+        box-shadow: none;
+        border: 1px solid #94a3b8;
+      }
+      .kpi-value { font-size: 1.3rem; }
+      .charts-grid {
+        page-break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+      .chart-card {
+        box-shadow: none;
+        border: 1px solid #94a3b8;
+        padding: 0.8rem;
+      }
+      .chart-container {
+        height: 200px;
+      }
+      .table-card {
+        box-shadow: none;
+        border: 1px solid #94a3b8;
+        padding: 0.8rem;
+        page-break-inside: auto;
+      }
+      table.op-table th, table.op-table td {
+        padding: 0.4rem 0.5rem;
+        font-size: 8pt;
+      }
+      .pedagogical-notes {
+        page-break-inside: avoid;
+        border: 1px solid #94a3b8;
+        background: #f8fafc;
+      }
+      .signatures-block {
+        display: grid !important;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation (No Print) -->
+  <header class="top-header no-print">
+    <div class="top-header-inner">
+      <div class="brand-title">
+        <span>📑</span>
+        <span>Dossiê Executivo de Gestão Pedagógica (OP)</span>
+      </div>
+      <div class="header-actions">
+        <a href="/admin/simulado/resultados" class="btn btn-secondary">
+          <span>📊 Painel de Resultados Geral</span>
+        </a>
+        <a href="/admin" class="btn btn-secondary">
+          <span>🏛️ Painel Admin</span>
+        </a>
+        <button class="btn btn-print" onclick="window.print()">
+          <span>🖨️ Imprimir Dossiê para OP</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Document Header / Official Protocol Banner -->
+    <section class="op-doc-header">
+      <div class="titles">
+        <h2>Prefeitura Municipal de Campos dos Goytacazes • SEDUCT / PAE</h2>
+        <h1>Relatório Executivo de Gestão & Diagnóstico de Aprendizagem (OP)</h1>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.2rem;">
+          Consolidado oficial de participação, médias de acerto e níveis de desenvolvimento por turma.
+        </p>
+      </div>
+      <div class="doc-meta">
+        <div><strong>Ano Letivo:</strong> 2026</div>
+        <div><strong>Data de Emissão:</strong> <%= new Date().toLocaleDateString('pt-BR') %></div>
+        <div><strong>Simulado:</strong> <%= simuladoId === 'ALL' ? 'Todos os Cadernos (1º ao 5º)' : simuladoId %></div>
+        <div><strong>Destinação:</strong> Orientação Pedagógica (OP)</div>
+      </div>
+    </section>
+
+    <!-- Filter Bar (No Print) -->
+    <section class="filter-bar no-print">
+      <div class="filter-group">
+        <label for="filterSchool">🏫 Escola Municipal:</label>
+        <select id="filterSchool" class="filter-select" onchange="filterOPData()">
+          <option value="ALL">Todas as Escolas Municipais</option>
+          <% 
+            const schoolNames = [...new Set(turmaStats.map(t => t.school).filter(Boolean))];
+            schoolNames.forEach(sch => { 
+          %>
+            <option value="<%= sch %>"><%= sch %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filterClass">📚 Turma / Nível:</label>
+        <select id="filterClass" class="filter-select" onchange="filterOPData()">
+          <option value="ALL">Todas as Turmas / Níveis</option>
+          <% 
+            const opDynamicClasses = [...new Set(turmaStats.map(t => t.className).filter(Boolean))];
+            const opDefaultClasses = ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano', 'N1', 'N2'];
+            const allOpClasses = [...new Set([...opDynamicClasses, ...opDefaultClasses])].sort();
+            allOpClasses.forEach(cls => { 
+          %>
+            <option value="<%= cls %>"><%= cls %></option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="filterShift">☀️ / 🌤️ Turno:</label>
+        <select id="filterShift" class="filter-select" onchange="filterOPData()">
+          <option value="ALL">Todos os Turnos (Manhã & Tarde)</option>
+          <option value="Manhã">☀️ Turno Manhã</option>
+          <option value="Tarde">🌤️ Turno Tarde</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Executive KPI Summary Cards -->
+    <%
+      let totalEval = totalStudents;
+      let countLow = 0, countMed = 0, countHigh = 0;
+      turmaStats.forEach(t => {
+        countLow += t.levelLow;
+        countMed += t.levelMed;
+        countHigh += t.levelHigh;
+      });
+      const pctLow = totalEval > 0 ? ((countLow / totalEval) * 100).toFixed(1) : '0.0';
+      const pctMed = totalEval > 0 ? ((countMed / totalEval) * 100).toFixed(1) : '0.0';
+      const pctHigh = totalEval > 0 ? ((countHigh / totalEval) * 100).toFixed(1) : '0.0';
+    %>
+    <section class="kpi-grid">
+      <div class="kpi-card kpi-total">
+        <div class="kpi-title">Alunos Avaliados</div>
+        <div class="kpi-value" id="kpiTotalStudents"><%= totalEval %></div>
+        <div class="kpi-sub"><span id="kpiTotalTurmas"><%= turmaStats.length %></span> turmas avaliadas</div>
+      </div>
+
+      <div class="kpi-card kpi-avg">
+        <div class="kpi-title">Média Global (0 a 10)</div>
+        <div class="kpi-value" id="kpiGlobalAvg"><%= avgGlobalScoreNorm %></div>
+        <div class="kpi-sub">Nota média padronizada</div>
+      </div>
+
+      <div class="kpi-card kpi-low">
+        <div class="kpi-title">🔴 Abaixo do Básico (≤ 4)</div>
+        <div class="kpi-value color-low" id="kpiCountLow"><%= countLow %></div>
+        <div class="kpi-sub color-low"><span id="kpiPctLow"><%= pctLow %></span>% dos alunos</div>
+      </div>
+
+      <div class="kpi-card kpi-med">
+        <div class="kpi-title">🟡 Básico / Regular (5 a 7)</div>
+        <div class="kpi-value color-med" id="kpiCountMed"><%= countMed %></div>
+        <div class="kpi-sub color-med"><span id="kpiPctMed"><%= pctMed %></span>% dos alunos</div>
+      </div>
+
+      <div class="kpi-card kpi-high">
+        <div class="kpi-title">🔵 Adequado / Destaque (8 a 10)</div>
+        <div class="kpi-value color-high" id="kpiCountHigh"><%= countHigh %></div>
+        <div class="kpi-sub color-high"><span id="kpiPctHigh"><%= pctHigh %></span>% dos alunos</div>
+      </div>
+    </section>
+
+    <!-- Visual Charts for OP Dossier -->
+    <section class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">
+            <span>📊</span>
+            <span>Média de Desempenho por Turma (Escala 0 a 10)</span>
+          </div>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Classificação Direta</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="turmaAvgChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">
+            <span>🎯</span>
+            <span>Distribuição de Aprendizagem</span>
+          </div>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Faixas de Nota</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="levelsDoughnutChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consolidated Table by Turma -->
+    <section class="table-card">
+      <h3 class="table-header-title">📋 Demonstrativo Consolidado por Turma & Turno</h3>
+      <p class="table-header-desc">
+        Quadro detalhado de resultados para acompanhamento da Orientação Pedagógica e intervenção docente.
+      </p>
+
+      <div class="op-table-wrapper">
+        <table class="op-table" id="opTurmaTable">
+          <thead>
+            <tr>
+              <th>Escola Municipal</th>
+              <th>Turma / Ano</th>
+              <th>Turno</th>
+              <th style="text-align: center;">Alunos</th>
+              <th style="text-align: center;">Média Objetiva</th>
+              <th style="text-align: center;">🔴 Abaixo Básico (≤ 4)</th>
+              <th style="text-align: center;">🟡 Básico (5 a 7)</th>
+              <th style="text-align: center;">🔵 Adequado (8 a 10)</th>
+              <th>Diagnóstico / Status OP</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (turmaStats.length === 0) { %>
+              <tr>
+                <td colspan="9" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                  Nenhum registro de turma encontrado para os critérios selecionados.
+                </td>
+              </tr>
+            <% } %>
+            <% turmaStats.forEach(t => { 
+              const avgNum = parseFloat(t.avgScoreNorm);
+              let statusBadge = 'bg-high';
+              let statusLabel = '🔵 Desempenho Adequado';
+              if (avgNum <= 4.9) {
+                statusBadge = 'bg-low';
+                statusLabel = '🔴 Intervenção Prioritária';
+              } else if (avgNum <= 7.4) {
+                statusBadge = 'bg-med';
+                statusLabel = '🟡 Atenção / Reforço';
+              }
+            %>
+              <tr class="turma-data-row" data-school="<%= t.school %>" data-class="<%= t.className %>" data-shift="<%= t.shift %>">
+                <td><strong><%= t.school %></strong></td>
+                <td><span style="font-weight: 800; color: var(--primary); font-size: 0.95rem;"><%= t.className %></span></td>
+                <td>
+                  <% if (t.shift === 'Tarde') { %>
+                    <span style="font-weight: 800; font-size: 0.8rem; color: #4338ca; background: #e0e7ff; padding: 0.2rem 0.6rem; border-radius: 50px; border: 1.5px solid #818cf8; display: inline-flex; align-items: center; gap: 0.3rem;">
+                      <span>🌤️</span> <span>TARDE</span>
+                    </span>
+                  <% } else { %>
+                    <span style="font-weight: 800; font-size: 0.8rem; color: #b45309; background: #fef3c7; padding: 0.2rem 0.6rem; border-radius: 50px; border: 1.5px solid #f59e0b; display: inline-flex; align-items: center; gap: 0.3rem;">
+                      <span>☀️</span> <span>MANHÃ</span>
+                    </span>
+                  <% } %>
+                </td>
+                <td style="text-align: center; font-weight: 800;"><%= t.count %></td>
+                <td style="text-align: center;">
+                  <span class="badge-pill <%= avgNum >= 7.5 ? 'bg-high' : (avgNum >= 5 ? 'bg-med' : 'bg-low') %>">
+                    <%= t.avgScoreNorm %> / 10
+                  </span>
+                </td>
+                <td style="text-align: center; font-weight: 800; color: #b91c1c;">
+                  <%= t.levelLow %> <span style="font-size: 0.75rem; color: #94a3b8;">(<%= t.pctLow %>%)</span>
+                </td>
+                <td style="text-align: center; font-weight: 800; color: #b45309;">
+                  <%= t.levelMed %> <span style="font-size: 0.75rem; color: #94a3b8;">(<%= t.pctMed %>%)</span>
+                </td>
+                <td style="text-align: center; font-weight: 800; color: #0369a1;">
+                  <%= t.levelHigh %> <span style="font-size: 0.75rem; color: #94a3b8;">(<%= t.pctHigh %>%)</span>
+                </td>
+                <td>
+                  <span class="badge-pill <%= statusBadge %>"><%= statusLabel %></span>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Pedagogical Guidance & OP Recommendations -->
+    <section class="pedagogical-notes">
+      <h3>📌 Diretrizes & Encaminhamentos da Orientação Pedagógica (OP)</h3>
+      <ul>
+        <li><strong>Estudantes em Nível Vermelho (≤ 4):</strong> Realizar atendimento individualizado e agrupamentos temporários para consolidação de habilidades estruturantes de leitura, escrita e resolução de problemas.</li>
+        <li><strong>Estudantes em Nível Amarelo (5 a 7):</strong> Fomentar desafios progressivos para transição ao nível adequado, com ênfase na interpretação de textos complexos e raciocínio lógico.</li>
+        <li><strong>Monitoramento Contínuo:</strong> Manter este dossiê arquivado junto à pasta de acompanhamento pedagógico da escola e utilizá-lo nas reuniões de HTPC / Conselho de Classe.</li>
+      </ul>
+    </section>
+
+    <!-- Signatures for Physical Dossier (Visible on Print) -->
+    <section class="signatures-block">
+      <div class="signature-line">
+        Orientador(a) Pedagógico(a) — OP<br>
+        <span style="font-size: 0.75rem; color: #64748b; font-weight: normal;">SEDUCT / Município de Campos dos Goytacazes</span>
+      </div>
+      <div class="signature-line">
+        Direção Escolar<br>
+        <span style="font-size: 0.75rem; color: #64748b; font-weight: normal;">Unidade Escolar Municipal</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const rawTurmaStats = <%- JSON.stringify(turmaStats) %>;
+
+    let barChartInstance = null;
+    let doughnutChartInstance = null;
+
+    function initCharts(filteredTurmas) {
+      const labels = filteredTurmas.map(t => `${t.className} (${t.shift.charAt(0)})`);
+      const avgs = filteredTurmas.map(t => parseFloat(t.avgScoreNorm));
+      
+      const bgColors = avgs.map(val => {
+        if (val <= 4.9) return 'rgba(239, 68, 68, 0.85)';
+        if (val <= 7.4) return 'rgba(245, 158, 11, 0.85)';
+        return 'rgba(2, 132, 199, 0.85)';
+      });
+
+      const borderColors = avgs.map(val => {
+        if (val <= 4.9) return '#b91c1c';
+        if (val <= 7.4) return '#b45309';
+        return '#0369a1';
+      });
+
+      // 1. Bar Chart: Médias por Turma
+      const ctxBar = document.getElementById('turmaAvgChart').getContext('2d');
+      if (barChartInstance) barChartInstance.destroy();
+
+      barChartInstance = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: labels.length > 0 ? labels : ['Nenhuma Turma'],
+          datasets: [{
+            label: 'Média da Turma (0 a 10)',
+            data: avgs.length > 0 ? avgs : [0],
+            backgroundColor: bgColors,
+            borderColor: borderColors,
+            borderWidth: 1.5,
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `Média: ${ctx.parsed.y} / 10`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 10,
+              ticks: { stepSize: 2 }
+            }
+          }
+        }
+      });
+
+      // 2. Doughnut Chart: Distribuição de Aprendizagem
+      let low = 0, med = 0, high = 0;
+      filteredTurmas.forEach(t => {
+        low += t.levelLow;
+        med += t.levelMed;
+        high += t.levelHigh;
+      });
+
+      const ctxDoughnut = document.getElementById('levelsDoughnutChart').getContext('2d');
+      if (doughnutChartInstance) doughnutChartInstance.destroy();
+
+      doughnutChartInstance = new Chart(ctxDoughnut, {
+        type: 'doughnut',
+        data: {
+          labels: ['🔴 Abaixo Básico (≤4)', '🟡 Básico (5 a 7)', '🔵 Adequado (8 a 10)'],
+          datasets: [{
+            data: [low, med, high],
+            backgroundColor: ['#ef4444', '#f59e0b', '#0284c7'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 12,
+                font: { family: 'Outfit', weight: '700', size: 11 }
+              }
+            }
+          },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function filterOPData() {
+      const selectedSchool = document.getElementById('filterSchool').value;
+      const selectedClass = document.getElementById('filterClass').value;
+      const selectedShift = document.getElementById('filterShift').value;
+
+      const rows = document.querySelectorAll('.turma-data-row');
+      const filteredTurmas = [];
+      let totalStudents = 0;
+      let totalScoreNormSum = 0;
+      let countLow = 0, countMed = 0, countHigh = 0;
+
+      rawTurmaStats.forEach((t, idx) => {
+        const row = rows[idx];
+        const schoolMatch = (selectedSchool === 'ALL' || t.school === selectedSchool);
+        const classMatch = (selectedClass === 'ALL' || t.className.includes(selectedClass) || selectedClass.includes(t.className));
+        const shiftMatch = (selectedShift === 'ALL' || t.shift === selectedShift);
+
+        if (schoolMatch && classMatch && shiftMatch) {
+          if (row) row.style.display = '';
+          filteredTurmas.push(t);
+          totalStudents += t.count;
+          totalScoreNormSum += (parseFloat(t.avgScoreNorm) * t.count);
+          countLow += t.levelLow;
+          countMed += t.levelMed;
+          countHigh += t.levelHigh;
+        } else {
+          if (row) row.style.display = 'none';
+        }
+      });
+
+      // Update KPI Cards
+      document.getElementById('kpiTotalStudents').innerText = totalStudents;
+      document.getElementById('kpiTotalTurmas').innerText = filteredTurmas.length;
+      document.getElementById('kpiGlobalAvg').innerText = totalStudents > 0 ? (totalScoreNormSum / totalStudents).toFixed(1) : '0.0';
+      document.getElementById('kpiCountLow').innerText = countLow;
+      document.getElementById('kpiCountMed').innerText = countMed;
+      document.getElementById('kpiCountHigh').innerText = countHigh;
+
+      document.getElementById('kpiPctLow').innerText = totalStudents > 0 ? ((countLow / totalStudents) * 100).toFixed(1) : '0.0';
+      document.getElementById('kpiPctMed').innerText = totalStudents > 0 ? ((countMed / totalStudents) * 100).toFixed(1) : '0.0';
+      document.getElementById('kpiPctHigh').innerText = totalStudents > 0 ? ((countHigh / totalStudents) * 100).toFixed(1) : '0.0';
+
+      initCharts(filteredTurmas);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initCharts(rawTurmaStats);
+    });
+  </script>
+</body>
+</html>

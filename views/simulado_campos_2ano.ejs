@@ -30,6 +30,12 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      overscroll-behavior-y: contain;
+      overscroll-behavior: none;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+    }
     body {
       font-family: 'Outfit', sans-serif;
       background: var(--bg-gradient);
@@ -711,6 +717,8 @@
                 <option value="2º Ano C">2º Ano C</option>
                 <option value="2º Ano D">2º Ano D</option>
                 <option value="2º Ano E">2º Ano E</option>
+                <option value="N1">N1 (Nivelamento 1)</option>
+                <option value="N2">N2 (Nivelamento 2)</option>
               </select>
             </div>
             <div class="form-group">
@@ -1180,6 +1188,109 @@
   <script>
     const answerKey = { 1:'A', 2:'B', 3:'A', 4:'C', 6:'C', 7:'B', 8:'D', 9:'B', 10:'C' };
     const studentAnswers = {};
+    let isSubmitted = false;
+    const SIMULADO_STORAGE_KEY = 'simulado_draft_campos_2ano';
+
+    // === BLINDAGEM CONTRA PULL-TO-REFRESH NO TABLET / CELULAR ===
+    let touchStartY = 0;
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches && e.touches.length > 0) {
+        touchStartY = e.touches[0].pageY;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+      if (!e.touches || e.touches.length === 0) return;
+      const touchY = e.touches[0].pageY;
+      const touchDiff = touchY - touchStartY;
+      if (window.scrollY <= 2 && touchDiff > 0) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    // === SALVAMENTO AUTOMÁTICO EM TEMPO REAL NO LOCALSTORAGE ===
+    function saveDraftToStorage() {
+      try {
+        const draft = {
+          studentName: document.getElementById('studentName')?.value || '',
+          schoolName: document.getElementById('schoolName')?.value || '',
+          className: document.getElementById('className')?.value || '',
+          shiftName: document.getElementById('shiftName')?.value || '',
+          conviteEvento: document.getElementById('conviteEvento')?.value || '',
+          conviteData: document.getElementById('conviteData')?.value || '',
+          conviteLocal: document.getElementById('conviteLocal')?.value || '',
+          conviteConvidados: document.getElementById('conviteConvidados')?.value || '',
+          essay: document.getElementById('q5Essay')?.value || '',
+          answers: studentAnswers,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(SIMULADO_STORAGE_KEY, JSON.stringify(draft));
+      } catch(e) {}
+    }
+
+    function restoreDraftFromStorage() {
+      try {
+        const raw = localStorage.getItem(SIMULADO_STORAGE_KEY);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (Date.now() - (draft.timestamp || 0) < 24 * 60 * 60 * 1000) {
+          if (draft.studentName && document.getElementById('studentName')) {
+            document.getElementById('studentName').value = draft.studentName;
+          }
+          if (draft.schoolName && document.getElementById('schoolName')) {
+            document.getElementById('schoolName').value = draft.schoolName;
+          }
+          if (draft.className && document.getElementById('className')) {
+            document.getElementById('className').value = draft.className;
+          }
+          if (draft.shiftName && document.getElementById('shiftName')) {
+            document.getElementById('shiftName').value = draft.shiftName;
+          }
+          if (draft.conviteEvento && document.getElementById('conviteEvento')) {
+            document.getElementById('conviteEvento').value = draft.conviteEvento;
+          }
+          if (draft.conviteData && document.getElementById('conviteData')) {
+            document.getElementById('conviteData').value = draft.conviteData;
+          }
+          if (draft.conviteLocal && document.getElementById('conviteLocal')) {
+            document.getElementById('conviteLocal').value = draft.conviteLocal;
+          }
+          if (draft.conviteConvidados && document.getElementById('conviteConvidados')) {
+            document.getElementById('conviteConvidados').value = draft.conviteConvidados;
+          }
+          if (draft.essay && document.getElementById('q5Essay')) {
+            document.getElementById('q5Essay').value = draft.essay;
+            updateEssayCartao(false);
+          }
+          if (draft.answers && typeof draft.answers === 'object') {
+            for (const qNum in draft.answers) {
+              if (qNum == '5') continue;
+              const val = draft.answers[qNum];
+              const radio = document.querySelector(`input[name="q${qNum}"][value="${val}"]`);
+              if (radio) {
+                radio.checked = true;
+                updateCartao(qNum, val, false);
+              }
+            }
+          }
+        }
+      } catch(e) {}
+    }
+
+    window.addEventListener('beforeunload', function(e) {
+      if (Object.keys(studentAnswers).length > 0 && !isSubmitted) {
+        e.preventDefault();
+        e.returnValue = 'Você possui respostas marcadas nesta prova. Deseja realmente sair?';
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      restoreDraftFromStorage();
+      document.getElementById('studentName')?.addEventListener('input', saveDraftToStorage);
+      document.getElementById('schoolName')?.addEventListener('change', saveDraftToStorage);
+      document.getElementById('className')?.addEventListener('change', saveDraftToStorage);
+      document.getElementById('shiftName')?.addEventListener('change', saveDraftToStorage);
+    });
 
     function toggleGabaritoModal() {
       document.getElementById('gabaritoModal').classList.toggle('active');
@@ -1197,7 +1308,7 @@
       }
     }
 
-    function updateCartao(qNum, opt) {
+    function updateCartao(qNum, opt, shouldSave = true) {
       studentAnswers[qNum] = opt;
       ['A', 'B', 'C', 'D'].forEach(o => {
         const dot = document.getElementById(`b-${qNum}-${o}`);
@@ -1206,20 +1317,21 @@
       const selectedDot = document.getElementById(`b-${qNum}-${opt}`);
       if(selectedDot) selectedDot.classList.add('selected');
       updateProgress();
+      if (shouldSave) saveDraftToStorage();
     }
 
     function syncConviteText() {
-      const evento = document.getElementById('conviteEvento').value.trim() || 'PASSAPORTE DA CULTURA CAMPISTA';
-      const data = document.getElementById('conviteData').value.trim() || '22/08/2026';
-      const local = document.getElementById('conviteLocal').value.trim() || 'ESCOLA';
-      const convidados = document.getElementById('conviteConvidados').value.trim() || 'FAMÍLIAS DOS ALUNOS';
+      const evento = document.getElementById('conviteEvento').value.trim() || '';
+      const data = document.getElementById('conviteData').value.trim() || '';
+      const local = document.getElementById('conviteLocal').value.trim() || '';
+      const convidados = document.getElementById('conviteConvidados').value.trim() || '';
 
-      const fullText = `CONVITE:\nVENHA PARTICIPAR DO ${evento}.\nDATA: ${data}.\nO ENCONTRO SERÁ NA ${local}.\nCONVIDAMOS ${convidados}.`;
+      const fullText = `CONVITE:\nEVENTO: ${evento}\nDATA: ${data}\nLOCAL: ${local}\nCONVIDADOS: ${convidados}`;
       document.getElementById('q5Essay').value = fullText;
       updateEssayCartao();
     }
 
-    function updateEssayCartao() {
+    function updateEssayCartao(shouldSave = true) {
       const essay = document.getElementById('q5Essay').value.trim();
       const badge = document.getElementById('essayStatusBadge');
       if (essay.length >= 10) {
@@ -1234,6 +1346,7 @@
         badge.style.color = '#94a3b8';
       }
       updateProgress();
+      if (shouldSave) saveDraftToStorage();
     }
 
     function updateProgress() {
@@ -1328,6 +1441,9 @@
           body: JSON.stringify(payload)
         });
       } catch(err) {}
+
+      isSubmitted = true;
+      try { localStorage.removeItem(SIMULADO_STORAGE_KEY); } catch(e){}
 
       document.getElementById('resultModal').classList.add('active');
       if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });

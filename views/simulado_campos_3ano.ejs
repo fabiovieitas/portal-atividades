@@ -30,6 +30,12 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      overscroll-behavior-y: contain;
+      overscroll-behavior: none;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+    }
     body {
       font-family: 'Outfit', sans-serif;
       background: var(--bg-gradient);
@@ -386,6 +392,8 @@
               <option value="3º Ano C">3º Ano C</option>
               <option value="3º Ano D">3º Ano D</option>
               <option value="3º Ano E">3º Ano E</option>
+              <option value="N1">N1 (Nivelamento 1)</option>
+              <option value="N2">N2 (Nivelamento 2)</option>
             </select>
           </div>
           <div class="form-group">
@@ -659,6 +667,93 @@
   <script>
     const answerKey = { 1:'B', 2:'B', 4:'D', 5:'C', 6:'A', 7:'D', 8:'C', 9:'A', 10:'B' };
     const studentAnswers = {};
+    let isSubmitted = false;
+    const SIMULADO_STORAGE_KEY = 'simulado_draft_campos_3ano';
+
+    // === BLINDAGEM CONTRA PULL-TO-REFRESH NO TABLET / CELULAR ===
+    let touchStartY = 0;
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches && e.touches.length > 0) {
+        touchStartY = e.touches[0].pageY;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+      if (!e.touches || e.touches.length === 0) return;
+      const touchY = e.touches[0].pageY;
+      const touchDiff = touchY - touchStartY;
+      if (window.scrollY <= 2 && touchDiff > 0) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    // === SALVAMENTO AUTOMÁTICO EM TEMPO REAL NO LOCALSTORAGE ===
+    function saveDraftToStorage() {
+      try {
+        const draft = {
+          studentName: document.getElementById('studentName')?.value || '',
+          schoolName: document.getElementById('schoolName')?.value || '',
+          className: document.getElementById('className')?.value || '',
+          shiftName: document.getElementById('shiftName')?.value || '',
+          essay: document.getElementById('q3Essay')?.value || '',
+          answers: studentAnswers,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(SIMULADO_STORAGE_KEY, JSON.stringify(draft));
+      } catch(e) {}
+    }
+
+    function restoreDraftFromStorage() {
+      try {
+        const raw = localStorage.getItem(SIMULADO_STORAGE_KEY);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (Date.now() - (draft.timestamp || 0) < 24 * 60 * 60 * 1000) {
+          if (draft.studentName && document.getElementById('studentName')) {
+            document.getElementById('studentName').value = draft.studentName;
+          }
+          if (draft.schoolName && document.getElementById('schoolName')) {
+            document.getElementById('schoolName').value = draft.schoolName;
+          }
+          if (draft.className && document.getElementById('className')) {
+            document.getElementById('className').value = draft.className;
+          }
+          if (draft.shiftName && document.getElementById('shiftName')) {
+            document.getElementById('shiftName').value = draft.shiftName;
+          }
+          if (draft.essay && document.getElementById('q3Essay')) {
+            document.getElementById('q3Essay').value = draft.essay;
+            updateEssayCartao(false);
+          }
+          if (draft.answers && typeof draft.answers === 'object') {
+            for (const qNum in draft.answers) {
+              if (qNum == '3') continue;
+              const val = draft.answers[qNum];
+              const radio = document.querySelector(`input[name="q${qNum}"][value="${val}"]`);
+              if (radio) {
+                radio.checked = true;
+                updateCartao(qNum, val, false);
+              }
+            }
+          }
+        }
+      } catch(e) {}
+    }
+
+    window.addEventListener('beforeunload', function(e) {
+      if (Object.keys(studentAnswers).length > 0 && !isSubmitted) {
+        e.preventDefault();
+        e.returnValue = 'Você possui respostas marcadas nesta prova. Deseja realmente sair?';
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      restoreDraftFromStorage();
+      document.getElementById('studentName')?.addEventListener('input', saveDraftToStorage);
+      document.getElementById('schoolName')?.addEventListener('change', saveDraftToStorage);
+      document.getElementById('className')?.addEventListener('change', saveDraftToStorage);
+      document.getElementById('shiftName')?.addEventListener('change', saveDraftToStorage);
+    });
 
     function closeMissingModal() {
       document.getElementById('missingModal').classList.remove('active');
@@ -672,7 +767,7 @@
       }
     }
 
-    function updateCartao(qNum, opt) {
+    function updateCartao(qNum, opt, shouldSave = true) {
       studentAnswers[qNum] = opt;
       ['A', 'B', 'C', 'D'].forEach(o => {
         const dot = document.getElementById(`b-${qNum}-${o}`);
@@ -681,9 +776,10 @@
       const selectedDot = document.getElementById(`b-${qNum}-${opt}`);
       if(selectedDot) selectedDot.classList.add('selected');
       updateProgress();
+      if (shouldSave) saveDraftToStorage();
     }
 
-    function updateEssayCartao() {
+    function updateEssayCartao(shouldSave = true) {
       const essay = document.getElementById('q3Essay').value.trim();
       const badge = document.getElementById('essayStatusBadge');
       if (essay.length >= 10) {
@@ -698,6 +794,7 @@
         badge.style.color = '#94a3b8';
       }
       updateProgress();
+      if (shouldSave) saveDraftToStorage();
     }
 
     function updateProgress() {
@@ -754,6 +851,9 @@
           body: JSON.stringify(payload)
         });
       } catch(err) {}
+
+      isSubmitted = true;
+      try { localStorage.removeItem(SIMULADO_STORAGE_KEY); } catch(e){}
 
       document.getElementById('resultModal').classList.add('active');
       if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });

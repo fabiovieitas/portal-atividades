@@ -700,21 +700,13 @@ const dbHelper = {
   },
 
   async deleteSimuladoSubmission(id) {
-    await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
-    if (supabase) {
-      try { await supabase.from('simulado_submissions').delete().eq('id', id); } catch(e){}
-    }
-    await syncAutoBackupJSON();
+    console.warn('[DB Security] Exclusão de estudante bloqueada por diretriz de proteção de dados:', id);
+    return false;
   },
 
   async bulkDeleteSimuladoSubmissions(ids) {
-    if (!Array.isArray(ids) || ids.length === 0) return;
-    const placeholders = ids.map(() => '?').join(',');
-    await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, ids);
-    if (supabase) {
-      try { await supabase.from('simulado_submissions').delete().in('id', ids); } catch(e){}
-    }
-    await syncAutoBackupJSON();
+    console.warn('[DB Security] Exclusão em lote de estudantes bloqueada por diretriz de proteção de dados:', ids);
+    return false;
   },
 
   async bulkMoveSimuladoSubmissions(ids, { class_name, shift, simulado_id }) {

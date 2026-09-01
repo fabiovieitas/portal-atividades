@@ -472,27 +472,12 @@ app.put('/api/admin/simulado/submission/:id', async (req, res) => {
 
 // Apagar registro de aluno no simulado
 app.delete('/api/admin/simulado/submission/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    await dbHelper.deleteSimuladoSubmission(id);
-    res.json({ success: true, message: 'Registro do estudante apagado com sucesso!' });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
+  return res.status(403).json({ success: false, error: 'A exclusão de registros de estudantes está permanentemente bloqueada por diretriz de segurança pedagógica.' });
 });
 
-// Ação em Lote: Apagar múltiplos alunos
+// Ação em Lote: Apagar múltiplos alunos (Bloqueado por segurança)
 app.post('/api/admin/simulado/submissions/bulk-delete', async (req, res) => {
-  try {
-    const { ids } = req.body;
-    if (!Array.isArray(ids) || ids.length === 0) {
-      return res.status(400).json({ success: false, error: 'Nenhum ID fornecido.' });
-    }
-    await dbHelper.bulkDeleteSimuladoSubmissions(ids);
-    res.json({ success: true, message: `${ids.length} registros apagados com sucesso!` });
-  } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
-  }
+  return res.status(403).json({ success: false, error: 'A exclusão em lote de registros de estudantes está permanentemente bloqueada por diretriz de segurança pedagógica.' });
 });
 
 // Ação em Lote: Mover/Alterar múltiplos alunos (Turma / Turno / Simulado)
@@ -523,6 +508,110 @@ app.get('/admin/simulado/resultados', async (req, res) => {
     res.render('simulado_resultados', { submissions, stats, simuladoId });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/admin/simulado/relatorio-op', async (req, res) => {
+  try {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    const simuladoId = req.query.simulado_id || 'ALL';
+    const submissions = await dbHelper.getSimuladoSubmissions(simuladoId);
+    const schools = await dbHelper.getSchools();
+    
+    // Agrupamento consolidado por Turma, Escola e Turno
+    const turmaMap = {};
+    const schoolMap = {};
+    const shiftMap = { 'Manhã': { count: 0, sumScore: 0 }, 'Tarde': { count: 0, sumScore: 0 } };
+
+    submissions.forEach(s => {
+      const school = s.school_name || 'E.M. Profª Eleonora da Silva Pinto';
+      const className = s.class_name || 'Turma Não Identificada';
+      const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
+      const score = Number(s.score) || 0;
+      const maxScore = Number(s.max_score) || (s.simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9);
+      const scoreNormalized10 = (score / maxScore) * 10;
+      
+      const turmaKey = `${school}___${className}___${shift}`;
+      if (!turmaMap[turmaKey]) {
+        turmaMap[turmaKey] = {
+          school,
+          className,
+          shift,
+          count: 0,
+          totalScore: 0,
+          totalScoreNorm: 0,
+          levelLow: 0,  // <= 4
+          levelMed: 0,  // 5 a 7
+          levelHigh: 0, // 8 a 10
+          students: []
+        };
+      }
+      turmaMap[turmaKey].count++;
+      turmaMap[turmaKey].totalScore += score;
+      turmaMap[turmaKey].totalScoreNorm += scoreNormalized10;
+      turmaMap[turmaKey].students.push(s);
+
+      // Formatação condicional: <= 4 Vermelho | 5 a 7 Amarelo | 8 a 10 Azul
+      if (scoreNormalized10 <= 4.9) {
+        turmaMap[turmaKey].levelLow++;
+      } else if (scoreNormalized10 <= 7.4) {
+        turmaMap[turmaKey].levelMed++;
+      } else {
+        turmaMap[turmaKey].levelHigh++;
+      }
+
+      // Escola
+      if (!schoolMap[school]) {
+        schoolMap[school] = { name: school, count: 0, sumScoreNorm: 0, levelLow: 0, levelMed: 0, levelHigh: 0 };
+      }
+      schoolMap[school].count++;
+      schoolMap[school].sumScoreNorm += scoreNormalized10;
+      if (scoreNormalized10 <= 4.9) schoolMap[school].levelLow++;
+      else if (scoreNormalized10 <= 7.4) schoolMap[school].levelMed++;
+      else schoolMap[school].levelHigh++;
+
+      // Turno
+      if (!shiftMap[shift]) shiftMap[shift] = { count: 0, sumScore: 0 };
+      shiftMap[shift].count++;
+      shiftMap[shift].sumScore += scoreNormalized10;
+    });
+
+    const turmaStats = Object.values(turmaMap).map(t => ({
+      ...t,
+      avgScore: t.count > 0 ? (t.totalScore / t.count).toFixed(1) : '0.0',
+      avgScoreNorm: t.count > 0 ? (t.totalScoreNorm / t.count).toFixed(1) : '0.0',
+      pctLow: t.count > 0 ? ((t.levelLow / t.count) * 100).toFixed(1) : '0.0',
+      pctMed: t.count > 0 ? ((t.levelMed / t.count) * 100).toFixed(1) : '0.0',
+      pctHigh: t.count > 0 ? ((t.levelHigh / t.count) * 100).toFixed(1) : '0.0'
+    }));
+
+    const schoolStats = Object.values(schoolMap).map(sc => ({
+      ...sc,
+      avgScoreNorm: sc.count > 0 ? (sc.sumScoreNorm / sc.count).toFixed(1) : '0.0'
+    }));
+
+    const totalStudents = submissions.length;
+    const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
+      const maxScore = Number(s.max_score) || (s.simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9);
+      return acc + ((Number(s.score) || 0) / maxScore) * 10;
+    }, 0) / totalStudents).toFixed(1) : '0.0';
+
+    if (req.headers.accept && req.headers.accept.includes('application/json')) {
+      return res.json({ success: true, turmaStats, schoolStats, totalStudents, avgGlobalScoreNorm });
+    }
+
+    res.render('simulado_relatorio_op', {
+      submissions,
+      turmaStats,
+      schoolStats,
+      shiftMap,
+      totalStudents,
+      avgGlobalScoreNorm,
+      schools: schools || [],
+      simuladoId
+    });
+  } catch (err) {
+    res.status(500).send('Erro ao carregar Relatório OP: ' + err.message);
   }
 });
 
