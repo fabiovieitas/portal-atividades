@@ -110,48 +110,42 @@
 
     /* Main Container Layout */
     .main-container {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 2rem auto;
       padding: 0 1rem;
-      display: grid;
-      grid-template-columns: 1fr 340px;
+      display: flex;
+      flex-direction: column;
       gap: 2rem;
-    }
-
-    @media (max-width: 900px) {
-      .main-container {
-        grid-template-columns: 1fr;
-      }
     }
 
     /* Student Info Box */
     .student-card {
       background: white;
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 1.8rem 2rem;
       box-shadow: var(--shadow);
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       border: 2px solid #bae6fd;
     }
 
     .student-card h2 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: var(--primary-dark);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .form-grid {
+    .form-row-meta {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr;
       gap: 1rem;
     }
 
-    @media (max-width: 650px) {
-      .form-grid {
+    @media (max-width: 680px) {
+      .form-row-meta {
         grid-template-columns: 1fr;
       }
     }
@@ -431,20 +425,14 @@
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
     }
-
-    /* Sticky Sidebar - Cartão Resposta */
-    .sidebar {
-      position: sticky;
-      top: 100px;
-      height: fit-content;
-    }
-
+    /* Cartão Resposta no Final da Página */
     .cartao-resposta-card {
       background: white;
       border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      border: 2px solid #bae6fd;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 3px solid #bae6fd;
+      margin-top: 1rem;
     }
 
     .cartao-header {
@@ -456,19 +444,19 @@
 
     .cartao-header h3 {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       color: var(--primary-dark);
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.4rem;
     }
 
     .cartao-header p {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
     }
 
     .progress-bar-container {
       width: 100%;
-      height: 8px;
+      height: 10px;
       background: #e2e8f0;
       border-radius: 10px;
       overflow: hidden;
@@ -483,9 +471,10 @@
     }
 
     .bubble-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0;
     }
 
     .bubble-row {
@@ -493,16 +482,15 @@
       align-items: center;
       justify-content: space-between;
       background: #f8fafc;
-      padding: 0.5rem 0.8rem;
-      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
       border: 1px solid var(--border);
     }
 
     .bubble-row-q {
       font-weight: 800;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      width: 38px;
+      font-size: 0.9rem;
+      color: #334155;
       cursor: pointer;
     }
 
@@ -512,44 +500,45 @@
 
     .bubbles-options {
       display: flex;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
 
     .bubble-dot {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: 2px solid #cbd5e1;
-      background: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
       font-weight: 800;
+      font-size: 0.85rem;
       color: #64748b;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s;
+    }
+
+    .bubble-dot:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
     }
 
     .bubble-dot.selected {
       background: var(--primary);
-      border-color: var(--primary);
       color: white;
-      transform: scale(1.1);
-      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+      border-color: var(--primary-dark);
+      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35);
     }
 
-    /* Submit Button */
     .submit-btn {
       width: 100%;
-      margin-top: 1.5rem;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
       border: none;
-      padding: 1rem;
-      border-radius: 12px;
+      padding: 1.1rem;
+      border-radius: 14px;
       font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       font-weight: 800;
       cursor: pointer;
       box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
@@ -557,12 +546,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
     }
 
     .submit-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 14px 24px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 14px 25px rgba(16, 185, 129, 0.45);
     }
 
     /* Result Overlay Modal */
@@ -632,51 +621,52 @@
     </div>
   </header>
 
-  <!-- Main Grid -->
+  <!-- Main Container -->
   <main class="main-container">
     
-    <!-- Left Column: Reading Passages & Questions -->
-    <div class="content-col">
-
-      <!-- Student Identification Box -->
-      <section class="student-card">
-        <h2>👤 Identificação do Estudante</h2>
-        <form id="student-form" onsubmit="event.preventDefault();">
-          <div class="form-grid" style="grid-template-columns: 2fr 2fr 1fr 1fr;">
-            <div class="form-group">
-              <label for="studentName">Nome Completo do Estudante *</label>
-              <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
-            </div>
-            <div class="form-group">
-              <label for="schoolName">Escola Municipal *</label>
-              <select id="schoolName" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
-                <% if (typeof schools !== 'undefined' && schools.length > 0) { %>
-                  <% schools.forEach(sch => { %>
-                    <option value="<%= sch.name %>"><%= sch.name %></option>
-                  <% }); %>
-                <% } else { %>
-                  <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
-                  <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
-                  <option value="E.M. Luis Carlos de Lacerda">E.M. Luis Carlos de Lacerda</option>
-                <% } %>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="className">Ano Escolar *</label>
-              <select id="className" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
-                <option value="4º Ano">4º Ano</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="shiftName">Turno *</label>
-              <select id="shiftName" class="form-control" style="font-weight: 700; color: #d97706;">
-                <option value="Manhã">☀️ Manhã</option>
-                <option value="Tarde">🌤️ Tarde</option>
-              </select>
-            </div>
+    <!-- Student Identification Box -->
+    <section class="student-card">
+      <h2>👤 Identificação do Estudante</h2>
+      <form id="student-form" onsubmit="event.preventDefault();">
+        <div class="form-group" style="margin-bottom: 1.2rem;">
+          <label for="studentName">Nome Completo do Estudante *</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
+        </div>
+        <div class="form-row-meta">
+          <div class="form-group">
+            <label for="schoolName">Escola Municipal *</label>
+            <select id="schoolName" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
+              <% if (typeof schools !== 'undefined' && schools.length > 0) { %>
+                <% schools.forEach(sch => { %>
+                  <option value="<%= sch.name %>"><%= sch.name %></option>
+                <% }); %>
+              <% } else { %>
+                <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
+                <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
+                <option value="E.M. Luis Carlos de Lacerda">E.M. Luis Carlos de Lacerda</option>
+              <% } %>
+            </select>
           </div>
-        </form>
-      </section>
+          <div class="form-group">
+            <label for="className">Turma / Ano *</label>
+            <select id="className" class="form-control" style="font-weight: 700; color: var(--primary-dark);">
+              <option value="4º Ano A">4º Ano A</option>
+              <option value="4º Ano B">4º Ano B</option>
+              <option value="4º Ano C">4º Ano C</option>
+              <option value="4º Ano D">4º Ano D</option>
+              <option value="4º Ano E">4º Ano E</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="shiftName">Horário / Turno *</label>
+            <select id="shiftName" class="form-control" style="font-weight: 700; color: #d97706;">
+              <option value="Manhã">☀️ Manhã</option>
+              <option value="Tarde">🌤️ Tarde</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </section>
 
       <!-- INTRODUCTORY READING TEXT (Unabridged) -->
       <section class="intro-reading-card">
@@ -1124,47 +1114,42 @@
             <span class="option-badge">D</span>
             <span>Paredes, areia, bancos e plantas.</span>
           </label>
-        </div>
-      </article>
-
+      </div>
     </div>
 
-    <!-- Right Column: Cartão Resposta (Sticky Panel) -->
-    <aside class="sidebar">
-      <div class="cartao-resposta-card">
-        <div class="cartao-header">
-          <h3>📋 Cartão Resposta</h3>
-          <p>Sincronizado em tempo real</p>
-          <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="progressFill"></div>
-          </div>
-          <span id="progressText" style="font-size: 0.8rem; font-weight: 800; color: var(--primary);">0 de 10 respondidas</span>
+    <!-- Cartão Resposta no Final da Página -->
+    <section class="cartao-resposta-card">
+      <div class="cartao-header">
+        <h3>📋 Cartão Resposta Oficial (4º Ano)</h3>
+        <p>Confira todas as alternativas e sua redação antes de finalizar e enviar:</p>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progressFill"></div>
         </div>
-
-        <div class="bubble-grid">
-          <% for(let i = 1; i <= 10; i++) { %>
-            <div class="bubble-row">
-              <span class="bubble-row-q" onclick="scrollToQuestion(<%= i %>)">Q<%= i < 10 ? '0' + i : i %></span>
-              <% if (i === 3) { %>
-                <span id="essayStatusBadge" style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; background: #f1f5f9; padding: 0.2rem 0.6rem; border-radius: 50px;">Aguardando Redação</span>
-              <% } else { %>
-                <div class="bubbles-options">
-                  <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
-                  <div class="bubble-dot" id="b-<%= i %>-B" onclick="selectFromBubble(<%= i %>, 'B')">B</div>
-                  <div class="bubble-dot" id="b-<%= i %>-C" onclick="selectFromBubble(<%= i %>, 'C')">C</div>
-                  <div class="bubble-dot" id="b-<%= i %>-D" onclick="selectFromBubble(<%= i %>, 'D')">D</div>
-                </div>
-              <% } %>
-            </div>
-          <% } %>
-        </div>
-
-        <button class="submit-btn" onclick="submitSimulado()">
-          <span>🚀 FINALIZAR E ENVIAR</span>
-        </button>
+        <span id="progressText" style="font-size: 0.9rem; font-weight: 800; color: var(--primary);">0 de 10 respondidas</span>
       </div>
-    </aside>
 
+      <div class="bubble-grid">
+        <% for(let i = 1; i <= 10; i++) { %>
+          <div class="bubble-row">
+            <span class="bubble-row-q" onclick="scrollToQuestion(<%= i %>)">Questão <%= i < 10 ? '0' + i : i %></span>
+            <% if (i === 3) { %>
+              <span id="essayStatusBadge" style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; background: #f1f5f9; padding: 0.3rem 0.8rem; border-radius: 50px;">Aguardando Redação</span>
+            <% } else { %>
+              <div class="bubbles-options">
+                <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
+                <div class="bubble-dot" id="b-<%= i %>-B" onclick="selectFromBubble(<%= i %>, 'B')">B</div>
+                <div class="bubble-dot" id="b-<%= i %>-C" onclick="selectFromBubble(<%= i %>, 'C')">C</div>
+                <div class="bubble-dot" id="b-<%= i %>-D" onclick="selectFromBubble(<%= i %>, 'D')">D</div>
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+
+      <button class="submit-btn" onclick="submitSimulado()">
+        <span>🚀 FINALIZAR E ENVIAR SIMULADO</span>
+      </button>
+    </section>
   </main>
 
   <!-- Result Modal -->
