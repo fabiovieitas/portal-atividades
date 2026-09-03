@@ -403,6 +403,16 @@
 
         </div>
 
+        <!-- AdSense Bottom Banner (Tablet & Mobile) -->
+        <div class="adsense-box">
+            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</div>
+            <div style="font-size: 0.7rem; color: #64748b;">Anúncios Seguros para Escolas & Alunos</div>
+            <% if (process.env.ADSENSE_PUB_ID) { %>
+                <ins class="adsbygoogle" style="display:block; min-height:90px;" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567897" data-ad-format="horizontal,rectangle" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } %>
+        </div>
+
         <!-- Bottom CTA -->
         <div style="text-align: center; margin-top: 20px;">
             <a href="/games/pou-online/index.html" class="btn-launch-game">
