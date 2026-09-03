@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Lista: Missão Lab Kids | Gênero Textual & Alfabetização BNCC</title>
+    <meta name="description" content="Jogo pedagógico autoral do Lab Kids focado no gênero textual Listas, leitura, categorização e ordem alfabética para Educação Infantil e Ensino Fundamental.">
+    <link rel="stylesheet" href="/css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Official Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --accent-glow: #6366f1;
+            --bg-dark: #0f172a;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #f8fafc;
+            font-family: 'Fredoka', system-ui, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 10px 60px 10px;
+        }
+
+        .container-presentation {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn-return-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-return-portal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+        }
+
+        .hero-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(99, 102, 241, 0.2);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            color: white;
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-title {
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            background: linear-gradient(135deg, #ffffff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 680px;
+            margin: 0 auto 25px auto;
+            line-height: 1.5;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-play-hero {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.25s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .btn-play-hero:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.7);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-box h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.15rem;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p, .info-box ul {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .info-box ul {
+            padding-left: 20px;
+        }
+
+        .bncc-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.25);
+            border: 1px solid #818cf8;
+            color: #c7d2fe;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-presentation">
+        
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">
+                <span>◀</span> VOLTAR AO PORTAL
+            </a>
+            <div style="font-size: 1.1rem; color: #a5b4fc; font-weight: 700;">
+                🤖 LAB KIDS • JOGOS AUTORAIS
+            </div>
+        </div>
+
+        <!-- Ultra-Slim AdSense Banner -->
+        <div class="adsense-tablet-wrapper">
+            <span class="adsense-micro-label">PUBLICIDADE</span>
+            <div class="adsense-box">
+                <ins class="adsbygoogle tablet-ad-banner"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="horizontal"
+                     data-ad-client="<%= adsensePubId %>"
+                     data-ad-slot="1234567890"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <!-- Hero Card -->
+        <div class="hero-card">
+            <div class="hero-badge">📋 JOGO ORIGINAL LAB KIDS</div>
+            <h1 class="hero-title">Super Lista: Missão Organização</h1>
+            <p class="hero-desc">
+                Ajude o <strong>Robô Bit</strong> a organizar e conferir as listas de materiais, compras e ciências! Um jogo interativo e intuitivo para o desenvolvimento da leitura, categorização e ordem alfabética.
+            </p>
+            <a href="/games/super-lista/index.html" class="btn-play-hero">
+                <span>🎮</span> JOGAR AGORA!
+            </a>
+        </div>
+
+        <!-- Info Grid -->
+        <div class="info-grid">
+            <div class="info-box">
+                <h3><span>🎯</span> Habilidades BNCC</h3>
+                <p style="margin-bottom: 10px;">Alinhamento curricular para Língua Portuguesa e Alfabetização:</p>
+                <div>
+                    <span class="bncc-tag">EF01LP10</span>
+                    <span class="bncc-tag">EF12LP04</span>
+                    <span class="bncc-tag">EF01LP02</span>
+                    <span class="bncc-tag">EF02LP04</span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3><span>💡</span> Objetivos Pedagógicos</h3>
+                <ul>
+                    <li>Reconhecer a função social do <strong>Gênero Textual: Lista</strong>.</li>
+                    <li>Desenvolver a <strong>leitura e discriminação de palavras</strong>.</li>
+                    <li>Praticar a <strong>categorização semântica</strong> (Materiais, Alimentos, Ciências).</li>
+                    <li>Aprender a <strong>ordem alfabética (A-Z)</strong> de forma prática.</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h3><span>📱</span> Recursos & Acessibilidade</h3>
+                <ul>
+                    <li>🔊 <strong>Leitura por Voz em Português:</strong> Narração de palavras para alunos em alfabetização.</li>
+                    <li>📱 <strong>100% Adaptado para Tablets & Touch:</strong> Sem travamentos ou atrasos.</li>
+                    <li>⭐ <strong>Gamificação Lab Kids:</strong> Pontuação, estrelas e medalhas motivacionais.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bottom Ultra-Slim AdSense Banner -->
+        <div class="adsense-tablet-wrapper">
+            <span class="adsense-micro-label">PUBLICIDADE</span>
+            <div class="adsense-box">
+                <ins class="adsbygoogle tablet-ad-banner"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="horizontal"
+                     data-ad-client="<%= adsensePubId %>"
+                     data-ad-slot="1234567890"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Super Lista: Missão Lab Kids | Jogo Educativo BNCC</title>
+    <meta name="description" content="Jogo educativo e interativo sobre o gênero textual Listas, categorização e ordem alfabética para Educação Infantil e Ensino Fundamental.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
+</head>
+<body>
+
+    <!-- Canvas Confetti -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Header Bar -->
+    <header class="game-header">
+        <a href="/" class="brand">
+            <div class="brand-icon">🤖</div>
+            <div class="brand-text">
+                <h1>Super Lista</h1>
+                <span>LAB KIDS • BNCC</span>
+            </div>
+        </a>
+
+        <div class="header-actions">
+            <div class="score-badge">
+                <span>⭐</span>
+                <span id="score-value">0</span>
+            </div>
+            <a href="/" class="btn-icon" title="Voltar ao Portal">
+                <span>🏠</span>
+                <span>Início</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Game Container -->
+    <main class="game-container">
+
+        <!-- 1. TELA DE BOAS-VINDAS / SELEÇÃO DE MODO -->
+        <section id="screen-welcome" class="game-screen active">
+            <div class="welcome-card">
+                <div class="robot-avatar">🤖</div>
+                <h2 class="welcome-title">Missão Organização!</h2>
+                <p class="welcome-subtitle">
+                    Olá, amiguinho! O <strong>Robô Bit</strong> precisa da sua ajuda para organizar as listas do laboratório e da escola. Escolha um desafio para começar:
+                </p>
+
+                <div class="mode-grid">
+                    <div class="mode-card" data-mode="complete">
+                        <span class="icon">📋</span>
+                        <h3>Complete a Lista</h3>
+                        <p>Leia e selecione os itens que pertencem a cada lista.</p>
+                    </div>
+
+                    <div class="mode-card" data-mode="intruders">
+                        <span class="icon">🕵️</span>
+                        <h3>Quem é o Intruso?</h3>
+                        <p>Descubra a palavra que NÃO combina com a lista!</p>
+                    </div>
+
+                    <div class="mode-card" data-mode="alphabetical">
+                        <span class="icon">🔤</span>
+                        <h3>Ordem Alfabética</h3>
+                        <p>Organize as palavras na sequência correta de A a Z.</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <span style="font-size: 0.85rem; color: #a5b4fc; font-weight: 600;">
+                        ✨ Toque no ícone 🔊 das palavras para ouvir a leitura em voz alta!
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. TELA DO MODO 1: COMPLETE A LISTA -->
+        <section id="screen-game" class="game-screen">
+            <div class="level-top-bar">
+                <div class="mission-tag" id="mission-tag">🎒 Mochila Escolar</div>
+                <button class="btn-icon" onclick="window.game.goToWelcome()">
+                    <span>↩️</span> Modos
+                </button>
+            </div>
+
+            <div class="play-board">
+                <!-- Caderno da Lista -->
+                <div class="list-notebook">
+                    <div class="notebook-header">
+                        <h3 class="notebook-title" id="notebook-title">
+                            <span>📋 Lista</span>
+                        </h3>
+                    </div>
+
+                    <div class="notebook-items" id="notebook-items">
+                        <!-- Itens gerados dinamicamente -->
+                    </div>
+                </div>
+
+                <!-- Banco de Palavras -->
+                <div class="pool-container">
+                    <div>
+                        <div class="pool-header">
+                            <span>🧩 Palavras Disponíveis</span>
+                        </div>
+                        <div class="words-grid" id="words-grid">
+                            <!-- Cards de palavras gerados dinamicamente -->
+                        </div>
+                    </div>
+
+                    <div class="feedback-box" id="feedback-box">
+                        Toque no item correto para adicionar à lista.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TELA DO MODO 2: QUEM É O INTRUSO? -->
+        <section id="screen-intruders" class="game-screen">
+            <div class="level-top-bar">
+                <div class="mission-tag" id="intruder-mission-tag">🕵️ Quem é o Intruso?</div>
+                <button class="btn-icon" onclick="window.game.goToWelcome()">
+                    <span>↩️</span> Modos
+                </button>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 10px;">
+                <h3 id="intruder-instruction" style="font-family: var(--font-heading); font-size: 1.3rem; color: #f8fafc;">
+                    Qual destes itens NÃO faz parte desta lista?
+                </h3>
+            </div>
+
+            <div class="intruder-grid" id="intruder-grid">
+                <!-- Cards dos intrusos gerados dinamicamente -->
+            </div>
+        </section>
+
+        <!-- 4. TELA DO MODO 3: ORDEM ALFABÉTICA -->
+        <section id="screen-alphabetical" class="game-screen">
+            <div class="level-top-bar">
+                <div class="mission-tag" id="alpha-mission-tag">🔤 Ordem Alfabética (A-Z)</div>
+                <button class="btn-icon" onclick="window.game.goToWelcome()">
+                    <span>↩️</span> Modos
+                </button>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 14px;">
+                <h3 id="alpha-instruction" style="font-family: var(--font-heading); font-size: 1.2rem; color: #f8fafc;">
+                    Organize as palavras na ordem correta do alfabeto:
+                </h3>
+            </div>
+
+            <div class="alpha-slots" id="alpha-slots">
+                <!-- Slots A-Z gerados dinamicamente -->
+            </div>
+
+            <div class="pool-container" style="max-width: 500px; width: 100%;">
+                <div class="words-grid" id="alpha-pool-grid">
+                    <!-- Cards de palavras A-Z -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE VITÓRIA / CONCLUSÃO -->
+    <div id="modal-victory" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-trophy">🏆</div>
+            <h2 class="modal-title" id="modal-title">Parabéns!</h2>
+            <p class="modal-text" id="modal-text">Você organizou todas as listas do Lab Kids!</p>
+            <div id="modal-score" style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; color: #fbbf24; margin-bottom: 20px;">
+                Pontuação: 500 ⭐
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="window.game.goToWelcome()">
+                    <span>🎮</span> Jogar Outro Modo
+                </button>
+                <a href="/" class="btn-secondary">
+                    🏠 Voltar ao Portal Principal
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Engine -->
+    <script src="game.js"></script>
+</body>
+</html>
