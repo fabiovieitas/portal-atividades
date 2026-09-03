@@ -1666,34 +1666,53 @@ body, [data-theme="kids"] body {
 }
 
 /* ==========================================================
-   TABLET & MOBILE ADSENSE RESPONSIVE ENGINE
+   SLIM TABLET & MOBILE ADSENSE RESPONSIVE ENGINE (ULTRA-FINO)
    ========================================================== */
 .adsense-tablet-wrapper,
 .adsense-banner-container,
 .tablet-ad-banner,
-.adsense-box {
+.adsense-box,
+.adsense-top-banner,
+.adsense-bottom-banner {
     width: 100% !important;
-    max-width: 100% !important;
-    min-height: 90px;
-    margin: 18px auto !important;
+    max-width: 970px !important;
+    min-height: 50px !important;
+    max-height: 115px !important;
+    margin: 8px auto !important;
+    padding: 4px 8px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     box-sizing: border-box !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     clear: both;
 }
 
 .adsense-tablet-wrapper ins.adsbygoogle,
 .adsense-banner-container ins.adsbygoogle,
 .tablet-ad-banner ins.adsbygoogle,
-.adsense-box ins.adsbygoogle {
+.adsense-box ins.adsbygoogle,
+.adsense-top-banner ins.adsbygoogle,
+.adsense-bottom-banner ins.adsbygoogle {
     display: block !important;
     width: 100% !important;
-    min-height: 90px !important;
+    min-height: 50px !important;
+    max-height: 90px !important;
     margin: 0 auto !important;
     text-align: center !important;
+}
+
+/* Rótulo super discreto e fino */
+.adsense-micro-label {
+    font-size: 0.62rem !important;
+    color: #94a3b8 !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 0 2px 0 !important;
+    line-height: 1 !important;
+    opacity: 0.75 !important;
 }
 
 /* Esconder sidebars verticais fixas em tablets e celulares (< 1350px) para não sobrepor o conteúdo touch */
@@ -1715,4 +1734,5 @@ body, [data-theme="kids"] body {
         display: block !important;
     }
 }
+
 

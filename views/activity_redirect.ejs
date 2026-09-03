@@ -131,10 +131,10 @@
     <!-- Layout de 4 Lados de Propagandas para Página de Redirecionamento -->
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 900px; gap: 15px;">
         
-        <!-- Banner Superior (Topo) -->
-        <div class="adsense-banner-top" style="width: 100%; background: rgba(15, 23, 42, 0.9); border: 2px dashed #475569; border-radius: 18px; padding: 12px; text-align: center;">
-            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Espaço Publicitário AdSense (Topo)</div>
-            <ins class="adsbygoogle" style="display:block; min-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567893" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <!-- Banner Superior (Topo Ultra-Fino) -->
+        <div class="adsense-banner-top adsense-tablet-wrapper" style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px dashed #475569; border-radius: 12px; padding: 4px 8px; text-align: center;">
+            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
+            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567893" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
@@ -144,13 +144,10 @@
             <h2 style="font-size: 1.8rem; margin: 0 0 8px 0; color: #fbbf24;"><%= activity.title %></h2>
             <p style="color: #94a3b8; font-size: 1rem; margin: 0 0 15px 0;"><%= activity.description || 'Preparando seu desafio interativo...' %></p>
 
-            <!-- Anúncio AdSense Intercalado Central -->
-            <div class="adsense-interstitial-box">
-                <div style="font-size: 0.85rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
-                    📢 Espaço Publicitário AdSense (Central)
-                </div>
-                <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 6px;">Anúncios seguros para crianças aparecerão aqui</div>
-                <ins class="adsbygoogle" style="display:block; min-height:100px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <!-- Anúncio AdSense Intercalado Central (Ultra-Fino) -->
+            <div class="adsense-interstitial-box" style="margin: 10px auto; padding: 4px 8px;">
+                <div class="adsense-micro-label">📢 Publicidade Educativa</div>
+                <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
             <div class="countdown-circle" id="countdown">5</div>
@@ -160,10 +157,10 @@
             </a>
         </div>
 
-        <!-- Banner Inferior (Rodapé) -->
-        <div class="adsense-banner-bottom" style="width: 100%; background: rgba(15, 23, 42, 0.9); border: 2px dashed #475569; border-radius: 18px; padding: 12px; text-align: center;">
-            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Espaço Publicitário AdSense (Base)</div>
-            <ins class="adsbygoogle" style="display:block; min-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567894" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <!-- Banner Inferior (Rodapé Ultra-Fino) -->
+        <div class="adsense-banner-bottom adsense-tablet-wrapper" style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px dashed #475569; border-radius: 12px; padding: 4px 8px; text-align: center;">
+            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
+            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567894" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
