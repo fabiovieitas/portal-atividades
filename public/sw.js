@@ -1,5 +1,5 @@
-const CACHE_NAME = 'portal-lab-v6';
-const POU_CACHE_NAME = 'portal-lab-v6-pou';
+const CACHE_NAME = 'portal-lab-v7';
+const POU_CACHE_NAME = 'portal-lab-v7-pou';
 
 const STATIC_ASSETS = [
   '/',
@@ -26,11 +26,14 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.filter(key => key !== CACHE_NAME && key !== POU_CACHE_NAME).map(key => caches.delete(key))
-      );
-    })
+    Promise.all([
+      self.clients.claim(),
+      caches.keys().then(keys => {
+        return Promise.all(
+          keys.filter(key => key !== CACHE_NAME && key !== POU_CACHE_NAME).map(key => caches.delete(key))
+        );
+      })
+    ])
   );
 });
 
@@ -39,27 +42,22 @@ self.addEventListener('fetch', e => {
 
   const url = new URL(e.request.url);
 
-  // 1. Cache-First para Jogos HTML5 Locais (Pou Online e Assets do Jogo)
+  // 1. Network-First com Fallback para Cache para Jogos HTML5 Locais (Pou Online e Assets)
   if (url.pathname.startsWith('/games/pou-online/')) {
     e.respondWith(
-      caches.open(POU_CACHE_NAME).then(cache => {
-        return cache.match(e.request).then(cachedResponse => {
-          if (cachedResponse) {
-            // Retorna do cache imediatamente
-            return cachedResponse;
-          }
-          // Se não estiver em cache, busca na rede e armazena
-          return fetch(e.request).then(networkResponse => {
-            if (networkResponse && networkResponse.status === 200) {
-              cache.put(e.request, networkResponse.clone());
-            }
-            return networkResponse;
-          }).catch(() => cachedResponse);
-        });
+      fetch(e.request).then(networkResponse => {
+        if (networkResponse && networkResponse.status === 200) {
+          const resClone = networkResponse.clone();
+          caches.open(POU_CACHE_NAME).then(cache => cache.put(e.request, resClone));
+        }
+        return networkResponse;
+      }).catch(() => {
+        return caches.match(e.request);
       })
     );
     return;
   }
+
 
   // 2. Stale-While-Revalidate para Mídias, Áudios, Fontes, JSONs, CSS e Scripts
   if (url.pathname.match(/\.(css|js|png|jpg|jpeg|svg|webp|woff2?|ttf|otf|eot|ogg|mp3|m4a|json)$/i)) {

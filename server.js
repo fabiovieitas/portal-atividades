@@ -19,10 +19,15 @@ app.use(compression());
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.json({ limit: '15mb' }));
+app.get('/sw.js', (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.sendFile(path.join(__dirname, 'public', 'sw.js'));
+});
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: '1d',
   etag: true
 }));
+
 app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'public', 'img', 'robot-icon-512.png')));
 app.get('/download/labkids.apk', (req, res) => {
   const apkPath = path.join(__dirname, 'public', 'downloads', 'labkids.apk');
