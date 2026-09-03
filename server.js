@@ -29,7 +29,17 @@ app.get('/ads.txt', (req, res) => {
   res.type('text/plain');
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0\n`);
 });
+app.get('/robots.txt', (req, res) => {
+
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
+app.get('/sitemap.xml', (req, res) => {
+  res.type('application/xml');
+  res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
+});
 app.use(express.static(path.join(__dirname, 'public'), {
+
 
   maxAge: '1d',
   etag: true

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://labkids.online/sitemap.xml
