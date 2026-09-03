@@ -24,7 +24,7 @@ app.get('/sw.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sw.js'));
 });
 app.get('/ads.txt', (req, res) => {
-  const rawPubId = process.env.ADSENSE_PUB_ID || 'ca-pub-1234567890123456';
+  const rawPubId = process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531';
   const pubId = rawPubId.replace(/^ca-/, '');
   res.type('text/plain');
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0\n`);
@@ -49,9 +49,10 @@ app.use(cookieParser());
 
 // Global template locals
 app.use((req, res, next) => {
-  res.locals.adsensePubId = process.env.ADSENSE_PUB_ID || 'ca-pub-1234567890123456';
+  res.locals.adsensePubId = process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531';
   next();
 });
+
 
 // Admin check helper
 async function isAdmin(req) {
