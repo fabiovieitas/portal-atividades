@@ -320,9 +320,22 @@
     <div id="content"></div>
     <div id="orientation"></div>
 
+    <!-- Auto-Clear Stale Browser Caches (Forces fresh clean Pou script) -->
+    <script type="text/javascript">
+        if ('caches' in window) {
+            caches.keys().then(function(keys) {
+                keys.forEach(function(k) {
+                    if (k.includes('v4') || k.includes('v5')) {
+                        caches.delete(k);
+                    }
+                });
+            });
+        }
+    </script>
+
     <!-- Game Integration & Ad-Bypass Engine -->
     <script type="text/javascript">
-        // Direct local configuration - no external redirects or ads
+        // Direct local dummy configuration - no external redirects or ads
         window._azerionIntegration = {
             "gdId": "d1362abc246f43bdb5c26643aec2b61b",
             "advType": "dm",
@@ -335,18 +348,27 @@
             "cp": false
         };
 
+        // Complete Safe Mock for gdsdk (Ensures no domain check can ever block the game)
+        window.gdsdk = {
+            showAd: function() { return Promise.resolve(); },
+            preloadAd: function() { return Promise.resolve(); },
+            getSession: function() { return Promise.resolve({ location: { parentDomain: window.location.host } }); }
+        };
+
         var libs = [];
         var azDefaultLanguage = "br";
         var gameName = "pou.min.js";
 
-        // Complete Ad-Free Mock for h5ads SDK (Bypasses all external ad network calls & grants rewards instantly)
+        // Complete Ad-Free Mock for h5ads SDK
         window.h5ads = {
             AdType: { interstitial: "interstitial", rewarded: "rewarded", banner: "banner" },
             AdEvents: {
                 CONTENT_PAUSED: "content_paused",
                 CONTENT_RESUMED: "content_resumed",
                 AD_REWARDED: "ad_rewarded",
-                AD_ERROR: "ad_error"
+                AD_ERROR: "ad_error",
+                AD_PROVIDER_LOADED: "onAdProviderLoaded",
+                AD_LOADED: "onAdLoaded"
             },
             AdWrapper: function() {
                 this.listeners = {};
@@ -431,10 +453,11 @@
             setTimeout(window.dismissGameLoader, 2500);
         })();
 
-        // Start game loading
-        addScript('version.js', Date.now(), function() {
-            addScript(gameName, typeof version !== 'undefined' ? version : 'tc-90', function() {
-                setTimeout(window.dismissGameLoader, 800);
+        // Start game loading with cache-busting timestamp
+        var cacheTimestamp = 'v6_' + Date.now();
+        addScript('version.js', cacheTimestamp, function() {
+            addScript(gameName, cacheTimestamp, function() {
+                setTimeout(window.dismissGameLoader, 600);
             });
         });
     </script>
@@ -467,7 +490,7 @@
             async function checkCacheStatus() {
                 if (!('caches' in window)) return;
                 try {
-                    const cache = await caches.open('portal-lab-v5-pou');
+                    const cache = await caches.open('portal-lab-v6-pou');
                     const sampleMatch = await cache.match('/games/pou-online/pou.min.js');
                     if (sampleMatch) {
                         cacheLabel.textContent = '💾 100% Salvo no Tablet';
@@ -493,27 +516,16 @@
 
                 try {
                     // Fetch list of files
-                    const res = await fetch('/games/pou-online/assets-manifest.json');
+                    const res = await fetch('/games/pou-online/assets-manifest.json?v=' + Date.now());
                     const fileList = res.ok ? await res.json() : [
                         '/games/pou-online/index.html',
                         '/games/pou-online/pou.min.js',
                         '/games/pou-online/version.js',
                         '/games/pou-online/assets/css/app.css',
-                        '/games/pou-online/assets/icon.jpeg',
-                        '/games/pou-online/assets/atlases/ui.png',
-                        '/games/pou-online/assets/atlases/ui.json',
-                        '/games/pou-online/assets/atlases/shop.png',
-                        '/games/pou-online/assets/atlases/shop.json',
-                        '/games/pou-online/assets/atlases/pou.png',
-                        '/games/pou-online/assets/atlases/pou.json',
-                        '/games/pou-online/assets/atlases/miniGames.png',
-                        '/games/pou-online/assets/atlases/miniGames.json',
-                        '/games/pou-online/assets/jsons/settings.json',
-                        '/games/pou-online/assets/jsons/locale_br.json',
-                        '/games/pou-online/assets/jsons/locale_en.json'
+                        '/games/pou-online/assets/icon.jpeg'
                     ];
 
-                    const cache = await caches.open('portal-lab-v5-pou');
+                    const cache = await caches.open('portal-lab-v6-pou');
                     let completed = 0;
 
                     await Promise.all(fileList.map(async (url) => {
