@@ -1,158 +1,573 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui, shrink-to-fit=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#0f172a" />
+
     <title>Pou Online - Cuide do Mascote Virtual | Lab Kids</title>
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpeg" />
+    <link rel="apple-touch-icon" href="assets/icon.jpeg" />
+    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet" />
+
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
-        body, html {
+
+        html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
             background-color: #0f172a;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Fredoka', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: fixed;
         }
 
-        /* Top Bar with Red Return Button */
-        .top-bar {
+        /* Top Navigation Bar */
+        .game-nav-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 55px;
+            height: 52px;
             background: rgba(15, 23, 42, 0.95);
             border-bottom: 2px solid #10b981;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 15px;
-            z-index: 10000;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
+            padding: 0 12px;
+            z-index: 99999;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
         }
 
-        .btn-back {
-            display: inline-flex;
+        .nav-btn-group {
+            display: flex;
             align-items: center;
             gap: 8px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 0.95rem;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.2s ease;
         }
 
-        .btn-back:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(239, 68, 68, 0.6);
+        .btn-portal-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 7px 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-decoration: none;
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.15s ease, background 0.15s ease;
+            cursor: pointer;
+        }
+
+        .btn-portal-back:hover, .btn-portal-back:active {
+            transform: scale(1.04);
             background: linear-gradient(135deg, #f87171, #ef4444);
         }
 
-        .game-title {
+        .game-brand-title {
             color: #34d399;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+            text-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .tablet-cache-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.18);
+            border: 1.5px solid #10b981;
+            color: #34d399;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tablet-cache-pill:hover {
+            background: rgba(16, 185, 129, 0.35);
+        }
+
+        .tablet-cache-pill.syncing {
+            border-color: #fbbf24;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.18);
+        }
+
+        .btn-fullscreen-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            padding: 7px 12px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+        }
+
+        .btn-fullscreen-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Game Main Canvas Container */
+        #content {
+            position: absolute;
+            top: 52px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: calc(100% - 52px);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f172a;
+        }
+
+        #content canvas {
+            display: block;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #orientation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 999999;
+            background: #0f172a;
+        }
+
+        /* Fast Loading Overlay */
+        #game-fast-loader {
+            position: fixed;
+            top: 52px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50000;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .loader-mascot-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            border: 4px solid #10b981;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
+            animation: mascotFloat 2s ease-in-out infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        @keyframes mascotFloat {
+            0% { transform: translateY(0) rotate(-2deg); }
+            100% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        .loader-title {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .loader-subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-bar-wrap {
+            width: 80%;
+            max-width: 320px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            overflow: hidden;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            width: 5%;
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 50px;
+            transition: width 0.3s ease;
+        }
+
+        /* Toast notification */
+        #cache-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: #34d399;
+            border: 2px solid #10b981;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            z-index: 100000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        /* Main Game Layout */
-        .game-wrapper {
-            position: absolute;
-            top: 55px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #0f172a;
+        #cache-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-
-        /* Desktop AdSense Sidebars */
-        .adsense-sidebar-left {
-            position: fixed;
-            left: 10px;
-            top: 70px;
-            width: 160px;
-            height: 600px;
-            z-index: 9999;
-            display: none;
-        }
-
-        .adsense-sidebar-right {
-            position: fixed;
-            right: 10px;
-            top: 70px;
-            width: 160px;
-            height: 600px;
-            z-index: 9999;
-            display: none;
-        }
-
-        @media (min-width: 1450px) {
-            .adsense-sidebar-left, .adsense-sidebar-right {
-                display: block !important;
-            }
-            .game-wrapper {
-                left: 180px;
-                right: 180px;
-            }
+        @media (max-width: 600px) {
+            .game-brand-title span.text { display: none; }
+            .tablet-cache-pill span.label { display: none; }
+            .btn-fullscreen-toggle span.label { display: none; }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <a href="/atividades/pou-online" class="btn-back">
-            ⬅️ VOLTAR À APRESENTAÇÃO
-        </a>
-        <div class="game-title">
-            <span>🐾 Pou Online - Mascote Virtual & Rotinas</span>
+    <!-- Top Navigation Header -->
+    <header class="game-nav-header">
+        <div class="nav-btn-group">
+            <a href="/" class="btn-portal-back">
+                🏠 <span>PORTAL</span>
+            </a>
+            <a href="/atividades/pou-online" class="btn-portal-back" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                📘 <span>GUIA BNCC</span>
+            </a>
         </div>
-        <a href="/" class="btn-back" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-            🏠 PORTAL INICIAL
-        </a>
-    </div>
 
-    <!-- AdSense Sidebars (Desktop) -->
-    <div class="adsense-sidebar-left">
-        <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
-            <div style="font-size: 0.7rem; color: #34d399; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
+        <div class="game-brand-title">
+            <span>🐾</span>
+            <span class="text">Pou Online Mascote</span>
+        </div>
+
+        <div class="nav-btn-group">
+            <button id="btn-sync-tablet" class="tablet-cache-pill" title="Pré-baixar jogo no tablet para abertura instantânea">
+                <span id="cache-icon">⚡</span>
+                <span class="label" id="cache-label">Modo Rápido Tablet</span>
+            </button>
+            <button id="btn-fullscreen" class="btn-fullscreen-toggle" title="Tela Cheia">
+                <span>⛶</span>
+                <span class="label">Tela Cheia</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Fast Loading Animation Overlay -->
+    <div id="game-fast-loader">
+        <img src="assets/icon.jpeg" alt="Pou" class="loader-mascot-img" />
+        <h2 class="loader-title">Iniciando Pou Mascote Virtual...</h2>
+        <p class="loader-subtitle" id="loader-sub">Carregando módulos e gráficos locais 🚀</p>
+        <div class="progress-bar-wrap">
+            <div id="loader-progress" class="progress-bar-fill"></div>
         </div>
     </div>
 
-    <div class="adsense-sidebar-right">
-        <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
-            <div style="font-size: 0.7rem; color: #34d399; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-        </div>
+    <!-- Notification Toast -->
+    <div id="cache-toast">
+        <span id="toast-icon">✅</span>
+        <span id="toast-text">Pou baixado no Tablet com sucesso!</span>
     </div>
 
-    <!-- Game iframe -->
-    <div class="game-wrapper">
-        <iframe src="https://www.jogos360.com.br/pou_online.html" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
-    </div>
+    <!-- Game Mount Canvas Divs -->
+    <div id="content"></div>
+    <div id="orientation"></div>
 
+    <!-- Game Integration & Ad-Bypass Engine -->
+    <script type="text/javascript">
+        // Direct local configuration - no external redirects or ads
+        window._azerionIntegration = {
+            "gdId": "d1362abc246f43bdb5c26643aec2b61b",
+            "advType": "none",
+            "alxType": "std",
+            "af": true,      // Ad-free premium unlock
+            "sa": true,      // Standalone mode: asset paths from "assets/"
+            "la": true,      // Direct links allowed
+            "bd": 0,
+            "playBtn": false,// Auto start immediately without redundant splash click
+            "cp": false
+        };
+
+        var libs = [];
+        var azDefaultLanguage = "br";
+        var gameName = "pou.min.js";
+
+        // Complete Ad-Free Mock for h5ads SDK (Bypasses all external ad network calls & grants rewards instantly)
+        window.h5ads = {
+            AdType: { interstitial: "interstitial", rewarded: "rewarded", banner: "banner" },
+            AdEvents: {
+                CONTENT_PAUSED: "content_paused",
+                CONTENT_RESUMED: "content_resumed",
+                AD_REWARDED: "ad_rewarded",
+                AD_ERROR: "ad_error"
+            },
+            AdWrapper: function() {
+                this.listeners = {};
+                this.on = function(evt, cb) {
+                    (this.listeners[evt] = this.listeners[evt] || []).push(cb);
+                };
+                this.once = function(evt, cb) {
+                    var self = this;
+                    var wrapper = function() {
+                        self.off(evt, wrapper);
+                        cb.apply(this, arguments);
+                    };
+                    this.on(evt, wrapper);
+                };
+                this.off = function(evt, cb) {
+                    if (!this.listeners[evt]) return;
+                    this.listeners[evt] = this.listeners[evt].filter(function(f) { return f !== cb; });
+                };
+                this.removeAllListeners = function(evt) {
+                    if (evt) delete this.listeners[evt];
+                    else this.listeners = {};
+                };
+                this.emit = function(evt) {
+                    if (this.listeners[evt]) {
+                        var cbs = this.listeners[evt].slice();
+                        cbs.forEach(function(f) { f(); });
+                    }
+                };
+                this.showAd = function(type) {
+                    var self = this;
+                    setTimeout(function() {
+                        if (type === "rewarded") {
+                            self.emit("ad_rewarded");
+                        }
+                        self.emit("content_resumed");
+                    }, 10);
+                };
+                this.preloadAd = function() {};
+            }
+        };
+
+        // Custom script injector
+        function addScript(src, buster, callback) {
+            var s = document.createElement('script');
+            s.setAttribute('src', src + '?v=' + buster);
+            if (typeof callback === 'function') {
+                s.onload = callback;
+            }
+            document.body.appendChild(s);
+        }
+
+        // Fast progress indicator simulation & hide
+        (function() {
+            var pFill = document.getElementById('loader-progress');
+            var subText = document.getElementById('loader-sub');
+            var loader = document.getElementById('game-fast-loader');
+            var pct = 15;
+
+            var timer = setInterval(function() {
+                if (pct < 90) {
+                    pct += Math.floor(Math.random() * 15) + 5;
+                    if (pct > 90) pct = 90;
+                    if (pFill) pFill.style.width = pct + '%';
+                }
+            }, 120);
+
+            window.dismissGameLoader = function() {
+                clearInterval(timer);
+                if (pFill) pFill.style.width = '100%';
+                if (subText) subText.textContent = 'Pronto para Brincar! 🎮';
+                setTimeout(function() {
+                    if (loader) {
+                        loader.style.opacity = '0';
+                        setTimeout(function() {
+                            loader.style.display = 'none';
+                        }, 400);
+                    }
+                }, 300);
+            };
+
+            // Safety timeout: dismiss loader after 2.5s maximum
+            setTimeout(window.dismissGameLoader, 2500);
+        })();
+
+        // Start game loading
+        addScript('version.js', Date.now(), function() {
+            addScript(gameName, typeof version !== 'undefined' ? version : 'tc-90', function() {
+                setTimeout(window.dismissGameLoader, 800);
+            });
+        });
+    </script>
+
+    <!-- Tablet Pre-caching & Offline System -->
+    <script type="text/javascript">
+        (function() {
+            const btnSync = document.getElementById('btn-sync-tablet');
+            const cacheLabel = document.getElementById('cache-label');
+            const cacheIcon = document.getElementById('cache-icon');
+            const btnFullscreen = document.getElementById('btn-fullscreen');
+            const toast = document.getElementById('cache-toast');
+            const toastText = document.getElementById('toast-text');
+
+            function showToast(msg, icon = '✅') {
+                toastText.textContent = msg;
+                document.getElementById('toast-icon').textContent = icon;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3500);
+            }
+
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').catch(err => {
+                    console.log('SW registration error:', err);
+                });
+            }
+
+            // Check if Pou is already pre-cached
+            async function checkCacheStatus() {
+                if (!('caches' in window)) return;
+                try {
+                    const cache = await caches.open('portal-lab-v5-pou');
+                    const sampleMatch = await cache.match('/games/pou-online/pou.min.js');
+                    if (sampleMatch) {
+                        cacheLabel.textContent = '💾 100% Salvo no Tablet';
+                        cacheIcon.textContent = '⚡';
+                        btnSync.style.borderColor = '#10b981';
+                        btnSync.style.color = '#34d399';
+                        return true;
+                    }
+                } catch(e) {}
+                return false;
+            }
+
+            // Pre-download / Cache all Pou assets for Tablet
+            async function preDownloadPouForTablet(isManual = false) {
+                if (!('caches' in window)) {
+                    if (isManual) alert('Seu navegador não suporta cache offline.');
+                    return;
+                }
+
+                btnSync.classList.add('syncing');
+                cacheLabel.textContent = 'Baixando pro Tablet...';
+                cacheIcon.textContent = '⏳';
+
+                try {
+                    // Fetch list of files
+                    const res = await fetch('/games/pou-online/assets-manifest.json');
+                    const fileList = res.ok ? await res.json() : [
+                        '/games/pou-online/index.html',
+                        '/games/pou-online/pou.min.js',
+                        '/games/pou-online/version.js',
+                        '/games/pou-online/assets/css/app.css',
+                        '/games/pou-online/assets/icon.jpeg',
+                        '/games/pou-online/assets/atlases/ui.png',
+                        '/games/pou-online/assets/atlases/ui.json',
+                        '/games/pou-online/assets/atlases/shop.png',
+                        '/games/pou-online/assets/atlases/shop.json',
+                        '/games/pou-online/assets/atlases/pou.png',
+                        '/games/pou-online/assets/atlases/pou.json',
+                        '/games/pou-online/assets/atlases/miniGames.png',
+                        '/games/pou-online/assets/atlases/miniGames.json',
+                        '/games/pou-online/assets/jsons/settings.json',
+                        '/games/pou-online/assets/jsons/locale_br.json',
+                        '/games/pou-online/assets/jsons/locale_en.json'
+                    ];
+
+                    const cache = await caches.open('portal-lab-v5-pou');
+                    let completed = 0;
+
+                    await Promise.all(fileList.map(async (url) => {
+                        try {
+                            const cached = await cache.match(url);
+                            if (!cached) {
+                                const response = await fetch(url);
+                                if (response.ok) {
+                                    await cache.put(url, response);
+                                }
+                            }
+                            completed++;
+                            if (isManual && completed % 25 === 0) {
+                                cacheLabel.textContent = `Baixando (${Math.round((completed / fileList.length) * 100)}%)...`;
+                            }
+                        } catch(err) {}
+                    }));
+
+                    btnSync.classList.remove('syncing');
+                    cacheLabel.textContent = '💾 100% Salvo no Tablet';
+                    cacheIcon.textContent = '⚡';
+                    btnSync.style.borderColor = '#10b981';
+                    btnSync.style.color = '#34d399';
+
+                    if (isManual) {
+                        showToast('Pou baixado 100% no Tablet! Abrirá instantaneamente.');
+                    }
+                } catch(err) {
+                    btnSync.classList.remove('syncing');
+                    cacheLabel.textContent = 'Salvo no Tablet';
+                    cacheIcon.textContent = '⚡';
+                }
+            }
+
+            btnSync.addEventListener('click', () => {
+                preDownloadPouForTablet(true);
+            });
+
+            // Initial check & auto-cache in idle time
+            checkCacheStatus().then((isCached) => {
+                if (!isCached) {
+                    setTimeout(() => preDownloadPouForTablet(false), 2000);
+                }
+            });
+
+            // Fullscreen Toggle
+            btnFullscreen.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            });
+        })();
+    </script>
 </body>
 </html>

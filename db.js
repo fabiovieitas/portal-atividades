@@ -334,7 +334,7 @@ const dbHelper = {
           title: "Pou Online - Mascote Virtual & Rotinas",
           description: "Jogo educativo de responsabilidade, cuidados e rotinas! Alimente e cuide do seu bichinho virtual.",
           activity_url: "/atividades/pou-online",
-          icon_url: "https://cdn.jogos360.com.br/po/uo/pou-online-d.jpg",
+          icon_url: "/games/pou-online/assets/icon.jpeg",
           level: "1-5", category: "Cuidados & Hábitos", subject: "Ciências", bncc_code: "EI03CG04, EI03EO02, EF01CI01", status: "public", visits: 480
         },
         {
@@ -1032,7 +1032,7 @@ async function initTables() {
             "Pou Online - Mascote Virtual & Rotinas",
             "Jogo educativo de responsabilidade, cuidados e rotinas! Alimente, banhe, brinque e cuide da saúde do seu bichinho virtual.",
             "/atividades/pou-online",
-            "https://cdn.jogos360.com.br/po/uo/pou-online-d.jpg",
+            "/games/pou-online/assets/icon.jpeg",
             "1-5",
             "Cuidados & Hábitos",
             "EI03CG04, EI03EO02, EF01CI01",
@@ -1310,7 +1310,7 @@ async function initTables() {
           title: "Pou Online - Mascote Virtual & Rotinas",
           description: "Jogo educativo de responsabilidade, cuidados e rotinas! Alimente, banhe, brinque e cuide da saúde do seu bichinho virtual.",
           activity_url: "/atividades/pou-online",
-          icon_url: "https://cdn.jogos360.com.br/po/uo/pou-online-d.jpg",
+          icon_url: "/games/pou-online/assets/icon.jpeg",
           level: "1-5", category: "Cuidados & Hábitos", bncc_code: "EI03CG04, EI03EO02, EF01CI01", subject: "Ciências"
         },
         {
@@ -1458,7 +1458,7 @@ async function initTables() {
           title: "Pou Online na Escola: Hábitos de Saúde, Nutrição e Gestão do Tempo",
           summary: "Como utilizar a empatia com o mascote virtual para ensinar higiene, rotina e cuidados com a saúde física e mental.",
           category: "Ciências & Hábitos", author: "Prof. Fábio Vieitas", activity_url: "/atividades/pou-online",
-          image_url: "https://cdn.jogos360.com.br/po/uo/pou-online-d.jpg",
+          image_url: "/games/pou-online/assets/icon.jpeg",
           content: `<h2>🛁 Autocuidado e Rotina com o Pou</h2><p>Hábitos de higiene e responsabilidade pessoal.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EI03CG04</strong></li><li><strong>EF01CI01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Hábitos de higiene e nutrição saudável no jogo Pou Online (BNCC: EI03CG04, EF01CI01)."</em></div>`
         },
         {

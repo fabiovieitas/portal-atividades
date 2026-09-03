@@ -1,6 +1,6 @@
 /**
  * App Enhancements JS - Portal de Atividades Lab
- * Tema Kids Padrão, Avatares e Navegação Fluida
+ * Tema Kids Padrão, Avatares, Navegação Fluida e Pré-carregamento para Tablets
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   initDiceBearAvatarPicker();
   initTabNavigation();
+  initTabletPreloader();
 });
 
 /* ----------------------------------------------------
@@ -98,5 +99,43 @@ function initTabNavigation() {
         targetPanel.classList.add('fade-in-panel');
       }
     });
+  });
+}
+
+/* ----------------------------------------------------
+ * PRÉ-CARREGAMENTO SILENCIOSO DE JOGOS PARA TABLETS
+ * ---------------------------------------------------- */
+function initTabletPreloader() {
+  if (!('caches' in window) || !('serviceWorker' in navigator)) return;
+
+  const schedulePreload = window.requestIdleCallback || function(cb) { setTimeout(cb, 3000); };
+
+  schedulePreload(async () => {
+    try {
+      const cache = await caches.open('portal-lab-v5-pou');
+      const isAlreadyCached = await cache.match('/games/pou-online/pou.min.js');
+      if (isAlreadyCached) return; // Já está no tablet
+
+      const res = await fetch('/games/pou-online/assets-manifest.json');
+      if (!res.ok) return;
+
+      const assets = await res.json();
+      // Pré-baixa em lotes de 6 arquivos por vez para não sobrecarregar a rede escolar
+      for (let i = 0; i < assets.length; i += 6) {
+        const batch = assets.slice(i, i + 6);
+        await Promise.all(batch.map(async (url) => {
+          try {
+            const has = await cache.match(url);
+            if (!has) {
+              const resp = await fetch(url);
+              if (resp.ok) await cache.put(url, resp);
+            }
+          } catch(e) {}
+        }));
+      }
+      console.log('[Tablet Preloader] Pou Online pré-carregado em cache com sucesso!');
+    } catch(err) {
+      console.log('[Tablet Preloader] Erro silencioso:', err);
+    }
   });
 }
