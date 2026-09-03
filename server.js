@@ -35,6 +35,12 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(cookieParser());
 
+// Global template locals
+app.use((req, res, next) => {
+  res.locals.adsensePubId = process.env.ADSENSE_PUB_ID || 'ca-pub-1234567890123456';
+  next();
+});
+
 // Admin check helper
 async function isAdmin(req) {
   const session = req.cookies.admin_session || (req.body && req.body.sessionId);

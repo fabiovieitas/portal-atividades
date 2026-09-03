@@ -6,6 +6,8 @@
     <title>Gartic.io - Desenho & Vocabulário | Apresentação & Guia | Lab Kids</title>
     <link rel="stylesheet" href="/css/style.css?v=4">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Official Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
         :root {
             --gartic-blue: #3b82f6;
@@ -239,14 +241,11 @@
             </div>
         </div>
 
-        <!-- AdSense Container Banner -->
+        <!-- AdSense Container Banner (Tablet & Mobile Horizontal) -->
         <div class="adsense-box">
-            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</div>
-            <div style="font-size: 0.7rem; color: #64748b;">Anúncios Educativos para Crianças & Escolas</div>
-            <% if (process.env.ADSENSE_PUB_ID) { %>
-                <ins class="adsbygoogle" style="display:block" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            <% } %>
+            <div style="font-size: 0.75rem; color: #60a5fa; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Espaço Publicitário AdSense</div>
+            <ins class="adsbygoogle" style="display:block; min-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <!-- Information Cards -->
@@ -279,6 +278,13 @@
                 </ul>
             </div>
 
+        </div>
+
+        <!-- AdSense Bottom Banner (Tablet & Mobile) -->
+        <div class="adsense-box">
+            <div style="font-size: 0.75rem; color: #60a5fa; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Publicidade Educativa Segura (AdSense)</div>
+            <ins class="adsbygoogle" style="display:block; min-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567898" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <!-- Bottom CTA -->

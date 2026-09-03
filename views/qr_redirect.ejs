@@ -5,6 +5,8 @@
   <title>Acessando: <%= activity.title %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
+  <!-- Google AdSense Official Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
   <style>
     body { background: #0a0a0a; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; font-family: 'Outfit', sans-serif; }
     .redirect-container { background: #1a1a1a; padding: 50px; border-radius: 30px; border: 1px solid #333; max-width: 600px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
@@ -13,7 +15,7 @@
     p { color: #b0b0b0; font-size: 1.2rem; line-height: 1.5; margin-bottom: 30px; }
     .btn-access { display: inline-block; background: #4a90e2; color: white; text-decoration: none; padding: 20px 40px; border-radius: 15px; font-weight: 800; transition: 0.3s; font-size: 1.4em; border: none; cursor: pointer; width: 100%; box-sizing: border-box; }
     .btn-access:hover { background: #357abd; transform: translateY(-3px); }
-    .adsense-placeholder { background: rgba(255,255,255,0.05); color: #666; text-align: center; padding: 30px; border: 2px dashed #444; margin: 30px 0; border-radius: 20px; font-weight: bold; font-size: 1rem; }
+    .adsense-placeholder { background: rgba(255,255,255,0.05); color: #666; text-align: center; padding: 15px; border: 2px dashed #444; margin: 25px 0; border-radius: 20px; font-weight: bold; font-size: 1rem; }
     .countdown { font-size: 1.1rem; color: #888; margin-top: 25px; }
     #timer { color: #4a90e2; font-weight: 800; font-size: 1.5rem; }
   </style>
@@ -24,11 +26,11 @@
     <h1><%= activity.title %></h1>
     <p><%= activity.description %></p>
     
-    <!-- ESPAÇO PARA ADSENSE (CRIANÇAS/COPPA) -->
-    <!-- Garanta que o bloco no AdSense está configurado para o público infantil -->
-    <div class="adsense-placeholder">
-      Espaço Publicitário (AdSense)<br>
-      <small>Anúncios seguros aparecerão aqui.</small>
+    <!-- ESPAÇO PARA ADSENSE (CRIANÇAS/COPPA / TABLETS) -->
+    <div class="adsense-tablet-wrapper tablet-ad-banner adsense-placeholder">
+      <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Espaço Publicitário AdSense</div>
+      <ins class="adsbygoogle" style="display:block; min-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <a href="<%= activity.activity_url %>" class="btn-access" id="access-btn">Acessar Atividade</a>

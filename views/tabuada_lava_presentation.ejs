@@ -6,6 +6,8 @@
     <title>Tabuada - O Chão é Lava! - Guia Pedagógico | Lab Kids</title>
     <link rel="stylesheet" href="/css/style.css?v=4">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Official Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
         body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f8fafc; font-family: 'Fredoka', sans-serif; min-height: 100vh; margin: 0; padding: 20px 10px 60px 10px; }
         .container-presentation { max-width: 900px; margin: 0 auto; }
@@ -56,10 +58,10 @@
             </div>
         </div>
 
-        <!-- AdSense Banner Container -->
-        <div style="background: rgba(15, 23, 42, 0.8); border: 2px dashed rgba(255,255,255,0.2); border-radius: 20px; padding: 20px; text-align: center; margin-top: 20px;">
-            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">Publicidade AdSense</span>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1234567890123456" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <!-- AdSense Banner Container (Tablet & Mobile Horizontal) -->
+        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.8); border: 2px dashed rgba(255,255,255,0.2); border-radius: 20px; padding: 15px; text-align: center; margin-top: 20px;">
+            <div style="font-size: 0.75rem; color: #f59e0b; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Publicidade Educativa Segura (AdSense)</div>
+            <ins class="adsbygoogle" style="display:block; min-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>

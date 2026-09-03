@@ -6,6 +6,8 @@
     <title>Pou Online - Cuide do Mascote Virtual | Apresentação & Guia | Lab Kids</title>
     <link rel="stylesheet" href="/css/style.css?v=4">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Official Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
         :root {
             --pou-green: #10b981;
@@ -279,15 +281,13 @@
 </head>
 <body>
 
-    <!-- AdSense Sidebars (Esquerda & Direita em telas grandes) -->
+    <!-- AdSense Sidebars (Esquerda & Direita em telas Ultra-Wide) -->
     <div class="adsense-sidebar-left">
         <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
             <div style="font-size: 0.7rem; color: #34d399; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
             <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <% if (process.env.ADSENSE_PUB_ID) { %>
-                <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567891"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            <% } %>
+            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567891"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 
@@ -295,10 +295,8 @@
         <div style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: white;">
             <div style="font-size: 0.7rem; color: #34d399; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
             <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <% if (process.env.ADSENSE_PUB_ID) { %>
-                <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567892"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            <% } %>
+            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567892"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 
@@ -336,14 +334,16 @@
             </div>
         </div>
 
-        <!-- AdSense Container Banner -->
+        <!-- AdSense Container Banner (Tablet & Mobile Horizontal) -->
         <div class="adsense-box">
-            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</div>
-            <div style="font-size: 0.7rem; color: #64748b;">Anúncios para Crianças & Escolas</div>
-            <% if (process.env.ADSENSE_PUB_ID) { %>
-                <ins class="adsbygoogle" style="display:block" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            <% } %>
+            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Espaço Publicitário AdSense</div>
+            <ins class="adsbygoogle"
+                 style="display:block; min-height:90px; width:100%;"
+                 data-ad-client="<%= adsensePubId %>"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <!-- Information Cards -->
@@ -405,12 +405,14 @@
 
         <!-- AdSense Bottom Banner (Tablet & Mobile) -->
         <div class="adsense-box">
-            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</div>
-            <div style="font-size: 0.7rem; color: #64748b;">Anúncios Seguros para Escolas & Alunos</div>
-            <% if (process.env.ADSENSE_PUB_ID) { %>
-                <ins class="adsbygoogle" style="display:block; min-height:90px;" data-ad-client="<%= process.env.ADSENSE_PUB_ID %>" data-ad-slot="1234567897" data-ad-format="horizontal,rectangle" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            <% } %>
+            <div style="font-size: 0.75rem; color: #34d399; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">📢 Publicidade Educativa Segura (AdSense)</div>
+            <ins class="adsbygoogle"
+                 style="display:block; min-height:90px; width:100%;"
+                 data-ad-client="<%= adsensePubId %>"
+                 data-ad-slot="1234567897"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <!-- Bottom CTA -->
