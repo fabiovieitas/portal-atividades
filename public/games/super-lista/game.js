@@ -1,210 +1,88 @@
 /**
- * JOGO ORIGINAL LAB KIDS: SUPER LISTA - MISSÃO ORGANIZAÇÃO
- * Autor: Professor Fábio Vieitas / Lab Kids
- * Motor de Drag & Drop por Pointer Events (Touch / Mouse) & Animações do Robô Bit
+ * DE OLHO NA LISTA - ENGINE OFICIAL STUDIO-GRADE
+ * Fiel ao layout, física de arrastar e fluxo pedagógico da BNCC
  */
 
-const GAME_DATA = {
-    // Modo 1: Complete a Lista
-    completeList: [
-        {
-            id: 1,
-            title: "Mochila Escolar",
-            emoji: "🎒",
-            context: "Arraste os materiais escolares para dentro da lista da mochila!",
-            fixedItems: [
-                { name: "Lápis", emoji: "✏️" },
-                { name: "Caderno", emoji: "📓" }
-            ],
-            targetItems: [
-                { name: "Borracha", emoji: "🧼" },
-                { name: "Tesoura", emoji: "✂️" },
-                { name: "Régua", emoji: "📏" }
-            ],
-            distractors: [
-                { name: "Cenoura", emoji: "🥕" },
-                { name: "Martelo", emoji: "🔨" },
-                { name: "Boneca", emoji: "🪆" }
-            ]
-        },
-        {
-            id: 2,
-            title: "Quitanda Saudável",
-            emoji: "🍎",
-            context: "Arraste as frutas e legumes saudáveis para a lista da feira!",
-            fixedItems: [
-                { name: "Banana", emoji: "🍌" },
-                { name: "Maçã", emoji: "🍎" }
-            ],
-            targetItems: [
-                { name: "Morango", emoji: "🍓" },
-                { name: "Cenoura", emoji: "🥕" },
-                { name: "Melancia", emoji: "🍉" }
-            ],
-            distractors: [
-                { name: "Sapato", emoji: "👟" },
-                { name: "Peteca", emoji: "🪶" },
-                { name: "Celular", emoji: "📱" }
-            ]
-        },
-        {
-            id: 3,
-            title: "Laboratório de Ciências",
-            emoji: "🔬",
-            context: "Arraste os instrumentos científicos para a bancada do laboratório!",
-            fixedItems: [
-                { name: "Microscópio", emoji: "🔬" },
-                { name: "Lupa", emoji: "🔍" }
-            ],
-            targetItems: [
-                { name: "Ímã", emoji: "🧲" },
-                { name: "Tubo de Ensaio", emoji: "🧪" },
-                { name: "Termômetro", emoji: "🌡️" }
-            ],
-            distractors: [
-                { name: "Biscoito", emoji: "🍪" },
-                { name: "Violão", emoji: "🎸" },
-                { name: "Travesseiro", emoji: "🛏️" }
-            ]
-        },
-        {
-            id: 4,
-            title: "Festa de Aniversário",
-            emoji: "🎈",
-            context: "Arraste os itens de festa para a lista de comemoração do Lab Kids!",
-            fixedItems: [
-                { name: "Bolo", emoji: "🎂" },
-                { name: "Bexiga", emoji: "🎈" }
-            ],
-            targetItems: [
-                { name: "Brigadeiro", emoji: "🍬" },
-                { name: "Vela", emoji: "🕯️" },
-                { name: "Presente", emoji: "🎁" }
-            ],
-            distractors: [
-                { name: "Chave", emoji: "🔑" },
-                { name: "Pneu", emoji: "🛞" },
-                { name: "Escova de Dente", emoji: "🪥" }
-            ]
-        },
-        {
-            id: 5,
-            title: "Animais da Fazenda",
-            emoji: "🐮",
-            context: "Arraste os bichinhos que moram na fazendinha para a lista!",
-            fixedItems: [
-                { name: "Cavalo", emoji: "🐴" },
-                { name: "Galinha", emoji: "🐔" }
-            ],
-            targetItems: [
-                { name: "Vaca", emoji: "🐮" },
-                { name: "Porco", emoji: "🐷" },
-                { name: "Ovelha", emoji: "🐑" }
-            ],
-            distractors: [
-                { name: "Tubarão", emoji: "🦈" },
-                { name: "Leão", emoji: "🦁" },
-                { name: "Helicóptero", emoji: "🚁" }
-            ]
-        }
-    ],
+// --- BANCO DE DADOS DAS FASES ---
+const STAGES_DATA = {
+    // Fase 1: Associação de Listas aos Personagens
+    stage1: {
+        instruction: "Entregue as listas corretas para Ana, José e Lucas.",
+        props: [
+            {
+                id: "prop_ana",
+                type: "sheet",
+                targetChar: "ana",
+                lines: ["✓ LÁPIS", "✓ ENVELOPE", "✓ CALCULADORA"]
+            },
+            {
+                id: "prop_jose",
+                type: "tablet",
+                targetChar: "jose",
+                lines: ["PÃO - MARACUJÁ -", "CARNE"]
+            },
+            {
+                id: "prop_lucas",
+                type: "phone",
+                targetChar: "lucas",
+                lines: ["• DIVERSÃO", "• VÔLEI", "• LANCHE"]
+            },
+            {
+                id: "prop_distractor",
+                type: "spiral",
+                targetChar: "none",
+                lines: ["TREM, BONECA,", "ROBÔ"]
+            }
+        ],
+        characters: [
+            { id: "ana", name: "ANA", avatar: "👩🏾‍💼", bgClass: "ana" },
+            { id: "jose", name: "JOSÉ", avatar: "🧔🏼‍♂️", bgClass: "jose" },
+            { id: "lucas", name: "LUCAS", avatar: "👦🏽", bgClass: "lucas" }
+        ]
+    },
 
-    // Modo 2: Quem é o Intruso?
-    intruders: [
-        {
-            id: 1,
-            title: "Lista de Brinquedos",
-            instruction: "Arraste o item que NÃO é um brinquedo até a lixeira do Robô!",
-            items: [
-                { name: "Bola", emoji: "⚽", isIntruder: false },
-                { name: "Carrinho", emoji: "🚗", isIntruder: false },
-                { name: "Cebola", emoji: "🧅", isIntruder: true },
-                { name: "Boneca", emoji: "🪆", isIntruder: false }
-            ]
-        },
-        {
-            id: 2,
-            title: "Lista de Frutas",
-            instruction: "Arraste o item que NÃO é uma fruta até a lixeira do Robô!",
-            items: [
-                { name: "Uva", emoji: "🍇", isIntruder: false },
-                { name: "Sapato", emoji: "👞", isIntruder: true },
-                { name: "Abacaxi", emoji: "🍍", isIntruder: false },
-                { name: "Pera", emoji: "🍐", isIntruder: false }
-            ]
-        },
-        {
-            id: 3,
-            title: "Meios de Transporte",
-            instruction: "Arraste o item que NÃO é um meio de transporte até a lixeira!",
-            items: [
-                { name: "Bicicleta", emoji: "🚲", isIntruder: false },
-                { name: "Avião", emoji: "✈️", isIntruder: false },
-                { name: "Navio", emoji: "🚢", isIntruder: false },
-                { name: "Pente", emoji: "🪮", isIntruder: true }
-            ]
-        },
-        {
-            id: 4,
-            title: "Peças de Roupas",
-            instruction: "Arraste o item que NÃO é uma roupa até a lixeira do Robô!",
-            items: [
-                { name: "Camiseta", emoji: "👕", isIntruder: false },
-                { name: "Martelo", emoji: "🔨", isIntruder: true },
-                { name: "Calça", emoji: "👖", isIntruder: false },
-                { name: "Meia", emoji: "🧦", isIntruder: false }
-            ]
-        },
-        {
-            id: 5,
-            title: "Instrumentos Musicais",
-            instruction: "Arraste o item que NÃO é um instrumento musical até a lixeira!",
-            items: [
-                { name: "Violão", emoji: "🎸", isIntruder: false },
-                { name: "Bateria", emoji: "🥁", isIntruder: false },
-                { name: "Tambor", emoji: "🪘", isIntruder: false },
-                { name: "Cadeira", emoji: "🪑", isIntruder: true }
-            ]
-        }
-    ],
+    // Fase 2: Complete a Lista do José (Alimentos do Mercado)
+    stage2: {
+        charName: "JOSÉ",
+        charAvatar: "🧔🏼‍♂️",
+        title: "LISTA DO JOSÉ",
+        fixedText: "PÃO - ALHO - FEIJÃO",
+        targetCategory: "alimentos",
+        words: [
+            { name: "BORRACHA", isCorrect: false },
+            { name: "BONECA", isCorrect: false },
+            { name: "MAMÃO", isCorrect: true },
+            { name: "CAJÁ", isCorrect: true },
+            { name: "CHAVE", isCorrect: false },
+            { name: "LÁPIS", isCorrect: false },
+            { name: "LEITE", isCorrect: true },
+            { name: "INGLÊS", isCorrect: false },
+            { name: "NATAÇÃO", isCorrect: false }
+        ]
+    },
 
-    // Modo 3: Ordem Alfabética (A-Z)
-    alphabetical: [
-        {
-            id: 1,
-            title: "Trem das Palavras 1",
-            instruction: "Arraste as palavras para os vagões na ordem do alfabeto (A - Z):",
-            correctOrder: [
-                { name: "Abelha", emoji: "🐝" },
-                { name: "Bola", emoji: "⚽" },
-                { name: "Casa", emoji: "🏠" }
-            ]
-        },
-        {
-            id: 2,
-            title: "Trem das Palavras 2",
-            instruction: "Arraste as palavras para os vagões na ordem do alfabeto (A - Z):",
-            correctOrder: [
-                { name: "Dado", emoji: "🎲" },
-                { name: "Elefante", emoji: "🐘" },
-                { name: "Foca", emoji: "🦭" }
-            ]
-        },
-        {
-            id: 3,
-            title: "Trem das Palavras 3",
-            instruction: "Arraste as palavras para os vagões na ordem do alfabeto (A - Z):",
-            correctOrder: [
-                { name: "Gato", emoji: "🐱" },
-                { name: "Jacaré", emoji: "🐊" },
-                { name: "Lápis", emoji: "✏️" },
-                { name: "Navio", emoji: "🚢" }
-            ]
-        }
-    ]
+    // Fase 3: Complete a Lista da Ana (Materiais Escolares / Trabalho)
+    stage3: {
+        charName: "ANA",
+        charAvatar: "👩🏾‍💼",
+        title: "LISTA DA ANA",
+        fixedText: "CANETA - BORRACHA - APONTADOR",
+        targetCategory: "material",
+        words: [
+            { name: "CADERNO", isCorrect: true },
+            { name: "PIZZA", isCorrect: false },
+            { name: "RÉGUA", isCorrect: true },
+            { name: "ESTOJO", isCorrect: true },
+            { name: "BOLA", isCorrect: false },
+            { name: "SAPATO", isCorrect: false },
+            { name: "PIÃO", isCorrect: false },
+            { name: "MAÇÃ", isCorrect: false },
+            { name: "PIJAMA", isCorrect: false }
+        ]
+    }
 };
 
-// --- MOTOR DE ÁUDIO SINTETIZADO ---
+// --- MOTOR DE ÁUDIO SINTETIZADO WEB AUDIO API ---
 class SoundEngine {
     constructor() {
         this.ctx = null;
@@ -226,14 +104,14 @@ class SoundEngine {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(300, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(550, this.ctx.currentTime + 0.06);
+        osc.frequency.setValueAtTime(320, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(580, this.ctx.currentTime + 0.05);
         gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.06);
+        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start();
-        osc.stop(this.ctx.currentTime + 0.06);
+        osc.stop(this.ctx.currentTime + 0.05);
     }
 
     playSnap() {
@@ -242,14 +120,14 @@ class SoundEngine {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(523.25, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.12);
+        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.1);
         gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.12);
+        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start();
-        osc.stop(this.ctx.currentTime + 0.12);
+        osc.stop(this.ctx.currentTime + 0.1);
     }
 
     playSuccess() {
@@ -260,13 +138,13 @@ class SoundEngine {
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(freq, now + i * 0.07);
-            gain.gain.setValueAtTime(0.25, now + i * 0.07);
-            gain.gain.linearRampToValueAtTime(0.01, now + i * 0.07 + 0.2);
+            osc.frequency.setValueAtTime(freq, now + i * 0.08);
+            gain.gain.setValueAtTime(0.25, now + i * 0.08);
+            gain.gain.linearRampToValueAtTime(0.01, now + i * 0.08 + 0.22);
             osc.connect(gain);
             gain.connect(this.ctx.destination);
-            osc.start(now + i * 0.07);
-            osc.stop(now + i * 0.07 + 0.2);
+            osc.start(now + i * 0.08);
+            osc.stop(now + i * 0.08 + 0.22);
         });
     }
 
@@ -277,14 +155,14 @@ class SoundEngine {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(240, now);
-        osc.frequency.linearRampToValueAtTime(140, now + 0.22);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.linearRampToValueAtTime(0.01, now + 0.22);
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.22);
+        osc.stop(now + 0.25);
     }
 
     playVictory() {
@@ -303,7 +181,7 @@ class SoundEngine {
                 gain.connect(this.ctx.destination);
                 osc.start();
                 osc.stop(this.ctx.currentTime + 0.35);
-            }, idx * 110);
+            }, idx * 120);
         });
     }
 
@@ -313,12 +191,12 @@ class SoundEngine {
         const utter = new SpeechSynthesisUtterance(text);
         utter.lang = 'pt-BR';
         utter.rate = 0.95;
-        utter.pitch = 1.1;
+        utter.pitch = 1.05;
         window.speechSynthesis.speak(utter);
     }
 }
 
-// --- CONFETTI ENGINE ---
+// --- MOTOR DE CONFETES ---
 class ConfettiEngine {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
@@ -385,40 +263,69 @@ class ConfettiEngine {
     }
 }
 
-// --- CLASSE PRINCIPAL DO JOGO COM DRAG AND DROP REAL ---
-class SuperListaGame {
+// --- CONTROLADOR PRINCIPAL DO JOGO ---
+class DeOlhoNaListaGame {
     constructor() {
         this.sound = new SoundEngine();
         this.confetti = new ConfettiEngine('confetti-canvas');
-        this.currentMode = null;
-        this.currentStageIdx = 0;
-        this.score = 0;
-        this.filledSlotsCount = 0;
-        this.totalSlotsToFill = 0;
-        this.activeDraggedCard = null;
+        this.currentStage = 1;
+        this.starsEarned = 0;
+
+        // Stage 1 Placed State
+        this.stage1Assignments = { ana: null, jose: null, lucas: null };
+
+        // Stage 2 & 3 Placed State
+        this.tabletPlacedWords = [null, null, null];
 
         this.initDOM();
         this.bindEvents();
     }
 
     initDOM() {
-        this.screenWelcome = document.getElementById('screen-welcome');
-        this.screenMode1 = document.getElementById('screen-mode1');
-        this.screenMode2 = document.getElementById('screen-mode2');
-        this.screenMode3 = document.getElementById('screen-mode3');
-        this.modalVictory = document.getElementById('modal-victory');
-        this.scoreDisplay = document.getElementById('score-value');
-        this.robotMascot = document.getElementById('robot-bit-mascot');
-        this.speechBubble = document.getElementById('mascot-speech');
+        this.viewMenu = document.getElementById('view-menu');
+        this.viewCutscene = document.getElementById('view-cutscene');
+        this.viewStage1 = document.getElementById('view-stage1');
+        this.viewStage2 = document.getElementById('view-stage2');
+        this.modalFeedback = document.getElementById('modal-feedback');
+
+        this.btnStartGame = document.getElementById('btn-start-game');
+        this.btnCutsceneNext = document.getElementById('btn-cutscene-next');
+        this.btnConfirmStage1 = document.getElementById('btn-confirm-stage1');
+        this.btnConfirmStage2 = document.getElementById('btn-confirm-stage2');
+        this.btnFeedbackAction = document.getElementById('btn-feedback-action');
     }
 
     bindEvents() {
-        document.querySelectorAll('.mode-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const mode = card.dataset.mode;
-                this.sound.playSnap();
-                this.startMode(mode);
-            });
+        this.btnStartGame.addEventListener('click', () => {
+            this.sound.playSnap();
+            this.showView(this.viewCutscene);
+            this.sound.speak("Ana, José e Lucas organizaram listas com diferentes objetivos, mas agora elas estão embaralhadas.");
+        });
+
+        this.btnCutsceneNext.addEventListener('click', () => {
+            this.sound.playSnap();
+            this.startStage1();
+        });
+
+        this.btnConfirmStage1.addEventListener('click', () => {
+            this.validateStage1();
+        });
+
+        this.btnConfirmStage2.addEventListener('click', () => {
+            this.validateStage2();
+        });
+
+        this.btnFeedbackAction.addEventListener('click', () => {
+            this.modalFeedback.classList.remove('active');
+            this.confetti.stop();
+            if (this.currentStage === 2) {
+                this.startStage2(STAGES_DATA.stage2);
+            } else if (this.currentStage === 3) {
+                this.startStage2(STAGES_DATA.stage3);
+            } else {
+                // Game Finished!
+                this.showView(this.viewMenu);
+            }
         });
 
         const unlockAudio = () => {
@@ -430,428 +337,268 @@ class SuperListaGame {
         window.addEventListener('pointerdown', unlockAudio, { passive: true });
     }
 
-    setRobotState(state, text = '') {
-        if (!this.robotMascot) return;
-        this.robotMascot.classList.remove('happy', 'watching');
-        if (state) this.robotMascot.classList.add(state);
-        if (text && this.speechBubble) {
-            this.speechBubble.textContent = text;
+    showView(view) {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        view.classList.add('active');
+    }
+
+    setStars(count) {
+        this.starsEarned = count;
+        for (let i = 1; i <= 3; i++) {
+            const starEl = document.getElementById(`star-${i}`);
+            if (i <= count) starEl.classList.add('filled');
+            else starEl.classList.remove('filled');
         }
     }
 
-    showScreen(screen) {
-        document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
-        screen.classList.add('active');
-        this.modalVictory.classList.remove('active');
-    }
+    // =======================================================
+    // FASE 1: ENTREGUE AS LISTAS AOS PERSONAGENS
+    // =======================================================
+    startStage1() {
+        this.currentStage = 1;
+        this.showView(this.viewStage1);
+        this.stage1Assignments = { ana: null, jose: null, lucas: null };
+        this.btnConfirmStage1.classList.remove('active');
+        this.sound.speak(STAGES_DATA.stage1.instruction);
 
-    addPoints(pts = 100) {
-        this.score += pts;
-        this.scoreDisplay.textContent = this.score;
-    }
+        // Build Draggable Props Area (Left)
+        const propsArea = document.getElementById('stage1-props-area');
+        propsArea.innerHTML = '';
 
-    startMode(mode) {
-        this.currentMode = mode;
-        this.currentStageIdx = 0;
+        STAGES_DATA.stage1.props.forEach(prop => {
+            const el = document.createElement('div');
+            el.className = `list-prop prop-${prop.type}`;
+            el.id = prop.id;
+            el.innerHTML = prop.lines.map(l => `<div>${l}</div>`).join('');
 
-        if (mode === 'complete') {
-            this.loadMode1Stage(this.currentStageIdx);
-        } else if (mode === 'intruders') {
-            this.loadMode2Stage(this.currentStageIdx);
-        } else if (mode === 'alphabetical') {
-            this.loadMode3Stage(this.currentStageIdx);
-        }
-    }
-
-    // ==========================================
-    // MODO 1: COMPLETE A LISTA (DRAG & DROP REAL)
-    // ==========================================
-    loadMode1Stage(stageIdx) {
-        const stage = GAME_DATA.completeList[stageIdx];
-        if (!stage) {
-            this.showVictoryModal("Missão Cumprida!", "Você organizou todas as listas com perfeição!");
-            return;
-        }
-
-        this.showScreen(this.screenMode1);
-        this.filledSlotsCount = 0;
-        this.totalSlotsToFill = stage.targetItems.length;
-
-        document.getElementById('mode1-title-tag').innerHTML = `${stage.emoji} ${stage.title} (${stageIdx + 1}/${GAME_DATA.completeList.length})`;
-        document.getElementById('mode1-notebook-title').innerHTML = `<span>${stage.emoji} Lista de ${stage.title}</span>`;
-        this.setRobotState('watching', stage.context);
-        this.sound.speak(`${stage.title}. ${stage.context}`);
-
-        // Build Notebook Slots
-        const slotsContainer = document.getElementById('mode1-notebook-slots');
-        slotsContainer.innerHTML = '';
-
-        // Fixed items
-        stage.fixedItems.forEach(item => {
-            const slot = document.createElement('div');
-            slot.className = 'drop-slot fixed';
-            slot.innerHTML = `
-                <span class="check-icon">✔</span>
-                <span>${item.emoji} ${item.name}</span>
-                <button class="btn-speak" title="Ouvir">🔊</button>
-            `;
-            slot.querySelector('.btn-speak').addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.sound.speak(item.name);
-            });
-            slotsContainer.appendChild(slot);
-        });
-
-        // Target drop zones
-        for (let i = 0; i < stage.targetItems.length; i++) {
-            const slot = document.createElement('div');
-            slot.className = 'drop-slot target-drop-zone';
-            slot.dataset.slotIndex = i;
-            slot.innerHTML = `
-                <span class="check-icon">⏳</span>
-                <span class="slot-text" style="color: #94a3b8; font-style: italic;">Arraste um item aqui...</span>
-            `;
-            slotsContainer.appendChild(slot);
-        }
-
-        // Build Draggable Cards
-        const poolGrid = document.getElementById('mode1-words-grid');
-        poolGrid.innerHTML = '';
-
-        const allItems = [
-            ...stage.targetItems.map(i => ({ ...i, isTarget: true })),
-            ...stage.distractors.map(i => ({ ...i, isTarget: false }))
-        ].sort(() => Math.random() - 0.5);
-
-        allItems.forEach((item, idx) => {
-            const card = document.createElement('div');
-            card.className = 'draggable-card';
-            card.id = `card-m1-${idx}`;
-            card.innerHTML = `
-                <span>${item.emoji} ${item.name}</span>
-                <button class="btn-speak-item" title="Ouvir">🔊</button>
-            `;
-
-            card.querySelector('.btn-speak-item').addEventListener('pointerdown', (e) => {
-                e.stopPropagation();
-                this.sound.speak(item.name);
-            });
-
-            // Make Card Truly Draggable with Touch & Pointer API
-            this.attachPointerDrag(card, {
+            this.attachPointerDrag(el, {
                 onDragStart: () => {
                     this.sound.playGrab();
-                    this.setRobotState('watching', `Arraste ${item.name} para a lista!`);
                 },
                 onDrop: (dropTarget) => {
-                    this.handleMode1Drop(card, item, dropTarget, stage);
+                    const charCard = dropTarget ? dropTarget.closest('.character-target-card') : null;
+                    if (charCard) {
+                        const charId = charCard.dataset.charId;
+                        this.assignPropToCharacter(el, prop, charId);
+                    }
                 },
                 onTap: () => {
-                    // Tap-to-place alternative
-                    const emptySlot = document.querySelector('.target-drop-zone:not(.filled)');
-                    if (emptySlot) {
-                        this.handleMode1Drop(card, item, emptySlot, stage);
-                    } else {
-                        this.sound.speak(item.name);
+                    // Tap alternative: find first empty character slot
+                    const emptyCharId = Object.keys(this.stage1Assignments).find(k => !this.stage1Assignments[k]);
+                    if (emptyCharId) {
+                        this.assignPropToCharacter(el, prop, emptyCharId);
                     }
                 }
             });
 
-            poolGrid.appendChild(card);
+            propsArea.appendChild(el);
+        });
+
+        // Build Character Target Cards (Right)
+        const targetsCol = document.getElementById('stage1-targets-column');
+        targetsCol.innerHTML = '';
+
+        STAGES_DATA.stage1.characters.forEach(char => {
+            const card = document.createElement('div');
+            card.className = 'character-target-card';
+            card.dataset.charId = char.id;
+            card.innerHTML = `
+                <div class="char-info-col">
+                    <div class="char-label">${char.name}</div>
+                    <div class="char-avatar-small ${char.bgClass}">${char.avatar}</div>
+                </div>
+                <div class="character-drop-box" id="drop-box-${char.id}">
+                    Solte a lista aqui
+                </div>
+            `;
+            targetsCol.appendChild(card);
         });
     }
 
-    handleMode1Drop(card, item, dropTarget, stage) {
-        // Must be dropped on a target slot or notebook area
-        const targetSlot = dropTarget ? dropTarget.closest('.target-drop-zone:not(.filled)') : null;
+    assignPropToCharacter(propElement, propData, charId) {
+        this.sound.playSnap();
+        this.stage1Assignments[charId] = propData;
 
-        if (targetSlot && item.isTarget) {
-            // SUCCESS SNAP
-            this.sound.playSnap();
+        const dropBox = document.getElementById(`drop-box-${charId}`);
+        dropBox.classList.add('filled');
+        dropBox.innerHTML = `
+            <div style="font-size: 0.9rem; font-weight: 800; color: #065f46;">
+                ${propData.lines[0]}... ✅
+            </div>
+        `;
+
+        propElement.classList.add('hidden-placed');
+
+        // Check if all 3 characters have lists
+        const filledCount = Object.values(this.stage1Assignments).filter(Boolean).length;
+        if (filledCount >= 3) {
+            this.btnConfirmStage1.classList.add('active');
+            this.sound.speak("Agora clique em Confirmar!");
+        }
+    }
+
+    validateStage1() {
+        if (!this.btnConfirmStage1.classList.contains('active')) return;
+
+        // Validation: Ana = prop_ana, Jose = prop_jose, Lucas = prop_lucas
+        const isAnaOk = this.stage1Assignments.ana && this.stage1Assignments.ana.targetChar === 'ana';
+        const isJoseOk = this.stage1Assignments.jose && this.stage1Assignments.jose.targetChar === 'jose';
+        const isLucasOk = this.stage1Assignments.lucas && this.stage1Assignments.lucas.targetChar === 'lucas';
+
+        if (isAnaOk && isJoseOk && isLucasOk) {
+            // SUCCESS
             this.sound.playSuccess();
-            this.setRobotState('happy', `Muito bem! ${item.name} colocado na lista!`);
-            this.sound.speak(`${item.name}! Correto!`);
-            this.addPoints(100);
+            this.confetti.start();
+            this.setStars(1);
+            this.currentStage = 2;
 
-            // Fill Slot with Snap Bounce
-            targetSlot.classList.add('filled');
-            targetSlot.innerHTML = `
-                <span class="check-icon">✅</span>
-                <span>${item.emoji} ${item.name}</span>
-                <button class="btn-speak" title="Ouvir">🔊</button>
-            `;
-            targetSlot.querySelector('.btn-speak').addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.sound.speak(item.name);
-            });
-
-            card.classList.add('hidden-placed');
-
-            this.filledSlotsCount++;
-            if (this.filledSlotsCount >= this.totalSlotsToFill) {
-                this.sound.playVictory();
-                this.confetti.start();
-                this.setRobotState('happy', "Sensacional! Lista completada com sucesso!");
-                setTimeout(() => {
-                    this.currentStageIdx++;
-                    this.loadMode1Stage(this.currentStageIdx);
-                }, 1600);
-            }
+            this.showFeedbackModal("MUITO BEM!", "Você entregou as listas certas para Ana, José e Lucas!", "CONTINUAR");
         } else {
-            // ERROR: Invalid Drop or Wrong Distractor
+            // ERROR
             this.sound.playError();
-            card.classList.add('shake-error');
-            setTimeout(() => card.classList.remove('shake-error'), 450);
-
-            if (!item.isTarget) {
-                this.setRobotState('', `Ops! ${item.name} não combina com esta lista.`);
-                this.sound.speak(`${item.name} não faz parte desta lista.`);
-            } else {
-                this.setRobotState('', `Solte o item dentro de uma das caixas vazias da lista!`);
-            }
+            this.sound.speak("Ops! Alguma lista foi entregue para a pessoa errada. Tente novamente!");
+            setTimeout(() => {
+                this.startStage1();
+            }, 1200);
         }
     }
 
-    // ==========================================
-    // MODO 2: QUEM É O INTRUSO? (DRAG TO TRASH)
-    // ==========================================
-    loadMode2Stage(stageIdx) {
-        const stage = GAME_DATA.intruders[stageIdx];
-        if (!stage) {
-            this.showVictoryModal("Detetive Mestre!", "Você desintegrou todos os intrusos das listas!");
-            return;
-        }
+    // =======================================================
+    // FASE 2 & 3: COMPLETE A LISTA NO TABLET
+    // =======================================================
+    startStage2(stageConfig) {
+        this.showView(this.viewStage2);
+        this.currentStageConfig = stageConfig;
+        this.tabletPlacedWords = [null, null, null];
+        this.btnConfirmStage2.classList.remove('active');
 
-        this.showScreen(this.screenMode2);
-        document.getElementById('mode2-title-tag').innerHTML = `🕵️ ${stage.title} (${stageIdx + 1}/${GAME_DATA.intruders.length})`;
-        this.setRobotState('watching', stage.instruction);
-        this.sound.speak(`${stage.title}. ${stage.instruction}`);
+        // Header Title & Avatar
+        document.getElementById('stage2-char-avatar').textContent = stageConfig.charAvatar;
+        document.getElementById('tablet-list-title').textContent = stageConfig.title;
+        document.getElementById('tablet-fixed-items').textContent = stageConfig.fixedText;
+        this.sound.speak(`Complete a ${stageConfig.title}. Arraste as palavras adequadas para a lista.`);
 
-        const cardsRow = document.getElementById('mode2-cards-row');
-        cardsRow.innerHTML = '';
-
-        stage.items.forEach((item, idx) => {
-            const card = document.createElement('div');
-            card.className = 'intruder-card';
-            card.innerHTML = `
-                <span class="emoji">${item.emoji}</span>
-                <span class="name">${item.name}</span>
-                <button class="btn-speak" title="Ouvir">🔊</button>
-            `;
-
-            card.querySelector('.btn-speak').addEventListener('pointerdown', (e) => {
-                e.stopPropagation();
-                this.sound.speak(item.name);
-            });
-
-            this.attachPointerDrag(card, {
-                onDragStart: () => {
-                    this.sound.playGrab();
-                    this.setRobotState('watching', `Arraste ${item.name} até a lixeira se for o intruso!`);
-                },
-                onDrop: (dropTarget) => {
-                    const trashZone = dropTarget ? dropTarget.closest('.robot-trash-zone') : null;
-                    if (trashZone && item.isIntruder) {
-                        // SUCESSO
-                        this.sound.playSuccess();
-                        this.sound.speak(`Acertou! ${item.name} é o intruso!`);
-                        this.setRobotState('happy', `Excelente! ${item.name} eliminado da lista!`);
-                        card.classList.add('hidden-placed');
-                        this.addPoints(150);
-                        this.confetti.start();
-
-                        setTimeout(() => {
-                            this.currentStageIdx++;
-                            this.loadMode2Stage(this.currentStageIdx);
-                        }, 1500);
-                    } else if (trashZone && !item.isIntruder) {
-                        this.sound.playError();
-                        this.sound.speak(`Não! ${item.name} pertence à lista!`);
-                        this.setRobotState('', `Cuidado! ${item.name} faz parte da lista certa.`);
-                        card.classList.add('shake-error');
-                        setTimeout(() => card.classList.remove('shake-error'), 450);
-                    }
-                },
-                onTap: () => {
-                    if (item.isIntruder) {
-                        this.sound.playSuccess();
-                        this.sound.speak(`Acertou! ${item.name} é o intruso!`);
-                        this.setRobotState('happy', `Excelente! ${item.name} eliminado!`);
-                        card.classList.add('hidden-placed');
-                        this.addPoints(150);
-                        this.confetti.start();
-
-                        setTimeout(() => {
-                            this.currentStageIdx++;
-                            this.loadMode2Stage(this.currentStageIdx);
-                        }, 1500);
-                    } else {
-                        this.sound.playError();
-                        this.sound.speak(`${item.name} pertence à lista.`);
-                        card.classList.add('shake-error');
-                        setTimeout(() => card.classList.remove('shake-error'), 450);
-                    }
-                }
-            });
-
-            cardsRow.appendChild(card);
-        });
-    }
-
-    // ==========================================
-    // MODO 3: ORDEM ALFABÉTICA (TREM DAS PALAVRAS)
-    // ==========================================
-    loadMode3Stage(stageIdx) {
-        const stage = GAME_DATA.alphabetical[stageIdx];
-        if (!stage) {
-            this.showVictoryModal("Mestre do Alfabeto!", "Todos os vagões foram organizados perfeitamente!");
-            return;
-        }
-
-        this.showScreen(this.screenMode3);
-        document.getElementById('mode3-title-tag').innerHTML = `🔤 ${stage.title} (${stageIdx + 1}/${GAME_DATA.alphabetical.length})`;
-        this.setRobotState('watching', stage.instruction);
-        this.sound.speak(stage.instruction);
-
-        this.alphaOrderCount = 0;
-        const wagonsContainer = document.getElementById('mode3-wagons-row');
-        wagonsContainer.innerHTML = '';
-
-        for (let i = 0; i < stage.correctOrder.length; i++) {
-            const wagon = document.createElement('div');
-            wagon.className = 'train-wagon';
-            wagon.dataset.wagonIndex = i;
-            wagon.innerHTML = `
-                <span class="wagon-badge">${i + 1}º Vagão</span>
-                <span style="color: #94a3b8; font-size: 0.85rem; font-style: italic;">Arraste aqui</span>
-            `;
-            wagonsContainer.appendChild(wagon);
-        }
-
-        const wordsGrid = document.getElementById('mode3-words-grid');
+        // Build Word Pills (Left)
+        const wordsGrid = document.getElementById('stage2-words-grid');
         wordsGrid.innerHTML = '';
 
-        const shuffled = [...stage.correctOrder].sort(() => Math.random() - 0.5);
+        stageConfig.words.forEach((wordObj, idx) => {
+            const pill = document.createElement('div');
+            pill.className = 'word-pill';
+            pill.id = `pill-${idx}`;
+            pill.textContent = wordObj.name;
 
-        shuffled.forEach((item, idx) => {
-            const card = document.createElement('div');
-            card.className = 'draggable-card';
-            card.id = `card-m3-${idx}`;
-            card.innerHTML = `
-                <span>${item.emoji} ${item.name}</span>
-                <button class="btn-speak-item" title="Ouvir">🔊</button>
-            `;
-
-            card.querySelector('.btn-speak-item').addEventListener('pointerdown', (e) => {
-                e.stopPropagation();
-                this.sound.speak(item.name);
-            });
-
-            this.attachPointerDrag(card, {
+            this.attachPointerDrag(pill, {
                 onDragStart: () => {
                     this.sound.playGrab();
+                    this.sound.speak(wordObj.name);
                 },
                 onDrop: (dropTarget) => {
-                    const wagon = dropTarget ? dropTarget.closest('.train-wagon:not(.filled)') : null;
-                    if (wagon) {
-                        const expectedIdx = this.alphaOrderCount;
-                        const wagonIdx = parseInt(wagon.dataset.wagonIndex, 10);
-                        const expectedItem = stage.correctOrder[expectedIdx];
-
-                        if (wagonIdx === expectedIdx && item.name === expectedItem.name) {
-                            // Correto
-                            this.sound.playSnap();
-                            this.sound.playSuccess();
-                            this.sound.speak(`${item.name}! Correto!`);
-                            this.setRobotState('happy', `${item.name} no ${expectedIdx + 1}º vagão!`);
-                            wagon.classList.add('filled');
-                            wagon.innerHTML = `
-                                <span class="wagon-badge" style="background:#10b981;">${expectedIdx + 1}º Vagão</span>
-                                <span style="font-size: 1.15rem; font-weight: 700; color: white;">${item.emoji} ${item.name}</span>
-                            `;
-                            card.classList.add('hidden-placed');
-                            this.alphaOrderCount++;
-                            this.addPoints(120);
-
-                            if (this.alphaOrderCount >= stage.correctOrder.length) {
-                                this.sound.playVictory();
-                                this.confetti.start();
-                                setTimeout(() => {
-                                    this.currentStageIdx++;
-                                    this.loadMode3Stage(this.currentStageIdx);
-                                }, 1500);
-                            }
-                        } else {
-                            this.sound.playError();
-                            this.sound.speak(`Observe a letra inicial de ${item.name}. Procure a que vem primeiro.`);
-                            this.setRobotState('', `A letra inicial de "${item.name}" não é a próxima no alfabeto.`);
-                            card.classList.add('shake-error');
-                            setTimeout(() => card.classList.remove('shake-error'), 450);
-                        }
+                    const slot = dropTarget ? dropTarget.closest('.tablet-slot') : null;
+                    if (slot) {
+                        const slotIdx = parseInt(slot.dataset.slotIndex, 10);
+                        this.placeWordInTabletSlot(pill, wordObj, slotIdx);
                     }
                 },
                 onTap: () => {
-                    const expectedIdx = this.alphaOrderCount;
-                    const expectedItem = stage.correctOrder[expectedIdx];
-                    const nextWagon = document.querySelector(`.train-wagon[data-wagon-index="${expectedIdx}"]:not(.filled)`);
-
-                    if (nextWagon && item.name === expectedItem.name) {
-                        this.sound.playSnap();
-                        this.sound.playSuccess();
-                        this.sound.speak(`${item.name}! Correto!`);
-                        this.setRobotState('happy', `${item.name} colocado no ${expectedIdx + 1}º vagão!`);
-                        nextWagon.classList.add('filled');
-                        nextWagon.innerHTML = `
-                            <span class="wagon-badge" style="background:#10b981;">${expectedIdx + 1}º Vagão</span>
-                            <span style="font-size: 1.15rem; font-weight: 700; color: white;">${item.emoji} ${item.name}</span>
-                        `;
-                        card.classList.add('hidden-placed');
-                        this.alphaOrderCount++;
-                        this.addPoints(120);
-
-                        if (this.alphaOrderCount >= stage.correctOrder.length) {
-                            this.sound.playVictory();
-                            this.confetti.start();
-                            setTimeout(() => {
-                                this.currentStageIdx++;
-                                this.loadMode3Stage(this.currentStageIdx);
-                            }, 1500);
-                        }
-                    } else {
-                        this.sound.playError();
-                        this.sound.speak(`Observe o alfabeto para escolher a próxima palavra.`);
-                        card.classList.add('shake-error');
-                        setTimeout(() => card.classList.remove('shake-error'), 450);
+                    this.sound.speak(wordObj.name);
+                    // Tap alternative: find first empty tablet slot
+                    const emptySlotIdx = this.tabletPlacedWords.findIndex(w => w === null);
+                    if (emptySlotIdx !== -1) {
+                        this.placeWordInTabletSlot(pill, wordObj, emptySlotIdx);
                     }
                 }
             });
 
-            wordsGrid.appendChild(card);
+            wordsGrid.appendChild(pill);
         });
+
+        // Build Tablet Slots (Right)
+        const slotsRow = document.getElementById('tablet-drop-slots');
+        slotsRow.innerHTML = '';
+
+        for (let i = 0; i < 3; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'tablet-slot';
+            slot.dataset.slotIndex = i;
+            slot.id = `tablet-slot-${i}`;
+            slot.textContent = `[ ______ ]`;
+            slotsRow.appendChild(slot);
+        }
     }
 
-    // ==========================================
-    // MOTOR DE DRAG & DROP POINTER API UNIVERSAL
-    // ==========================================
+    placeWordInTabletSlot(pillElement, wordObj, slotIdx) {
+        this.sound.playSnap();
+        this.tabletPlacedWords[slotIdx] = wordObj;
+
+        const slot = document.getElementById(`tablet-slot-${slotIdx}`);
+        slot.classList.add('filled');
+        slot.textContent = wordObj.name;
+
+        pillElement.classList.add('hidden-placed');
+
+        // Check if all 3 slots are filled
+        const filledCount = this.tabletPlacedWords.filter(Boolean).length;
+        if (filledCount >= 3) {
+            this.btnConfirmStage2.classList.add('active');
+            this.sound.speak("Agora clique em Confirmar!");
+        }
+    }
+
+    validateStage2() {
+        if (!this.btnConfirmStage2.classList.contains('active')) return;
+
+        // Check if all 3 placed words are correct
+        const allCorrect = this.tabletPlacedWords.every(w => w && w.isCorrect);
+
+        if (allCorrect) {
+            // SUCCESS
+            this.sound.playSuccess();
+            this.confetti.start();
+
+            if (this.currentStage === 2) {
+                this.setStars(2);
+                this.currentStage = 3;
+                this.showFeedbackModal("EXCELENTE!", "Você completou a lista de alimentos com maestria!", "PRÓXIMA LISTA");
+            } else if (this.currentStage === 3) {
+                this.setStars(3);
+                this.sound.playVictory();
+                this.showFeedbackModal("PARABÉNS!", "Você completou todas as missões de De Olho na Lista!", "JOGAR NOVAMENTE");
+            }
+        } else {
+            // ERROR
+            this.sound.playError();
+            this.sound.speak("Alguma palavra não faz parte desta lista. Tente novamente!");
+            setTimeout(() => {
+                this.startStage2(this.currentStageConfig);
+            }, 1200);
+        }
+    }
+
+    showFeedbackModal(title, desc, actionText) {
+        document.getElementById('feedback-title').textContent = title;
+        document.getElementById('feedback-desc').textContent = desc;
+        this.btnFeedbackAction.textContent = actionText;
+        this.modalFeedback.classList.add('active');
+    }
+
+    // =======================================================
+    // MOTOR UNIVERSAL DE ARRASTAR COM POINTER API
+    // =======================================================
     attachPointerDrag(element, callbacks = {}) {
         let isDragging = false;
         let startX = 0;
         let startY = 0;
-        let currentX = 0;
-        let currentY = 0;
-        let currentDropOver = null;
         let hasMoved = false;
+        let currentDropOver = null;
 
         const onPointerDown = (e) => {
-            // Only primary pointer (left mouse or primary finger)
             if (e.button !== 0 && e.pointerType === 'mouse') return;
 
             isDragging = true;
             hasMoved = false;
             startX = e.clientX;
             startY = e.clientY;
-            currentX = e.clientX;
-            currentY = e.clientY;
 
             element.setPointerCapture(e.pointerId);
 
@@ -869,12 +616,11 @@ class SuperListaGame {
                 element.classList.add('is-dragging');
                 element.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(1.12) rotate(3deg)`;
 
-                // Highlight drop zone under cursor
+                // Collision detection with drop zones
                 const elementsBelow = document.elementsFromPoint(e.clientX, e.clientY);
                 const dropZone = elementsBelow.find(el => 
-                    el.classList.contains('target-drop-zone') || 
-                    el.classList.contains('robot-trash-zone') || 
-                    el.classList.contains('train-wagon')
+                    el.classList.contains('character-target-card') || 
+                    el.classList.contains('tablet-slot')
                 );
 
                 if (currentDropOver && currentDropOver !== dropZone) {
@@ -904,28 +650,22 @@ class SuperListaGame {
             }
 
             if (hasMoved) {
-                // Find drop target at final pointer coordinates
                 const elementsBelow = document.elementsFromPoint(e.clientX, e.clientY);
                 const dropTarget = elementsBelow.find(el => 
-                    el.classList.contains('target-drop-zone') || 
-                    el.classList.contains('robot-trash-zone') || 
-                    el.classList.contains('train-wagon') ||
-                    el.closest('.notebook-container') ||
-                    el.closest('.robot-trash-zone') ||
-                    el.closest('.train-wagon')
+                    el.classList.contains('character-target-card') || 
+                    el.classList.contains('tablet-slot') ||
+                    el.closest('.character-target-card') ||
+                    el.closest('.tablet-device-frame')
                 );
 
                 if (callbacks.onDrop) callbacks.onDrop(dropTarget);
             } else {
-                // If the student simply tapped without dragging
                 if (callbacks.onTap) callbacks.onTap();
             }
         };
 
-        const onPointerCancel = (e) => {
-            if (!isDragging) return;
+        const onPointerCancel = () => {
             isDragging = false;
-            try { element.releasePointerCapture(e.pointerId); } catch(err) {}
             element.classList.remove('is-dragging');
             element.style.transform = '';
             if (currentDropOver) currentDropOver.classList.remove('drag-over');
@@ -936,24 +676,9 @@ class SuperListaGame {
         element.addEventListener('pointerup', onPointerUp);
         element.addEventListener('pointercancel', onPointerCancel);
     }
-
-    showVictoryModal(title, message) {
-        this.sound.playVictory();
-        this.confetti.start();
-        document.getElementById('modal-title').textContent = title;
-        document.getElementById('modal-text').textContent = message;
-        document.getElementById('modal-score').textContent = `Pontuação: ${this.score} ⭐`;
-        this.modalVictory.classList.add('active');
-    }
-
-    goToWelcome() {
-        this.confetti.stop();
-        this.modalVictory.classList.remove('active');
-        this.showScreen(this.screenWelcome);
-    }
 }
 
 // Inicializar após carregamento
 window.addEventListener('DOMContentLoaded', () => {
-    window.game = new SuperListaGame();
+    window.game = new DeOlhoNaListaGame();
 });
