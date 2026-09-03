@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Super Lista: Missão Lab Kids | Jogo Educativo BNCC</title>
-    <meta name="description" content="Jogo educativo e interativo sobre o gênero textual Listas, categorização e ordem alfabética para Educação Infantil e Ensino Fundamental.">
+    <title>Super Lista: Missão Lab Kids | Jogo Educativo Interativo BNCC</title>
+    <meta name="description" content="Jogo educativo e interativo de arrastar palavras e organizar listas com o Robô Bit. Alinhado à BNCC para alfabetização e letramento.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
 </head>
 <body>
+
+    <!-- Ambient floating particles -->
+    <div class="bg-particles">
+        <div class="bubble" style="width: 140px; height: 140px; left: 10%; animation-duration: 12s;"></div>
+        <div class="bubble" style="width: 80px; height: 80px; left: 75%; animation-duration: 16s; animation-delay: 2s;"></div>
+        <div class="bubble" style="width: 110px; height: 110px; left: 45%; animation-duration: 18s; animation-delay: 4s;"></div>
+    </div>
 
     <!-- Canvas Confetti -->
     <canvas id="confetti-canvas"></canvas>
@@ -47,144 +54,193 @@
         <!-- 1. TELA DE BOAS-VINDAS / SELEÇÃO DE MODO -->
         <section id="screen-welcome" class="game-screen active">
             <div class="welcome-card">
-                <div class="robot-avatar">🤖</div>
+                <div class="big-robot-avatar">🤖</div>
                 <h2 class="welcome-title">Missão Organização!</h2>
                 <p class="welcome-subtitle">
-                    Olá, amiguinho! O <strong>Robô Bit</strong> precisa da sua ajuda para organizar as listas do laboratório e da escola. Escolha um desafio para começar:
+                    Arraste as palavras para completar as listas, elimine os intrusos e organize o trem alfabético com o <strong>Robô Bit</strong>!
                 </p>
 
                 <div class="mode-grid">
                     <div class="mode-card" data-mode="complete">
                         <span class="icon">📋</span>
                         <h3>Complete a Lista</h3>
-                        <p>Leia e selecione os itens que pertencem a cada lista.</p>
+                        <p>Arraste os itens que pertencem a cada lista no caderno.</p>
                     </div>
 
                     <div class="mode-card" data-mode="intruders">
                         <span class="icon">🕵️</span>
                         <h3>Quem é o Intruso?</h3>
-                        <p>Descubra a palavra que NÃO combina com a lista!</p>
+                        <p>Arraste a palavra errada até a lixeira do robô!</p>
                     </div>
 
                     <div class="mode-card" data-mode="alphabetical">
-                        <span class="icon">🔤</span>
-                        <h3>Ordem Alfabética</h3>
-                        <p>Organize as palavras na sequência correta de A a Z.</p>
+                        <span class="icon">🚂</span>
+                        <h3>Trem do Alfabeto</h3>
+                        <p>Arraste as palavras nos vagões em ordem A - Z.</p>
                     </div>
                 </div>
 
-                <div style="margin-top: 15px;">
-                    <span style="font-size: 0.85rem; color: #a5b4fc; font-weight: 600;">
-                        ✨ Toque no ícone 🔊 das palavras para ouvir a leitura em voz alta!
+                <div style="background: rgba(255, 255, 255, 0.06); padding: 10px 16px; border-radius: 16px; display: inline-flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.2rem;">👆</span>
+                    <span style="font-size: 0.88rem; color: #38bdf8; font-weight: 700;">
+                        Dica: Você pode <strong>arrastar</strong> ou <strong>tocar</strong> nos cartões para jogar!
                     </span>
                 </div>
             </div>
         </section>
 
-        <!-- 2. TELA DO MODO 1: COMPLETE A LISTA -->
-        <section id="screen-game" class="game-screen">
-            <div class="level-top-bar">
-                <div class="mission-tag" id="mission-tag">🎒 Mochila Escolar</div>
-                <button class="btn-icon" onclick="window.game.goToWelcome()">
+        <!-- 2. TELA DO MODO 1: COMPLETE A LISTA (DRAG & DROP REAL) -->
+        <section id="screen-mode1" class="game-screen">
+            <!-- Animated Robot Bit Mascot Top Bar -->
+            <div class="mascot-stage">
+                <div class="robot-bit" id="robot-bit-mascot">
+                    <div class="antenna"></div>
+                    <div class="face">
+                        <div class="eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div class="mouth"></div>
+                    </div>
+                </div>
+                <div class="speech-bubble" id="mascot-speech">
+                    Arraste os materiais escolares para a lista!
+                </div>
+                <button class="btn-icon" onclick="window.game.goToWelcome()" style="flex-shrink: 0;">
                     <span>↩️</span> Modos
                 </button>
             </div>
 
-            <div class="play-board">
-                <!-- Caderno da Lista -->
-                <div class="list-notebook">
+            <div class="drag-play-board">
+                <!-- Caderno com Zonas de Drop -->
+                <div class="notebook-container">
                     <div class="notebook-header">
-                        <h3 class="notebook-title" id="notebook-title">
-                            <span>📋 Lista</span>
-                        </h3>
+                        <h3 id="mode1-notebook-title"><span>📋 Lista</span></h3>
+                        <span id="mode1-title-tag" style="font-size: 0.85rem; color: #6366f1; font-weight: 800;">🎒 Mochila</span>
                     </div>
 
-                    <div class="notebook-items" id="notebook-items">
-                        <!-- Itens gerados dinamicamente -->
+                    <div class="notebook-slots" id="mode1-notebook-slots">
+                        <!-- Slots gerados dinamicamente com suporte a Drag & Drop -->
                     </div>
                 </div>
 
-                <!-- Banco de Palavras -->
-                <div class="pool-container">
+                <!-- Banco de Cartões Arrastáveis -->
+                <div class="drag-pool-container">
                     <div>
-                        <div class="pool-header">
-                            <span>🧩 Palavras Disponíveis</span>
+                        <div class="drag-pool-header">
+                            <span>🧩 Cartões Arrastáveis</span>
                         </div>
-                        <div class="words-grid" id="words-grid">
-                            <!-- Cards de palavras gerados dinamicamente -->
+                        <div class="draggable-words-grid" id="mode1-words-grid">
+                            <!-- Cards arrastáveis -->
                         </div>
                     </div>
 
-                    <div class="feedback-box" id="feedback-box">
-                        Toque no item correto para adicionar à lista.
+                    <div style="text-align: center; font-size: 0.82rem; color: #94a3b8; font-weight: 600; padding: 6px;">
+                        💡 Segure e arraste até o caderno, ou dê um toque na palavra!
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- 3. TELA DO MODO 2: QUEM É O INTRUSO? -->
-        <section id="screen-intruders" class="game-screen">
-            <div class="level-top-bar">
-                <div class="mission-tag" id="intruder-mission-tag">🕵️ Quem é o Intruso?</div>
-                <button class="btn-icon" onclick="window.game.goToWelcome()">
+        <section id="screen-mode2" class="game-screen">
+            <div class="mascot-stage">
+                <div class="robot-bit">
+                    <div class="antenna"></div>
+                    <div class="face">
+                        <div class="eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div class="mouth"></div>
+                    </div>
+                </div>
+                <div class="speech-bubble">
+                    Encontre o intruso e <strong>arraste até a lixeira do Robô</strong> para eliminá-lo!
+                </div>
+                <button class="btn-icon" onclick="window.game.goToWelcome()" style="flex-shrink: 0;">
                     <span>↩️</span> Modos
                 </button>
             </div>
 
-            <div style="text-align: center; margin-bottom: 10px;">
-                <h3 id="intruder-instruction" style="font-family: var(--font-heading); font-size: 1.3rem; color: #f8fafc;">
-                    Qual destes itens NÃO faz parte desta lista?
-                </h3>
-            </div>
+            <div class="intruder-board">
+                <div style="font-family: var(--font-heading); font-size: 1.15rem; color: #38bdf8; font-weight: 700;" id="mode2-title-tag">
+                    🕵️ Lista de Brinquedos
+                </div>
 
-            <div class="intruder-grid" id="intruder-grid">
-                <!-- Cards dos intrusos gerados dinamicamente -->
+                <!-- Cards dos Itens -->
+                <div class="intruder-cards-row" id="mode2-cards-row">
+                    <!-- Cards arrastáveis -->
+                </div>
+
+                <!-- Zona de Drop da Lixeira / Desintegrador -->
+                <div class="robot-trash-zone" id="robot-trash-zone">
+                    <div class="trash-icon">🗑️</div>
+                    <div>
+                        <div class="trash-text">SOLTE O INTRUSO AQUI!</div>
+                        <span style="font-size: 0.8rem; color: #fca5a5;">(ou toque no intruso para desintegrar)</span>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- 4. TELA DO MODO 3: ORDEM ALFABÉTICA -->
-        <section id="screen-alphabetical" class="game-screen">
-            <div class="level-top-bar">
-                <div class="mission-tag" id="alpha-mission-tag">🔤 Ordem Alfabética (A-Z)</div>
-                <button class="btn-icon" onclick="window.game.goToWelcome()">
+        <!-- 4. TELA DO MODO 3: ORDEM ALFABÉTICA (TREM DOS VAGÕES) -->
+        <section id="screen-mode3" class="game-screen">
+            <div class="mascot-stage">
+                <div class="robot-bit">
+                    <div class="antenna"></div>
+                    <div class="face">
+                        <div class="eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div class="mouth"></div>
+                    </div>
+                </div>
+                <div class="speech-bubble">
+                    Arraste as palavras para os <strong>vagões do trem</strong> na ordem correta de A a Z!
+                </div>
+                <button class="btn-icon" onclick="window.game.goToWelcome()" style="flex-shrink: 0;">
                     <span>↩️</span> Modos
                 </button>
             </div>
 
-            <div style="text-align: center; margin-bottom: 14px;">
-                <h3 id="alpha-instruction" style="font-family: var(--font-heading); font-size: 1.2rem; color: #f8fafc;">
-                    Organize as palavras na ordem correta do alfabeto:
-                </h3>
-            </div>
+            <div class="train-track-container">
+                <div style="font-family: var(--font-heading); font-size: 1.15rem; color: #38bdf8; font-weight: 700;" id="mode3-title-tag">
+                    🚂 Trem das Palavras (A - Z)
+                </div>
 
-            <div class="alpha-slots" id="alpha-slots">
-                <!-- Slots A-Z gerados dinamicamente -->
-            </div>
+                <!-- Vagões de Drop do Trem -->
+                <div class="train-wagons-row" id="mode3-wagons-row">
+                    <!-- Vagões -->
+                </div>
 
-            <div class="pool-container" style="max-width: 500px; width: 100%;">
-                <div class="words-grid" id="alpha-pool-grid">
-                    <!-- Cards de palavras A-Z -->
+                <!-- Cartões para arrastar -->
+                <div class="drag-pool-container" style="max-width: 600px; width: 100%;">
+                    <div class="draggable-words-grid" id="mode3-words-grid">
+                        <!-- Cards do trem -->
+                    </div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- MODAL DE VITÓRIA / CONCLUSÃO -->
+    <!-- MODAL DE VITÓRIA / CELEBRAÇÃO -->
     <div id="modal-victory" class="modal-overlay">
         <div class="modal-card">
             <div class="modal-trophy">🏆</div>
             <h2 class="modal-title" id="modal-title">Parabéns!</h2>
-            <p class="modal-text" id="modal-text">Você organizou todas as listas do Lab Kids!</p>
-            <div id="modal-score" style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; color: #fbbf24; margin-bottom: 20px;">
+            <p class="modal-text" id="modal-text">Você organizou todas as listas do Lab Kids com sucesso!</p>
+            <div id="modal-score" style="font-family: var(--font-heading); font-size: 1.3rem; font-weight: 800; color: #fbbf24; margin-bottom: 22px;">
                 Pontuação: 500 ⭐
             </div>
-            <div class="modal-actions">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
                 <button class="btn-primary" onclick="window.game.goToWelcome()">
-                    <span>🎮</span> Jogar Outro Modo
+                    <span>🎮</span> Jogar Outro Desafio
                 </button>
                 <a href="/" class="btn-secondary">
-                    🏠 Voltar ao Portal Principal
+                    🏠 Voltar ao Início do Portal
                 </a>
             </div>
         </div>
