@@ -13,11 +13,9 @@ const STATIC_ASSETS = [
   '/games/pou-online/pou.min.js',
   '/games/pou-online/version.js',
   '/games/pou-online/assets/css/app.css',
-  '/games/pou-online/assets/icon.jpeg',
-  '/games/super-lista/index.html',
-  '/games/super-lista/style.css',
-  '/games/super-lista/game.js'
+  '/games/pou-online/assets/icon.jpeg'
 ];
+
 
 
 self.addEventListener('install', e => {
