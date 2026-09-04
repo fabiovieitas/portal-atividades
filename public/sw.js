@@ -1,5 +1,5 @@
-const CACHE_NAME = 'portal-lab-v8';
-const POU_CACHE_NAME = 'portal-lab-v8-pou';
+const CACHE_NAME = 'portal-lab-v9';
+const POU_CACHE_NAME = 'portal-lab-v9-pou';
 
 
 const STATIC_ASSETS = [
@@ -13,7 +13,10 @@ const STATIC_ASSETS = [
   '/games/pou-online/pou.min.js',
   '/games/pou-online/version.js',
   '/games/pou-online/assets/css/app.css',
-  '/games/pou-online/assets/icon.jpeg'
+  '/games/pou-online/assets/icon.jpeg',
+  '/games/labirinto-tabuada/index.html',
+  '/games/labirinto-tabuada/style.css',
+  '/games/labirinto-tabuada/game.js'
 ];
 
 

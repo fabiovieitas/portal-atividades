@@ -337,7 +337,12 @@ app.get('/atividades/tux-math', async (req, res) => {
   res.render('tuxmath_presentation');
 });
 
+app.get('/atividades/labirinto-tabuada', async (req, res) => {
+  res.render('labirinto_tabuada_presentation');
+});
+
 app.get('/atividades/leitura-datashow', async (req, res) => {
+
   res.render('leitura_datashow_presentation');
 });
 
