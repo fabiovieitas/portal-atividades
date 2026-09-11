@@ -6,8 +6,7 @@
     <title>Sobre o Projeto Lab Kids — Tecnologia Educacional, Robótica e BNCC</title>
     <meta name="description" content="Conheça o Lab Kids: uma iniciativa pedagógica pública fundada pelo Professor Fábio Vieitas Marques para democratizar a gamificação, alfabetização e matemática alinhadas à BNCC.">
     
-    <link rel="stylesheet" href="/css/style.css?v=4">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
 
     <!-- Schema.org JSON-LD para Google AdSense e SEO de Autoridade -->
@@ -35,97 +34,237 @@
     </script>
 
     <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-dark: #3730a3;
-            --accent-cyan: #06b6d4;
-            --accent-gold: #f59e0b;
-            --text-dark: #0f172a;
-            --text-muted: #475569;
-            --bg-light: #f8fafc;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #f1f5f9;
-            color: var(--text-dark);
-            line-height: 1.7;
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #eef2ff;
+            --accent-cyan: #06b6d4;
+            --accent-gold: #f59e0b;
+            --text-dark: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Hero Header */
         .about-hero {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
-            color: white;
-            padding: 5rem 1.5rem 6rem 1.5rem;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            color: #ffffff;
+            padding: 3.5rem 1.5rem 5.5rem 1.5rem;
             text-align: center;
             position: relative;
         }
 
+        .hero-top-nav {
+            max-width: 980px;
+            margin: 0 auto 2rem auto;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .btn-back-home:hover {
+            background: #ffffff;
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        .about-hero-badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.25);
+            border: 1px solid rgba(165, 180, 252, 0.3);
+            color: #a5b4fc;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 1rem;
+        }
+
         .about-hero h1 {
             font-family: 'Fredoka', sans-serif;
-            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
             font-weight: 700;
             margin-bottom: 1rem;
             color: #ffffff;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.35);
         }
 
         .about-hero p {
-            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
             color: #cbd5e1;
             max-width: 760px;
             margin: 0 auto;
+            font-weight: 400;
         }
 
+        /* Container Principal */
         .about-container {
-            max-width: 960px;
+            max-width: 980px;
+            width: 100%;
             margin: -3rem auto 4rem auto;
             padding: 0 1.5rem;
             position: relative;
             z-index: 10;
+            flex: 1;
         }
 
-        .about-card {
-            background: #ffffff;
+        /* Cards Principais (Seções) - Garantia de fluxo em bloco vertical */
+        .about-section-card {
+            display: block !important;
+            width: 100%;
+            background: var(--card-bg);
             border-radius: 24px;
-            padding: 3rem 2.5rem;
-            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
-            border: 1px solid #e2e8f0;
-            margin-bottom: 2rem;
+            padding: 3rem 2.75rem;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2.25rem;
+            box-sizing: border-box;
         }
 
         @media (max-width: 640px) {
-            .about-card { padding: 2rem 1.5rem; }
+            .about-section-card {
+                padding: 2rem 1.4rem;
+                border-radius: 20px;
+            }
         }
 
-        .about-card h2 {
+        .about-section-card h2 {
             font-family: 'Fredoka', sans-serif;
             color: #1e1b4b;
-            font-size: 1.8rem;
+            font-size: 1.85rem;
             font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 1.2rem;
+            margin: 0 0 1.5rem 0;
             display: flex;
             align-items: center;
             gap: 12px;
             border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 0.8rem;
+            padding-bottom: 0.9rem;
+            line-height: 1.3;
         }
 
+        .about-section-card p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-body);
+            margin-bottom: 1.25rem;
+        }
+
+        .about-section-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Grid dos Pilares Pedagógicos */
+        .pillars-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        @media (max-width: 720px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pillar-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 1.6rem;
+            transition: all 0.25s ease;
+        }
+
+        .pillar-item:hover {
+            transform: translateY(-4px);
+            border-color: #818cf8;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.1);
+            background: #ffffff;
+        }
+
+        .pillar-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .pillar-item h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: #1e1b4b;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .pillar-item p {
+            color: var(--text-muted) !important;
+            font-size: 0.95rem !important;
+            line-height: 1.6 !important;
+            margin: 0 !important;
+        }
+
+        /* Caixa de Perfil do Professor / Fundador */
         .founder-box {
-            display: flex;
+            display: flex !important;
+            flex-direction: row;
             gap: 2rem;
             align-items: center;
-            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
             border: 1px solid #c7d2fe;
             border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: 2.2rem;
+            margin: 1.75rem 0 2rem 0;
+            box-sizing: border-box;
         }
 
-        @media (max-width: 680px) {
-            .founder-box { flex-direction: column; text-align: center; }
+        @media (max-width: 700px) {
+            .founder-box {
+                flex-direction: column !important;
+                text-align: center;
+                gap: 1.25rem;
+                padding: 1.75rem 1.25rem;
+            }
+        }
+
+        .founder-avatar-wrap {
+            flex-shrink: 0;
         }
 
         .founder-avatar {
@@ -134,192 +273,245 @@
             border-radius: 50%;
             object-fit: cover;
             border: 4px solid #4f46e5;
+            background: #ffffff;
             box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
-            flex-shrink: 0;
-        }
-
-        .pillars-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .pillar-item {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: transform 0.2s;
-        }
-
-        .pillar-item:hover {
-            transform: translateY(-4px);
-            border-color: #818cf8;
-        }
-
-        .pillar-icon {
-            font-size: 2.2rem;
-            margin-bottom: 0.8rem;
             display: block;
         }
 
-        .pillar-item h3 {
+        .founder-details {
+            flex: 1;
+        }
+
+        .founder-details h3 {
+            margin: 0 0 6px 0;
+            color: #1e1b4b;
             font-family: 'Fredoka', sans-serif;
-            color: #312e81;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .pillar-item p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin: 0;
-        }
-
-        .nav-back-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-back-home {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #ffffff;
-            color: #4f46e5;
-            padding: 10px 20px;
-            border-radius: 50px;
+            font-size: 1.5rem;
             font-weight: 700;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            border: 1px solid #e2e8f0;
-            transition: all 0.2s;
         }
 
-        .btn-back-home:hover {
+        .founder-badge {
+            display: inline-block;
             background: #4f46e5;
-            color: white;
-            transform: translateY(-2px);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 12px;
         }
 
+        .founder-bio {
+            margin: 0 !important;
+            color: #334155 !important;
+            font-size: 0.98rem !important;
+            line-height: 1.65 !important;
+        }
+
+        .editorial-subtitle {
+            font-family: 'Fredoka', sans-serif;
+            color: #1e1b4b;
+            font-size: 1.35rem;
+            margin: 2rem 0 0.9rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Cards do Modelo de Sustentabilidade */
+        .sustainability-grid {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin: 1.75rem 0 1rem 0;
+        }
+
+        @media (max-width: 820px) {
+            .sustainability-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sustain-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 1.6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .sustain-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .sustain-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: #1e1b4b;
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+        }
+
+        .sustain-card p {
+            color: var(--text-body) !important;
+            font-size: 0.92rem !important;
+            line-height: 1.6 !important;
+            margin: 0 !important;
+        }
+
+        /* Rodapé Institucional */
         footer {
             background: #0f172a;
             color: #94a3b8;
-            padding: 3rem 1.5rem;
+            padding: 3.5rem 1.5rem;
             text-align: center;
+            margin-top: auto;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         footer a {
             color: #cbd5e1;
             text-decoration: none;
-            margin: 0 12px;
             font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
 
-        footer a:hover { color: #38bdf8; }
+        footer a:hover {
+            color: #38bdf8;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
     <header class="about-hero">
-        <div style="max-width: 960px; margin: 0 auto; text-align: left; margin-bottom: 2rem;">
+        <div class="hero-top-nav">
             <a href="/" class="btn-back-home">⬅ Voltar ao Início</a>
         </div>
+        <span class="about-hero-badge">Tecnologia Educacional Pública</span>
         <h1>Sobre o Portal Lab Kids</h1>
-        <p>Inovação, Gamificação e Tecnologia Educacional pública a serviço da alfabetização e do raciocínio lógico-matemático.</p>
+        <p>Inovação, Gamificação e Recursos Pedagógicos Abertos a serviço da alfabetização e do pensamento lógico nas escolas públicas.</p>
     </header>
 
     <main class="about-container">
         
         <!-- Apresentação do Projeto -->
-        <article class="about-card">
+        <article class="about-section-card">
             <h2><span>🚀</span> Nossa Missão e Propósito</h2>
             <p>
-                O <strong>Lab Kids</strong> (<em>labkids.online</em>) nasceu como uma resposta concreta ao desafio de integrar as tecnologias digitais nas salas de aula dos anos iniciais do Ensino Fundamental e da Educação Infantil da rede pública de ensino.
+                O <strong>Lab Kids</strong> (<em>labkids.online</em>) nasceu como uma resposta concreta ao desafio diário de integrar as tecnologias digitais nas salas de aula dos anos iniciais do Ensino Fundamental e da Educação Infantil da rede pública de ensino.
             </p>
             <p>
-                Acreditamos que o acesso a ferramentas educacionais digitais de ponta não deve ser um privilégio de escolas privadas com altos recursos. Por isso, o portal foi construído do zero com foco em <strong>acessibilidade total</strong>: leveza de carregamento para funcionar em tablets escolares antigos, compatibilidade offline e projeção em datashow, e alinhamento rigoroso aos objetivos pedagógicos da <strong>Base Nacional Comum Curricular (BNCC)</strong>.
+                Acreditamos firmemente que o acesso a ferramentas educacionais digitais de ponta não deve ser privilégio exclusivo de instituições privadas de alto padrão. Por essa razão, a plataforma foi estruturada do zero para garantir <strong>máxima acessibilidade</strong>: carregamento ultrarrápido para dispositivos escolares com conexão oscilante, suporte a projeção em datashow para dinâmicas coletivas e alinhamento minucioso às diretrizes da <strong>Base Nacional Comum Curricular (BNCC)</strong>.
             </p>
 
             <div class="pillars-grid">
                 <div class="pillar-item">
                     <span class="pillar-icon">🎮</span>
-                    <h3>Gamificação Significativa</h3>
-                    <p>Mecânicas de jogos pedagógicos onde o erro faz parte do ciclo de descoberta, incentivando o pensamento autônomo e o prazer de aprender.</p>
+                    <h3>Gamificação Pedagógica</h3>
+                    <p>Mecânicas dinâmicas em que o erro é parte natural do ciclo de aprendizagem, estimulando autonomia e curiosidade.</p>
                 </div>
                 <div class="pillar-item">
                     <span class="pillar-icon">📚</span>
                     <h3>Alinhamento BNCC</h3>
-                    <p>Cada atividade e simulado possui códigos curriculares claros, facilitando o planejamento docente e o registro oficial nos diários de classe.</p>
+                    <p>Atividades com códigos curriculares explícitos, facilitando o planejamento docente e o registro oficial no diário de classe.</p>
                 </div>
                 <div class="pillar-item">
                     <span class="pillar-icon">🛡️</span>
-                    <h3>Ambiente 100% Seguro</h3>
-                    <p>Privacidade por design (LGPD e COPPA). Não exigimos dados sensíveis de menores, sem cadastros invasivos e com moderação pedagógica constante.</p>
+                    <h3>Segurança & Privacidade</h3>
+                    <p>Conformidade total com a LGPD (Art. 14) e COPPA. Sem coleta de dados sensíveis de menores e ambiente sem rastreamento abusivo.</p>
                 </div>
                 <div class="pillar-item">
                     <span class="pillar-icon">🧑‍🏫</span>
-                    <h3>Apoio ao Professor</h3>
-                    <p>Painel de turmas, gerador de certificados, simulados com relatórios estatísticos e gabaritos comentados prontos para aplicação.</p>
+                    <h3>Apoio Prático ao Professor</h3>
+                    <p>Simulados diagnósticos com relatórios de aproveitamento, certificados personalizáveis e planos de aula estruturados.</p>
                 </div>
             </div>
         </article>
 
         <!-- Responsável Pedagógico e Editorial -->
-        <article class="about-card">
+        <article class="about-section-card">
             <h2><span>🧑‍🏫</span> Liderança e Coordenação Pedagógica</h2>
             
             <div class="founder-box">
-                <img src="/img/robot-icon-512.png" alt="Prof. Fábio Vieitas" class="founder-avatar">
-                <div>
-                    <h3 style="margin: 0 0 6px 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif; font-size: 1.4rem;">
-                        Prof. Fábio Vieitas Marques
-                    </h3>
-                    <p style="margin: 0 0 10px 0; color: #4f46e5; font-weight: 700; font-size: 0.95rem;">
-                        Idealizador, Desenvolvedor & Mantenedor do Projeto
-                    </p>
-                    <p style="margin: 0; color: #334155; font-size: 0.95rem; line-height: 1.6;">
-                        Educador atuante na rede pública municipal de ensino de Campos dos Goytacazes (RJ), pós-graduado e pesquisador na área de Informática Educativa, Robótica Pedagógica e Desenvolvimento de Software Educacional. Desenvolve soluções tecnológicas para transformar a rotina dos laboratórios de informática em verdadeiros centros de inovação para alunos do 1º ao 5º ano.
+                <div class="founder-avatar-wrap">
+                    <img src="/img/robot-icon-512.png" alt="Prof. Fábio Vieitas Marques" class="founder-avatar">
+                </div>
+                <div class="founder-details">
+                    <h3>Prof. Fábio Vieitas Marques</h3>
+                    <span class="founder-badge">Idealizador, Desenvolvedor & Mantenedor do Projeto</span>
+                    <p class="founder-bio">
+                        Educador atuante na rede pública municipal de ensino de Campos dos Goytacazes (RJ), pós-graduado e pesquisador em Informática Educativa, Robótica Pedagógica e Desenvolvimento de Software Educacional. Dedica-se a transformar os laboratórios escolares de informática em verdadeiros polos de criatividade, autoria e raciocínio matemático para estudantes do 1º ao 5º ano.
                     </p>
                 </div>
             </div>
 
-            <h3 style="font-family: 'Fredoka', sans-serif; color: #1e1b4b; font-size: 1.3rem; margin-top: 1.5rem;">
-                Compromisso com a Transparência e Qualidade Editorial
+            <h3 class="editorial-subtitle">
+                <span>📑</span> Compromisso com a Transparência e Qualidade Editorial
             </h3>
             <p>
-                Todo o conteúdo publicado no Lab Kids — incluindo jogos autorais, artigos pedagógicos do Blog, propostas de simulados e guias de habilidades — passa por curadoria pedagógica contínua. As atividades são testadas e validadas em ambiente escolar real antes de serem disponibilizadas para o público geral.
+                Todo o conteúdo publicado no Lab Kids — incluindo jogos digitais autorais, artigos do blog pedagógico, propostas de simulados e guias curriculares — passa por contínua curadoria metodológica. Antes de serem disponibilizadas para acesso público, as atividades são testadas e validadas em ambiente escolar real junto aos alunos.
             </p>
             <p>
-                Para dúvidas institucionais, sugestões de novas atividades ou parcerias pedagógicas com outras redes de ensino, mantemos canal direto pelo nosso formulário de <a href="/contato" style="color: #4f46e5; font-weight: 700;">Contato</a> ou pelo e-mail institucional do mantenedor.
+                Para dúvidas institucionais, sugestões de melhorias ou propostas de parcerias com outras redes e secretarias de educação, mantemos canal aberto e direto pela nossa página de <a href="/contato" style="color: var(--primary); font-weight: 700; text-decoration: underline;">Fale Conosco</a>.
             </p>
         </article>
 
         <!-- Modelo de Sustentabilidade -->
-        <article class="about-card">
+        <article class="about-section-card">
             <h2><span>⚖️</span> Gratuidade e Modelo de Sustentabilidade</h2>
             <p>
-                O Lab Kids é e continuará sendo <strong>100% gratuito</strong> para escolas, professores, alunos e famílias.
+                O Lab Kids é e continuará sendo <strong>100% gratuito</strong> para escolas, educadores, estudantes e famílias brasileiras.
             </p>
-            <p>
-                Para cobrir os custos de servidores em nuvem de alta velocidade (Vercel, Turso, Supabase), certificados de segurança SSL e desenvolvimento contínuo de novos jogos educativos, o portal conta com a exibição de anúncios contextuais moderados através do <strong>Google AdSense</strong>.
-            </p>
-            <p>
-                Configuramos rigorosamente nossos blocos de publicidade em conformidade com as diretrizes do Google para conteúdo familiar e infantil, garantindo que não sejam coletados dados para publicidade comportamental personalizada de crianças e que nenhum anúncio inadequado seja veiculado aos estudantes.
+            
+            <div class="sustainability-grid">
+                <div class="sustain-card">
+                    <span class="sustain-card-icon">🎁</span>
+                    <h3>Acesso Livre e Universal</h3>
+                    <p>Todas as atividades, simulados e planos de aula são abertos publicamente, sem assinaturas pagas ou restrições de conteúdo.</p>
+                </div>
+                <div class="sustain-card">
+                    <span class="sustain-card-icon">☁️</span>
+                    <h3>Custos de Infraestrutura</h3>
+                    <p>A manutenção de servidores em nuvem de alta velocidade, certificados SSL e banco de dados é viabilizada por anúncios contextuais moderados.</p>
+                </div>
+                <div class="sustain-card">
+                    <span class="sustain-card-icon">🛡️</span>
+                    <h3>Publicidade Segura e Responsável</h3>
+                    <p>Configurada estritamente sob as políticas de conteúdo infantil do Google AdSense, sem anúncios invasivos ou coleta comportamental de crianças.</p>
+                </div>
+            </div>
+
+            <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+                Para entender mais detalhes sobre o tratamento de dados e cookies em nossa plataforma, consulte a nossa <a href="/privacidade" style="color: var(--primary); font-weight: 600;">Política de Privacidade</a> e a página de <a href="/cookies" style="color: var(--primary); font-weight: 600;">Política de Cookies</a>.
             </p>
         </article>
 
     </main>
 
     <footer>
-        <div style="max-width: 960px; margin: 0 auto;">
-            <p>&copy; 2026 Lab Kids — Portal de Atividades Educativas. Todos os direitos reservados.</p>
-            <div style="margin-top: 1rem;">
+        <div style="max-width: 980px; margin: 0 auto;">
+            <p>&copy; 2026 Lab Kids — Portal de Atividades Educativas. Desenvolvido para transformar a educação pública.</p>
+            <div class="footer-nav">
                 <a href="/">Início</a>
                 <a href="/sobre">Sobre o Projeto</a>
+                <a href="/guia-bncc">Guia BNCC</a>
                 <a href="/termos">Termos de Uso</a>
                 <a href="/privacidade">Privacidade (LGPD)</a>
                 <a href="/cookies">Cookies</a>
