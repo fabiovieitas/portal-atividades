@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= activity.title %> - Redirecionando | Lab Kids</title>
-    <link rel="stylesheet" href="/css/style.css?v=3">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Google AdSense Official Script -->
+    <title><%= activity.title %> - Guia de Acesso Pedagógico | Lab Kids</title>
+    <meta name="description" content="Acesse <%= activity.title %> no Portal Lab Kids. Atividade educativa recomendada para estudantes, alinhada à BNCC e com foco no desenvolvimento de raciocínio lógico.">
+    <link rel="stylesheet" href="/css/style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Verification Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
         body {
@@ -15,184 +16,167 @@
             font-family: 'Fredoka', sans-serif;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .redirect-card {
-            background: rgba(30, 41, 59, 0.95);
-            border: 2px solid #3b82f6;
-            border-radius: 28px;
-            max-width: 650px;
-            width: 100%;
-            padding: 35px 25px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-        }
-
-        .activity-icon-lg {
-            width: 90px;
-            height: 90px;
-            border-radius: 22px;
-            object-fit: cover;
-            border: 3px solid #fbbf24;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            margin-bottom: 15px;
-        }
-
-        .countdown-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: #3b82f6;
-            color: #ffffff;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 15px 0;
-            box-shadow: 0 6px 0 #1d4ed8;
-        }
-
-        /* AdSense Container */
-        .adsense-interstitial-box {
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px dashed #475569;
-            border-radius: 18px;
-            padding: 20px;
-            margin: 20px 0;
-            min-height: 180px;
-            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 30px 15px;
+            margin: 0;
         }
 
-        .btn-go-now {
-            background: #10b981;
-            color: white;
-            border: none;
-            border-bottom: 5px solid #047857;
-            padding: 16px 36px;
-            font-size: 1.25rem;
-            font-weight: 800;
+        .guide-card {
+            background: rgba(30, 41, 59, 0.95);
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 28px;
+            max-width: 780px;
+            width: 100%;
+            padding: 40px 30px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            text-align: center;
+        }
+
+        .activity-icon-lg {
+            width: 96px;
+            height: 96px;
+            border-radius: 24px;
+            object-fit: cover;
+            border: 4px solid #fbbf24;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+            margin-bottom: 15px;
+        }
+
+        .activity-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+            color: #fbbf24;
+            margin: 10px 0;
+            font-weight: 700;
+        }
+
+        .activity-desc {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 650px;
+            margin: 0 auto 25px auto;
+        }
+
+        .pedagogical-summary {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.15s;
+            padding: 22px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .summary-item {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .summary-item strong {
+            color: #38bdf8;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-top: 10px;
         }
 
-        .btn-go-now:hover {
-            transform: translateY(-2px);
-            background: #34d399;
+        .btn-launch-direct {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 18px 45px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn-go-now:active {
-            transform: translateY(2px);
-            border-bottom-width: 0;
+        .btn-launch-direct:hover {
+            transform: scale(1.04);
+            box-shadow: 0 14px 35px rgba(16, 185, 129, 0.6);
         }
+
+        .safety-note {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .back-link {
+            color: #94a3b8;
+            text-decoration: underline;
+            font-size: 0.95rem;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .back-link:hover { color: #ffffff; }
     </style>
 </head>
 <body>
 
-    <!-- Anúncios Laterais AdSense (Esquerda e Direita em Telas Ultra-Wide) -->
-    <div class="adsense-sidebar-left" style="position: fixed; left: 15px; top: 100px; width: 160px; height: 600px; z-index: 100; display: none;">
-        <div style="background: rgba(15, 23, 42, 0.9); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-            <div style="font-size: 0.7rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #64748b; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567891"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <div class="adsense-sidebar-right" style="position: fixed; right: 15px; top: 100px; width: 160px; height: 600px; z-index: 100; display: none;">
-        <div style="background: rgba(15, 23, 42, 0.9); border: 2px dashed #475569; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-            <div style="font-size: 0.7rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #64748b; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567892"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <style>
-        @media (min-width: 1450px) {
-            .adsense-sidebar-left, .adsense-sidebar-right { display: block !important; }
-        }
-    </style>
-
-    <!-- Layout de 4 Lados de Propagandas para Página de Redirecionamento -->
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 900px; gap: 15px;">
+    <div class="guide-card">
+        <img src="<%= activity.icon_url || 'https://cdn-icons-png.flaticon.com/512/616/616430.png' %>" class="activity-icon-lg" alt="<%= activity.title %>">
         
-        <!-- Banner Superior (Topo Ultra-Fino) -->
-        <div class="adsense-banner-top adsense-tablet-wrapper" style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px dashed #475569; border-radius: 12px; padding: 4px 8px; text-align: center;">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567893" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <h1 class="activity-title"><%= activity.title %></h1>
+        <p class="activity-desc"><%= activity.description || 'Desafio interativo pedagógico selecionado pela coordenação do Lab Kids para enriquecer a experiência de aprendizagem dos estudantes da rede municipal.' %></p>
 
-        <!-- Card Central de Redirecionamento -->
-        <div class="redirect-card">
-            <img src="<%= activity.icon_url || 'https://cdn-icons-png.flaticon.com/512/616/616430.png' %>" class="activity-icon-lg" alt="Ícone">
-            <h2 style="font-size: 1.8rem; margin: 0 0 8px 0; color: #fbbf24;"><%= activity.title %></h2>
-            <p style="color: #94a3b8; font-size: 1rem; margin: 0 0 15px 0;"><%= activity.description || 'Preparando seu desafio interativo...' %></p>
-
-            <!-- Anúncio AdSense Intercalado Central (Ultra-Fino) -->
-            <div class="adsense-interstitial-box" style="margin: 10px auto; padding: 4px 8px;">
-                <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-                <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <div class="pedagogical-summary">
+            <h3 style="margin: 0 0 10px 0; color: #38bdf8; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                <span>📘</span> Enquadramento Pedagógico e Segurança Digital
+            </h3>
+            <p style="margin: 0; font-size: 0.95rem; color: #94a3b8; line-height: 1.5;">
+                Esta ferramenta foi avaliada sob critérios de adequação à faixa etária, valor educativo no desenvolvimento de raciocínio lógico e conformidade com as diretrizes curriculares da BNCC.
+            </p>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <strong>Disciplina / Foco</strong>
+                    <%= activity.subject || 'Raciocínio Lógico & Cultura Digital' %>
+                </div>
+                <div class="summary-item">
+                    <strong>Público Recomendado</strong>
+                    <%= activity.level ? activity.level + 'º Ano do Ensino Fundamental' : 'Educação Básica' %>
+                </div>
+                <div class="summary-item">
+                    <strong>Habilidade BNCC</strong>
+                    <%= activity.bncc_code || 'Competência Geral 5 (Cultura Digital)' %>
+                </div>
             </div>
-            <div class="countdown-circle" id="countdown">5</div>
-            <br>
-            <a href="<%= activity.activity_url %>" id="btn-redirect-link" class="btn-go-now" style="opacity: 0.5; pointer-events: none; cursor: not-allowed;">
-                ⏳ AGUARDE A PROPAGANDA (3s)...
-            </a>
         </div>
 
-        <!-- Banner Inferior (Rodapé Ultra-Fino) -->
-        <div class="adsense-banner-bottom adsense-tablet-wrapper" style="width: 100%; background: rgba(15, 23, 42, 0.7); border: 1px dashed #475569; border-radius: 12px; padding: 4px 8px; text-align: center;">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567894" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <a href="<%= activity.activity_url %>" class="btn-launch-direct" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener">
+            🎮 INICIAR ATIVIDADE AGORA 🚀
+        </a>
+
+        <div class="safety-note">
+            <span>🛡️</span> Ambiente educacional seguro. Não coletamos dados pessoais de estudantes menores de idade.
         </div>
 
+        <div>
+            <a href="/" class="back-link">⬅️ Voltar à lista de atividades do Portal</a>
+        </div>
     </div>
 
-
-    <script>
-        let seconds = 5;
-        const targetUrl = "<%- activity.activity_url %>";
-        const countEl = document.getElementById('countdown');
-        const btnLink = document.getElementById('btn-redirect-link');
-
-        const timer = setInterval(() => {
-            seconds--;
-            if (countEl) countEl.innerText = seconds;
-
-            const waitTime = seconds - 2;
-            if (waitTime > 0) {
-                if (btnLink) btnLink.innerText = `⏳ AGUARDE A PROPAGANDA (${waitTime}s)...`;
-            } else if (btnLink && btnLink.style.pointerEvents === 'none') {
-                btnLink.style.opacity = '1';
-                btnLink.style.pointerEvents = 'auto';
-                btnLink.style.cursor = 'pointer';
-                btnLink.innerText = '🚀 IR PARA A ATIVIDADE AGORA';
-            }
-
-            if (seconds <= 0) {
-                clearInterval(timer);
-                window.location.href = targetUrl;
-            }
-        }, 1000);
-    </script>
 </body>
 </html>
-

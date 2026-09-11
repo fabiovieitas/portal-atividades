@@ -138,31 +138,6 @@
         </div>
     </header>
 
-    <!-- Anúncios Laterais AdSense (Esquerda e Direita em Telas Ultra-Wide) -->
-    <div class="adsense-sidebar-left" style="position: fixed; left: 10px; top: 120px; width: 160px; height: 600px; z-index: 100; display: none;">
-        <div style="background: rgba(255,255,255,0.95); border: 2px dashed #cbd5e1; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567891"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <div class="adsense-sidebar-right" style="position: fixed; right: 10px; top: 120px; width: 160px; height: 600px; z-index: 100; display: none;">
-        <div style="background: rgba(255,255,255,0.95); border: 2px dashed #cbd5e1; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567892"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <style>
-        @media (min-width: 1450px) {
-            .adsense-sidebar-left, .adsense-sidebar-right { display: block !important; }
-        }
-    </style>
-
     <main class="container">
         <% if (!selectedLevel) { %>
             <section class="selection-screen">
@@ -190,12 +165,11 @@
 
             <!-- AdSense Top Banner (Ultra-Fino Horizontal) -->
             <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 10px auto; max-width: 970px; background: rgba(241, 245, 249, 0.6); border: 1px dashed #cbd5e1; border-radius: 12px; padding: 4px 8px; text-align: center;">
-                <div class="adsense-micro-label">📢 Espaço Publicitário</div>
+                <div class="adsense-micro-label" style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário • Lab Kids</div>
                 <ins class="adsbygoogle"
                      style="display:block; max-height:90px; width:100%;"
                      data-ad-client="<%= adsensePubId %>"
-                     data-ad-slot="1234567890"
-                     data-ad-format="horizontal"
+                     data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
@@ -293,12 +267,11 @@
 
                     <!-- Responsive Tablet/Desktop Horizontal Banner (Ultra-Fino) -->
                     <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 8px auto 14px auto; max-width: 970px; background: rgba(15, 23, 42, 0.5); border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 4px 8px; text-align: center;">
-                        <div class="adsense-micro-label">📢 Publicidade Educativa</div>
+                        <div class="adsense-micro-label" style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Publicidade Educativa</div>
                         <ins class="adsbygoogle"
                              style="display:block; max-height:90px; width:100%;"
                              data-ad-client="<%= adsensePubId %>"
-                             data-ad-slot="1234567890"
-                             data-ad-format="horizontal"
+                             data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                     </div>
@@ -392,39 +365,18 @@
                                             </form>
                                         </div>
                                     </div>
-                                    
-                                     <!-- Native In-Feed Ad Card (Insere 1 Card de Anúncio a cada 4 Atividades) -->
-                                     <% if ((index + 1) % 4 === 0) { %>
-                                         <div class="activity-card native-ad-card animate-up" style="background: rgba(15, 23, 42, 0.85); border: 2px dashed #38bdf8; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-                                             <div class="card-badges">
-                                                 <span class="badge-popular" style="background: #0284c7; color: white;">RECOMENDADO 📢</span>
-                                             </div>
-                                             <div style="font-size: 0.8rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; margin-top: 15px;">
-                                                 📢 ESPAÇO PUBLICITÁRIO ADSENSE
-                                             </div>
-                                             <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 12px;">Patrocinadores Educativos</div>
-                                             <ins class="adsbygoogle"
-                                                  style="display:block; width:100%; min-height:120px;"
-                                                  data-ad-client="<%= adsensePubId %>"
-                                                  data-ad-slot="1234567895"
-                                                  data-ad-format="fluid"
-                                                  data-ad-layout-key="-fb+5w+4e-db+86"></ins>
-                                             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                                         </div>
-                                     <% } %>
                                     <% }); %>
                     </div>
                 </section>
             <% } %>
 
                     <!-- Bottom Tablet/Mobile Horizontal Banner (Ultra-Fino) -->
-                    <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 16px auto; max-width: 970px; background: rgba(15, 23, 42, 0.5); border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 4px 8px; text-align: center;">
-                        <div class="adsense-micro-label">📢 Publicidade Educativa</div>
+                    <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 16px auto; max-width: 970px; background: rgba(15, 23, 42, 0.5); border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 6px 12px; text-align: center;">
+                        <div class="adsense-micro-label" style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
                         <ins class="adsbygoogle"
-                             style="display:block; max-height:90px; width:100%;"
+                             style="display:block"
                              data-ad-client="<%= adsensePubId %>"
-                             data-ad-slot="1234567896"
-                             data-ad-format="horizontal"
+                             data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                     </div>
@@ -608,6 +560,104 @@
         });
     </script>
 
+    <!-- ==================== SEÇÃO PEDAGÓGICA INSTITUCIONAL (E-E-A-T & BNCC) ==================== -->
+    <section class="pedagogical-institutional-section" style="max-width: 1000px; margin: 40px auto; padding: 0 15px;">
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 24px; padding: 40px 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); color: #f1f5f9;">
+            
+            <div style="text-align: center; margin-bottom: 35px;">
+                <span style="background: linear-gradient(135deg, #4f46e5, #06b6d4); color: white; padding: 6px 20px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
+                    Educação & Tecnologia
+                </span>
+                <h2 style="font-family: 'Fredoka', sans-serif; font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 12px 0 8px 0; color: #fbbf24;">
+                    Metodologia Lab Kids: Gamificação e Aprendizagem Significativa
+                </h2>
+                <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 780px; margin: 0 auto; font-family: 'Outfit', sans-serif;">
+                    Como a tecnologia lúdica transforma o desenvolvimento da alfabetização, do raciocínio lógico e da cultura digital nas salas de aula do Ensino Fundamental e Educação Infantil.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 35px;">
+                <div style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 22px;">
+                    <span style="font-size: 2rem; display: block; margin-bottom: 10px;">📖</span>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.25rem; color: #38bdf8; margin-bottom: 8px;">Alfabetização & Consciência Fonológica</h3>
+                    <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.6; margin: 0;">
+                        Nossos jogos de leitura e caça-palavras estimulam o reconhecimento das relações entre grafemas e fonemas, a segmentação de sílabas e a ampliação de vocabulário, transformando a fase de alfabetização inicial em um processo dinâmico e prazeroso.
+                    </p>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 22px;">
+                    <span style="font-size: 2rem; display: block; margin-bottom: 10px;">📐</span>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.25rem; color: #fbbf24; margin-bottom: 8px;">Matemática & Cálculo Mental Ativo</h3>
+                    <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.6; margin: 0;">
+                        Desafios interativos de tabuada, lógica espacial e as quatro operações permitem que o estudante teste hipóteses com retorno imediato. O erro deixa de ser punitivo e se torna uma etapa natural de refino do pensamento quantitativo e resolução de problemas.
+                    </p>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 22px;">
+                    <span style="font-size: 2rem; display: block; margin-bottom: 10px;">💻</span>
+                    <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.25rem; color: #34d399; margin-bottom: 8px;">Cultura Digital (Competência 5 da BNCC)</h3>
+                    <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.6; margin: 0;">
+                        Preparamos as crianças para uma convivência crítica, ética e segura no mundo digital. O manuseio de interfaces touch, mouse e teclado desenvolve a coordenação motora fina e a literacia tecnológica indispensável para o século XXI.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Orientações para Professores e Famílias -->
+            <div style="background: rgba(15, 23, 42, 0.6); border-left: 4px solid #4f46e5; border-radius: 12px; padding: 20px 24px; margin-bottom: 30px;">
+                <h3 style="font-family: 'Fredoka', sans-serif; color: #818cf8; margin-top: 0; font-size: 1.25rem;">
+                    🧑‍🏫 Dica Pedagógica para Aplicação em Sala de Aula
+                </h3>
+                <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.6; margin: 0;">
+                    Para potencializar o aprendizado coletivo, projete os jogos no <strong>datashow</strong> e promova rodas de discussão onde os alunos votem na estratégia correta antes de acionar os comandos. Nos laboratórios ou tablets individuais, organize a turma em duplas produtivas, alternando os papéis de quem lê a instrução e quem executa a jogada.
+                </p>
+            </div>
+
+            <!-- FAQ - Perguntas Frequentes (Schema.org FAQPage) -->
+            <div>
+                <h3 style="font-family: 'Fredoka', sans-serif; color: #fbbf24; font-size: 1.4rem; margin-bottom: 15px;">
+                    ❓ Perguntas Frequentes sobre o Lab Kids
+                </h3>
+                
+                <details style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer;">
+                    <summary style="font-weight: 700; color: #f1f5f9; font-family: 'Fredoka', sans-serif; font-size: 1.05rem;">
+                        O Portal Lab Kids é totalmente gratuito?
+                    </summary>
+                    <p style="margin: 10px 0 0 0; font-size: 0.95rem; color: #cbd5e1; line-height: 1.6;">
+                        Sim! O Lab Kids é uma plataforma educacional aberta e pública mantida para apoiar escolas, educadores e famílias. Não há mensalidades, planos pagos nem cobrança por acesso às atividades ou aos simulados.
+                    </p>
+                </details>
+
+                <details style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer;">
+                    <summary style="font-weight: 700; color: #f1f5f9; font-family: 'Fredoka', sans-serif; font-size: 1.05rem;">
+                        As atividades e simulados seguem a BNCC?
+                    </summary>
+                    <p style="margin: 10px 0 0 0; font-size: 0.95rem; color: #cbd5e1; line-height: 1.6;">
+                        Sim. Cada atividade pedagógica e cada questão dos simulados é mapeada com os códigos oficiais de habilidades da Base Nacional Comum Curricular (BNCC), abrangendo Língua Portuguesa, Matemática e Ciências do 1º ao 5º ano.
+                    </p>
+                </details>
+
+                <details style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; cursor: pointer;">
+                    <summary style="font-weight: 700; color: #f1f5f9; font-family: 'Fredoka', sans-serif; font-size: 1.05rem;">
+                        O ambiente é seguro para crianças e está em conformidade com a LGPD?
+                    </summary>
+                    <p style="margin: 10px 0 0 0; font-size: 0.95rem; color: #cbd5e1; line-height: 1.6;">
+                        Com certeza. Não coletamos dados pessoais sensíveis, documentos, telefones ou e-mails de estudantes menores de idade, em estrita conformidade com o Artigo 14 da Lei Geral de Proteção de Dados (LGPD) e diretrizes da COPPA.
+                    </p>
+                </details>
+
+                <details style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px 18px; cursor: pointer;">
+                    <summary style="font-weight: 700; color: #f1f5f9; font-family: 'Fredoka', sans-serif; font-size: 1.05rem;">
+                        Quem é o responsável pelo projeto?
+                    </summary>
+                    <p style="margin: 10px 0 0 0; font-size: 0.95rem; color: #cbd5e1; line-height: 1.6;">
+                        O projeto é idealizado e coordenado pelo <strong>Professor Fábio Vieitas Marques</strong>, educador da rede pública municipal de Campos dos Goytacazes (RJ), pós-graduado em Informática Educativa e desenvolvedor de tecnologias pedagógicas.
+                    </p>
+                </details>
+            </div>
+
+        </div>
+    </section>
+
     <!-- Banner de Download do Aplicativo APK para Tablets -->
     <div style="background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid #3b82f6; border-radius: 24px; padding: 25px; margin: 40px auto 20px auto; max-width: 900px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.3); color: white;">
         <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
@@ -624,15 +674,70 @@
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 <%= selectedLevel==='6-9' ? 'Tech Masters' : 'Lab Kids' %> - Educação Tecnológica</p>
-            <div style="margin-top: 15px; display: flex; justify-content: center; gap: 20px;">
-                <a href="/noticias" class="admin-link">Blog de Notícias</a>
-                <a href="/privacidade" class="admin-link">Privacidade (LGPD)</a>
-                <a href="/contato" class="admin-link">Contato</a>
-                <a href="/admin" class="admin-link">Painel Admin</a>
+    <!-- Banner Flutuante de Consentimento de Cookies (LGPD / Google AdSense) -->
+    <div id="cookie-consent-bar" style="display: none; position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 860px; margin: 0 auto; background: rgba(15, 23, 42, 0.96); backdrop-filter: blur(14px); border: 1px solid #4f46e5; border-radius: 20px; padding: 18px 24px; z-index: 99999; box-shadow: 0 15px 40px rgba(0,0,0,0.6); color: white; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 14px; max-width: 600px;">
+            <span style="font-size: 2rem;">🍪</span>
+            <p style="margin: 0; font-size: 0.9rem; color: #cbd5e1; line-height: 1.5;">
+                Utilizamos cookies e tecnologias essenciais em conformidade com a <strong>LGPD</strong> e as diretrizes do <strong>Google AdSense</strong> para oferecer navegação segura, salvar avatares e personalizar a experiência pedagógica. Consulte nossa <a href="/privacidade" style="color: #38bdf8; text-decoration: underline; font-weight: 700;">Política de Privacidade</a> e de <a href="/cookies" style="color: #38bdf8; text-decoration: underline; font-weight: 700;">Cookies</a>.
+            </p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button onclick="acceptCookies()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                Entendi e Aceito ✓
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function checkCookieConsent() {
+            if (!localStorage.getItem('labkids_cookie_consent')) {
+                const bar = document.getElementById('cookie-consent-bar');
+                if (bar) bar.style.display = 'flex';
+            }
+        }
+        function acceptCookies() {
+            localStorage.setItem('labkids_cookie_consent', 'accepted');
+            const bar = document.getElementById('cookie-consent-bar');
+            if (bar) bar.style.display = 'none';
+        }
+        window.addEventListener('DOMContentLoaded', checkCookieConsent);
+    </script>
+
+    <!-- Rodapé Institucional Completo e Confiável -->
+    <footer style="background: #090d1a; border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 45px 20px; color: #94a3b8; font-family: 'Outfit', sans-serif;">
+        <div class="container" style="max-width: 1000px; margin: 0 auto; text-align: center;">
+            
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px;">
+                <img src="/img/robot-icon-512.png" alt="Lab Kids" style="width: 38px; height: 38px; border-radius: 50%;">
+                <strong style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; color: #ffffff;">Lab Kids — Portal de Atividades Educativas</strong>
             </div>
+
+            <p style="font-size: 0.92rem; color: #64748b; max-width: 650px; margin: 0 auto 20px auto; line-height: 1.6;">
+                Iniciativa pedagógica sem fins lucrativos dedicada a democratizar a tecnologia, gamificação e robótica educativa alinhadas à BNCC para a rede pública de ensino.
+            </p>
+
+            <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; font-size: 0.95rem; font-weight: 600; margin-bottom: 25px;">
+                <a href="/" style="color: #cbd5e1; text-decoration: none;">Início</a>
+                <span style="color: #334155;">•</span>
+                <a href="/sobre" style="color: #cbd5e1; text-decoration: none;">Sobre o Projeto</a>
+                <span style="color: #334155;">•</span>
+                <a href="/termos" style="color: #cbd5e1; text-decoration: none;">Termos de Uso</a>
+                <span style="color: #334155;">•</span>
+                <a href="/privacidade" style="color: #cbd5e1; text-decoration: none;">Privacidade (LGPD)</a>
+                <span style="color: #334155;">•</span>
+                <a href="/cookies" style="color: #cbd5e1; text-decoration: none;">Cookies</a>
+                <span style="color: #334155;">•</span>
+                <a href="/guia-bncc" style="color: #cbd5e1; text-decoration: none;">Catálogo BNCC</a>
+                <span style="color: #334155;">•</span>
+                <a href="/noticias" style="color: #cbd5e1; text-decoration: none;">Blog Pedagógico</a>
+                <span style="color: #334155;">•</span>
+                <a href="/contato" style="color: #cbd5e1; text-decoration: none;">Fale Conosco</a>
+            </div>
+
+            <p style="font-size: 0.82rem; color: #475569; margin: 0;">
+                &copy; 2026 Lab Kids • Coordenado pelo Prof. Fábio Vieitas Marques • Campos dos Goytacazes - RJ.
+            </p>
         </div>
     </footer>
 </body>

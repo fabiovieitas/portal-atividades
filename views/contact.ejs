@@ -1,45 +1,263 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Contato</title>
+  <title>Contato e Suporte Pedagógico — Portal Lab Kids</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/style.css">
+  <meta name="description" content="Entre em contato com a equipe pedagógica do Portal Lab Kids. Dúvidas, sugestões e suporte para professores e escolas.">
+  
+  <link rel="stylesheet" href="/css/style.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
+
   <style>
-    body { background: var(--bg-dark); color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; font-family: var(--font-alt); }
-    .content-container { max-width: 500px; background: var(--glass-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--glass-border); width: 90%; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-    h1 { color: var(--accent-cyan); margin-bottom: 20px; font-size: 2.5rem; }
-    p { color: #cbd5e1; }
+    body {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header-box {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      color: white;
+      padding: 4rem 1.5rem 5rem 1.5rem;
+      text-align: center;
+    }
+
+    .header-box h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      margin: 0 0 10px 0;
+    }
+
+    .content-wrap {
+      max-width: 900px;
+      margin: -2.5rem auto 4rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e2e8f0;
+    }
+
+    @media (max-width: 720px) {
+      .contact-grid { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    }
+
+    .info-col h2 {
+      font-family: 'Fredoka', sans-serif;
+      color: #1e1b4b;
+      font-size: 1.6rem;
+      margin: 0 0 1rem 0;
+    }
+
+    .info-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .info-card-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: #1e1b4b;
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .btn-submit-contact {
+      width: 100%;
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      color: white;
+      padding: 14px;
+      border-radius: 50px;
+      border: none;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+      transition: transform 0.2s;
+    }
+
+    .btn-submit-contact:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      color: #4f46e5;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+
+    footer a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
-  <div class="content-container">
-    <h1>Contato</h1>
-    <p>Tem dúvidas, sugestões ou encontrou algum problema no portal?</p>
-    <p>Fale diretamente com o professor mantenedor do projeto.</p>
-    
-    <div style="margin: 30px 0; text-align: left;">
-      <form action="https://formsubmit.co/fabio.marques@edu.campos.rj.gov.br" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
-        <!-- Configurações do FormSubmit -->
-        <input type="hidden" name="_subject" value="Novo contato do Portal de Atividades!">
-        <input type="hidden" name="_captcha" value="true">
-        <input type="hidden" name="_template" value="box">
-        <!-- Substituir para a página do portal se desejar, ou deixar default -->
-        
-        <label style="font-weight: bold; color: var(--accent-cyan);">Seu Nome:</label>
-        <input type="text" name="name" required style="padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.1); color: white;">
-        
-        <label style="font-weight: bold; color: var(--accent-cyan);">Seu E-mail:</label>
-        <input type="email" name="email" required style="padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.1); color: white;">
-        
-        <label style="font-weight: bold; color: var(--accent-cyan);">Mensagem:</label>
-        <textarea name="message" required rows="5" style="padding: 10px; border-radius: 5px; border: none; background: rgba(255,255,255,0.1); color: white; resize: vertical;"></textarea>
-        
-        <button type="submit" style="padding: 12px; background: var(--accent-purple); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">Enviar Mensagem 🚀</button>
-      </form>
-    </div>
 
-    <a href="/" style="display: inline-block; padding: 10px 20px; background: var(--accent-blue); color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">⬅ Voltar para o Início</a>
-  </div>
+  <header class="header-box">
+    <div style="max-width: 900px; margin: 0 auto; text-align: left;">
+      <a href="/" class="btn-home">⬅ Voltar ao Início</a>
+    </div>
+    <h1>Fale Conosco</h1>
+    <p style="color: #cbd5e1; margin: 0;">Suporte pedagógico, parcerias escolares e dúvidas técnicas</p>
+  </header>
+
+  <main class="content-wrap">
+    <div class="contact-grid">
+      
+      <!-- Coluna de Informações Institucionais -->
+      <div class="info-col">
+        <h2>Canais de Atendimento</h2>
+        <p style="color: #475569; margin-bottom: 1.5rem;">
+          Tem sugestões de novas atividades, encontrou algum erro ou deseja utilizar o Lab Kids como recurso oficial na sua escola? Fale diretamente com o coordenador pedagógico do projeto.
+        </p>
+
+        <div class="info-card">
+          <span class="info-card-icon">🧑‍🏫</span>
+          <div>
+            <strong style="color: #1e1b4b; display: block;">Responsável Pedagógico:</strong>
+            <span style="color: #475569; font-size: 0.95rem;">Prof. Fábio Vieitas Marques</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <span class="info-card-icon">✉️</span>
+          <div>
+            <strong style="color: #1e1b4b; display: block;">E-mail Institucional:</strong>
+            <span style="color: #475569; font-size: 0.95rem;">fabio.marques@edu.campos.rj.gov.br</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <span class="info-card-icon">📍</span>
+          <div>
+            <strong style="color: #1e1b4b; display: block;">Sede do Projeto:</strong>
+            <span style="color: #475569; font-size: 0.95rem;">Campos dos Goytacazes — Rio de Janeiro, Brasil</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <span class="info-card-icon">⏱️</span>
+          <div>
+            <strong style="color: #1e1b4b; display: block;">Tempo de Resposta:</strong>
+            <span style="color: #475569; font-size: 0.95rem;">Em até 24 a 48 horas úteis para educadores e famílias.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulário de Mensagem Direta -->
+      <div>
+        <h2 style="font-family: 'Fredoka', sans-serif; color: #1e1b4b; font-size: 1.6rem; margin: 0 0 1rem 0;">
+          Envie uma Mensagem
+        </h2>
+        
+        <form action="https://formsubmit.co/fabio.marques@edu.campos.rj.gov.br" method="POST">
+          <input type="hidden" name="_subject" value="[Lab Kids] Nova Mensagem de Contato do Portal">
+          <input type="hidden" name="_captcha" value="true">
+          <input type="hidden" name="_template" value="table">
+          
+          <div class="form-group">
+            <label for="c-name">Seu Nome Completo:</label>
+            <input type="text" id="c-name" name="name" required placeholder="Ex: Maria da Silva">
+          </div>
+
+          <div class="form-group">
+            <label for="c-email">Seu E-mail de Contato:</label>
+            <input type="email" id="c-email" name="email" required placeholder="Ex: professora@escola.gov.br">
+          </div>
+
+          <div class="form-group">
+            <label for="c-role">Você é:</label>
+            <input type="text" id="c-role" name="perfil" placeholder="Professor(a), Pai/Mãe, Aluno(a) ou Gestor(a)">
+          </div>
+
+          <div class="form-group">
+            <label for="c-msg">Mensagem:</label>
+            <textarea id="c-msg" name="message" required rows="5" placeholder="Como podemos te ajudar?"></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit-contact">Enviar Mensagem 🚀</button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div style="max-width: 900px; margin: 0 auto;">
+      <p>&copy; 2026 Lab Kids — Portal de Atividades Educativas.</p>
+      <div style="margin-top: 1rem;">
+        <a href="/">Início</a>
+        <a href="/sobre">Sobre o Projeto</a>
+        <a href="/termos">Termos de Uso</a>
+        <a href="/privacidade">Privacidade</a>
+        <a href="/cookies">Cookies</a>
+        <a href="/contato">Contato</a>
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>

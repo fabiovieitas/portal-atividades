@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre o Projeto Lab Kids — Tecnologia Educacional, Robótica e BNCC</title>
+    <meta name="description" content="Conheça o Lab Kids: uma iniciativa pedagógica pública fundada pelo Professor Fábio Vieitas Marques para democratizar a gamificação, alfabetização e matemática alinhadas à BNCC.">
+    
+    <link rel="stylesheet" href="/css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
+
+    <!-- Schema.org JSON-LD para Google AdSense e SEO de Autoridade -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "mainEntity": {
+        "@type": "EducationalOrganization",
+        "name": "Lab Kids — Portal de Atividades Educativas",
+        "url": "https://labkids.online",
+        "logo": "https://labkids.online/img/robot-icon-512.png",
+        "founder": {
+          "@type": "Person",
+          "name": "Fábio Vieitas Marques",
+          "jobTitle": "Professor e Coordenador de Tecnologia Educacional",
+          "worksFor": {
+            "@type": "GovernmentOrganization",
+            "name": "Rede Pública Municipal de Ensino de Campos dos Goytacazes - RJ"
+          }
+        },
+        "description": "Plataforma pública de recursos educacionais abertos, jogos pedagógicos digitais e simulados interativos alinhados à Base Nacional Comum Curricular (BNCC)."
+      }
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --accent-cyan: #06b6d4;
+            --accent-gold: #f59e0b;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --bg-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f1f5f9;
+            color: var(--text-dark);
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .about-hero {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+            color: white;
+            padding: 5rem 1.5rem 6rem 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .about-hero h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .about-hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            color: #cbd5e1;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .about-container {
+            max-width: 960px;
+            margin: -3rem auto 4rem auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .about-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 640px) {
+            .about-card { padding: 2rem 1.5rem; }
+        }
+
+        .about-card h2 {
+            font-family: 'Fredoka', sans-serif;
+            color: #1e1b4b;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.8rem;
+        }
+
+        .founder-box {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 680px) {
+            .founder-box { flex-direction: column; text-align: center; }
+        }
+
+        .founder-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #4f46e5;
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
+            flex-shrink: 0;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .pillar-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .pillar-item:hover {
+            transform: translateY(-4px);
+            border-color: #818cf8;
+        }
+
+        .pillar-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .pillar-item h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: #312e81;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pillar-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .nav-back-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            color: #4f46e5;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .btn-back-home:hover {
+            background: #4f46e5;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        footer a {
+            color: #cbd5e1;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: 600;
+        }
+
+        footer a:hover { color: #38bdf8; }
+    </style>
+</head>
+<body>
+
+    <header class="about-hero">
+        <div style="max-width: 960px; margin: 0 auto; text-align: left; margin-bottom: 2rem;">
+            <a href="/" class="btn-back-home">⬅ Voltar ao Início</a>
+        </div>
+        <h1>Sobre o Portal Lab Kids</h1>
+        <p>Inovação, Gamificação e Tecnologia Educacional pública a serviço da alfabetização e do raciocínio lógico-matemático.</p>
+    </header>
+
+    <main class="about-container">
+        
+        <!-- Apresentação do Projeto -->
+        <article class="about-card">
+            <h2><span>🚀</span> Nossa Missão e Propósito</h2>
+            <p>
+                O <strong>Lab Kids</strong> (<em>labkids.online</em>) nasceu como uma resposta concreta ao desafio de integrar as tecnologias digitais nas salas de aula dos anos iniciais do Ensino Fundamental e da Educação Infantil da rede pública de ensino.
+            </p>
+            <p>
+                Acreditamos que o acesso a ferramentas educacionais digitais de ponta não deve ser um privilégio de escolas privadas com altos recursos. Por isso, o portal foi construído do zero com foco em <strong>acessibilidade total</strong>: leveza de carregamento para funcionar em tablets escolares antigos, compatibilidade offline e projeção em datashow, e alinhamento rigoroso aos objetivos pedagógicos da <strong>Base Nacional Comum Curricular (BNCC)</strong>.
+            </p>
+
+            <div class="pillars-grid">
+                <div class="pillar-item">
+                    <span class="pillar-icon">🎮</span>
+                    <h3>Gamificação Significativa</h3>
+                    <p>Mecânicas de jogos pedagógicos onde o erro faz parte do ciclo de descoberta, incentivando o pensamento autônomo e o prazer de aprender.</p>
+                </div>
+                <div class="pillar-item">
+                    <span class="pillar-icon">📚</span>
+                    <h3>Alinhamento BNCC</h3>
+                    <p>Cada atividade e simulado possui códigos curriculares claros, facilitando o planejamento docente e o registro oficial nos diários de classe.</p>
+                </div>
+                <div class="pillar-item">
+                    <span class="pillar-icon">🛡️</span>
+                    <h3>Ambiente 100% Seguro</h3>
+                    <p>Privacidade por design (LGPD e COPPA). Não exigimos dados sensíveis de menores, sem cadastros invasivos e com moderação pedagógica constante.</p>
+                </div>
+                <div class="pillar-item">
+                    <span class="pillar-icon">🧑‍🏫</span>
+                    <h3>Apoio ao Professor</h3>
+                    <p>Painel de turmas, gerador de certificados, simulados com relatórios estatísticos e gabaritos comentados prontos para aplicação.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- Responsável Pedagógico e Editorial -->
+        <article class="about-card">
+            <h2><span>🧑‍🏫</span> Liderança e Coordenação Pedagógica</h2>
+            
+            <div class="founder-box">
+                <img src="/img/robot-icon-512.png" alt="Prof. Fábio Vieitas" class="founder-avatar">
+                <div>
+                    <h3 style="margin: 0 0 6px 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif; font-size: 1.4rem;">
+                        Prof. Fábio Vieitas Marques
+                    </h3>
+                    <p style="margin: 0 0 10px 0; color: #4f46e5; font-weight: 700; font-size: 0.95rem;">
+                        Idealizador, Desenvolvedor & Mantenedor do Projeto
+                    </p>
+                    <p style="margin: 0; color: #334155; font-size: 0.95rem; line-height: 1.6;">
+                        Educador atuante na rede pública municipal de ensino de Campos dos Goytacazes (RJ), pós-graduado e pesquisador na área de Informática Educativa, Robótica Pedagógica e Desenvolvimento de Software Educacional. Desenvolve soluções tecnológicas para transformar a rotina dos laboratórios de informática em verdadeiros centros de inovação para alunos do 1º ao 5º ano.
+                    </p>
+                </div>
+            </div>
+
+            <h3 style="font-family: 'Fredoka', sans-serif; color: #1e1b4b; font-size: 1.3rem; margin-top: 1.5rem;">
+                Compromisso com a Transparência e Qualidade Editorial
+            </h3>
+            <p>
+                Todo o conteúdo publicado no Lab Kids — incluindo jogos autorais, artigos pedagógicos do Blog, propostas de simulados e guias de habilidades — passa por curadoria pedagógica contínua. As atividades são testadas e validadas em ambiente escolar real antes de serem disponibilizadas para o público geral.
+            </p>
+            <p>
+                Para dúvidas institucionais, sugestões de novas atividades ou parcerias pedagógicas com outras redes de ensino, mantemos canal direto pelo nosso formulário de <a href="/contato" style="color: #4f46e5; font-weight: 700;">Contato</a> ou pelo e-mail institucional do mantenedor.
+            </p>
+        </article>
+
+        <!-- Modelo de Sustentabilidade -->
+        <article class="about-card">
+            <h2><span>⚖️</span> Gratuidade e Modelo de Sustentabilidade</h2>
+            <p>
+                O Lab Kids é e continuará sendo <strong>100% gratuito</strong> para escolas, professores, alunos e famílias.
+            </p>
+            <p>
+                Para cobrir os custos de servidores em nuvem de alta velocidade (Vercel, Turso, Supabase), certificados de segurança SSL e desenvolvimento contínuo de novos jogos educativos, o portal conta com a exibição de anúncios contextuais moderados através do <strong>Google AdSense</strong>.
+            </p>
+            <p>
+                Configuramos rigorosamente nossos blocos de publicidade em conformidade com as diretrizes do Google para conteúdo familiar e infantil, garantindo que não sejam coletados dados para publicidade comportamental personalizada de crianças e que nenhum anúncio inadequado seja veiculado aos estudantes.
+            </p>
+        </article>
+
+    </main>
+
+    <footer>
+        <div style="max-width: 960px; margin: 0 auto;">
+            <p>&copy; 2026 Lab Kids — Portal de Atividades Educativas. Todos os direitos reservados.</p>
+            <div style="margin-top: 1rem;">
+                <a href="/">Início</a>
+                <a href="/sobre">Sobre o Projeto</a>
+                <a href="/termos">Termos de Uso</a>
+                <a href="/privacidade">Privacidade (LGPD)</a>
+                <a href="/cookies">Cookies</a>
+                <a href="/noticias">Blog Pedagógico</a>
+                <a href="/contato">Fale Conosco</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

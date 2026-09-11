@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Enigma do Laboratório Mágico - Escape Room Educativo & Guia BNCC | Lab Kids</title>
+    <meta name="description" content="Plano de aula completo e guia didático do Escape Room Educativo: O Enigma do Laboratório Mágico. 6 desafios de Matemática e Língua Portuguesa para 4º e 5º anos (EF04LP04, EF04MA05, EF05LP04).">
+    <link rel="stylesheet" href="/css/style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
+    <style>
+        body { 
+            background: linear-gradient(135deg, #070a12 0%, #0d1322 100%); 
+            color: #f8fafc; 
+            font-family: 'Fredoka', system-ui, sans-serif; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px 10px 60px 10px; 
+        }
+        .container-presentation { max-width: 960px; margin: 0 auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .btn-return-portal { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            background: linear-gradient(135deg, #ef4444, #dc2626); 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            font-weight: 800; 
+            text-decoration: none; 
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); 
+            border: 2px solid rgba(255, 255, 255, 0.3); 
+            transition: transform 0.2s;
+        }
+        .btn-return-portal:hover { transform: translateY(-2px); }
+        .hero-banner { 
+            background: rgba(15, 23, 42, 0.9); 
+            border: 2px solid rgba(245, 158, 11, 0.4); 
+            border-radius: 28px; 
+            padding: 38px 26px; 
+            text-align: center; 
+            margin-bottom: 30px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 35px rgba(245, 158, 11, 0.15); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .hero-badge { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #f59e0b, #d97706); 
+            color: #070a12; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            padding: 6px 20px; 
+            border-radius: 50px; 
+            margin-bottom: 14px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+        .game-title { 
+            font-size: clamp(2rem, 5vw, 2.9rem); 
+            font-weight: 700; 
+            color: #fbbf24; 
+            margin: 8px 0; 
+        }
+        .btn-launch-large { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 12px; 
+            background: linear-gradient(135deg, #f59e0b, #b45309); 
+            color: #070a12; 
+            padding: 18px 45px; 
+            border-radius: 50px; 
+            font-size: 1.35rem; 
+            font-weight: 800; 
+            text-decoration: none; 
+            margin-top: 22px; 
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4); 
+            border: 3px solid rgba(255, 255, 255, 0.4); 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-launch-large:hover { 
+            transform: scale(1.04); 
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.6);
+        }
+        .pedagogical-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px; margin-bottom: 25px; }
+        .pedagogical-card h2 { color: #38bdf8; font-size: 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 10px; font-family: 'Cinzel', serif; }
+        .bncc-badge { background: #6366f1; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin: 4px; }
+        .bncc-badge-math { background: #0284c7; }
+        .bncc-badge-port { background: #d97706; }
+        .step-box { background: rgba(30, 41, 59, 0.6); border-left: 4px solid #f59e0b; padding: 15px 20px; border-radius: 0 16px 16px 0; margin-bottom: 15px; }
+        .step-box h4 { margin: 0 0 6px 0; color: #fde68a; font-size: 1.1rem; }
+        .step-box p { margin: 0; color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; }
+        .institutional-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
+        .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+        .institutional-footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container-presentation">
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Escape Room de Investigação</span>
+        </div>
+
+        <div class="hero-banner">
+            <div class="hero-badge">🧭 ESCAPE ROOM DE INVESTIGAÇÃO INTERDISCIPLINAR · 4º E 5º ANO</div>
+            <h1 class="game-title">O Enigma do Laboratório Mágico</h1>
+            <p style="font-size: 1.15rem; color: #cbd5e1; max-width: 760px; margin: 12px auto; font-family: 'Outfit', sans-serif; line-height: 1.6;">
+                Uma aventura investigativa com estética misteriosa inspirada nos grandes escape quests mundiais. Os estudantes auxiliam o Robô Guia a decifrar 6 salas secretas com desafios de interpretação textual, acentuação, propriedades da multiplicação, lógica combinatória e frações equivalentes para salvar o Dr. Cosmos!
+            </p>
+            
+            <a href="/games/escape-room-lab/index.html" class="btn-launch-large">
+                🗝️ ENTRAR NO ESCAPE ROOM ➔
+            </a>
+        </div>
+
+        <!-- Bloco 1: Enquadramento Curricular BNCC -->
+        <div class="pedagogical-card">
+            <h2>📘 Alinhamento Curricular BNCC: Matemática & Língua Portuguesa</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                O <strong>Escape Room do Laboratório Mágico</strong> é um projeto interdisciplinar robusto que rompe com as listas estáticas de exercícios. Cada sala temática exige a aplicação prática de competências estruturantes dos 4º e 5º anos do Ensino Fundamental:
+            </p>
+            <div style="margin: 15px 0;">
+                <span class="bncc-badge bncc-badge-port">EF04LP04: Tonicidade das Palavras (Oxítonas, Paroxítonas, Proparoxítonas)</span>
+                <span class="bncc-badge bncc-badge-port">EF05LP04: Identificação de Classes Gramaticais e Coesão</span>
+                <span class="bncc-badge bncc-badge-math">EF04MA05: Propriedades da Multiplicação e Divisão</span>
+                <span class="bncc-badge bncc-badge-math">EF05MA08: Frações Equivalentes e Comparação de Grandezas</span>
+                <span class="bncc-badge">EF35LP04: Inferência de Sentidos a partir de Pistas Contextuais</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 10px;">
+                <strong>Pilares Cognitivos Mobilizados:</strong> Pensamento dedutivo e indutivo, atenção focada a detalhes mínimos, interpretação profunda de enunciados enigmáticos e trabalho em equipe solidário.
+            </p>
+        </div>
+
+        <!-- Bloco 2: Como Conduzir a Experiência em Sala de Aula -->
+        <div class="pedagogical-card">
+            <h2>👩‍🏫 Dinâmica de Sala de Aula: Sequência Metodológica</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Roteiro recomendado para sessões de 50 minutos no laboratório de informática ou em salas de aula colaborativas:
+            </p>
+
+            <div class="step-box">
+                <h4>1. Briefing dos Investigadores (10 min)</h4>
+                <p>O professor lê a carta de socorro do Dr. Cosmos e projeta a imagem do laboratório bloqueado. Distribui a cada dupla a "Prancheta do Investigador" (folha de rascunho) onde os alunos registrarão pistas, cálculos e hipóteses de cada fase.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>2. Missão nas 6 Fases do Escape Room (30 min)</h4>
+                <p>Os estudantes avançam pelas câmaras (Tubos de Alquimia, Baús das Palavras Proparoxítonas, Tubos de Frações e Terminal Central). O professor não dá respostas prontas; caso uma equipe fique travada, orienta a reler o papiro ou consultar as dicas graduais embutidas no sistema.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>3. Desbloqueio do Cofre & Debriefing Coletivo (10 min)</h4>
+                <p>As equipes que descobrem a Senha Final e libertam o Dr. Cosmos compartilham suas estratégias com os demais. O professor sistematiza na lousa as regras gramaticais e os cálculos que foram chave para a vitória.</p>
+            </div>
+        </div>
+
+        <!-- Bloco 3: Guia para Famílias -->
+        <div class="pedagogical-card">
+            <h2>👨‍👩‍👧 Dicas de Mediação para os Pais</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Como vivenciar o escape room em família de forma construtiva:
+            </p>
+            <ul style="color: #cbd5e1; line-height: 1.7; padding-left: 20px;">
+                <li><strong>Jogue junto como parceiro de investigação:</strong> Sente-se ao lado do seu filho e compartilhe o mistério: <em>"Nossa, que enigma curioso! O que você acha que essa pista quer nos dizer?"</em>.</li>
+                <li><strong>Deixe a criança liderar as decisões:</strong> Resista à tentação de digitar a senha por ela. O valor da atividade está no momento de "Eureca!" que a criança vivencia ao descobrir a lógica por conta própria.</li>
+                <li><strong>Comemore a persistência:</strong> Se errar um código, valorize a calma: <em>"Bons detetives testam várias hipóteses antes de acertar. Vamos reler a pista com atenção!"</em>.</li>
+            </ul>
+        </div>
+
+        <!-- Bloco 4: Diário de Classe -->
+        <div class="pedagogical-card">
+            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
+            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
+                "Realização de atividade de investigação imersiva com a ferramenta autoral 'O Enigma do Laboratório Mágico (Escape Room)'. Integração curricular de Língua Portuguesa (acentuação e classes gramaticais - EF04LP04, EF05LP04) e Matemática (multiplicação e frações - EF04MA05, EF05MA08). Constatou-se alto índice de cooperação entre pares e refinamento do raciocínio hipotético-dedutivo."
+            </div>
+        </div>
+
+        <!-- Publicidade Institucional Segura -->
+        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Rodapé Institucional -->
+        <footer class="institutional-footer">
+            <p><strong>Portal Lab Kids</strong> — Plataforma Educacional Pública Gratuita mantida pelo Prof. Fábio Vieitas Marques</p>
+            <p>
+                <a href="/">Início</a> •
+                <a href="/sobre">Quem Somos</a> •
+                <a href="/guia-bncc">Guia BNCC</a> •
+                <a href="/termos">Termos de Uso</a> •
+                <a href="/privacidade">Privacidade & LGPD</a> •
+                <a href="/cookies">Política de Cookies</a> •
+                <a href="/contato">Contato Institucional</a>
+            </p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Campos dos Goytacazes - RJ | Educação Pública Inovadora e 100% Gratuita</p>
+        </footer>
+    </div>
+</body>
+</html>

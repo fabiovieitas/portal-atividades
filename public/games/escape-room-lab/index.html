@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>O Mistério do Laboratório Secreto — Escape Room Lab Kids (Matemática)</title>
+  <meta name="description" content="Escape Room de Matemática para 4º e 5º ano: Situações-problema, 4 operações e raciocínio lógico com Dr. Cosmos e o Robô Mascote!">
+
+  <!-- Fontes Infantis, Alegres e Modernas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM INFANTIL & TECNOLÓGICO: LAB KIDS ESCAPE ROOM (MATEMÁTICA)
+       ========================================================================== */
+    :root {
+      --bg-dark: #090d1a;
+      --bg-card: #131b2e;
+      --bg-card-hover: #1c2742;
+      --neon-cyan: #06b6d4;
+      --neon-cyan-glow: rgba(6, 182, 212, 0.45);
+      --gold-sun: #f59e0b;
+      --gold-sun-glow: rgba(245, 158, 11, 0.45);
+      --mint-green: #10b981;
+      --mint-glow: rgba(16, 185, 129, 0.45);
+      --bubble-pink: #ec4899;
+      --purple-energy: #8b5cf6;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+
+      --font-fun: 'Fredoka', cursive, system-ui, sans-serif;
+      --font-body: 'Outfit', system-ui, sans-serif;
+
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-full: 9999px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0b1120 50%, #060913 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #magic-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .bg-stars {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, var(--neon-cyan), rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, var(--gold-sun), rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 240px 190px, var(--bubble-pink), rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 300px 300px;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ==================== HUD SUPERIOR FIXO ==================== */
+    .top-hud-bar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 2px solid rgba(6, 182, 212, 0.35);
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .hud-title-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-fun);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .hud-mascot-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--neon-cyan);
+      object-fit: cover;
+      background: #0f172a;
+    }
+
+    .hud-stepper-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-bubble {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 2px solid #334155;
+      color: #94a3b8;
+      font-family: var(--font-fun);
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .step-bubble:hover {
+      transform: scale(1.15);
+      border-color: var(--neon-cyan);
+      color: #fff;
+    }
+
+    .step-bubble.active {
+      background: linear-gradient(135deg, var(--neon-cyan), #0284c7);
+      border-color: #38bdf8;
+      color: #fff;
+      box-shadow: 0 0 16px var(--neon-cyan-glow);
+      transform: scale(1.1);
+    }
+
+    .step-bubble.unlocked {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: #34d399;
+      color: #fff;
+    }
+
+    .step-bubble-final {
+      width: auto;
+      padding: 0 14px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--gold-sun), #d97706);
+      border-color: #fde047;
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .hud-meta-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hud-pill {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hud-score-pill {
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(6, 182, 212, 0.15);
+    }
+
+    .hud-timer-pill {
+      color: #fde047;
+      border-color: rgba(253, 224, 71, 0.3);
+      background: rgba(245, 158, 11, 0.15);
+    }
+
+    .hud-btn {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 7px 12px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .hud-btn:hover { background: #334155; }
+
+    /* ==================== TELA DE ABERTURA ==================== */
+    .opening-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 60px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .opening-wrapper.hidden { display: none !important; }
+
+    .top-badge-lab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid var(--neon-cyan);
+      color: #38bdf8;
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 6px 20px;
+      border-radius: var(--radius-full);
+      margin-bottom: 14px;
+      box-shadow: 0 0 15px var(--neon-cyan-glow);
+    }
+
+    .opening-main-title {
+      font-family: var(--font-fun);
+      font-size: clamp(2rem, 5.5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 20%, #fef08a 60%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 30px rgba(245, 158, 11, 0.3);
+    }
+
+    .opening-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: #cbd5e1;
+      max-width: 680px;
+      margin: 0 auto 20px auto;
+    }
+
+    .hero-interactive-card {
+      width: 100%;
+      max-width: 780px;
+      background: #131c31;
+      border: 3px solid rgba(6, 182, 212, 0.4);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(6, 182, 212, 0.25);
+      margin-bottom: 24px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .hero-interactive-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 40px var(--neon-cyan-glow);
+    }
+
+    .hero-image-box {
+      position: relative;
+      width: 100%;
+      height: 380px;
+      overflow: hidden;
+      background: #0b1120;
+    }
+
+    .hero-image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      transition: transform 0.5s ease;
+    }
+
+    .hero-interactive-card:hover .hero-image-box img { transform: scale(1.03); }
+
+    .hero-floating-play-pill {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.88);
+      border: 2px solid var(--gold-sun);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      animation: bounceLittle 2s infinite ease-in-out;
+    }
+
+    @keyframes bounceLittle {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-6px); }
+    }
+
+    .btn-super-play {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 520px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border: 3px solid #6ee7b7;
+      color: #ffffff;
+      padding: 20px 32px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: clamp(1.2rem, 3.5vw, 1.55rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5), 0 0 30px rgba(16, 185, 129, 0.3);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      margin-bottom: 24px;
+      animation: pulseAttention 2.2s infinite;
+    }
+
+    .btn-super-play:hover {
+      transform: scale(1.04) translateY(-2px);
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      box-shadow: 0 14px 40px rgba(16, 185, 129, 0.7);
+    }
+
+    @keyframes pulseAttention {
+      0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5); }
+      50% { transform: scale(1.03); box-shadow: 0 14px 40px rgba(16, 185, 129, 0.8), 0 0 35px #10b981; }
+    }
+
+    .features-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .feature-chip {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ==================== CONTAINER DAS SALAS DE JOGO ==================== */
+    .room-container {
+      display: none;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 20px 16px 90px 16px;
+      animation: fadeInRoom 0.4s ease-out forwards;
+    }
+
+    .room-container.active { display: block !important; }
+
+    @keyframes fadeInRoom {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .room-header-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .room-stage-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid var(--neon-cyan);
+      color: #38bdf8;
+      padding: 5px 16px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .room-title {
+      font-family: var(--font-fun);
+      font-size: clamp(1.7rem, 4vw, 2.3rem);
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* BANNER ILUSTRADO VIBRANTE DENTRO DE CADA SALA */
+    .room-scene-banner-card {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 2px solid rgba(6, 182, 212, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.2);
+      margin-bottom: 20px;
+      background: #0f172a;
+    }
+
+    .room-scene-banner-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .room-scene-banner-img { height: 200px; }
+      .hero-image-box { height: 240px; }
+    }
+
+    /* DIÁLOGOS DOS PERSONAGENS */
+    .characters-dialogue-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .characters-dialogue-row { grid-template-columns: 1fr; }
+    }
+
+    .dialogue-card {
+      background: var(--bg-card);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .dialogue-card.cosmos {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: linear-gradient(135deg, #1e1b4b 0%, #131b2e 100%);
+    }
+
+    .dialogue-card.robot {
+      border-color: rgba(6, 182, 212, 0.4);
+      background: linear-gradient(135deg, #0c2340 0%, #131b2e 100%);
+    }
+
+    .dialogue-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 3px solid var(--neon-cyan);
+    }
+
+    .dialogue-card.cosmos .dialogue-avatar { border-color: var(--gold-sun); }
+
+    .dialogue-content strong {
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .dialogue-card.cosmos strong { color: #fde047; }
+    .dialogue-card.robot strong { color: #38bdf8; }
+
+    .dialogue-content p {
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    /* CARD DE SITUAÇÃO-PROBLEMA */
+    .problem-situation-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+      border: 2px solid rgba(245, 158, 11, 0.35);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 22px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .problem-title {
+      font-family: var(--font-fun);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--gold-sun);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .problem-text {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .problem-equation-highlight {
+      background: rgba(15, 23, 42, 0.8);
+      border: 2px dashed rgba(6, 182, 212, 0.5);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      font-family: var(--font-fun);
+      font-size: 1.15rem;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* OPÇÕES DE RESPOSTA MULTIPLA ESCOLHA */
+    .math-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 580px) {
+      .math-options-grid { grid-template-columns: 1fr; }
+    }
+
+    .math-opt-btn {
+      background: #172036;
+      border: 2px solid #283556;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      color: #f1f5f9;
+      font-family: var(--font-fun);
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .math-opt-btn:hover {
+      transform: translateY(-2px);
+      border-color: #38bdf8;
+      background: #1f2c4a;
+    }
+
+    .math-opt-btn.selected {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-color: #38bdf8;
+      box-shadow: 0 6px 18px rgba(6, 182, 212, 0.4);
+      transform: scale(1.02);
+    }
+
+    .opt-letter-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      color: #fde047;
+    }
+
+    .math-opt-btn.selected .opt-letter-badge {
+      background: #38bdf8;
+      color: #082f49;
+      font-weight: 800;
+    }
+
+    /* INPUTS MATEMÁTICOS PARA SALAS DE DIGITAÇÃO */
+    .inputs-calc-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
+
+    .calc-input-item {
+      background: #10182b;
+      border: 2px solid rgba(6, 182, 212, 0.4);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 140px;
+    }
+
+    .calc-input-item label {
+      font-family: var(--font-fun);
+      font-size: 1rem;
+      color: #fde047;
+    }
+
+    .calc-input-item input {
+      width: 100px;
+      height: 50px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--neon-cyan);
+      background: #0f172a;
+      color: #fff;
+      font-family: var(--font-fun);
+      font-size: 1.6rem;
+      font-weight: 800;
+      text-align: center;
+      outline: none;
+    }
+
+    .calc-input-item input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 16px var(--neon-cyan-glow);
+    }
+
+    /* BOTÕES DE AÇÃO */
+    .action-buttons-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 22px 0;
+      flex-wrap: wrap;
+    }
+
+    .btn-action-primary {
+      background: linear-gradient(135deg, var(--neon-cyan), #0284c7);
+      border: 2px solid #38bdf8;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 6px 20px var(--neon-cyan-glow);
+    }
+
+    .btn-action-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--neon-cyan-glow);
+    }
+
+    .btn-action-secondary {
+      background: #1e293b;
+      border: 2px solid #475569;
+      color: #cbd5e1;
+      padding: 14px 24px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .hints-envelope-bar {
+      background: rgba(30, 41, 59, 0.85);
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hints-envelope-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-fun);
+      color: #fde047;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .btn-open-hint {
+      background: linear-gradient(135deg, var(--gold-sun), #d97706);
+      border: 2px solid #fde047;
+      color: #0f172a;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-open-hint:hover { transform: scale(1.05); }
+
+    .hint-revealed-box {
+      display: none;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--gold-sun);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      color: #fef08a;
+      font-size: 0.95rem;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .room-nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+    }
+
+    .btn-nav-prev {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #cbd5e1;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-nav-next {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: 2px solid #34d399;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-nav-next:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* ==================== RODAPÉ FIXO: SELOS CONQUISTADOS ==================== */
+    .clues-dock-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 2px solid rgba(245, 158, 11, 0.3);
+      padding: 8px 16px;
+      z-index: 990;
+      display: flex;
+      justify-content: center;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .clues-dock-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 860px;
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .clues-dock-label {
+      font-family: var(--font-fun);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fde047;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .clues-pills-grid {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .clue-chip {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #64748b;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .clue-chip.unlocked {
+      background: linear-gradient(135deg, #065f46, #047857);
+      border-color: #34d399;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    /* ==================== MODAL DE FEEDBACK AMIGÁVEL ==================== */
+    .game-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 9, 19, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .game-modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .game-modal-card {
+      background: #131c31;
+      border: 3px solid var(--neon-cyan);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 40px var(--neon-cyan-glow);
+      transform: scale(0.9);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .game-modal-overlay.active .game-modal-card { transform: scale(1); }
+
+    .modal-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 14px auto;
+      border: 3px solid var(--neon-cyan);
+      display: block;
+    }
+
+    .modal-title {
+      font-family: var(--font-fun);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal-title.success { color: #34d399; }
+    .modal-title.error { color: #f87171; }
+
+    .modal-desc {
+      font-size: 1rem;
+      color: #cbd5e1;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .modal-speed-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #0f172a;
+      font-family: var(--font-fun);
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      margin-bottom: 12px;
+    }
+
+    .btn-modal-close {
+      background: linear-gradient(135deg, var(--neon-cyan), #0284c7);
+      border: 2px solid #38bdf8;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ==================== TELA DE VITÓRIA SUPREMA + VOTAÇÃO DO NOME DO ROBÔ ==================== */
+    .victory-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 9, 19, 0.94);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10001;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .victory-modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .victory-cert-card {
+      background: linear-gradient(135deg, #131c31 0%, #1e1b4b 100%);
+      border: 4px solid var(--gold-sun);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      max-width: 620px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 50px var(--gold-sun-glow);
+    }
+
+    .cert-badge-stars { font-size: 2.2rem; margin-bottom: 6px; }
+    .cert-title {
+      font-family: var(--font-fun);
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #fde047;
+      margin-bottom: 6px;
+    }
+
+    .cert-sub { font-size: 1.05rem; color: #e2e8f0; margin-bottom: 20px; }
+
+    .score-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .score-summary-item {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+    }
+
+    .score-summary-item strong {
+      font-family: var(--font-fun);
+      font-size: 1.3rem;
+      color: #38bdf8;
+      display: block;
+    }
+
+    .score-summary-item span { font-size: 0.8rem; color: #94a3b8; }
+
+    /* BOX DE VOTAÇÃO DO NOME DO ROBÔ */
+    .robot-naming-card {
+      background: rgba(6, 182, 212, 0.15);
+      border: 2px solid var(--neon-cyan);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .robot-naming-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .robot-naming-header img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--neon-cyan);
+    }
+
+    .vote-options-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .btn-vote-name {
+      background: #1e293b;
+      border: 2px solid #38bdf8;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-vote-name:hover, .btn-vote-name.selected {
+      background: var(--neon-cyan);
+      color: #082f49;
+      transform: scale(1.05);
+    }
+
+    .vote-custom-input-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    .vote-custom-input-box input {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #fff;
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .vote-custom-input-box button {
+      background: linear-gradient(135deg, var(--gold-sun), #d97706);
+      border: none;
+      color: #0f172a;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-family: var(--font-fun);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .vote-result-toast {
+      display: none;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #34d399;
+      color: #6ee7b7;
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-fun);
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="magic-canvas"></canvas>
+  <div class="bg-stars"></div>
+
+  <!-- ==================== HUD SUPERIOR ==================== -->
+  <header class="top-hud-bar" id="main-hud-bar" style="display: none;">
+    <div class="hud-title-box">
+      <img src="img/robot_scholar.jpg" alt="Mascote" class="hud-mascot-badge">
+      <span>LAB KIDS • MATEMÁTICA</span>
+    </div>
+
+    <div class="hud-stepper-container" id="hud-stepper">
+      <div class="step-bubble active" data-step="1" onclick="game.goToRoom(1)">1</div>
+      <div class="step-bubble" data-step="2" onclick="game.goToRoom(2)">2</div>
+      <div class="step-bubble" data-step="3" onclick="game.goToRoom(3)">3</div>
+      <div class="step-bubble" data-step="4" onclick="game.goToRoom(4)">4</div>
+      <div class="step-bubble" data-step="5" onclick="game.goToRoom(5)">5</div>
+      <div class="step-bubble step-bubble-final" data-step="6" onclick="game.goToRoom(6)">COFRE 🔓</div>
+    </div>
+
+    <div class="hud-meta-right">
+      <div class="hud-pill hud-score-pill" id="hud-score-val">
+        ⭐ 0 XP
+      </div>
+      <div class="hud-pill hud-timer-pill" id="hud-timer-val">
+        ⏱️ 45:00
+      </div>
+      <button class="hud-btn" id="btn-sound-hud" onclick="game.toggleSound()" title="Ligar/Desligar Som">
+        🔊
+      </button>
+      <button class="hud-btn" id="btn-pause-toggle" onclick="game.togglePause()" title="Pausar Cronômetro">
+        ⏸️
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== 1. TELA DE ABERTURA ==================== -->
+  <main class="opening-wrapper" id="opening-screen">
+    
+    <div class="top-badge-lab">
+      🔬 ESCAPE ROOM DE MATEMÁTICA · 4º E 5º ANO · LAB KIDS
+    </div>
+
+    <h1 class="opening-main-title">
+      O MISTÉRIO DO LABORATÓRIO SECRETO
+    </h1>
+
+    <p class="opening-subtitle">
+      O excêntrico <strong>Dr. Cosmos</strong> sumiu numa fenda temporal e trancou tudo com desafios matemáticos! Ajude o <strong>Robô Mascote</strong> a resolver as situações-problema das 4 operações e abrir o Grande Cofre!
+    </p>
+
+    <!-- Card Hero 3D Interativo -->
+    <div class="hero-interactive-card" onclick="game.startQuest()" title="Clique para começar a jogar agora!">
+      <div class="hero-image-box">
+        <img src="img/hero_desk.jpg" alt="Laboratório Secreto com Dr. Cosmos e Robô Mascote">
+        <div class="hero-floating-play-pill">
+          ✨ CLIQUE PARA INICIAR A AVENTURA!
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão de Ação Imediata -->
+    <button class="btn-super-play" id="btn-main-start" onclick="game.startQuest()">
+      🚀 ENTRAR NO LABORATÓRIO AGORA!
+    </button>
+
+    <!-- Chips Rápidos -->
+    <div class="features-chips-row">
+      <span class="feature-chip">⏱️ 45 Minutos</span>
+      <span class="feature-chip">➕ Adição & Subtração</span>
+      <span class="feature-chip">✖️ Multiplicação & Divisão</span>
+      <span class="feature-chip">💡 Dicas do Robô</span>
+      <span class="feature-chip">🗳️ Escolha o Nome do Mascote</span>
+    </div>
+  </main>
+
+  <!-- ==================== 2. SALAS DE JOGO (MATEMÁTICA) ==================== -->
+
+  <!-- ===== SALA 1: O INVENTÁRIO DOS TUBOS DE ENSAIO (ADIÇÃO E SUBTRAÇÃO) ===== -->
+  <section class="room-container" id="room-1">
+    <div class="room-header-box">
+      <div class="room-stage-pill">DESAFIO 1 DE 5 · ADIÇÃO & SUBTRAÇÃO</div>
+      <h2 class="room-title">🧪 O Inventário dos Tubos de Ensaio</h2>
+    </div>
+
+    <div class="room-scene-banner-card">
+      <img src="img/room1.jpg" alt="Dr Cosmos e Robô com Tubos de Ensaio" class="room-scene-banner-img">
+    </div>
+
+    <div class="characters-dialogue-row">
+      <div class="dialogue-card cosmos">
+        <img src="img/dr_cosmos.jpg" alt="Dr. Cosmos" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Dr. Cosmos Lembra:</strong>
+          <p>"Antes de sumir na fenda, eu deixei <strong>45 tubos de ensaio azuis</strong> e <strong>38 tubos vermelhos</strong> na bancada. Mas o Robô tropeçou e <strong>19 tubos quebraram</strong>!"</p>
+        </div>
+      </div>
+      <div class="dialogue-card robot">
+        <img src="img/robot_scholar.jpg" alt="Robô Mascote" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Robô Mascote Pede Ajuda:</strong>
+          <p>"Bip-bop! Não foi de propósito! Amigo explorador, calcule primeiro a soma dos tubos que tínhamos e subtraia os que quebraram para sabermos quantos restaram!"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-situation-card">
+      <div class="problem-title">
+        <span>📋</span> SITUAÇÃO-PROBLEMA 1
+      </div>
+      <p class="problem-text">
+        O Dr. Cosmos tinha <strong>45 tubos azuis</strong> e <strong>38 tubos vermelhos</strong>. Durante um teste maluco, <strong>19 tubos se quebraram</strong>. Quantos tubos de ensaio intactos sobraram no laboratório?
+      </p>
+
+      <div class="problem-equation-highlight">
+        <span>(45 + 38) − 19 = ?</span>
+      </div>
+
+      <div class="math-options-grid" id="fase1-options">
+        <button class="math-opt-btn" onclick="game.selectFase1Opt(this, 54)">
+          <span class="opt-letter-badge">A</span>
+          <span>54 tubos intactos</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase1Opt(this, 64)">
+          <span class="opt-letter-badge">B</span>
+          <span>64 tubos intactos</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase1Opt(this, 72)">
+          <span class="opt-letter-badge">C</span>
+          <span>72 tubos intactos</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase1Opt(this, 83)">
+          <span class="opt-letter-badge">D</span>
+          <span>83 tubos intactos</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="action-buttons-row">
+      <button class="btn-action-primary" onclick="game.checkFase1()">
+        ✨ Conferir Resposta & Quebrar Selo 1
+      </button>
+    </div>
+
+    <div class="hints-envelope-bar">
+      <div class="hints-envelope-info">
+        <span>💡</span> DICAS DO ROBÔ (Fase 1)
+      </div>
+      <button class="btn-open-hint" onclick="game.revealHint(1)">Abrir Dica</button>
+    </div>
+    <div class="hint-revealed-box" id="hint-text-1"></div>
+
+    <div class="room-nav-footer">
+      <button class="btn-nav-prev" onclick="game.goBackToOpening()">← Início</button>
+      <button class="btn-nav-next" id="btn-next-1" onclick="game.goToRoom(2)" disabled>
+        Próxima Sala (Fase 2) →
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== SALA 2: AS CAIXAS DE CRISTAIS (MULTIPLICAÇÃO & ADIÇÃO) ===== -->
+  <section class="room-container" id="room-2">
+    <div class="room-header-box">
+      <div class="room-stage-pill">DESAFIO 2 DE 5 · MULTIPLICAÇÃO</div>
+      <h2 class="room-title">📦 As Caixas de Cristais de Energia</h2>
+    </div>
+
+    <div class="room-scene-banner-card">
+      <img src="img/room2.jpg" alt="Robô e Cristais nas Caixas" class="room-scene-banner-img">
+    </div>
+
+    <div class="characters-dialogue-row">
+      <div class="dialogue-card cosmos">
+        <img src="img/dr_cosmos.jpg" alt="Dr. Cosmos" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Dr. Cosmos Explica:</strong>
+          <p>"Para recarregar a bateria do laboratório, guardamos cristais luminosos em <strong>8 caixas idênticas</strong>!"</p>
+        </div>
+      </div>
+      <div class="dialogue-card robot">
+        <img src="img/robot_scholar.jpg" alt="Robô Mascote" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Robô Mascote Detalha:</strong>
+          <p>"Bip-bop! Em cada uma das <strong>8 caixas</strong> há exatamente <strong>7 cristais de Safira</strong> e <strong>5 cristais de Âmbar</strong>. Quantos cristais temos ao todo?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-situation-card">
+      <div class="problem-title">
+        <span>📋</span> SITUAÇÃO-PROBLEMA 2
+      </div>
+      <p class="problem-text">
+        O Robô Mascote empilhou <strong>8 caixas</strong>. Em cada caixa há <strong>7 cristais de Safira</strong> e <strong>5 cristais de Âmbar</strong> (total de 12 cristais por caixa). 
+        Quantos cristais mágicos há no total em todas as 8 caixas?
+      </p>
+
+      <div class="problem-equation-highlight">
+        <span>8 × (7 + 5) = 8 × 12 = ?</span>
+      </div>
+
+      <div class="math-options-grid" id="fase2-options">
+        <button class="math-opt-btn" onclick="game.selectFase2Opt(this, 72)">
+          <span class="opt-letter-badge">A</span>
+          <span>72 cristais</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase2Opt(this, 84)">
+          <span class="opt-letter-badge">B</span>
+          <span>84 cristais</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase2Opt(this, 96)">
+          <span class="opt-letter-badge">C</span>
+          <span>96 cristais</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase2Opt(this, 108)">
+          <span class="opt-letter-badge">D</span>
+          <span>108 cristais</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="action-buttons-row">
+      <button class="btn-action-primary" onclick="game.checkFase2()">
+        ✨ Conferir Resposta & Quebrar Selo 2
+      </button>
+    </div>
+
+    <div class="hints-envelope-bar">
+      <div class="hints-envelope-info">
+        <span>💡</span> DICAS DO ROBÔ (Fase 2)
+      </div>
+      <button class="btn-open-hint" onclick="game.revealHint(2)">Abrir Dica</button>
+    </div>
+    <div class="hint-revealed-box" id="hint-text-2"></div>
+
+    <div class="room-nav-footer">
+      <button class="btn-nav-prev" onclick="game.goToRoom(1)">← Sala 1</button>
+      <button class="btn-nav-next" id="btn-next-2" onclick="game.goToRoom(3)" disabled>
+        Próxima Sala (Fase 3) →
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== SALA 3: A DIVISÃO DAS DOSES (DIVISÃO EXATA) ===== -->
+  <section class="room-container" id="room-3">
+    <div class="room-header-box">
+      <div class="room-stage-pill">DESAFIO 3 DE 5 · DIVISÃO</div>
+      <h2 class="room-title">⚗️ A Divisão das Doses da Super Poção</h2>
+    </div>
+
+    <div class="room-scene-banner-card">
+      <img src="img/room3.jpg" alt="Robô Dividindo Líquidos em Cilindros" class="room-scene-banner-img">
+    </div>
+
+    <div class="characters-dialogue-row">
+      <div class="dialogue-card cosmos">
+        <img src="img/dr_cosmos.jpg" alt="Dr. Cosmos" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Dr. Cosmos Adverte:</strong>
+          <p>"Preparamos <strong>240 ml</strong> de super soro alquímico! Para a reação dar certo, precisamos dividir esse volume igualmente em <strong>6 cilindros graduados</strong>!"</p>
+        </div>
+      </div>
+      <div class="dialogue-card robot">
+        <img src="img/robot_scholar.jpg" alt="Robô Mascote" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Robô Mascote Pergunta:</strong>
+          <p>"Bip-bop! Nem uma gota a mais, nem a menos! Quantos mililitros cada um dos 6 cilindros vai receber?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-situation-card">
+      <div class="problem-title">
+        <span>📋</span> SITUAÇÃO-PROBLEMA 3
+      </div>
+      <p class="problem-text">
+        O Caldeirão Quântico contém <strong>240 ml</strong> de poção. Esse volume total será distribuído em <strong>partes exatamente iguais</strong> entre <strong>6 cilindros de ensaio</strong>. Quantos ml cada cilindro receberá?
+      </p>
+
+      <div class="problem-equation-highlight">
+        <span>240 ml ÷ 6 cilindros = ? ml</span>
+      </div>
+
+      <div class="math-options-grid" id="fase3-options">
+        <button class="math-opt-btn" onclick="game.selectFase3Opt(this, 30)">
+          <span class="opt-letter-badge">A</span>
+          <span>30 ml por cilindro</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase3Opt(this, 35)">
+          <span class="opt-letter-badge">B</span>
+          <span>35 ml por cilindro</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase3Opt(this, 40)">
+          <span class="opt-letter-badge">C</span>
+          <span>40 ml por cilindro</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase3Opt(this, 45)">
+          <span class="opt-letter-badge">D</span>
+          <span>45 ml por cilindro</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="action-buttons-row">
+      <button class="btn-action-primary" onclick="game.checkFase3()">
+        ✨ Conferir Resposta & Quebrar Selo 3
+      </button>
+    </div>
+
+    <div class="hints-envelope-bar">
+      <div class="hints-envelope-info">
+        <span>💡</span> DICAS DO ROBÔ (Fase 3)
+      </div>
+      <button class="btn-open-hint" onclick="game.revealHint(3)">Abrir Dica</button>
+    </div>
+    <div class="hint-revealed-box" id="hint-text-3"></div>
+
+    <div class="room-nav-footer">
+      <button class="btn-nav-prev" onclick="game.goToRoom(2)">← Sala 2</button>
+      <button class="btn-nav-next" id="btn-next-3" onclick="game.goToRoom(4)" disabled>
+        Próxima Sala (Fase 4) →
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== SALA 4: O TERMINAL DO ROBÔ (AS 4 OPERAÇÕES) ===== -->
+  <section class="room-container" id="room-4">
+    <div class="room-header-box">
+      <div class="room-stage-pill">DESAFIO 4 DE 5 · AS 4 OPERAÇÕES</div>
+      <h2 class="room-title">💻 O Terminal Holográfico do Robô</h2>
+    </div>
+
+    <div class="room-scene-banner-card">
+      <img src="img/room4.jpg" alt="Robô no Terminal Holográfico" class="room-scene-banner-img">
+    </div>
+
+    <div class="characters-dialogue-row">
+      <div class="dialogue-card cosmos">
+        <img src="img/dr_cosmos.jpg" alt="Dr. Cosmos" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Dr. Cosmos Exclama:</strong>
+          <p>"O computador central entrou em modo de emergência! Para liberar o 4º Selo, você precisa alimentar os 4 processadores da máquina!"</p>
+        </div>
+      </div>
+      <div class="dialogue-card robot">
+        <img src="img/robot_scholar.jpg" alt="Robô Mascote" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Robô Mascote Alerta:</strong>
+          <p>"Bip-bop! Resolva as 4 contas nos visores abaixo: Adição, Subtração, Multiplicação e Divisão!"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-situation-card">
+      <div class="problem-title">
+        <span>📋</span> DESAFIO DOS 4 PROCESSADORES
+      </div>
+      <p class="problem-text">
+        Digite o resultado exato de cada uma das 4 operações para restaurar a energia do terminal:
+      </p>
+
+      <div class="inputs-calc-row">
+        <div class="calc-input-item">
+          <label>➕ Adição</label>
+          <span style="font-size: 0.9rem; color: #cbd5e1;">150 + 275</span>
+          <input type="number" id="f4-ans1" placeholder="?">
+        </div>
+
+        <div class="calc-input-item">
+          <label>➖ Subtração</label>
+          <span style="font-size: 0.9rem; color: #cbd5e1;">500 − 185</span>
+          <input type="number" id="f4-ans2" placeholder="?">
+        </div>
+
+        <div class="calc-input-item">
+          <label>✖️ Multiplicação</label>
+          <span style="font-size: 0.9rem; color: #cbd5e1;">9 × 7</span>
+          <input type="number" id="f4-ans3" placeholder="?">
+        </div>
+
+        <div class="calc-input-item">
+          <label>➗ Divisão</label>
+          <span style="font-size: 0.9rem; color: #cbd5e1;">72 ÷ 8</span>
+          <input type="number" id="f4-ans4" placeholder="?">
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons-row">
+      <button class="btn-action-primary" onclick="game.checkFase4()">
+        ✨ Transmitir Resultados & Quebrar Selo 4
+      </button>
+    </div>
+
+    <div class="hints-envelope-bar">
+      <div class="hints-envelope-info">
+        <span>💡</span> DICAS DO ROBÔ (Fase 4)
+      </div>
+      <button class="btn-open-hint" onclick="game.revealHint(4)">Abrir Dica</button>
+    </div>
+    <div class="hint-revealed-box" id="hint-text-4"></div>
+
+    <div class="room-nav-footer">
+      <button class="btn-nav-prev" onclick="game.goToRoom(3)">← Sala 3</button>
+      <button class="btn-nav-next" id="btn-next-4" onclick="game.goToRoom(5)" disabled>
+        Próxima Sala (Fase 5) →
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== SALA 5: A BALANÇA DE EQUILÍBRIO (RACIOCÍNIO LÓGICO) ===== -->
+  <section class="room-container" id="room-5">
+    <div class="room-header-box">
+      <div class="room-stage-pill">DESAFIO 5 DE 5 · RACIOCÍNIO LÓGICO</div>
+      <h2 class="room-title">⚖️ A Balança do Dr. Cosmos</h2>
+    </div>
+
+    <div class="room-scene-banner-card">
+      <img src="img/room5.jpg" alt="Laboratório com Balança e Equipamentos" class="room-scene-banner-img">
+    </div>
+
+    <div class="characters-dialogue-row">
+      <div class="dialogue-card cosmos">
+        <img src="img/dr_cosmos.jpg" alt="Dr. Cosmos" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Dr. Cosmos Desafia:</strong>
+          <p>"Coloquei no prato esquerdo <strong>4 frascos misteriosos de peso idêntico</strong> mais um peso de <strong>30 gramas</strong>."</p>
+        </div>
+      </div>
+      <div class="dialogue-card robot">
+        <img src="img/robot_scholar.jpg" alt="Robô Mascote" class="dialogue-avatar">
+        <div class="dialogue-content">
+          <strong>Robô Mascote Observa:</strong>
+          <p>"Bip-bop! No prato direito há um peso fixo de <strong>150 gramas</strong> e a balança está perfeitamente equilibrada! Quanto pesa cada frasco misterioso?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="problem-situation-card">
+      <div class="problem-title">
+        <span>📋</span> SITUAÇÃO-PROBLEMA 5
+      </div>
+      <p class="problem-text">
+        Se <strong>4 frascos iguais + 30 g</strong> equilibram exatamente <strong>150 g</strong>, qual é o peso de apenas 1 frasco misterioso?
+      </p>
+
+      <div class="problem-equation-highlight">
+        <span>(4 × Frasco) + 30 g = 150 g ➔ 4 × Frasco = 120 g ➔ Frasco = ?</span>
+      </div>
+
+      <div class="math-options-grid" id="fase5-options">
+        <button class="math-opt-btn" onclick="game.selectFase5Opt(this, 25)">
+          <span class="opt-letter-badge">A</span>
+          <span>25 gramas</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase5Opt(this, 30)">
+          <span class="opt-letter-badge">B</span>
+          <span>30 gramas</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase5Opt(this, 35)">
+          <span class="opt-letter-badge">C</span>
+          <span>35 gramas</span>
+        </button>
+        <button class="math-opt-btn" onclick="game.selectFase5Opt(this, 40)">
+          <span class="opt-letter-badge">D</span>
+          <span>40 gramas</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="action-buttons-row">
+      <button class="btn-action-primary" onclick="game.checkFase5()">
+        ✨ Conferir Peso & Quebrar Selo 5
+      </button>
+    </div>
+
+    <div class="hints-envelope-bar">
+      <div class="hints-envelope-info">
+        <span>💡</span> DICAS DO ROBÔ (Fase 5)
+      </div>
+      <button class="btn-open-hint" onclick="game.revealHint(5)">Abrir Dica</button>
+    </div>
+    <div class="hint-revealed-box" id="hint-text-5"></div>
+
+    <div class="room-nav-footer">
+      <button class="btn-nav-prev" onclick="game.goToRoom(4)">← Sala 4</button>
+      <button class="btn-nav-next" id="btn-next-5" onclick="game.goToRoom(6)" disabled>
+        Ir Para o Grande Cofre 🔓 →
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== SALA 6: O GRANDE COFRE SUPREMO ===== -->
+  <section class="room-container" id="room-6">
+    <div class="room-header-box">
+      <div class="room-stage-pill">DESAFIO FINAL · A SENHA DO COFRE SUPREMO</div>
+      <h2 class="room-title">🌟 O Resgate do Dr. Cosmos</h2>
+    </div>
+
+    <div class="room-scene-banner-card">
+      <img src="img/vault_room.jpg" alt="Grande Cofre Dourado" class="room-scene-banner-img">
+    </div>
+
+    <div class="problem-situation-card" style="text-align: center;">
+      <h3 style="font-family: var(--font-fun); font-size: 1.6rem; color: #fde047; margin-bottom: 8px;">
+        Junte os 5 Selos Conquistados!
+      </h3>
+      <p style="color: #cbd5e1; font-size: 1.05rem; max-width: 580px; margin: 0 auto 18px auto;">
+        Cada fase vencida revelou uma letra mágica. Juntas na ordem, elas formam a palavra mestra que abre o Cofre e resgata o cientista!
+      </p>
+
+      <div style="display: flex; justify-content: center; gap: 12px; margin: 18px 0; flex-wrap: wrap;">
+        <div style="width: 60px; height: 70px; background: #1e293b; border: 2px solid var(--gold-sun); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <span style="font-size: 0.75rem; color: #94a3b8;">Fase 1</span>
+          <span style="font-size: 1.8rem; font-weight: 800; color: #fde047;" id="slot-l1">S</span>
+        </div>
+        <div style="width: 60px; height: 70px; background: #1e293b; border: 2px solid var(--gold-sun); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <span style="font-size: 0.75rem; color: #94a3b8;">Fase 2</span>
+          <span style="font-size: 1.8rem; font-weight: 800; color: #fde047;" id="slot-l2">A</span>
+        </div>
+        <div style="width: 60px; height: 70px; background: #1e293b; border: 2px solid var(--gold-sun); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <span style="font-size: 0.75rem; color: #94a3b8;">Fase 3</span>
+          <span style="font-size: 1.8rem; font-weight: 800; color: #fde047;" id="slot-l3">B</span>
+        </div>
+        <div style="width: 60px; height: 70px; background: #1e293b; border: 2px solid var(--gold-sun); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <span style="font-size: 0.75rem; color: #94a3b8;">Fase 4</span>
+          <span style="font-size: 1.8rem; font-weight: 800; color: #fde047;" id="slot-l4">E</span>
+        </div>
+        <div style="width: 60px; height: 70px; background: #1e293b; border: 2px solid var(--gold-sun); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <span style="font-size: 0.75rem; color: #94a3b8;">Fase 5</span>
+          <span style="font-size: 1.8rem; font-weight: 800; color: #fde047;" id="slot-l5">R</span>
+        </div>
+      </div>
+
+      <div style="margin: 22px 0;">
+        <input type="text" id="final-vault-input" maxlength="5" placeholder="DIGITE A PALAVRA" style="max-width: 320px; width: 100%; padding: 14px 20px; border-radius: 50px; border: 3px solid var(--gold-sun); background: #0f172a; color: #fff; font-family: var(--font-fun); font-size: 1.6rem; font-weight: 800; text-align: center; letter-spacing: 6px; outline: none;">
+      </div>
+
+      <button class="btn-super-play" style="max-width: 380px; margin: 0 auto;" onclick="game.unlockFinalVault()">
+        🌟 ABRIR O COFRE SUPREMO!
+      </button>
+    </div>
+
+    <div class="room-nav-footer">
+      <button class="btn-nav-prev" onclick="game.goToRoom(5)">← Sala 5</button>
+    </div>
+  </section>
+
+  <!-- ==================== RODAPÉ FIXO: SELOS CONQUISTADOS ==================== -->
+  <footer class="clues-dock-bar" id="conquered-clues-box" style="display: none;">
+    <div class="clues-dock-inner">
+      <div class="clues-dock-label">
+        <span>⭐</span> SEUS SELOS CONQUISTADOS:
+      </div>
+      <div class="clues-pills-grid">
+        <span class="clue-chip" id="env-slot-1">Selo 1: S</span>
+        <span class="clue-chip" id="env-slot-2">Selo 2: A</span>
+        <span class="clue-chip" id="env-slot-3">Selo 3: B</span>
+        <span class="clue-chip" id="env-slot-4">Selo 4: E</span>
+        <span class="clue-chip" id="env-slot-5">Selo 5: R</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL DE FEEDBACK AMIGÁVEL ==================== -->
+  <div class="game-modal-overlay" id="feedback-modal">
+    <div class="game-modal-card">
+      <img src="img/robot_scholar.jpg" alt="Mascote" class="modal-avatar" id="modal-img">
+      <div class="modal-speed-badge" id="modal-speed-badge" style="display: none;">⚡ RESPOSTA RELÂMPAGO!</div>
+      <h3 class="modal-title" id="modal-title">Título</h3>
+      <p class="modal-desc" id="modal-desc">Descrição</p>
+      <button class="btn-modal-close" onclick="game.closeModal()">Continuar Explorando 🚀</button>
+    </div>
+  </div>
+
+  <!-- ==================== TELA DE VITÓRIA SUPREMA + VOTAÇÃO DO ROBÔ ==================== -->
+  <div class="victory-modal-overlay" id="victory-modal">
+    <div class="victory-cert-card">
+      <div class="cert-badge-stars">⭐⭐⭐⭐⭐</div>
+      <h2 class="cert-title">MISSÃO CUMPRIDA COM HONRA!</h2>
+      <p class="cert-sub">Você resolveu todos os desafios de Matemática e resgatou o Dr. Cosmos!</p>
+
+      <!-- Resumo da Pontuação e Tempo -->
+      <div class="score-summary-grid">
+        <div class="score-summary-item">
+          <strong id="v-final-score">5.000</strong>
+          <span>XP Total Acumulado</span>
+        </div>
+        <div class="score-summary-item">
+          <strong id="v-final-time">03:45</strong>
+          <span>Tempo Total de Missão</span>
+        </div>
+        <div class="score-summary-item">
+          <strong style="color: #fde047;">5 / 5 ⭐</strong>
+          <span>Selos Decifrados</span>
+        </div>
+      </div>
+
+      <!-- VOTAÇÃO OFICIAL DO NOME DO ROBÔ MASCOTE -->
+      <div class="robot-naming-card">
+        <div class="robot-naming-header">
+          <img src="img/robot_scholar.jpg" alt="Robô Mascote">
+          <div>
+            <strong style="color: #38bdf8; font-family: var(--font-fun); font-size: 1.1rem; display: block;">
+              Qual será o nome oficial do Robô Mascote? 🤖🗳️
+            </strong>
+            <span style="font-size: 0.88rem; color: #cbd5e1;">
+              Ele foi seu grande parceiro de cálculo! Escolha ou sugira um nome oficial para o robô do Lab Kids:
+            </span>
+          </div>
+        </div>
+
+        <div class="vote-options-row">
+          <button class="btn-vote-name" onclick="game.castRobotVote('Bitinho')">🤖 Bitinho</button>
+          <button class="btn-vote-name" onclick="game.castRobotVote('Cogsworth')">⚙️ Cogsworth</button>
+          <button class="btn-vote-name" onclick="game.castRobotVote('Pixel')">💡 Pixel</button>
+          <button class="btn-vote-name" onclick="game.castRobotVote('Byte')">⚡ Byte</button>
+        </div>
+
+        <div class="vote-custom-input-box">
+          <input type="text" id="custom-robot-name-input" placeholder="Ou digite o nome que você inventou...">
+          <button onclick="game.submitCustomRobotName()">Votar 🗳️</button>
+        </div>
+
+        <div class="vote-result-toast" id="vote-result-box"></div>
+      </div>
+
+      <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+        <button class="btn-action-primary" onclick="game.restart()">Jogar Novamente 🔄</button>
+        <a href="/" class="btn-action-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">Voltar ao Portal 🏠</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/game.js?v=4"></script>
+</body>
+</html>

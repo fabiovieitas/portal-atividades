@@ -3,43 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detetive da Ortografia - Guia BNCC | Lab Kids</title>
+    <title>Detetive da Ortografia - Guia Pedagógico & Regularidades BNCC | Lab Kids</title>
+    <meta name="description" content="Plano de aula e guia pedagógico do jogo Detetive da Ortografia. Dígrafos (CH, LH, NH, RR, SS), regras ortográficas e habilidades da BNCC (EF02LP01, EF03LP01).">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- Google AdSense Official Script -->
+    <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
-        body { background: #0f172a; color: white; font-family: 'Fredoka', sans-serif; min-height: 100vh; padding: 20px 10px; margin: 0; }
-        .presentation-box { max-width: 850px; margin: 0 auto; background: #1e293b; border-radius: 28px; padding: 35px; border: 2px solid #a855f7; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .bncc-chip { background: #6366f1; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; margin: 4px; display: inline-block; }
-        .btn-launch-game { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px 40px; border-radius: 50px; font-weight: 800; font-size: 1.3rem; text-decoration: none; box-shadow: 0 8px 25px rgba(16,185,129,0.4); border: 2px solid rgba(255,255,255,0.3); margin-top: 20px; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #f8fafc; font-family: 'Fredoka', sans-serif; min-height: 100vh; margin: 0; padding: 20px 10px 60px 10px; }
+        .container-presentation { max-width: 960px; margin: 0 auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 12px; }
+        .btn-return-portal { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); border: 2px solid rgba(255, 255, 255, 0.3); }
+        .hero-banner { background: rgba(30, 41, 59, 0.9); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 28px; padding: 35px; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .game-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; color: #c084fc; margin: 12px 0 8px 0; }
+        .game-subtitle { font-size: 1.15rem; color: #cbd5e1; max-width: 760px; margin: 0 auto 20px auto; line-height: 1.6; }
+        .btn-launch-large { display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 18px 45px; border-radius: 50px; font-size: 1.35rem; font-weight: 800; text-decoration: none; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5); border: 3px solid rgba(255, 255, 255, 0.4); transition: transform 0.2s; }
+        .btn-launch-large:hover { transform: scale(1.04); }
+        .pedagogical-card { background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px; margin-bottom: 25px; }
+        .pedagogical-card h2 { color: #c084fc; font-size: 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .bncc-badge { background: #9333ea; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin: 4px; }
+        .step-box { background: rgba(15, 23, 42, 0.6); border-left: 4px solid #a855f7; padding: 15px 20px; border-radius: 0 16px 16px 0; margin-bottom: 15px; }
+        .step-box h4 { margin: 0 0 6px 0; color: #d8b4fe; font-size: 1.1rem; }
+        .step-box p { margin: 0; color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; }
+        .institutional-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
+        .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+        .institutional-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="presentation-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <a href="/" style="color: white; text-decoration: none; font-weight: 700;">⬅️ Voltar ao Portal</a>
-            <span style="color: #a855f7; font-weight: 700;">🕵️ Ortografia & Língua Portuguesa</span>
+    <div class="container-presentation">
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Guia Didático de Ortografia</span>
         </div>
 
-        <h1 style="color: #fbbf24; font-size: 2.5rem; margin: 10px 0;">Detetive da Ortografia (CH, LH, NH, RR, SS)</h1>
-        <p style="color: #cbd5e1; font-size: 1.15rem;">Desafio gamificado de ortografia e fixação dos principais dígrafos da Língua Portuguesa.</p>
-
-        <div>
-            <span class="bncc-chip">EF02LP01</span>
-            <span class="bncc-chip">EF03LP01</span>
+        <div class="hero-banner">
+            <div style="font-size: 4rem; margin-bottom: 10px;">🕵️🔍</div>
+            <h1 class="game-title">Detetive da Ortografia: A Caça aos Dígrafos</h1>
+            <p class="game-subtitle">
+                Uma investigação cheia de mistério e regras gramaticais. Os estudantes assumem o distintivo de detetive da língua portuguesa para desmascarar erros ortográficos e escolher as peças corretas com dígrafos e encontros consonantais (CH, LH, NH, RR, SS, C/Ç).
+            </p>
+            
+            <a href="/games/detetive-ortografia/index.html" class="btn-launch-large">
+                🎮 ABRIR MISSÃO DE DETETIVE 🚀
+            </a>
         </div>
 
-        <div style="margin: 25px 0;">
-            <a href="/games/detetive-ortografia/index.html" class="btn-launch-game">🎮 ABRIR DETETIVE DA ORTOGRAFIA AGORA 🚀</a>
+        <!-- Bloco 1: Enquadramento Curricular BNCC -->
+        <div class="pedagogical-card">
+            <h2>📘 Alinhamento Curricular BNCC & Domínio da Norma Padrão</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                O jogo <strong>Detetive da Ortografia</strong> é desenhado para suprir as principais dúvidas e irregularidades da escrita infantil nos anos iniciais do Ensino Fundamental. O recurso foca na distinção fonema-grafema onde um único som é grafado com duas letras (dígrafos consonantais) ou onde as regras dependem da posição na palavra.
+            </p>
+            <div style="margin: 15px 0;">
+                <span class="bncc-badge">EF02LP01: Grafia Correta de Palavras com Dígrafos</span>
+                <span class="bncc-badge">EF03LP01: Regularidades e Irregularidades Ortográficas</span>
+                <span class="bncc-badge">EF04LP01: Acentuação e Morfologia</span>
+                <span class="bncc-badge">EF35LP05: Autocorreção e Revisão Textual</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 10px;">
+                <strong>Mecanismos Cognitivos:</strong> Discriminação auditiva sutil (como a diferença entre som nasal do NH e do M/N), atenção sustentada aos detalhes visuais da palavra e fixação de regras contextuais.
+            </p>
         </div>
 
-        <!-- AdSense Banner Container (Ultra-Fino Horizontal) -->
-        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 4px 8px; text-align: center; margin-top: 14px;">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        <!-- Bloco 2: Metodologia e Sequência Didática -->
+        <div class="pedagogical-card">
+            <h2>👩‍🏫 Sequência Didática para o Professor de Língua Portuguesa</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Passo a passo metodológico para transformar a aula de ortografia em uma experiência envolvente:
+            </p>
+
+            <div class="step-box">
+                <h4>1. "Tribunal das Palavras" (Sensibilização - 15 min)</h4>
+                <p>Apresente pares de palavras no quadro, onde uma está escrita corretamente e a outra com uma armadilha ortográfica comum (ex.: <em>"CHÁCARA" vs "XÁCARA"</em>, <em>"PÁSSARO" vs "PÁSÁRO"</em>). Peça que os alunos argumentem qual é a forma correta e por que as regras ortográficas existem para garantir que todos se compreendam.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>2. Sessão Investigativa no Computador (25 min)</h4>
+                <p>Os estudantes abrem o jogo no laboratório ou tablets. A cada caso solucionado, anotam no "Caderno do Detetive" a palavra-chave e a regra que justificou sua escolha (ex.: "usa-se RR entre vogais para som forte").</p>
+            </div>
+
+            <div class="step-box">
+                <h4>3. Criação do Mural da Ortografia Consciente (20 min)</h4>
+                <p>Em cartazes coletivos divididos por dígrafos (Mural do CH, Mural do LH, Mural do NH), os alunos colam ilustrações e palavras que descobriram e venceram durante as fases do jogo.</p>
+            </div>
+        </div>
+
+        <!-- Bloco 3: Dicas para Famílias -->
+        <div class="pedagogical-card">
+            <h2>👨‍👩‍👧 Dicas de Mediação para os Pais</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Como orientar as crianças quanto às dúvidas ortográficas do dia a dia:
+            </p>
+            <ul style="color: #cbd5e1; line-height: 1.7; padding-left: 20px;">
+                <li><strong>Evite punir o erro ortográfico:</strong> A escrita inicial passa por etapas de formulação de hipóteses. Em vez de criticar, mostre a palavra correta em um livro ou pergunte: <em>"Essa palavra parece familiar? Como você costuma vê-la escrita nos livros?"</em>.</li>
+                <li><strong>Leitura como maior aliada da ortografia:</strong> Quanto mais a criança lê histórias e quadrinhos, mais sua memória visual arquiva a grafia correta das palavras difíceis.</li>
+                <li><strong>Brinque de detetive em embalagens:</strong> Durante as compras ou refeições, desafie seu filho a encontrar palavras com CH ou NH nos rótulos dos alimentos.</li>
+            </ul>
+        </div>
+
+        <!-- Bloco 4: Diário de Classe -->
+        <div class="pedagogical-card">
+            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
+            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
+                "Realização de oficina de ortografia contextual através do software educacional 'Detetive da Ortografia'. Análise e fixação de dígrafos (CH, LH, NH, RR, SS) e regularidades contextuais conforme as diretrizes EF02LP01 e EF03LP01 da BNCC. Avanço notório na capacidade de autorrevisão e segurança na produção escrita."
+            </div>
+        </div>
+
+        <!-- Publicidade Institucional Segura -->
+        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+
+        <!-- Rodapé Institucional -->
+        <footer class="institutional-footer">
+            <p><strong>Portal Lab Kids</strong> — Plataforma Educacional Pública Gratuita mantida pelo Prof. Fábio Vieitas Marques</p>
+            <p>
+                <a href="/">Início</a> •
+                <a href="/sobre">Quem Somos</a> •
+                <a href="/guia-bncc">Guia BNCC</a> •
+                <a href="/termos">Termos de Uso</a> •
+                <a href="/privacidade">Privacidade & LGPD</a> •
+                <a href="/cookies">Política de Cookies</a> •
+                <a href="/contato">Contato Institucional</a>
+            </p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Campos dos Goytacazes - RJ | Educação Pública Inovadora e 100% Gratuita</p>
+        </footer>
     </div>
 </body>
 </html>

@@ -3,58 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEVEL UP: O Jogo da Vida não tem Botão de Reset [RPG Antibullying & Lei 14.811/2024] | Lab Kids</title>
-    <meta name="description" content="Jogo autoral em formato RPG sobre prevenção ao Bullying, Cyberbullying, Lei 14.811/2024, Honra e Lealdade para o 6º ao 9º Ano.">
+    <title>LEVEL UP: O Jogo da Vida não tem Reset - RPG Antibullying & Lei 14.811/2024 | Lab Kids</title>
+    <meta name="description" content="Plano de aula e guia pedagógico do RPG autoral LEVEL UP. Prevenção ao bullying, cyberbullying, responsabilidade jurídica (Lei 14.811/2024) e competências socioemocionais da BNCC (EF69LP55, CG08).">
     <link rel="stylesheet" href="/css/style.css?v=10">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Press+Start+2P&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- Google AdSense Official Script -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
-        body { background: #0b0f19; color: white; font-family: 'Outfit', sans-serif; min-height: 100vh; padding: 25px 15px; margin: 0; }
-        .presentation-box { max-width: 850px; margin: 0 auto; background: rgba(15, 23, 42, 0.95); border-radius: 28px; padding: 40px; border: 2px solid #8b5cf6; box-shadow: 0 25px 50px rgba(139, 92, 246, 0.25); backdrop-filter: blur(12px); text-align: center; }
-        .badge-autoral { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #f59e0b; padding: 10px 25px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; border: 2px solid #f59e0b; display: inline-block; margin-bottom: 15px; letter-spacing: 0.5px; }
-        .badge-theme { background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; margin: 5px; display: inline-block; border: 1px solid rgba(255,255,255,0.3); }
-        .bncc-chip { background: #4f46e5; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; margin: 4px; display: inline-block; }
-        .btn-launch-game { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(135deg, #10b981, #047857); color: white; padding: 20px 45px; border-radius: 50px; font-weight: 800; font-size: 1.35rem; text-decoration: none; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s, box-shadow 0.2s; width: 100%; max-width: 500px; margin: 25px auto 0 auto; }
-        .btn-launch-game:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6); }
+        body { background: #0b0f19; color: #f8fafc; font-family: 'Outfit', sans-serif; min-height: 100vh; margin: 0; padding: 25px 15px 60px 15px; }
+        .container-presentation { max-width: 960px; margin: 0 auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 12px; }
+        .btn-return-portal { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); border: 2px solid rgba(255, 255, 255, 0.3); font-family: 'Fredoka', sans-serif; }
+        .hero-banner { background: rgba(15, 23, 42, 0.95); border: 2px solid #8b5cf6; border-radius: 28px; padding: 40px 30px; text-align: center; margin-bottom: 30px; box-shadow: 0 25px 50px rgba(139, 92, 246, 0.25); }
+        .badge-autoral { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #f59e0b; padding: 10px 25px; border-radius: 50px; font-weight: 800; font-size: 1rem; border: 2px solid #f59e0b; display: inline-block; margin-bottom: 15px; }
+        .badge-theme { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; margin: 4px; display: inline-block; }
+        .game-title { font-size: clamp(2rem, 4.5vw, 2.8rem); font-weight: 800; color: #f59e0b; margin: 15px 0 10px 0; font-family: 'Fredoka', sans-serif; }
+        .game-subtitle { font-size: 1.15rem; color: #cbd5e1; max-width: 800px; margin: 0 auto 25px auto; line-height: 1.6; }
+        .btn-launch-large { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(135deg, #10b981, #047857); color: white; padding: 20px 45px; border-radius: 50px; font-weight: 800; font-size: 1.35rem; text-decoration: none; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s, box-shadow 0.2s; max-width: 500px; width: 100%; margin: 10px auto; }
+        .btn-launch-large:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6); }
+        .pedagogical-card { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px; margin-bottom: 25px; }
+        .pedagogical-card h2 { color: #8b5cf6; font-size: 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 10px; font-family: 'Fredoka', sans-serif; }
+        .bncc-badge { background: #4f46e5; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin: 4px; }
+        .step-box { background: rgba(30, 41, 59, 0.6); border-left: 4px solid #8b5cf6; padding: 15px 20px; border-radius: 0 16px 16px 0; margin-bottom: 15px; }
+        .step-box h4 { margin: 0 0 6px 0; color: #c4b5fd; font-size: 1.1rem; }
+        .step-box p { margin: 0; color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; }
+        .institutional-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
+        .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+        .institutional-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="presentation-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-            <a href="/" style="color: #94a3b8; text-decoration: none; font-weight: 700; font-size: 1rem;">⬅️ Voltar ao Portal</a>
-            <span style="color: #ef4444; font-weight: 800; font-size: 0.95rem; background: rgba(239, 68, 68, 0.15); padding: 6px 16px; border-radius: 50px;">🛡️ Prevenção ao Bullying & Cyberbullying</span>
+    <div class="container-presentation">
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #ef4444; background: rgba(239, 68, 68, 0.15); padding: 6px 16px; border-radius: 50px;">🛡️ Prevenção ao Bullying & Cyberbullying</span>
         </div>
 
-        <span class="badge-autoral">⭐ JOGO AUTORAL LAB KIDS ⭐</span>
-        <div style="margin-bottom: 15px;">
-            <span class="badge-theme">⚔️ Estética RPG & Battle Royale</span>
-            <span class="badge-theme">📜 Lei 14.811/2024 (Art. 146-A)</span>
-            <span class="badge-theme">🛡️ Valores: Honra & Lealdade</span>
+        <div class="hero-banner">
+            <span class="badge-autoral">⭐ JOGO AUTORAL LAB KIDS • EXCLUSIVO ⭐</span>
+            <div style="margin-bottom: 15px;">
+                <span class="badge-theme">⚔️ Estética RPG & Battle Royale</span>
+                <span class="badge-theme">📜 Lei Federal 14.811/2024</span>
+                <span class="badge-theme">🛡️ Honra, Empatia & Saúde Mental</span>
+            </div>
+            <h1 class="game-title">LEVEL UP: O Jogo da Vida não tem Botão de Reset</h1>
+            <p class="game-subtitle">
+                Simulador RPG narrativo autoral que coloca os estudantes do 6º ao 9º Ano no centro de dilemas morais reais. Utilizando a metáfora dos pontos de vida (HP mental), o jogo confronta a cultura do cancelamento, os ataques em grupos de mensagens e a responsabilidade civil e penal trazida pela nova legislação brasileira.
+            </p>
+            
+            <a href="/games/missao-respeito/index.html" class="btn-launch-large">
+                🎮 INICIAR RPG LEVEL UP 🚀
+            </a>
         </div>
 
-        <h1 style="color: #f59e0b; font-size: 2.2rem; margin: 10px 0; font-family: 'Fredoka', sans-serif;">LEVEL UP: O Jogo da Vida não tem Botão de Reset</h1>
-        <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 800px; margin: 10px auto 25px auto; line-height: 1.6;">
-            Simulador RPG autoral interativo sobre tomada de decisões éticas, prevenção ao Bullying e Cyberbullying, proteção ao HP mental e responsabilidade jurídica sob a <strong>Lei 14.811/2024</strong> para turmas do 6º ao 9º Ano.
-        </p>
-
-        <div style="margin: 15px 0;">
-            <span class="bncc-chip">EF69LP55 (Cultura Digital)</span>
-            <span class="bncc-chip">EF07LP14 (Ética das Redes)</span>
-            <span class="bncc-chip">EF08LP14 (Argumentação & Respeito)</span>
-            <span class="bncc-chip">CG08 (Autocuidado & Saúde Mental)</span>
+        <!-- Bloco 1: Enquadramento Curricular BNCC & Lei 14.811/2024 -->
+        <div class="pedagogical-card">
+            <h2>📘 Enquadramento Curricular & Marco Legal Brasileiro</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                O jogo <strong>LEVEL UP</strong> foi desenvolvido para dar resposta pedagógica prática às exigências da <strong>Lei Federal nº 14.811/2024</strong>, que incluiu o Bullying e o Cyberbullying no Código Penal Brasileiro (Art. 146-A) e determinou que escolas públicas e privadas desenvolvam planos permanentes de prevenção à violência escolar. No campo da BNCC, a ferramenta mobiliza as competências gerais socioemocionais (CG08, CG09, CG10) e habilidades críticas de Língua Portuguesa para os anos finais do Ensino Fundamental.
+            </p>
+            <div style="margin: 15px 0;">
+                <span class="bncc-badge">EF69LP55: Convivência Ética em Redes Digitais</span>
+                <span class="bncc-badge">EF07LP14: Identificação de Discursos de Ódio</span>
+                <span class="bncc-badge">EF08LP14: Argumentação Ética e Direitos Humanos</span>
+                <span class="bncc-badge">CG08: Autocuidado e Gestão de Emoções</span>
+                <span class="bncc-badge">CG09: Empatia, Diálogo e Resolução de Conflitos</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 10px;">
+                <strong>Objetivos Pedagógicos:</strong> Conscientizar sobre o impacto duradouro de comentários humilhantes na saúde mental de colegas, quebrar a cumplicidade do espectador passivo ("bystander effect") e ensinar canais seguros de denúncia e acolhimento.
+            </p>
         </div>
 
-        <div style="margin: 30px 0;">
-            <a href="/games/missao-respeito/index.html" class="btn-launch-game">🎮 INICIAR O JOGO LEVEL UP 🚀</a>
+        <!-- Bloco 2: Sequência Didática para o Professor -->
+        <div class="pedagogical-card">
+            <h2>👩‍🏫 Sequência Didática para Aulas de Cidadania & Projeto de Vida</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Plano de aula sugerido para turmas do 6º ao 9º Ano:
+            </p>
+
+            <div class="step-box">
+                <h4>1. Roda de Sondagem: "A Vida tem Botão de Respawn?" (15 min)</h4>
+                <p>Abra o debate questionando a turma sobre a diferença entre morrer em um jogo de videogame e ferir emocionalmente uma pessoa real. Explique o conceito da Lei 14.811/2024 e como atos virtuais deixam rastros digitais indeléveis com consequências para os jovens e seus responsáveis legais.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>2. Partida no RPG Simulado (25 min)</h4>
+                <p>Os estudantes jogam individualmente, tomando decisões frente a cenários de exclusão social, criação de perfis falsos e vazamento de fotos. O jogo exibe em tempo real o impacto das escolhas na barra de HP (pontos de vida emocional) dos personagens envolvidos.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>3. Tribunal Ético & Pacto da Turma (20 min)</h4>
+                <p>A turma se reúne para redigir o "Pacto de Convivência Digital da Turma", estabelecendo regras para os grupos de WhatsApp da sala e definindo a postura de proteção ativa aos colegas em momentos de vulnerabilidade.</p>
+            </div>
         </div>
 
-        <!-- AdSense Banner Container (Ultra-Fino Horizontal) -->
-        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 4px 8px; text-align: center; margin-top: 14px;">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        <!-- Bloco 3: Guia para Pais -->
+        <div class="pedagogical-card">
+            <h2>👨‍👩‍👧 Guia de Conversa para Pais e Famílias</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Como abordar a convivência nas redes sociais com adolescentes:
+            </p>
+            <ul style="color: #cbd5e1; line-height: 1.7; padding-left: 20px;">
+                <li><strong>Monitore sem espionar de forma agressiva:</strong> Mantenha um diálogo aberto sobre o que acontece nos grupos virtuais da escola. Pergunte: <em>"Tem algum colega sendo alvo de piadas pesadas na internet ultimamente?"</em>.</li>
+                <li><strong>Ensine que silêncio é conivência:</strong> Oriente seu filho a não curtir, não repassar piadas ofensivas e oferecer apoio privado ao colega que estiver sofrendo perseguição.</li>
+                <li><strong>Conheça os canais de apoio:</strong> Caso identifique sofrimento emocional grave, acione a coordenação pedagógica da escola e o Disque 100 (Direitos Humanos).</li>
+            </ul>
+        </div>
+
+        <!-- Bloco 4: Diário de Classe -->
+        <div class="pedagogical-card">
+            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
+            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
+                "Execução de projeto socioemocional e cívico com o simulador RPG autoral 'LEVEL UP: O Jogo da Vida não tem Botão de Reset'. Trabalho articulado com a Lei 14.811/2024 e habilidades EF69LP55 e CG08 da BNCC. Discussão de dilemas éticos digitais e construção coletiva do plano de convivência pacífica contra o cyberbullying."
+            </div>
+        </div>
+
+        <!-- Publicidade Institucional Segura -->
+        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+
+        <!-- Rodapé Institucional -->
+        <footer class="institutional-footer">
+            <p><strong>Portal Lab Kids</strong> — Plataforma Educacional Pública Gratuita mantida pelo Prof. Fábio Vieitas Marques</p>
+            <p>
+                <a href="/">Início</a> •
+                <a href="/sobre">Quem Somos</a> •
+                <a href="/guia-bncc">Guia BNCC</a> •
+                <a href="/termos">Termos de Uso</a> •
+                <a href="/privacidade">Privacidade & LGPD</a> •
+                <a href="/cookies">Política de Cookies</a> •
+                <a href="/contato">Contato Institucional</a>
+            </p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Campos dos Goytacazes - RJ | Educação Pública Inovadora e 100% Gratuita</p>
+        </footer>
     </div>
 </body>
 </html>

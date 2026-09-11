@@ -372,32 +372,7 @@
 </head>
 <body class="student-theme">
 
-    <!-- Anúncios Laterais AdSense (Esquerda e Direita em Telas Ultra-Wide) -->
-    <div class="adsense-sidebar-left" style="position: fixed; left: 10px; top: 100px; width: 160px; height: 600px; z-index: 100; display: none;">
-        <div style="background: rgba(255,255,255,0.95); border: 2px dashed #cbd5e1; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567891"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <div class="adsense-sidebar-right" style="position: fixed; right: 10px; top: 100px; width: 160px; height: 600px; z-index: 100; display: none;">
-        <div style="background: rgba(255,255,255,0.95); border: 2px dashed #cbd5e1; border-radius: 14px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <div style="font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 ADSENSE</div>
-            <div style="font-size: 0.65rem; color: #94a3b8; margin-top: 4px;">Anúncios Seguros</div>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567892"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-    </div>
-
-    <style>
-        @media (min-width: 1450px) {
-            .adsense-sidebar-left, .adsense-sidebar-right { display: block !important; }
-        }
-    </style>
-
-    <div class="container" style="max-width: 1080px; margin: 0 auto;">
+    <div class="container" style="max-width: 1080px; margin: 0 auto; padding-bottom: 50px;">
 
         <div class="portal-header" style="position: relative;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
@@ -427,11 +402,6 @@
             <div class="grid-selection" id="schools-container">
                 <p style="text-align: center; width: 100%;">Carregando escolas...</p>
             </div>
-            <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 10px auto; max-width: 728px; background: rgba(241, 245, 249, 0.7); border: 1px dashed #cbd5e1; border-radius: 12px; padding: 4px 8px; text-align: center;">
-                <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-                <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567801" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
         </div>
 
         <!-- VIEW 2: SELECT CLASS & PIN -->
@@ -446,10 +416,6 @@
                 <input type="password" id="pin-input" class="pin-input" maxlength="6" placeholder="****">
                 <button class="btn-duo-save" style="width: 100%;" onclick="submitPin()">LIBERAR TURMA 🚀</button>
                 <p id="pin-error" style="color: #ff4b4b; font-weight: 800; margin-top: 10px; display:none;"></p>
-            </div>
-            <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 10px auto; max-width: 728px; background: rgba(241, 245, 249, 0.7); border: 1px dashed #cbd5e1; border-radius: 12px; padding: 4px 8px; text-align: center;">
-                <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-                <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567802" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
             </div>
         </div>
 
@@ -466,10 +432,6 @@
 
             <div class="grid-selection" id="students-container">
                 <!-- Students loaded here -->
-            </div>
-            <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 10px auto; max-width: 728px; background: rgba(241, 245, 249, 0.7); border: 1px dashed #cbd5e1; border-radius: 12px; padding: 4px 8px; text-align: center;">
-                <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-                <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567803" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
             </div>
         </div>
 
@@ -505,10 +467,6 @@
                     </div>
                 </div>
             </div>
-            <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 10px auto; max-width: 728px; background: rgba(241, 245, 249, 0.7); border: 1px dashed #cbd5e1; border-radius: 12px; padding: 4px 8px; text-align: center;">
-                <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-                <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567804" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-            </div>
         </div>
 
         <!-- VIEW 5: ACTIVE PROFILE -->
@@ -535,10 +493,13 @@
                     <button onclick="logoutStudent()" class="btn-back" style="margin: 0; background: #fff0f0; border-color: #ff4b4b; color: #ff4b4b; padding: 12px 18px;">🚪 Sair</button>
                 </div>
             </div>
-            <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 10px auto; max-width: 728px; background: rgba(241, 245, 249, 0.7); border: 1px dashed #cbd5e1; border-radius: 12px; padding: 4px 8px; text-align: center;">
-                <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-                <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567805" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-            </div>
+        </div>
+
+        <!-- AdSense Container Limpo & Seguro no Rodapé -->
+        <div class="adsense-box" style="background: rgba(255, 255, 255, 0.9); border: 1px dashed #cbd5e1; border-radius: 16px; padding: 12px; text-align: center; margin: 35px auto 10px auto; max-width: 750px;">
+            <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Apoio ao Lab Kids</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 

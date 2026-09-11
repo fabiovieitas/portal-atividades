@@ -3,43 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hábitos de Higiene - Guia BNCC | Lab Kids</title>
+    <title>Hábitos de Higiene & Saúde - Guia Pedagógico & Ciências BNCC | Lab Kids</title>
+    <meta name="description" content="Plano de aula e guia pedagógico do jogo Hábitos de Higiene & Saúde. Autocuidado, prevenção de doenças, microbiologia básica e habilidades da BNCC (EF01CI01, EF02CI04).">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- Google AdSense Official Script -->
+    <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
-        body { background: #0f172a; color: white; font-family: 'Fredoka', sans-serif; min-height: 100vh; padding: 20px 10px; margin: 0; }
-        .presentation-box { max-width: 850px; margin: 0 auto; background: #1e293b; border-radius: 28px; padding: 35px; border: 2px solid #06b6d4; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .bncc-chip { background: #6366f1; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; margin: 4px; display: inline-block; }
-        .btn-launch-game { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px 40px; border-radius: 50px; font-weight: 800; font-size: 1.3rem; text-decoration: none; box-shadow: 0 8px 25px rgba(16,185,129,0.4); border: 2px solid rgba(255,255,255,0.3); margin-top: 20px; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #f8fafc; font-family: 'Fredoka', sans-serif; min-height: 100vh; margin: 0; padding: 20px 10px 60px 10px; }
+        .container-presentation { max-width: 960px; margin: 0 auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 12px; }
+        .btn-return-portal { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); border: 2px solid rgba(255, 255, 255, 0.3); }
+        .hero-banner { background: rgba(30, 41, 59, 0.9); border: 2px solid rgba(6, 182, 212, 0.4); border-radius: 28px; padding: 35px; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .game-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; color: #22d3ee; margin: 12px 0 8px 0; }
+        .game-subtitle { font-size: 1.15rem; color: #cbd5e1; max-width: 760px; margin: 0 auto 20px auto; line-height: 1.6; }
+        .btn-launch-large { display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 18px 45px; border-radius: 50px; font-size: 1.35rem; font-weight: 800; text-decoration: none; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5); border: 3px solid rgba(255, 255, 255, 0.4); transition: transform 0.2s; }
+        .btn-launch-large:hover { transform: scale(1.04); }
+        .pedagogical-card { background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px; margin-bottom: 25px; }
+        .pedagogical-card h2 { color: #22d3ee; font-size: 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .bncc-badge { background: #0891b2; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin: 4px; }
+        .step-box { background: rgba(15, 23, 42, 0.6); border-left: 4px solid #06b6d4; padding: 15px 20px; border-radius: 0 16px 16px 0; margin-bottom: 15px; }
+        .step-box h4 { margin: 0 0 6px 0; color: #67e8f9; font-size: 1.1rem; }
+        .step-box p { margin: 0; color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; }
+        .institutional-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
+        .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+        .institutional-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="presentation-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <a href="/" style="color: white; text-decoration: none; font-weight: 700;">⬅️ Voltar ao Portal</a>
-            <span style="color: #06b6d4; font-weight: 700;">🧼 Ciências & Saúde</span>
+    <div class="container-presentation">
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Guia Didático de Ciências Naturais</span>
         </div>
 
-        <h1 style="color: #fbbf24; font-size: 2.5rem; margin: 10px 0;">Hábitos de Higiene & Saúde</h1>
-        <p style="color: #cbd5e1; font-size: 1.15rem;">Atividade interativa sobre a importância de escovar os dentes, tomar banho e lavar as mãos para prevenir doenças.</p>
-
-        <div>
-            <span class="bncc-chip">EF01CI01</span>
-            <span class="bncc-chip">EF02CI04</span>
+        <div class="hero-banner">
+            <div style="font-size: 4rem; margin-bottom: 10px;">🧼🪥🫧</div>
+            <h1 class="game-title">Hábitos de Higiene, Saúde & Autocuidado</h1>
+            <p class="game-subtitle">
+                Uma jornada formativa sobre a importância da saúde preventiva na infância. O estudante aprende de maneira divertida e interativa como lavar corretamente as mãos, escovar os dentes após as refeições, cuidar da pele e combater germes invisíveis.
+            </p>
+            
+            <a href="/games/habitos-de-higiene/index.html" class="btn-launch-large">
+                🎮 ABRIR ATIVIDADE DE HIGIENE 🚀
+            </a>
         </div>
 
-        <div style="margin: 25px 0;">
-            <a href="/games/habitos-de-higiene/index.html" class="btn-launch-game">🎮 ABRIR HÁBITOS DE HIGIENE AGORA 🚀</a>
+        <!-- Bloco 1: Enquadramento Curricular BNCC -->
+        <div class="pedagogical-card">
+            <h2>📘 Alinhamento Curricular BNCC & Educação em Saúde</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                O jogo <strong>Hábitos de Higiene & Saúde</strong> atende diretamente às diretrizes da BNCC para Ciências no 1º e 2º anos, onde o eixo "Vida e Evolução" trabalha a percepção do próprio corpo, noções de saneamento, cadeia de transmissão de microrganismos e hábitos diários para a manutenção da saúde física individual e coletiva.
+            </p>
+            <div style="margin: 15px 0;">
+                <span class="bncc-badge">EF01CI01: Localização das Partes do Corpo e Cuidados</span>
+                <span class="bncc-badge">EF01CI02: Hábitos de Higiene e Preservação da Saúde</span>
+                <span class="bncc-badge">EF02CI04: Prevenção de Doenças por Germes e Parasitas</span>
+                <span class="bncc-badge">EI03CG04: Autonomia nos Cuidados com o Corpo</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 10px;">
+                <strong>Conceitos Científicos:</strong> Compreensão de microrganismos invisíveis a olho nu, papel do sabão na quebra da cápsula lipídica de vírus e bactérias, higiene bucal para prevenção da cárie e bem-estar comunitário escolar.
+            </p>
         </div>
 
-        <!-- AdSense Banner Container (Ultra-Fino Horizontal) -->
-        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 4px 8px; text-align: center; margin-top: 14px;">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        <!-- Bloco 2: Metodologia e Sequência Didática -->
+        <div class="pedagogical-card">
+            <h2>👩‍🏫 Sequência Didática para Aulas de Ciências</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Roteiro prático para o professor trabalhar saúde e autocuidado na escola:
+            </p>
+
+            <div class="step-box">
+                <h4>1. O Experimento do "Brilho dos Germes" (Sensibilização - 15 min)</h4>
+                <p>Passe um pouco de glitter ou farinha nas mãos de um aluno e peça para ele cumprimentar outros colegas. Mostre como o glitter se espalha para todos rapidamente, simulando a transmissão invisível de vírus. Em seguida, lave as mãos com água e sabão para demonstrar como o sabão remove as partículas.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>2. Vivência Gamificada no Laboratório (25 min)</h4>
+                <p>Os alunos interagem com o jogo digital, identificando quais objetos de higiene (escova, sabonete, toalha, água limpa) devem ser utilizados para cada situação do cotidiano. O professor estimula o debate sobre por que não devemos compartilhar itens pessoais como escovas de dente.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>3. Cartilha Ilustrada de Hábitos Saudáveis (Pós-jogo - 20 min)</h4>
+                <p>Cada criança desenha o seu "Horário da Saúde" diário: acordar e escovar os dentes, lavar as mãos antes do almoço, tomar banho após as brincadeiras e escovar os dentes antes de dormir.</p>
+            </div>
+        </div>
+
+        <!-- Bloco 3: Guia para Famílias -->
+        <div class="pedagogical-card">
+            <h2>👨‍👩‍👧 Dicas de Hábitos Saudáveis para os Responsáveis</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Como reforçar a rotina de autocuidado das crianças em casa:
+            </p>
+            <ul style="color: #cbd5e1; line-height: 1.7; padding-left: 20px;">
+                <li><strong>Torne a lavagem das mãos um ritual divertido:</strong> Ensine a criança a cantar uma música (como "Parabéns a você") enquanto esfrega os dedos e as palmas, garantindo os 20 segundos necessários de fricção.</li>
+                <li><strong>Supervisione a escovação noturna:</strong> A escovação antes de dormir é a mais importante contra a formação da placa bacteriana. Mostre como alcançar os dentes do fundo com movimentos suaves.</li>
+                <li><strong>Seja o modelo de exemplo:</strong> Crianças aprendem observando. Pratique os mesmos hábitos de higiene diante delas com naturalidade e entusiasmo.</li>
+            </ul>
+        </div>
+
+        <!-- Bloco 4: Diário de Classe -->
+        <div class="pedagogical-card">
+            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
+            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
+                "Aula de Ciências Naturais com foco no eixo Vida e Evolução através do software 'Hábitos de Higiene & Saúde'. Discussão sobre autocuidado corporal, saúde bucal e prevenção de infecções (EF01CI01, EF02CI04). Registro de evolução na conscientização sobre a importância da lavagem correta das mãos na rotina da escola e em casa."
+            </div>
+        </div>
+
+        <!-- Publicidade Institucional Segura -->
+        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+
+        <!-- Rodapé Institucional -->
+        <footer class="institutional-footer">
+            <p><strong>Portal Lab Kids</strong> — Plataforma Educacional Pública Gratuita mantida pelo Prof. Fábio Vieitas Marques</p>
+            <p>
+                <a href="/">Início</a> •
+                <a href="/sobre">Quem Somos</a> •
+                <a href="/guia-bncc">Guia BNCC</a> •
+                <a href="/termos">Termos de Uso</a> •
+                <a href="/privacidade">Privacidade & LGPD</a> •
+                <a href="/cookies">Política de Cookies</a> •
+                <a href="/contato">Contato Institucional</a>
+            </p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Campos dos Goytacazes - RJ | Educação Pública Inovadora e 100% Gratuita</p>
+        </footer>
     </div>
 </body>
 </html>

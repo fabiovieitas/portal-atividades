@@ -3,43 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fábrica de Sílabas - Guia BNCC | Lab Kids</title>
+    <title>Fábrica de Sílabas - Guia Pedagógico & Alfabetização BNCC | Lab Kids</title>
+    <meta name="description" content="Plano de aula e guia didático da Fábrica de Sílabas & Palavras. Síntese silábica, consciência fonológica, hipóteses de escrita e habilidades da BNCC (EF01LP08, EF01LP10).">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
-    <!-- Google AdSense Official Script -->
+    <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
-        body { background: #0f172a; color: white; font-family: 'Fredoka', sans-serif; min-height: 100vh; padding: 20px 10px; margin: 0; }
-        .presentation-box { max-width: 850px; margin: 0 auto; background: #1e293b; border-radius: 28px; padding: 35px; border: 2px solid #10b981; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .bncc-chip { background: #6366f1; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.9rem; margin: 4px; display: inline-block; }
-        .btn-launch-game { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px 40px; border-radius: 50px; font-weight: 800; font-size: 1.3rem; text-decoration: none; box-shadow: 0 8px 25px rgba(16,185,129,0.4); border: 2px solid rgba(255,255,255,0.3); margin-top: 20px; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #f8fafc; font-family: 'Fredoka', sans-serif; min-height: 100vh; margin: 0; padding: 20px 10px 60px 10px; }
+        .container-presentation { max-width: 960px; margin: 0 auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 12px; }
+        .btn-return-portal { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); border: 2px solid rgba(255, 255, 255, 0.3); }
+        .hero-banner { background: rgba(30, 41, 59, 0.9); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: 28px; padding: 35px; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .game-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; color: #34d399; margin: 12px 0 8px 0; }
+        .game-subtitle { font-size: 1.15rem; color: #cbd5e1; max-width: 760px; margin: 0 auto 20px auto; line-height: 1.6; }
+        .btn-launch-large { display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 18px 45px; border-radius: 50px; font-size: 1.35rem; font-weight: 800; text-decoration: none; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5); border: 3px solid rgba(255, 255, 255, 0.4); transition: transform 0.2s; }
+        .btn-launch-large:hover { transform: scale(1.04); }
+        .pedagogical-card { background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px; margin-bottom: 25px; }
+        .pedagogical-card h2 { color: #34d399; font-size: 1.5rem; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .bncc-badge { background: #059669; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin: 4px; }
+        .step-box { background: rgba(15, 23, 42, 0.6); border-left: 4px solid #10b981; padding: 15px 20px; border-radius: 0 16px 16px 0; margin-bottom: 15px; }
+        .step-box h4 { margin: 0 0 6px 0; color: #6ee7b7; font-size: 1.1rem; }
+        .step-box p { margin: 0; color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; }
+        .institutional-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
+        .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+        .institutional-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <div class="presentation-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <a href="/" style="color: white; text-decoration: none; font-weight: 700;">⬅️ Voltar ao Portal</a>
-            <span style="color: #10b981; font-weight: 700;">🔤 Alfabetização</span>
+    <div class="container-presentation">
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Guia Didático de Alfabetização</span>
         </div>
 
-        <h1 style="color: #fbbf24; font-size: 2.5rem; margin: 10px 0;">Fábrica de Sílabas & Palavras</h1>
-        <p style="color: #cbd5e1; font-size: 1.15rem;">Junte sílabas simples para formar palavras e acelerar o processo de hipótese silábica e leitura.</p>
-
-        <div>
-            <span class="bncc-chip">EF01LP08</span>
-            <span class="bncc-chip">EF01LP10</span>
+        <div class="hero-banner">
+            <div style="font-size: 4rem; margin-bottom: 10px;">🏭🔤</div>
+            <h1 class="game-title">Fábrica de Sílabas & Palavras</h1>
+            <p class="game-subtitle">
+                Ambiente lúdico de engenharia linguística. As crianças combinam peças silábicas simples (canônicas CV) e complexas (CCV, CVC) em esteiras rolantes virtuais para produzir palavras completas, associando som, imagem e significado.
+            </p>
+            
+            <a href="/games/fabrica-de-silabas/index.html" class="btn-launch-large">
+                🎮 ATIVAR FÁBRICA DE SÍLABAS 🚀
+            </a>
         </div>
 
-        <div style="margin: 25px 0;">
-            <a href="/games/fabrica-de-silabas/index.html" class="btn-launch-game">🎮 ABRIR FÁBRICA DE SÍLABAS AGORA 🚀</a>
+        <!-- Bloco 1: Enquadramento Curricular BNCC -->
+        <div class="pedagogical-card">
+            <h2>📘 Alinhamento Curricular BNCC & Construção da Escrita</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                O software pedagógico <strong>Fábrica de Sílabas</strong> atende de forma direta aos estudantes que estão na passagem da hipótese de escrita silábica para a silábico-alfabética e alfabética pura. Permite compreender que a troca de uma única sílaba ou vogal altera completamente o significado da palavra produzida (ex.: BOLO x BOLA x BALA).
+            </p>
+            <div style="margin: 15px 0;">
+                <span class="bncc-badge">EF01LP08: Relação Fonema-Grafema nas Sílabas</span>
+                <span class="bncc-badge">EF01LP09: Comparação de Palavras por Semelhança Sonora</span>
+                <span class="bncc-badge">EF01LP10: Montagem e Junção de Sílabas</span>
+                <span class="bncc-badge">EF02LP02: Sílabas Canônicas e Não Canônicas</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 10px;">
+                <strong>Pilares Cognitivos:</strong> Consciência fonêmica, síntese e análise auditiva, memória operacional fonológica e compreensão da estabilidade da escrita alfabética.
+            </p>
         </div>
 
-        <!-- AdSense Banner Container (Ultra-Fino Horizontal) -->
-        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 12px; padding: 4px 8px; text-align: center; margin-top: 14px;">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        <!-- Bloco 2: Metodologia e Sequência Didática -->
+        <div class="pedagogical-card">
+            <h2>👩‍🏫 Sequência Didática Prática para Salas de Alfabetização</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Roteiro estruturado para professores alfabetizadores do 1º e 2º anos:
+            </p>
+
+            <div class="step-box">
+                <h4>1. Brincadeira do "Eco das Sílabas" (Sensibilização - 15 min)</h4>
+                <p>O professor fala uma palavra completa e os alunos devem "devolver o eco" pronunciando apenas a sílaba final ou inicial (ex.: Professor diz "CANE-TA", alunos ecoam "TA! TA! TA!"). Esse exercício treina a capacidade de isolar blocos sonoros antes do manuseio digital.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>2. Produção na Esteira Digital (25 min)</h4>
+                <p>Os estudantes abrem a Fábrica de Sílabas em pares. Cada dupla recebe uma meta de produzir 5 palavras de duas sílabas (dissílabas) e 3 palavras de três sílabas (trissílabas). O professor desafia a turma a observar quais letras se repetem em posições diferentes.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>3. Registro Escrito e Ilustração (Pós-jogo - 20 min)</h4>
+                <p>No caderno, os estudantes registram a "ficha técnica de produção da fábrica": escrevem a palavra montada, separam suas sílabas com tracinhos e desenham o objeto correspondente.</p>
+            </div>
+        </div>
+
+        <!-- Bloco 3: Guia para Famílias -->
+        <div class="pedagogical-card">
+            <h2>👨‍👩‍👧 Dicas de Mediação para os Pais em Casa</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Como apoiar o salto da alfabetização no dia a dia:
+            </p>
+            <ul style="color: #cbd5e1; line-height: 1.7; padding-left: 20px;">
+                <li><strong>Fale pausadamente as sílabas:</strong> Ao ajudar a criança a escrever o nome de um objeto em casa, pronuncie cada sílaba esticando os sons (ex.: <em>"SAAAAA-PAAAA-TOOOOO"</em>) em vez de ditar letra por letra.</li>
+                <li><strong>Brinque de trocar pedaços:</strong> Pergunte: <em>"Se tirarmos o MA de MACACO e colocarmos BA, que bicho vira?"</em>. Essa flexibilidade sonora acelera o letramento.</li>
+                <li><strong>Aproveite as listas de compras:</strong> Deixe seu filho ajudar a montar a lista de compras do supermercado escrevendo os itens simples.</li>
+            </ul>
+        </div>
+
+        <!-- Bloco 4: Diário de Classe -->
+        <div class="pedagogical-card">
+            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
+            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
+                "Aplicação de metodologia fônica-lúdica através do recurso digital 'Fábrica de Sílabas'. Desenvolvimento de consciência silábica e síntese grafofonêmica alinhada aos códigos EF01LP08 e EF01LP10 da BNCC. Avanço expressivo de alunos na passagem de hipóteses silábicas para alfabéticas com autonomia na junção de fonemas."
+            </div>
+        </div>
+
+        <!-- Publicidade Institucional Segura -->
+        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+
+        <!-- Rodapé Institucional -->
+        <footer class="institutional-footer">
+            <p><strong>Portal Lab Kids</strong> — Plataforma Educacional Pública Gratuita mantida pelo Prof. Fábio Vieitas Marques</p>
+            <p>
+                <a href="/">Início</a> •
+                <a href="/sobre">Quem Somos</a> •
+                <a href="/guia-bncc">Guia BNCC</a> •
+                <a href="/termos">Termos de Uso</a> •
+                <a href="/privacidade">Privacidade & LGPD</a> •
+                <a href="/cookies">Política de Cookies</a> •
+                <a href="/contato">Contato Institucional</a>
+            </p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Campos dos Goytacazes - RJ | Educação Pública Inovadora e 100% Gratuita</p>
+        </footer>
     </div>
 </body>
 </html>

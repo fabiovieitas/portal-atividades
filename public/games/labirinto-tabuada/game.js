@@ -1,76 +1,91 @@
 /**
- * LABIRINTO DOS CAMPEÕES: AVENTURA DA TABUADA
- * Inspirado na mecânica do Blinky's Maze (Digipuzzle)
- * Autor: Professor Fábio Vieitas / Lab Kids
+ * LABIRINTO DA TABUADA: MISSÃO DOS CAMPEÕES ⚽🕹️
+ * Recriação fiel, animada e modernizada do clássico Blinky's Maze (Digipuzzle)
+ * Autor: Lab Kids - Professor Fábio Vieitas
  */
 
-// --- CONFIGURAÇÃO DO LABIRINTO E GRID ---
-const COLS = 15;
-const ROWS = 11;
-const CELL_SIZE = 48; // Canvas 720 x 528
+// --- CONFIGURAÇÃO DA GRADE DO LABIRINTO (13 colunas x 9 linhas) ---
+const COLS = 13;
+const ROWS = 9;
+const CELL_SIZE = 56; // Dimensões do Canvas: 728 x 504
 
-// 1 = Parede Neon, 0 = Caminho Livre
-const MAZE_MAP = [
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
-    [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
-    [1,0,1,0,0,0,0,1,0,0,0,0,1,0,1],
-    [1,0,1,1,1,1,0,1,0,1,1,1,1,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,1,1,1,1,0,1,0,1,1,1,1,0,1],
-    [1,0,1,0,0,0,0,1,0,0,0,0,1,0,1],
-    [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
-    [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+// 0 = Caminho livre com número da tabuada
+// 1 = Cone esportivo (obstáculo / barreira do labirinto)
+// 2 = Painel central do desafio matemático (banner central)
+const BASE_MAZE = [
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    [0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 1, 0, 0, 2, 2, 2, 2, 2, 0, 0, 1, 0],
+    [0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+    [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+    [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1]
 ];
 
-// --- MOTOR DE ÁUDIO SINTETIZADO ---
+// Paleta de cores festivas para os cones de trânsito esportivos (estilo Digipuzzle)
+const CONE_PALETTES = [
+    { top: '#ea580c', mid: '#fb923c', base: '#c2410c', shadow: 'rgba(249, 115, 22, 0.28)' }, // Laranja
+    { top: '#0284c7', mid: '#38bdf8', base: '#0369a1', shadow: 'rgba(56, 189, 248, 0.28)' },  // Azul
+    { top: '#16a34a', mid: '#4ade80', base: '#15803d', shadow: 'rgba(74, 222, 128, 0.28)' },  // Verde
+    { top: '#ca8a04', mid: '#facc15', base: '#a16207', shadow: 'rgba(250, 204, 21, 0.28)' },  // Amarelo
+    { top: '#9333ea', mid: '#c084fc', base: '#7e22ce', shadow: 'rgba(192, 132, 252, 0.28)' }  // Roxo
+];
+
+// --- MOTOR DE ÁUDIO SINTETIZADO (Web Audio API) ---
 class SoundEngine {
     constructor() {
         this.ctx = null;
+        this.lastMoveSound = 0;
     }
 
     init() {
         if (!this.ctx) {
-            const AudioCtx = window.AudioContext || window.webkitAudioContext;
-            if (AudioCtx) this.ctx = new AudioCtx();
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) this.ctx = new AudioContext();
         }
         if (this.ctx && this.ctx.state === 'suspended') {
             this.ctx.resume().catch(() => {});
         }
     }
 
-    playMove() {
+    playStep() {
         this.init();
         if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        if (now - this.lastMoveSound < 0.12) return;
+        this.lastMoveSound = now;
+
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(200, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(400, this.ctx.currentTime + 0.04);
-        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.exponentialRampToValueAtTime(160, now + 0.05);
+        gain.gain.setValueAtTime(0.06, now);
+        gain.gain.linearRampToValueAtTime(0.001, now + 0.05);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.04);
+        osc.start(now);
+        osc.stop(now + 0.05);
     }
 
     playCorrect() {
         this.init();
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
-        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        notes.forEach((freq, idx) => {
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(freq, now + i * 0.07);
-            gain.gain.setValueAtTime(0.25, now + i * 0.07);
-            gain.gain.linearRampToValueAtTime(0.01, now + i * 0.07 + 0.2);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+            gain.gain.setValueAtTime(0.2, now + idx * 0.08);
+            gain.gain.linearRampToValueAtTime(0.001, now + idx * 0.08 + 0.25);
             osc.connect(gain);
             gain.connect(this.ctx.destination);
-            osc.start(now + i * 0.07);
-            osc.stop(now + i * 0.07 + 0.2);
+            osc.start(now + idx * 0.08);
+            osc.stop(now + idx * 0.08 + 0.25);
         });
     }
 
@@ -81,124 +96,59 @@ class SoundEngine {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(260, now);
-        osc.frequency.linearRampToValueAtTime(100, now + 0.28);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.linearRampToValueAtTime(0.01, now + 0.28);
+        osc.frequency.setValueAtTime(280, now);
+        osc.frequency.exponentialRampToValueAtTime(80, now + 0.3);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.28);
+        osc.stop(now + 0.3);
     }
 
     playVictory() {
         this.init();
         if (!this.ctx) return;
-        [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq, idx) => {
+        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+        notes.forEach((freq, idx) => {
             setTimeout(() => {
                 if (!this.ctx) return;
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.type = 'triangle';
                 osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+                gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
                 osc.connect(gain);
                 gain.connect(this.ctx.destination);
                 osc.start();
                 osc.stop(this.ctx.currentTime + 0.35);
-            }, idx * 110);
+            }, idx * 120);
         });
     }
 
     speak(text) {
         if (!('speechSynthesis' in window)) return;
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.lang = 'pt-BR';
-        utter.rate = 1.0;
-        utter.pitch = 1.1;
-        window.speechSynthesis.speak(utter);
-    }
-}
-
-// --- MOTOR DE CONFETES ---
-class ConfettiEngine {
-    constructor(canvasId) {
-        this.canvas = document.getElementById(canvasId);
-        this.ctx = this.canvas.getContext('2d');
-        this.particles = [];
-        this.animId = null;
-        this.resize();
-        window.addEventListener('resize', () => this.resize());
-    }
-
-    resize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-    }
-
-    start() {
-        this.particles = [];
-        const colors = ['#facc15', '#10b981', '#38bdf8', '#ec4899', '#818cf8', '#ef4444'];
-        for (let i = 0; i < 90; i++) {
-            this.particles.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height - this.canvas.height,
-                size: Math.random() * 8 + 6,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                vx: Math.random() * 4 - 2,
-                vy: Math.random() * 4 + 3.5,
-                rotation: Math.random() * 360,
-                vRot: Math.random() * 6 - 3
-            });
-        }
-        if (!this.animId) this.loop();
-    }
-
-    stop() {
-        if (this.animId) {
-            cancelAnimationFrame(this.animId);
-            this.animId = null;
-        }
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-
-    loop() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        let hasVisible = false;
-        this.particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.rotation += p.vRot;
-            if (p.y < this.canvas.height + 20) hasVisible = true;
-
-            this.ctx.save();
-            this.ctx.translate(p.x, p.y);
-            this.ctx.rotate((p.rotation * Math.PI) / 180);
-            this.ctx.fillStyle = p.color;
-            this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-            this.ctx.restore();
-        });
-
-        if (hasVisible) {
-            this.animId = requestAnimationFrame(() => this.loop());
-        } else {
-            this.stop();
-        }
+        try {
+            window.speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'pt-BR';
+            utter.rate = 1.05;
+            utter.pitch = 1.1;
+            window.speechSynthesis.speak(utter);
+        } catch (e) {}
     }
 }
 
 // --- CLASSE PRINCIPAL DO JOGO ---
-class MazeGame {
+class BlinkyMazeGame {
     constructor() {
         this.sound = new SoundEngine();
-        this.confetti = new ConfettiEngine('confetti-canvas');
-
         this.canvas = document.getElementById('maze-canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = COLS * CELL_SIZE; // 720
-        this.canvas.height = ROWS * CELL_SIZE; // 528
+
+        this.canvas.width = COLS * CELL_SIZE; // 728
+        this.canvas.height = ROWS * CELL_SIZE; // 504
 
         this.level = 1; // 1: 2-4, 2: 5-7, 3: 8-10
         this.lives = 3;
@@ -206,42 +156,78 @@ class MazeGame {
         this.questionsSolved = 0;
         this.targetQuestions = 5;
 
-        // Current Math Question
-        this.currentQuestion = { factorA: 3, factorB: 4, answer: 12 };
+        // Tema de bola de esporte escolhido pelo jogador
+        this.selectedSport = '⚽';
 
-        // Hero state (Robô Bit)
+        // Estado do Robô Bit (Herói)
         this.hero = {
-            gridX: 1,
-            gridY: 1,
-            pixelX: 1 * CELL_SIZE,
-            pixelY: 1 * CELL_SIZE,
-            targetPixelX: 1 * CELL_SIZE,
-            targetPixelY: 1 * CELL_SIZE,
-            dirX: 0,
-            dirY: 0,
-            nextDirX: 0,
-            nextDirY: 0,
-            speed: 4,
+            gridX: 0,
+            gridY: 4,
+            fromX: 0,
+            fromY: 4,
+            toX: 0,
+            toY: 4,
+            moveProgress: 1.0,
+            moveDuration: 0.17, // 170ms por célula para controle ágil e gostoso
             facing: 'right',
-            animFrame: 0
+            animTime: 0,
+            invulnerableTime: 0 // Cooldown de dano
         };
 
-        // Enemies: Cronômetros Malucos
+        // Buffer de entrada e teclas pressionadas
+        this.keysDown = {};
+        this.bufferedDir = null; // { dx, dy, facing }
+
+        // Trilhas deixadas pelo robô
+        this.visitedTiles = new Set();
+        this.visitedTiles.add(`0,4`);
+
+        // Inimigos (Cronômetros)
         this.enemies = [
-            { gridX: 13, gridY: 1, dirX: -1, dirY: 0, color: '#ef4444', tick: 0 },
-            { gridX: 7, gridY: 5, dirX: 1, dirY: 0, color: '#f59e0b', tick: 0 },
-            { gridX: 1, gridY: 9, dirX: 1, dirY: 0, color: '#ec4899', tick: 0 }
+            {
+                gridX: 12,
+                gridY: 1,
+                fromX: 12,
+                fromY: 1,
+                toX: 12,
+                toY: 1,
+                moveProgress: 1.0,
+                moveDuration: 0.65, // 650ms por célula (ritmo suave e cadenciado)
+                color: '#ef4444',
+                tickAngle: 0,
+                freezeTime: 0
+            },
+            {
+                gridX: 12,
+                gridY: 7,
+                fromX: 12,
+                fromY: 7,
+                toX: 12,
+                toY: 7,
+                moveProgress: 1.0,
+                moveDuration: 0.70,
+                color: '#f59e0b',
+                tickAngle: 0,
+                freezeTime: 0
+            }
         ];
 
-        // Numbered Items scattered in maze
-        this.items = [];
+        // Grade de Números da Tabuada
+        this.numberGrid = [];
+
+        // Pergunta Atual
+        this.currentQuestion = { factorA: 3, factorB: 4, answer: 12 };
+
+        // Partículas flutuantes de feedback
+        this.floatingTexts = [];
 
         this.isGameOver = false;
         this.isVictory = false;
 
         this.initDOM();
-        this.bindControls();
+        this.bindEvents();
         this.startLevel(this.level);
+
         this.lastTime = performance.now();
         requestAnimationFrame((t) => this.gameLoop(t));
     }
@@ -254,33 +240,41 @@ class MazeGame {
         this.modalGameOver = document.getElementById('modal-gameover');
     }
 
-    bindControls() {
-        // Keyboard controls
+    bindEvents() {
+        // Teclado com suporte a manter pressionado
         window.addEventListener('keydown', (e) => {
-            if (['ArrowUp', 'KeyW'].includes(e.code)) this.setHeroDirection(0, -1, 'up');
-            if (['ArrowDown', 'KeyS'].includes(e.code)) this.setHeroDirection(0, 1, 'down');
-            if (['ArrowLeft', 'KeyA'].includes(e.code)) this.setHeroDirection(-1, 0, 'left');
-            if (['ArrowRight', 'KeyD'].includes(e.code)) this.setHeroDirection(1, 0, 'right');
-        });
-
-        // Touch Virtual D-Pad
-        const bindBtn = (id, dx, dy, facing) => {
-            const btn = document.getElementById(id);
-            if (!btn) return;
-            const handler = (e) => {
+            if (['ArrowUp', 'KeyW', 'ArrowDown', 'KeyS', 'ArrowLeft', 'KeyA', 'ArrowRight', 'KeyD'].includes(e.code)) {
                 e.preventDefault();
                 this.sound.init();
-                this.setHeroDirection(dx, dy, facing);
+                this.keysDown[e.code] = true;
+                this.processInputQueue();
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            delete this.keysDown[e.code];
+        });
+
+        // Controles Touch / D-Pad (Clique & Manter Pressionado)
+        const setupDpad = (btnId, dx, dy, facing) => {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+
+            const trigger = (e) => {
+                e.preventDefault();
+                this.sound.init();
+                this.queueDirection(dx, dy, facing);
             };
-            btn.addEventListener('pointerdown', handler);
+
+            btn.addEventListener('pointerdown', trigger);
         };
 
-        bindBtn('dpad-up', 0, -1, 'up');
-        bindBtn('dpad-down', 0, 1, 'down');
-        bindBtn('dpad-left', -1, 0, 'left');
-        bindBtn('dpad-right', 1, 0, 'right');
+        setupDpad('dpad-up', 0, -1, 'up');
+        setupDpad('dpad-down', 0, 1, 'down');
+        setupDpad('dpad-left', -1, 0, 'left');
+        setupDpad('dpad-right', 1, 0, 'right');
 
-        // Level selector buttons
+        // Seletor de Níveis
         document.querySelectorAll('.level-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
@@ -289,13 +283,82 @@ class MazeGame {
                 this.startLevel(parseInt(btn.dataset.level, 10));
             });
         });
+
+        // Seletor de Bolas de Esporte
+        document.querySelectorAll('.sport-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sport-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.selectedSport = btn.dataset.sport;
+                this.sound.playStep();
+            });
+        });
+
+        // Clique direto nas células adjacentes para navegar no tablet
+        this.canvas.addEventListener('pointerdown', (e) => {
+            this.sound.init();
+            const rect = this.canvas.getBoundingClientRect();
+            const scaleX = this.canvas.width / rect.width;
+            const scaleY = this.canvas.height / rect.height;
+            const clickX = (e.clientX - rect.left) * scaleX;
+            const clickY = (e.clientY - rect.top) * scaleY;
+
+            const targetCol = Math.floor(clickX / CELL_SIZE);
+            const targetRow = Math.floor(clickY / CELL_SIZE);
+
+            const dx = targetCol - this.hero.gridX;
+            const dy = targetRow - this.hero.gridY;
+
+            if (Math.abs(dx) + Math.abs(dy) === 1) {
+                const facing = dx > 0 ? 'right' : (dx < 0 ? 'left' : (dy > 0 ? 'down' : 'up'));
+                this.queueDirection(dx, dy, facing);
+            }
+        });
     }
 
-    setHeroDirection(dx, dy, facing) {
-        this.sound.init();
-        this.hero.nextDirX = dx;
-        this.hero.nextDirY = dy;
-        this.hero.facing = facing;
+    queueDirection(dx, dy, facing) {
+        this.bufferedDir = { dx, dy, facing };
+        this.processInputQueue();
+    }
+
+    processInputQueue() {
+        if (this.isGameOver || this.isVictory) return;
+
+        // Se o herói já terminou o movimento atual, podemos começar o próximo
+        if (this.hero.moveProgress >= 1.0) {
+            let nextMove = null;
+
+            // Prioridade 1: Direção armazenada no buffer
+            if (this.bufferedDir) {
+                nextMove = this.bufferedDir;
+                this.bufferedDir = null;
+            } 
+            // Prioridade 2: Teclas atualmente seguradas
+            else if (this.keysDown['ArrowUp'] || this.keysDown['KeyW']) {
+                nextMove = { dx: 0, dy: -1, facing: 'up' };
+            } else if (this.keysDown['ArrowDown'] || this.keysDown['KeyS']) {
+                nextMove = { dx: 0, dy: 1, facing: 'down' };
+            } else if (this.keysDown['ArrowLeft'] || this.keysDown['KeyA']) {
+                nextMove = { dx: -1, dy: 0, facing: 'left' };
+            } else if (this.keysDown['ArrowRight'] || this.keysDown['KeyD']) {
+                nextMove = { dx: 1, dy: 0, facing: 'right' };
+            }
+
+            if (nextMove) {
+                const targetX = this.hero.gridX + nextMove.dx;
+                const targetY = this.hero.gridY + nextMove.dy;
+                this.hero.facing = nextMove.facing;
+
+                if (this.canWalk(targetX, targetY)) {
+                    this.hero.fromX = this.hero.gridX;
+                    this.hero.fromY = this.hero.gridY;
+                    this.hero.toX = targetX;
+                    this.hero.toY = targetY;
+                    this.hero.moveProgress = 0.0;
+                    this.sound.playStep();
+                }
+            }
+        }
     }
 
     startLevel(lvl) {
@@ -308,29 +371,55 @@ class MazeGame {
 
         this.modalVictory.classList.remove('active');
         this.modalGameOver.classList.remove('active');
-        this.confetti.stop();
 
-        this.updateHUD();
+        this.visitedTiles.clear();
+        this.visitedTiles.add(`0,4`);
+
         this.resetHero();
         this.resetEnemies();
         this.generateMathQuestion();
+        this.updateHUD();
     }
 
     resetHero() {
-        this.hero.gridX = 1;
-        this.hero.gridY = 1;
-        this.hero.pixelX = 1 * CELL_SIZE;
-        this.hero.pixelY = 1 * CELL_SIZE;
-        this.hero.dirX = 0;
-        this.hero.dirY = 0;
-        this.hero.nextDirX = 0;
-        this.hero.nextDirY = 0;
+        this.hero.gridX = 0;
+        this.hero.gridY = 4;
+        this.hero.fromX = 0;
+        this.hero.fromY = 4;
+        this.hero.toX = 0;
+        this.hero.toY = 4;
+        this.hero.moveProgress = 1.0;
+        this.hero.invulnerableTime = 2.5; // 2.5 segundos de imunidade ao renascer
     }
 
     resetEnemies() {
-        this.enemies[0].gridX = 13; this.enemies[0].gridY = 1; this.enemies[0].dirX = -1; this.enemies[0].dirY = 0;
-        this.enemies[1].gridX = 7;  this.enemies[1].gridY = 5; this.enemies[1].dirX = 1;  this.enemies[1].dirY = 0;
-        this.enemies[2].gridX = 1;  this.enemies[2].gridY = 9; this.enemies[2].dirX = 1;  this.enemies[2].dirY = 0;
+        const dur = this.level === 1 ? 0.65 : (this.level === 2 ? 0.55 : 0.48);
+
+        this.enemies[0].gridX = 12;
+        this.enemies[0].gridY = 1;
+        this.enemies[0].fromX = 12;
+        this.enemies[0].fromY = 1;
+        this.enemies[0].toX = 12;
+        this.enemies[0].toY = 1;
+        this.enemies[0].moveProgress = 1.0;
+        this.enemies[0].moveDuration = dur;
+        this.enemies[0].freezeTime = 1.2;
+
+        this.enemies[1].gridX = 12;
+        this.enemies[1].gridY = 7;
+        this.enemies[1].fromX = 12;
+        this.enemies[1].fromY = 7;
+        this.enemies[1].toX = 12;
+        this.enemies[1].toY = 7;
+        this.enemies[1].moveProgress = 1.0;
+        this.enemies[1].moveDuration = dur + 0.05;
+        this.enemies[1].freezeTime = 1.2;
+    }
+
+    canWalk(col, row) {
+        if (col < 0 || col >= COLS || row < 0 || row >= ROWS) return false;
+        const cell = BASE_MAZE[row][col];
+        return cell === 0; // Apenas caminhos livres
     }
 
     generateMathQuestion() {
@@ -344,51 +433,65 @@ class MazeGame {
 
         this.currentQuestion = { factorA, factorB, answer };
         this.equationDisplay.textContent = `${factorA} × ${factorB} = ?`;
-        this.sound.speak(`Quanto é ${factorA} vezes ${factorB}?`);
+        this.sound.speak(`${factorA} vezes ${factorB}`);
 
-        this.spawnItems(answer);
+        this.populateNumberGrid(answer, factorA);
     }
 
-    spawnItems(correctAnswer) {
-        this.items = [];
-        const candidateSpots = [];
+    populateNumberGrid(correctAnswer, factorA) {
+        this.numberGrid = [];
 
-        // Coletar todos os espaços livres do labirinto longe do spawn
-        for (let r = 1; r < ROWS - 1; r++) {
-            for (let c = 1; c < COLS - 1; c++) {
-                if (MAZE_MAP[r][c] === 0 && !(r === 1 && c === 1)) {
-                    candidateSpots.push({ x: c, y: r });
+        // Distratores baseados em múltiplos reais da tabuada
+        const distractorPool = new Set();
+        for (let m = 1; m <= 10; m++) {
+            const val = factorA * m;
+            if (val !== correctAnswer) distractorPool.add(val);
+        }
+        // Complementar com múltiplos de números vizinhos
+        [factorA - 1, factorA + 1].forEach(f => {
+            if (f >= 2) {
+                for (let m = 2; m <= 10; m++) {
+                    const val = f * m;
+                    if (val !== correctAnswer) distractorPool.add(val);
                 }
+            }
+        });
+
+        const distractors = Array.from(distractorPool);
+
+        // Coletar todas as células livres
+        const freeCells = [];
+        for (let r = 0; r < ROWS; r++) {
+            this.numberGrid[r] = [];
+            for (let c = 0; c < COLS; c++) {
+                if (BASE_MAZE[r][c] === 0) {
+                    freeCells.push({ c, r });
+                }
+                this.numberGrid[r][c] = null;
             }
         }
 
-        // Embaralhar spots
-        candidateSpots.sort(() => Math.random() - 0.5);
+        // Embaralhar as células livres
+        freeCells.sort(() => Math.random() - 0.5);
 
-        // Gerar 3 valores errados próximos
-        const values = [correctAnswer];
-        while (values.length < 4) {
-            const offset = (Math.floor(Math.random() * 5) + 1) * (Math.random() > 0.5 ? 1 : -1);
-            const wrongVal = Math.max(2, correctAnswer + offset);
-            if (!values.includes(wrongVal)) values.push(wrongVal);
+        // Espalhar entre 5 e 7 células com o resultado correto
+        const correctCount = 6;
+        for (let i = 0; i < correctCount && i < freeCells.length; i++) {
+            const cell = freeCells[i];
+            this.numberGrid[cell.r][cell.c] = {
+                value: correctAnswer,
+                isCorrect: true
+            };
         }
 
-        // Embaralhar valores
-        values.sort(() => Math.random() - 0.5);
-
-        // Definir itens com ícones de esportes
-        const sportIcons = ['⚽', '🏀', '🎾', '🏐'];
-
-        for (let i = 0; i < 4; i++) {
-            const spot = candidateSpots[i];
-            this.items.push({
-                gridX: spot.x,
-                gridY: spot.y,
-                value: values[i],
-                isCorrect: values[i] === correctAnswer,
-                icon: sportIcons[i],
-                pulse: 0
-            });
+        // Preencher o restante das células com os distratores da tabuada
+        for (let i = correctCount; i < freeCells.length; i++) {
+            const cell = freeCells[i];
+            const randomVal = distractors[Math.floor(Math.random() * distractors.length)];
+            this.numberGrid[cell.r][cell.c] = {
+                value: randomVal,
+                isCorrect: false
+            };
         }
     }
 
@@ -403,7 +506,7 @@ class MazeGame {
 
     // --- GAME LOOP ---
     gameLoop(timestamp) {
-        const delta = (timestamp - this.lastTime) / 1000;
+        const delta = Math.min((timestamp - this.lastTime) / 1000, 0.1);
         this.lastTime = timestamp;
 
         if (!this.isGameOver && !this.isVictory) {
@@ -415,124 +518,155 @@ class MazeGame {
     }
 
     update(delta) {
-        this.hero.animFrame += delta * 6;
+        this.hero.animTime += delta;
 
-        // Atualizar movimento do herói por grid
-        const atGridX = this.hero.pixelX % CELL_SIZE === 0;
-        const atGridY = this.hero.pixelY % CELL_SIZE === 0;
+        // Atualizar imunidade
+        if (this.hero.invulnerableTime > 0) {
+            this.hero.invulnerableTime -= delta;
+        }
 
-        if (atGridX && atGridY) {
-            this.hero.gridX = Math.round(this.hero.pixelX / CELL_SIZE);
-            this.hero.gridY = Math.round(this.hero.pixelY / CELL_SIZE);
+        // 1. Atualizar interpolação do movimento do herói
+        if (this.hero.moveProgress < 1.0) {
+            this.hero.moveProgress += delta / this.hero.moveDuration;
+            if (this.hero.moveProgress >= 1.0) {
+                this.hero.moveProgress = 1.0;
+                this.hero.gridX = this.hero.toX;
+                this.hero.gridY = this.hero.toY;
+                this.visitedTiles.add(`${this.hero.gridX},${this.hero.gridY}`);
 
-            // Tentar mudar para a próxima direção se livre
-            if (this.canMove(this.hero.gridX + this.hero.nextDirX, this.hero.gridY + this.hero.nextDirY)) {
-                this.hero.dirX = this.hero.nextDirX;
-                this.hero.dirY = this.hero.nextDirY;
-            } else if (!this.canMove(this.hero.gridX + this.hero.dirX, this.hero.gridY + this.hero.dirY)) {
-                this.hero.dirX = 0;
-                this.hero.dirY = 0;
+                // Checar número da célula alcançada
+                this.checkCellNumber(this.hero.gridX, this.hero.gridY);
+
+                // Continuar movendo se o usuário estiver segurando tecla ou com buffer
+                this.processInputQueue();
             }
+        } else {
+            this.processInputQueue();
         }
 
-        if (this.hero.dirX !== 0 || this.hero.dirY !== 0) {
-            this.hero.pixelX += this.hero.dirX * this.hero.speed;
-            this.hero.pixelY += this.hero.dirY * this.hero.speed;
-            this.sound.playMove();
-        }
-
-        // Atualizar movimento dos inimigos (Cronômetros)
+        // 2. Atualizar Cronômetros Malucos (Inimigos)
         this.updateEnemies(delta);
 
-        // Checar colisão com Itens da Tabuada
-        this.checkItemCollisions();
-
-        // Checar colisão com Inimigos
+        // 3. Checar colisão com Inimigos
         this.checkEnemyCollisions();
-    }
 
-    canMove(gx, gy) {
-        if (gx < 0 || gx >= COLS || gy < 0 || gy >= ROWS) return false;
-        return MAZE_MAP[gy][gx] === 0;
+        // 4. Atualizar partículas de texto
+        for (let i = this.floatingTexts.length - 1; i >= 0; i--) {
+            const ft = this.floatingTexts[i];
+            ft.y -= delta * 30;
+            ft.alpha -= delta * 1.2;
+            if (ft.alpha <= 0) {
+                this.floatingTexts.splice(i, 1);
+            }
+        }
     }
 
     updateEnemies(delta) {
         this.enemies.forEach(enemy => {
-            enemy.tick += delta * 5;
-            // Movimento simples e inteligente por corredores
-            const nextX = enemy.gridX + enemy.dirX;
-            const nextY = enemy.gridY + enemy.dirY;
+            enemy.tickAngle += delta * 4;
 
-            if (this.canMove(nextX, nextY) && Math.random() > 0.05) {
-                enemy.gridX = nextX;
-                enemy.gridY = nextY;
+            if (enemy.freezeTime > 0) {
+                enemy.freezeTime -= delta;
+                return;
+            }
+
+            if (enemy.moveProgress < 1.0) {
+                enemy.moveProgress += delta / enemy.moveDuration;
+                if (enemy.moveProgress >= 1.0) {
+                    enemy.moveProgress = 1.0;
+                    enemy.gridX = enemy.toX;
+                    enemy.gridY = enemy.toY;
+                }
             } else {
-                // Virar em cruzamentos
+                // Chegou na célula destino, escolher próximo passo inteligente no corredor
                 const dirs = [
                     { x: 1, y: 0 }, { x: -1, y: 0 },
                     { x: 0, y: 1 }, { x: 0, y: -1 }
-                ].filter(d => this.canMove(enemy.gridX + d.x, enemy.gridY + d.y));
+                ].filter(d => this.canWalk(enemy.gridX + d.x, enemy.gridY + d.y));
 
                 if (dirs.length > 0) {
-                    const chosen = dirs[Math.floor(Math.random() * dirs.length)];
-                    enemy.dirX = chosen.x;
-                    enemy.dirY = chosen.y;
+                    // Evitar inverter direção imediatamente, exceto se for beco sem saída
+                    const forwardDirs = dirs.filter(d => 
+                        !(enemy.gridX + d.x === enemy.fromX && enemy.gridY + d.y === enemy.fromY)
+                    );
+                    const chosen = forwardDirs.length > 0 
+                        ? forwardDirs[Math.floor(Math.random() * forwardDirs.length)]
+                        : dirs[Math.floor(Math.random() * dirs.length)];
+
+                    enemy.fromX = enemy.gridX;
+                    enemy.fromY = enemy.gridY;
+                    enemy.toX = enemy.gridX + chosen.x;
+                    enemy.toY = enemy.gridY + chosen.y;
+                    enemy.moveProgress = 0.0;
                 }
             }
         });
     }
 
-    checkItemCollisions() {
-        const hx = Math.round(this.hero.pixelX / CELL_SIZE);
-        const hy = Math.round(this.hero.pixelY / CELL_SIZE);
+    checkCellNumber(col, row) {
+        const item = this.numberGrid[row] ? this.numberGrid[row][col] : null;
+        if (!item) return;
 
-        for (let i = 0; i < this.items.length; i++) {
-            const it = this.items[i];
-            if (it.gridX === hx && it.gridY === hy) {
-                if (it.isCorrect) {
-                    // ACERTO!
-                    this.sound.playCorrect();
-                    this.score += 150;
-                    this.questionsSolved++;
-                    this.sound.speak(`Correto! ${this.currentQuestion.factorA} vezes ${this.currentQuestion.factorB} é igual a ${this.currentQuestion.answer}!`);
-                    this.updateHUD();
+        if (item.isCorrect) {
+            // ACERTOU O CÁLCULO!
+            this.sound.playCorrect();
+            this.score += 100;
+            this.questionsSolved++;
+            this.updateHUD();
 
-                    if (this.questionsSolved >= this.targetQuestions) {
-                        this.triggerVictory();
-                    } else {
-                        this.generateMathQuestion();
-                    }
-                } else {
-                    // ERRO
-                    this.sound.playHit();
-                    this.lives--;
-                    this.sound.speak(`Não é ${it.value}! Tente novamente!`);
-                    this.updateHUD();
-                    this.items.splice(i, 1);
+            this.floatingTexts.push({
+                text: `+100! GOOOOL! ⚽`,
+                x: col * CELL_SIZE + CELL_SIZE / 2,
+                y: row * CELL_SIZE,
+                alpha: 1.0,
+                color: '#facc15'
+            });
 
-                    if (this.lives <= 0) {
-                        this.triggerGameOver();
-                    }
-                }
-                break;
+            this.sound.speak(`Muito bem! ${this.currentQuestion.factorA} vezes ${this.currentQuestion.factorB} é ${this.currentQuestion.answer}!`);
+
+            if (this.questionsSolved >= this.targetQuestions) {
+                this.triggerVictory();
+            } else {
+                // Próxima conta da tabuada
+                setTimeout(() => {
+                    this.generateMathQuestion();
+                }, 400);
             }
         }
     }
 
     checkEnemyCollisions() {
-        const hx = Math.round(this.hero.pixelX / CELL_SIZE);
-        const hy = Math.round(this.hero.pixelY / CELL_SIZE);
+        if (this.hero.invulnerableTime > 0) return;
+
+        // Posição em pixels do herói
+        const hx = (this.hero.fromX + (this.hero.toX - this.hero.fromX) * this.hero.moveProgress) * CELL_SIZE + CELL_SIZE / 2;
+        const hy = (this.hero.fromY + (this.hero.toY - this.hero.fromY) * this.hero.moveProgress) * CELL_SIZE + CELL_SIZE / 2;
 
         this.enemies.forEach(enemy => {
-            if (enemy.gridX === hx && enemy.gridY === hy) {
+            const ex = (enemy.fromX + (enemy.toX - enemy.fromX) * enemy.moveProgress) * CELL_SIZE + CELL_SIZE / 2;
+            const ey = (enemy.fromY + (enemy.toY - enemy.fromY) * enemy.moveProgress) * CELL_SIZE + CELL_SIZE / 2;
+
+            const dist = Math.hypot(hx - ex, hy - ey);
+            if (dist < CELL_SIZE * 0.65) {
+                // Colisão com cronômetro
                 this.sound.playHit();
                 this.lives--;
-                this.sound.speak("Cuidado com o cronômetro!");
                 this.updateHUD();
-                this.resetHero();
+                this.sound.speak("Cuidado com o cronômetro!");
+
+                this.floatingTexts.push({
+                    text: `-1 ❤️`,
+                    x: hx,
+                    y: hy - 15,
+                    alpha: 1.0,
+                    color: '#ef4444'
+                });
 
                 if (this.lives <= 0) {
                     this.triggerGameOver();
+                } else {
+                    this.resetHero();
+                    this.resetEnemies();
                 }
             }
         });
@@ -541,7 +675,6 @@ class MazeGame {
     triggerVictory() {
         this.isVictory = true;
         this.sound.playVictory();
-        this.confetti.start();
         document.getElementById('modal-score-value').textContent = this.score;
         this.modalVictory.classList.add('active');
     }
@@ -558,126 +691,252 @@ class MazeGame {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         // 1. Fundo do Estádio / Gramado Arcade
-        this.ctx.fillStyle = '#090d16';
+        this.ctx.fillStyle = '#060913';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // 2. Renderizar Paredes do Labirinto Neon
+        // 2. Renderizar Grade de Células
+        let coneIndex = 0;
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
                 const px = c * CELL_SIZE;
                 const py = r * CELL_SIZE;
+                const cellType = BASE_MAZE[r][c];
 
-                if (MAZE_MAP[r][c] === 1) {
-                    // Parede 3D Neon
-                    this.ctx.fillStyle = '#1e1b4b';
-                    this.ctx.fillRect(px, py, CELL_SIZE, CELL_SIZE);
-
-                    this.ctx.strokeStyle = '#38bdf8';
-                    this.ctx.lineWidth = 2.5;
-                    this.ctx.shadowColor = '#38bdf8';
-                    this.ctx.shadowBlur = 8;
-                    this.ctx.strokeRect(px + 2, py + 2, CELL_SIZE - 4, CELL_SIZE - 4);
-                    this.ctx.shadowBlur = 0;
-                } else {
-                    // Caminho Livre - Pequenos pontinhos brilhantes
-                    this.ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
-                    this.ctx.beginPath();
-                    this.ctx.arc(px + CELL_SIZE / 2, py + CELL_SIZE / 2, 2.5, 0, Math.PI * 2);
-                    this.ctx.fill();
+                if (cellType === 1) {
+                    // CONE ESPORTIVO VIBRANTE
+                    this.renderSportsCone(px, py, coneIndex++);
+                } else if (cellType === 0) {
+                    // CAMINHO LIVRE COM NÚMERO
+                    this.renderNumberTile(px, py, c, r);
                 }
             }
         }
 
-        // 3. Renderizar Itens Esportivos com Números Flutuantes
-        this.items.forEach(it => {
-            const px = it.gridX * CELL_SIZE + CELL_SIZE / 2;
-            const py = it.gridY * CELL_SIZE + CELL_SIZE / 2;
+        // 3. Renderizar Painel Central do Desafio Matemático
+        this.renderCenterBanner();
 
-            // Halo Brilhante
-            this.ctx.fillStyle = it.isCorrect ? 'rgba(250, 204, 21, 0.25)' : 'rgba(56, 189, 248, 0.15)';
-            this.ctx.beginPath();
-            this.ctx.arc(px, py, 18, 0, Math.PI * 2);
-            this.ctx.fill();
+        // 4. Renderizar Inimigos (Cronômetros)
+        this.renderEnemies();
 
-            // Ícone Esportivo (Bola)
-            this.ctx.font = '20px sans-serif';
+        // 5. Renderizar o Herói (Robô Bit)
+        this.renderHero();
+
+        // 6. Textos Flutuantes
+        this.floatingTexts.forEach(ft => {
+            this.ctx.save();
+            this.ctx.globalAlpha = Math.max(0, ft.alpha);
+            this.ctx.font = 'bold 18px Fredoka, sans-serif';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillStyle = ft.color;
+            this.ctx.shadowColor = '#000000';
+            this.ctx.shadowBlur = 6;
+            this.ctx.fillText(ft.text, ft.x, ft.y);
+            this.ctx.restore();
+        });
+    }
+
+    renderSportsCone(px, py, colorIndex) {
+        const cx = px + CELL_SIZE / 2;
+        const cy = py + CELL_SIZE / 2;
+
+        const pal = CONE_PALETTES[colorIndex % CONE_PALETTES.length];
+
+        // Sombra elíptica da base
+        this.ctx.fillStyle = pal.shadow;
+        this.ctx.beginPath();
+        this.ctx.ellipse(cx, cy + 16, 18, 7, 0, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Base quadrada de suporte
+        this.ctx.fillStyle = pal.base;
+        this.ctx.beginPath();
+        this.ctx.roundRect(cx - 17, cy + 12, 34, 7, [3]);
+        this.ctx.fill();
+
+        // Corpo cônico 3D
+        const grad = this.ctx.createLinearGradient(cx - 14, cy, cx + 14, cy);
+        grad.addColorStop(0, pal.base);
+        grad.addColorStop(0.5, pal.mid);
+        grad.addColorStop(1, pal.top);
+
+        this.ctx.fillStyle = grad;
+        this.ctx.beginPath();
+        this.ctx.moveTo(cx, cy - 18); // Topo
+        this.ctx.lineTo(cx + 14, cy + 14); // Canto inferior direito
+        this.ctx.lineTo(cx - 14, cy + 14); // Canto inferior esquerdo
+        this.ctx.closePath();
+        this.ctx.fill();
+
+        // Faixa branca reflexiva do cone
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.beginPath();
+        this.ctx.moveTo(cx - 6, cy - 1);
+        this.ctx.lineTo(cx + 6, cy - 1);
+        this.ctx.lineTo(cx + 9, cy + 6);
+        this.ctx.lineTo(cx - 9, cy + 6);
+        this.ctx.closePath();
+        this.ctx.fill();
+    }
+
+    renderNumberTile(px, py, c, r) {
+        const cx = px + CELL_SIZE / 2;
+        const cy = py + CELL_SIZE / 2;
+
+        // Fundo sutil do tile com efeito de corte suave
+        this.ctx.fillStyle = 'rgba(30, 41, 59, 0.45)';
+        this.ctx.fillRect(px + 2, py + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+
+        // Se o robô já passou por aqui, desenhar a bolinha esportiva da trilha
+        if (this.visitedTiles.has(`${c},${r}`)) {
+            this.ctx.font = '14px sans-serif';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(it.icon, px, py - 4);
+            this.ctx.fillText(this.selectedSport, cx - 14, cy - 14);
+        }
 
-            // Badge com o Número da Tabuada
-            this.ctx.fillStyle = '#ffffff';
-            this.ctx.font = 'bold 13px Fredoka, sans-serif';
-            this.ctx.shadowColor = '#000000';
+        // Número da tabuada nesta célula
+        const cellData = this.numberGrid[r] ? this.numberGrid[r][c] : null;
+        if (cellData) {
+            this.ctx.font = 'bold 19px Fredoka, sans-serif';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+
+            // Destaque para os números
+            this.ctx.fillStyle = '#f8fafc';
+            this.ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
             this.ctx.shadowBlur = 4;
-            this.ctx.fillText(it.value, px, py + 14);
+            this.ctx.fillText(cellData.value, cx, cy);
             this.ctx.shadowBlur = 0;
-        });
+        }
+    }
 
-        // 4. Renderizar Inimigos (Cronômetros Malucos)
+    renderCenterBanner() {
+        // Área central (Row 4, Cols 4 a 8)
+        const bx = 4 * CELL_SIZE;
+        const by = 4 * CELL_SIZE;
+        const bw = 5 * CELL_SIZE;
+        const bh = CELL_SIZE;
+
+        // Placa do Desafio Neon
+        this.ctx.fillStyle = '#0f172a';
+        this.ctx.fillRect(bx + 4, by + 4, bw - 8, bh - 8);
+
+        this.ctx.strokeStyle = '#38bdf8';
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeRect(bx + 4, by + 4, bw - 8, bh - 8);
+
+        // Texto do Cálculo Central
+        this.ctx.fillStyle = '#facc15';
+        this.ctx.font = 'bold 22px Fredoka, sans-serif';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        this.ctx.shadowColor = '#facc15';
+        this.ctx.shadowBlur = 8;
+        this.ctx.fillText(`${this.currentQuestion.factorA} × ${this.currentQuestion.factorB} = ?`, bx + bw / 2, by + bh / 2);
+        this.ctx.shadowBlur = 0;
+    }
+
+    renderEnemies() {
         this.enemies.forEach(enemy => {
-            const px = enemy.gridX * CELL_SIZE + CELL_SIZE / 2;
-            const py = enemy.gridY * CELL_SIZE + CELL_SIZE / 2;
+            const curX = enemy.fromX + (enemy.toX - enemy.fromX) * enemy.moveProgress;
+            const curY = enemy.fromY + (enemy.toY - enemy.fromY) * enemy.moveProgress;
+            const px = curX * CELL_SIZE + CELL_SIZE / 2;
+            const py = curY * CELL_SIZE + CELL_SIZE / 2;
+
+            // Sombra
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+            this.ctx.beginPath();
+            this.ctx.ellipse(px, py + 14, 14, 6, 0, 0, Math.PI * 2);
+            this.ctx.fill();
 
             // Corpo do Cronômetro
             this.ctx.fillStyle = enemy.color;
             this.ctx.beginPath();
-            this.ctx.arc(px, py, 16, 0, Math.PI * 2);
+            this.ctx.arc(px, py, 17, 0, Math.PI * 2);
             this.ctx.fill();
             this.ctx.strokeStyle = '#ffffff';
             this.ctx.lineWidth = 2.5;
             this.ctx.stroke();
 
-            // Ponteiro giratório
-            const angle = enemy.tick;
-            this.ctx.strokeStyle = '#ffffff';
+            // Mostrador branco
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.beginPath();
+            this.ctx.arc(px, py, 12, 0, Math.PI * 2);
+            this.ctx.fill();
+
+            // Ponteiro giratório do cronômetro
+            this.ctx.strokeStyle = '#0f172a';
             this.ctx.lineWidth = 2;
             this.ctx.beginPath();
             this.ctx.moveTo(px, py);
-            this.ctx.lineTo(px + Math.cos(angle) * 10, py + Math.sin(angle) * 10);
+            this.ctx.lineTo(px + Math.cos(enemy.tickAngle) * 9, py + Math.sin(enemy.tickAngle) * 9);
             this.ctx.stroke();
 
-            // Botãozinho no topo do cronômetro
+            // Botão no topo do cronômetro
             this.ctx.fillStyle = '#ffffff';
-            this.ctx.fillRect(px - 3, py - 20, 6, 4);
+            this.ctx.fillRect(px - 4, py - 22, 8, 4);
         });
+    }
 
-        // 5. Renderizar o Herói (Robô Bit Atleta)
-        const hpx = this.hero.pixelX + CELL_SIZE / 2;
-        const hpy = this.hero.pixelY + CELL_SIZE / 2;
+    renderHero() {
+        const curX = this.hero.fromX + (this.hero.toX - this.hero.fromX) * this.hero.moveProgress;
+        const curY = this.hero.fromY + (this.hero.toY - this.hero.fromY) * this.hero.moveProgress;
+        const hpx = curX * CELL_SIZE + CELL_SIZE / 2;
+        const hpy = curY * CELL_SIZE + CELL_SIZE / 2;
 
-        // Propulsão / Sombra
+        // Piscar se invulnerável
+        if (this.hero.invulnerableTime > 0 && Math.floor(this.hero.animTime * 10) % 2 === 0) {
+            return; // Efeito de piscar
+        }
+
+        // Aura de proteção se invulnerável
+        if (this.hero.invulnerableTime > 0) {
+            this.ctx.strokeStyle = '#38bdf8';
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.arc(hpx, hpy, 22, 0, Math.PI * 2);
+            this.ctx.stroke();
+        }
+
+        // Sombra / Propulsor
         this.ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
         this.ctx.beginPath();
-        this.ctx.arc(hpx, hpy + 10, 12, 0, Math.PI * 2);
+        this.ctx.arc(hpx, hpy + 14, 12, 0, Math.PI * 2);
         this.ctx.fill();
 
         // Cabeça do Robô Bit
-        this.ctx.fillStyle = '#818cf8';
+        this.ctx.fillStyle = '#6366f1';
         this.ctx.beginPath();
-        this.ctx.roundRect(hpx - 14, hpy - 14, 28, 26, [8]);
+        this.ctx.roundRect(hpx - 15, hpy - 16, 30, 28, [8]);
         this.ctx.fill();
         this.ctx.strokeStyle = '#ffffff';
         this.ctx.lineWidth = 2.5;
         this.ctx.stroke();
 
-        // Antena com luz amarela
+        // Antena
+        this.ctx.strokeStyle = '#ffffff';
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.moveTo(hpx, hpy - 16);
+        this.ctx.lineTo(hpx, hpy - 23);
+        this.ctx.stroke();
+
         this.ctx.fillStyle = '#facc15';
         this.ctx.beginPath();
-        this.ctx.arc(hpx, hpy - 18, 4, 0, Math.PI * 2);
+        this.ctx.arc(hpx, hpy - 24, 4, 0, Math.PI * 2);
         this.ctx.fill();
 
-        // Olhos expressivos LED
+        // Olhos LED brilhantes
+        const eyeOffset = this.hero.facing === 'left' ? -3 : (this.hero.facing === 'right' ? 3 : 0);
         this.ctx.fillStyle = '#38bdf8';
-        const eyeOffset = this.hero.facing === 'left' ? -2 : (this.hero.facing === 'right' ? 2 : 0);
         this.ctx.beginPath();
-        this.ctx.arc(hpx - 5 + eyeOffset, hpy - 3, 3.5, 0, Math.PI * 2);
-        this.ctx.arc(hpx + 5 + eyeOffset, hpy - 3, 3.5, 0, Math.PI * 2);
+        this.ctx.arc(hpx - 6 + eyeOffset, hpy - 3, 4, 0, Math.PI * 2);
+        this.ctx.arc(hpx + 6 + eyeOffset, hpy - 3, 4, 0, Math.PI * 2);
         this.ctx.fill();
     }
 }
 
-// Iniciar após carregamento do DOM
+// Iniciar ao carregar a página
 window.addEventListener('DOMContentLoaded', () => {
-    window.mazeGame = new MazeGame();
+    window.mazeGame = new BlinkyMazeGame();
 });

@@ -341,6 +341,10 @@ app.get('/atividades/labirinto-tabuada', async (req, res) => {
   res.render('labirinto_tabuada_presentation');
 });
 
+app.get('/atividades/escape-room-lab', async (req, res) => {
+  res.render('escape_room_presentation');
+});
+
 app.get('/atividades/leitura-datashow', async (req, res) => {
 
   res.render('leitura_datashow_presentation');
@@ -385,6 +389,31 @@ app.get('/atividades/brincando-com-arie-2', async (req, res) => {
 
 app.get('/atividades/brincando-com-arie-3', async (req, res) => {
   res.render('arie3_presentation');
+});
+
+app.get('/atividades/habitos-de-higiene', async (req, res) => {
+  res.render('habitos_higiene_presentation');
+});
+
+app.get('/atividades/detetive-ortografia', async (req, res) => {
+  res.render('detetive_ortografia_presentation');
+});
+
+app.get('/atividades/fabrica-silabas', (req, res) => res.redirect(301, '/atividades/fabrica-de-silabas'));
+app.get('/atividades/fabrica-de-silabas', async (req, res) => {
+  res.render('fabrica_silabas_presentation');
+});
+
+app.get('/atividades/tabuada-lava', (req, res) => res.redirect(301, '/atividades/tabuada-chao-e-lava'));
+app.get('/atividades/capitao-alberto', (req, res) => res.redirect(301, '/atividades/capitao-alberto-farao'));
+app.get('/atividades/caca-palavras', (req, res) => res.redirect(301, '/atividades/caca-palavras-temas'));
+app.get('/atividades/arie2', (req, res) => res.redirect(301, '/atividades/brincando-com-arie-2'));
+app.get('/atividades/arie3', (req, res) => res.redirect(301, '/atividades/brincando-com-arie-3'));
+app.get('/atividades/habitos-higiene', (req, res) => res.redirect(301, '/atividades/habitos-de-higiene'));
+app.get('/atividades/missao-respeito', (req, res) => res.redirect(301, '/atividades/level-up'));
+
+app.get('/atividades/level-up', async (req, res) => {
+  res.render('levelup_presentation');
 });
 
 // Simulados Digitais Campos dos Goytacazes (1º ao 5º Ano)
@@ -432,6 +461,13 @@ app.get('/atividades/simulado-campos-5ano', async (req, res) => {
     res.render('simulado_campos_5ano', { schools: [] });
   }
 });
+
+// Redirects amigáveis para Simulados
+app.get('/simulado/1-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano'));
+app.get('/simulado/2-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano'));
+app.get('/simulado/3-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-3ano'));
+app.get('/simulado/4-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-4ano'));
+app.get('/simulado/5-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano'));
 
 app.post('/api/simulado/submit', async (req, res) => {
   try {
@@ -667,6 +703,10 @@ app.get('/atividade/:id', async (req, res) => {
     }
 
     try { await dbHelper.recordVisit(activityId); } catch(e){}
+
+    if (activity.activity_url && activity.activity_url.startsWith('/')) {
+      return res.redirect(activity.activity_url);
+    }
 
     const isExternal = activity.activity_url.includes('http://') || activity.activity_url.includes('https://');
 
@@ -1345,6 +1385,26 @@ app.post('/admin/news/delete/:id', requireAdmin, async (req, res) => {
 });
 
 // Institutional Pages
+app.get('/sobre', (req, res) => {
+  res.render('about');
+});
+
+app.get('/quem-somos', (req, res) => {
+  res.redirect(301, '/sobre');
+});
+
+app.get('/termos', (req, res) => {
+  res.render('terms');
+});
+
+app.get('/termos-de-uso', (req, res) => {
+  res.redirect(301, '/termos');
+});
+
+app.get('/cookies', (req, res) => {
+  res.render('cookies');
+});
+
 app.get('/privacidade', (req, res) => {
   res.render('privacy');
 });
@@ -1353,21 +1413,44 @@ app.get('/contato', (req, res) => {
   res.render('contact');
 });
 
+app.get('/guia-bncc', async (req, res) => {
+  const activities = await dbHelper.getActivities();
+  res.render('bncc_guide', { activities: activities || [], bnccCode: null });
+});
+
+app.get('/bncc', (req, res) => {
+  res.redirect(301, '/guia-bncc');
+});
+
 // Blog / News Routes
 app.get('/noticias', async (req, res) => {
   try {
     const news = await dbHelper.getNews();
-    res.render('news_list', { news: news || [] });
+    res.render('news_list', { 
+      news: news || [],
+      adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+    });
   } catch (error) {
     console.error('BLOG ERROR:', error);
-    res.render('news_list', { news: [] });
+    res.render('news_list', { 
+      news: [],
+      adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+    });
   }
 });
 
 app.get('/noticia/:id', async (req, res) => {
-  const article = await dbHelper.getSingleNews(req.params.id);
-  if (!article) return res.status(404).send('Notícia não encontrada');
-  res.render('news_view', { article });
+  try {
+    const article = await dbHelper.getSingleNews(req.params.id);
+    if (!article) return res.status(404).send('Notícia não encontrada');
+    res.render('news_view', { 
+      article,
+      adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+    });
+  } catch (err) {
+    console.error('ARTICLE ERROR:', err);
+    res.status(500).send('Erro ao carregar artigo');
+  }
 });
 
 // QR Code Redirection (AdSense Landing)

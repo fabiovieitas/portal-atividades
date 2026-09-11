@@ -3,57 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= bnccCode ? 'Habilidade BNCC ' + bnccCode + ' - Jogos & Planos de Aula' : 'Guia Completo BNCC - Habilidades, Jogos & Diário de Classe' %> | Lab Kids</title>
-    <meta name="description" content="Encontre jogos digitais educativos, planos de aula e modelos de registro de diário de classe alinhados aos códigos da BNCC (Educação Infantil e Ensino Fundamental).">
+    <title><%= bnccCode ? 'Habilidade BNCC ' + bnccCode + ' - Jogos & Planos de Aula' : 'Guia Completo BNCC - Habilidades, Jogos Digitais & Diário de Classe' %> | Lab Kids</title>
+    <meta name="description" content="Guia oficial de alinhamento à Base Nacional Comum Curricular (BNCC). Encontre jogos digitais educativos, sequências didáticas e modelos de registro de diário de classe por código curricular.">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
         body { background: #0f172a; color: #f8fafc; font-family: 'Fredoka', sans-serif; min-height: 100vh; padding: 20px 10px 60px 10px; margin: 0; }
         .bncc-container { max-width: 1100px; margin: 0 auto; }
-        .hero-bncc { background: linear-gradient(135deg, #1e3a8a, #4338ca); border-radius: 28px; padding: 35px; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.1); }
+        .hero-bncc { background: linear-gradient(135deg, #1e3a8a, #4338ca); border-radius: 28px; padding: 40px 30px; text-align: center; margin-bottom: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.1); }
         .bncc-title { font-size: clamp(1.8rem, 4vw, 2.8rem); color: #fbbf24; margin-top: 10px; font-weight: 700; }
-        .bncc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .bncc-card { background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 25px; transition: transform 0.2s; }
-        .bncc-card:hover { transform: translateY(-5px); border-color: #6366f1; }
+        .bncc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; margin-bottom: 40px; }
+        .bncc-card { background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 22px; padding: 25px; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .bncc-card:hover { transform: translateY(-4px); border-color: #6366f1; }
         .code-tag { background: #6366f1; color: white; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; display: inline-block; margin-bottom: 12px; }
-        .btn-act-play { display: inline-flex; align-items: center; gap: 8px; background: #10b981; color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 0.9rem; margin-top: 15px; }
+        .btn-act-play { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 12px 24px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 0.95rem; margin-top: 15px; box-shadow: 0 4px 15px rgba(16,185,129,0.3); }
+        .pedagogical-guide-section { background: rgba(30, 41, 59, 0.9); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 28px; padding: 35px 30px; margin-bottom: 40px; }
+        .pedagogical-guide-section h2 { color: #38bdf8; font-size: 1.6rem; margin-top: 0; }
+        .pedagogical-guide-section h3 { color: #facc15; font-size: 1.25rem; margin-top: 25px; }
+        .table-bncc { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95rem; }
+        .table-bncc th { background: rgba(15, 23, 42, 0.8); color: #38bdf8; padding: 12px 16px; text-align: left; border-bottom: 2px solid #334155; }
+        .table-bncc td { padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); color: #cbd5e1; }
+        .institutional-footer { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem; }
+        .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
+        .institutional-footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="bncc-container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 12px;">
             <a href="/" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); color: white; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 700;">⬅️ Voltar ao Portal</a>
-            <span style="font-size: 1.2rem; font-weight: 700; color: #fbbf24;">📘 Guia BNCC Lab Kids</span>
+            <span style="font-size: 1.15rem; font-weight: 700; color: #fbbf24;">📘 Guia Curricular Lab Kids</span>
         </div>
 
         <div class="hero-bncc">
-            <span style="background: rgba(255,255,255,0.2); color: white; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase;">Base Nacional Comum Curricular</span>
-            <h1 class="bncc-title"><%= bnccCode ? 'Habilidade BNCC: ' + bnccCode : 'Catálogo de Habilidades BNCC & Jogos' %></h1>
-            <p style="color: #cbd5e1; font-size: 1.1rem; max-width: 750px; margin: 10px auto 0 auto;">
-                Encontre atividades digitais, jogos interativos para datashow e textos prontos para o seu Diário de Classe organizados por código da BNCC.
+            <span style="background: rgba(255,255,255,0.2); color: white; padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Base Nacional Comum Curricular (MEC)</span>
+            <h1 class="bncc-title"><%= bnccCode ? 'Habilidade Curricular: ' + bnccCode : 'Catálogo de Habilidades BNCC & Gamificação Educativa' %></h1>
+            <p style="color: #cbd5e1; font-size: 1.15rem; max-width: 800px; margin: 12px auto 0 auto; line-height: 1.6;">
+                Articulação entre a tecnologia digital educacional e as diretrizes curriculares nacionais brasileiras. Recursos planejados para potencializar a prática docente e oferecer suporte ao planejamento pedagógico.
             </p>
         </div>
+
+        <!-- Grade de Atividades Vinculadas à BNCC -->
+        <h2 style="color: #ffffff; font-size: 1.5rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+            <span>🎮</span> Atividades e Jogos Filtrados por Código da BNCC
+        </h2>
 
         <div class="bncc-grid">
             <% if (activities && activities.length > 0) { %>
                 <% activities.forEach(act => { %>
                     <div class="bncc-card">
-                        <span class="code-tag">BNCC: <%= act.bncc_code || 'Geral' %></span>
-                        <h3 style="margin: 0 0 8px 0; color: white; font-size: 1.25rem;"><%= act.title %></h3>
-                        <p style="color: #94a3b8; font-size: 0.95rem; margin: 0 0 12px 0;"><%= act.description %></p>
-                        <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">
-                            <strong>Disciplina:</strong> <%= act.subject || 'Geral' %> | <strong>Ano:</strong> <%= act.level %>º Ano
+                        <div>
+                            <span class="code-tag">BNCC: <%= act.bncc_code || 'Geral' %></span>
+                            <h3 style="margin: 0 0 10px 0; color: white; font-size: 1.25rem;"><%= act.title %></h3>
+                            <p style="color: #94a3b8; font-size: 0.95rem; margin: 0 0 15px 0; line-height: 1.5;"><%= act.description %></p>
+                            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 15px; background: rgba(15,23,42,0.5); padding: 8px 12px; border-radius: 10px;">
+                                <strong>Disciplina:</strong> <%= act.subject || 'Geral' %> | <strong>Ano:</strong> <%= act.level %>º Ano
+                            </div>
                         </div>
-                        <a href="<%= act.activity_url %>" class="btn-act-play">🎮 Acessar Atividade</a>
+                        <a href="<%= act.activity_url %>" class="btn-act-play">🎮 Acessar Guia & Jogo ➔</a>
                     </div>
                 <% }); %>
             <% } else { %>
                 <div style="grid-column: 1 / -1; text-align: center; padding: 50px; background: rgba(30,41,59,0.5); border-radius: 20px;">
                     <h3>Nenhum jogo cadastrado especificamente para este código da BNCC ainda.</h3>
-                    <a href="/" style="color: #60a5fa;">Ver todas as atividades do portal ➔</a>
+                    <a href="/" style="color: #60a5fa; font-weight: 700;">Ver todas as atividades do portal ➔</a>
                 </div>
             <% } %>
         </div>
+
+        <!-- Texto Pedagógico Aprofundado (E-E-A-T & Conteúdo Substancial) -->
+        <div class="pedagogical-guide-section">
+            <h2>📚 Metodologia Lab Kids: Como Integrar Jogos Digitais à BNCC</h2>
+            <p style="color: #cbd5e1; line-height: 1.7; font-size: 1.05rem;">
+                A Base Nacional Comum Curricular (BNCC) estabelece que o desenvolvimento integral do estudante no século XXI requer o domínio crítico, ético e criativo das tecnologias digitais. No <strong>Portal Lab Kids</strong>, coordenado pelo Prof. Fábio Vieitas Marques na rede pública municipal de Campos dos Goytacazes/RJ, cada jogo é criteriosamente alinhado a objetivos de aprendizagem explícitos, superando o entretenimento descompromissado e consolidando o conceito de <em>aprendizagem significativa</em>.
+            </p>
+
+            <h3>🎯 A Competência Geral 5 da BNCC (Cultura Digital)</h3>
+            <p style="color: #cbd5e1; line-height: 1.7;">
+                O texto oficial da BNCC preconiza: <em>"Compreender, utilizar e criar tecnologias digitais de informação e comunicação de forma crítica, significativa, reflexiva e ética nas diversas práticas sociais (incluindo as escolares) para se comunicar, acessar e disseminar informações, produzir conhecimentos, resolver problemas e exercer protagonismo e autoria na vida pessoal e coletiva."</em>
+            </p>
+            <p style="color: #cbd5e1; line-height: 1.7;">
+                As ferramentas do Lab Kids operacionalizam essa competência ao permitir que estudantes manipulem hipóteses, programem percursos lógicos (em labirintos e escape rooms), debatam dilemas morais da convivência virtual (no RPG antibullying) e formulem raciocínios matemáticos imediatos sem a ansiedade do erro punitivo.
+            </p>
+
+            <h3>📋 Quadro Síntese de Habilidades Trabalhadas no Lab Kids</h3>
+            <div style="overflow-x: auto;">
+                <table class="table-bncc">
+                    <thead>
+                        <tr>
+                            <th>Código BNCC</th>
+                            <th>Componente Curricular</th>
+                            <th>Habilidade Descrita pelo MEC</th>
+                            <th>Recurso Digital Correspondente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF01LP02</strong></td>
+                            <td>Língua Portuguesa (1º Ano)</td>
+                            <td>Escrever, espontaneamente ou por ditado, palavras e frases de forma alfabética – usando letras/grafemas que representem fonemas.</td>
+                            <td>Chapeuzinho e o Enigma / Caça-Palavras</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF01LP10</strong></td>
+                            <td>Língua Portuguesa (1º Ano)</td>
+                            <td>Nomear as letras do alfabeto e recitá-lo na ordem das letras, segmentando oralmente palavras em sílabas.</td>
+                            <td>Brincando com Ariê 2 / Fábrica de Sílabas</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF02LP01</strong></td>
+                            <td>Língua Portuguesa (2º Ano)</td>
+                            <td>Utilizar, ao produzir o texto, grafia correta de palavras conhecidas ou com estruturas silábicas já dominadas e dígrafos.</td>
+                            <td>Detetive da Ortografia / Ariê 3</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF02MA05</strong></td>
+                            <td>Matemática (2º Ano)</td>
+                            <td>Construir fatos básicos da adição e subtração e utilizá-los no cálculo mental ou escrito.</td>
+                            <td>Tabuada: O Chão é Lava! / Ariê 3</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF03MA07</strong></td>
+                            <td>Matemática (3º Ano)</td>
+                            <td>Construir e utilizar fatos básicos da adição e da multiplicação para o cálculo mental ou escrito.</td>
+                            <td>Labirinto da Tabuada: Campeões</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF04LP04</strong></td>
+                            <td>Língua Portuguesa (4º Ano)</td>
+                            <td>Usar acento gráfico (agudo ou circunflexo) em paroxítonas e proparoxítonas regulares.</td>
+                            <td>O Enigma do Laboratório (Escape Room)</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF01CI01</strong></td>
+                            <td>Ciências (1º Ano)</td>
+                            <td>Comparar características físicas entre os colegas, reconhecendo a diversidade e a importância dos hábitos de higiene.</td>
+                            <td>Hábitos de Higiene & Saúde</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #38bdf8;">EF69LP55</strong></td>
+                            <td>Língua Portuguesa (6º ao 9º Ano)</td>
+                            <td>Reconhecer em textos de diferentes gêneros recursos de persuasão e estratégias de convivência ética nas redes.</td>
+                            <td>LEVEL UP: RPG Antibullying</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>💡 Como o Professor Pode Utilizar este Guia no Planejamento</h3>
+            <p style="color: #cbd5e1; line-height: 1.7;">
+                Ao elaborar o Plano de Trabalho Docente ou preencher o Diário de Classe, o professor pode citar diretamente os códigos correspondentes aos jogos executados no laboratório de informática ou projetados em sala. Essa prática legitima o uso pedagógico das tecnologias digitais perante as coordenações pedagógicas e secretarias municipais de educação, comprovando a intencionalidade formativa de cada minuto em tela.
+            </p>
+        </div>
+
+        <!-- Publicidade Institucional Segura -->
+        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
+            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- Rodapé Institucional -->
+        <footer class="institutional-footer">
+            <p><strong>Portal Lab Kids</strong> — Plataforma Educacional Pública Gratuita mantida pelo Prof. Fábio Vieitas Marques</p>
+            <p>
+                <a href="/">Início</a> •
+                <a href="/sobre">Quem Somos</a> •
+                <a href="/guia-bncc">Guia BNCC</a> •
+                <a href="/termos">Termos de Uso</a> •
+                <a href="/privacidade">Privacidade & LGPD</a> •
+                <a href="/cookies">Política de Cookies</a> •
+                <a href="/contato">Contato Institucional</a>
+            </p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Campos dos Goytacazes - RJ | Educação Pública Inovadora e 100% Gratuita</p>
+        </footer>
     </div>
 </body>
 </html>
