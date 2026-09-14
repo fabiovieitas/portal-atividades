@@ -1,0 +1,34 @@
+{
+  "exported_at": "2026-09-14T17:38:17.833Z",
+  "system": "Portal de Atividades - Campos dos Goytacazes",
+  "class_name": "2º Ano A",
+  "total_records": 2,
+  "submissions": [
+    {
+      "id": 17,
+      "simulado_id": "campos-2ano-agosto-2026",
+      "student_name": "Heitor Cordeiro Nogueira",
+      "school_name": "E.M. Profª Eleonora da Silva Pinto",
+      "class_name": "2º Ano A",
+      "answers_json": "{\"1\":\"A\",\"2\":\"B\",\"3\":\"A\",\"4\":\"C\",\"5\":\"Desenhei o boi pintadinho e o chafariz...\",\"6\":\"C\",\"7\":\"B\",\"8\":\"D\",\"9\":\"B\",\"10\":\"C\"}",
+      "score": 9,
+      "max_score": 9,
+      "essay_text": "Desenhei o boi pintadinho e o chafariz belga na aula de artes sobre a nossa cidade.",
+      "created_at": "2026-08-18 16:05:00",
+      "shift": "Tarde"
+    },
+    {
+      "id": 9,
+      "simulado_id": "campos-2ano-agosto-2026",
+      "student_name": "Arthur Vinícius Ramos",
+      "school_name": "E.M. Profª Eleonora da Silva Pinto",
+      "class_name": "2º Ano A",
+      "answers_json": "{\"1\":\"A\",\"2\":\"B\",\"3\":\"A\",\"4\":\"C\",\"5\":\"Minha história sobre o Boi Pintadinho de Campos...\",\"6\":\"C\",\"7\":\"B\",\"8\":\"D\",\"9\":\"B\",\"10\":\"C\"}",
+      "score": 9,
+      "max_score": 9,
+      "essay_text": "O Boi Pintadinho dançou no centro de Campos e deixou toda a praça animada com a cultura popular da nossa região.",
+      "created_at": "2026-08-18 10:15:30",
+      "shift": "Manhã"
+    }
+  ]
+}

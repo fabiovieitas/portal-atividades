@@ -500,6 +500,19 @@
 </head>
 <body>
 
+  <% 
+    const defaultClassesList = [
+      '1º Ano', '1º Ano A', '1º Ano B', '1º Ano E',
+      '2º Ano', '2º Ano A', '2º Ano B',
+      '3º Ano', '3º Ano A', '3º Ano B',
+      '4º Ano', '4º Ano A', '4º Ano B',
+      '5º Ano', '5º Ano A', '5º Ano B',
+      'N1', 'N1 - Nivelamento', 'N2', 'N2 - Nivelamento'
+    ];
+    const dynamicClasses = [...new Set(submissions.map(s => s.class_name).filter(Boolean))];
+    const classesList = [...new Set([...dynamicClasses, ...defaultClassesList])].sort();
+  %>
+
   <div class="container">
     <!-- Top Action Bar -->
     <div class="top-actions">
@@ -511,9 +524,12 @@
         <a href="/admin/simulado/relatorio-op" class="print-btn" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); text-decoration: none;">
           📑 Relatório de Gestão OP
         </a>
-        <a href="/api/admin/simulado/backup/export" class="print-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none;">
-          📥 Baixar Backup (JSON)
+        <a href="/api/admin/simulado/backup/export" class="print-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none;" title="Baixar todos os registros em JSON único">
+          📥 Backup Geral (JSON)
         </a>
+        <button class="print-btn" onclick="openClassBackupModal()" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);">
+          🏫 Backup por Turma
+        </button>
         <button class="print-btn" onclick="openRestoreModal()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
           📤 Restaurar Backup
         </button>
@@ -663,14 +679,6 @@
           <label for="filterClass">🏫 Turma / Nível:</label>
           <select id="filterClass" class="filter-select" onchange="applyFilters()">
             <option value="ALL">Todas as Turmas / Níveis</option>
-            <% 
-              const defaultClassesList = [
-                '1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano',
-                'N1', 'N1 - Nivelamento', 'N2', 'N2 - Nivelamento'
-              ];
-              const dynamicClasses = [...new Set(submissions.map(s => s.class_name).filter(Boolean))];
-              const classesList = [...new Set([...dynamicClasses, ...defaultClassesList])].sort();
-            %>
             <% classesList.forEach(cls => { %>
               <option value="<%= cls %>"><%= cls %></option>
             <% }); %>
@@ -822,6 +830,7 @@
         <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
           <button onclick="openBulkMoveModal()" style="background:#6366f1; color:white; border:none; padding:0.5rem 0.9rem; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">📦 Mover / Migrar Selecionados</button>
           <button onclick="printSelectedSubmissions()" style="background:#10b981; color:white; border:none; padding:0.5rem 0.9rem; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">📄 PDF dos Selecionados</button>
+          <button onclick="deleteSelectedSubmissions()" style="background:#ef4444; color:white; border:none; padding:0.5rem 0.9rem; border-radius:8px; font-weight:700; font-size:0.82rem; cursor:pointer;">🗑️ Apagar Selecionados</button>
         </div>
       </div>
 
@@ -931,6 +940,7 @@
                 <td class="no-print" style="white-space: nowrap;">
                   <button class="btn-toggle-answers" onclick="toggleDetails('<%= s.id %>')">👁️ Ver Detalhes</button>
                   <button class="btn-edit" onclick="openEditModal(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`, `<%= s.school_name.replace(/`/g, '') %>`, `<%= s.class_name %>`, `<%= s.shift || 'Manhã' %>`)" style="background:#0284c7; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">✏️ Editar / Mover</button>
+                  <button class="btn-delete" onclick="deleteStudentSubmission(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`)" style="background:#ef4444; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;" title="Apagar esta avaliação permanentemente">🗑️ Apagar</button>
                 </td>
               </tr>
 
@@ -1538,6 +1548,26 @@
       }
     }
 
+    function openClassBackupModal() {
+      const currentClassFilter = document.getElementById('filterClass').value;
+      if (currentClassFilter && currentClassFilter !== 'ALL') {
+        const sel = document.getElementById('exportSelectClass');
+        if (sel) sel.value = currentClassFilter;
+      }
+      document.getElementById('classBackupModal').style.display = 'flex';
+    }
+
+    function closeClassBackupModal() {
+      document.getElementById('classBackupModal').style.display = 'none';
+    }
+
+    function downloadClassBackup() {
+      const cls = document.getElementById('exportSelectClass').value;
+      if (!cls) return;
+      const url = `/api/admin/simulado/backup/export?class_name=${encodeURIComponent(cls)}`;
+      window.location.href = url;
+    }
+
     function openRestoreModal() {
       document.getElementById('restoreModal').style.display = 'flex';
     }
@@ -1562,10 +1592,10 @@
           });
           const data = await res.json();
           if (data.success) {
-            alert(data.message);
+            alert('✅ ' + data.message);
             window.location.reload();
           } else {
-            alert('Erro ao restaurar: ' + data.error);
+            alert('❌ Erro ao restaurar: ' + data.error);
           }
         } catch(err) {
           alert('Arquivo de backup inválido: ' + err.message);
@@ -1697,12 +1727,60 @@
     </div>
   </div>
 
+  <!-- Modal de Backup por Turma -->
+  <div id="classBackupModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(6px); z-index:1000; justify-content:center; align-items:center; padding:1rem;">
+    <div style="background:white; border-radius:20px; max-width:520px; width:100%; padding:2rem; text-align:left; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); border-top: 6px solid #0d9488;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 style="font-family:'Outfit', sans-serif; font-size:1.35rem; color:#0f766e; margin:0; display:flex; align-items:center; gap:0.5rem;">
+          🏫 Backup Separado por Turma
+        </h3>
+        <button onclick="closeClassBackupModal()" style="background:none; border:none; font-size:1.4rem; cursor:pointer; color:#64748b;">✕</button>
+      </div>
+      
+      <p style="font-size:0.88rem; color:#64748b; margin-bottom:1.5rem; line-height:1.5;">
+        Exporte os dados dos simulados filtrados individualmente por turma ou baixe um pacote ZIP contendo cada turma em seu próprio arquivo JSON.
+      </p>
+
+      <div style="background:#f0fdfa; border:1px solid #99f6e4; border-radius:12px; padding:1.2rem; margin-bottom:1.2rem;">
+        <label style="display:block; font-weight:800; font-size:0.85rem; color:#115e59; margin-bottom:0.4rem;">
+          1. Baixar JSON de uma Turma Específica:
+        </label>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <select id="exportSelectClass" class="filter-select" style="flex:1; min-width:180px;">
+            <% classesList.forEach(cls => { %>
+              <option value="<%= cls %>"><%= cls %></option>
+            <% }); %>
+          </select>
+          <button onclick="downloadClassBackup()" style="background:linear-gradient(135deg, #0d9488 0%, #0f766e 100%); color:white; border:none; padding:0.6rem 1.1rem; border-radius:8px; font-weight:800; font-size:0.85rem; cursor:pointer;">
+            📥 Baixar JSON
+          </button>
+        </div>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:1.2rem; margin-bottom:1.5rem;">
+        <label style="display:block; font-weight:800; font-size:0.85rem; color:#334155; margin-bottom:0.4rem;">
+          2. Baixar Todas as Turmas Separadas (.ZIP):
+        </label>
+        <p style="font-size:0.8rem; color:#64748b; margin-bottom:0.8rem;">
+          Gera um arquivo <strong>.ZIP</strong> com um arquivo .JSON dedicado para cada turma com estudantes registrados no sistema.
+        </p>
+        <a href="/api/admin/simulado/backup/export-zip" class="print-btn" style="display:inline-flex; align-items:center; gap:0.4rem; background:linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color:white; text-decoration:none; padding:0.6rem 1.2rem; border-radius:8px; font-weight:800; font-size:0.85rem;">
+          📦 Baixar Pacote ZIP (Todas as Turmas)
+        </a>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end;">
+        <button onclick="closeClassBackupModal()" style="background:#f1f5f9; color:#475569; border:none; padding:0.7rem 1.4rem; border-radius:10px; font-weight:700; font-family:'Outfit'; cursor:pointer;">Fechar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Restore Backup Modal -->
   <div id="restoreModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter:blur(6px); z-index:1000; justify-content:center; align-items:center; padding:1rem;">
     <div style="background:white; border-radius:20px; max-width:500px; width:100%; padding:2rem; text-align:center; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
       <div style="font-size:2.5rem; margin-bottom:0.5rem;">📤</div>
       <h3 style="font-family:'Outfit', sans-serif; font-size:1.4rem; color:#0369a1; margin-bottom:0.5rem;">Restaurar Backup de Simulados</h3>
-      <p style="font-size:0.9rem; color:#64748b; margin-bottom:1.5rem; line-height:1.5;">Selecione o arquivo de backup (<strong>.json</strong>) salvo no seu computador para recolocar e restaurar os registros no sistema.</p>
+      <p style="font-size:0.9rem; color:#64748b; margin-bottom:1.5rem; line-height:1.5;">Selecione o arquivo de backup (<strong>.json</strong>) salvo no seu computador para recolocar e restaurar os registros no sistema.<br><small style="color:#059669; font-weight:700;">🛡️ Sistema inteligente: avaliações já existentes NÃO serão duplicadas.</small></p>
       
       <input type="file" id="backupFileInput" accept=".json" style="margin-bottom:1.5rem; display:block; width:100%; padding:0.8rem; border:2px dashed #cbd5e1; border-radius:12px; background:#f8fafc; font-family:inherit;">
       

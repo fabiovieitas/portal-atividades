@@ -490,40 +490,104 @@ app.post('/api/simulado/submit', async (req, res) => {
   }
 });
 
-// Export Backup JSON
+// Export Backup JSON (Geral ou por Turma)
 app.get('/api/admin/simulado/backup/export', async (req, res) => {
   try {
-    const submissions = await dbHelper.getSimuladoSubmissions('ALL');
+    const { class_name, simulado_id } = req.query;
+    let submissions = await dbHelper.getSimuladoSubmissions(simulado_id || 'ALL');
+    
+    if (class_name && class_name !== 'ALL') {
+      const targetClassNorm = class_name.trim().toLowerCase();
+      submissions = submissions.filter(s => (s.class_name || '').trim().toLowerCase() === targetClassNorm);
+    }
+
+    const dateStr = new Date().toISOString().split('T')[0];
+    const safeClassSlug = class_name && class_name !== 'ALL' 
+      ? '_' + class_name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[ºª]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').toLowerCase().replace(/^_+|_+$/g, '')
+      : '';
+
     const backupData = {
       exported_at: new Date().toISOString(),
       system: 'Portal de Atividades - Campos dos Goytacazes',
+      class_filter: class_name && class_name !== 'ALL' ? class_name : 'TODAS_AS_TURMAS',
       total_records: submissions.length,
       submissions: submissions
     };
-    const dateStr = new Date().toISOString().split('T')[0];
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Content-Disposition', `attachment; filename="simulado_backup_${dateStr}.json"`);
+
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="simulado_backup${safeClassSlug}_${dateStr}.json"`);
     res.send(JSON.stringify(backupData, null, 2));
   } catch(err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// Import Backup JSON
+// Export Backup ZIP (Todas as Turmas Separadas)
+app.get('/api/admin/simulado/backup/export-zip', async (req, res) => {
+  try {
+    const submissions = await dbHelper.getSimuladoSubmissions('ALL');
+    const byClass = {};
+
+    submissions.forEach(sub => {
+      const cls = (sub.class_name || 'Sem_Turma').trim();
+      if (!byClass[cls]) byClass[cls] = [];
+      byClass[cls].push(sub);
+    });
+
+    const dateStr = new Date().toISOString().split('T')[0];
+    const archiverModule = require('archiver');
+    const ZipArchiveClass = archiverModule.ZipArchive || archiverModule;
+    const archive = typeof ZipArchiveClass === 'function' && !ZipArchiveClass.prototype
+      ? ZipArchiveClass('zip', { zlib: { level: 9 } })
+      : new ZipArchiveClass({ zlib: { level: 9 } });
+
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', `attachment; filename="simulado_backups_por_turma_${dateStr}.zip"`);
+
+    archive.pipe(res);
+
+    for (const [cls, list] of Object.entries(byClass)) {
+      const safeName = cls.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[ºª]/g, '').replace(/[^a-zA-Z0-9]+/g, '_').toLowerCase().replace(/^_+|_+$/g, '');
+      const fileData = {
+        exported_at: new Date().toISOString(),
+        system: 'Portal de Atividades - Campos dos Goytacazes',
+        class_name: cls,
+        total_records: list.length,
+        submissions: list
+      };
+      archive.append(JSON.stringify(fileData, null, 2), { name: `backup_turma_${safeName}.json` });
+    }
+
+    await archive.finalize();
+  } catch(err) {
+    console.error('Erro ao gerar ZIP de backups:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Import Backup JSON com detecção de duplicatas
 app.post('/api/admin/simulado/backup/import', async (req, res) => {
   try {
     const { backup_data } = req.body;
     let submissionsToRestore = [];
     if (typeof backup_data === 'string') {
       const parsed = JSON.parse(backup_data);
-      submissionsToRestore = parsed.submissions || parsed;
+      submissionsToRestore = parsed.submissions || (Array.isArray(parsed) ? parsed : []);
     } else if (backup_data && backup_data.submissions) {
       submissionsToRestore = backup_data.submissions;
     } else if (Array.isArray(backup_data)) {
       submissionsToRestore = backup_data;
     }
+
     const result = await dbHelper.restoreSimuladoBackup(submissionsToRestore);
-    res.json({ success: true, restored: result.count, message: `Backup restaurado com sucesso! ${result.count} registros recolocados.` });
+    res.json({ 
+      success: true, 
+      count: result.restored, 
+      restored: result.restored, 
+      skipped: result.skipped,
+      total_incoming: submissionsToRestore.length,
+      message: `Restauração concluída com sucesso! ${result.restored} novo(s) registro(s) adicionado(s). ${result.skipped} avaliação(ões) já existente(s) foram identificadas e NÃO duplicadas.` 
+    });
   } catch(err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -541,14 +605,29 @@ app.put('/api/admin/simulado/submission/:id', async (req, res) => {
   }
 });
 
-// Apagar registro de aluno no simulado
+// Apagar registro de aluno no simulado (Individual)
 app.delete('/api/admin/simulado/submission/:id', async (req, res) => {
-  return res.status(403).json({ success: false, error: 'A exclusão de registros de estudantes está permanentemente bloqueada por diretriz de segurança pedagógica.' });
+  try {
+    const { id } = req.params;
+    await dbHelper.deleteSimuladoSubmission(id);
+    res.json({ success: true, message: 'Registro do estudante apagado com sucesso!' });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
-// Ação em Lote: Apagar múltiplos alunos (Bloqueado por segurança)
+// Ação em Lote: Apagar múltiplos alunos
 app.post('/api/admin/simulado/submissions/bulk-delete', async (req, res) => {
-  return res.status(403).json({ success: false, error: 'A exclusão em lote de registros de estudantes está permanentemente bloqueada por diretriz de segurança pedagógica.' });
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ success: false, error: 'Nenhum ID fornecido para exclusão.' });
+    }
+    await dbHelper.bulkDeleteSimuladoSubmissions(ids);
+    res.json({ success: true, message: `${ids.length} avaliações apagadas com sucesso!` });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Ação em Lote: Mover/Alterar múltiplos alunos (Turma / Turno / Simulado)

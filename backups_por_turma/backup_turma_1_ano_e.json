@@ -1,0 +1,21 @@
+{
+  "exported_at": "2026-09-14T17:38:17.825Z",
+  "system": "Portal de Atividades - Campos dos Goytacazes",
+  "class_name": "1º Ano E",
+  "total_records": 1,
+  "submissions": [
+    {
+      "id": 129,
+      "simulado_id": "campos-1ano-agosto-2026",
+      "student_name": "Rhayara",
+      "school_name": "E.M. José Giró Faísca",
+      "class_name": "1º Ano E",
+      "answers_json": "{\"1\":\"B\",\"2\":\"D\",\"3\":\"D\",\"4\":\"B\",\"5\":\"A\",\"6\":\"D\",\"7\":\"D\",\"8\":\"C\",\"9\":\"B\",\"10\":\"A\"}",
+      "score": 7,
+      "max_score": 10,
+      "essay_text": "",
+      "created_at": "2026-09-01 17:29:17",
+      "shift": "Manhã"
+    }
+  ]
+}

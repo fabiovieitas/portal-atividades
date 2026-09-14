@@ -16,6 +16,7 @@
     "@dicebear/core": "^9.4.3",
     "@libsql/client": "^0.17.4",
     "@supabase/supabase-js": "^2.43.0",
+    "archiver": "^8.0.0",
     "bcrypt": "^6.0.0",
     "better-sqlite3": "^12.9.0",
     "body-parser": "^2.2.2",

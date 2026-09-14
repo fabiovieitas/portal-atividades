@@ -1,0 +1,47 @@
+{
+  "exported_at": "2026-09-14T17:38:17.832Z",
+  "system": "Portal de Atividades - Campos dos Goytacazes",
+  "class_name": "4º Ano B",
+  "total_records": 3,
+  "submissions": [
+    {
+      "id": 19,
+      "simulado_id": "campos-4ano-agosto-2026",
+      "student_name": "Samuel Rocha Azevedo",
+      "school_name": "E.M. Profª Eleonora da Silva Pinto",
+      "class_name": "4º Ano B",
+      "answers_json": "{\"1\":\"B\",\"2\":\"D\",\"3\":\"O mistério da lenda da Curva da Loira em Campos...\",\"4\":\"B\",\"5\":\"B\",\"6\":\"B\",\"7\":\"B\",\"8\":\"A\",\"9\":\"C\",\"10\":\"A\"}",
+      "score": 9,
+      "max_score": 9,
+      "essay_text": "O mistério da lenda da Curva da Loira em Campos despertou a curiosidade de todos os estudantes no projeto pedagógico.",
+      "created_at": "2026-08-18 17:00:00",
+      "shift": "Tarde"
+    },
+    {
+      "id": 6,
+      "simulado_id": "campos-4ano-agosto-2026",
+      "student_name": "Mirela Rangel Rabelo",
+      "school_name": "E.M. José Giró Faísca",
+      "class_name": "4º Ano B",
+      "answers_json": "{\"1\":\"B\",\"2\":\"D\",\"3\":\"Cuidar do Rio Paraíba é responsabilidade de todos nós...\",\"4\":\"B\",\"5\":\"A\",\"6\":\"B\",\"7\":\"B\",\"8\":\"A\",\"9\":\"C\",\"10\":\"A\"}",
+      "score": 8,
+      "max_score": 9,
+      "essay_text": "Cuidar do Rio Paraíba é responsabilidade de todos nós para manter a beleza natural e o patrimônio da nossa querida Campos dos Goytacazes.",
+      "created_at": "2026-08-18 14:15:05",
+      "shift": "Tarde"
+    },
+    {
+      "id": 1,
+      "simulado_id": "campos-4ano-agosto-2026",
+      "student_name": "Lucas Gabriel da Silva",
+      "school_name": "E.M. Profª Eleonora da Silva Pinto",
+      "class_name": "4º Ano B",
+      "answers_json": "{\"1\":\"B\",\"2\":\"D\",\"3\":\"Mirela e Enzo viram uma pedra reluzente no Rio Paraíba do Sul...\",\"4\":\"B\",\"5\":\"B\",\"6\":\"B\",\"7\":\"B\",\"8\":\"A\",\"9\":\"C\",\"10\":\"A\"}",
+      "score": 9,
+      "max_score": 9,
+      "essay_text": "Mirela e Enzo viram uma pedra reluzente no Rio Paraíba do Sul...",
+      "created_at": "2026-08-18 01:31:59",
+      "shift": "Manhã"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "exported_at": "2026-09-14T17:38:17.836Z",
+  "system": "Portal de Atividades - Campos dos Goytacazes",
+  "class_name": "3º Ano B",
+  "total_records": 1,
+  "submissions": [
+    {
+      "id": 12,
+      "simulado_id": "campos-3ano-agosto-2026",
+      "student_name": "Helena Maria Mendonça",
+      "school_name": "E.M. José Giró Faísca",
+      "class_name": "3º Ano B",
+      "answers_json": "{\"1\":\"B\",\"2\":\"B\",\"3\":\"A preservação do meio ambiente em Campos...\",\"4\":\"D\",\"5\":\"C\",\"6\":\"A\",\"7\":\"D\",\"8\":\"C\",\"9\":\"A\",\"10\":\"C\"}",
+      "score": 8,
+      "max_score": 9,
+      "essay_text": "A preservação do meio ambiente em Campos é essencial para cuidar da fauna e flora do nosso município.",
+      "created_at": "2026-08-18 11:50:00",
+      "shift": "Tarde"
+    }
+  ]
+}

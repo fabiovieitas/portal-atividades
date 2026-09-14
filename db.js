@@ -597,16 +597,67 @@ const dbHelper = {
   },
 
   async restoreSimuladoBackup(submissionsArray) {
-    if (!Array.isArray(submissionsArray)) return { count: 0 };
+    if (!Array.isArray(submissionsArray)) return { count: 0, restored: 0, skipped: 0 };
+
+    // Obter registros já existentes para verificação inteligente de duplicatas
+    const existing = await queryAll("SELECT id, simulado_id, student_name, school_name, class_name, shift, answers_json, score, essay_text, created_at FROM simulado_submissions");
+
+    const normalizeText = (s) => (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+    const normalizeAnswers = (a) => {
+      if (!a) return '{}';
+      if (typeof a === 'object') return JSON.stringify(a);
+      try { return JSON.stringify(JSON.parse(a)); } catch(e) { return String(a).trim(); }
+    };
+
+    // Construir mapas de registros existentes
+    const existingIds = new Set((existing || []).map(r => String(r.id)));
+    const existingTimestampKeys = new Set((existing || []).map(r => 
+      `${normalizeText(r.student_name)}|${r.simulado_id || ''}|${normalizeText(r.class_name)}|${r.created_at || ''}`
+    ));
+    const existingAnswerKeys = new Set((existing || []).map(r => 
+      `${normalizeText(r.student_name)}|${r.simulado_id || ''}|${normalizeText(r.class_name)}|${normalizeAnswers(r.answers_json)}`
+    ));
+    const existingStudentSimKeys = new Set((existing || []).map(r => 
+      `${normalizeText(r.student_name)}|${r.simulado_id || ''}|${normalizeText(r.class_name)}`
+    ));
+
     let restored = 0;
+    let skipped = 0;
+
     for (const sub of submissionsArray) {
-      if (!sub.student_name) continue;
+      if (!sub.student_name || !sub.student_name.trim()) {
+        skipped++;
+        continue;
+      }
+
+      const stName = normalizeText(sub.student_name);
+      const simId = sub.simulado_id || 'campos-4ano-agosto-2026';
+      const clsName = normalizeText(sub.class_name);
       const jsonStr = typeof sub.answers_json === 'object' ? JSON.stringify(sub.answers_json) : String(sub.answers_json || '{}');
+      const normAnswers = normalizeAnswers(sub.answers_json);
+      const createdAt = sub.created_at || new Date().toISOString();
+
+      const keyTimestamp = `${stName}|${simId}|${clsName}|${createdAt}`;
+      const keyAnswers = `${stName}|${simId}|${clsName}|${normAnswers}`;
+      const keyStudentSim = `${stName}|${simId}|${clsName}`;
+
+      // Identificar se a avaliação é igual / duplicada
+      const isDuplicate = 
+        (sub.id && existingIds.has(String(sub.id))) ||
+        existingTimestampKeys.has(keyTimestamp) ||
+        existingAnswerKeys.has(keyAnswers) ||
+        existingStudentSimKeys.has(keyStudentSim);
+
+      if (isDuplicate) {
+        skipped++;
+        continue;
+      }
+
       try {
         await queryRun(
           "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
-            sub.simulado_id || 'campos-4ano-agosto-2026',
+            simId,
             sub.student_name,
             sub.school_name || '',
             sub.class_name || '',
@@ -615,13 +666,13 @@ const dbHelper = {
             sub.score || 0,
             sub.max_score || 9,
             sub.essay_text || '',
-            sub.created_at || new Date().toISOString()
+            createdAt
           ]
         );
         if (supabase) {
           try {
             await supabase.from('simulado_submissions').insert([{
-              simulado_id: sub.simulado_id || 'campos-4ano-agosto-2026',
+              simulado_id: simId,
               student_name: sub.student_name,
               school_name: sub.school_name || '',
               class_name: sub.class_name || '',
@@ -630,17 +681,25 @@ const dbHelper = {
               score: sub.score || 0,
               max_score: sub.max_score || 9,
               essay_text: sub.essay_text || '',
-              created_at: sub.created_at || new Date().toISOString()
+              created_at: createdAt
             }]);
           } catch(e){}
         }
+
+        // Registrar nos conjuntos para evitar duplicatas dentro do próprio lote a ser importado
+        existingTimestampKeys.add(keyTimestamp);
+        existingAnswerKeys.add(keyAnswers);
+        existingStudentSimKeys.add(keyStudentSim);
+        if (sub.id) existingIds.add(String(sub.id));
+
         restored++;
       } catch(e) {
         console.warn('Erro ao restaurar item:', e.message);
+        skipped++;
       }
     }
     await syncAutoBackupJSON();
-    return { count: restored };
+    return { count: restored, restored, skipped };
   },
 
   async getSimuladoSubmissions(simulado_id = 'ALL') {
@@ -700,13 +759,41 @@ const dbHelper = {
   },
 
   async deleteSimuladoSubmission(id) {
-    console.warn('[DB Security] Exclusão de estudante bloqueada por diretriz de proteção de dados:', id);
-    return false;
+    try {
+      await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
+      if (supabase) {
+        try {
+          await supabase.from('simulado_submissions').delete().eq('id', id);
+        } catch(e) {
+          console.warn('[Supabase Delete Warn]:', e.message);
+        }
+      }
+      await syncAutoBackupJSON();
+      return true;
+    } catch(err) {
+      console.error('[DB Delete Error]:', err.message);
+      throw err;
+    }
   },
 
   async bulkDeleteSimuladoSubmissions(ids) {
-    console.warn('[DB Security] Exclusão em lote de estudantes bloqueada por diretriz de proteção de dados:', ids);
-    return false;
+    if (!Array.isArray(ids) || ids.length === 0) return true;
+    try {
+      const placeholders = ids.map(() => '?').join(',');
+      await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, ids);
+      if (supabase) {
+        try {
+          await supabase.from('simulado_submissions').delete().in('id', ids);
+        } catch(e) {
+          console.warn('[Supabase Bulk Delete Warn]:', e.message);
+        }
+      }
+      await syncAutoBackupJSON();
+      return true;
+    } catch(err) {
+      console.error('[DB Bulk Delete Error]:', err.message);
+      throw err;
+    }
   },
 
   async bulkMoveSimuladoSubmissions(ids, { class_name, shift, simulado_id }) {
@@ -1554,12 +1641,10 @@ const AUTO_BACKUP_FILE = path.join(__dirname, 'simulado_backup_auto.json');
 async function syncAutoBackupJSON() {
   try {
     const records = await queryAll("SELECT * FROM simulado_submissions ORDER BY created_at ASC");
-    if (records && records.length > 0) {
-      const jsonContent = JSON.stringify(records, null, 2);
-      try { fs.writeFileSync(AUTO_BACKUP_FILE, jsonContent, 'utf-8'); } catch(e){}
-      try { fs.writeFileSync(MASTER_BACKUP_FILE, jsonContent, 'utf-8'); } catch(e){}
-      console.log(`[Auto-Backup] ${records.length} registros salvos permanentemente.`);
-    }
+    const jsonContent = JSON.stringify(records || [], null, 2);
+    try { fs.writeFileSync(AUTO_BACKUP_FILE, jsonContent, 'utf-8'); } catch(e){}
+    try { fs.writeFileSync(MASTER_BACKUP_FILE, jsonContent, 'utf-8'); } catch(e){}
+    console.log(`[Auto-Backup] ${(records || []).length} registros salvos permanentemente.`);
   } catch (err) {
     console.warn('[Auto-Backup Warn]:', err.message);
   }

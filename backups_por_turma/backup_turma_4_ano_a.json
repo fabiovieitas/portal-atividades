@@ -1,0 +1,47 @@
+{
+  "exported_at": "2026-09-14T17:38:17.835Z",
+  "system": "Portal de Atividades - Campos dos Goytacazes",
+  "class_name": "4º Ano A",
+  "total_records": 3,
+  "submissions": [
+    {
+      "id": 15,
+      "simulado_id": "campos-4ano-agosto-2026",
+      "student_name": "Matheus Henrique Paes",
+      "school_name": "E.M. Profª Eleonora da Silva Pinto",
+      "class_name": "4º Ano A",
+      "answers_json": "{\"1\":\"B\",\"2\":\"D\",\"3\":\"No passeio ao Rio Paraíba do Sul, os alunos observaram...\",\"4\":\"B\",\"5\":\"B\",\"6\":\"A\",\"7\":\"B\",\"8\":\"A\",\"9\":\"C\",\"10\":\"A\"}",
+      "score": 8,
+      "max_score": 9,
+      "essay_text": "No passeio ao Rio Paraíba do Sul, os alunos observaram os peixes e a vegetação nativa da nossa região de Campos.",
+      "created_at": "2026-08-18 15:10:00",
+      "shift": "Manhã"
+    },
+    {
+      "id": 5,
+      "simulado_id": "campos-4ano-agosto-2026",
+      "student_name": "Enzo Gabriel Pessanha",
+      "school_name": "E.M. Profª Eleonora da Silva Pinto",
+      "class_name": "4º Ano A",
+      "answers_json": "{\"1\":\"B\",\"2\":\"D\",\"3\":\"Enzo e Mirela estavam aprendendo sobre os patrimônios de Campos...\",\"4\":\"B\",\"5\":\"B\",\"6\":\"B\",\"7\":\"B\",\"8\":\"A\",\"9\":\"C\",\"10\":\"A\"}",
+      "score": 9,
+      "max_score": 9,
+      "essay_text": "Enzo e Mirela estavam aprendendo sobre os patrimônios de Campos no passeio escolar ao Museu Histórico. Foi uma experiência inesquecível para toda a turma.",
+      "created_at": "2026-08-18 14:10:22",
+      "shift": "Manhã"
+    },
+    {
+      "id": 2,
+      "simulado_id": "campos-4ano-agosto-2026",
+      "student_name": "Mariana Ribeiro",
+      "school_name": "E.M. José Giró Faísca",
+      "class_name": "4º Ano A",
+      "answers_json": "{\"1\":\"B\",\"2\":\"D\",\"3\":\"Texto da história\"}",
+      "score": 8,
+      "max_score": 9,
+      "essay_text": "Texto da história",
+      "created_at": "2026-08-18 01:32:15",
+      "shift": "Manhã"
+    }
+  ]
+}

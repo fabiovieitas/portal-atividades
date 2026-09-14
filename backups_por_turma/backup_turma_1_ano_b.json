@@ -1,0 +1,21 @@
+{
+  "exported_at": "2026-09-14T17:38:17.839Z",
+  "system": "Portal de Atividades - Campos dos Goytacazes",
+  "class_name": "1º Ano B",
+  "total_records": 1,
+  "submissions": [
+    {
+      "id": 8,
+      "simulado_id": "campos-1ano-agosto-2026",
+      "student_name": "Sofia Alvarenga Castro",
+      "school_name": "E.M. José Giró Faísca",
+      "class_name": "1º Ano B",
+      "answers_json": "{\"1\":\"A\",\"2\":\"C\",\"3\":\"D\",\"4\":\"B\",\"5\":\"A\",\"6\":\"C\",\"7\":\"D\",\"8\":\"C\",\"9\":\"B\",\"10\":\"B\"}",
+      "score": 8,
+      "max_score": 9,
+      "essay_text": "",
+      "created_at": "2026-08-18 09:45:12",
+      "shift": "Tarde"
+    }
+  ]
+}
