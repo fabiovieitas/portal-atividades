@@ -216,6 +216,14 @@
                         <label>Código BNCC (Opcional)</label>
                         <input type="text" name="bncc_code" placeholder="Ex: EF06MA01">
                     </div>
+                    <div class="input-group">
+                        <label>Pasta Pedagógica / Mês</label>
+                        <select name="month">
+                            <option value="Setembro" selected>Setembro 🚀 (Mês Atual)</option>
+                            <option value="Agosto">Agosto 📁</option>
+                            <option value="Outubro">Outubro 🎃</option>
+                        </select>
+                    </div>
                     <div class="input-group full-width">
                         <label>Turmas/Níveis</label>
                         <div class="check-options">
@@ -262,6 +270,9 @@
                                         <small style="color: #64748b; display: block; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= activity.description %></small>
                                     </td>
                                     <td>
+                                        <span class="badge" style="background: <%= (activity.month || 'Agosto') === 'Setembro' ? '#fef3c7' : '#e0f2fe' %>; color: <%= (activity.month || 'Agosto') === 'Setembro' ? '#b45309' : '#0369a1' %>; font-weight: 800;">
+                                            📁 <%= activity.month || 'Agosto' %>
+                                        </span>
                                         <span class="badge" style="background: <%= activity.status === 'public' ? '#dcfce7' : (activity.status === 'pending' ? '#fef9c3' : '#f1f5f9') %>; color: #1e293b;">
                                             <%= activity.status %>
                                         </span><br>
@@ -807,6 +818,14 @@
                     <label>Código BNCC</label>
                     <input type="text" name="bncc_code" id="edit-m-bncc">
                 </div>
+                <div class="input-group">
+                    <label>Pasta Pedagógica / Mês</label>
+                    <select name="month" id="edit-m-month">
+                        <option value="Agosto">Agosto 📁</option>
+                        <option value="Setembro">Setembro 🚀</option>
+                        <option value="Outubro">Outubro 🎃</option>
+                    </select>
+                </div>
                 <div class="input-group full-width">
                     <label>Link da Missão</label>
                     <input type="url" name="activity_url" id="edit-m-url" required>
@@ -865,6 +884,7 @@
             document.getElementById('edit-m-category').value = activity.category;
             document.getElementById('edit-m-subject').value = activity.subject;
             document.getElementById('edit-m-bncc').value = activity.bncc_code || '';
+            document.getElementById('edit-m-month').value = activity.month || 'Agosto';
             document.getElementById('edit-m-url').value = activity.activity_url;
             document.getElementById('edit-m-desc').value = activity.description || '';
             form.action = `/admin/edit/${activity.id}`;

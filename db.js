@@ -52,6 +52,7 @@ try {
       teacher_id INTEGER,
       status TEXT DEFAULT 'public',
       author_credit TEXT,
+      month TEXT DEFAULT 'Agosto',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
     CREATE TABLE IF NOT EXISTS schools (
@@ -96,6 +97,7 @@ try {
   try { sqlite.exec("ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN avatar_config TEXT DEFAULT '{}';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN medals_json TEXT DEFAULT '[]';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE activities ADD COLUMN month TEXT DEFAULT 'Agosto';"); } catch(e){}
 } catch (e) {
   console.warn('[DB Engine] SQLite local driver standard bypass (running in serverless environment):', e.message);
 }
@@ -210,13 +212,17 @@ const dbHelper = {
   },
 
   // 1. Get Activities
-  async getActivities({ level, search, category, bncc, subject, status = 'public', adminMode = false } = {}) {
+  async getActivities({ level, search, category, bncc, subject, month, status = 'public', adminMode = false } = {}) {
     let sql = "SELECT * FROM activities WHERE title NOT LIKE '%Code.org%' AND title NOT LIKE '%Desenho com Robôs%'";
     const params = [];
 
     if (!adminMode) {
       sql += " AND status = ?";
       params.push(status);
+    }
+    if (month && month !== 'Todas') {
+      sql += " AND (month = ? OR (month IS NULL AND ? = 'Agosto'))";
+      params.push(month, month);
     }
     if (level) {
       sql += " AND level LIKE ?";
@@ -247,7 +253,8 @@ const dbHelper = {
       console.warn('getActivities query warning:', e.message);
     }
 
-        if (!rows || rows.length === 0) {
+    const isFiltered = Boolean(search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas') || (month && month !== 'Todas'));
+    if ((!rows || rows.length === 0) && !isFiltered) {
       rows = [
         {
           id: 1,

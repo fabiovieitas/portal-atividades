@@ -49,6 +49,175 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <script src="/js/avatar_system.js"></script>
     <script src="/js/app-enhancements.js" defer></script>
+    <style>
+        .monthly-folders-wrapper {
+            margin: 15px 0 25px 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75), rgba(30, 41, 59, 0.85));
+            border: 2px solid rgba(56, 189, 248, 0.35);
+            border-radius: 20px;
+            padding: 18px 20px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+        .folders-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .folders-badge-tag {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #ffffff;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            border: 1px solid #38bdf8;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .folders-hint-text {
+            color: #94a3b8;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+        }
+        .folders-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .folder-btn-card {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid #334155;
+            border-radius: 16px;
+            padding: 14px 16px;
+            cursor: pointer;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .folder-btn-card:hover {
+            transform: translateY(-3px);
+            border-color: #38bdf8;
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.25);
+        }
+        .folder-btn-card.active {
+            border-color: #38bdf8;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(15, 23, 42, 0.95));
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4), 0 10px 25px rgba(2, 132, 199, 0.3);
+        }
+        .folder-tab-corner {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #38bdf8;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .folder-tab-corner.corner-setembro {
+            color: #fbbf24;
+        }
+        .folder-tab-corner.corner-todas {
+            color: #94a3b8;
+        }
+        .folder-card-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .folder-emoji-box {
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .folder-meta {
+            flex: 1;
+        }
+        .folder-name {
+            display: block;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+        .folder-sub {
+            display: block;
+            font-size: 0.82rem;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+        .folder-status-tag {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 50px;
+            white-space: nowrap;
+        }
+        .folder-status-tag.tag-agosto {
+            background: #10b981;
+            color: #ffffff;
+        }
+        .folder-status-tag.tag-setembro {
+            background: #f59e0b;
+            color: #000000;
+            animation: pulse-glow 2s infinite;
+        }
+        .folder-status-tag.tag-todas {
+            background: #475569;
+            color: #ffffff;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.75; }
+        }
+        .setembro-reserved-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border: 2px dashed #f59e0b;
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.15);
+        }
+        .setembro-reserved-card .reserved-robo-icon {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+        .setembro-reserved-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            color: #fbbf24;
+            margin: 0 0 10px 0;
+        }
+        .setembro-reserved-card p {
+            font-size: 1rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto 18px auto;
+            line-height: 1.6;
+        }
+        .setembro-reserved-card .reserved-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid #f59e0b;
+            color: #fcd34d;
+            font-weight: 800;
+            font-size: 0.9rem;
+            padding: 8px 20px;
+            border-radius: 50px;
+        }
+    </style>
 </head>
 
 <body class="<%= selectedLevel ? 'view-list' : 'view-selection' %>">
@@ -198,11 +367,11 @@
                         <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
                     </a>
 
-                    <!-- 2º Ano (ATIVO 🔥) -->
-                    <a href="/atividades/simulado-campos-2ano" style="text-decoration: none; display: block; background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <!-- 2º Ano (SETEMBRO NOVO 🔥) -->
+                    <a href="/atividades/simulado-campos-2ano-setembro" style="text-decoration: none; display: block; background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399; border-radius: 18px; padding: 1.5rem 1rem; text-align: center; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         <div style="font-size: 2.2rem; margin-bottom: 0.4rem;">🥈</div>
                         <h3 style="font-family: 'Fredoka'; font-size: 1.3rem; color: #ffffff; margin-bottom: 0.3rem;">2º Ano</h3>
-                        <span style="font-size: 0.8rem; background: #10b981; color: #ffffff; font-weight: 800; padding: 0.25rem 0.7rem; border-radius: 50px;">DISPONÍVEL 🔥</span>
+                        <span style="font-size: 0.8rem; background: #fbbf24; color: #000; font-weight: 900; padding: 0.25rem 0.7rem; border-radius: 50px;">SETEMBRO NOVO ✨</span>
                     </a>
 
                     <!-- 3º Ano (ATIVO 🔥) -->
@@ -265,6 +434,54 @@
                         </div>
                     </div>
 
+                    <!-- Seletor de Pastas Mensais (Agosto & Setembro) -->
+                    <div class="monthly-folders-wrapper animate-up">
+                        <div class="folders-title-row">
+                            <span class="folders-badge-tag">📂 PASTAS PEDAGÓGICAS</span>
+                            <span class="folders-hint-text">Navegue pelas atividades do mês ou acesse as novas missões:</span>
+                        </div>
+                        <div class="folders-cards-grid">
+                            <!-- Pasta Agosto (Atividades Atuais) -->
+                            <button type="button" class="folder-btn-card <%= (selectedMonth === 'Agosto' || !selectedMonth) ? 'active' : '' %>" onclick="switchFolder('Agosto', this)" id="folder-card-agosto">
+                                <div class="folder-tab-corner">AGOSTO</div>
+                                <div class="folder-card-main">
+                                    <div class="folder-emoji-box">📁</div>
+                                    <div class="folder-meta">
+                                        <strong class="folder-name">Pasta de Agosto</strong>
+                                        <span class="folder-sub"><%= typeof agostoCount !== 'undefined' ? agostoCount : activities.length %> missões disponíveis</span>
+                                    </div>
+                                    <span class="folder-status-tag tag-agosto">DISPONÍVEL ✅</span>
+                                </div>
+                            </button>
+
+                            <!-- Pasta Setembro (Nova Pasta Reservada para as Atividades que serão enviadas) -->
+                            <button type="button" class="folder-btn-card <%= selectedMonth === 'Setembro' ? 'active' : '' %>" onclick="switchFolder('Setembro', this)" id="folder-card-setembro">
+                                <div class="folder-tab-corner corner-setembro">SETEMBRO ✨</div>
+                                <div class="folder-card-main">
+                                    <div class="folder-emoji-box">📂</div>
+                                    <div class="folder-meta">
+                                        <strong class="folder-name">Pasta de Setembro</strong>
+                                        <span class="folder-sub"><%= typeof setembroCount !== 'undefined' && setembroCount > 0 ? setembroCount + ' novas missões' : 'Reservada para novas missões' %></span>
+                                    </div>
+                                    <span class="folder-status-tag tag-setembro"><%= typeof setembroCount !== 'undefined' && setembroCount > 0 ? 'NOVO 🔥' : 'NOVA PASTA ✨' %></span>
+                                </div>
+                            </button>
+
+                            <!-- Todas as Pastas -->
+                            <button type="button" class="folder-btn-card <%= selectedMonth === 'Todas' ? 'active' : '' %>" onclick="switchFolder('Todas', this)" id="folder-card-todas">
+                                <div class="folder-tab-corner corner-todas">GERAL</div>
+                                <div class="folder-card-main">
+                                    <div class="folder-emoji-box">📚</div>
+                                    <div class="folder-meta">
+                                        <strong class="folder-name">Todas as Pastas</strong>
+                                        <span class="folder-sub"><%= activities.length %> missões no total</span>
+                                    </div>
+                                    <span class="folder-status-tag tag-todas">CATÁLOGO</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Responsive Tablet/Desktop Horizontal Banner (Ultra-Fino) -->
                     <div class="adsense-tablet-wrapper tablet-ad-banner" style="margin: 8px auto 14px auto; max-width: 970px; background: rgba(15, 23, 42, 0.5); border: 1px dashed rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 4px 8px; text-align: center;">
                         <div class="adsense-micro-label" style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">📢 Publicidade Educativa</div>
@@ -277,6 +494,15 @@
                     </div>
 
                     <div class="activity-grid">
+                        <!-- Card de Pasta Reservada de Setembro -->
+                        <div id="setembro-reserved-box" class="setembro-reserved-card glass-panel" style="display: none; grid-column: 1 / -1;">
+                            <div class="reserved-robo-icon">🤖✨</div>
+                            <h3>Pasta de Setembro Reservada!</h3>
+                            <p>Esta pasta foi criada e reservada no Lab Kids. O Professor Fábio está enviando as novas atividades e missões exclusivas deste mês para cá!</p>
+                            <div class="reserved-pill">
+                                <span>🚀</span> Aguardando novas missões deste mês...
+                            </div>
+                        </div>
                         <% if (activities.length===0) { %>
                             <div class="no-activities">
                                 <p>Nenhuma missão disponível nesta modalidade ainda. O professor está preparando
@@ -286,7 +512,8 @@
                                 <% activities.forEach((activity, index) => { %>
                                     <div class="activity-card <%= selectedLevel === '6-9' ? 'tech-theme' : '' %> animate-up"
                                         style="animation-delay: <%= 0.1 * (index + 1) %>s; opacity: 0;"
-                                        data-id="<%= activity.id %>">
+                                        data-id="<%= activity.id %>"
+                                        data-month="<%= activity.month || 'Agosto' %>">
                                         
                                         <!-- Badges -->
                                         <div class="card-badges">
@@ -740,6 +967,51 @@
             </p>
         </div>
     </footer>
+    <script>
+        function switchFolder(month, btn) {
+            document.querySelectorAll('.folder-btn-card').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.activity-card[data-month]');
+            const reservedBox = document.getElementById('setembro-reserved-box');
+            const emptyAlert = document.querySelector('.no-activities');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardMonth = card.getAttribute('data-month') || 'Agosto';
+                if (month === 'Todas' || cardMonth === month) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (month === 'Setembro' && visibleCount === 0) {
+                if (reservedBox) reservedBox.style.display = 'block';
+                if (emptyAlert) emptyAlert.style.display = 'none';
+            } else {
+                if (reservedBox) reservedBox.style.display = 'none';
+            }
+
+            try {
+                const url = new URL(window.location);
+                url.searchParams.set('month', month);
+                window.history.replaceState({}, '', url);
+            } catch(e){}
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialMonth = urlParams.get('month') || '<%= typeof selectedMonth !== "undefined" && selectedMonth ? selectedMonth : "Agosto" %>';
+            const targetBtn = initialMonth === 'Setembro' 
+                ? document.getElementById('folder-card-setembro') 
+                : (initialMonth === 'Todas' ? document.getElementById('folder-card-todas') : document.getElementById('folder-card-agosto'));
+            if (targetBtn) {
+                switchFolder(initialMonth, targetBtn);
+            }
+        });
+    </script>
 </body>
 
 </html>

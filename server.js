@@ -233,10 +233,11 @@ async function getTeacherLevel(id) {
 
 // Routes
 app.get('/', async (req, res) => {
-  const { level, search, category, bncc, subject } = req.query;
+  const { level, search, category, bncc, subject, month } = req.query;
   let activities = [];
 
-  if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas')) {
+  if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas') || (month && month !== 'Todas')) {
+    // If month is specifically provided and not 'Todas', we filter by month; otherwise fetch all to allow smooth tab switching
     activities = await dbHelper.getActivities({ level, search, category, bncc, subject });
   }
 
@@ -263,9 +264,13 @@ app.get('/', async (req, res) => {
   const projects = await dbHelper.getProjects(12);
   const showcaseActivities = await dbHelper.getActivities({});
 
+  const agostoCount = activities.filter(a => (a.month || 'Agosto') === 'Agosto').length;
+  const setembroCount = activities.filter(a => a.month === 'Setembro').length;
+
   res.render('index', { 
     activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories: categories || [], subjects: subjects || [], search, 
-    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher
+    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher,
+    selectedMonth: month || 'Agosto', agostoCount, setembroCount
   });
 });
 
@@ -426,12 +431,34 @@ app.get('/atividades/simulado-campos-1ano', async (req, res) => {
   }
 });
 
-app.get('/atividades/simulado-campos-2ano', async (req, res) => {
+app.get('/atividades/simulado-campos-2ano-setembro', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_2ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_2ano_setembro', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-2ano-agosto', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
     res.render('simulado_campos_2ano', { schools });
   } catch(e) {
     res.render('simulado_campos_2ano', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-2ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
+      return res.render('simulado_campos_2ano', { schools });
+    }
+    // Setembro é a edição mais recente oficial
+    res.render('simulado_campos_2ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_2ano_setembro', { schools: [] });
   }
 });
 
@@ -464,7 +491,9 @@ app.get('/atividades/simulado-campos-5ano', async (req, res) => {
 
 // Redirects amigáveis para Simulados
 app.get('/simulado/1-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano'));
-app.get('/simulado/2-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano'));
+app.get('/simulado/2-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-setembro'));
+app.get('/simulado/2-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-setembro'));
+app.get('/simulado/2-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-agosto'));
 app.get('/simulado/3-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-3ano'));
 app.get('/simulado/4-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-4ano'));
 app.get('/simulado/5-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano'));
@@ -1378,42 +1407,92 @@ app.post('/admin/teacher/reset-password/:id', requireAdmin, async (req, res) => 
 });
 
 app.post('/admin/add', requireAdmin, async (req, res) => {
-  const { title, description, activity_url, icon_url, category, bncc_code, subject } = req.body;
+  const { title, description, activity_url, icon_url, category, bncc_code, subject, month } = req.body;
   let { level } = req.body;
   if (Array.isArray(level)) level = level.join(',');
 
-  await supabase.from('activities').insert({
-    title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral'
-  });
+  const actMonth = month || 'Setembro';
+
+  try {
+    if (supabase) {
+      await supabase.from('activities').insert({
+        title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral', month: actMonth
+      });
+    }
+  } catch(e) {
+    console.warn('[Admin Add] Supabase warning:', e.message);
+  }
+
+  try {
+    await dbHelper.queryRun(
+      "INSERT INTO activities (title, description, activity_url, icon_url, level, category, bncc_code, subject, month) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, description, activity_url, icon_url, level || '1-5', category || 'Geral', bncc_code || '', subject || 'Geral', actMonth]
+    );
+  } catch(e) {
+    console.warn('[Admin Add] DB queryRun error:', e.message);
+  }
+
   clearActivitiesCache();
   res.redirect('/admin');
 });
 
 app.post('/admin/duplicate/:id', requireAdmin, async (req, res) => {
-  const { data: activity } = await supabase.from('activities').select('*').eq('id', req.params.id).single();
+  const activities = await dbHelper.getActivities({ adminMode: true });
+  const activity = activities.find(a => String(a.id) === String(req.params.id));
   if (activity) {
     const { id, ...newData } = activity;
     newData.title = `${newData.title} (Cópia)`;
-    await supabase.from('activities').insert(newData);
+    try {
+      if (supabase) await supabase.from('activities').insert(newData);
+    } catch(e){}
+    try {
+      await dbHelper.queryRun(
+        "INSERT INTO activities (title, description, activity_url, icon_url, level, category, bncc_code, subject, month) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [newData.title, newData.description, newData.activity_url, newData.icon_url, newData.level, newData.category, newData.bncc_code || '', newData.subject || 'Geral', newData.month || 'Setembro']
+      );
+    } catch(e){}
     clearActivitiesCache();
   }
   res.redirect('/admin');
 });
 
 app.post('/admin/delete/:id', requireAdmin, async (req, res) => {
-  await supabase.from('activities').delete().eq('id', req.params.id);
+  try {
+    if (supabase) await supabase.from('activities').delete().eq('id', req.params.id);
+  } catch(e){}
+  try {
+    await dbHelper.queryRun("DELETE FROM activities WHERE id = ?", [req.params.id]);
+  } catch(e){}
   clearActivitiesCache();
   res.redirect('/admin');
 });
 
 app.post('/admin/edit/:id', requireAdmin, async (req, res) => {
-  const { title, description, activity_url, icon_url, category, bncc_code, subject } = req.body;
+  const { title, description, activity_url, icon_url, category, bncc_code, subject, month } = req.body;
   let { level } = req.body;
   if (Array.isArray(level)) level = level.join(',');
 
-  await supabase.from('activities').update({
-    title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral'
-  }).eq('id', req.params.id);
+  const actMonth = month || 'Agosto';
+
+  try {
+    if (supabase) {
+      await supabase.from('activities').update({
+        title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral', month: actMonth
+      }).eq('id', req.params.id);
+    }
+  } catch(e) {
+    console.warn('[Admin Edit] Supabase warning:', e.message);
+  }
+
+  try {
+    await dbHelper.queryRun(
+      "UPDATE activities SET title = ?, description = ?, activity_url = ?, icon_url = ?, level = ?, category = ?, bncc_code = ?, subject = ?, month = ? WHERE id = ?",
+      [title, description, activity_url, icon_url, level || '1-5', category || 'Geral', bncc_code || '', subject || 'Geral', actMonth, req.params.id]
+    );
+  } catch(e) {
+    console.warn('[Admin Edit] DB queryRun error:', e.message);
+  }
+
   clearActivitiesCache();
   res.redirect('/admin');
 });

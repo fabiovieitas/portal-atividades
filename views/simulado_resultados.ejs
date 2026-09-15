@@ -597,10 +597,23 @@
             </div>
           </div>
 
-          <!-- 2º Ano -->
+          <!-- 2º Ano (Setembro/2026 - Novo) -->
+          <div class="gabarito-item" data-simulado="campos-2ano-setembro-2026" data-grade="2º Ano" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #15803d; margin-bottom: 0.5rem; border-bottom: 1px solid #bbf7d0; padding-bottom: 0.3rem;">
+              🥈 Gabarito 2º Ano (Setembro/2026 - Novo)
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #166534; line-height: 1.7;">
+              Q01: <strong>C</strong> | Q02: <strong>A</strong> | Q03: <strong>B</strong><br>
+              Q04: 📜 <em>Ditado</em> | Q05: <strong>A</strong> | Q06: <strong>A</strong><br>
+              Q07: <strong>B</strong> | Q08: <strong>A</strong> | Q09: <strong>C</strong><br>
+              Q10: <strong>C</strong> | Q11: <strong>C</strong>
+            </div>
+          </div>
+
+          <!-- 2º Ano (Agosto/2026) -->
           <div class="gabarito-item" data-simulado="campos-2ano-agosto-2026" data-grade="2º Ano" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #0369a1; margin-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem;">
-              🥈 Gabarito 2º Ano
+              🥈 Gabarito 2º Ano (Agosto/2026)
             </div>
             <div style="font-family: monospace; font-size: 0.85rem; color: #334155; line-height: 1.7;">
               Q01: <strong>A</strong> | Q02: <strong>B</strong> | Q03: <strong>A</strong><br>
@@ -658,6 +671,7 @@
           <select id="filterSimulado" class="filter-select" onchange="applyFilters()">
             <option value="ALL">Todos os Simulados (1º ao 5º)</option>
             <option value="campos-1ano-agosto-2026">🥇 1º Ano (Agosto/2026)</option>
+            <option value="campos-2ano-setembro-2026">🥈 2º Ano (Setembro/2026 - Novo)</option>
             <option value="campos-2ano-agosto-2026">🥈 2º Ano (Agosto/2026)</option>
             <option value="campos-3ano-agosto-2026">🥉 3º Ano (Agosto/2026)</option>
             <option value="campos-4ano-agosto-2026">🎯 4º Ano (Agosto/2026)</option>
@@ -856,6 +870,7 @@
               const masterAnswerKeys = {
                 'campos-1ano-agosto-2026': { 1:'A', 2:'C', 3:'D', 4:'B', 5:'A', 6:'C', 7:'D', 8:'C', 9:'B', 10:'A' },
                 'campos-2ano-agosto-2026': { 1:'A', 2:'B', 3:'A', 4:'C', 6:'C', 7:'B', 8:'D', 9:'B', 10:'C' },
+                'campos-2ano-setembro-2026': { 1:'C', 2:'A', 3:'B', 5:'A', 6:'A', 7:'B', 8:'A', 9:'C', 10:'C', 11:'C' },
                 'campos-3ano-agosto-2026': { 1:'B', 2:'B', 4:'D', 5:'C', 6:'A', 7:'D', 8:'C', 9:'A', 10:'B' },
                 'campos-4ano-agosto-2026': { 1:'B', 2:'C', 4:'A', 5:'B', 6:'A', 7:'B', 8:'B', 9:'C', 10:'C' },
                 'campos-5ano-agosto-2026': { 1:'B', 2:'B', 4:'C', 5:'D', 6:'B', 7:'B', 8:'C', 9:'B', 10:'C' }
@@ -914,12 +929,16 @@
                 <td>
                   <!-- Respostas do Professor: Azul para Corretas, Vermelho para Erradas -->
                   <div class="q-answers-pill-grid">
-                    <% for(let q=1; q<=10; q++) { %>
+                    <% 
+                      const maxQ = (simId === 'campos-2ano-setembro-2026') ? 11 : 10;
+                      for(let q=1; q<=maxQ; q++) { 
+                    %>
                       <% 
-                        const isEssay = (simId === 'campos-2ano-agosto-2026' && q === 5) || 
+                        const isEssay = (simId === 'campos-2ano-setembro-2026' && q === 4) ||
+                                        (simId === 'campos-2ano-agosto-2026' && q === 5) || 
                                         ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && q === 3);
                         if (isEssay) { %>
-                          <span class="q-badge q-badge-essay" title="Produção Textual">Q<%= q < 10 ? '0'+q : q %>: ✍️</span>
+                          <span class="q-badge q-badge-essay" title="<%= simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : 'Produção Textual' %>">Q<%= q < 10 ? '0'+q : q %>: ✍️</span>
                         <% } else { 
                           const stAns = parsedAns[q];
                           const correctAns = key[q];
@@ -955,16 +974,20 @@
                       <span class="score-badge <%= badgeClass %>"><%= score %> acertos (Nota: <%= ((score / (s.max_score || 9)) * 10).toFixed(1) %>)</span>
                     </div>
 
-                    <!-- Detalhamento de Todas as 10 Questões -->
+                    <!-- Detalhamento de Todas as Questões -->
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.5rem; margin-bottom: 1rem;">
-                      <% for(let q=1; q<=10; q++) { %>
+                      <% 
+                        const maxQDetail = (simId === 'campos-2ano-setembro-2026') ? 11 : 10;
+                        for(let q=1; q<=maxQDetail; q++) { 
+                      %>
                         <% 
-                          const isEssay = (simId === 'campos-2ano-agosto-2026' && q === 5) || 
+                          const isEssay = (simId === 'campos-2ano-setembro-2026' && q === 4) ||
+                                          (simId === 'campos-2ano-agosto-2026' && q === 5) || 
                                           ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && q === 3);
                           if (isEssay) { %>
                             <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 0.5rem; text-align: center;">
                               <div style="font-size: 0.75rem; font-weight: 700; color: #b45309;">Questão <%= q < 10 ? '0'+q : q %></div>
-                              <div style="font-size: 0.85rem; font-weight: 800; color: #78350f;">✍️ Redação</div>
+                              <div style="font-size: 0.85rem; font-weight: 800; color: #78350f;">✍️ <%= simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : 'Redação' %></div>
                             </div>
                           <% } else { 
                             const stAns = parsedAns[q];
@@ -1003,6 +1026,7 @@
     const allAnswerKeys = {
       'campos-1ano-agosto-2026': { 1:'A', 2:'C', 3:'D', 4:'B', 5:'A', 6:'C', 7:'D', 8:'C', 9:'B', 10:'A' },
       'campos-2ano-agosto-2026': { 1:'A', 2:'B', 3:'A', 4:'C', 6:'C', 7:'B', 8:'D', 9:'B', 10:'C' },
+      'campos-2ano-setembro-2026': { 1:'C', 2:'A', 3:'B', 5:'A', 6:'A', 7:'B', 8:'A', 9:'C', 10:'C', 11:'C' },
       'campos-3ano-agosto-2026': { 1:'B', 2:'B', 4:'D', 5:'C', 6:'A', 7:'D', 8:'C', 9:'A', 10:'B' },
       'campos-4ano-agosto-2026': { 1:'B', 2:'C', 4:'A', 5:'B', 6:'A', 7:'B', 8:'B', 9:'C', 10:'C' },
       'campos-5ano-agosto-2026': { 1:'B', 2:'B', 4:'C', 5:'D', 6:'B', 7:'B', 8:'C', 9:'B', 10:'C' }
@@ -1063,7 +1087,7 @@
         'Tarde': { count: 0, sumScore: 0 }
       };
       const schoolData = {};
-      const questionCorrect = { 1:0, 2:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0 };
+      const questionCorrect = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0 };
 
       const rowPairs = [];
 
@@ -1256,7 +1280,9 @@
       const qGrid = document.getElementById('questionComparisonGrid');
       if (qGrid) {
         let qHTML = '';
-        const qNums = [1, 2, 4, 5, 6, 7, 8, 9, 10];
+        const qNums = (selectedSimulado === 'campos-2ano-setembro-2026') 
+          ? [1, 2, 3, 5, 6, 7, 8, 9, 10, 11] 
+          : [1, 2, 4, 5, 6, 7, 8, 9, 10];
         qNums.forEach(q => {
           const correct = questionCorrect[q] || 0;
           const pct = visibleCount > 0 ? Math.round((correct / visibleCount) * 100) : 0;
@@ -1655,6 +1681,7 @@
           <select id="bulkTargetSimulado" class="filter-select" style="width:100%;">
             <option value="NO_CHANGE">-- Manter Atual --</option>
             <option value="campos-1ano-agosto-2026">🥇 1º Ano (Agosto/2026)</option>
+            <option value="campos-2ano-setembro-2026">🥈 2º Ano (Setembro/2026 - Novo)</option>
             <option value="campos-2ano-agosto-2026">🥈 2º Ano (Agosto/2026)</option>
             <option value="campos-3ano-agosto-2026">🥉 3º Ano (Agosto/2026)</option>
             <option value="campos-4ano-agosto-2026">🎯 4º Ano (Agosto/2026)</option>
