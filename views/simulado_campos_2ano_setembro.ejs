@@ -216,11 +216,27 @@
       margin-bottom: 1rem;
     }
     .cover-poster-img {
-      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 480px;
+      object-fit: contain;
       border-radius: 14px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
       border: 2px solid #cbd5e1;
       display: block;
+      margin: 0 auto;
+    }
+    .q-side-img {
+      max-width: 100%;
+      height: auto;
+      max-height: 290px;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      border: 2px solid #e2e8f0;
+      display: block;
+      margin: 0 auto;
+      background: white;
     }
 
     /* Question Cards */
@@ -313,13 +329,19 @@
     .q-img-center {
       text-align: center;
       margin: 1.25rem 0;
+      display: flex;
+      justify-content: center;
     }
     .q-img-center img {
       max-width: 100%;
       height: auto;
+      max-height: 420px;
+      object-fit: contain;
       border-radius: 12px;
       box-shadow: var(--shadow-sm);
       border: 2px solid #e2e8f0;
+      background: white;
+      display: block;
     }
 
     /* Multiple Choice Options */
@@ -521,7 +543,8 @@
 
     @media (max-width: 768px) {
       .form-grid { grid-template-columns: 1fr; }
-      .cover-section-card { grid-template-columns: 1fr; }
+      .cover-section-card { grid-template-columns: 1fr; text-align: center; }
+      .q-grid-side { grid-template-columns: 1fr !important; }
       .main-layout { padding: 0 1rem; }
     }
   </style>
@@ -622,7 +645,7 @@
         <span class="q-subject-badge">Língua Portuguesa • EF15LP03</span>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 260px; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem;">
+      <div class="q-grid-side" style="display: grid; grid-template-columns: 1fr 260px; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem;">
         <div class="q-passage" id="text-q1" style="margin-bottom: 0;">
           LUCAS E SUA TURMA CUIDAM DO RIO
           <br><br>
@@ -636,8 +659,8 @@
           <br><br>
           A TURMA APRENDEU QUE CUIDAR DA NATUREZA É MUITO IMPORTANTE!
         </div>
-        <div>
-          <img src="/img/simulado/2ano_setembro/q1_goytare.png" alt="Goytaré" style="width: 100%; border-radius: 14px;">
+        <div style="text-align: center;">
+          <img src="/img/simulado/2ano_setembro/q1_goytare.png" alt="Goytaré" class="q-side-img">
         </div>
       </div>
 
@@ -769,7 +792,7 @@
         <span class="q-subject-badge">Língua Portuguesa • EF02LP02</span>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 280px; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem;">
+      <div class="q-grid-side" style="display: grid; grid-template-columns: 1fr 280px; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem;">
         <div class="q-passage" id="text-q6" style="margin-bottom: 0;">
           GOYTARÉ VISITOU COM A TURMA A LAGOA DE CIMA. DURANTE O PASSEIO, A PROFESSORA SARA LEU ESTES VERSOS:
           <br><br>
@@ -778,8 +801,8 @@
           GOYTARÉ AJUDA A CUIDAR,<br>
           PARA A NATUREZA PRESERVAR.”
         </div>
-        <div>
-          <img src="/img/simulado/2ano_setembro/q6_lagoa.png" alt="Lagoa de Cima" style="width: 100%; border-radius: 14px;">
+        <div style="text-align: center;">
+          <img src="/img/simulado/2ano_setembro/q6_lagoa.png" alt="Lagoa de Cima" class="q-side-img">
         </div>
       </div>
 
