@@ -7,6 +7,7 @@
     <meta name="description" content="Plano de aula e guia pedagógico do jogo Brincando com Ariê 2. Consciência fonológica, contagem inicial, seriação e habilidades BNCC (EI03EF04, EF01LP10, EF01MA01) para Educação Infantil e 1º Ano.">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
@@ -109,6 +110,9 @@
                 "Realizada prática no laboratório digital com o software educativo 'Brincando com Ariê 2'. Foco em consciência fonológica, contagem oral e separação silábica (EI03EF04, EF01LP10). Diagnóstico de hipóteses de escrita através da mediação individualizada e registro complementar no caderno com letras móveis."
             </div>
         </div>
+
+        <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        <%- include('partials/recommended_games', { currentGame: 'arie2' }) %>
 
         <!-- Publicidade Institucional Segura -->
         <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">

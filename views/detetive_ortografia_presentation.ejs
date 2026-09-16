@@ -7,6 +7,7 @@
     <meta name="description" content="Plano de aula e guia pedagógico do jogo Detetive da Ortografia. Dígrafos (CH, LH, NH, RR, SS), regras ortográficas e habilidades da BNCC (EF02LP01, EF03LP01).">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
@@ -109,6 +110,9 @@
                 "Realização de oficina de ortografia contextual através do software educacional 'Detetive da Ortografia'. Análise e fixação de dígrafos (CH, LH, NH, RR, SS) e regularidades contextuais conforme as diretrizes EF02LP01 e EF03LP01 da BNCC. Avanço notório na capacidade de autorrevisão e segurança na produção escrita."
             </div>
         </div>
+
+        <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        <%- include('partials/recommended_games', { currentGame: 'detetive-ortografia' }) %>
 
         <!-- Publicidade Institucional Segura -->
         <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">

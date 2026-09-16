@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Brincando com Ariê 2 | Lab Kids</title>
+    <meta name="google-adsense-account" content="ca-pub-4730100335805531">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4730100335805531" crossorigin="anonymous"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -130,6 +131,102 @@
             .rotate-hint {
                 display: block;
             }
+        .btn-tool-highlight {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            border-color: #38bdf8;
+            color: #ffffff;
+            font-weight: 800;
+        }
+        .btn-tool-highlight:hover {
+            background: linear-gradient(135deg, #0369a1, #075985);
+        }
+        .recommended-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .recommended-overlay.active {
+            display: flex;
+        }
+        .recommended-modal-card {
+            background: #1e293b;
+            border: 2px solid #38bdf8;
+            border-radius: 24px;
+            max-width: 520px;
+            width: 100%;
+            padding: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            animation: popModal 0.25s ease-out;
+        }
+        @keyframes popModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .recommended-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .btn-close-modal {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #ffffff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .recommended-quick-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .quick-game-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .quick-game-link:hover {
+            transform: translateY(-2px);
+            border-color: #38bdf8;
+        }
+        .quick-game-link img {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid #38bdf8;
+            flex-shrink: 0;
+        }
+        .quick-game-link strong {
+            display: block;
+            font-size: 0.85rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+        .quick-game-link span {
+            display: block;
+            font-size: 0.72rem;
+            color: #fbbf24;
+            margin-top: 2px;
         }
     </style>
 </head>
@@ -142,6 +239,9 @@
         </a>
 
         <div class="right-tools">
+            <button type="button" class="btn-tool btn-tool-highlight" onclick="toggleRecommendedModal()" title="Escolher Outro Jogo">
+                🎯 Próximo Jogo
+            </button>
             <button type="button" class="btn-tool" onclick="toggleFullScreen()" title="Expandir para Tela Cheia no Tablet">
                 ⛶ Tela Cheia
             </button>
@@ -158,6 +258,53 @@
         📱 Dica: Gire o tablet na horizontal para melhor visualização
     </div>
 
+    <!-- Modal Rápido de Próximos Desafios (Navegação Contínua) -->
+    <div id="recommended-modal" class="recommended-overlay" onclick="if(event.target===this) toggleRecommendedModal()">
+        <div class="recommended-modal-card">
+            <div class="recommended-modal-header">
+                <div>
+                    <h3 style="margin: 0; font-size: 1.25rem; color: #38bdf8;">🎮 Quer jogar outro agora?</h3>
+                    <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: #94a3b8;">Escolha um novo desafio sem sair do portal:</p>
+                </div>
+                <button type="button" onclick="toggleRecommendedModal()" class="btn-close-modal" title="Fechar">✕</button>
+            </div>
+            <div class="recommended-quick-grid">
+                <a href="/atividades/brincando-com-arie-3" class="quick-game-link">
+                    <img src="https://arietoy.com.br/assets_games/br/brincando-com-arie-3/screenshots/brincando-com-arie-3-01.jpg" alt="Ariê 3">
+                    <div>
+                        <strong>Brincando com Ariê 3</strong>
+                        <span>Leitura & Sons 🦁</span>
+                    </div>
+                </a>
+                <a href="/atividades/fabrica-de-silabas" class="quick-game-link">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3898/3898082.png" alt="Fábrica de Sílabas">
+                    <div>
+                        <strong>Fábrica de Sílabas</strong>
+                        <span>Alfabetização 🏭</span>
+                    </div>
+                </a>
+                <a href="/atividades/tabuada-chao-e-lava" class="quick-game-link">
+                    <img src="https://cdn-icons-png.flaticon.com/512/5551/5551460.png" alt="Tabuada Lava">
+                    <div>
+                        <strong>Tabuada: Chão é Lava!</strong>
+                        <span>Matemática Rápida 🔥</span>
+                    </div>
+                </a>
+                <a href="/atividades/caca-palavras-temas" class="quick-game-link">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3662/3662817.png" alt="Caça Palavras">
+                    <div>
+                        <strong>Caça-Palavras Temático</strong>
+                        <span>Vocabulário 🔍</span>
+                    </div>
+                </a>
+            </div>
+            <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
+                <a href="/?level=1-5#simulados" style="color: #fbbf24; font-size: 0.85rem; font-weight: 700; text-decoration: none;">📝 Ver Simulados da Rede</a>
+                <button type="button" onclick="toggleRecommendedModal()" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 6px 14px; border-radius: 50px; font-size: 0.85rem; cursor: pointer;">Continuar no Ariê 2</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Game Fullscreen Iframe -->
     <div class="game-container" id="game-container">
         <iframe 
@@ -170,6 +317,13 @@
     </div>
 
     <script>
+        function toggleRecommendedModal() {
+            const modal = document.getElementById('recommended-modal');
+            if (modal) {
+                modal.classList.toggle('active');
+            }
+        }
+
         function toggleFullScreen() {
             const elem = document.documentElement;
             if (!document.fullscreenElement && !document.webkitFullscreenElement) {

@@ -1,0 +1,103 @@
+<%
+  const allRecommendedGames = [
+    {
+      id: 'arie2',
+      title: 'Brincando com Ariê 2',
+      badge: 'Alfabetização 🔤',
+      level: '1º ao 3º Ano',
+      image: 'https://arietoy.com.br/assets_games/br/brincando-com-arie-2/screenshots/brincando-com-arie-2-01.jpg',
+      url: '/atividades/brincando-com-arie-2'
+    },
+    {
+      id: 'arie3',
+      title: 'Brincando com Ariê 3',
+      badge: 'Leitura & Sons 🦁',
+      level: '2º ao 4º Ano',
+      image: 'https://arietoy.com.br/assets_games/br/brincando-com-arie-3/screenshots/brincando-com-arie-3-01.jpg',
+      url: '/atividades/brincando-com-arie-3'
+    },
+    {
+      id: 'tabuada-lava',
+      title: 'Tabuada: Chão é Lava',
+      badge: 'Matemática 🔥',
+      level: '2º ao 5º Ano',
+      image: 'https://cdn-icons-png.flaticon.com/512/5551/5551460.png',
+      url: '/atividades/tabuada-chao-e-lava'
+    },
+    {
+      id: 'fabrica-silabas',
+      title: 'Fábrica de Sílabas',
+      badge: 'Português 🏭',
+      level: '1º ao 3º Ano',
+      image: 'https://cdn-icons-png.flaticon.com/512/3898/3898082.png',
+      url: '/atividades/fabrica-de-silabas'
+    },
+    {
+      id: 'caca-palavras',
+      title: 'Caça-Palavras Temas',
+      badge: 'Vocabulário 🔍',
+      level: 'Todos os Anos',
+      image: 'https://cdn-icons-png.flaticon.com/512/3662/3662817.png',
+      url: '/atividades/caca-palavras-temas'
+    },
+    {
+      id: 'detetive-ortografia',
+      title: 'Detetive da Ortografia',
+      badge: 'Gramática 🕵️‍♂️',
+      level: '3º ao 5º Ano',
+      image: 'https://cdn-icons-png.flaticon.com/512/1067/1067256.png',
+      url: '/atividades/detetive-ortografia'
+    },
+    {
+      id: 'tux-math',
+      title: 'Tux Math Arcade',
+      badge: 'Cálculo Ágil 🐧',
+      level: '3º ao 5º Ano',
+      image: 'https://cdn-icons-png.flaticon.com/512/2784/2784403.png',
+      url: '/atividades/tux-math'
+    },
+    {
+      id: 'pou-online',
+      title: 'Pou Online Divertido',
+      badge: 'Coordenação 🎮',
+      level: 'Lúdico',
+      image: 'https://cdn-icons-png.flaticon.com/512/3076/3076840.png',
+      url: '/atividades/pou-online'
+    }
+  ];
+
+  const currentId = typeof currentGame !== 'undefined' ? currentGame : '';
+  const filteredGames = allRecommendedGames.filter(g => g.id !== currentId).slice(0, 4);
+%>
+
+<div class="recommended-games-section" style="margin: 35px 0; background: rgba(30, 41, 59, 0.7); border: 2px solid rgba(56, 189, 248, 0.3); border-radius: 24px; padding: 25px 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <h3 style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.5rem; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+                🎯 Próximos Desafios Recomendados
+            </h3>
+            <p style="margin: 4px 0 0 0; color: #94a3b8; font-size: 0.9rem;">Continue aprendendo e praticando com estes jogos selecionados:</p>
+        </div>
+        <a href="/?level=1-5" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 6px 14px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; text-decoration: none; transition: 0.2s;">
+            Ver Todas as Missões 🚀
+        </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+        <% filteredGames.forEach(game => { %>
+            <a href="<%= game.url %>" style="display: flex; flex-direction: column; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; padding: 14px; text-decoration: none; color: inherit; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.borderColor='#38bdf8'; this.style.boxShadow='0 10px 25px rgba(56,189,248,0.2)';" onmouseout="this.style.transform='none'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='none';">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                    <img src="<%= game.image %>" alt="<%= game.title %>" style="width: 52px; height: 52px; border-radius: 12px; object-fit: cover; border: 2px solid rgba(56, 189, 248, 0.4); flex-shrink: 0;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
+                    <div>
+                        <div style="font-size: 0.72rem; font-weight: 800; color: #fbbf24; text-transform: uppercase;"><%= game.badge %></div>
+                        <h4 style="margin: 2px 0 0 0; font-family: 'Fredoka', sans-serif; font-size: 1.05rem; color: #ffffff; line-height: 1.2;"><%= game.title %></h4>
+                    </div>
+                </div>
+                <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.06);">
+                    <span style="font-size: 0.75rem; color: #94a3b8;"><%= game.level %></span>
+                    <span style="background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 800;">JOGAR 🚀</span>
+                </div>
+            </a>
+        <% }); %>
+    </div>
+</div>

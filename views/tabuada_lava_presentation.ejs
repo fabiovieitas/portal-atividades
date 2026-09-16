@@ -7,6 +7,7 @@
     <meta name="description" content="Plano de aula e guia pedagógico do jogo Tabuada: O Chão é Lava! Cálculo mental rápido, fatos fundamentais da multiplicação e habilidades da BNCC (EF02MA05, EF03MA03, EF04MA04).">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
@@ -109,6 +110,9 @@
                 "Aplicação de metodologia ativa e gamificada para cálculo mental com o jogo 'Tabuada: O Chão é Lava!'. Construção e consolidação dos fatos fundamentais da multiplicação (EF02MA05, EF03MA03). Constatou-se avanço na agilidade de resposta e superação do medo de errar em operações aritméticas."
             </div>
         </div>
+
+        <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        <%- include('partials/recommended_games', { currentGame: 'tabuada-lava' }) %>
 
         <!-- Publicidade Institucional Segura -->
         <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">

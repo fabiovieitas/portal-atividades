@@ -7,6 +7,7 @@
     <meta name="description" content="Guia do professor e plano de aula do jogo Brincando com Ariê 3. Construção de frases, ortografia contextual, operações matemáticas e habilidades da BNCC (EF01LP12, EF02LP01, EF02MA05).">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
@@ -109,6 +110,9 @@
                 "Execução de atividade pedagógica digital com o software 'Brincando com Ariê 3'. Consolidação de habilidades de segmentação de sentenças (EF01LP12), normas ortográficas (EF02LP01) e cálculo mental fundamental (EF02MA05). Registro no diário apontando melhora na autonomia leitora e na compreensão de enunciados compostos."
             </div>
         </div>
+
+        <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        <%- include('partials/recommended_games', { currentGame: 'arie3' }) %>
 
         <!-- Publicidade Institucional Segura -->
         <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">

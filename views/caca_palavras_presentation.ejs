@@ -7,6 +7,7 @@
     <meta name="description" content="Plano de aula e guia pedagógico do Caça-Palavras Temático. Vocabulário, rastreamento visual, ortografia e habilidades da BNCC (EF01LP02, EF02LP04, EF35LP05) para o Ensino Fundamental.">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
@@ -109,6 +110,9 @@
                 "Atividade de Língua Portuguesa com a plataforma gamificada 'Caça-Palavras Temático'. Trabalho com campos semânticos curriculares, expansão de vocabulário e rastreamento visual atencional (EF02LP04, EF35LP05). Registro no diário de classe demonstrando progresso na atenção concentrada e na correlação grafofonêmica."
             </div>
         </div>
+
+        <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        <%- include('partials/recommended_games', { currentGame: 'caca-palavras' }) %>
 
         <!-- Publicidade Institucional Segura -->
         <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
