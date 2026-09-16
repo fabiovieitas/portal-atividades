@@ -668,91 +668,186 @@
                         📈 Ver Painel Geral Unificado
                     </a>
                 </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <button type="button" class="admin-sim-filter-btn" onclick="filterAdminSimulados('ALL', this)" style="padding: 6px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: #0284c7; color: #ffffff;">
+                        📚 Todos os Simulados (10)
+                    </button>
+                    <button type="button" class="admin-sim-filter-btn" onclick="filterAdminSimulados('Setembro', this)" style="padding: 6px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: #f1f5f9; color: #334155;">
+                        📂 Pasta de Setembro / 2026 (5) ✨
+                    </button>
+                    <button type="button" class="admin-sim-filter-btn" onclick="filterAdminSimulados('Agosto', this)" style="padding: 6px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: #f1f5f9; color: #334155;">
+                        📁 Pasta de Agosto / 2026 (5) 🏛️
+                    </button>
+                </div>
                 <div class="table-responsive">
                     <table class="admin-table">
                         <thead>
                             <tr>
                                 <th>Simulado / Prova</th>
                                 <th>Ano / Público</th>
-                                <th>Bimestre</th>
+                                <th>Mês / Edição</th>
                                 <th>Status</th>
                                 <th style="text-align: right;">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- 1º Ano -->
-                            <tr>
+                            <!-- SETEMBRO / 2026 -->
+                            <tr class="admin-sim-row" data-month="Setembro">
                                 <td>
-                                    <strong>🥇 Simulado Digital 1º Ano: Campos de Todos Nós</strong><br>
+                                    <strong>🥇 Simulado 1º Ano — Língua Portuguesa & Matemática</strong><br>
+                                    <small style="color: #64748b;">11 Questões Interativas • Edição Setembro/2026</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">1º Ano</span></td>
+                                <td><span class="badge" style="background: #fef3c7; color: #92400e;">Setembro / 2026 ✨</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-1ano-setembro" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-1ano-setembro-2026" class="btn-icon" title="Ver Resultados" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <tr class="admin-sim-row" data-month="Setembro">
+                                <td>
+                                    <strong>🥈 Simulado 2º Ano — LP, Matemática e Ditado de Frases</strong><br>
+                                    <small style="color: #64748b;">11 Questões Interativas • Edição Setembro/2026</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">2º Ano</span></td>
+                                <td><span class="badge" style="background: #fef3c7; color: #92400e;">Setembro / 2026 ✨</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-2ano-setembro" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-2ano-setembro-2026" class="btn-icon" title="Ver Resultados" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <tr class="admin-sim-row" data-month="Setembro">
+                                <td>
+                                    <strong>🥉 Simulado 3º Ano — LP, Matemática e Arte</strong><br>
+                                    <small style="color: #64748b;">10 Questões Interativas • Edição Setembro/2026</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3º Ano</span></td>
+                                <td><span class="badge" style="background: #fef3c7; color: #92400e;">Setembro / 2026 ✨</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-3ano-setembro" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-3ano-setembro-2026" class="btn-icon" title="Ver Resultados" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <tr class="admin-sim-row" data-month="Setembro">
+                                <td>
+                                    <strong>🎯 Simulado 4º Ano — Pró-SAEB Língua Portuguesa</strong><br>
+                                    <small style="color: #64748b;">10 Questões Interativas • Matriz SAEB Oficial • Setembro/2026</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">4º Ano</span></td>
+                                <td><span class="badge" style="background: #fef3c7; color: #92400e;">Setembro / 2026 ✨</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-4ano-setembro" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-4ano-setembro-2026" class="btn-icon" title="Ver Resultados" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <tr class="admin-sim-row" data-month="Setembro">
+                                <td>
+                                    <strong>🚀 Simulado 5º Ano — LP, Matemática e Redação</strong><br>
+                                    <small style="color: #64748b;">10 Questões Interativas • Edição Setembro/2026</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">5º Ano</span></td>
+                                <td><span class="badge" style="background: #fef3c7; color: #92400e;">Setembro / 2026 ✨</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/atividades/simulado-campos-5ano-setembro" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-5ano-setembro-2026" class="btn-icon" title="Ver Resultados" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+
+                            <!-- AGOSTO / 2026 -->
+                            <tr class="admin-sim-row" data-month="Agosto">
+                                <td>
+                                    <strong>🥇 Simulado Diagnóstico 1º Ano: Campos de Todos Nós</strong><br>
                                     <small style="color: #64748b;">10 Questões Interativas • Alfabetização, Matemática e Saberes Locais</small>
                                 </td>
                                 <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">1º Ano</span></td>
-                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #e2e8f0; color: #334155;">Agosto / 2026 🏛️</span></td>
                                 <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
                                 <td style="text-align: right; white-space: nowrap;">
-                                    <a href="/atividades/simulado-campos-1ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/atividades/simulado-campos-1ano-agosto" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
                                     <a href="/admin/simulado/resultados?simulado_id=campos-1ano-agosto-2026" class="btn-icon" title="Ver Resultados do 1º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
                                 </td>
                             </tr>
-                            <!-- 2º Ano -->
-                            <tr>
+                            <tr class="admin-sim-row" data-month="Agosto">
                                 <td>
-                                    <strong>🥈 Simulado Digital 2º Ano: Campos de Todos Nós</strong><br>
+                                    <strong>🥈 Simulado Diagnóstico 2º Ano: Campos de Todos Nós</strong><br>
                                     <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Redação e História Local</small>
                                 </td>
                                 <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">2º Ano</span></td>
-                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #e2e8f0; color: #334155;">Agosto / 2026 🏛️</span></td>
                                 <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
                                 <td style="text-align: right; white-space: nowrap;">
-                                    <a href="/atividades/simulado-campos-2ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/atividades/simulado-campos-2ano-agosto" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
                                     <a href="/admin/simulado/resultados?simulado_id=campos-2ano-agosto-2026" class="btn-icon" title="Ver Resultados do 2º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
                                 </td>
                             </tr>
-                            <!-- 3º Ano -->
-                            <tr>
+                            <tr class="admin-sim-row" data-month="Agosto">
                                 <td>
-                                    <strong>🥉 Simulado Digital 3º Ano: Campos de Todos Nós</strong><br>
+                                    <strong>🥉 Simulado Diagnóstico 3º Ano: Campos de Todos Nós</strong><br>
                                     <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Redação e Ciências</small>
                                 </td>
                                 <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3º Ano</span></td>
-                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #e2e8f0; color: #334155;">Agosto / 2026 🏛️</span></td>
                                 <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
                                 <td style="text-align: right; white-space: nowrap;">
-                                    <a href="/atividades/simulado-campos-3ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/atividades/simulado-campos-3ano-agosto" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
                                     <a href="/admin/simulado/resultados?simulado_id=campos-3ano-agosto-2026" class="btn-icon" title="Ver Resultados do 3º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
                                 </td>
                             </tr>
-                            <!-- 4º Ano -->
-                            <tr>
+                            <tr class="admin-sim-row" data-month="Agosto">
                                 <td>
-                                    <strong>🎯 Simulado Digital 4º Ano: Campos de Todos Nós</strong><br>
+                                    <strong>🎯 Simulado Diagnóstico 4º Ano: Campos de Todos Nós</strong><br>
                                     <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Geografia, Ciências e Arte</small>
                                 </td>
                                 <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">4º Ano</span></td>
-                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #e2e8f0; color: #334155;">Agosto / 2026 🏛️</span></td>
                                 <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
                                 <td style="text-align: right; white-space: nowrap;">
-                                    <a href="/atividades/simulado-campos-4ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/atividades/simulado-campos-4ano-agosto" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
                                     <a href="/admin/simulado/resultados?simulado_id=campos-4ano-agosto-2026" class="btn-icon" title="Ver Resultados do 4º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
                                 </td>
                             </tr>
-                            <!-- 5º Ano -->
-                            <tr>
+                            <tr class="admin-sim-row" data-month="Agosto">
                                 <td>
-                                    <strong>🚀 Simulado Digital 5º Ano: Campos de Todos Nós</strong><br>
+                                    <strong>🚀 Simulado Diagnóstico 5º Ano: Campos de Todos Nós</strong><br>
                                     <small style="color: #64748b;">Blocos 1 e 2 • Língua Portuguesa, Matemática, Redação e Meio Ambiente</small>
                                 </td>
                                 <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">5º Ano</span></td>
-                                <td>Agosto / 2026</td>
+                                <td><span class="badge" style="background: #e2e8f0; color: #334155;">Agosto / 2026 🏛️</span></td>
                                 <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo 🔥</span></td>
                                 <td style="text-align: right; white-space: nowrap;">
-                                    <a href="/atividades/simulado-campos-5ano" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/atividades/simulado-campos-5ano-agosto" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
                                     <a href="/admin/simulado/resultados?simulado_id=campos-5ano-agosto-2026" class="btn-icon" title="Ver Resultados do 5º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
+                <script>
+                    function filterAdminSimulados(month, btn) {
+                        document.querySelectorAll('.admin-sim-filter-btn').forEach(b => {
+                            b.style.background = '#f1f5f9';
+                            b.style.color = '#334155';
+                        });
+                        if (btn) {
+                            btn.style.background = '#0284c7';
+                            btn.style.color = '#ffffff';
+                        }
+                        document.querySelectorAll('.admin-sim-row').forEach(row => {
+                            const rowMonth = row.getAttribute('data-month');
+                            if (month === 'ALL' || rowMonth === month) {
+                                row.style.display = '';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+                    }
+                </script>
 
                 <div style="background: #f0fdf4; border: 1px solid #86efac; padding: 15px; border-radius: 12px; margin-top: 20px; font-size: 0.9rem; color: #166534; display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 1.3rem;">✅</span>

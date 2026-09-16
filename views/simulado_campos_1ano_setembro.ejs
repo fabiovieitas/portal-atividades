@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 1º Ano — Blocos 1 e 2 (Setembro/2026) | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-dark: #047857;
+      --primary-light: #ecfdf5;
+      --accent: #0284c7;
+      --accent-light: #e0f2fe;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 36px rgba(5, 150, 105, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 5rem;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+    }
+
+    .top-header {
+      background: white;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 0.75rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+    .simulado-badge {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
+    }
+
+    .main-layout {
+      max-width: 920px;
+      margin: 2rem auto 0;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .simulado-pdf-titlecard {
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      color: white;
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 3px solid #34d399;
+      position: relative;
+      overflow: hidden;
+    }
+    .gov-tag {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+    .simulado-pdf-titlecard h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.3rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.4rem;
+    }
+    .simulado-pdf-titlecard h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #a7f3d0;
+      margin-bottom: 0.5rem;
+    }
+    .sub-theme {
+      font-size: 1.05rem;
+      color: #d1fae5;
+      font-weight: 600;
+    }
+
+    .student-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+    }
+    .student-card h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      color: #0f172a;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #475569;
+    }
+    .form-control {
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #1e293b;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .cover-section-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+      align-items: center;
+    }
+    .cover-content h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.6rem;
+      color: #065f46;
+      margin-bottom: 0.8rem;
+    }
+    .cover-content p {
+      color: #334155;
+      font-size: 1.05rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+    .cover-poster-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      border: 2px solid #a7f3d0;
+      box-shadow: var(--shadow-md);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      transition: border-color 0.2s;
+    }
+    .question-card:hover {
+      border-color: var(--primary);
+    }
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px dashed #f1f5f9;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .q-number-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .q-number {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .q-subject-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+    }
+
+    .q-passage {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 1.2rem 1.5rem;
+      border-radius: 0 14px 14px 0;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .q-prompt {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .q-img-center {
+      text-align: center;
+      margin: 1.25rem 0;
+      display: flex;
+      justify-content: center;
+    }
+    .q-img-center img {
+      max-width: 100%;
+      height: auto;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      background: white;
+      display: block;
+    }
+    .q-side-img {
+      max-width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+      background: white;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .option-label:hover {
+      border-color: var(--primary);
+      background: #f0fdf4;
+      transform: translateX(4px);
+    }
+    .option-label input[type="radio"] {
+      width: 1.4rem;
+      height: 1.4rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .option-label:has(input[type="radio"]:checked) {
+      background: #d1fae5;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+    }
+
+    /* Cartão de Respostas no Final da Página (Padrão Oficial dos Simulados Anteriores) */
+    .cartao-resposta {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 3px solid #a7f3d0;
+      margin-top: 1.5rem;
+    }
+    .cartao-title {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--primary-dark);
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .bubbles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+    .bubble-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .bubble-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .bubble-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .bubble-dot:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .bubble-dot.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 1.1rem;
+      border-radius: 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      cursor: pointer;
+      margin-top: 1.25rem;
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(16, 185, 129, 0.4);
+    }
+
+    .teacher-gabarito-toggle-btn {
+      width: 100%;
+      background: #f1f5f9;
+      color: #475569;
+      border: 2px solid #cbd5e1;
+      padding: 0.6rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .teacher-gabarito-toggle-btn:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    /* Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      border: 2px solid #86efac;
+      animation: scaleIn 0.25s ease-out;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .cover-section-card { grid-template-columns: 1fr; text-align: center; }
+      .q-grid-side { grid-template-columns: 1fr !important; }
+      .main-layout { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="header-container">
+      <a href="/?level=1-5" class="brand-logo">
+        <span style="font-size: 1.8rem;">🐢</span>
+        <div>
+          <div class="brand-title">Lab Kids • Projeto Campos de Todos Nós</div>
+          <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Secretaria Municipal de Educação de Campos dos Goytacazes</div>
+        </div>
+      </a>
+      <div class="simulado-badge">
+        <span>📝 1º ANO — SETEMBRO/2026</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- Title Card -->
+    <div class="simulado-pdf-titlecard">
+      <div class="gov-tag">PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES • SMEC</div>
+      <h1>SIMULADO: 1º ANO</h1>
+      <h2>BLOCOS 1 E 2 — SETEMBRO / 2026</h2>
+      <div class="sub-theme">🌿 Tema: Preservação das Águas, Meio Ambiente e Sustentabilidade</div>
+    </div>
+
+    <!-- Student Identification Card -->
+    <div class="student-card">
+      <h2>👤 Identificação do Aluno(a)</h2>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: span 2;">
+          <label>Nome Completo do(a) Estudante *</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
+        </div>
+        <div class="form-group">
+          <label>Escola Municipal *</label>
+          <select id="schoolName" class="form-control">
+            <% if (typeof schools !== 'undefined' && schools && schools.length > 0) { %>
+              <% schools.forEach(s => { %>
+                <option value="<%= s.name %>"><%= s.name %></option>
+              <% }); %>
+            <% } else { %>
+              <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
+              <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
+              <option value="Outra Escola Municipal">Outra Escola Municipal</option>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Turma *</label>
+          <select id="className" class="form-control">
+            <option value="1º Ano A">1º Ano A</option>
+            <option value="1º Ano B">1º Ano B</option>
+            <option value="1º Ano C">1º Ano C</option>
+            <option value="1º Ano">1º Ano (Única)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Turno</label>
+          <select id="shiftName" class="form-control">
+            <option value="Manhã">Manhã</option>
+            <option value="Tarde">Tarde</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Data</label>
+          <input type="text" id="examDate" class="form-control" value="Setembro/2026" readonly>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cover Poster Block (Page 1) -->
+    <div class="cover-section-card">
+      <div class="cover-content">
+        <h3>🐢 Cuidar do Meio Ambiente é Cuidar do Futuro!</h3>
+        <p>Olá, amiguinho(a) do 1º Ano! Vamos aprender e brincar com o Goytaré, a Júlia e o Kelvin sobre como cuidar da água, das praias, das lagoas e da nossa cidade de Campos dos Goytacazes.</p>
+        <p style="color: #047857; font-weight: 700;">LEIA COM ATENÇÃO CADA QUESTÃO, OBSERVE AS IMAGENS E MARQUE A SUA RESPOSTA NO CARTÃO!</p>
+      </div>
+      <div>
+        <img src="/img/simulado/1ano_setembro/cover_poster.png" alt="Goytaré e o Meio Ambiente" class="cover-poster-img">
+      </div>
+    </div>
+
+    <!-- QUESTÃO 1 -->
+    <div class="question-card" id="q-card-1">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 1</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF15LP03</span>
+      </div>
+
+      <div class="q-grid-side" style="display: grid; grid-template-columns: 1fr 260px; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem;">
+        <div class="q-passage" id="text-q1" style="margin-bottom: 0;">
+          CUIDAR É PRESERVAR
+          <br><br>
+          CAMPOS DOS GOYTACAZES<br>
+          É O NOSSO LUGAR.<br>
+          TEM RIO, LAGOA E PRAIA<br>
+          QUE DEVEMOS PRESERVAR.<br><br>
+          ÁGUA É VIDA,<br>
+          LIXO NO CHÃO, NÃO!<br>
+          CUIDAR DA NATUREZA<br>
+          É UMA BOA AÇÃO!<br><br>
+          CUIDAR HOJE E AMANHÃ<br>
+          É SUSTENTABILIDADE.<br>
+          UM PLANETA BEM CUIDADO<br>
+          É BOM PARA TODA A CIDADE!
+        </div>
+        <div style="text-align: center;">
+          <img src="/img/simulado/1ano_setembro/q1_goytare.png" alt="Goytaré com a Placa" class="q-side-img">
+        </div>
+      </div>
+
+      <div class="q-prompt">O QUE O POEMA “CUIDAR É PRESERVAR!” QUER NOS ENSINAR?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span>A) ENSINAR A CUIDAR DO MEIO AMBIENTE.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span>B) CONTAR UMA HISTÓRIA DE AVENTURA.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span>C) ENSINAR UMA BRINCADEIRA.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span>D) CONTAR SOBRE UMA FESTA.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 2 -->
+    <div class="question-card" id="q-card-2">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 2</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF01LP19</span>
+      </div>
+
+      <div class="q-passage">
+        LEIA UM TRECHO DO POEMA:
+        <br><br>
+        “ÁGUA É VIDA,<br>
+        LIXO FORA DO CHÃO!<br>
+        CUIDAR DA NATUREZA<br>
+        É UMA BOA AÇÃO!”
+      </div>
+
+      <div class="q-prompt">QUAIS PALAVRAS DESSE TRECHO RIMAM?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q2" value="A" onclick="updateCartao(2, 'A')"> <span>A) CHÃO E AÇÃO.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="B" onclick="updateCartao(2, 'B')"> <span>B) VIDA E CHÃO.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="C" onclick="updateCartao(2, 'C')"> <span>C) ÁGUA E NATUREZA.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="D" onclick="updateCartao(2, 'D')"> <span>D) VIDA E AÇÃO.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 3 -->
+    <div class="question-card" id="q-card-3">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 3</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF15LP03</span>
+      </div>
+
+      <div class="q-passage">
+        JÚLIA E KELVIN LERAM O POEMA “CUIDAR É PRESERVAR!” E CONVERSARAM SOBRE COMO PROTEGER A NATUREZA.
+      </div>
+
+      <div class="q-prompt">SEGUNDO O POEMA, QUAL ATITUDE AJUDA A CUIDAR DO MEIO AMBIENTE?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q3" value="A" onclick="updateCartao(3, 'A')"> <span>A) NÃO JOGAR LIXO NO CHÃO.</span></label>
+        <label class="option-label"><input type="radio" name="q3" value="B" onclick="updateCartao(3, 'B')"> <span>B) DEIXAR A TORNEIRA ABERTA.</span></label>
+        <label class="option-label"><input type="radio" name="q3" value="C" onclick="updateCartao(3, 'C')"> <span>C) JOGAR LIXO NO RIO.</span></label>
+        <label class="option-label"><input type="radio" name="q3" value="D" onclick="updateCartao(3, 'D')"> <span>D) ARRANCAR AS PLANTAS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 4 -->
+    <div class="question-card" id="q-card-4">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 4</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF15LP03</span>
+      </div>
+
+      <div class="q-passage">
+        A PROFESSORA CONVERSOU COM JÚLIA E KELVIN SOBRE O POEMA “CUIDAR É PRESERVAR!”. ELES APRENDERAM QUE DEVEMOS CUIDAR DA NATUREZA HOJE E AMANHÃ.
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/1ano_setembro/q4_professora.png" alt="Professora, Júlia e Kelvin" style="max-width: 500px;">
+      </div>
+
+      <div class="q-prompt">QUANDO DEVEMOS CUIDAR DA NATUREZA?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q4" value="A" onclick="updateCartao(4, 'A')"> <span>A) SÓ HOJE.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="B" onclick="updateCartao(4, 'B')"> <span>B) TODOS OS DIAS.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="C" onclick="updateCartao(4, 'C')"> <span>C) SÓ NAS FÉRIAS.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="D" onclick="updateCartao(4, 'D')"> <span>D) SÓ NOS FINS DE SEMANA.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 5 -->
+    <div class="question-card" id="q-card-5">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 5</span>
+        </div>
+        <span class="q-subject-badge">Ciências • EF01CI01</span>
+      </div>
+
+      <div class="q-passage">
+        A PROFESSORA FALOU SOBRE A IMPORTÂNCIA DE CUIDAREM DA ÁGUA.
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/1ano_setembro/q5_torneira.png" alt="Torneira e Água" style="max-width: 320px;">
+      </div>
+
+      <div class="q-prompt">O QUE DEVEMOS FAZER PARA NÃO DESPERDIÇAR ÁGUA?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q5" value="A" onclick="updateCartao(5, 'A')"> <span>A) FECHAR A TORNEIRA.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="B" onclick="updateCartao(5, 'B')"> <span>B) DEIXAR A TORNEIRA ABERTA.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="C" onclick="updateCartao(5, 'C')"> <span>C) BRINCAR COM A ÁGUA.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="D" onclick="updateCartao(5, 'D')"> <span>D) JOGAR ÁGUA NO CHÃO.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 6 -->
+    <div class="question-card" id="q-card-6">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 6</span>
+        </div>
+        <span class="q-subject-badge">Geografia • EF01GE10</span>
+      </div>
+
+      <div class="q-grid-side" style="display: grid; grid-template-columns: 1fr 280px; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem;">
+        <div class="q-passage" style="margin-bottom: 0;">
+          GOYTARÉ VISITOU COM A TURMA A LAGOA DE CIMA.
+        </div>
+        <div style="text-align: center;">
+          <img src="/img/simulado/1ano_setembro/q6_lagoa.png" alt="Goytaré na Lagoa de Cima" class="q-side-img">
+        </div>
+      </div>
+
+      <div class="q-prompt">QUAL ATITUDE AJUDA A CUIDAR DESSE LUGAR?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q6" value="A" onclick="updateCartao(6, 'A')"> <span>A) NÃO JOGAR LIXO E CUIDAR DAS PLANTAS.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="B" onclick="updateCartao(6, 'B')"> <span>B) JOGAR GARRAFAS NA ÁGUA.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="C" onclick="updateCartao(6, 'C')"> <span>C) DEIXAR LIXO NO CHÃO.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="D" onclick="updateCartao(6, 'D')"> <span>D) ARRANCAR AS PLANTAS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 7 -->
+    <div class="question-card" id="q-card-7">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 7</span>
+        </div>
+        <span class="q-subject-badge">Geografia • EF01GE10</span>
+      </div>
+
+      <div class="q-passage">
+        A PROFESSORA APRESENTOU PARA JÚLIA E KELVIN UMA IMAGEM DA PRAIA DO FAROL DE SÃO TOMÉ E CONVERSOU COM ELES SOBRE A IMPORTÂNCIA DE CUIDAR DESSE LUGAR.
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/1ano_setembro/q7_farol.png" alt="Farol de São Tomé" style="max-width: 320px;">
+      </div>
+
+      <div class="q-prompt">QUAL IMAGEM REPRESENTA UMA PRAIA BEM CUIDADA?</div>
+
+      <div class="options-grid">
+        <label class="option-label" style="align-items: flex-start;">
+          <input type="radio" name="q7" value="A" onclick="updateCartao(7, 'A')">
+          <div>
+            <span>A) SACOLAS ESPALHADAS PELA PRAIA</span>
+            <div style="margin-top: 0.5rem;"><img src="/img/simulado/1ano_setembro/q7_praia_a.png" alt="Opção A" style="max-width: 260px; border-radius: 8px; border: 1px solid #cbd5e1;"></div>
+          </div>
+        </label>
+        <label class="option-label" style="align-items: flex-start;">
+          <input type="radio" name="q7" value="B" onclick="updateCartao(7, 'B')">
+          <div>
+            <span>B) PRAIA LIMPA E LIXO NA LIXEIRA</span>
+            <div style="margin-top: 0.5rem;"><img src="/img/simulado/1ano_setembro/q7_praia_b.png" alt="Opção B" style="max-width: 260px; border-radius: 8px; border: 1px solid #cbd5e1;"></div>
+          </div>
+        </label>
+        <label class="option-label" style="align-items: flex-start;">
+          <input type="radio" name="q7" value="C" onclick="updateCartao(7, 'C')">
+          <div>
+            <span>C) GARRAFAS NA ÁGUA</span>
+            <div style="margin-top: 0.5rem;"><img src="/img/simulado/1ano_setembro/q7_praia_c.png" alt="Opção C" style="max-width: 260px; border-radius: 8px; border: 1px solid #cbd5e1;"></div>
+          </div>
+        </label>
+        <label class="option-label" style="align-items: flex-start;">
+          <input type="radio" name="q7" value="D" onclick="updateCartao(7, 'D')">
+          <div>
+            <span>D) LIXO NA AREIA</span>
+            <div style="margin-top: 0.5rem;"><img src="/img/simulado/1ano_setembro/q7_praia_d.png" alt="Opção D" style="max-width: 260px; border-radius: 8px; border: 1px solid #cbd5e1;"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 8 -->
+    <div class="question-card" id="q-card-8">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 8</span>
+        </div>
+        <span class="q-subject-badge">Matemática • EF01MA13</span>
+      </div>
+
+      <div class="q-passage">
+        DURANTE UMA AÇÃO DE LIMPEZA NA PRAIA DO FAROL DE SÃO TOMÉ, KELVIN ENCONTROU UMA LATA.
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/1ano_setembro/q8_lata.png" alt="Lata na Areia" style="max-width: 320px;">
+      </div>
+
+      <div class="q-prompt">QUAL FIGURA TEM A FORMA PARECIDA COM A LATA?</div>
+
+      <div class="options-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <label class="option-label" style="flex-direction: column; align-items: center; text-align: center;">
+          <input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')">
+          <span>A) ESFERA</span>
+          <img src="/img/simulado/1ano_setembro/q8_fig_a.png" alt="Esfera" style="max-width: 140px; margin-top: 0.5rem;">
+        </label>
+        <label class="option-label" style="flex-direction: column; align-items: center; text-align: center;">
+          <input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')">
+          <span>B) CILINDRO</span>
+          <img src="/img/simulado/1ano_setembro/q8_fig_b.png" alt="Cilindro" style="max-width: 140px; margin-top: 0.5rem;">
+        </label>
+        <label class="option-label" style="flex-direction: column; align-items: center; text-align: center;">
+          <input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')">
+          <span>C) CONE</span>
+          <img src="/img/simulado/1ano_setembro/q8_fig_c.png" alt="Cone" style="max-width: 140px; margin-top: 0.5rem;">
+        </label>
+        <label class="option-label" style="flex-direction: column; align-items: center; text-align: center;">
+          <input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')">
+          <span>D) PARALELEPÍPEDO</span>
+          <img src="/img/simulado/1ano_setembro/q8_fig_d.png" alt="Paralelepípedo" style="max-width: 140px; margin-top: 0.5rem;">
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 9 -->
+    <div class="question-card" id="q-card-9">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 9</span>
+        </div>
+        <span class="q-subject-badge">Matemática • EF01MA19</span>
+      </div>
+
+      <div class="q-passage">
+        A TURMA ESTÁ FAZENDO UMA CAMPANHA PARA AJUDAR A PRESERVAR O RIO PARAÍBA DO SUL. PARA COLABORAR, OS ALUNOS ESTÃO ARRECADANDO DINHEIRO.<br><br>
+        JÚLIA CONTRIBUIU COM ESTA CÉDULA:
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/1ano_setembro/q9_cedula5.png" alt="Cédula de 5 Reais" style="max-width: 320px;">
+      </div>
+
+      <div class="q-prompt">QUAL É O VALOR DA CÉDULA?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span>A) 2 REAIS.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span>B) 10 REAIS.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span>C) 5 REAIS.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span>D) 20 REAIS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 10 -->
+    <div class="question-card" id="q-card-10">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 10</span>
+        </div>
+        <span class="q-subject-badge">Matemática • EF01MA21</span>
+      </div>
+
+      <div class="q-passage">
+        A TURMA PARTICIPOU DE AÇÕES DE CUIDADO COM O RIO PARAÍBA DO SUL, A LAGOA DE CIMA E A PRAIA DO FAROL DE SÃO TOMÉ.
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/1ano_setembro/q10_grafico.png" alt="Gráfico Lugares Visitados Pela Turma" style="max-width: 480px;">
+      </div>
+
+      <div class="q-prompt">QUAL LUGAR FOI VISITADO MAIS VEZES?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q10" value="A" onclick="updateCartao(10, 'A')"> <span>A) RIO PARAÍBA DO SUL.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="B" onclick="updateCartao(10, 'B')"> <span>B) LAGOA DE CIMA.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="C" onclick="updateCartao(10, 'C')"> <span>C) PRAIA DO FAROL DE SÃO TOMÉ.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="D" onclick="updateCartao(10, 'D')"> <span>D) TODOS FORAM VISITADOS A MESMA QUANTIDADE DE VEZES.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 11 -->
+    <div class="question-card" id="q-card-11">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 11</span>
+        </div>
+        <span class="q-subject-badge">Ciências • EF01CI01</span>
+      </div>
+
+      <div class="q-passage">
+        A PROFESSORA CONVERSOU COM JÚLIA E KELVIN SOBRE SUSTENTABILIDADE. ELA EXPLICOU QUE SUSTENTABILIDADE É CUIDAR DA NATUREZA HOJE PARA QUE ELA CONTINUE BEM CUIDADA NO FUTURO.
+      </div>
+
+      <div class="q-prompt">QUAL ATITUDE AJUDA A CUIDAR DO MEIO AMBIENTE?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q11" value="A" onclick="updateCartao(11, 'A')"> <span>A) JOGAR O LIXO NA LIXEIRA.</span></label>
+        <label class="option-label"><input type="radio" name="q11" value="B" onclick="updateCartao(11, 'B')"> <span>B) JOGAR LIXO NO RIO.</span></label>
+        <label class="option-label"><input type="radio" name="q11" value="C" onclick="updateCartao(11, 'C')"> <span>C) DEIXAR LIXO NA PRAIA.</span></label>
+        <label class="option-label"><input type="radio" name="q11" value="D" onclick="updateCartao(11, 'D')"> <span>D) DESPERDIÇAR ÁGUA.</span></label>
+      </div>
+    </div>
+
+    <!-- Cartão de Respostas no Final da Página (Padrão Oficial) -->
+    <section class="cartao-resposta">
+      <div class="cartao-title">📋 Cartão Resposta Oficial (1º Ano)</div>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.8rem;">
+        Confira todas as suas 11 respostas marcadas antes de enviar:
+      </p>
+      
+      <div style="background: #f1f5f9; height: 10px; border-radius: 50px; margin-bottom: 0.5rem; overflow: hidden;">
+        <div id="progressFill" style="background: linear-gradient(90deg, var(--primary), #10b981); height: 100%; width: 0%; transition: width 0.3s;"></div>
+      </div>
+      <div id="progressText" style="font-size: 0.9rem; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 1.2rem;">
+        0 de 11 respondidas
+      </div>
+
+      <div class="bubbles-list">
+        <% for(let i=1; i<=11; i++) { %>
+          <div class="bubble-row">
+            <span style="font-weight: 800; font-size: 0.9rem; color: #334155;">Questão <%= i < 10 ? '0'+i : i %></span>
+            <div class="bubble-dots">
+              <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
+              <div class="bubble-dot" id="b-<%= i %>-B" onclick="selectFromBubble(<%= i %>, 'B')">B</div>
+              <div class="bubble-dot" id="b-<%= i %>-C" onclick="selectFromBubble(<%= i %>, 'C')">C</div>
+              <div class="bubble-dot" id="b-<%= i %>-D" onclick="selectFromBubble(<%= i %>, 'D')">D</div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+
+      <button class="submit-btn" onclick="submitSimulado()">
+        <span>🚀 FINALIZAR E ENVIAR SIMULADO</span>
+      </button>
+
+      <button class="teacher-gabarito-toggle-btn" onclick="toggleGabaritoModal()" style="margin-top: 1rem;">
+        <span>📊 Ver Gabarito & Habilidades BNCC (Professor)</span>
+      </button>
+    </section>
+
+  </main>
+
+  <!-- Teacher Gabarito BNCC Modal -->
+  <div class="modal-backdrop" id="gabaritoModal">
+    <div class="modal-box" style="max-width: 750px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+        <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.4rem;">📊 Gabarito & Matriz de Habilidades BNCC (1º Ano — Setembro/2026)</h2>
+        <button onclick="toggleGabaritoModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+          <thead>
+            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+              <th style="padding: 0.6rem;">Questão</th>
+              <th style="padding: 0.6rem;">Gabarito</th>
+              <th style="padding: 0.6rem;">Habilidade BNCC</th>
+              <th style="padding: 0.6rem;">Componente Curricular</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">1</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF15LP03</td><td style="padding: 0.6rem;">Língua Portuguesa (Assunto do poema)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">2</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF01LP19</td><td style="padding: 0.6rem;">Língua Portuguesa (Rimas)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">3</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF15LP03</td><td style="padding: 0.6rem;">Língua Portuguesa (Informação explícita)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">4</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF15LP03</td><td style="padding: 0.6rem;">Língua Portuguesa (Informação explícita)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">5</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF01CI01</td><td style="padding: 0.6rem;">Ciências (Evitar desperdício de água)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">6</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF01GE10</td><td style="padding: 0.6rem;">Geografia (Preservação de lugares)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">7</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF01GE10</td><td style="padding: 0.6rem;">Geografia (Praia bem cuidada)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">8</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF01MA13</td><td style="padding: 0.6rem;">Matemática (Figuras geométricas / Cilindro)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">9</td><td style="padding: 0.6rem;"><strong>C</strong></td><td style="padding: 0.6rem;">EF01MA19</td><td style="padding: 0.6rem;">Matemática (Cédula de 5 Reais)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">10</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF01MA21</td><td style="padding: 0.6rem;">Matemática (Gráfico de colunas)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">11</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF01CI01</td><td style="padding: 0.6rem;">Ciências (Preservação e Sustentabilidade)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button type="button" onclick="toggleGabaritoModal()" style="padding: 0.7rem 2rem; border-radius: 50px; background: #059669; color: white; border: none; font-weight: 800; cursor: pointer;">Fechar Gabarito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Missing Questions Modal -->
+  <div class="modal-backdrop" id="missingModal">
+    <div class="modal-box">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.6rem; color: #dc2626; margin-bottom: 0.8rem;">Atenção! Faltam Questões</h3>
+      <p style="color: #64748b; margin-bottom: 1.2rem;">Você ainda não respondeu todas as questões do simulado:</p>
+      <div id="missingQuestionsList" style="text-align: left; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 1rem; color: #991b1b; font-weight: 700; margin-bottom: 1.5rem; max-height: 180px; overflow-y: auto;">
+      </div>
+      <button type="button" onclick="closeMissingModal()" style="padding: 0.8rem 2rem; border-radius: 50px; background: #059669; color: white; border: none; font-weight: 800; cursor: pointer;">
+        Voltar e Responder
+      </button>
+    </div>
+  </div>
+
+  <!-- Success / Result Modal -->
+  <div class="modal-backdrop" id="resultModal">
+    <div class="modal-box">
+      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉🐢</div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: #059669; margin-bottom: 0.5rem;">Parabéns pelo Desafio!</h3>
+      <p style="color: #64748b; font-size: 1.05rem; margin-bottom: 1.2rem;">Suas respostas foram gravadas com sucesso no sistema do Projeto Campos de Todos Nós.</p>
+      <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 16px; padding: 1.2rem; margin-bottom: 1.5rem;">
+        <div style="font-size: 0.9rem; color: #047857; font-weight: 800; text-transform: uppercase;">Desempenho Objetivo</div>
+        <div id="finalScoreDisplay" style="font-family: 'Fredoka', sans-serif; font-size: 2.8rem; color: #059669; margin: 0.3rem 0;">0 / 11</div>
+        <div style="font-size: 0.85rem; color: #64748b;">1º Ano — Setembro/2026</div>
+      </div>
+      <a href="/?level=1-5" style="display: block; padding: 1rem; border-radius: 50px; background: #059669; color: white; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; text-decoration: none; font-weight: 700;">
+        Voltar para o Portal Lab Kids 🏠
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const answerKey = {
+      1: 'A',
+      2: 'A',
+      3: 'A',
+      4: 'B',
+      5: 'A',
+      6: 'A',
+      7: 'B',
+      8: 'B',
+      9: 'C',
+      10: 'A',
+      11: 'A'
+    };
+
+    let studentAnswers = {};
+    let isSubmitted = false;
+    const SIMULADO_KEY = 'lab_simulado_1ano_setembro_draft';
+
+    function saveDraft() {
+      if (isSubmitted) return;
+      const draft = {
+        studentName: document.getElementById('studentName')?.value || '',
+        schoolName: document.getElementById('schoolName')?.value || '',
+        className: document.getElementById('className')?.value || '',
+        shiftName: document.getElementById('shiftName')?.value || '',
+        answers: studentAnswers
+      };
+      try { localStorage.setItem(SIMULADO_KEY, JSON.stringify(draft)); } catch(e){}
+    }
+
+    function restoreDraft() {
+      try {
+        const raw = localStorage.getItem(SIMULADO_KEY);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (draft.studentName) document.getElementById('studentName').value = draft.studentName;
+        if (draft.schoolName) document.getElementById('schoolName').value = draft.schoolName;
+        if (draft.className) document.getElementById('className').value = draft.className;
+        if (draft.shiftName) document.getElementById('shiftName').value = draft.shiftName;
+
+        if (draft.answers) {
+          for (let q in draft.answers) {
+            const opt = draft.answers[q];
+            const radio = document.querySelector(`input[name="q${q}"][value="${opt}"]`);
+            if (radio) {
+              radio.checked = true;
+              updateCartao(q, opt, false);
+            }
+          }
+        }
+      } catch(e){}
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      restoreDraft();
+      document.getElementById('studentName')?.addEventListener('input', saveDraft);
+      document.getElementById('schoolName')?.addEventListener('change', saveDraft);
+      document.getElementById('className')?.addEventListener('change', saveDraft);
+      document.getElementById('shiftName')?.addEventListener('change', saveDraft);
+    });
+
+    function selectFromBubble(qNum, opt) {
+      const radio = document.querySelector(`input[name="q${qNum}"][value="${opt}"]`);
+      if (radio) {
+        radio.checked = true;
+        updateCartao(qNum, opt);
+      }
+    }
+
+    function updateCartao(qNum, opt, shouldSave = true) {
+      studentAnswers[qNum] = opt;
+      ['A', 'B', 'C', 'D'].forEach(o => {
+        const dot = document.getElementById(`b-${qNum}-${o}`);
+        if (dot) dot.classList.remove('selected');
+      });
+      const dot = document.getElementById(`b-${qNum}-${opt}`);
+      if (dot) dot.classList.add('selected');
+      updateProgress();
+      if (shouldSave) saveDraft();
+    }
+
+    function updateProgress() {
+      const totalAnswered = Object.keys(studentAnswers).length;
+      const progressPercent = Math.round((totalAnswered / 11) * 100);
+      const fill = document.getElementById('progressFill');
+      const text = document.getElementById('progressText');
+      if (fill) fill.style.width = `${progressPercent}%`;
+      if (text) text.innerText = `${totalAnswered} de 11 respondidas`;
+    }
+
+    function toggleGabaritoModal() {
+      const modal = document.getElementById('gabaritoModal');
+      if (modal) modal.classList.toggle('active');
+    }
+
+    function closeMissingModal() {
+      document.getElementById('missingModal').classList.remove('active');
+    }
+
+    async function submitSimulado() {
+      const name = document.getElementById('studentName').value.trim();
+      if (!name) {
+        alert('Por favor, informe seu Nome Completo antes de enviar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      const missing = [];
+      for (let i = 1; i <= 11; i++) {
+        if (!studentAnswers[i]) {
+          missing.push(`Questão ${i < 10 ? '0' + i : i}`);
+        }
+      }
+
+      if (missing.length > 0) {
+        document.getElementById('missingQuestionsList').innerHTML = missing.map(m => `<div>• ${m}</div>`).join('');
+        document.getElementById('missingModal').classList.add('active');
+        return;
+      }
+
+      let score = 0;
+      for (let i = 1; i <= 11; i++) {
+        if (studentAnswers[i] === answerKey[i]) score++;
+      }
+
+      const payload = {
+        simulado_id: 'campos-1ano-setembro-2026',
+        student_name: name,
+        school_name: document.getElementById('schoolName').value.trim(),
+        class_name: document.getElementById('className').value || '1º Ano',
+        shift: document.getElementById('shiftName').value || 'Manhã',
+        answers_json: studentAnswers,
+        score: score,
+        max_score: 11,
+        essay_text: ''
+      };
+
+      try {
+        await fetch('/api/simulado/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch(err) {
+        console.error('Submit error:', err);
+      }
+
+      isSubmitted = true;
+      try { localStorage.removeItem(SIMULADO_KEY); } catch(e){}
+
+      document.getElementById('finalScoreDisplay').innerText = `${score} / 11`;
+      document.getElementById('resultModal').classList.add('active');
+      if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+    }
+  </script>
+
+</body>
+</html>

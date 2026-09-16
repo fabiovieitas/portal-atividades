@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 4º Ano — Língua Portuguesa Pró-SAEB (Setembro/2026) | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #d97706;
+      --primary-dark: #b45309;
+      --primary-light: #fef3c7;
+      --accent: #0284c7;
+      --accent-light: #e0f2fe;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 36px rgba(217, 119, 6, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 5rem;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+    }
+
+    .top-header {
+      background: white;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 0.75rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+    .simulado-badge {
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 10px rgba(217, 119, 6, 0.25);
+    }
+
+    .main-layout {
+      max-width: 920px;
+      margin: 2rem auto 0;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .simulado-pdf-titlecard {
+      background: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+      color: white;
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 3px solid #fbbf24;
+      position: relative;
+      overflow: hidden;
+    }
+    .gov-tag {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+    .simulado-pdf-titlecard h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.3rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.4rem;
+    }
+    .simulado-pdf-titlecard h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fde68a;
+      margin-bottom: 0.5rem;
+    }
+    .sub-theme {
+      font-size: 1.05rem;
+      color: #fef3c7;
+      font-weight: 600;
+    }
+
+    .student-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+    }
+    .student-card h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      color: #0f172a;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #475569;
+    }
+    .form-control {
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #1e293b;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+    }
+
+    .cover-section-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 2rem;
+      align-items: center;
+    }
+    .cover-content h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.6rem;
+      color: #b45309;
+      margin-bottom: 0.8rem;
+    }
+    .cover-content p {
+      color: #334155;
+      font-size: 1.05rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+    .cover-poster-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      border: 2px solid #fde68a;
+      box-shadow: var(--shadow-md);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      transition: border-color 0.2s;
+    }
+    .question-card:hover {
+      border-color: var(--primary);
+    }
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px dashed #f1f5f9;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .q-number-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .q-number {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .q-subject-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+    }
+
+    .q-passage {
+      background: #fffbeb;
+      border-left: 4px solid var(--primary);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 14px 14px 0;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    .q-prompt {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .q-img-center {
+      text-align: center;
+      margin: 1.25rem 0;
+      display: flex;
+      justify-content: center;
+    }
+    .q-img-center img {
+      max-width: 100%;
+      height: auto;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      background: white;
+      display: block;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .option-label:hover {
+      border-color: var(--primary);
+      background: #fffbeb;
+      transform: translateX(4px);
+    }
+    .option-label input[type="radio"] {
+      width: 1.4rem;
+      height: 1.4rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .option-label:has(input[type="radio"]:checked) {
+      background: #fef3c7;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+    }
+
+    /* Cartão de Respostas no Final da Página */
+    .cartao-resposta {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 3px solid #fde68a;
+      margin-top: 1.5rem;
+    }
+    .cartao-title {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--primary-dark);
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .bubbles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+    .bubble-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .bubble-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .bubble-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .bubble-dot:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .bubble-dot.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(217, 119, 6, 0.4);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+      color: white;
+      border: none;
+      padding: 1.1rem;
+      border-radius: 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      cursor: pointer;
+      margin-top: 1.25rem;
+      box-shadow: 0 10px 20px rgba(217, 119, 6, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(217, 119, 6, 0.4);
+    }
+
+    .teacher-gabarito-toggle-btn {
+      width: 100%;
+      background: #f1f5f9;
+      color: #475569;
+      border: 2px solid #cbd5e1;
+      padding: 0.6rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .teacher-gabarito-toggle-btn:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    /* Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      border: 2px solid #fbbf24;
+      animation: scaleIn 0.25s ease-out;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .cover-section-card { grid-template-columns: 1fr; text-align: center; }
+      .main-layout { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="header-container">
+      <a href="/?level=1-5" class="brand-logo">
+        <span style="font-size: 1.8rem;">🐢</span>
+        <div>
+          <div class="brand-title">Lab Kids • Projeto Campos de Todos Nós</div>
+          <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Secretaria Municipal de Educação de Campos dos Goytacazes</div>
+        </div>
+      </a>
+      <div class="simulado-badge">
+        <span>📝 4º ANO — LÍNGUA PORTUGUESA (SETEMBRO/2026)</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- Title Card -->
+    <div class="simulado-pdf-titlecard">
+      <div class="gov-tag">PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES • SMEC / PAE</div>
+      <h1>SIMULADO PRÓ-SAEB: 4º ANO</h1>
+      <h2>LÍNGUA PORTUGUESA — SETEMBRO / 2026</h2>
+      <div class="sub-theme">📖 Avaliação Diagnóstica Contínua de Leitura, Interpretação e Linguagem</div>
+    </div>
+
+    <!-- Student Identification Card -->
+    <div class="student-card">
+      <h2>👤 Identificação do Aluno(a)</h2>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: span 2;">
+          <label>Nome Completo do(a) Estudante *</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
+        </div>
+        <div class="form-group">
+          <label>Escola Municipal *</label>
+          <select id="schoolName" class="form-control">
+            <% if (typeof schools !== 'undefined' && schools && schools.length > 0) { %>
+              <% schools.forEach(s => { %>
+                <option value="<%= s.name %>"><%= s.name %></option>
+              <% }); %>
+            <% } else { %>
+              <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
+              <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
+              <option value="Outra Escola Municipal">Outra Escola Municipal</option>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Turma *</label>
+          <select id="className" class="form-control">
+            <option value="4º Ano A">4º Ano A</option>
+            <option value="4º Ano B">4º Ano B</option>
+            <option value="4º Ano C">4º Ano C</option>
+            <option value="4º Ano">4º Ano (Única)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Turno</label>
+          <select id="shiftName" class="form-control">
+            <option value="Manhã">Manhã</option>
+            <option value="Tarde">Tarde</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Data</label>
+          <input type="text" id="examDate" class="form-control" value="Setembro/2026" readonly>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cover Poster Block -->
+    <div class="cover-section-card">
+      <div class="cover-content">
+        <h3>🎯 Pró-SAEB 2026 • 4º Ano</h3>
+        <p>Olá, estudante do 4º Ano! Este simulado foi elaborado para desenvolver sua competência leitora com gêneros textuais variados: anúncio publicitário, texto histórico e tirinhas em quadrinhos.</p>
+        <p style="color: #b45309; font-weight: 700;">LEIA COM ATENÇÃO CADA TEXTO E CADA COMANDO ANTES DE MARCAR SUA RESPOSTA NO CARTÃO!</p>
+      </div>
+      <div style="text-align: center;">
+        <img src="/img/simulado/4ano_setembro/logo_prosaeb.png" alt="Logo Pró-SAEB 2026" class="cover-poster-img">
+      </div>
+    </div>
+
+    <!-- TEXTO 1 (Para questões 1 a 3) -->
+    <div class="question-card" style="background: #fffbeb; border-color: #fde68a;">
+      <h3 style="font-family: 'Fredoka'; color: #b45309; margin-bottom: 0.5rem;">📖 Leia o texto abaixo e responda às questões de 1 a 3:</h3>
+      <div class="q-img-center">
+        <img src="/img/simulado/4ano_setembro/q1_laranja_verde.png" alt="Anúncio Hortifruti: Laranja Verde - Seu poder dá energia para enfrentar a terrível gripe" style="max-width: 480px;">
+      </div>
+      <div style="font-size: 0.8rem; color: #64748b; text-align: center;">
+        Disponível em: https://www.portuguescompartilhadoblog.com.br/2023/02/ef69lp02-atividade-anuncio-publicitario.html. Acesso em 7 jul. 2026.
+      </div>
+    </div>
+
+    <!-- QUESTÃO 1 -->
+    <div class="question-card" id="q-card-1">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 1</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Gênero Textual</span>
+      </div>
+
+      <div class="q-prompt">O TEXTO ACIMA É:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span>(A) UM CONVITE.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span>(B) UMA NOTÍCIA.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span>(C) UMA RECEITA.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span>(D) UMA PROPAGANDA.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 2 -->
+    <div class="question-card" id="q-card-2">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 2</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Finalidade</span>
+      </div>
+
+      <div class="q-prompt">A FINALIDADE DO TEXTO É:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q2" value="A" onclick="updateCartao(2, 'A')"> <span>(A) EXPLICAR COMO PREVENIR A GRIPE.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="B" onclick="updateCartao(2, 'B')"> <span>(B) INFORMAR OS BENEFÍCIOS DA VITAMINA C.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="C" onclick="updateCartao(2, 'C')"> <span>(C) DIVULGAR UM PRODUTO DA REDE HORTIFRUTI.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="D" onclick="updateCartao(2, 'D')"> <span>(D) INCENTIVAR O CONSUMO DE ALIMENTOS SAUDÁVEIS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 3 -->
+    <div class="question-card" id="q-card-3">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 3</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Persuasão</span>
+      </div>
+
+      <div class="q-prompt">A FRASE "SEU PODER DÁ ENERGIA PARA ENFRENTAR A TERRÍVEL GRIPE" PROCURA CONVENCER O LEITOR DE QUE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q3" value="A" onclick="updateCartao(3, 'A')"> <span>(A) A LARANJA PODE AJUDAR A FORTALECER O ORGANISMO.</span></label>
+        <label class="option-label"><input type="radio" name="q3" value="B" onclick="updateCartao(3, 'B')"> <span>(B) A GRIPE DESAPARECE QUANDO SE COME A LARANJA.</span></label>
+        <label class="option-label"><input type="radio" name="q3" value="C" onclick="updateCartao(3, 'C')"> <span>(C) SOMENTE A LARANJA VERDE PODE SER CONSUMIDA.</span></label>
+        <label class="option-label"><input type="radio" name="q3" value="D" onclick="updateCartao(3, 'D')"> <span>(D) TODAS AS FRUTAS POSSUEM VITAMINA C.</span></label>
+      </div>
+    </div>
+
+    <!-- TEXTO 2 (Para questões 4 a 6) -->
+    <div class="question-card" style="background: #f8fafc; border-color: #cbd5e1;">
+      <h3 style="font-family: 'Fredoka'; color: #0369a1; margin-bottom: 0.5rem;">📖 Leia o texto a seguir e responda às questões de 4 a 6:</h3>
+      <div class="q-passage" style="font-size: 1.05rem; line-height: 1.8;">
+        <h4 style="color: #b45309; margin-bottom: 0.8rem; font-size: 1.2rem;">Por que a Bahia comemora a Independência em 2 de julho?</h4>
+        <p>O feriado da Independência do Brasil é comemorado em 7 de setembro. Na Bahia, porém, a Independência é comemorada em 2 de julho. Mas por quê?</p>
+        <br>
+        <p>Depois que dom Pedro I declarou a Independência do Brasil, em 7 de setembro de 1822, os soldados portugueses continuaram ocupando algumas cidades. Na Bahia, os conflitos foram mais longos porque Portugal não queria perder o controle da região.</p>
+        <br>
+        <p>Nessas batalhas participaram soldados, trabalhadores, pescadores, indígenas, mulheres, homens livres e também pessoas escravizadas. Por isso, muitos historiadores consideram o 2 de julho uma data marcada pela participação do povo.</p>
+        <br>
+        <p>Além das batalhas, houve outras formas de resistência. Um exemplo são as Caretas do Mingau, grupos de mulheres que cobriam o corpo com lençóis, faziam barulho para assustar os portugueses e levavam alimento aos combatentes brasileiros.</p>
+        <br>
+        <p>No dia 2 de julho de 1823, as tropas portuguesas deixaram Salvador depois de perder a guerra. A cidade comemorou o fim dos conflitos, e muitos historiadores consideram esse o momento em que a Independência do Brasil se consolidou na Bahia.</p>
+        <br>
+        <small style="color: #64748b;">Disponível em: https://brainly.com.br/tarefa/38087153. Acesso em 7 jul. 2026. (Adaptado)</small>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 4 -->
+    <div class="question-card" id="q-card-4">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 4</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Compreensão Textual</span>
+      </div>
+
+      <div class="q-prompt">DE ACORDO COM O TEXTO, A BAHIA COMEMORA A INDEPENDÊNCIA NO DIA 2 DE JULHO PORQUE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q4" value="A" onclick="updateCartao(4, 'A')"> <span>(A) FOI NESSA DATA QUE DOM PEDRO I DECLAROU A INDEPENDÊNCIA DO BRASIL.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="B" onclick="updateCartao(4, 'B')"> <span>(B) NESSE DIA OS PORTUGUESES DEIXARAM SALVADOR APÓS PERDEREM A GUERRA.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="C" onclick="updateCartao(4, 'C')"> <span>(C) FOI NESSA DATA QUE COMEÇARAM AS GUERRAS DA INDEPENDÊNCIA.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="D" onclick="updateCartao(4, 'D')"> <span>(D) NESSE DIA FOI CRIADA A TRADIÇÃO DAS CARETAS DO MINGAU.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 5 -->
+    <div class="question-card" id="q-card-5">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 5</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Coesão & Referência</span>
+      </div>
+
+      <div class="q-prompt">NO TRECHO "A CIDADE COMEMOROU O FIM DOS CONFLITOS..." (5º PARÁGRAFO), A EXPRESSÃO "A CIDADE" REFERE-SE A:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q5" value="A" onclick="updateCartao(5, 'A')"> <span>(A) PORTUGAL.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="B" onclick="updateCartao(5, 'B')"> <span>(B) SALVADOR.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="C" onclick="updateCartao(5, 'C')"> <span>(C) BAHIA.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="D" onclick="updateCartao(5, 'D')"> <span>(D) RECÔNCAVO BAIANO.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 6 -->
+    <div class="question-card" id="q-card-6">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 6</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Inferência</span>
+      </div>
+
+      <div class="q-prompt">PODE-SE CONCLUIR QUE AS CARETAS DO MINGAU CONTRIBUÍRAM PARA A INDEPENDÊNCIA NA BAHIA PORQUE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q6" value="A" onclick="updateCartao(6, 'A')"> <span>(A) COMANDARAM O EXÉRCITO BRASILEIRO DURANTE A GUERRA.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="B" onclick="updateCartao(6, 'B')"> <span>(B) CONVENCERAM OS PORTUGUESES A ABANDONAR O BRASIL.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="C" onclick="updateCartao(6, 'C')"> <span>(C) ORGANIZARAM AS COMEMORAÇÕES DO DIA 2 DE JULHO.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="D" onclick="updateCartao(6, 'D')"> <span>(D) AJUDARAM OS COMBATENTES BRASILEIROS DE DIFERENTES MANEIRAS.</span></label>
+      </div>
+    </div>
+
+    <!-- TEXTO 3 (Para questões 7 a 10) -->
+    <div class="question-card" style="background: #f0f9ff; border-color: #bae6fd;">
+      <h3 style="font-family: 'Fredoka'; color: #0369a1; margin-bottom: 0.5rem;">📖 Leia os quadrinhos a seguir e responda às questões de 7 a 10:</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 1rem 0; align-items: center;">
+        <div style="text-align: center;">
+          <div style="font-weight: 800; color: #475569; margin-bottom: 0.4rem;">Quadrinho 1 (Com a Diretora)</div>
+          <img src="/img/simulado/4ano_setembro/q7_tirinha1_formal.png" alt="João conversando com a diretora: Bom dia, João. Como você está hoje? / Bom dia, senhora diretora. Estou bem, obrigado. Gostaria de conversar sobre a feira de ciências da escola." style="width: 100%; max-width: 380px; border-radius: 12px; border: 2px solid #cbd5e1;">
+        </div>
+        <div style="text-align: center;">
+          <div style="font-weight: 800; color: #475569; margin-bottom: 0.4rem;">Quadrinho 2 (Com o Colega)</div>
+          <img src="/img/simulado/4ano_setembro/q7_tirinha2_informal.png" alt="João conversando com o colega: Fala, João! Você tá como? / Tudo certo!" style="width: 100%; max-width: 380px; border-radius: 12px; border: 2px solid #cbd5e1;">
+        </div>
+      </div>
+      <div style="font-size: 0.8rem; color: #64748b; text-align: center;">
+        Disponível em: https://sme.goiania.go.gov.br/conexaoescola/ensino_fundamental/lingua-portuguesa-linguagem-formal-e-informal/. Acesso em 8 jul. 2026.
+      </div>
+    </div>
+
+    <!-- QUESTÃO 7 -->
+    <div class="question-card" id="q-card-7">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 7</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Pronomes de Tratamento</span>
+      </div>
+
+      <div class="q-prompt">NO PRIMEIRO QUADRINHO, A PALAVRA “VOCÊ” REFERE-SE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q7" value="A" onclick="updateCartao(7, 'A')"> <span>(A) A JOÃO.</span></label>
+        <label class="option-label"><input type="radio" name="q7" value="B" onclick="updateCartao(7, 'B')"> <span>(B) À DIRETORA.</span></label>
+        <label class="option-label"><input type="radio" name="q7" value="C" onclick="updateCartao(7, 'C')"> <span>(C) À ESCOLA.</span></label>
+        <label class="option-label"><input type="radio" name="q7" value="D" onclick="updateCartao(7, 'D')"> <span>(D) À FEIRA DE CIÊNCIAS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 8 -->
+    <div class="question-card" id="q-card-8">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 8</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Linguagem Formal</span>
+      </div>
+
+      <div class="q-prompt">NO PRIMEIRO QUADRINHO, A PALAVRA "SENHORA", NA EXPRESSÃO "BOM DIA, SENHORA DIRETORA", FOI UTILIZADA PARA DEMONSTRAR:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')"> <span>(A) QUE JOÃO ESTÁ BRINCANDO COM A DIRETORA DA SUA ESCOLA.</span></label>
+        <label class="option-label"><input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')"> <span>(B) QUE JOÃO NÃO CONHECE A DIRETORA DA ESCOLA ONDE ESTUDA.</span></label>
+        <label class="option-label"><input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')"> <span>(C) RESPEITO PELA PESSOA COM QUEM ESTÁ CONVERSANDO.</span></label>
+        <label class="option-label"><input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')"> <span>(D) QUE JOÃO DESEJA ENCERRAR A CONVERSA RAPIDAMENTE.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 9 -->
+    <div class="question-card" id="q-card-9">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 9</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Expressões Idiomáticas</span>
+      </div>
+
+      <div class="q-prompt">NO SEGUNDO QUADRINHO, A EXPRESSÃO "TUDO CERTO!" PODERIA SER SUBSTITUÍDA, SEM ALTERAR O SENTIDO DA CONVERSA, POR:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span>(A) ATENCIOSAMENTE.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span>(B) MUITO OBRIGADO.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span>(C) COM LICENÇA.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span>(D) ESTOU BEM!</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 10 -->
+    <div class="question-card" id="q-card-10">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 10</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • Variação Linguística</span>
+      </div>
+
+      <div class="q-prompt">COMPARANDO OS DOIS QUADRINHOS, É CORRETO AFIRMAR QUE JOÃO UTILIZA:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q10" value="A" onclick="updateCartao(10, 'A')"> <span>(A) LINGUAGEM FORMAL NOS DOIS QUADRINHOS.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="B" onclick="updateCartao(10, 'B')"> <span>(B) LINGUAGEM INFORMAL NOS DOIS QUADRINHOS.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="C" onclick="updateCartao(10, 'C')"> <span>(C) LINGUAGEM FORMAL NO PRIMEIRO QUADRINHO E INFORMAL NO SEGUNDO.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="D" onclick="updateCartao(10, 'D')"> <span>(D) LINGUAGEM INFORMAL NO PRIMEIRO QUADRINHO E FORMAL NO SEGUNDO.</span></label>
+      </div>
+    </div>
+
+    <!-- Cartão de Respostas no Final da Página -->
+    <section class="cartao-resposta">
+      <div class="cartao-title">📋 Cartão Resposta Oficial (4º Ano)</div>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.8rem;">
+        Confira todas as suas 10 respostas marcadas antes de enviar:
+      </p>
+      
+      <div style="background: #f1f5f9; height: 10px; border-radius: 50px; margin-bottom: 0.5rem; overflow: hidden;">
+        <div id="progressFill" style="background: linear-gradient(90deg, var(--primary), #10b981); height: 100%; width: 0%; transition: width 0.3s;"></div>
+      </div>
+      <div id="progressText" style="font-size: 0.9rem; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 1.2rem;">
+        0 de 10 respondidas
+      </div>
+
+      <div class="bubbles-list">
+        <% for(let i=1; i<=10; i++) { %>
+          <div class="bubble-row">
+            <span style="font-weight: 800; font-size: 0.9rem; color: #334155;">Questão <%= i < 10 ? '0'+i : i %></span>
+            <div class="bubble-dots">
+              <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
+              <div class="bubble-dot" id="b-<%= i %>-B" onclick="selectFromBubble(<%= i %>, 'B')">B</div>
+              <div class="bubble-dot" id="b-<%= i %>-C" onclick="selectFromBubble(<%= i %>, 'C')">C</div>
+              <div class="bubble-dot" id="b-<%= i %>-D" onclick="selectFromBubble(<%= i %>, 'D')">D</div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+
+      <button class="submit-btn" onclick="submitSimulado()">
+        <span>🚀 FINALIZAR E ENVIAR SIMULADO</span>
+      </button>
+
+      <button class="teacher-gabarito-toggle-btn" onclick="toggleGabaritoModal()" style="margin-top: 1rem;">
+        <span>📊 Ver Gabarito & Matriz de Habilidades (Professor)</span>
+      </button>
+    </section>
+
+  </main>
+
+  <!-- Teacher Gabarito Modal -->
+  <div class="modal-backdrop" id="gabaritoModal">
+    <div class="modal-box" style="max-width: 750px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+        <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.4rem;">📊 Gabarito & Matriz de Habilidades (4º Ano — Setembro/2026)</h2>
+        <button onclick="toggleGabaritoModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+          <thead>
+            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+              <th style="padding: 0.6rem;">Questão</th>
+              <th style="padding: 0.6rem;">Gabarito</th>
+              <th style="padding: 0.6rem;">Habilidade / Descritor</th>
+              <th style="padding: 0.6rem;">Área / Objeto do Conhecimento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">1</td><td style="padding: 0.6rem;"><strong>D</strong></td><td style="padding: 0.6rem;">D16 - Identificar gênero textual</td><td style="padding: 0.6rem;">Língua Portuguesa (Propaganda)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">2</td><td style="padding: 0.6rem;"><strong>C</strong></td><td style="padding: 0.6rem;">D09 - Identificar a finalidade de textos</td><td style="padding: 0.6rem;">Língua Portuguesa (Finalidade)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">3</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">D04 - Inferir informação em texto verbal</td><td style="padding: 0.6rem;">Língua Portuguesa (Argumentação)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">4</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">D01 - Localizar informações explícitas</td><td style="padding: 0.6rem;">Língua Portuguesa (Compreensão histórica)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">5</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">D02 - Estabelecer relações entre partes do texto</td><td style="padding: 0.6rem;">Língua Portuguesa (Coesão referencial)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">6</td><td style="padding: 0.6rem;"><strong>D</strong></td><td style="padding: 0.6rem;">D06 - Identificar o tema / conclusão</td><td style="padding: 0.6rem;">Língua Portuguesa (Inferência histórica)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">7</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">D02 - Pronomes e referências</td><td style="padding: 0.6rem;">Língua Portuguesa (Pronomes de tratamento)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">8</td><td style="padding: 0.6rem;"><strong>C</strong></td><td style="padding: 0.6rem;">D13 - Identificar efeitos de ironia ou humor</td><td style="padding: 0.6rem;">Língua Portuguesa (Níveis de formalidade)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">9</td><td style="padding: 0.6rem;"><strong>D</strong></td><td style="padding: 0.6rem;">D03 - Inferir o sentido de palavra ou expressão</td><td style="padding: 0.6rem;">Língua Portuguesa (Expressões idiomáticas)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">10</td><td style="padding: 0.6rem;"><strong>C</strong></td><td style="padding: 0.6rem;">D13 - Variação linguística e registro</td><td style="padding: 0.6rem;">Língua Portuguesa (Linguagem formal e informal)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button type="button" onclick="toggleGabaritoModal()" style="padding: 0.7rem 2rem; border-radius: 50px; background: #d97706; color: white; border: none; font-weight: 800; cursor: pointer;">Fechar Gabarito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Missing Questions Modal -->
+  <div class="modal-backdrop" id="missingModal">
+    <div class="modal-box">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.6rem; color: #dc2626; margin-bottom: 0.8rem;">Atenção! Faltam Questões</h3>
+      <p style="color: #64748b; margin-bottom: 1.2rem;">Você ainda não respondeu todas as questões do simulado:</p>
+      <div id="missingQuestionsList" style="text-align: left; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 1rem; color: #991b1b; font-weight: 700; margin-bottom: 1.5rem; max-height: 180px; overflow-y: auto;">
+      </div>
+      <button type="button" onclick="closeMissingModal()" style="padding: 0.8rem 2rem; border-radius: 50px; background: #d97706; color: white; border: none; font-weight: 800; cursor: pointer;">
+        Voltar e Responder
+      </button>
+    </div>
+  </div>
+
+  <!-- Success / Result Modal -->
+  <div class="modal-backdrop" id="resultModal">
+    <div class="modal-box">
+      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉🐢</div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: #d97706; margin-bottom: 0.5rem;">Parabéns pelo Desafio!</h3>
+      <p style="color: #64748b; font-size: 1.05rem; margin-bottom: 1.2rem;">Suas respostas foram gravadas com sucesso no sistema do Projeto Campos de Todos Nós.</p>
+      <div style="background: #fef3c7; border: 2px solid #fde68a; border-radius: 16px; padding: 1.2rem; margin-bottom: 1.5rem;">
+        <div style="font-size: 0.9rem; color: #b45309; font-weight: 800; text-transform: uppercase;">Desempenho Pró-SAEB</div>
+        <div id="finalScoreDisplay" style="font-family: 'Fredoka', sans-serif; font-size: 2.8rem; color: #d97706; margin: 0.3rem 0;">0 / 10</div>
+        <div style="font-size: 0.85rem; color: #64748b;">4º Ano — Língua Portuguesa (Setembro/2026)</div>
+      </div>
+      <a href="/?level=1-5" style="display: block; padding: 1rem; border-radius: 50px; background: #d97706; color: white; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; text-decoration: none; font-weight: 700;">
+        Voltar para o Portal Lab Kids 🏠
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const answerKey = {
+      1: 'D',
+      2: 'C',
+      3: 'A',
+      4: 'B',
+      5: 'B',
+      6: 'D',
+      7: 'A',
+      8: 'C',
+      9: 'D',
+      10: 'C'
+    };
+
+    let studentAnswers = {};
+    let isSubmitted = false;
+    const SIMULADO_KEY = 'lab_simulado_4ano_setembro_draft';
+
+    function saveDraft() {
+      if (isSubmitted) return;
+      const draft = {
+        studentName: document.getElementById('studentName')?.value || '',
+        schoolName: document.getElementById('schoolName')?.value || '',
+        className: document.getElementById('className')?.value || '',
+        shiftName: document.getElementById('shiftName')?.value || '',
+        answers: studentAnswers
+      };
+      try { localStorage.setItem(SIMULADO_KEY, JSON.stringify(draft)); } catch(e){}
+    }
+
+    function restoreDraft() {
+      try {
+        const raw = localStorage.getItem(SIMULADO_KEY);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (draft.studentName) document.getElementById('studentName').value = draft.studentName;
+        if (draft.schoolName) document.getElementById('schoolName').value = draft.schoolName;
+        if (draft.className) document.getElementById('className').value = draft.className;
+        if (draft.shiftName) document.getElementById('shiftName').value = draft.shiftName;
+
+        if (draft.answers) {
+          for (let q in draft.answers) {
+            const opt = draft.answers[q];
+            const radio = document.querySelector(`input[name="q${q}"][value="${opt}"]`);
+            if (radio) {
+              radio.checked = true;
+              updateCartao(q, opt, false);
+            }
+          }
+        }
+      } catch(e){}
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      restoreDraft();
+      document.getElementById('studentName')?.addEventListener('input', saveDraft);
+      document.getElementById('schoolName')?.addEventListener('change', saveDraft);
+      document.getElementById('className')?.addEventListener('change', saveDraft);
+      document.getElementById('shiftName')?.addEventListener('change', saveDraft);
+    });
+
+    function selectFromBubble(qNum, opt) {
+      const radio = document.querySelector(`input[name="q${qNum}"][value="${opt}"]`);
+      if (radio) {
+        radio.checked = true;
+        updateCartao(qNum, opt);
+      }
+    }
+
+    function updateCartao(qNum, opt, shouldSave = true) {
+      studentAnswers[qNum] = opt;
+      ['A', 'B', 'C', 'D'].forEach(o => {
+        const dot = document.getElementById(`b-${qNum}-${o}`);
+        if (dot) dot.classList.remove('selected');
+      });
+      const dot = document.getElementById(`b-${qNum}-${opt}`);
+      if (dot) dot.classList.add('selected');
+      updateProgress();
+      if (shouldSave) saveDraft();
+    }
+
+    function updateProgress() {
+      const totalAnswered = Object.keys(studentAnswers).length;
+      const progressPercent = Math.round((totalAnswered / 10) * 100);
+      const fill = document.getElementById('progressFill');
+      const text = document.getElementById('progressText');
+      if (fill) fill.style.width = `${progressPercent}%`;
+      if (text) text.innerText = `${totalAnswered} de 10 respondidas`;
+    }
+
+    function toggleGabaritoModal() {
+      const modal = document.getElementById('gabaritoModal');
+      if (modal) modal.classList.toggle('active');
+    }
+
+    function closeMissingModal() {
+      document.getElementById('missingModal').classList.remove('active');
+    }
+
+    async function submitSimulado() {
+      const name = document.getElementById('studentName').value.trim();
+      if (!name) {
+        alert('Por favor, informe seu Nome Completo antes de enviar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      const missing = [];
+      for (let i = 1; i <= 10; i++) {
+        if (!studentAnswers[i]) {
+          missing.push(`Questão ${i < 10 ? '0' + i : i}`);
+        }
+      }
+
+      if (missing.length > 0) {
+        document.getElementById('missingQuestionsList').innerHTML = missing.map(m => `<div>• ${m}</div>`).join('');
+        document.getElementById('missingModal').classList.add('active');
+        return;
+      }
+
+      let score = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (studentAnswers[i] === answerKey[i]) score++;
+      }
+
+      const payload = {
+        simulado_id: 'campos-4ano-setembro-2026',
+        student_name: name,
+        school_name: document.getElementById('schoolName').value.trim(),
+        class_name: document.getElementById('className').value || '4º Ano',
+        shift: document.getElementById('shiftName').value || 'Manhã',
+        answers_json: studentAnswers,
+        score: score,
+        max_score: 10,
+        essay_text: ''
+      };
+
+      try {
+        await fetch('/api/simulado/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch(err) {
+        console.error('Submit error:', err);
+      }
+
+      isSubmitted = true;
+      try { localStorage.removeItem(SIMULADO_KEY); } catch(e){}
+
+      document.getElementById('finalScoreDisplay').innerText = `${score} / 10`;
+      document.getElementById('resultModal').classList.add('active');
+      if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+    }
+  </script>
+
+</body>
+</html>

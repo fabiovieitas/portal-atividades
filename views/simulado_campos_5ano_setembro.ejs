@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 5º Ano — Blocos 1 e 2 (Setembro/2026) | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-dark: #047857;
+      --primary-light: #ecfdf5;
+      --accent: #0284c7;
+      --accent-light: #e0f2fe;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 36px rgba(5, 150, 105, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 5rem;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+    }
+
+    .top-header {
+      background: white;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 0.75rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .header-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+    .simulado-badge {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
+    }
+
+    .main-layout {
+      max-width: 920px;
+      margin: 2rem auto 0;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .simulado-pdf-titlecard {
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      color: white;
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 3px solid #34d399;
+      position: relative;
+      overflow: hidden;
+    }
+    .gov-tag {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+    .simulado-pdf-titlecard h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.3rem;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.4rem;
+    }
+    .simulado-pdf-titlecard h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #a7f3d0;
+      margin-bottom: 0.5rem;
+    }
+    .sub-theme {
+      font-size: 1.05rem;
+      color: #d1fae5;
+      font-weight: 600;
+    }
+
+    .student-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+    }
+    .student-card h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      color: #0f172a;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #475569;
+    }
+    .form-control {
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #1e293b;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .cover-section-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+      align-items: center;
+    }
+    .cover-content h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.6rem;
+      color: #065f46;
+      margin-bottom: 0.8rem;
+    }
+    .cover-content p {
+      color: #334155;
+      font-size: 1.05rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+    .cover-poster-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      border: 2px solid #a7f3d0;
+      box-shadow: var(--shadow-md);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .question-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      transition: border-color 0.2s;
+    }
+    .question-card:hover {
+      border-color: var(--primary);
+    }
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px dashed #f1f5f9;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .q-number-box {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .q-number {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+    .q-subject-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+    }
+
+    .q-passage {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 14px 14px 0;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    .q-prompt {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .q-img-center {
+      text-align: center;
+      margin: 1.25rem 0;
+      display: flex;
+      justify-content: center;
+    }
+    .q-img-center img {
+      max-width: 100%;
+      height: auto;
+      max-height: 420px;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      background: white;
+      display: block;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .option-label {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .option-label:hover {
+      border-color: var(--primary);
+      background: #f0fdf4;
+      transform: translateX(4px);
+    }
+    .option-label input[type="radio"] {
+      width: 1.4rem;
+      height: 1.4rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .option-label:has(input[type="radio"]:checked) {
+      background: #d1fae5;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+    }
+
+    /* Production Area (Questão 3) */
+    .production-box {
+      background: #f0fdf4;
+      border: 2px solid #86efac;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+    .production-textarea {
+      width: 100%;
+      min-height: 140px;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      padding: 1rem;
+      font-family: inherit;
+      font-size: 1rem;
+      color: #1e293b;
+      resize: vertical;
+      outline: none;
+      transition: all 0.2s;
+      line-height: 1.6;
+    }
+    .production-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    /* Cartão de Respostas no Final da Página */
+    .cartao-resposta {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 3px solid #a7f3d0;
+      margin-top: 1.5rem;
+    }
+    .cartao-title {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--primary-dark);
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .bubbles-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+    }
+    .bubble-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafc;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .bubble-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .bubble-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .bubble-dot:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .bubble-dot.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 1.1rem;
+      border-radius: 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      cursor: pointer;
+      margin-top: 1.25rem;
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(16, 185, 129, 0.4);
+    }
+
+    .teacher-gabarito-toggle-btn {
+      width: 100%;
+      background: #f1f5f9;
+      color: #475569;
+      border: 2px solid #cbd5e1;
+      padding: 0.6rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .teacher-gabarito-toggle-btn:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    /* Modal Styles */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      border: 2px solid #86efac;
+      animation: scaleIn 0.25s ease-out;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .cover-section-card { grid-template-columns: 1fr; text-align: center; }
+      .main-layout { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="header-container">
+      <a href="/?level=1-5" class="brand-logo">
+        <span style="font-size: 1.8rem;">🐢</span>
+        <div>
+          <div class="brand-title">Lab Kids • Projeto Campos de Todos Nós</div>
+          <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Secretaria Municipal de Educação de Campos dos Goytacazes</div>
+        </div>
+      </a>
+      <div class="simulado-badge">
+        <span>📝 5º ANO — SETEMBRO/2026</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- Title Card -->
+    <div class="simulado-pdf-titlecard">
+      <div class="gov-tag">PREFEITURA MUNICIPAL DE CAMPOS DOS GOYTACAZES • SMEC / PAE</div>
+      <h1>SIMULADO: 5º ANO</h1>
+      <h2>BLOCOS 1 E 2 — SETEMBRO / 2026</h2>
+      <div class="sub-theme">🌿 Tema: Meio Ambiente, Sustentabilidade, Aquíferos e Mananciais</div>
+    </div>
+
+    <!-- Student Identification Card -->
+    <div class="student-card">
+      <h2>👤 Identificação do Aluno(a)</h2>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: span 2;">
+          <label>Nome Completo do(a) Estudante *</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
+        </div>
+        <div class="form-group">
+          <label>Escola Municipal *</label>
+          <select id="schoolName" class="form-control">
+            <% if (typeof schools !== 'undefined' && schools && schools.length > 0) { %>
+              <% schools.forEach(s => { %>
+                <option value="<%= s.name %>"><%= s.name %></option>
+              <% }); %>
+            <% } else { %>
+              <option value="E.M. Profª Eleonora da Silva Pinto">E.M. Profª Eleonora da Silva Pinto</option>
+              <option value="E.M. José Giró Faísca">E.M. José Giró Faísca</option>
+              <option value="Outra Escola Municipal">Outra Escola Municipal</option>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Turma *</label>
+          <select id="className" class="form-control">
+            <option value="5º Ano A">5º Ano A</option>
+            <option value="5º Ano B">5º Ano B</option>
+            <option value="5º Ano C">5º Ano C</option>
+            <option value="5º Ano">5º Ano (Única)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Turno</label>
+          <select id="shiftName" class="form-control">
+            <option value="Manhã">Manhã</option>
+            <option value="Tarde">Tarde</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Data</label>
+          <input type="text" id="examDate" class="form-control" value="Setembro/2026" readonly>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cover Poster Block -->
+    <div class="cover-section-card">
+      <div class="cover-content">
+        <h3>🐢 Meio Ambiente e Sustentabilidade</h3>
+        <p>Olá, estudante do 5º Ano! Este simulado aborda a preservação dos aquíferos subterrâneos e recursos hídricos de Campos dos Goytacazes com base nas Leis Ambiental Federal e Municipal.</p>
+        <p style="color: #047857; font-weight: 700;">LEIA COM ATENÇÃO CADA TEXTO, OBSERVE OS GRÁFICOS E MARQUE A SUA RESPOSTA NO CARTÃO!</p>
+      </div>
+      <div>
+        <img src="/img/simulado/5ano_setembro/cover_poster.png" alt="Cartaz Meio Ambiente e Sustentabilidade" class="cover-poster-img">
+      </div>
+    </div>
+
+    <!-- TEXTO 1 (Para questões 1 a 3) -->
+    <div class="question-card" style="background: #f0fdf4; border-color: #86efac;">
+      <h3 style="font-family: 'Fredoka'; color: #065f46; margin-bottom: 0.5rem;">📖 Leia o texto para responder às questões 1 a 3:</h3>
+      <div class="q-passage" style="line-height: 1.8;">
+        <h4 style="color: #047857; margin-bottom: 0.8rem; font-size: 1.25rem;">A ÁGUA QUE NÃO VEMOS</h4>
+        <p>Quando pensamos em água, geralmente imaginamos rios, lagoas, mares e chuvas. Entretanto, uma parte importante da água doce encontra-se abaixo da superfície terrestre. Ao penetrar no solo, a água da chuva pode alcançar determinadas formações geológicas e ficar armazenada no subsolo.</p>
+        <br>
+        <p>Essas reservas subterrâneas estão relacionadas aos aquíferos e possuem grande importância ambiental. Por isso, preservar apenas a água que conseguimos enxergar não é suficiente. O solo também precisa ser protegido.</p>
+        <br>
+        <p>O descarte inadequado de lixo, óleo, produtos químicos e outras substâncias pode contaminar o solo e comprometer a qualidade da água. Além disso, a retirada da vegetação próxima aos cursos d'água favorece processos de erosão e pode prejudicar os ambientes naturais.</p>
+        <br>
+        <p>A Lei Federal nº 9.795/1999, que trata da Educação Ambiental, reforça a importância da formação de conhecimentos, valores e atitudes voltados para a conservação do meio ambiente. Em Campos dos Goytacazes, a Lei Municipal nº 8.608/2014 também permite trabalhar, no contexto escolar, a importância da preservação dos aquíferos e dos mananciais.</p>
+        <br>
+        <p>Preservar a água, portanto, significa cuidar dos rios e das lagoas, mas também do solo, da vegetação e das águas subterrâneas.</p>
+        <br>
+        <small style="color: #64748b;">Fonte: Elaborado e adaptado para fins pedagógicos com base em informações oficiais da Prefeitura Municipal de Campos dos Goytacazes.</small>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 1 -->
+    <div class="question-card" id="q-card-1">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 1</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF35LP03</span>
+      </div>
+
+      <div class="q-prompt">A PRINCIPAL IDEIA DEFENDIDA PELO TEXTO É QUE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q1" value="A" onclick="updateCartao(1, 'A')"> <span>A) SOMENTE OS RIOS E AS LAGOAS PRECISAM SER PROTEGIDOS CONTRA A POLUIÇÃO.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="B" onclick="updateCartao(1, 'B')"> <span>B) A ÁGUA SUBTERRÂNEA É MAIS IMPORTANTE DO QUE TODAS AS ÁGUAS SUPERFICIAIS.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="C" onclick="updateCartao(1, 'C')"> <span>C) A PRESERVAÇÃO DA ÁGUA ENVOLVE TAMBÉM O CUIDADO COM O SOLO, A VEGETAÇÃO E AS RESERVAS SUBTERRÂNEAS.</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="D" onclick="updateCartao(1, 'D')"> <span>D) OS AQUÍFEROS SÃO FORMADOS EXCLUSIVAMENTE PELA ÁGUA EXISTENTE NOS RIOS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 2 -->
+    <div class="question-card" id="q-card-2">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 2</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF05LP07</span>
+      </div>
+
+      <div class="q-passage">
+        LEIA NOVAMENTE:<br><br>
+        <strong>“Por isso, preservar apenas a água que conseguimos enxergar não é suficiente.”</strong>
+      </div>
+
+      <div class="q-prompt">A EXPRESSÃO “POR ISSO” ESTABELECE, NO TEXTO, UMA RELAÇÃO DE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q2" value="A" onclick="updateCartao(2, 'A')"> <span>A) OPOSIÇÃO ENTRE DUAS IDEIAS.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="B" onclick="updateCartao(2, 'B')"> <span>B) CONCLUSÃO A PARTIR DAS INFORMAÇÕES APRESENTADAS ANTERIORMENTE.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="C" onclick="updateCartao(2, 'C')"> <span>C) INDICAÇÃO DO LUGAR ONDE OS AQUÍFEROS SÃO ENCONTRADOS.</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="D" onclick="updateCartao(2, 'D')"> <span>D) COMPARAÇÃO ENTRE RIOS E OCEANOS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 3 (Produção Textual Escrita) -->
+    <div class="question-card" id="q-card-3" style="border-left: 6px solid var(--primary);">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 3</span>
+        </div>
+        <span class="q-subject-badge">✍️ Língua Portuguesa & Arte • EF05LP24 / EF15AR04</span>
+      </div>
+
+      <div class="q-prompt">
+        A ESCOLA ORGANIZARÁ A CAMPANHA:
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/5ano_setembro/q3_aquiferos_poster.png" alt="Cartaz da Campanha: A Água Que Não Vemos Também Precisa de Proteção!" style="max-width: 440px;">
+      </div>
+
+      <div class="production-box">
+        <div style="font-weight: 700; color: #065f46; margin-bottom: 0.8rem;">
+          📢 PRODUZA UM PEQUENO TEXTO DE CONSCIENTIZAÇÃO PARA SER APRESENTADO À COMUNIDADE ESCOLAR.<br><br>
+          EM SEU TEXTO, EXPLIQUE:<br>
+          • O que pode acontecer quando o solo é contaminado;<br>
+          • Por que os aquíferos e mananciais precisam ser preservados;<br>
+          • Duas atitudes que podem contribuir para a conservação da água.<br><br>
+          <em>Apresente suas ideias de maneira organizada e utilize argumentos para convencer o leitor sobre a importância da preservação ambiental.</em>
+        </div>
+
+        <div style="margin-top: 1.25rem;">
+          <label style="font-weight: 800; color: #0f172a; display: block; margin-bottom: 0.5rem;">
+            ✏️ DIGITE SEU TEXTO DE CONSCIENTIZAÇÃO ABAIXO:
+          </label>
+          <textarea id="q3Essay" class="production-textarea" placeholder="Escreva seu texto de conscientização para a campanha escolar aqui..." oninput="syncEssay()"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXTO 2 (Para questões 4 a 6) -->
+    <div class="question-card" style="background: #f8fafc; border-color: #cbd5e1;">
+      <h3 style="font-family: 'Fredoka'; color: #0284c7; margin-bottom: 0.5rem;">📖 Leia o texto para responder às questões 4 a 6:</h3>
+      <div class="q-passage" style="line-height: 1.8;">
+        <h4 style="color: #0369a1; margin-bottom: 0.8rem; font-size: 1.25rem;">UM PROBLEMA QUE VIAJA COM A ÁGUA</h4>
+        <p>Depois de uma chuva intensa, Mirela observou algumas embalagens plásticas sendo carregadas pela água que corria pela rua.</p>
+        <br>
+        <p>— Professora, esse lixo pode chegar ao rio? — perguntou Mirela.</p>
+        <p>A professora Bia respondeu:</p>
+        <p>— Pode, sim. O que fazemos em um lugar pode causar consequências em outros ambientes.</p>
+        <br>
+        <p>Enzo, que acompanhava a conversa, perguntou:</p>
+        <p>— Então, jogar lixo na rua também pode prejudicar os rios?</p>
+        <p>— Exatamente! — respondeu a professora. — O cuidado com o meio ambiente começa antes mesmo de chegarmos às margens de um rio ou de uma lagoa.</p>
+        <br>
+        <small style="color: #64748b;">Fonte: Elaborado e adaptado para fins pedagógicos com base em informações oficiais da Prefeitura Municipal de Campos dos Goytacazes.</small>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 4 -->
+    <div class="question-card" id="q-card-4">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 4</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF35LP04</span>
+      </div>
+
+      <div class="q-prompt">A FALA DA PROFESSORA “O QUE FAZEMOS EM UM LUGAR PODE CAUSAR CONSEQUÊNCIAS EM OUTROS AMBIENTES” PERMITE CONCLUIR QUE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q4" value="A" onclick="updateCartao(4, 'A')"> <span>A) OS PROBLEMAS AMBIENTAIS PERMANECEM SEMPRE NO LOCAL ONDE COMEÇARAM.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="B" onclick="updateCartao(4, 'B')"> <span>B) AS AÇÕES HUMANAS PODEM PROVOCAR IMPACTOS AMBIENTAIS PARA ALÉM DO LOCAL ONDE FORAM REALIZADAS.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="C" onclick="updateCartao(4, 'C')"> <span>C) SOMENTE AS CHUVAS FORTES SÃO RESPONSÁVEIS PELA POLUIÇÃO DOS RIOS.</span></label>
+        <label class="option-label"><input type="radio" name="q4" value="D" onclick="updateCartao(4, 'D')"> <span>D) OS RESÍDUOS ENCONTRADOS NOS RIOS SÃO PRODUZIDOS EXCLUSIVAMENTE PRÓXIMO ÀS MARGENS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 5 -->
+    <div class="question-card" id="q-card-5">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 5</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF35LP03</span>
+      </div>
+
+      <div class="q-prompt">O TÍTULO “UM PROBLEMA QUE VIAJA COM A ÁGUA” FOI UTILIZADO PORQUE:</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q5" value="A" onclick="updateCartao(5, 'A')"> <span>A) A ÁGUA CONSEGUE ESCOLHER PARA ONDE LEVAR OS RESÍDUOS.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="B" onclick="updateCartao(5, 'B')"> <span>B) O TEXTO APRESENTA UMA VIAGEM REALIZADA PELOS ESTUDANTES.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="C" onclick="updateCartao(5, 'C')"> <span>C) RESÍDUOS DESCARTADOS INADEQUADAMENTE PODEM SER TRANSPORTADOS PELA ÁGUA E ALCANÇAR OUTROS AMBIENTES.</span></label>
+        <label class="option-label"><input type="radio" name="q5" value="D" onclick="updateCartao(5, 'D')"> <span>D) TODO MATERIAL TRANSPORTADO PELA CHUVA CHEGA OBRIGATORIAMENTE AO OCEANO.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 6 -->
+    <div class="question-card" id="q-card-6">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 6</span>
+        </div>
+        <span class="q-subject-badge">Língua Portuguesa • EF35LP03</span>
+      </div>
+
+      <div class="q-prompt">DE ACORDO COM O TEXTO, QUAL ATITUDE PODE AJUDAR A EVITAR QUE O LIXO JOGADO NAS RUAS CHEGUE AOS RIOS?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q6" value="A" onclick="updateCartao(6, 'A')"> <span>A) JOGAR O LIXO PERTO DOS BUEIROS.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="B" onclick="updateCartao(6, 'B')"> <span>B) COLOCAR O LIXO EM LOCAIS ADEQUADOS PARA O DESCARTE.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="C" onclick="updateCartao(6, 'C')"> <span>C) DEIXAR QUE A CHUVA CARREGUE O LIXO DAS RUAS.</span></label>
+        <label class="option-label"><input type="radio" name="q6" value="D" onclick="updateCartao(6, 'D')"> <span>D) RECOLHER O LIXO SOMENTE QUANDO ELE CHEGAR AOS RIOS.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 7 -->
+    <div class="question-card" id="q-card-7">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 7</span>
+        </div>
+        <span class="q-subject-badge">Matemática • EF05MA24</span>
+      </div>
+
+      <div class="q-passage">
+        DURANTE UMA CAMPANHA DE SUSTENTABILIDADE, QUATRO TURMAS RECOLHERAM MATERIAIS RECICLÁVEIS:
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/5ano_setembro/q7_grafico_reciclaveis.png" alt="Gráfico de Colunas: Materiais Recicláveis Recolhidos por Turma" style="max-width: 580px;">
+      </div>
+
+      <div class="q-prompt">OBSERVE O GRÁFICO. QUAIS TURMAS RECOLHERAM 80 KG OU MAIS DE MATERIAIS RECICLÁVEIS?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q7" value="A" onclick="updateCartao(7, 'A')"> <span>A) 5º A, 5º B E 5º D</span></label>
+        <label class="option-label"><input type="radio" name="q7" value="B" onclick="updateCartao(7, 'B')"> <span>B) 5º A, 5º B E 5º C</span></label>
+        <label class="option-label"><input type="radio" name="q7" value="C" onclick="updateCartao(7, 'C')"> <span>C) 5º B, 5º C E 5º D</span></label>
+        <label class="option-label"><input type="radio" name="q7" value="D" onclick="updateCartao(7, 'D')"> <span>D) 5º A, 5º C E 5º D</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 8 -->
+    <div class="question-card" id="q-card-8">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 8</span>
+        </div>
+        <span class="q-subject-badge">Matemática • EF05MA03</span>
+      </div>
+
+      <div class="q-passage">
+        DURANTE O PROJETO “CADA GOTA CONTA”, OS ESTUDANTES ANALISARAM O CONSUMO DE ÁGUA DA ESCOLA. DO TOTAL DE ÁGUA UTILIZADO EM DETERMINADO PERÍODO:<br><br>
+        • <strong>2/8</strong> FORAM UTILIZADOS NA LIMPEZA;<br>
+        • <strong>1/2</strong> FOI UTILIZADO NOS BANHEIROS;<br>
+        • <strong>3/8</strong> FORAM UTILIZADOS EM OUTRAS ATIVIDADES.
+      </div>
+
+      <div class="q-prompt">QUAL ATIVIDADE CORRESPONDEU À MAIOR FRAÇÃO DO CONSUMO DE ÁGUA?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q8" value="A" onclick="updateCartao(8, 'A')"> <span>A) LIMPEZA.</span></label>
+        <label class="option-label"><input type="radio" name="q8" value="B" onclick="updateCartao(8, 'B')"> <span>B) BANHEIROS.</span></label>
+        <label class="option-label"><input type="radio" name="q8" value="C" onclick="updateCartao(8, 'C')"> <span>C) OUTRAS ATIVIDADES.</span></label>
+        <label class="option-label"><input type="radio" name="q8" value="D" onclick="updateCartao(8, 'D')"> <span>D) LIMPEZA E OUTRAS ATIVIDADES UTILIZARAM A MESMA QUANTIDADE.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 9 -->
+    <div class="question-card" id="q-card-9">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 9</span>
+        </div>
+        <span class="q-subject-badge">Matemática • EF05MA08</span>
+      </div>
+
+      <div class="q-passage">
+        DURANTE UMA ATIVIDADE SOBRE EDUCAÇÃO AMBIENTAL, A PROFESSORA EXPLICOU QUE A LEI FEDERAL Nº 9.795/1999 INCENTIVA AÇÕES DE CONSCIENTIZAÇÃO E PRESERVAÇÃO DO MEIO AMBIENTE. A TURMA TAMBÉM ESTUDOU A IMPORTÂNCIA DE PROTEGER OS AQUÍFEROS E OS MANANCIAIS, TEMA RELACIONADO À LEI MUNICIPAL Nº 8.608/2014.<br><br>
+        PARA A ATIVIDADE, OS ESTUDANTES PRODUZIRAM <strong>80 CARTÕES</strong> COM MENSAGENS SOBRE O USO RESPONSÁVEL DA ÁGUA E A PROTEÇÃO DOS RECURSOS HÍDRICOS. A PROFESSORA DIVIDIU IGUALMENTE OS CARTÕES ENTRE <strong>8 GRUPOS</strong>.
+      </div>
+
+      <div class="q-prompt">QUANTOS CARTÕES CADA GRUPO RECEBEU?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q9" value="A" onclick="updateCartao(9, 'A')"> <span>A) 8 CARTÕES.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="B" onclick="updateCartao(9, 'B')"> <span>B) 10 CARTÕES.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="C" onclick="updateCartao(9, 'C')"> <span>C) 12 CARTÕES.</span></label>
+        <label class="option-label"><input type="radio" name="q9" value="D" onclick="updateCartao(9, 'D')"> <span>D) 16 CARTÕES.</span></label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 10 -->
+    <div class="question-card" id="q-card-10">
+      <div class="question-header">
+        <div class="q-number-box">
+          <span class="q-number">QUESTÃO 10</span>
+        </div>
+        <span class="q-subject-badge">Ciências / Educação Ambiental • EF05CI03</span>
+      </div>
+
+      <div class="q-passage">
+        DURANTE UMA AULA SOBRE AQUÍFEROS E MANANCIAIS, A PROFESSORA BIA APRESENTOU QUATRO SITUAÇÕES:
+      </div>
+
+      <div class="q-img-center">
+        <img src="/img/simulado/5ano_setembro/q10_quatro_situacoes.png" alt="Quatro Situações de Proteção do Solo e Aquíferos" style="max-width: 600px;">
+      </div>
+
+      <div class="q-prompt">QUAIS SITUAÇÕES REPRESENTAM ATITUDES QUE CONTRIBUEM PARA A PROTEÇÃO DO SOLO E DOS RECURSOS HÍDRICOS?</div>
+
+      <div class="options-grid">
+        <label class="option-label"><input type="radio" name="q10" value="A" onclick="updateCartao(10, 'A')"> <span>A) 1 E 2.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="B" onclick="updateCartao(10, 'B')"> <span>B) 1 E 3.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="C" onclick="updateCartao(10, 'C')"> <span>C) 2 E 4.</span></label>
+        <label class="option-label"><input type="radio" name="q10" value="D" onclick="updateCartao(10, 'D')"> <span>D) 3 E 4.</span></label>
+      </div>
+    </div>
+
+    <!-- Cartão de Respostas no Final da Página -->
+    <section class="cartao-resposta">
+      <div class="cartao-title">📋 Cartão Resposta Oficial (5º Ano)</div>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.8rem;">
+        Confira todas as suas respostas marcadas e a produção textual antes de enviar:
+      </p>
+      
+      <div style="background: #f1f5f9; height: 10px; border-radius: 50px; margin-bottom: 0.5rem; overflow: hidden;">
+        <div id="progressFill" style="background: linear-gradient(90deg, var(--primary), #10b981); height: 100%; width: 0%; transition: width 0.3s;"></div>
+      </div>
+      <div id="progressText" style="font-size: 0.9rem; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 1.2rem;">
+        0 de 10 respondidas
+      </div>
+
+      <div class="bubbles-list">
+        <% for(let i=1; i<=10; i++) { %>
+          <div class="bubble-row">
+            <span style="font-weight: 800; font-size: 0.9rem; color: #334155;">Questão <%= i < 10 ? '0'+i : i %></span>
+            <% if (i === 3) { %>
+              <span id="essayStatusBadge" style="font-size: 0.8rem; font-weight: 700; background: #f1f5f9; color: #94a3b8; padding: 0.3rem 0.8rem; border-radius: 50px;">Aguardando Texto</span>
+            <% } else { %>
+              <div class="bubble-dots">
+                <div class="bubble-dot" id="b-<%= i %>-A" onclick="selectFromBubble(<%= i %>, 'A')">A</div>
+                <div class="bubble-dot" id="b-<%= i %>-B" onclick="selectFromBubble(<%= i %>, 'B')">B</div>
+                <div class="bubble-dot" id="b-<%= i %>-C" onclick="selectFromBubble(<%= i %>, 'C')">C</div>
+                <div class="bubble-dot" id="b-<%= i %>-D" onclick="selectFromBubble(<%= i %>, 'D')">D</div>
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+
+      <button class="submit-btn" onclick="submitSimulado()">
+        <span>🚀 FINALIZAR E ENVIAR SIMULADO</span>
+      </button>
+
+      <button class="teacher-gabarito-toggle-btn" onclick="toggleGabaritoModal()" style="margin-top: 1rem;">
+        <span>📊 Ver Gabarito & Habilidades BNCC (Professor)</span>
+      </button>
+    </section>
+
+  </main>
+
+  <!-- Teacher Gabarito BNCC Modal -->
+  <div class="modal-backdrop" id="gabaritoModal">
+    <div class="modal-box" style="max-width: 750px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+        <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.4rem;">📊 Gabarito & Matriz de Habilidades BNCC (5º Ano — Setembro/2026)</h2>
+        <button onclick="toggleGabaritoModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+          <thead>
+            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+              <th style="padding: 0.6rem;">Questão</th>
+              <th style="padding: 0.6rem;">Gabarito</th>
+              <th style="padding: 0.6rem;">Habilidade BNCC</th>
+              <th style="padding: 0.6rem;">Componente Curricular</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">1</td><td style="padding: 0.6rem;"><strong>C</strong></td><td style="padding: 0.6rem;">EF35LP03</td><td style="padding: 0.6rem;">Língua Portuguesa (Ideia central)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">2</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF05LP07</td><td style="padding: 0.6rem;">Língua Portuguesa (Conectivos / "Por isso")</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">3</td><td style="padding: 0.6rem;"><strong style="color: #059669;">PRODUÇÃO</strong></td><td style="padding: 0.6rem;">EF05LP24 / EF15AR04</td><td style="padding: 0.6rem;">Língua Portuguesa & Arte (Campanha educativa)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">4</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF35LP04</td><td style="padding: 0.6rem;">Língua Portuguesa (Inferência)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">5</td><td style="padding: 0.6rem;"><strong>C</strong></td><td style="padding: 0.6rem;">EF35LP03</td><td style="padding: 0.6rem;">Língua Portuguesa (Relação título/texto)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">6</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF35LP03</td><td style="padding: 0.6rem;">Língua Portuguesa (Informação explícita)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">7</td><td style="padding: 0.6rem;"><strong>A</strong></td><td style="padding: 0.6rem;">EF05MA24</td><td style="padding: 0.6rem;">Matemática (Gráfico de barras / reciclagem)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">8</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF05MA03</td><td style="padding: 0.6rem;">Matemática (Comparação de frações)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">9</td><td style="padding: 0.6rem;"><strong>B</strong></td><td style="padding: 0.6rem;">EF05MA08</td><td style="padding: 0.6rem;">Matemática (Divisão equitativa / 10 cartões)</td></tr>
+            <tr style="border-bottom: 1px solid #e2e8f0;"><td style="padding: 0.6rem;">10</td><td style="padding: 0.6rem;"><strong>C</strong></td><td style="padding: 0.6rem;">EF05CI03</td><td style="padding: 0.6rem;">Ciências / Ed. Ambiental (Proteção de aquíferos)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button type="button" onclick="toggleGabaritoModal()" style="padding: 0.7rem 2rem; border-radius: 50px; background: #059669; color: white; border: none; font-weight: 800; cursor: pointer;">Fechar Gabarito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Missing Questions Modal -->
+  <div class="modal-backdrop" id="missingModal">
+    <div class="modal-box">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.6rem; color: #dc2626; margin-bottom: 0.8rem;">Atenção! Faltam Questões</h3>
+      <p style="color: #64748b; margin-bottom: 1.2rem;">Você ainda não respondeu todas as questões do simulado:</p>
+      <div id="missingQuestionsList" style="text-align: left; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 1rem; color: #991b1b; font-weight: 700; margin-bottom: 1.5rem; max-height: 180px; overflow-y: auto;">
+      </div>
+      <button type="button" onclick="closeMissingModal()" style="padding: 0.8rem 2rem; border-radius: 50px; background: #059669; color: white; border: none; font-weight: 800; cursor: pointer;">
+        Voltar e Responder
+      </button>
+    </div>
+  </div>
+
+  <!-- Success / Result Modal -->
+  <div class="modal-backdrop" id="resultModal">
+    <div class="modal-box">
+      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉🐢</div>
+      <h3 style="font-family: 'Fredoka', sans-serif; font-size: 2rem; color: #059669; margin-bottom: 0.5rem;">Parabéns pelo Desafio!</h3>
+      <p style="color: #64748b; font-size: 1.05rem; margin-bottom: 1.2rem;">Suas respostas foram gravadas com sucesso no sistema do Projeto Campos de Todos Nós.</p>
+      <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 16px; padding: 1.2rem; margin-bottom: 1.5rem;">
+        <div style="font-size: 0.9rem; color: #047857; font-weight: 800; text-transform: uppercase;">Desempenho Objetivo</div>
+        <div id="finalScoreDisplay" style="font-family: 'Fredoka', sans-serif; font-size: 2.8rem; color: #059669; margin: 0.3rem 0;">0 / 9</div>
+        <div style="font-size: 0.85rem; color: #64748b;">+ Questão 03 (Texto de Conscientização) salva para avaliação da professora!</div>
+      </div>
+      <a href="/?level=1-5" style="display: block; padding: 1rem; border-radius: 50px; background: #059669; color: white; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; text-decoration: none; font-weight: 700;">
+        Voltar para o Portal Lab Kids 🏠
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const answerKey = {
+      1: 'C',
+      2: 'B',
+      // 3 is Produção Textual Escrita
+      4: 'B',
+      5: 'C',
+      6: 'B',
+      7: 'A',
+      8: 'B',
+      9: 'B',
+      10: 'C'
+    };
+
+    let studentAnswers = {};
+    let isSubmitted = false;
+    const SIMULADO_KEY = 'lab_simulado_5ano_setembro_draft';
+
+    function saveDraft() {
+      if (isSubmitted) return;
+      const draft = {
+        studentName: document.getElementById('studentName')?.value || '',
+        schoolName: document.getElementById('schoolName')?.value || '',
+        className: document.getElementById('className')?.value || '',
+        shiftName: document.getElementById('shiftName')?.value || '',
+        essay: document.getElementById('q3Essay')?.value || '',
+        answers: studentAnswers
+      };
+      try { localStorage.setItem(SIMULADO_KEY, JSON.stringify(draft)); } catch(e){}
+    }
+
+    function restoreDraft() {
+      try {
+        const raw = localStorage.getItem(SIMULADO_KEY);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (draft.studentName) document.getElementById('studentName').value = draft.studentName;
+        if (draft.schoolName) document.getElementById('schoolName').value = draft.schoolName;
+        if (draft.className) document.getElementById('className').value = draft.className;
+        if (draft.shiftName) document.getElementById('shiftName').value = draft.shiftName;
+        if (draft.essay) {
+          document.getElementById('q3Essay').value = draft.essay;
+          syncEssay(false);
+        }
+
+        if (draft.answers) {
+          for (let q in draft.answers) {
+            if (q == '3') continue;
+            const opt = draft.answers[q];
+            const radio = document.querySelector(`input[name="q${q}"][value="${opt}"]`);
+            if (radio) {
+              radio.checked = true;
+              updateCartao(q, opt, false);
+            }
+          }
+        }
+      } catch(e){}
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      restoreDraft();
+      document.getElementById('studentName')?.addEventListener('input', saveDraft);
+      document.getElementById('schoolName')?.addEventListener('change', saveDraft);
+      document.getElementById('className')?.addEventListener('change', saveDraft);
+      document.getElementById('shiftName')?.addEventListener('change', saveDraft);
+    });
+
+    function selectFromBubble(qNum, opt) {
+      const radio = document.querySelector(`input[name="q${qNum}"][value="${opt}"]`);
+      if (radio) {
+        radio.checked = true;
+        updateCartao(qNum, opt);
+      }
+    }
+
+    function updateCartao(qNum, opt, shouldSave = true) {
+      studentAnswers[qNum] = opt;
+      ['A', 'B', 'C', 'D'].forEach(o => {
+        const dot = document.getElementById(`b-${qNum}-${o}`);
+        if (dot) dot.classList.remove('selected');
+      });
+      const dot = document.getElementById(`b-${qNum}-${opt}`);
+      if (dot) dot.classList.add('selected');
+      updateProgress();
+      if (shouldSave) saveDraft();
+    }
+
+    function syncEssay(shouldSave = true) {
+      const text = document.getElementById('q3Essay')?.value.trim() || '';
+      const badge = document.getElementById('essayStatusBadge');
+      if (text) {
+        studentAnswers[3] = text;
+        if (badge) {
+          badge.innerText = '✓ Texto Preenchido';
+          badge.style.background = '#dcfce7';
+          badge.style.color = '#15803d';
+        }
+      } else {
+        delete studentAnswers[3];
+        if (badge) {
+          badge.innerText = 'Aguardando Texto';
+          badge.style.background = '#f1f5f9';
+          badge.style.color = '#94a3b8';
+        }
+      }
+      updateProgress();
+      if (shouldSave) saveDraft();
+    }
+
+    function updateProgress() {
+      const totalAnswered = Object.keys(studentAnswers).length;
+      const progressPercent = Math.round((totalAnswered / 10) * 100);
+      const fill = document.getElementById('progressFill');
+      const text = document.getElementById('progressText');
+      if (fill) fill.style.width = `${progressPercent}%`;
+      if (text) text.innerText = `${totalAnswered} de 10 respondidas`;
+    }
+
+    function toggleGabaritoModal() {
+      const modal = document.getElementById('gabaritoModal');
+      if (modal) modal.classList.toggle('active');
+    }
+
+    function closeMissingModal() {
+      document.getElementById('missingModal').classList.remove('active');
+    }
+
+    async function submitSimulado() {
+      const name = document.getElementById('studentName').value.trim();
+      if (!name) {
+        alert('Por favor, informe seu Nome Completo antes de enviar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      const missing = [];
+      for (let i = 1; i <= 10; i++) {
+        if (!studentAnswers[i]) {
+          if (i === 3) missing.push('Questão 03 (Texto de Conscientização)');
+          else missing.push(`Questão ${i < 10 ? '0' + i : i}`);
+        }
+      }
+
+      if (missing.length > 0) {
+        document.getElementById('missingQuestionsList').innerHTML = missing.map(m => `<div>• ${m}</div>`).join('');
+        document.getElementById('missingModal').classList.add('active');
+        return;
+      }
+
+      let score = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (i === 3) continue;
+        if (studentAnswers[i] === answerKey[i]) score++;
+      }
+
+      const payload = {
+        simulado_id: 'campos-5ano-setembro-2026',
+        student_name: name,
+        school_name: document.getElementById('schoolName').value.trim(),
+        class_name: document.getElementById('className').value || '5º Ano',
+        shift: document.getElementById('shiftName').value || 'Manhã',
+        answers_json: studentAnswers,
+        score: score,
+        max_score: 9,
+        essay_text: studentAnswers[3] || ''
+      };
+
+      try {
+        await fetch('/api/simulado/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch(err) {
+        console.error('Submit error:', err);
+      }
+
+      isSubmitted = true;
+      try { localStorage.removeItem(SIMULADO_KEY); } catch(e){}
+
+      document.getElementById('finalScoreDisplay').innerText = `${score} / 9`;
+      document.getElementById('resultModal').classList.add('active');
+      if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+    }
+  </script>
+
+</body>
+</html>

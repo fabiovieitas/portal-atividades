@@ -233,11 +233,10 @@ async function getTeacherLevel(id) {
 
 // Routes
 app.get('/', async (req, res) => {
-  const { level, search, category, bncc, subject, month } = req.query;
+  const { level, search, category, bncc, subject } = req.query;
   let activities = [];
 
-  if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas') || (month && month !== 'Todas')) {
-    // If month is specifically provided and not 'Todas', we filter by month; otherwise fetch all to allow smooth tab switching
+  if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas')) {
     activities = await dbHelper.getActivities({ level, search, category, bncc, subject });
   }
 
@@ -264,14 +263,14 @@ app.get('/', async (req, res) => {
   const projects = await dbHelper.getProjects(12);
   const showcaseActivities = await dbHelper.getActivities({});
 
-  const agostoCount = activities.filter(a => (a.month || 'Agosto') === 'Agosto').length;
-  const setembroCount = activities.filter(a => a.month === 'Setembro').length;
-
   res.render('index', { 
     activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories: categories || [], subjects: subjects || [], search, 
-    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher,
-    selectedMonth: month || 'Agosto', agostoCount, setembroCount
+    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher
   });
+});
+
+app.get('/simulados', (req, res) => {
+  res.redirect('/?level=1-5#simulados');
 });
 
 app.get('/professor/certificado', (req, res) => {
@@ -422,7 +421,18 @@ app.get('/atividades/level-up', async (req, res) => {
 });
 
 // Simulados Digitais Campos dos Goytacazes (1º ao 5º Ano)
-app.get('/atividades/simulado-campos-1ano', async (req, res) => {
+
+// --- 1º ANO ---
+app.get('/atividades/simulado-campos-1ano-setembro', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_1ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_1ano_setembro', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-1ano-agosto', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
     res.render('simulado_campos_1ano', { schools });
@@ -431,6 +441,19 @@ app.get('/atividades/simulado-campos-1ano', async (req, res) => {
   }
 });
 
+app.get('/atividades/simulado-campos-1ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
+      return res.render('simulado_campos_1ano', { schools });
+    }
+    res.render('simulado_campos_1ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_1ano_setembro', { schools: [] });
+  }
+});
+
+// --- 2º ANO ---
 app.get('/atividades/simulado-campos-2ano-setembro', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
@@ -455,14 +478,23 @@ app.get('/atividades/simulado-campos-2ano', async (req, res) => {
     if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
       return res.render('simulado_campos_2ano', { schools });
     }
-    // Setembro é a edição mais recente oficial
     res.render('simulado_campos_2ano_setembro', { schools });
   } catch(e) {
     res.render('simulado_campos_2ano_setembro', { schools: [] });
   }
 });
 
-app.get('/atividades/simulado-campos-3ano', async (req, res) => {
+// --- 3º ANO ---
+app.get('/atividades/simulado-campos-3ano-setembro', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_3ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_3ano_setembro', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-3ano-agosto', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
     res.render('simulado_campos_3ano', { schools });
@@ -471,7 +503,29 @@ app.get('/atividades/simulado-campos-3ano', async (req, res) => {
   }
 });
 
-app.get('/atividades/simulado-campos-4ano', async (req, res) => {
+app.get('/atividades/simulado-campos-3ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
+      return res.render('simulado_campos_3ano', { schools });
+    }
+    res.render('simulado_campos_3ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_3ano_setembro', { schools: [] });
+  }
+});
+
+// --- 4º ANO ---
+app.get('/atividades/simulado-campos-4ano-setembro', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_4ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_4ano_setembro', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-4ano-agosto', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
     res.render('simulado_campos_4ano', { schools });
@@ -480,7 +534,29 @@ app.get('/atividades/simulado-campos-4ano', async (req, res) => {
   }
 });
 
-app.get('/atividades/simulado-campos-5ano', async (req, res) => {
+app.get('/atividades/simulado-campos-4ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
+      return res.render('simulado_campos_4ano', { schools });
+    }
+    res.render('simulado_campos_4ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_4ano_setembro', { schools: [] });
+  }
+});
+
+// --- 5º ANO ---
+app.get('/atividades/simulado-campos-5ano-setembro', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_5ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_5ano_setembro', { schools: [] });
+  }
+});
+
+app.get('/atividades/simulado-campos-5ano-agosto', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
     res.render('simulado_campos_5ano', { schools });
@@ -489,14 +565,38 @@ app.get('/atividades/simulado-campos-5ano', async (req, res) => {
   }
 });
 
+app.get('/atividades/simulado-campos-5ano', async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
+      return res.render('simulado_campos_5ano', { schools });
+    }
+    res.render('simulado_campos_5ano_setembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_5ano_setembro', { schools: [] });
+  }
+});
+
 // Redirects amigáveis para Simulados
-app.get('/simulado/1-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano'));
+app.get('/simulado/1-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano-setembro'));
+app.get('/simulado/1-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano-setembro'));
+app.get('/simulado/1-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano-agosto'));
+
 app.get('/simulado/2-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-setembro'));
 app.get('/simulado/2-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-setembro'));
 app.get('/simulado/2-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-agosto'));
-app.get('/simulado/3-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-3ano'));
-app.get('/simulado/4-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-4ano'));
-app.get('/simulado/5-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano'));
+
+app.get('/simulado/3-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-3ano-setembro'));
+app.get('/simulado/3-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-3ano-setembro'));
+app.get('/simulado/3-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-3ano-agosto'));
+
+app.get('/simulado/4-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-4ano-setembro'));
+app.get('/simulado/4-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-4ano-setembro'));
+app.get('/simulado/4-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-4ano-agosto'));
+
+app.get('/simulado/5-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
+app.get('/simulado/5-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
+app.get('/simulado/5-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-agosto'));
 
 app.post('/api/simulado/submit', async (req, res) => {
   try {
@@ -707,7 +807,14 @@ app.get('/admin/simulado/relatorio-op', async (req, res) => {
       const className = s.class_name || 'Turma Não Identificada';
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
-      const maxScore = Number(s.max_score) || (s.simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9);
+      const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
+        s.simulado_id === 'campos-2ano-setembro-2026' ? 10 :
+        s.simulado_id === 'campos-3ano-setembro-2026' ? 9 :
+        s.simulado_id === 'campos-4ano-setembro-2026' ? 10 :
+        s.simulado_id === 'campos-5ano-setembro-2026' ? 9 :
+        s.simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9
+      );
       const scoreNormalized10 = (score / maxScore) * 10;
       
       const turmaKey = `${school}___${className}___${shift}`;
@@ -771,7 +878,14 @@ app.get('/admin/simulado/relatorio-op', async (req, res) => {
 
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
-      const maxScore = Number(s.max_score) || (s.simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9);
+      const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
+        s.simulado_id === 'campos-2ano-setembro-2026' ? 10 :
+        s.simulado_id === 'campos-3ano-setembro-2026' ? 9 :
+        s.simulado_id === 'campos-4ano-setembro-2026' ? 10 :
+        s.simulado_id === 'campos-5ano-setembro-2026' ? 9 :
+        s.simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9
+      );
       return acc + ((Number(s.score) || 0) / maxScore) * 10;
     }, 0) / totalStudents).toFixed(1) : '0.0';
 

@@ -541,8 +541,12 @@
         <label for="filterSimulado">📝 Simulado / Caderno:</label>
         <select id="filterSimulado" class="filter-select" onchange="window.location.href='/admin/simulado/relatorio-op?simulado_id=' + this.value">
           <option value="ALL" <%= simuladoId === 'ALL' ? 'selected' : '' %>>Todos os Simulados (1º ao 5º)</option>
-          <option value="campos-1ano-agosto-2026" <%= simuladoId === 'campos-1ano-agosto-2026' ? 'selected' : '' %>>🥇 1º Ano (Agosto/2026)</option>
+          <option value="campos-1ano-setembro-2026" <%= simuladoId === 'campos-1ano-setembro-2026' ? 'selected' : '' %>>🥇 1º Ano (Setembro/2026 - Novo)</option>
           <option value="campos-2ano-setembro-2026" <%= simuladoId === 'campos-2ano-setembro-2026' ? 'selected' : '' %>>🥈 2º Ano (Setembro/2026 - Novo)</option>
+          <option value="campos-3ano-setembro-2026" <%= simuladoId === 'campos-3ano-setembro-2026' ? 'selected' : '' %>>🥉 3º Ano (Setembro/2026 - Novo)</option>
+          <option value="campos-4ano-setembro-2026" <%= simuladoId === 'campos-4ano-setembro-2026' ? 'selected' : '' %>>🎯 4º Ano (Setembro/2026 - Novo)</option>
+          <option value="campos-5ano-setembro-2026" <%= simuladoId === 'campos-5ano-setembro-2026' ? 'selected' : '' %>>🚀 5º Ano (Setembro/2026 - Novo)</option>
+          <option value="campos-1ano-agosto-2026" <%= simuladoId === 'campos-1ano-agosto-2026' ? 'selected' : '' %>>🥇 1º Ano (Agosto/2026)</option>
           <option value="campos-2ano-agosto-2026" <%= simuladoId === 'campos-2ano-agosto-2026' ? 'selected' : '' %>>🥈 2º Ano (Agosto/2026)</option>
           <option value="campos-3ano-agosto-2026" <%= simuladoId === 'campos-3ano-agosto-2026' ? 'selected' : '' %>>🥉 3º Ano (Agosto/2026)</option>
           <option value="campos-4ano-agosto-2026" <%= simuladoId === 'campos-4ano-agosto-2026' ? 'selected' : '' %>>🎯 4º Ano (Agosto/2026)</option>
