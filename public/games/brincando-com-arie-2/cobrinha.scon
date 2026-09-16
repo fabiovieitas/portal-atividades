@@ -1,0 +1,1396 @@
+{
+	"atlas": [
+		{
+			"name": "cobrinha.json"
+		}
+	],
+	"entity": [
+		{
+			"animation": [
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1640
+								}
+							],
+							"name": "pisca"
+						}
+					],
+					"id": 0,
+					"interval": 41,
+					"length": 2000,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -85,
+										"abs_y": -204,
+										"file": 0,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "cobrinha0002",
+										"timeline": "0",
+										"z_index": "0"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -12,
+										"abs_y": -191,
+										"file": 1,
+										"folder": 0,
+										"id": 1,
+										"key": 0,
+										"name": "cobrinha0004",
+										"timeline": "1",
+										"z_index": "1"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "1"
+									}
+								],
+								"time": 1845
+							}
+						]
+					},
+					"name": "pisca",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 1,
+										"folder": 0,
+										"x": -85,
+										"y": 204
+									},
+									"spin": 0
+								}
+							],
+							"name": "cobrinha0002",
+							"obj": 0
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 3,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"file": 4,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0,
+									"time": 1845
+								}
+							],
+							"name": "cobrinha0004",
+							"obj": 1
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1025
+								}
+							],
+							"name": "volta"
+						}
+					],
+					"id": 1,
+					"interval": 41,
+					"length": 1066,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 11,
+										"abs_y": -146,
+										"file": 4,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "cobrinha0006",
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -85,
+										"abs_y": -204,
+										"file": 5,
+										"folder": 0,
+										"id": 1,
+										"key": 0,
+										"name": "cobrinha0002",
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -12,
+										"abs_y": -191,
+										"file": 3,
+										"folder": 0,
+										"id": 2,
+										"key": 0,
+										"name": "cobrinha0004",
+										"timeline": "1",
+										"z_index": "2"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 82
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 164
+							},
+							{
+								"bone_ref": [],
+								"id": 3,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 246
+							},
+							{
+								"bone_ref": [],
+								"id": 4,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 4,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 328
+							},
+							{
+								"bone_ref": [],
+								"id": 5,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 5,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 410
+							},
+							{
+								"bone_ref": [],
+								"id": 6,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 6,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 492
+							},
+							{
+								"bone_ref": [],
+								"id": 7,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 7,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 574
+							},
+							{
+								"bone_ref": [],
+								"id": 8,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 8,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 656
+							},
+							{
+								"bone_ref": [],
+								"id": 9,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 9,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 738
+							},
+							{
+								"bone_ref": [],
+								"id": 10,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 10,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 820
+							},
+							{
+								"bone_ref": [],
+								"id": 11,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 2,
+										"timeline": "1",
+										"z_index": "1"
+									}
+								],
+								"time": 902
+							}
+						]
+					},
+					"name": "linguaMenu",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 2,
+										"folder": 0,
+										"x": -85,
+										"y": 204
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"file": 1,
+										"folder": 0,
+										"x": -85,
+										"y": 204
+									},
+									"spin": 0,
+									"time": 902
+								}
+							],
+							"name": "cobrinha0002",
+							"obj": 0
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 4,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"file": 3,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0,
+									"time": 328
+								},
+								{
+									"id": 2,
+									"object": {
+										"file": 4,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0,
+									"time": 902
+								}
+							],
+							"name": "cobrinha0004",
+							"obj": 1
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"curve_type": "instant",
+									"id": 0,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 11,
+										"y": 146
+									}
+								},
+								{
+									"curve_type": "instant",
+									"id": 1,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 82
+								},
+								{
+									"curve_type": "instant",
+									"id": 2,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 164
+								},
+								{
+									"curve_type": "instant",
+									"id": 3,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 246
+								},
+								{
+									"curve_type": "instant",
+									"id": 4,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 328
+								},
+								{
+									"curve_type": "instant",
+									"id": 5,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 410
+								},
+								{
+									"curve_type": "instant",
+									"id": 6,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 492
+								},
+								{
+									"curve_type": "instant",
+									"id": 7,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 574
+								},
+								{
+									"curve_type": "instant",
+									"id": 8,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 656
+								},
+								{
+									"curve_type": "instant",
+									"id": 9,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 738
+								},
+								{
+									"curve_type": "instant",
+									"id": 10,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 13.27320125130344,
+										"y": 146.17101147028154
+									},
+									"time": 820
+								}
+							],
+							"name": "cobrinha0006",
+							"obj": 2
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1025
+								}
+							],
+							"name": "volta"
+						}
+					],
+					"id": 2,
+					"interval": 41,
+					"length": 1066,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 11,
+										"abs_y": -146,
+										"file": 4,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "cobrinha0006",
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -85,
+										"abs_y": -204,
+										"file": 5,
+										"folder": 0,
+										"id": 1,
+										"key": 0,
+										"name": "cobrinha0002",
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -12,
+										"abs_y": -191,
+										"file": 1,
+										"folder": 0,
+										"id": 2,
+										"key": 0,
+										"name": "cobrinha0004",
+										"timeline": "1",
+										"z_index": "2"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 82
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 164
+							},
+							{
+								"bone_ref": [],
+								"id": 3,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 246
+							},
+							{
+								"bone_ref": [],
+								"id": 4,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 4,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 328
+							},
+							{
+								"bone_ref": [],
+								"id": 5,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 5,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 410
+							},
+							{
+								"bone_ref": [],
+								"id": 6,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 6,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 492
+							},
+							{
+								"bone_ref": [],
+								"id": 7,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 7,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 574
+							},
+							{
+								"bone_ref": [],
+								"id": 8,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 8,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 656
+							},
+							{
+								"bone_ref": [],
+								"id": 9,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 9,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 738
+							},
+							{
+								"bone_ref": [],
+								"id": 10,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 10,
+										"timeline": "2",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "2"
+									}
+								],
+								"time": 820
+							},
+							{
+								"bone_ref": [],
+								"id": 11,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 2,
+										"timeline": "1",
+										"z_index": "1"
+									}
+								],
+								"time": 902
+							}
+						]
+					},
+					"name": "linguaElevador",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 2,
+										"folder": 0,
+										"x": -85,
+										"y": 204
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"file": 1,
+										"folder": 0,
+										"x": -85,
+										"y": 204
+									},
+									"spin": 0,
+									"time": 902
+								}
+							],
+							"name": "cobrinha0002",
+							"obj": 0
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 3,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"file": 3,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0,
+									"time": 328
+								},
+								{
+									"id": 2,
+									"object": {
+										"file": 3,
+										"folder": 0,
+										"x": -12,
+										"y": 191
+									},
+									"spin": 0,
+									"time": 902
+								}
+							],
+							"name": "cobrinha0004",
+							"obj": 1
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"curve_type": "instant",
+									"id": 0,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 11,
+										"y": 146
+									}
+								},
+								{
+									"curve_type": "instant",
+									"id": 1,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 82
+								},
+								{
+									"curve_type": "instant",
+									"id": 2,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 164
+								},
+								{
+									"curve_type": "instant",
+									"id": 3,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 246
+								},
+								{
+									"curve_type": "instant",
+									"id": 4,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 328
+								},
+								{
+									"curve_type": "instant",
+									"id": 5,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 410
+								},
+								{
+									"curve_type": "instant",
+									"id": 6,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 492
+								},
+								{
+									"curve_type": "instant",
+									"id": 7,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 574
+								},
+								{
+									"curve_type": "instant",
+									"id": 8,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 26.27320125130344,
+										"y": 140.17101147028154
+									},
+									"time": 656
+								},
+								{
+									"curve_type": "instant",
+									"id": 9,
+									"object": {
+										"file": 5,
+										"folder": 0,
+										"x": 28,
+										"y": 142
+									},
+									"time": 738
+								},
+								{
+									"curve_type": "instant",
+									"id": 10,
+									"object": {
+										"file": 6,
+										"folder": 0,
+										"x": 13.27320125130344,
+										"y": 146.17101147028154
+									},
+									"time": 820
+								}
+							],
+							"name": "cobrinha0006",
+							"obj": 2
+						}
+					]
+				}
+			],
+			"character_map": [],
+			"id": 0,
+			"name": "entity_000",
+			"obj_info": [
+				{
+					"frames": [
+						{
+							"file": 1,
+							"folder": 0
+						},
+						{
+							"file": 2,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_cobrinha0002",
+					"realname": "cobrinha0002",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 3,
+							"folder": 0
+						},
+						{
+							"file": 4,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_cobrinha0004",
+					"realname": "cobrinha0004",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 6,
+							"folder": 0
+						},
+						{
+							"file": 5,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_cobrinha0006",
+					"realname": "cobrinha0006",
+					"type": "sprite"
+				}
+			]
+		}
+	],
+	"folder": [
+		{
+			"atlas": 0,
+			"file": [
+				{
+					"ah": 212,
+					"arot": "false",
+					"aw": 169,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 212,
+					"id": 0,
+					"name": "cobrinha0001.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 169
+				},
+				{
+					"ah": 212,
+					"arot": "true",
+					"aw": 169,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 218,
+					"ayoff": 0,
+					"height": 212,
+					"id": 1,
+					"name": "cobrinha0002.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 169
+				},
+				{
+					"ah": 212,
+					"arot": "false",
+					"aw": 169,
+					"ax": 175,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 212,
+					"id": 2,
+					"name": "cobrinha0003.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 169
+				},
+				{
+					"ah": 35,
+					"arot": "true",
+					"aw": 55,
+					"ax": 348,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 35,
+					"id": 3,
+					"name": "cobrinha0004.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 55
+				},
+				{
+					"ah": 35,
+					"arot": "true",
+					"aw": 55,
+					"ax": 348,
+					"axoff": 0,
+					"ay": 61,
+					"ayoff": 0,
+					"height": 35,
+					"id": 4,
+					"name": "cobrinha0005.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 55
+				},
+				{
+					"ah": 28,
+					"arot": "true",
+					"aw": 49,
+					"ax": 348,
+					"axoff": 0,
+					"ay": 120,
+					"ayoff": 0,
+					"height": 28,
+					"id": 5,
+					"name": "cobrinha0007.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 49
+				},
+				{
+					"ah": 32,
+					"arot": "true",
+					"aw": 47,
+					"ax": 348,
+					"axoff": 0,
+					"ay": 173,
+					"ayoff": 0,
+					"height": 32,
+					"id": 6,
+					"name": "cobrinha0006.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 47
+				}
+			],
+			"id": 0,
+			"name": "."
+		}
+	],
+	"generator": "BrashMonkey Spriter",
+	"generator_version": "r11",
+	"scon_version": "1.0"
+}

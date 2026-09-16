@@ -1,0 +1,1993 @@
+{
+	"atlas": [
+		{
+			"name": "jacareB.json"
+		}
+	],
+	"entity": [
+		{
+			"animation": [
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1763
+								}
+							],
+							"name": "pisca"
+						}
+					],
+					"id": 0,
+					"interval": 41,
+					"length": 2000,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -27,
+										"abs_y": 2,
+										"file": 2,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacareB_1",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 1763
+							}
+						]
+					},
+					"name": "parado",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 0,
+										"folder": 0,
+										"x": -27,
+										"y": -2
+									},
+									"spin": 0
+								}
+							],
+							"name": "jacareB_1",
+							"obj": 0
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 205
+								}
+							],
+							"name": "voltaPisca"
+						}
+					],
+					"id": 1,
+					"interval": 41,
+					"length": 287,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -27,
+										"abs_y": 2,
+										"file": 2,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacareB_1",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 41
+							}
+						]
+					},
+					"name": "pisca",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 0,
+										"folder": 0,
+										"x": -27,
+										"y": -2
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 1,
+										"folder": 0,
+										"x": -27,
+										"y": -2
+									},
+									"spin": 0,
+									"time": 41
+								}
+							],
+							"name": "jacareB_1",
+							"obj": 0
+						}
+					]
+				},
+				{
+					"id": 2,
+					"interval": 41,
+					"length": 2000,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -27,
+										"abs_y": 2,
+										"file": 0,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacareB_1",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							}
+						]
+					},
+					"name": "atencao",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 3,
+										"folder": 0,
+										"x": -27,
+										"y": -2
+									},
+									"spin": 0
+								}
+							],
+							"name": "jacareB_1",
+							"obj": 0
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 902
+								}
+							],
+							"name": "fimSobe"
+						}
+					],
+					"id": 3,
+					"interval": 41,
+					"length": 1000,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -27,
+										"abs_y": 50,
+										"file": 2,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacareB_1_000",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 574
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 779
+							}
+						]
+					},
+					"name": "sobe",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"c1": 0.321131,
+									"c2": 0.4691,
+									"c3": 0.577371,
+									"c4": 0.9095,
+									"curve_type": "bezier",
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 0,
+										"folder": 0,
+										"x": -27,
+										"y": -50
+									},
+									"spin": 0
+								},
+								{
+									"curve_type": "instant",
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 0,
+										"folder": 0,
+										"x": -27,
+										"y": -2
+									},
+									"time": 574
+								}
+							],
+							"name": "jacareB_1_000",
+							"obj": 1
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 2132
+								}
+							],
+							"name": "fimEstrela"
+						}
+					],
+					"id": 4,
+					"interval": 41,
+					"length": 2255,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -27,
+										"abs_y": 3,
+										"file": 0,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacareB_3",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 0,
+										"timeline": "3",
+										"z_index": "3"
+									}
+								],
+								"time": 820
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 1,
+										"timeline": "2",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 1,
+										"timeline": "3",
+										"z_index": "3"
+									}
+								],
+								"time": 1476
+							},
+							{
+								"bone_ref": [],
+								"id": 3,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 1517
+							},
+							{
+								"bone_ref": [],
+								"id": 4,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 1927
+							},
+							{
+								"bone_ref": [],
+								"id": 5,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 2132
+							}
+						]
+					},
+					"name": "estrelas",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 3,
+										"folder": 0,
+										"x": -27,
+										"y": -3
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"x": -27,
+										"y": -3
+									},
+									"spin": 0,
+									"time": 820
+								},
+								{
+									"c1": 0.3527,
+									"c2": 0.0985915,
+									"c3": 0.6667,
+									"c4": 0.6667,
+									"curve_type": "bezier",
+									"id": 2,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"x": -27,
+										"y": -3
+									},
+									"spin": 0,
+									"time": 1517
+								},
+								{
+									"curve_type": "instant",
+									"id": 3,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"x": -27,
+										"y": -69
+									},
+									"time": 1927
+								}
+							],
+							"name": "jacareB_3",
+							"obj": 2
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 15,
+										"folder": 0,
+										"x": -52.125012,
+										"y": 66.249991
+									},
+									"spin": -1,
+									"time": 820
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 276.330658,
+										"file": 15,
+										"folder": 0,
+										"scale_x": 0.610601,
+										"scale_y": 0.610601,
+										"x": -81.379914,
+										"y": 82.112736
+									},
+									"time": 1476
+								}
+							],
+							"name": "estrelas_0003",
+							"obj": 3
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 23,
+										"folder": 0,
+										"x": 35.83,
+										"y": 57.5
+									},
+									"spin": -1,
+									"time": 820
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 237.870558,
+										"file": 23,
+										"folder": 0,
+										"scale_x": 0.71485,
+										"scale_y": 0.71485,
+										"x": 59.241765,
+										"y": 70.95098
+									},
+									"time": 1476
+								}
+							],
+							"name": "estrelas_0002",
+							"obj": 4
+						},
+						{
+							"id": 3,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 22,
+										"folder": 0,
+										"x": -6.5,
+										"y": 78.25
+									},
+									"time": 820
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 55.62100399999997,
+										"file": 22,
+										"folder": 0,
+										"scale_x": 1.500042,
+										"scale_y": 1.500042,
+										"x": -8.5,
+										"y": 102.70098
+									},
+									"spin": -1,
+									"time": 1476
+								}
+							],
+							"name": "estrelas_0001",
+							"obj": 5
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 2501
+								}
+							],
+							"name": "fimBocao"
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"time": 902
+								}
+							],
+							"name": "mordida"
+						}
+					],
+					"id": 5,
+					"interval": 41,
+					"length": 3000,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -26.99999989623465,
+										"abs_y": 2.00000031960005,
+										"file": 0,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacareB_1_001",
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									}
+								],
+								"time": 574
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									}
+								],
+								"time": 579
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 3,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									}
+								],
+								"time": 902
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 4,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									}
+								],
+								"time": 1271
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 5,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1312
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 6,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 1,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1353
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 7,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 2,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1394
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 8,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 3,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1435
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"curve_type": "instant",
+								"id": 9,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 4,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1476
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 10,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 5,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1517
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 11,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 6,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1558
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 12,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 7,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1599
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 13,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 8,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1640
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 14,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 9,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1681
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 15,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 10,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1722
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 16,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 11,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1763
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": 0
+									}
+								],
+								"id": 17,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 12,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1804
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": 0
+									}
+								],
+								"id": 18,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 12,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 1845
+							},
+							{
+								"bone_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"timeline": 0
+									}
+								],
+								"id": 19,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"parent": 0,
+										"timeline": "1",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 12,
+										"parent": 0,
+										"timeline": "2",
+										"z_index": "1"
+									}
+								],
+								"time": 2337
+							}
+						]
+					},
+					"name": "bocao",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"bone": {
+										"angle": 89.71494899999999,
+										"x": 2,
+										"y": -2
+									},
+									"id": 0,
+									"spin": 0
+								},
+								{
+									"bone": {
+										"angle": 89.71494899999999,
+										"x": 2,
+										"y": -2
+									},
+									"id": 1,
+									"spin": 0,
+									"time": 1845
+								},
+								{
+									"bone": {
+										"angle": 89.71494899999999,
+										"x": 2,
+										"y": -139
+									},
+									"curve_type": "instant",
+									"id": 2,
+									"time": 2337
+								}
+							],
+							"name": "bone_000",
+							"obj": 6,
+							"object_type": "bone"
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"curve_type": "instant",
+									"id": 0,
+									"object": {
+										"angle": 270.285051,
+										"file": 3,
+										"folder": 0,
+										"x": -0.144277,
+										"y": 28.999641
+									}
+								},
+								{
+									"curve_type": "instant",
+									"id": 1,
+									"object": {
+										"angle": 270.285051,
+										"file": 5,
+										"folder": 0,
+										"x": -0.074626,
+										"y": 14.999814
+									},
+									"time": 574
+								},
+								{
+									"curve_type": "instant",
+									"id": 2,
+									"object": {
+										"angle": 270.285051,
+										"file": 7,
+										"folder": 0,
+										"x": -0.074626,
+										"y": 14.999814
+									},
+									"time": 902
+								},
+								{
+									"curve_type": "instant",
+									"id": 3,
+									"object": {
+										"angle": 270.285051,
+										"file": 6,
+										"folder": 0,
+										"x": -0.074626,
+										"y": 14.999814
+									},
+									"time": 1271
+								}
+							],
+							"name": "jacareB_1_001",
+							"obj": 7
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 270.285051,
+										"file": 21,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1312
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 270.285051,
+										"file": 20,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1353
+								},
+								{
+									"id": 2,
+									"object": {
+										"angle": 270.285051,
+										"file": 19,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1394
+								},
+								{
+									"id": 3,
+									"object": {
+										"angle": 270.285051,
+										"file": 18,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1435
+								},
+								{
+									"id": 4,
+									"object": {
+										"angle": 270.285051,
+										"file": 17,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1476
+								},
+								{
+									"curve_type": "instant",
+									"id": 5,
+									"object": {
+										"angle": 270.285051,
+										"file": 16,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"time": 1517
+								},
+								{
+									"id": 6,
+									"object": {
+										"angle": 270.285051,
+										"file": 14,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1558
+								},
+								{
+									"id": 7,
+									"object": {
+										"angle": 270.285051,
+										"file": 11,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1599
+								},
+								{
+									"id": 8,
+									"object": {
+										"angle": 270.285051,
+										"file": 12,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1640
+								},
+								{
+									"id": 9,
+									"object": {
+										"angle": 270.285051,
+										"file": 13,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1681
+								},
+								{
+									"id": 10,
+									"object": {
+										"angle": 270.285051,
+										"file": 10,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1722
+								},
+								{
+									"id": 11,
+									"object": {
+										"angle": 270.285051,
+										"file": 9,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"spin": 0,
+									"time": 1763
+								},
+								{
+									"curve_type": "instant",
+									"id": 12,
+									"object": {
+										"angle": 270.285051,
+										"file": 8,
+										"folder": 0,
+										"x": 120.76965,
+										"y": 46.601413
+									},
+									"time": 1804
+								}
+							],
+							"name": "jaca_lingua_0001",
+							"obj": 8
+						}
+					]
+				}
+			],
+			"character_map": [],
+			"id": 0,
+			"name": "entity_000",
+			"obj_info": [
+				{
+					"frames": [
+						{
+							"file": 0,
+							"folder": 0
+						},
+						{
+							"file": 1,
+							"folder": 0
+						},
+						{
+							"file": 3,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_jacareB_1",
+					"realname": "jacareB_1",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 0,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_jacareB_1_000",
+					"realname": "jacareB_1_000",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 3,
+							"folder": 0
+						},
+						{
+							"file": 4,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_jacareB_3",
+					"realname": "jacareB_3",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 15,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_estrelas_0003",
+					"realname": "estrelas_0003",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 23,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_estrelas_0002",
+					"realname": "estrelas_0002",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 22,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_estrelas_0001",
+					"realname": "estrelas_0001",
+					"type": "sprite"
+				},
+				{
+					"h": 10,
+					"name": "entity_000_bone_000",
+					"realname": "bone_000",
+					"type": "bone",
+					"w": 201.002
+				},
+				{
+					"frames": [
+						{
+							"file": 3,
+							"folder": 0
+						},
+						{
+							"file": 5,
+							"folder": 0
+						},
+						{
+							"file": 7,
+							"folder": 0
+						},
+						{
+							"file": 6,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_jacareB_1_001",
+					"realname": "jacareB_1_001",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 21,
+							"folder": 0
+						},
+						{
+							"file": 20,
+							"folder": 0
+						},
+						{
+							"file": 19,
+							"folder": 0
+						},
+						{
+							"file": 18,
+							"folder": 0
+						},
+						{
+							"file": 17,
+							"folder": 0
+						},
+						{
+							"file": 16,
+							"folder": 0
+						},
+						{
+							"file": 14,
+							"folder": 0
+						},
+						{
+							"file": 11,
+							"folder": 0
+						},
+						{
+							"file": 12,
+							"folder": 0
+						},
+						{
+							"file": 13,
+							"folder": 0
+						},
+						{
+							"file": 10,
+							"folder": 0
+						},
+						{
+							"file": 9,
+							"folder": 0
+						},
+						{
+							"file": 8,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_jaca_lingua_0001",
+					"realname": "jaca_lingua_0001",
+					"type": "sprite"
+				}
+			]
+		}
+	],
+	"folder": [
+		{
+			"atlas": 0,
+			"file": [
+				{
+					"ah": 50,
+					"arot": "false",
+					"aw": 260,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 50,
+					"id": 0,
+					"name": "jacareB_2.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 260
+				},
+				{
+					"ah": 50,
+					"arot": "true",
+					"aw": 260,
+					"ax": 266,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 50,
+					"id": 1,
+					"name": "jacareB_7.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 260
+				},
+				{
+					"ah": 68,
+					"arot": "false",
+					"aw": 245,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 56,
+					"ayoff": 0,
+					"height": 68,
+					"id": 2,
+					"name": "jacareB_1p.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 245
+				},
+				{
+					"ah": 68,
+					"arot": "true",
+					"aw": 245,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 128,
+					"ayoff": 0,
+					"height": 68,
+					"id": 3,
+					"name": "jacareB_1.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 245
+				},
+				{
+					"ah": 69,
+					"arot": "true",
+					"aw": 222,
+					"ax": 74,
+					"axoff": 0,
+					"ay": 128,
+					"ayoff": 0,
+					"height": 69,
+					"id": 4,
+					"name": "jacareB_3.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 222
+				},
+				{
+					"ah": 66,
+					"arot": "true",
+					"aw": 191,
+					"ax": 320,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 66,
+					"id": 5,
+					"name": "jacareB_4.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 191
+				},
+				{
+					"ah": 137,
+					"arot": "false",
+					"aw": 78,
+					"ax": 147,
+					"axoff": 0,
+					"ay": 128,
+					"ayoff": 0,
+					"height": 137,
+					"id": 6,
+					"name": "jacareB_6.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 78
+				},
+				{
+					"ah": 137,
+					"arot": "true",
+					"aw": 78,
+					"ax": 229,
+					"axoff": 0,
+					"ay": 266,
+					"ayoff": 0,
+					"height": 137,
+					"id": 7,
+					"name": "jacareB_5.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 78
+				},
+				{
+					"ah": 44,
+					"arot": "true",
+					"aw": 36,
+					"ax": 147,
+					"axoff": 27,
+					"ay": 348,
+					"ayoff": 69,
+					"height": 135,
+					"id": 8,
+					"name": "jaca_lingua_0013.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 41,
+					"arot": "true",
+					"aw": 37,
+					"ax": 195,
+					"axoff": 26,
+					"ay": 348,
+					"ayoff": 68,
+					"height": 135,
+					"id": 9,
+					"name": "jaca_lingua_0012.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 40,
+					"arot": "true",
+					"aw": 37,
+					"ax": 240,
+					"axoff": 26,
+					"ay": 348,
+					"ayoff": 65,
+					"height": 135,
+					"id": 10,
+					"name": "jaca_lingua_0011.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 33,
+					"arot": "true",
+					"aw": 40,
+					"ax": 229,
+					"axoff": 23,
+					"ay": 128,
+					"ayoff": 51,
+					"height": 135,
+					"id": 11,
+					"name": "jaca_lingua_0008.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 35,
+					"arot": "false",
+					"aw": 39,
+					"ax": 284,
+					"axoff": 24,
+					"ay": 348,
+					"ayoff": 57,
+					"height": 135,
+					"id": 12,
+					"name": "jaca_lingua_0009.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 38,
+					"arot": "false",
+					"aw": 38,
+					"ax": 327,
+					"axoff": 25,
+					"ay": 348,
+					"ayoff": 61,
+					"height": 135,
+					"id": 13,
+					"name": "jaca_lingua_0010.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 34,
+					"arot": "true",
+					"aw": 37,
+					"ax": 320,
+					"axoff": 26,
+					"ay": 197,
+					"ayoff": 45,
+					"height": 135,
+					"id": 14,
+					"name": "jaca_lingua_0007.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 33,
+					"arot": "true",
+					"aw": 36,
+					"ax": 229,
+					"axoff": 0,
+					"ay": 172,
+					"ayoff": 0,
+					"height": 33,
+					"id": 15,
+					"name": "estrelas_0003.png",
+					"pivot_x": 0.552083,
+					"pivot_y": 0.522727,
+					"width": 36
+				},
+				{
+					"ah": 34,
+					"arot": "false",
+					"aw": 33,
+					"ax": 229,
+					"axoff": 30,
+					"ay": 212,
+					"ayoff": 39,
+					"height": 135,
+					"id": 16,
+					"name": "jaca_lingua_0006.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 34,
+					"arot": "true",
+					"aw": 30,
+					"ax": 74,
+					"axoff": 33,
+					"ay": 354,
+					"ayoff": 34,
+					"height": 135,
+					"id": 17,
+					"name": "jaca_lingua_0005.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 34,
+					"arot": "false",
+					"aw": 26,
+					"ax": 358,
+					"axoff": 37,
+					"ay": 197,
+					"ayoff": 28,
+					"height": 135,
+					"id": 18,
+					"name": "jaca_lingua_0004.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 33,
+					"arot": "true",
+					"aw": 23,
+					"ax": 320,
+					"axoff": 40,
+					"ay": 238,
+					"ayoff": 24,
+					"height": 135,
+					"id": 19,
+					"name": "jaca_lingua_0003.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 31,
+					"arot": "true",
+					"aw": 20,
+					"ax": 112,
+					"axoff": 43,
+					"ay": 354,
+					"ayoff": 20,
+					"height": 135,
+					"id": 20,
+					"name": "jaca_lingua_0002.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 27,
+					"arot": "false",
+					"aw": 16,
+					"ax": 358,
+					"axoff": 47,
+					"ay": 235,
+					"ayoff": 18,
+					"height": 135,
+					"id": 21,
+					"name": "jaca_lingua_0001.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 101
+				},
+				{
+					"ah": 24,
+					"arot": "false",
+					"aw": 24,
+					"ax": 147,
+					"axoff": 0,
+					"ay": 269,
+					"ayoff": 0,
+					"height": 24,
+					"id": 22,
+					"name": "estrelas_0001.png",
+					"pivot_x": 0.4375,
+					"pivot_y": 0.46875,
+					"width": 24
+				},
+				{
+					"ah": 19,
+					"arot": "false",
+					"aw": 19,
+					"ax": 147,
+					"axoff": 0,
+					"ay": 297,
+					"ayoff": 0,
+					"height": 19,
+					"id": 23,
+					"name": "estrelas_0002.png",
+					"pivot_x": 0.57,
+					"pivot_y": 0.5,
+					"width": 19
+				}
+			],
+			"id": 0,
+			"name": "."
+		}
+	],
+	"generator": "BrashMonkey Spriter",
+	"generator_version": "r11",
+	"scon_version": "1.0"
+}

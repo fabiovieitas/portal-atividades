@@ -1,0 +1,572 @@
+{
+	"atlas": [
+		{
+			"name": "bolhas.json"
+		}
+	],
+	"entity": [
+		{
+			"animation": [
+				{
+					"b": 48,
+					"id": 0,
+					"interval": 41,
+					"l": -49,
+					"length": 41,
+					"looping": "false",
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0.5,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 0,
+										"abs_y": 0,
+										"file": 0,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "bolhaLetra",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							}
+						]
+					},
+					"name": "parado",
+					"r": 48,
+					"t": -49,
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0
+									},
+									"spin": 0
+								}
+							],
+							"name": "bolhaLetra",
+							"obj": 0
+						}
+					]
+				},
+				{
+					"b": 48,
+					"id": 1,
+					"interval": 41,
+					"l": -49,
+					"length": 246,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0.5,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 0,
+										"abs_y": 0,
+										"file": 1,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "bolhaLetra_0002",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 41
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 82
+							},
+							{
+								"bone_ref": [],
+								"id": 3,
+								"object_ref": [],
+								"time": 123
+							},
+							{
+								"bone_ref": [],
+								"id": 4,
+								"object_ref": [],
+								"time": 164
+							}
+						]
+					},
+					"name": "explode",
+					"r": 48,
+					"t": -49,
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 3,
+										"folder": 0
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 2,
+										"folder": 0
+									},
+									"spin": 0,
+									"time": 41
+								},
+								{
+									"id": 2,
+									"object": {
+										"angle": 0,
+										"file": 1,
+										"folder": 0
+									},
+									"spin": 0,
+									"time": 82
+								}
+							],
+							"name": "bolhaLetra_0002",
+							"obj": 1
+						}
+					]
+				},
+				{
+					"b": 48,
+					"id": 2,
+					"interval": 41,
+					"l": -49,
+					"length": 820,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0.5,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 0,
+										"abs_y": 0,
+										"file": 0,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "bolhaLetra_000",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 123
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 246
+							},
+							{
+								"bone_ref": [],
+								"id": 3,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 492
+							},
+							{
+								"bone_ref": [],
+								"id": 4,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 4,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 738
+							}
+						]
+					},
+					"name": "balanca",
+					"r": 48,
+					"t": -49,
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"scale_x": 1.18,
+										"scale_y": 0.72
+									},
+									"spin": 0,
+									"time": 123
+								},
+								{
+									"id": 2,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"scale_x": 0.86,
+										"scale_y": 1.15
+									},
+									"spin": 0,
+									"time": 246
+								},
+								{
+									"id": 3,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"scale_x": 1.06,
+										"scale_y": 0.91
+									},
+									"spin": 0,
+									"time": 492
+								},
+								{
+									"id": 4,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0
+									},
+									"spin": 0,
+									"time": 738
+								}
+							],
+							"name": "bolhaLetra_000",
+							"obj": 2
+						}
+					]
+				},
+				{
+					"b": 48,
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 164
+								}
+							],
+							"name": "fimCresce"
+						}
+					],
+					"id": 3,
+					"interval": 41,
+					"l": -49,
+					"length": 246,
+					"looping": "false",
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0.5,
+										"abs_scale_x": 0.3,
+										"abs_scale_y": 0.3,
+										"abs_x": 0,
+										"abs_y": 0,
+										"file": 0,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "bolhaLetra_001",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 164
+							}
+						]
+					},
+					"name": "cresce",
+					"r": 48,
+					"t": -49,
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"scale_x": 0.3,
+										"scale_y": 0.3
+									},
+									"spin": 0
+								},
+								{
+									"curve_type": "instant",
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0
+									},
+									"time": 164
+								}
+							],
+							"name": "bolhaLetra_001",
+							"obj": 3
+						}
+					]
+				}
+			],
+			"character_map": [],
+			"id": 0,
+			"name": "bolhaLetra",
+			"obj_info": [
+				{
+					"frames": [
+						{
+							"file": 4,
+							"folder": 0
+						}
+					],
+					"name": "bolhaLetra_bolhaLetra",
+					"realname": "bolhaLetra",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 3,
+							"folder": 0
+						},
+						{
+							"file": 2,
+							"folder": 0
+						},
+						{
+							"file": 1,
+							"folder": 0
+						}
+					],
+					"name": "bolhaLetra_bolhaLetra_0002",
+					"realname": "bolhaLetra_0002",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 4,
+							"folder": 0
+						}
+					],
+					"name": "bolhaLetra_bolhaLetra_000",
+					"realname": "bolhaLetra_000",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 4,
+							"folder": 0
+						}
+					],
+					"name": "bolhaLetra_bolhaLetra_001",
+					"realname": "bolhaLetra_001",
+					"type": "sprite"
+				}
+			]
+		}
+	],
+	"folder": [
+		{
+			"atlas": 0,
+			"file": [
+				{
+					"ah": 109,
+					"arot": "false",
+					"aw": 119,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 109,
+					"id": 0,
+					"name": "bolhaLetra_0005.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0.5,
+					"width": 119
+				},
+				{
+					"ah": 109,
+					"arot": "false",
+					"aw": 118,
+					"ax": 125,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 109,
+					"id": 1,
+					"name": "bolhaLetra_0004.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0.5,
+					"width": 119
+				},
+				{
+					"ah": 104,
+					"arot": "true",
+					"aw": 113,
+					"ax": 2,
+					"axoff": 3,
+					"ay": 115,
+					"ayoff": 3,
+					"height": 109,
+					"id": 2,
+					"name": "bolhaLetra_0003.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0.5,
+					"width": 119
+				},
+				{
+					"ah": 102,
+					"arot": "true",
+					"aw": 110,
+					"ax": 110,
+					"axoff": 4,
+					"ay": 115,
+					"ayoff": 4,
+					"height": 109,
+					"id": 3,
+					"name": "bolhaLetra_0002.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0.5,
+					"width": 119
+				},
+				{
+					"ah": 98,
+					"arot": "false",
+					"aw": 98,
+					"ax": 216,
+					"axoff": 1,
+					"ay": 115,
+					"ayoff": 1,
+					"height": 100,
+					"id": 4,
+					"name": "bolhaLetra.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0.5,
+					"width": 100
+				}
+			],
+			"id": 0,
+			"name": "."
+		}
+	],
+	"generator": "BrashMonkey Spriter",
+	"generator_version": "r11",
+	"scon_version": "1.0"
+}

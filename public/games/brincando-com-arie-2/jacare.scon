@@ -1,0 +1,382 @@
+{
+	"atlas": [
+		{
+			"name": "jacare.json"
+		}
+	],
+	"entity": [
+		{
+			"animation": [
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1558
+								}
+							],
+							"name": "pisca"
+						}
+					],
+					"id": 0,
+					"interval": 41,
+					"length": 2000,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -181,
+										"abs_y": 13.000000000000021,
+										"file": 1,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacare_1",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 1558
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 1845
+							}
+						]
+					},
+					"name": "parado",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 0,
+										"folder": 0,
+										"x": -181,
+										"y": -13.000000000000021
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"file": 1,
+										"folder": 0,
+										"x": -181,
+										"y": -13.000000000000021
+									},
+									"spin": 0,
+									"time": 1845
+								}
+							],
+							"name": "jacare_1",
+							"obj": 0
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1066
+								}
+							],
+							"name": "volta"
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"time": 369
+								},
+								{
+									"id": 1,
+									"time": 902
+								}
+							],
+							"name": "somMorde"
+						}
+					],
+					"id": 1,
+					"interval": 41,
+					"length": 1107,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 360,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -181,
+										"abs_y": 13.000000000000021,
+										"file": 1,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "jacare_1",
+										"timeline": "0",
+										"z_index": "0"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 82
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 1,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 369
+							},
+							{
+								"bone_ref": [],
+								"id": 3,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 2,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 410
+							},
+							{
+								"bone_ref": [],
+								"id": 4,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 3,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 615
+							},
+							{
+								"bone_ref": [],
+								"id": 5,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 4,
+										"timeline": "0",
+										"z_index": "0"
+									}
+								],
+								"time": 943
+							}
+						]
+					},
+					"name": "boca",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"file": 0,
+										"folder": 0,
+										"x": -181,
+										"y": -13.000000000000021
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"file": 2,
+										"folder": 0,
+										"x": -181,
+										"y": -13.000000000000027
+									},
+									"spin": 0,
+									"time": 82
+								},
+								{
+									"id": 2,
+									"object": {
+										"file": 0,
+										"folder": 0,
+										"x": -181,
+										"y": -13.000000000000021
+									},
+									"spin": 0,
+									"time": 410
+								},
+								{
+									"id": 3,
+									"object": {
+										"file": 2,
+										"folder": 0,
+										"x": -181,
+										"y": -13.000000000000027
+									},
+									"spin": 0,
+									"time": 615
+								},
+								{
+									"id": 4,
+									"object": {
+										"file": 0,
+										"folder": 0,
+										"x": -181,
+										"y": -13.000000000000021
+									},
+									"spin": 0,
+									"time": 943
+								}
+							],
+							"name": "jacare_1",
+							"obj": 0
+						}
+					]
+				}
+			],
+			"character_map": [],
+			"id": 0,
+			"name": "entity_000",
+			"obj_info": [
+				{
+					"frames": [
+						{
+							"file": 0,
+							"folder": 0
+						},
+						{
+							"file": 1,
+							"folder": 0
+						},
+						{
+							"file": 2,
+							"folder": 0
+						}
+					],
+					"name": "entity_000_jacare_1",
+					"realname": "jacare_1",
+					"type": "sprite"
+				}
+			]
+		}
+	],
+	"folder": [
+		{
+			"atlas": 0,
+			"file": [
+				{
+					"ah": 113,
+					"arot": "false",
+					"aw": 362,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 113,
+					"id": 0,
+					"name": "jacare_1.png",
+					"pivot_x": 0,
+					"pivot_y": 0,
+					"width": 362
+				},
+				{
+					"ah": 113,
+					"arot": "false",
+					"aw": 362,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 119,
+					"ayoff": 0,
+					"height": 113,
+					"id": 1,
+					"name": "jacare_3.png",
+					"pivot_x": 0,
+					"pivot_y": 0,
+					"width": 362
+				},
+				{
+					"ah": 192,
+					"arot": "false",
+					"aw": 357,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 236,
+					"ayoff": 0,
+					"height": 192,
+					"id": 2,
+					"name": "jacare_2.png",
+					"pivot_x": 0,
+					"pivot_y": 0,
+					"width": 357
+				}
+			],
+			"id": 0,
+			"name": "."
+		}
+	],
+	"generator": "BrashMonkey Spriter",
+	"generator_version": "r11",
+	"scon_version": "1.0"
+}

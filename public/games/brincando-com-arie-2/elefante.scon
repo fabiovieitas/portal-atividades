@@ -1,0 +1,2049 @@
+{
+	"atlas": [
+		{
+			"name": "elefante.json"
+		}
+	],
+	"entity": [
+		{
+			"animation": [
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1804
+								}
+							],
+							"name": "piscaElefante"
+						}
+					],
+					"id": 0,
+					"interval": 41,
+					"length": 2000,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -138,
+										"abs_y": -18,
+										"file": 7,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "e_sombra",
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 93.9,
+										"abs_y": -265.25,
+										"file": 2,
+										"folder": 0,
+										"id": 1,
+										"key": 0,
+										"name": "e_partes0003",
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -40,
+										"abs_y": -54,
+										"file": 4,
+										"folder": 0,
+										"id": 2,
+										"key": 0,
+										"name": "e_partes0006",
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 21.850000000000005,
+										"abs_y": -16.00000000000003,
+										"file": 1,
+										"folder": 0,
+										"id": 3,
+										"key": 0,
+										"name": "e_partes0001",
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -14,
+										"abs_y": -68,
+										"file": 0,
+										"folder": 0,
+										"id": 4,
+										"key": 0,
+										"name": "e_partes0002",
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -229,
+										"abs_y": -290,
+										"file": 3,
+										"folder": 0,
+										"id": 5,
+										"key": 0,
+										"name": "e_cabeca_0001",
+										"timeline": "3",
+										"z_index": "5"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -42,
+										"file": 6,
+										"folder": 0,
+										"id": 6,
+										"key": 0,
+										"name": "e_partes0004",
+										"timeline": "6",
+										"z_index": "6"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -36,
+										"file": 5,
+										"folder": 0,
+										"id": 7,
+										"key": 0,
+										"name": "e_partes0005",
+										"timeline": "5",
+										"z_index": "7"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"id": 4,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"id": 5,
+										"key": 0,
+										"timeline": "3",
+										"z_index": "5"
+									},
+									{
+										"id": 6,
+										"key": 0,
+										"timeline": "6",
+										"z_index": "6"
+									},
+									{
+										"id": 7,
+										"key": 0,
+										"timeline": "5",
+										"z_index": "7"
+									}
+								],
+								"time": 1804
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 0,
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"id": 4,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"id": 5,
+										"key": 1,
+										"timeline": "3",
+										"z_index": "5"
+									},
+									{
+										"id": 6,
+										"key": 0,
+										"timeline": "6",
+										"z_index": "6"
+									},
+									{
+										"id": 7,
+										"key": 0,
+										"timeline": "5",
+										"z_index": "7"
+									}
+								],
+								"time": 1845
+							}
+						]
+					},
+					"name": "parado",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 7,
+										"folder": 0,
+										"x": -14,
+										"y": 68
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0002",
+							"obj": 0
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"x": 21.850000000000005,
+										"y": 16.00000000000003
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0001",
+							"obj": 1
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 11,
+										"folder": 0,
+										"x": 93.9,
+										"y": 265.25
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0003",
+							"obj": 2
+						},
+						{
+							"id": 3,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 2,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 3,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0,
+									"time": 1845
+								}
+							],
+							"name": "e_cabeca_0001",
+							"obj": 3
+						},
+						{
+							"id": 4,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 10,
+										"folder": 0,
+										"x": -40,
+										"y": 54
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0006",
+							"obj": 4
+						},
+						{
+							"id": 5,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 8,
+										"folder": 0,
+										"x": -104,
+										"y": 36
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0005",
+							"obj": 5
+						},
+						{
+							"id": 6,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 9,
+										"folder": 0,
+										"x": -104,
+										"y": 42
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0004",
+							"obj": 6
+						},
+						{
+							"id": 7,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 1,
+										"folder": 0,
+										"x": -138,
+										"y": 18
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_sombra",
+							"obj": 7
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 82
+								}
+							],
+							"name": "fimPiscada"
+						}
+					],
+					"id": 1,
+					"interval": 41,
+					"length": 123,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -138,
+										"abs_y": -18,
+										"file": 7,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "e_sombra",
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 93.9,
+										"abs_y": -265.25,
+										"file": 2,
+										"folder": 0,
+										"id": 1,
+										"key": 0,
+										"name": "e_partes0003",
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -40,
+										"abs_y": -54,
+										"file": 4,
+										"folder": 0,
+										"id": 2,
+										"key": 0,
+										"name": "e_partes0006",
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 21.850000000000005,
+										"abs_y": -16.00000000000003,
+										"file": 1,
+										"folder": 0,
+										"id": 3,
+										"key": 0,
+										"name": "e_partes0001",
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -14,
+										"abs_y": -68,
+										"file": 0,
+										"folder": 0,
+										"id": 4,
+										"key": 0,
+										"name": "e_partes0002",
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -229,
+										"abs_y": -290,
+										"file": 8,
+										"folder": 0,
+										"id": 5,
+										"key": 0,
+										"name": "e_cabeca_0001",
+										"timeline": "3",
+										"z_index": "5"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -42,
+										"file": 6,
+										"folder": 0,
+										"id": 6,
+										"key": 0,
+										"name": "e_partes0004",
+										"timeline": "6",
+										"z_index": "6"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -36,
+										"file": 5,
+										"folder": 0,
+										"id": 7,
+										"key": 0,
+										"name": "e_partes0005",
+										"timeline": "5",
+										"z_index": "7"
+									}
+								]
+							}
+						]
+					},
+					"name": "pisca",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 7,
+										"folder": 0,
+										"x": -14,
+										"y": 68
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0002",
+							"obj": 0
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"x": 21.850000000000005,
+										"y": 16.00000000000003
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0001",
+							"obj": 1
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 11,
+										"folder": 0,
+										"x": 93.9,
+										"y": 265.25
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0003",
+							"obj": 2
+						},
+						{
+							"id": 3,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 3,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_cabeca_0001",
+							"obj": 3
+						},
+						{
+							"id": 4,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 10,
+										"folder": 0,
+										"x": -40,
+										"y": 54
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0006",
+							"obj": 4
+						},
+						{
+							"id": 5,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 8,
+										"folder": 0,
+										"x": -104,
+										"y": 36
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0005",
+							"obj": 5
+						},
+						{
+							"id": 6,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 9,
+										"folder": 0,
+										"x": -104,
+										"y": 42
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0004",
+							"obj": 6
+						},
+						{
+							"id": 7,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 1,
+										"folder": 0,
+										"x": -138,
+										"y": 18
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_sombra",
+							"obj": 7
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 1640
+								}
+							],
+							"name": "fimTromba"
+						}
+					],
+					"id": 2,
+					"interval": 41,
+					"length": 1681,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -138,
+										"abs_y": -18,
+										"file": 7,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "e_sombra",
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 93.9,
+										"abs_y": -265.25,
+										"file": 2,
+										"folder": 0,
+										"id": 1,
+										"key": 0,
+										"name": "e_partes0003",
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -40,
+										"abs_y": -54,
+										"file": 4,
+										"folder": 0,
+										"id": 2,
+										"key": 0,
+										"name": "e_partes0006",
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1.028243,
+										"abs_x": 21.85000000000001,
+										"abs_y": -16,
+										"file": 1,
+										"folder": 0,
+										"id": 3,
+										"key": 0,
+										"name": "e_partes0001",
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -14,
+										"abs_y": -68,
+										"file": 0,
+										"folder": 0,
+										"id": 4,
+										"key": 0,
+										"name": "e_partes0002",
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -229,
+										"abs_y": -290,
+										"file": 9,
+										"folder": 0,
+										"id": 5,
+										"key": 0,
+										"name": "e_cabeca_0001",
+										"timeline": "3",
+										"z_index": "5"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -42,
+										"file": 6,
+										"folder": 0,
+										"id": 6,
+										"key": 0,
+										"name": "e_partes0004",
+										"timeline": "6",
+										"z_index": "6"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -36,
+										"file": 5,
+										"folder": 0,
+										"id": 7,
+										"key": 0,
+										"name": "e_partes0005",
+										"timeline": "5",
+										"z_index": "7"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"id": 4,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"id": 5,
+										"key": 0,
+										"timeline": "3",
+										"z_index": "5"
+									},
+									{
+										"id": 6,
+										"key": 0,
+										"timeline": "6",
+										"z_index": "6"
+									},
+									{
+										"id": 7,
+										"key": 0,
+										"timeline": "5",
+										"z_index": "7"
+									}
+								],
+								"time": 1640
+							}
+						]
+					},
+					"name": "tromba",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 7,
+										"folder": 0,
+										"x": -14,
+										"y": 68
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0002",
+							"obj": 0
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"scale_y": 1.028243,
+										"x": 21.85000000000001,
+										"y": 16
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"x": 21.850000000000005,
+										"y": 16.00000000000003
+									},
+									"spin": 0,
+									"time": 1640
+								}
+							],
+							"name": "e_partes0001",
+							"obj": 1
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 11,
+										"folder": 0,
+										"x": 93.9,
+										"y": 265.25
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0003",
+							"obj": 2
+						},
+						{
+							"id": 3,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 0,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_cabeca_0001",
+							"obj": 3
+						},
+						{
+							"id": 4,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 10,
+										"folder": 0,
+										"x": -40,
+										"y": 54
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0006",
+							"obj": 4
+						},
+						{
+							"id": 5,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 8,
+										"folder": 0,
+										"x": -104,
+										"y": 36
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0005",
+							"obj": 5
+						},
+						{
+							"id": 6,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 9,
+										"folder": 0,
+										"x": -104,
+										"y": 42
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0004",
+							"obj": 6
+						},
+						{
+							"id": 7,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 1,
+										"folder": 0,
+										"x": -138,
+										"y": 18
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_sombra",
+							"obj": 7
+						}
+					]
+				},
+				{
+					"eventline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"time": 2870
+								}
+							],
+							"name": "fimEspirra"
+						}
+					],
+					"id": 3,
+					"interval": 41,
+					"length": 2911,
+					"mainline": {
+						"key": [
+							{
+								"bone_ref": [],
+								"id": 0,
+								"object_ref": [
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -138,
+										"abs_y": -18,
+										"file": 7,
+										"folder": 0,
+										"id": 0,
+										"key": 0,
+										"name": "e_sombra",
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 93.9,
+										"abs_y": -265.25,
+										"file": 2,
+										"folder": 0,
+										"id": 1,
+										"key": 0,
+										"name": "e_partes0003",
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -40,
+										"abs_y": -54,
+										"file": 4,
+										"folder": 0,
+										"id": 2,
+										"key": 0,
+										"name": "e_partes0006",
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0.5,
+										"abs_pivot_y": 0,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": 21.850000000000005,
+										"abs_y": -16.00000000000003,
+										"file": 1,
+										"folder": 0,
+										"id": 3,
+										"key": 0,
+										"name": "e_partes0001",
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -14,
+										"abs_y": -68,
+										"file": 0,
+										"folder": 0,
+										"id": 4,
+										"key": 0,
+										"name": "e_partes0002",
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -229,
+										"abs_y": -290,
+										"file": 3,
+										"folder": 0,
+										"id": 5,
+										"key": 0,
+										"name": "e_cabeca_0001",
+										"timeline": "3",
+										"z_index": "5"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -42,
+										"file": 6,
+										"folder": 0,
+										"id": 6,
+										"key": 0,
+										"name": "e_partes0004",
+										"timeline": "6",
+										"z_index": "6"
+									},
+									{
+										"abs_a": 1,
+										"abs_angle": 0,
+										"abs_pivot_x": 0,
+										"abs_pivot_y": 1,
+										"abs_scale_x": 1,
+										"abs_scale_y": 1,
+										"abs_x": -104,
+										"abs_y": -36,
+										"file": 5,
+										"folder": 0,
+										"id": 7,
+										"key": 0,
+										"name": "e_partes0005",
+										"timeline": "5",
+										"z_index": "7"
+									}
+								]
+							},
+							{
+								"bone_ref": [],
+								"id": 1,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"id": 4,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"id": 5,
+										"key": 0,
+										"timeline": "6",
+										"z_index": "5"
+									},
+									{
+										"id": 6,
+										"key": 1,
+										"timeline": "3",
+										"z_index": "6"
+									},
+									{
+										"id": 7,
+										"key": 0,
+										"timeline": "5",
+										"z_index": "7"
+									}
+								],
+								"time": 41
+							},
+							{
+								"bone_ref": [],
+								"id": 2,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 1,
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"id": 4,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"id": 5,
+										"key": 0,
+										"timeline": "6",
+										"z_index": "5"
+									},
+									{
+										"id": 6,
+										"key": 2,
+										"timeline": "3",
+										"z_index": "6"
+									},
+									{
+										"id": 7,
+										"key": 0,
+										"timeline": "5",
+										"z_index": "7"
+									}
+								],
+								"time": 205
+							},
+							{
+								"bone_ref": [],
+								"id": 3,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 2,
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"id": 4,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"id": 5,
+										"key": 0,
+										"timeline": "6",
+										"z_index": "5"
+									},
+									{
+										"id": 6,
+										"key": 3,
+										"timeline": "3",
+										"z_index": "6"
+									},
+									{
+										"id": 7,
+										"key": 0,
+										"timeline": "5",
+										"z_index": "7"
+									}
+								],
+								"time": 1025
+							},
+							{
+								"bone_ref": [],
+								"id": 4,
+								"object_ref": [
+									{
+										"id": 0,
+										"key": 0,
+										"timeline": "7",
+										"z_index": "0"
+									},
+									{
+										"id": 1,
+										"key": 0,
+										"timeline": "2",
+										"z_index": "1"
+									},
+									{
+										"id": 2,
+										"key": 0,
+										"timeline": "4",
+										"z_index": "2"
+									},
+									{
+										"id": 3,
+										"key": 3,
+										"timeline": "1",
+										"z_index": "3"
+									},
+									{
+										"id": 4,
+										"key": 0,
+										"timeline": "0",
+										"z_index": "4"
+									},
+									{
+										"id": 5,
+										"key": 0,
+										"timeline": "6",
+										"z_index": "5"
+									},
+									{
+										"id": 6,
+										"key": 4,
+										"timeline": "3",
+										"z_index": "6"
+									},
+									{
+										"id": 7,
+										"key": 0,
+										"timeline": "5",
+										"z_index": "7"
+									}
+								],
+								"time": 2870
+							}
+						]
+					},
+					"name": "espirra",
+					"timeline": [
+						{
+							"id": 0,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 7,
+										"folder": 0,
+										"x": -14,
+										"y": 68
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0002",
+							"obj": 0
+						},
+						{
+							"id": 1,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"x": 21.850000000000005,
+										"y": 16.00000000000003
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"x": 21.850000000000005,
+										"y": 16.00000000000003
+									},
+									"spin": 0,
+									"time": 41
+								},
+								{
+									"id": 2,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"scale_y": 1.03207,
+										"x": 21.85000000000002,
+										"y": 16.000000000000014
+									},
+									"spin": 0,
+									"time": 1025
+								},
+								{
+									"id": 3,
+									"object": {
+										"angle": 0,
+										"file": 6,
+										"folder": 0,
+										"x": 21.850000000000005,
+										"y": 16.00000000000003
+									},
+									"spin": 0,
+									"time": 2870
+								}
+							],
+							"name": "e_partes0001",
+							"obj": 1
+						},
+						{
+							"id": 2,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 11,
+										"folder": 0,
+										"x": 93.9,
+										"y": 265.25
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0003",
+							"obj": 2
+						},
+						{
+							"id": 3,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 2,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0
+								},
+								{
+									"id": 1,
+									"object": {
+										"angle": 0,
+										"file": 5,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0,
+									"time": 41
+								},
+								{
+									"id": 2,
+									"object": {
+										"angle": 0,
+										"file": 4,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0,
+									"time": 205
+								},
+								{
+									"id": 3,
+									"object": {
+										"angle": 0,
+										"file": 0,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0,
+									"time": 1025
+								},
+								{
+									"id": 4,
+									"object": {
+										"angle": 0,
+										"file": 0,
+										"folder": 0,
+										"x": -229,
+										"y": 290
+									},
+									"spin": 0,
+									"time": 2870
+								}
+							],
+							"name": "e_cabeca_0001",
+							"obj": 3
+						},
+						{
+							"id": 4,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 10,
+										"folder": 0,
+										"x": -40,
+										"y": 54
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0006",
+							"obj": 4
+						},
+						{
+							"id": 5,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 8,
+										"folder": 0,
+										"x": -104,
+										"y": 36
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0005",
+							"obj": 5
+						},
+						{
+							"id": 6,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 9,
+										"folder": 0,
+										"x": -104,
+										"y": 42
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_partes0004",
+							"obj": 6
+						},
+						{
+							"id": 7,
+							"key": [
+								{
+									"id": 0,
+									"object": {
+										"angle": 0,
+										"file": 1,
+										"folder": 0,
+										"x": -138,
+										"y": 18
+									},
+									"spin": 0
+								}
+							],
+							"name": "e_sombra",
+							"obj": 7
+						}
+					]
+				}
+			],
+			"character_map": [],
+			"id": 0,
+			"name": "elefante",
+			"obj_info": [
+				{
+					"frames": [
+						{
+							"file": 7,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_partes0002",
+					"realname": "e_partes0002",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 6,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_partes0001",
+					"realname": "e_partes0001",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 11,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_partes0003",
+					"realname": "e_partes0003",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 2,
+							"folder": 0
+						},
+						{
+							"file": 3,
+							"folder": 0
+						},
+						{
+							"file": 0,
+							"folder": 0
+						},
+						{
+							"file": 5,
+							"folder": 0
+						},
+						{
+							"file": 4,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_cabeca_0001",
+					"realname": "e_cabeca_0001",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 10,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_partes0006",
+					"realname": "e_partes0006",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 8,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_partes0005",
+					"realname": "e_partes0005",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 9,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_partes0004",
+					"realname": "e_partes0004",
+					"type": "sprite"
+				},
+				{
+					"frames": [
+						{
+							"file": 1,
+							"folder": 0
+						}
+					],
+					"name": "elefante_e_sombra",
+					"realname": "e_sombra",
+					"type": "sprite"
+				}
+			]
+		}
+	],
+	"folder": [
+		{
+			"atlas": 0,
+			"file": [
+				{
+					"ah": 222,
+					"arot": "false",
+					"aw": 307,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 294,
+					"id": 0,
+					"name": "e_cabeca_0005.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 307
+				},
+				{
+					"ah": 38,
+					"arot": "false",
+					"aw": 274,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 228,
+					"ayoff": 0,
+					"height": 38,
+					"id": 1,
+					"name": "e_sombra.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 274
+				},
+				{
+					"ah": 239,
+					"arot": "false",
+					"aw": 247,
+					"ax": 2,
+					"axoff": 42,
+					"ay": 270,
+					"ayoff": 55,
+					"height": 294,
+					"id": 2,
+					"name": "e_cabeca_0001.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 307
+				},
+				{
+					"ah": 239,
+					"arot": "false",
+					"aw": 247,
+					"ax": 313,
+					"axoff": 42,
+					"ay": 2,
+					"ayoff": 55,
+					"height": 294,
+					"id": 3,
+					"name": "e_cabeca_0002.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 307
+				},
+				{
+					"ah": 220,
+					"arot": "true",
+					"aw": 245,
+					"ax": 253,
+					"axoff": 37,
+					"ay": 270,
+					"ayoff": 50,
+					"height": 294,
+					"id": 4,
+					"name": "e_cabeca_0004.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 307
+				},
+				{
+					"ah": 220,
+					"arot": "true",
+					"aw": 245,
+					"ax": 477,
+					"axoff": 37,
+					"ay": 245,
+					"ayoff": 50,
+					"height": 294,
+					"id": 5,
+					"name": "e_cabeca_0003.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 307
+				},
+				{
+					"ah": 236,
+					"arot": "true",
+					"aw": 216,
+					"ax": 477,
+					"axoff": 0,
+					"ay": 494,
+					"ayoff": 0,
+					"height": 236,
+					"id": 6,
+					"name": "e_partes0001.png",
+					"pivot_x": 0.5,
+					"pivot_y": 0,
+					"width": 216
+				},
+				{
+					"ah": 75,
+					"arot": "false",
+					"aw": 123,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 513,
+					"ayoff": 0,
+					"height": 75,
+					"id": 7,
+					"name": "e_partes0002.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 123
+				},
+				{
+					"ah": 73,
+					"arot": "true",
+					"aw": 121,
+					"ax": 2,
+					"axoff": 0,
+					"ay": 592,
+					"ayoff": 0,
+					"height": 73,
+					"id": 8,
+					"name": "e_partes0005.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 121
+				},
+				{
+					"ah": 17,
+					"arot": "false",
+					"aw": 120,
+					"ax": 129,
+					"axoff": 0,
+					"ay": 513,
+					"ayoff": 0,
+					"height": 17,
+					"id": 9,
+					"name": "e_partes0004.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 120
+				},
+				{
+					"ah": 60,
+					"arot": "false",
+					"aw": 47,
+					"ax": 564,
+					"axoff": 0,
+					"ay": 2,
+					"ayoff": 0,
+					"height": 60,
+					"id": 10,
+					"name": "e_partes0006.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 47
+				},
+				{
+					"ah": 51,
+					"arot": "false",
+					"aw": 24,
+					"ax": 79,
+					"axoff": 0,
+					"ay": 592,
+					"ayoff": 0,
+					"height": 51,
+					"id": 11,
+					"name": "e_partes0003.png",
+					"pivot_x": 0,
+					"pivot_y": 1,
+					"width": 24
+				}
+			],
+			"id": 0,
+			"name": "."
+		}
+	],
+	"generator": "BrashMonkey Spriter",
+	"generator_version": "r11",
+	"scon_version": "1.0"
+}
