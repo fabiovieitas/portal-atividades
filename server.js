@@ -39,10 +39,16 @@ app.get('/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 app.use(express.static(path.join(__dirname, 'public'), {
-
-
-  maxAge: '1d',
-  etag: true
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html') || filePath.includes('games')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+  },
+  etag: false
 }));
 
 app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'public', 'img', 'robot-icon-512.png')));
