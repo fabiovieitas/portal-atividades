@@ -269,7 +269,7 @@ const dbHelper = {
           title: "Brincando com Ariê 1",
           description: "Jogo educativo para auxílio à alfabetização, reconhecimento de cores, frutas e associação de palavras.",
           activity_url: "/atividades/brincando-com-arie-1",
-          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
+          icon_url: "/img/covers/brincando-com-arie-1.jpg",
           level: "1-5", category: "Alfabetização", subject: "Português", bncc_code: "EI02EF04, EI02ET06, EF01LP10", status: "public", visits: 500
         },
         {
@@ -277,7 +277,7 @@ const dbHelper = {
           title: "Brincando com Ariê 2",
           description: "Segunda edição da série pedagógica Ariê! Desafios de sílabas, contagem de objetos, memória e associação.",
           activity_url: "/atividades/brincando-com-arie-2",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
+          icon_url: "/img/covers/brincando-com-arie-2.jpg",
           level: "1-5", category: "Alfabetização", subject: "Português", bncc_code: "EI03EF04, EF01LP10, EF01MA01", status: "public", visits: 580
         },
         {
@@ -285,7 +285,7 @@ const dbHelper = {
           title: "Brincando com Ariê 3",
           description: "Terceiro capítulo com exercícios desafiadores de ortografia, associação de frases, adição e raciocínio.",
           activity_url: "/atividades/brincando-com-arie-3",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081987.png",
+          icon_url: "/img/covers/brincando-com-arie-3.jpg",
           level: "1-5", category: "Alfabetização Avançada", subject: "Português", bncc_code: "EF01LP12, EF02LP01, EF02MA05", status: "public", visits: 620
         },
         {
@@ -293,7 +293,7 @@ const dbHelper = {
           title: "Chapeuzinho e o Enigma",
           description: "Ajude Chapeuzinho Vermelho a atravessar a floresta resolvendo quebra-cabeças de palavras e atenção!",
           activity_url: "/atividades/chapeuzinho-enigma",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+          icon_url: "/img/covers/chapeuzinho-enigma.jpg",
           level: "1-5", category: "Alfabetização & Raciocínio", subject: "Português", bncc_code: "EF01LP02, EF01LP05, EF15AR04", status: "public", visits: 430
         },
         {
@@ -301,7 +301,7 @@ const dbHelper = {
           title: "Capitão Alberto e o Faraó",
           description: "Uma aventura histórica pelo Egito Antigo! Desvende mistérios, hieróglifos e desafios de história.",
           activity_url: "/atividades/capitao-alberto-farao",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2617/2617876.png",
+          icon_url: "/img/covers/capitao-alberto-farao.jpg",
           level: "1-5", category: "História & Aventura", subject: "História", bncc_code: "EF01HI01, EF02HI02, EF03HI01", status: "public", visits: 390
         },
         {
@@ -309,7 +309,7 @@ const dbHelper = {
           title: "Ariê Colorir",
           description: "Atividade artística interativa! Explore a paleta de cores e desenvolva a coordenação motora.",
           activity_url: "/atividades/arie-colorir",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2970/2970785.png",
+          icon_url: "/img/covers/arie-colorir.jpg",
           level: "1-5", category: "Artes Visuais", subject: "Artes", bncc_code: "EF15AR04, EF15AR02, EI02CG05", status: "public", visits: 510
         },
         {
@@ -317,7 +317,7 @@ const dbHelper = {
           title: "Tabuada - O Chão é Lava!",
           description: "Jogo dinâmico de matemática! Calcule a tabuada rapidamente para salvar os personagens.",
           activity_url: "/atividades/tabuada-chao-e-lava",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
+          icon_url: "/img/covers/tabuada-chao-e-lava.jpg",
           level: "1-5", category: "Matemática Divertida", subject: "Matemática", bncc_code: "EF02MA05, EF03MA03, EF04MA04", status: "public", visits: 670
         },
         {
@@ -325,7 +325,7 @@ const dbHelper = {
           title: "Caça-Palavras Temático",
           description: "Desafio de leitura e ortografia! Encontre palavras escondidas por categorias temáticas.",
           activity_url: "/atividades/caca-palavras-temas",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
+          icon_url: "/img/covers/caca-palavras-temas.jpg",
           level: "1-5", category: "Vocabulário & Leitura", subject: "Português", bncc_code: "EF01LP02, EF02LP04, EF35LP05", status: "public", visits: 480
         },
         {
@@ -375,22 +375,6 @@ const dbHelper = {
           activity_url: "/atividades/level-up",
           icon_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
           level: "6-9", category: "Jogo Autoral Lab Kids", subject: "Projeto de Vida", bncc_code: "EF06MA32, EF09MA20", status: "public", visits: 380
-        },
-        {
-          id: 16,
-          title: "Material Dourado Virtual",
-          description: "Manipule dezenas e unidades em tempo real para desenvolver o Sistema de Numeração Decimal de forma lúdica.",
-          activity_url: "/atividades/material-dourado",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3593/3593452.png",
-          level: "1-5", category: "Matemática Divertida", subject: "Matemática", bncc_code: "EF01MA01, EF02MA05", status: "public", visits: 490
-        },
-        {
-          id: 19,
-          title: "Desafio dos Fatos Rápidos da Adição",
-          description: "Desenvolva o cálculo mental rápido e a agilidade nos fatos fundamentais da adição até 20.",
-          activity_url: "/atividades/desafio-adicao",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
-          level: "1-5", category: "Matemática Rápida", subject: "Matemática", bncc_code: "EF01MA06, EF02MA05", status: "public", visits: 470
         }
       ];
     }
@@ -1026,6 +1010,17 @@ async function initTables() {
   try {
     await queryRun("DELETE FROM activities WHERE title LIKE '%Code.org%' OR title LIKE '%Desenho com Robôs%'");
     await queryRun("DELETE FROM activities WHERE activity_url LIKE '%code.org%' OR activity_url LIKE '%scratch.mit.edu%'");
+    
+    const oldRows = await queryAll("SELECT id FROM activities WHERE activity_url IN ('/atividades/material-dourado', '/atividades/desafio-adicao') OR title LIKE '%Material Dourado%' OR title LIKE '%Desafio dos Fatos Rápidos%'");
+    if (oldRows && oldRows.length > 0) {
+      for (const r of oldRows) {
+        try { await queryRun("DELETE FROM comments WHERE activity_id = ?", [r.id]); } catch(e){}
+        try { await queryRun("DELETE FROM teacher_favorites WHERE activity_id = ?", [r.id]); } catch(e){}
+        try { await queryRun("DELETE FROM student_activity_logs WHERE activity_id = ?", [r.id]); } catch(e){}
+        try { await queryRun("DELETE FROM activities WHERE id = ?", [r.id]); } catch(e){}
+      }
+    }
+    await queryRun("DELETE FROM news WHERE activity_url IN ('/atividades/material-dourado', '/atividades/desafio-adicao')");
   } catch(e){}
 
   try {
@@ -1192,49 +1187,49 @@ async function initTables() {
           title: "Chapeuzinho e o Enigma",
           description: "Ajude Chapeuzinho Vermelho a atravessar a floresta resolvendo quebra-cabeças de palavras, raciocínio e atenção!",
           activity_url: "/atividades/chapeuzinho-enigma",
-          icon_url: "https://arietoy.com.br/assets_games/ch/chapeuzinho-enigma/screenshots/chapeuzinho-enigma-01.jpg",
+          icon_url: "/img/covers/chapeuzinho-enigma.jpg",
           level: "1-5", category: "Alfabetização & Raciocínio", bncc_code: "EF01LP02, EF01LP05, EF15AR04", subject: "Português"
         },
         {
           title: "Capitão Alberto e o Faraó",
           description: "Uma aventura histórica pelo Egito Antigo! Desvende mistérios, hieróglifos e desafios de história e geografia.",
           activity_url: "/atividades/capitao-alberto-farao",
-          icon_url: "https://arietoy.com.br/assets_games/ca/capitao-alberto-farao/screenshots/capitao-alberto-farao-01.jpg",
+          icon_url: "/img/covers/capitao-alberto-farao.jpg",
           level: "1-5", category: "História & Aventura", bncc_code: "EF01HI01, EF02HI02, EF03HI01", subject: "História"
         },
         {
           title: "Ariê Colorir",
           description: "Atividade artística interativa! Explore a paleta de cores, desenvolva a coordenação motora e crie obras com o Ariê.",
           activity_url: "/atividades/arie-colorir",
-          icon_url: "https://arietoy.com.br/assets_games/ar/arie-colorir/screenshots/arie-colorir-01.jpg",
+          icon_url: "/img/covers/arie-colorir.jpg",
           level: "1-5", category: "Artes Visuais", bncc_code: "EF15AR04, EF15AR02, EI02CG05", subject: "Artes"
         },
         {
           title: "Tabuada - O Chão é Lava!",
           description: "Jogo dinâmico de matemática e agilidade! Calcule a tabuada rapidamente para salvar os personagens antes que o chão vire lava.",
           activity_url: "/atividades/tabuada-chao-e-lava",
-          icon_url: "https://arietoy.com.br/assets_games/ta/tabuada-chao-e-lava/screenshots/tabuada-chao-e-lava-01.jpg",
+          icon_url: "/img/covers/tabuada-chao-e-lava.jpg",
           level: "1-5", category: "Matemática Divertida", bncc_code: "EF02MA05, EF03MA03, EF04MA04", subject: "Matemática"
         },
         {
           title: "Caça-Palavras Temático",
           description: "Desafio de leitura e ortografia! Encontre palavras escondidas por categorias temáticas como animais, frutas e escola.",
           activity_url: "/atividades/caca-palavras-temas",
-          icon_url: "https://arietoy.com.br/assets_games/ca/caca-palavras-temas/screenshots/caca-palavras-temas-01.jpg",
+          icon_url: "/img/covers/caca-palavras-temas.jpg",
           level: "1-5", category: "Vocabulário & Leitura", bncc_code: "EF01LP02, EF02LP04, EF35LP05", subject: "Português"
         },
         {
           title: "Brincando com Ariê 2",
           description: "Segunda edição do clássico jogo pedagógico! Desafios de sílabas, contagem de objetos, memória e associação.",
           activity_url: "/atividades/brincando-com-arie-2",
-          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-2/screenshots/brincando-com-arie-2-01.jpg",
+          icon_url: "/img/covers/brincando-com-arie-2.jpg",
           level: "1-5", category: "Alfabetização", bncc_code: "EI03EF04, EF01LP10, EF01MA01", subject: "Português"
         },
         {
           title: "Brincando com Ariê 3",
           description: "Terceiro capítulo da série educativa! Exercícios avançados de escrita de palavras, operações simples e desafios de lógica.",
           activity_url: "/atividades/brincando-com-arie-3",
-          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-3/screenshots/brincando-com-arie-3-01.jpg",
+          icon_url: "/img/covers/brincando-com-arie-3.jpg",
           level: "1-5", category: "Alfabetização Avançada", bncc_code: "EF01LP12, EF02LP01, EF02MA05", subject: "Português"
         },
         {
@@ -1341,56 +1336,56 @@ async function initTables() {
           title: "Brincando com Ariê 1",
           description: "Jogo educativo para Educação Infantil e 1º Ano! Atividades lúdicas de letras, formas, números e sons da natureza com o leãozinho Ariê.",
           activity_url: "/atividades/brincando-com-arie-1",
-          icon_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
+          icon_url: "/img/covers/brincando-com-arie-1.jpg",
           level: "1-5", category: "Alfabetização", bncc_code: "EI02EF04, EI02ET06, EF01LP10", subject: "Português"
         },
         {
           title: "Brincando com Ariê 2",
           description: "Segunda edição da série pedagógica Ariê! Desafios de sílabas, contagem de objetos, memória e associação de palavras.",
           activity_url: "/atividades/brincando-com-arie-2",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
+          icon_url: "/img/covers/brincando-com-arie-2.jpg",
           level: "1-5", category: "Alfabetização", bncc_code: "EI03EF04, EF01LP10, EF01MA01", subject: "Português"
         },
         {
           title: "Brincando com Ariê 3",
           description: "Terceiro capítulo com exercícios desafiadores de ortografia, associação de frases, adição, subtração e raciocínio lógico.",
           activity_url: "/atividades/brincando-com-arie-3",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3081/3081987.png",
+          icon_url: "/img/covers/brincando-com-arie-3.jpg",
           level: "1-5", category: "Alfabetização Avançada", bncc_code: "EF01LP12, EF02LP01, EF02MA05", subject: "Português"
         },
         {
           title: "Chapeuzinho e o Enigma",
           description: "Ajude Chapeuzinho Vermelho a atravessar a floresta resolvendo quebra-cabeças de palavras, raciocínio e atenção!",
           activity_url: "/atividades/chapeuzinho-enigma",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+          icon_url: "/img/covers/chapeuzinho-enigma.jpg",
           level: "1-5", category: "Alfabetização & Raciocínio", bncc_code: "EF01LP02, EF01LP05, EF15AR04", subject: "Português"
         },
         {
           title: "Capitão Alberto e o Faraó",
           description: "Uma aventura histórica pelo Egito Antigo! Desvende mistérios, hieróglifos e desafios de história e geografia.",
           activity_url: "/atividades/capitao-alberto-farao",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2617/2617876.png",
+          icon_url: "/img/covers/capitao-alberto-farao.jpg",
           level: "1-5", category: "História & Aventura", bncc_code: "EF01HI01, EF02HI02, EF03HI01", subject: "História"
         },
         {
           title: "Ariê Colorir",
           description: "Atividade artística interativa! Explore a paleta de cores, desenvolva a coordenação motora e crie obras com o Ariê.",
           activity_url: "/atividades/arie-colorir",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2970/2970785.png",
+          icon_url: "/img/covers/arie-colorir.jpg",
           level: "1-5", category: "Artes Visuais", bncc_code: "EF15AR04, EF15AR02, EI02CG05", subject: "Artes"
         },
         {
           title: "Tabuada - O Chão é Lava!",
           description: "Jogo dinâmico de matemática e agilidade! Calcule a tabuada rapidamente para salvar os personagens antes que o chão vire lava.",
           activity_url: "/atividades/tabuada-chao-e-lava",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
+          icon_url: "/img/covers/tabuada-chao-e-lava.jpg",
           level: "1-5", category: "Matemática Divertida", bncc_code: "EF02MA05, EF03MA03, EF04MA04", subject: "Matemática"
         },
         {
           title: "Caça-Palavras Temático",
           description: "Desafio de leitura e ortografia! Encontre palavras escondidas por categorias temáticas como animais, frutas e escola.",
           activity_url: "/atividades/caca-palavras-temas",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
+          icon_url: "/img/covers/caca-palavras-temas.jpg",
           level: "1-5", category: "Vocabulário & Leitura", bncc_code: "EF01LP02, EF02LP04, EF35LP05", subject: "Português"
         },
         {
@@ -1436,25 +1431,11 @@ async function initTables() {
           level: "6-9", category: "Jogo Autoral Lab Kids", bncc_code: "EF69LP55, EF07LP14, EF08LP14", subject: "Cidadania & Ética"
         },
         {
-          title: "Material Dourado Virtual",
-          description: "Manipule dezenas e unidades em tempo real para desenvolver o Sistema de Numeração Decimal de forma lúdica.",
-          activity_url: "/atividades/material-dourado",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3593/3593452.png",
-          level: "1-5", category: "Matemática Divertida", bncc_code: "EF01MA01, EF02MA05", subject: "Matemática"
-        },
-        {
           title: "Hábitos de Higiene & Saúde",
           description: "Atividade interativa sobre a importância de escovar os dentes, tomar banho e lavar as mãos para prevenir doenças.",
           activity_url: "/atividades/habitos-de-higiene",
           icon_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
           level: "1-5", category: "Ciências & Saúde", bncc_code: "EF01CI01, EF02CI04", subject: "Ciências"
-        },
-        {
-          title: "Desafio dos Fatos Rápidos da Adição",
-          description: "Desenvolva o cálculo mental rápido e a agilidade nos fatos fundamentais da adição até 20.",
-          activity_url: "/atividades/desafio-adicao",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
-          level: "1-5", category: "Matemática Rápida", bncc_code: "EF01MA06, EF02MA05", subject: "Matemática"
         }
       ];
 
@@ -1489,56 +1470,56 @@ async function initTables() {
           title: "Brincando com Ariê 1: Alfabetização e Números na Educação Infantil",
           summary: "Descubra como o jogo Brincando com Ariê 1 desenvolve a consciência fonológica, contagem inicial e formas geométricas de maneira lúdica.",
           category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/brincando-com-arie-1",
-          image_url: "https://arietoy.com.br/assets_games/br/brincando-com-arie-1/screenshots/brincando-com-arie-1-01.jpg",
+          image_url: "/img/covers/brincando-com-arie-1.jpg",
           content: `<h2>🦁 Importância do Brincando com Ariê 1</h2><p>O jogo <strong>Brincando com Ariê 1</strong> desenvolve o reconhecimento de vogais, alfabeto e números iniciais.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EI02ET06</strong></li><li><strong>EF01LP10</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Uso do jogo digital Brincando com Ariê 1 para reconhecimento do alfabeto e contagem numérica inicial (BNCC: EI02ET06, EF01LP10)."</em></div>`
         },
         {
           title: "Brincando com Ariê 2: Formação de Sílabas e Memória",
           summary: "Saiba como utilizar o segundo volume da série Ariê para consolidar a separação silábica, vocabulário e memória auditiva na alfabetização.",
           category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/brincando-com-arie-2",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3081/3081917.png",
+          image_url: "/img/covers/brincando-com-arie-2.jpg",
           content: `<h2>🧩 Consolidação Silábica com o Ariê 2</h2><p>Trabalha a junção de sílabas simples e memória visual.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP10</strong></li><li><strong>EF01MA01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Prática pedagógica interativa focada na segmentação silábica no Brincando com Ariê 2 (BNCC: EF01LP10, EF01MA01)."</em></div>`
         },
         {
           title: "Brincando com Ariê 3: Leitura Avançada e Raciocínio Lógico",
           summary: "Guia pedagógico para trabalhar leitura de palavras complexas, pequenas frases e desafios de adição com a turma do Ariê 3.",
           category: "Alfabetização Avançada", author: "Prof. Fábio Vieitas", activity_url: "/atividades/brincando-com-arie-3",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3081/3081987.png",
+          image_url: "/img/covers/brincando-com-arie-3.jpg",
           content: `<h2>🚀 Avançando na Leitura com o Ariê 3</h2><p>Leitura de frases e operações de adição.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP12</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Aplicação do jogo digital Brincando com Ariê 3 para leitura de frases e fatos básicos da adição (BNCC: EF01LP12, EF02MA05)."</em></div>`
         },
         {
           title: "Chapeuzinho e o Enigma: Ortografia e Raciocínio no Conto de Fadas",
           summary: "Veja como trabalhar a história da Chapeuzinho Vermelho articulando quebra-cabeças ortográficos e raciocínio visual.",
           category: "Alfabetização & Literatura", author: "Prof. Fábio Vieitas", activity_url: "/atividades/chapeuzinho-enigma",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3063/3063822.png",
+          image_url: "/img/covers/chapeuzinho-enigma.jpg",
           content: `<h2>🌲 Raciocínio e Literatura Infantil</h2><p>Desafios lúdicos articulados com literatura infantil.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP02</strong></li><li><strong>EF15AR04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Desafios digitais de ortografia e raciocínio no jogo Chapeuzinho e o Enigma (BNCC: EF01LP02, EF15AR04)."</em></div>`
         },
         {
           title: "Capitão Alberto e o Faraó: Viagem Histórica ao Egito Antigo",
           summary: "Descubra como abordar a civilização egípcia, hieróglifos e mapas históricos com turmas do Ensino Fundamental.",
           category: "História & Geografia", author: "Prof. Fábio Vieitas", activity_url: "/atividades/capitao-alberto-farao",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2617/2617876.png",
+          image_url: "/img/covers/capitao-alberto-farao.jpg",
           content: `<h2>🏛️ Explorando o Egito Antigo</h2><p>Estudo gamificado sobre hieróglifos e monumentos históricos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02HI02</strong></li><li><strong>EF03HI01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Estudo gamificado sobre o Egito Antigo no Capitão Alberto e o Faraó (BNCC: EF02HI02, EF03HI01)."</em></div>`
         },
         {
           title: "Ariê Colorir: Artes Visuais, Paleta de Cores e Coordenação Visomotora",
           summary: "Explore a sensibilidade estética e a coordenação motora fina no ambiente digital através da pintura no Ariê Colorir.",
           category: "Artes Visuais", author: "Prof. Fábio Vieitas", activity_url: "/atividades/arie-colorir",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2970/2970785.png",
+          image_url: "/img/covers/arie-colorir.jpg",
           content: `<h2>🎨 Expressão Artística Digital</h2><p>Pintura e exploração visomotora digital.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF15AR04</strong></li><li><strong>EI02CG05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Expressão artística digital e exploração de cores no Ariê Colorir (BNCC: EF15AR04, EI02CG05)."</em></div>`
         },
         {
           title: "Tabuada - O Chão é Lava!: Cálculo Mental Rápido e Multiplicação",
           summary: "Como transformar a prática da tabuada de multiplicação em um jogo de agilidade e ação sem memorização mecânica.",
           category: "Matemática Divertida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/tabuada-chao-e-lava",
-          image_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
+          image_url: "/img/covers/tabuada-chao-e-lava.jpg",
           content: `<h2>🔥 Agilidade com a Tabuada</h2><p>Treino interativo de fatos básicos da multiplicação.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF03MA03</strong></li><li><strong>EF04MA04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Treino de cálculo mental nos fatos básicos da multiplicação no jogo Tabuada O Chão é Lava (BNCC: EF03MA03, EF04MA04)."</em></div>`
         },
         {
           title: "Caça-Palavras Temático: Varredura Visual e Ortografia Divertida",
           summary: "Saiba como o caça-palavras por categorias aprimora o reconhecimento ortográfico e a atenção seletiva das crianças.",
           category: "Vocabulário & Ortografia", author: "Prof. Fábio Vieitas", activity_url: "/atividades/caca-palavras-temas",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2497/2497621.png",
+          image_url: "/img/covers/caca-palavras-temas.jpg",
           content: `<h2>🔍 Atenção e Ortografia</h2><p>Varredura visual e vocabulário ortográfico.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP02</strong></li><li><strong>EF02LP04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Varredura visual e fixação de vocabulário ortográfico no Caça-Palavras Temático (BNCC: EF01LP02, EF02LP04)."</em></div>`
         },
         {
@@ -1597,25 +1578,11 @@ async function initTables() {
 </div>`
         },
         {
-          title: "Material Dourado Virtual: O Sistema de Numeração Decimal Concreto",
-          summary: "Como utilizar manipulação de barras e unidades virtuais para facilitar a compreensão de dezenas e centenas no Ensino Fundamental.",
-          category: "Matemática Divertida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/material-dourado",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3593/3593452.png",
-          content: `<h2>🟡 Aprendizado Concreto da Matemática</h2><p>Exploração interativa de dezenas e unidades virtuais.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA01</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Prática pedagógica interativa com o Material Dourado Virtual para composição e decomposição numérica (BNCC: EF01MA01, EF02MA05)."</em></div>`
-        },
-        {
           title: "Hábitos de Higiene e Saúde: Prevenção e Autocuidado na Escola",
           summary: "Como trabalhar cuidados pessoais, banho, lavagem de mãos e escovação de dentes de forma lúdica nos anos iniciais.",
           category: "Ciências & Saúde", author: "Prof. Fábio Vieitas", activity_url: "/atividades/habitos-de-higiene",
           image_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
           content: `<h2>🧼 Saúde e Autocuidado Infantil</h2><p>Reforço diário de hábitos saudáveis e prevenção de enfermidades.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01CI01</strong></li><li><strong>EF02CI04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Exploração de práticas de higiene corporal, escovação e cuidados com a saúde (BNCC: EF01CI01, EF02CI04)."</em></div>`
-        },
-        {
-          title: "Fatos Rápidos da Adição: Agilidade e Cálculo Mental Divertido",
-          summary: "Estratégias pedagógicas para trabalhar o cálculo mental e automatização da adição com jogos interativos.",
-          category: "Matemática Rápida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/desafio-adicao",
-          image_url: "https://cdn-icons-png.flaticon.com/512/4341/4341134.png",
-          content: `<h2>⚡ Cálculo Mental Rápido</h2><p>Automatização dos fatos fundamentais da adição até 20.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA06</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Desenvolvimento de agilidade de cálculo mental nos Fatos Rápidos da Adição (BNCC: EF01MA06, EF02MA05)."</em></div>`
         }
       ];
 
@@ -1635,6 +1602,53 @@ async function initTables() {
             );
           }
         } catch(e) {}
+      }
+
+      // Cleanup retired activities and enforce authentic cover images across all tables
+      try {
+        const oldRows2 = await queryAll("SELECT id FROM activities WHERE activity_url IN ('/atividades/material-dourado', '/atividades/desafio-adicao') OR title LIKE '%Material Dourado%' OR title LIKE '%Desafio dos Fatos Rápidos%'");
+        if (oldRows2 && oldRows2.length > 0) {
+          for (const r of oldRows2) {
+            try { await queryRun("DELETE FROM comments WHERE activity_id = ?", [r.id]); } catch(e){}
+            try { await queryRun("DELETE FROM teacher_favorites WHERE activity_id = ?", [r.id]); } catch(e){}
+            try { await queryRun("DELETE FROM student_activity_logs WHERE activity_id = ?", [r.id]); } catch(e){}
+            try { await queryRun("DELETE FROM activities WHERE id = ?", [r.id]); } catch(e){}
+          }
+        }
+        await queryRun("DELETE FROM news WHERE activity_url IN ('/atividades/material-dourado', '/atividades/desafio-adicao')");
+
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/brincando-com-arie-1.jpg' WHERE activity_url LIKE '%arie-1%' OR title LIKE '%Ariê 1%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/brincando-com-arie-2.jpg' WHERE activity_url LIKE '%arie-2%' OR title LIKE '%Ariê 2%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/brincando-com-arie-3.jpg' WHERE activity_url LIKE '%arie-3%' OR title LIKE '%Ariê 3%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/chapeuzinho-enigma.jpg' WHERE activity_url LIKE '%chapeuzinho%' OR title LIKE '%Chapeuzinho%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/capitao-alberto-farao.jpg' WHERE activity_url LIKE '%capitao-alberto%' OR title LIKE '%Capitão Alberto%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/arie-colorir.jpg' WHERE activity_url LIKE '%arie-colorir%' OR title LIKE '%Ariê Colorir%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/tabuada-chao-e-lava.jpg' WHERE activity_url LIKE '%tabuada%' OR title LIKE '%Tabuada%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/caca-palavras-temas.jpg' WHERE activity_url LIKE '%caca-palavras%' OR title LIKE '%Caça-Palavras%'");
+
+        await queryRun("UPDATE news SET image_url = '/img/covers/brincando-com-arie-1.jpg' WHERE activity_url LIKE '%arie-1%'");
+        await queryRun("UPDATE news SET image_url = '/img/covers/brincando-com-arie-2.jpg' WHERE activity_url LIKE '%arie-2%'");
+        await queryRun("UPDATE news SET image_url = '/img/covers/brincando-com-arie-3.jpg' WHERE activity_url LIKE '%arie-3%'");
+        await queryRun("UPDATE news SET image_url = '/img/covers/chapeuzinho-enigma.jpg' WHERE activity_url LIKE '%chapeuzinho%'");
+        await queryRun("UPDATE news SET image_url = '/img/covers/capitao-alberto-farao.jpg' WHERE activity_url LIKE '%capitao-alberto%'");
+        await queryRun("UPDATE news SET image_url = '/img/covers/arie-colorir.jpg' WHERE activity_url LIKE '%arie-colorir%'");
+        await queryRun("UPDATE news SET image_url = '/img/covers/tabuada-chao-e-lava.jpg' WHERE activity_url LIKE '%tabuada%'");
+        await queryRun("UPDATE news SET image_url = '/img/covers/caca-palavras-temas.jpg' WHERE activity_url LIKE '%caca-palavras%'");
+
+        if (supabase) {
+          await supabase.from('activities').delete().in('activity_url', ['/atividades/material-dourado', '/atividades/desafio-adicao']);
+          await supabase.from('news').delete().in('activity_url', ['/atividades/material-dourado', '/atividades/desafio-adicao']);
+          await supabase.from('activities').update({ icon_url: '/img/covers/brincando-com-arie-1.jpg' }).eq('activity_url', '/atividades/brincando-com-arie-1');
+          await supabase.from('activities').update({ icon_url: '/img/covers/brincando-com-arie-2.jpg' }).eq('activity_url', '/atividades/brincando-com-arie-2');
+          await supabase.from('activities').update({ icon_url: '/img/covers/brincando-com-arie-3.jpg' }).eq('activity_url', '/atividades/brincando-com-arie-3');
+          await supabase.from('activities').update({ icon_url: '/img/covers/chapeuzinho-enigma.jpg' }).eq('activity_url', '/atividades/chapeuzinho-enigma');
+          await supabase.from('activities').update({ icon_url: '/img/covers/capitao-alberto-farao.jpg' }).eq('activity_url', '/atividades/capitao-alberto-farao');
+          await supabase.from('activities').update({ icon_url: '/img/covers/arie-colorir.jpg' }).eq('activity_url', '/atividades/arie-colorir');
+          await supabase.from('activities').update({ icon_url: '/img/covers/tabuada-chao-e-lava.jpg' }).eq('activity_url', '/atividades/tabuada-chao-e-lava');
+          await supabase.from('activities').update({ icon_url: '/img/covers/caca-palavras-temas.jpg' }).eq('activity_url', '/atividades/caca-palavras-temas');
+        }
+      } catch(cleanupErr) {
+        console.warn('[DB Cleanup & Cover Sync Warn]:', cleanupErr.message);
       }
 
     } catch(e) {

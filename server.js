@@ -421,6 +421,8 @@ app.get('/atividades/arie2', (req, res) => res.redirect(301, '/atividades/brinca
 app.get('/atividades/arie3', (req, res) => res.redirect(301, '/atividades/brincando-com-arie-3'));
 app.get('/atividades/habitos-higiene', (req, res) => res.redirect(301, '/atividades/habitos-de-higiene'));
 app.get('/atividades/missao-respeito', (req, res) => res.redirect(301, '/atividades/level-up'));
+app.get('/atividades/material-dourado', (req, res) => res.redirect(301, '/'));
+app.get('/atividades/desafio-adicao', (req, res) => res.redirect(301, '/'));
 
 app.get('/atividades/level-up', async (req, res) => {
   res.render('levelup_presentation');
