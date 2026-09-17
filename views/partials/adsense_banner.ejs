@@ -1,0 +1,29 @@
+<%
+  const pos = typeof position !== 'undefined' ? position : 'middle';
+  const label = typeof adLabel !== 'undefined' ? adLabel : 'Publicidade Educativa • Apoie o Projeto Lab Kids';
+  let minHeight = '110px';
+  let margin = '25px auto';
+  if (pos === 'top') {
+    margin = '20px auto 30px auto';
+  } else if (pos === 'middle') {
+    margin = '30px auto';
+  } else if (pos === 'bottom') {
+    margin = '30px auto 20px auto';
+  }
+%>
+<div class="adsense-banner-container adsense-pos-<%= pos %>" style="max-width: 960px; width: 100%; margin: <%= margin %>; text-align: center;">
+    <div class="adsense-card-wrapper" style="background: rgba(15, 23, 42, 0.75); border: 1.5px dashed rgba(56, 189, 248, 0.35); border-radius: 20px; padding: 14px 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); backdrop-filter: blur(8px);">
+        <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>📢</span>
+            <span><%= label %></span>
+        </div>
+        <div class="adsense-slot-wrapper" style="min-height: <%= minHeight %>; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 12px; background: rgba(0, 0, 0, 0.2);">
+            <ins class="adsbygoogle"
+                 style="display:block; width:100%; min-height:<%= minHeight %>;"
+                 data-ad-client="<%= adsensePubId %>"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+</div>

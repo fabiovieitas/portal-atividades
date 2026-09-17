@@ -32,6 +32,7 @@
     </style>
 </head>
 <body>
+    <%- include('partials/adsense_sidebars') %>
     <div class="container-presentation">
         <div class="top-nav">
             <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
@@ -50,6 +51,9 @@
             </a>
         </div>
 
+        <!-- AdSense Top Leaderboard Banner -->
+        <%- include('partials/adsense_banner', { position: 'top' }) %>
+
         <!-- Bloco 1: Enquadramento Curricular BNCC -->
         <div class="pedagogical-card">
             <h2>📘 Alinhamento Curricular BNCC & Fluência de Cálculo</h2>
@@ -66,6 +70,9 @@
                 <strong>Mecanismos Cognitivos:</strong> Resposta rápida e inibição de impulsos incorretos, evocação da memória de longo prazo, automação do cálculo mental e tolerância à frustração com recomeço imediato.
             </p>
         </div>
+
+        <!-- AdSense In-Content Banner -->
+        <%- include('partials/adsense_banner', { position: 'middle' }) %>
 
         <!-- Bloco 2: Metodologia e Sequência Didática -->
         <div class="pedagogical-card">
@@ -114,12 +121,8 @@
         <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
         <%- include('partials/recommended_games', { currentGame: 'tabuada-lava' }) %>
 
-        <!-- Publicidade Institucional Segura -->
-        <div class="adsense-box" style="background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px; text-align: center; margin-top: 25px;">
-            <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <!-- AdSense Bottom Banner -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
 
         <!-- Rodapé Institucional -->
         <footer class="institutional-footer">

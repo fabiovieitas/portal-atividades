@@ -280,6 +280,7 @@
     </style>
 </head>
 <body>
+    <%- include('partials/adsense_sidebars') %>
 
     <div class="container-presentation">
 
@@ -315,16 +316,8 @@
             </div>
         </div>
 
-        <!-- AdSense Container Banner (Ultra-Fino Horizontal) -->
-        <div class="adsense-box">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle"
-                 style="display:block; max-height:90px; width:100%;"
-                 data-ad-client="<%= adsensePubId %>"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <!-- AdSense Top Leaderboard Banner -->
+        <%- include('partials/adsense_banner', { position: 'top' }) %>
 
         <!-- Information Cards -->
         <div class="info-grid">
@@ -339,6 +332,10 @@
                     Para manter o Pou feliz e saudável, a criança deve monitorar 4 barras fundamentais: <strong>Fome, Saúde, Energia e Diversão</strong>.
                 </p>
             </div>
+
+            
+            <!-- AdSense In-Content Banner -->
+            <%- include('partials/adsense_banner', { position: 'middle' }) %>
 
             <!-- Card 2: Os Cômodos de Cuidados -->
             <div class="info-card">
@@ -383,16 +380,11 @@
 
         </div>
 
-        <!-- AdSense Bottom Banner (Ultra-Fino Horizontal) -->
-        <div class="adsense-box">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle"
-                 style="display:block; max-height:90px; width:100%;"
-                 data-ad-client="<%= adsensePubId %>"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <!-- Próximos Desafios Recomendados -->
+        <%- include('partials/recommended_games', { currentGame: 'pou-online' }) %>
+
+        <!-- AdSense Bottom Banner -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
 
         <!-- Bottom CTA -->
         <div style="text-align: center; margin-top: 20px;">

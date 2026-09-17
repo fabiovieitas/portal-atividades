@@ -206,6 +206,7 @@
     </style>
 </head>
 <body>
+    <%- include('partials/adsense_sidebars') %>
 
     <div class="container-presentation">
 
@@ -241,12 +242,8 @@
             </div>
         </div>
 
-        <!-- AdSense Container Banner (Ultra-Fino Horizontal) -->
-        <div class="adsense-box">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <!-- AdSense Top Leaderboard Banner -->
+        <%- include('partials/adsense_banner', { position: 'top' }) %>
 
         <!-- Information Cards -->
         <div class="info-grid">
@@ -261,6 +258,10 @@
                     A cada rodada, um jogador é sorteado para representar graficamente uma palavra (objetos, animais, profissões, ações), enquanto os demais participantes tentam adivinhar a palavra correta o mais rápido possível digitando no chat.
                 </p>
             </div>
+
+            
+            <!-- AdSense In-Content Banner -->
+            <%- include('partials/adsense_banner', { position: 'middle' }) %>
 
             <!-- Card 2: Informações Pedagógicas para Professores & Pais -->
             <div class="info-card">
@@ -280,12 +281,11 @@
 
         </div>
 
-        <!-- AdSense Bottom Banner (Ultra-Fino Horizontal) -->
-        <div class="adsense-box">
-            <div class="adsense-micro-label">📢 Publicidade Educativa</div>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
+        <!-- Próximos Desafios Recomendados -->
+        <%- include('partials/recommended_games', { currentGame: 'gartic' }) %>
+
+        <!-- AdSense Bottom Banner -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
 
         <!-- Bottom CTA -->
         <div style="text-align: center; margin-top: 20px;">

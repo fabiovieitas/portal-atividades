@@ -1,0 +1,66 @@
+<style>
+    .adsense-desktop-sidebar {
+        position: fixed;
+        top: 100px;
+        width: 160px;
+        min-height: 600px;
+        z-index: 40;
+        text-align: center;
+        transition: opacity 0.3s ease;
+    }
+    .adsense-sidebar-left {
+        left: 15px;
+    }
+    .adsense-sidebar-right {
+        right: 15px;
+    }
+    .adsense-sidebar-box {
+        background: rgba(15, 23, 42, 0.75);
+        border: 1.5px dashed rgba(56, 189, 248, 0.3);
+        border-radius: 16px;
+        padding: 8px 4px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+    }
+    .adsense-sidebar-label {
+        font-size: 0.68rem;
+        color: #94a3b8;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 6px;
+    }
+    @media (max-width: 1340px) {
+        .adsense-desktop-sidebar {
+            display: none !important;
+        }
+    }
+</style>
+
+<!-- Left Skyscraper (Screens >= 1350px) -->
+<div class="adsense-desktop-sidebar adsense-sidebar-left" aria-label="Publicidade Lateral Esquerda">
+    <div class="adsense-sidebar-box">
+        <div class="adsense-sidebar-label">📢 Publicidade</div>
+        <div style="min-height: 600px; width: 160px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: rgba(0, 0, 0, 0.2);">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:160px;height:600px"
+                 data-ad-client="<%= adsensePubId %>"
+                 data-ad-format="vertical"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+</div>
+
+<!-- Right Skyscraper (Screens >= 1350px) -->
+<div class="adsense-desktop-sidebar adsense-sidebar-right" aria-label="Publicidade Lateral Direita">
+    <div class="adsense-sidebar-box">
+        <div class="adsense-sidebar-label">📢 Publicidade</div>
+        <div style="min-height: 600px; width: 160px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: rgba(0, 0, 0, 0.2);">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:160px;height:600px"
+                 data-ad-client="<%= adsensePubId %>"
+                 data-ad-format="vertical"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+</div>
