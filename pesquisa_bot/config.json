@@ -6,13 +6,6 @@
       "frequencia_horas": 4,
       "data_limite": "2026-12-31",
       "ativo": true
-    },
-    {
-      "nome_produto": "Mouse Sem Fio Recarregável",
-      "url_pesquisa": "https://shopee.com.br/search?keyword=mouse%20sem%20fio%20recarregavel&sortBy=price&order=asc",
-      "frequencia_horas": 8,
-      "data_limite": "2026-12-31",
-      "ativo": true
     }
   ]
 }
