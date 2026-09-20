@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LabKids Preços — Monitor de Ofertas Inteligente</title>
+  <meta name="description" content="Central de monitoramento e visualização de preços do Mercado Livre e Shopee para pesquisa.labkids.online" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>">
+
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="/pesquisa/css/style.css" />
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Navbar -->
+    <header class="navbar">
+      <a href="/" class="brand">
+        <div class="brand-icon">🛒</div>
+        <div class="brand-text">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h1>LabKids Preços</h1>
+            <span class="brand-badge">pesquisa.labkids.online</span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted);">Monitoramento Automático • Mercado Livre & Shopee</p>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary btn-sm" onclick="recarregarDados()">
+          🔄 Atualizar Dados
+        </button>
+        <button id="btnDisparar" class="btn btn-primary btn-sm" onclick="dispararVarredura()">
+          ⚡ Verificar Preços Agora
+        </button>
+      </div>
+    </header>
+
+    <!-- Tabs de Navegação -->
+    <nav class="tabs-container">
+      <button class="tab-btn active" data-target="tabDashboard">
+        📊 Painel & Gráficos
+      </button>
+      <button class="tab-btn" data-target="tabProdutos">
+        ⚙️ Gerenciar Produtos
+      </button>
+      <button class="tab-btn" data-target="tabConexao">
+        🔑 Conexão GitHub & Nuvem
+      </button>
+    </nav>
+
+    <!-- TAB 1: DASHBOARD & GRÁFICOS -->
+    <main id="tabDashboard" class="tab-content active">
+      <!-- Grid de KPIs -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Total de Produtos</span>
+            <div class="kpi-icon">📦</div>
+          </div>
+          <div class="kpi-value" id="kpiTotalProdutos">-</div>
+          <div class="kpi-subtitle">Cadastrados no sistema</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Produtos Ativos</span>
+            <div class="kpi-icon">🟢</div>
+          </div>
+          <div class="kpi-value" id="kpiProdutosAtivos">-</div>
+          <div class="kpi-subtitle">Em monitoramento contínuo</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Menor Preço Rastreado</span>
+            <div class="kpi-icon">💰</div>
+          </div>
+          <div class="kpi-value" id="kpiMenorPreco" style="color: var(--accent-cyan);">-</div>
+          <div class="kpi-subtitle">Melhor oportunidade atual</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Última Varredura</span>
+            <div class="kpi-icon">⏱️</div>
+          </div>
+          <div class="kpi-value" id="kpiUltimaExecucao" style="font-size: 18px; padding-top: 8px;">-</div>
+          <div class="kpi-subtitle">Sincronizado via nuvem</div>
+        </div>
+      </section>
+
+      <!-- Gráfico Interativo -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>📈</span> Evolução Histórica de Preços
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="selectProdutoGrafico" style="font-size: 13px; color: var(--text-secondary);">Produto:</label>
+            <select id="selectProdutoGrafico" class="select-input"></select>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="priceChart"></canvas>
+        </div>
+      </section>
+
+      <!-- Tabela de Histórico do Produto Selecionado -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>📋</span> Histórico de Coletas do Produto
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Data & Hora</th>
+                <th>Plataforma</th>
+                <th>Menor Preço</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyHistoricoProduto">
+              <tr>
+                <td colspan="4" style="text-align: center; color: var(--text-muted);">Carregando dados...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- TAB 2: GERENCIAR PRODUTOS -->
+    <section id="tabProdutos" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>⚙️</span> Lista de Produtos Monitorados
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="abrirModalNovo()">
+            ➕ Novo Produto
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Produto & Link</th>
+                <th>Plataforma</th>
+                <th>Frequência</th>
+                <th>Data Limite</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyGerenciarProdutos">
+              <tr>
+                <td colspan="6" style="text-align: center; color: var(--text-muted);">Carregando produtos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: CONEXÃO GITHUB & NUVEM -->
+    <section id="tabConexao" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>🔑</span> Sincronização em Tempo Real com GitHub
+          </div>
+        </div>
+
+        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 14px; line-height: 1.6;">
+          Para que as alterações feitas neste painel (adicionar/editar produtos ou ligar/desligar alertas) salvem diretamente no seu repositório e o botão <strong>"Verificar Preços Agora"</strong> dispare o robô na nuvem sem você precisar abrir o GitHub, configure suas credenciais abaixo. Elas são salvas apenas no <em>localStorage</em> do seu próprio navegador.
+        </p>
+
+        <form id="formGithubConfig" style="max-width: 600px;">
+          <div class="form-group">
+            <label class="form-label">Repositório GitHub (formato: usuario/repositorio)</label>
+            <input type="text" id="ghRepoInput" class="form-input" placeholder="ex: fabiovieitas/bot_monitor_precos" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">GitHub Personal Access Token (com permissão 'repo' ou 'workflow')</label>
+            <input type="password" id="ghTokenInput" class="form-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+            <small style="color: var(--text-muted); display: block; margin-top: 6px;">
+              💡 Gere em: <em>GitHub ➔ Settings ➔ Developer settings ➔ Personal access tokens (Tokens classic)</em> com o escopo <code>repo</code> e <code>workflow</code>.
+            </small>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+            💾 Salvar Conexão
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- MODAL: Adicionar / Editar Produto -->
+  <div id="produtoModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle" style="font-size: 18px; color: var(--text-primary);">Cadastrar Produto</h3>
+        <button class="modal-close" onclick="fecharModal()">&times;</button>
+      </div>
+
+      <form id="formProdutoModal">
+        <div class="form-group">
+          <label class="form-label">Nome do Produto / Identificador</label>
+          <input type="text" id="inputNome" class="form-input" placeholder="ex: Filamento PETG 1kg Preto" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">URL da Pesquisa (com filtros aplicados)</label>
+          <textarea id="inputUrl" class="form-textarea" rows="3" placeholder="Cole a URL do Mercado Livre ou Shopee com os filtros aplicados..." required></textarea>
+          <small style="color: var(--text-muted); display: block; margin-top: 4px;">
+            Dica: Faça a busca no Mercado Livre ou Shopee, marque "Preço Crescente" e "Frete Grátis" e cole o link aqui.
+          </small>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Frequência (em Horas)</label>
+            <input type="number" id="inputFrequencia" class="form-input" min="1" max="72" value="4" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Data Limite de Monitoramento</label>
+            <input type="date" id="inputDataLimite" class="form-input" required />
+          </div>
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+          <label class="switch">
+            <input type="checkbox" id="inputAtivo" checked />
+            <span class="slider"></span>
+          </label>
+          <span style="font-size: 14px; font-weight: 500;">Monitoramento Ativo</span>
+        </div>
+
+        <div class="form-footer">
+          <button type="button" class="btn btn-secondary" onclick="fecharModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Produto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/pesquisa/js/charts.js"></script>
+  <script src="/pesquisa/js/github_sync.js"></script>
+  <script src="/pesquisa/js/app.js"></script>
+</body>
+</html>

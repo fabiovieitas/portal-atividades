@@ -51,6 +51,71 @@ app.use(express.static(path.join(__dirname, 'public'), {
   etag: false
 }));
 
+// ============================================================================
+// MÓDULO PESQUISA & MONITOR DE PREÇOS (pesquisa.labkids.online & /pesquisa)
+// ============================================================================
+app.use((req, res, next) => {
+  const host = (req.headers.host || '').toLowerCase();
+  if (host.startsWith('pesquisa.') && req.path === '/') {
+    return res.sendFile(path.join(__dirname, 'public', 'pesquisa', 'index.html'));
+  }
+  next();
+});
+
+app.get('/pesquisa', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pesquisa', 'index.html'));
+});
+
+// APIs para o painel web de preços
+const PESQUISA_DIR = path.join(__dirname, 'pesquisa_bot');
+const CONFIG_FILE_PATH = path.join(PESQUISA_DIR, 'config.json');
+const HISTORICO_FILE_PATH = path.join(PESQUISA_DIR, 'historico_precos.csv');
+
+app.get('/api/pesquisa/config', (req, res) => {
+  try {
+    const publicPath = path.join(__dirname, 'public', 'pesquisa', 'config.json');
+    const target = fs.existsSync(CONFIG_FILE_PATH) ? CONFIG_FILE_PATH : publicPath;
+    if (fs.existsSync(target)) {
+      return res.json(JSON.parse(fs.readFileSync(target, 'utf-8')));
+    }
+    res.json({ produtos: [] });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/pesquisa/config', (req, res) => {
+  try {
+    const dataStr = JSON.stringify(req.body, null, 2);
+    if (!fs.existsSync(PESQUISA_DIR)) fs.mkdirSync(PESQUISA_DIR, { recursive: true });
+    fs.writeFileSync(CONFIG_FILE_PATH, dataStr, 'utf-8');
+
+    const publicConfig = path.join(__dirname, 'public', 'pesquisa', 'config.json');
+    fs.writeFileSync(publicConfig, dataStr, 'utf-8');
+
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get('/api/pesquisa/historico', (req, res) => {
+  try {
+    const publicPath = path.join(__dirname, 'public', 'pesquisa', 'historico_precos.csv');
+    const target = fs.existsSync(HISTORICO_FILE_PATH) ? HISTORICO_FILE_PATH : publicPath;
+    if (fs.existsSync(target)) {
+      res.setHeader('Content-Type', 'text/csv');
+      return res.send(fs.readFileSync(target, 'utf-8'));
+    }
+    res.send('');
+  } catch (e) {
+    res.status(500).send('');
+  }
+});
+// ============================================================================
+
+
+
 app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'public', 'img', 'robot-icon-512.png')));
 app.get('/download/labkids.apk', (req, res) => {
   const apkPath = path.join(__dirname, 'public', 'downloads', 'labkids.apk');

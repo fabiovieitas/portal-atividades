@@ -1,0 +1,71 @@
+name: "Agendador de Preços (LabKids)"
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+    inputs:
+      forcar_execucao:
+        description: "Forçar verificação ignorando intervalo de frequência?"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  monitorar_precos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Clonar Repositório"
+        uses: actions/checkout@v4
+
+      - name: "Configurar Ambiente Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: "Instalar Dependências Python"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r pesquisa_bot/requirements.txt
+
+      - name: "Instalar Navegador Playwright e Dependências"
+        run: |
+          python -m playwright install --with-deps chromium
+
+      - name: "Executar Script de Monitoramento de Preços"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MERCADOLIVRE_COOKIES: ${{ secrets.MERCADOLIVRE_COOKIES }}
+          SHOPEE_COOKIES: ${{ secrets.SHOPEE_COOKIES }}
+        run: |
+          cd pesquisa_bot
+          if [ "${{ github.event.inputs.forcar_execucao }}" = "true" ]; then
+            python monitor.py --force
+          else
+            python monitor.py
+          fi
+          cd ..
+
+      - name: "Sincronizar Arquivos com o Painel Web e Persistir"
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Copia dados atualizados para a pasta pública acessível na web
+          cp pesquisa_bot/historico_precos.csv public/pesquisa/historico_precos.csv || true
+          cp pesquisa_bot/config.json public/pesquisa/config.json || true
+          
+          git add pesquisa_bot/historico_precos.csv pesquisa_bot/config.json public/pesquisa/historico_precos.csv public/pesquisa/config.json pesquisa_bot/graficos/ || true
+          
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto: atualização de preços e gráficos do monitor [skip ci]"
+            git push
+          else
+            echo "Nenhuma alteração nos preços."
+          fi

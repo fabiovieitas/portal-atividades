@@ -1,0 +1,25 @@
+{
+  "produtos": [
+    {
+      "nome_produto": "Filamento PETG 1kg Preto",
+      "url_pesquisa": "https://lista.mercadolivre.com.br/filamento-petg-1kg-preto_OrderId_PRICE_ASC_CustoEnvio_Gratis_NoIndex_True",
+      "frequencia_horas": 4,
+      "data_limite": "2026-12-31",
+      "ativo": true
+    },
+    {
+      "nome_produto": "SSD NVMe M.2 1TB",
+      "url_pesquisa": "https://lista.mercadolivre.com.br/ssd-nvme-1tb_OrderId_PRICE_ASC_NoIndex_True",
+      "frequencia_horas": 6,
+      "data_limite": "2026-12-31",
+      "ativo": true
+    },
+    {
+      "nome_produto": "Mouse Sem Fio Recarregável",
+      "url_pesquisa": "https://shopee.com.br/search?keyword=mouse%20sem%20fio%20recarregavel&sortBy=price&order=asc",
+      "frequencia_horas": 8,
+      "data_limite": "2026-12-31",
+      "ativo": true
+    }
+  ]
+}
