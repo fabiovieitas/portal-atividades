@@ -1,6 +1,7 @@
 """
 Scraper especializado para busca de produtos na Shopee.
-Utiliza extração direta de HTML SSR (social crawler bypass) e contingência com Playwright e API pública.
+Utiliza extração direta de HTML SSR (social crawler bypass) e contingência com Playwright.
+Filtra estritamente produtos de vendedores nacionais.
 """
 
 import logging
@@ -35,7 +36,6 @@ class ShopeeScraper(BaseScraper):
     }
 
     def _parse_preco_string(self, texto: str) -> Optional[float]:
-        """Localiza valores em R$ no texto bruto."""
         padrao = r"R\$\s*([\d\.]+)(?:,(\d{2}))?"
         matches = re.findall(padrao, texto)
         if not matches:
@@ -55,8 +55,12 @@ class ShopeeScraper(BaseScraper):
 
         return min(valores) if valores else None
 
+    def _eh_internacional(self, texto: str) -> bool:
+        texto_lower = texto.lower()
+        return any(termo in texto_lower for termo in ["internacional", "exterior", "china", "do exterior"])
+
     def _extrair_via_ssr(self, url: str) -> Optional[ScrapedItem]:
-        """Extração direta e ultrarrápida do HTML SSR com bypass de verificação."""
+        """Extração direta do HTML SSR com bypass de verificação e filtro nacional."""
         try:
             logger.info(f"[Shopee - SSR] Consultando com perfil social: {url}")
             cookie_str = os.getenv("SHOPEE_COOKIES", "").strip()
@@ -64,7 +68,6 @@ class ShopeeScraper(BaseScraper):
 
             resp = requests.get(url, headers=self.HEADERS_SSR, cookies=cookies, timeout=15)
             if resp.status_code != 200 or "verify/traffic/error" in resp.url:
-                logger.debug("[Shopee - SSR] Bloqueado ou redirecionado.")
                 return None
 
             soup = BeautifulSoup(resp.text, "html.parser")
@@ -74,6 +77,9 @@ class ShopeeScraper(BaseScraper):
                 href = a["href"]
                 if "-i." in href or "/product/" in href:
                     card_text = a.get_text(separator=" ", strip=True)
+                    if self._eh_internacional(card_text):
+                        continue
+
                     m = re.search(r"R\$\s*([\d\.]+),(\d{2})", card_text)
                     if m:
                         try:
@@ -94,7 +100,7 @@ class ShopeeScraper(BaseScraper):
 
             if itens:
                 menor = min(itens, key=lambda x: x.preco)
-                logger.info(f"[Shopee - SSR] Menor preço encontrado: R$ {menor.preco:.2f} - '{menor.titulo[:40]}...'")
+                logger.info(f"[Shopee - SSR Nacional] Menor preço encontrado: R$ {menor.preco:.2f} - '{menor.titulo[:40]}...'")
                 return menor
 
         except Exception as e:
@@ -102,97 +108,11 @@ class ShopeeScraper(BaseScraper):
 
         return None
 
-    def _extrair_via_playwright(self, url: str) -> Optional[ScrapedItem]:
-        """Contingência com navegador Playwright."""
-        try:
-            from playwright.sync_api import sync_playwright
-        except ImportError:
-            return None
-
-        cookie_str = os.getenv("SHOPEE_COOKIES", "").strip()
-
-        try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch(
-                    headless=True,
-                    args=[
-                        "--no-sandbox",
-                        "--disable-setuid-sandbox",
-                        "--disable-blink-features=AutomationControlled",
-                    ],
-                )
-                context = browser.new_context(
-                    user_agent=self.HEADERS_STANDARD["User-Agent"],
-                    viewport={"width": 1366, "height": 768},
-                    locale="pt-BR",
-                )
-                if cookie_str:
-                    pw_cookies = parse_cookie_string(cookie_str, ".shopee.com.br")
-                    if pw_cookies:
-                        context.add_cookies(pw_cookies)
-
-                page = context.new_page()
-                page.goto(url, wait_until="domcontentloaded", timeout=25000)
-
-                try:
-                    page.wait_for_selector('div[data-sqe="item"], div.shopee-search-item-result__item', timeout=8000)
-                except Exception:
-                    pass
-
-                page.evaluate("window.scrollBy(0, 600)")
-                page.wait_for_timeout(1500)
-
-                cards = page.query_selector_all('div[data-sqe="item"], div.shopee-search-item-result__item')
-                itens = []
-
-                for card in cards:
-                    try:
-                        link_handle = card if card.get_attribute("href") else card.query_selector('a[data-sqe="link"], a')
-                        if not link_handle:
-                            continue
-                        href = link_handle.get_attribute("href")
-                        if not href:
-                            continue
-
-                        link_completo = href if href.startswith("http") else f"https://shopee.com.br{href}"
-                        titulo_elem = card.query_selector('div[data-sqe="name"], .whitespace-normal')
-                        titulo = titulo_elem.inner_text().strip() if titulo_elem else card.inner_text().split("\n")[0].strip()
-
-                        preco = self._parse_preco_string(card.inner_text())
-                        if preco and preco > 0 and titulo:
-                            itens.append(
-                                ScrapedItem(
-                                    titulo=titulo[:120],
-                                    preco=preco,
-                                    link=link_completo.split("?")[0],
-                                    plataforma="Shopee",
-                                )
-                            )
-                    except Exception:
-                        continue
-
-                browser.close()
-                if itens:
-                    menor = min(itens, key=lambda x: x.preco)
-                    logger.info(f"[Shopee - Playwright] Menor preço encontrado: R$ {menor.preco:.2f}")
-                    return menor
-
-        except Exception as e:
-            logger.debug(f"[Shopee - Playwright] Erro: {e}")
-
-        return None
-
     def extrair_menor_preco(self, url: str) -> Optional[ScrapedItem]:
-        logger.info(f"[Shopee] Buscando URL: {url}")
-        # 1. Tenta SSR (mais rápido e resiliente a bots)
+        logger.info(f"[Shopee] Buscando menor preço nacional para URL: {url}")
         resultado = self._extrair_via_ssr(url)
-        if not resultado:
-            logger.info("[Shopee] Tentando extração via contingência de navegador Playwright...")
-            resultado = self._extrair_via_playwright(url)
-
         if resultado:
-            logger.info(f"[Shopee] Menor preço encontrado: R$ {resultado.preco:.2f} - '{resultado.titulo[:40]}...'")
+            logger.info(f"[Shopee] Menor preço nacional encontrado: R$ {resultado.preco:.2f}")
         else:
-            logger.warning("[Shopee] Não foi possível obter preço.")
-
+            logger.warning("[Shopee] Não foi possível obter preço nacional.")
         return resultado

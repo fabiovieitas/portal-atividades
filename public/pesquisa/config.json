@@ -2,7 +2,7 @@
   "produtos": [
     {
       "nome_produto": "Filamento PETG 1kg Preto",
-      "url_pesquisa": "https://lista.mercadolivre.com.br/filamento-petg-1kg-preto_OrderId_PRICE_ASC_CustoEnvio_Gratis_NoIndex_True",
+      "url_pesquisa": "https://lista.mercadolivre.com.br/filamento-petg-1kg-preto_OrderId_PRICE_ASC_CustoEnvio_Gratis_NoIndex_True_SHIPPING*ORIGIN_10215068",
       "frequencia_horas": 4,
       "data_limite": "2026-12-31",
       "ativo": true
