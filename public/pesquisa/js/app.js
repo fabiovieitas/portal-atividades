@@ -300,20 +300,36 @@ async function salvarAlteracoesConfig(mensagemSucesso) {
 
 // Disparo Manual do GitHub Actions
 async function dispararVarredura() {
-  const btn = document.getElementById('btnDisparar');
-  btn.disabled = true;
-  btn.innerHTML = '⏳ Disparando...';
+    const btn = document.getElementById('btnDisparar');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Disparando...';
 
-  try {
-    await GitHubSync.dispararExecucaoManual();
-    mostrarToast('Robô iniciado com sucesso no GitHub Actions! Em instantes os preços e alertas serão atualizados.', 'success');
-  } catch (err) {
-    mostrarToast(err.message, 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '⚡ Verificar Preços Agora';
+    try {
+      await GitHubSync.dispararExecucaoManual();
+      mostrarToast('Robô iniciado com sucesso! Coletando preços nos marketplaces...', 'success');
+
+      let contador = 0;
+      const polling = setInterval(async () => {
+        contador++;
+        try {
+          const dados = await GitHubSync.carregarHistoricoCsv();
+          if (dados && dados.length > historicoGeral.length) {
+            clearInterval(polling);
+            historicoGeral = dados;
+            renderizarCardsProdutos(produtosConfig, historicoGeral);
+            if (produtoAtivo) selecionarProduto(produtoAtivo);
+            mostrarToast('Novos preços sincronizados e atualizados no gráfico!', 'success');
+          }
+        } catch (e) {}
+        if (contador >= 12) clearInterval(polling);
+      }, 5000);
+    } catch (err) {
+      mostrarToast(err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '⚡ Verificar Preços Agora';
+    }
   }
-}
 
 // Configuração UI e Eventos
 function configurarEventosUI() {

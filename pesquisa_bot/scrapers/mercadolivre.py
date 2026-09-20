@@ -1,9 +1,11 @@
 """
-Scraper especializado para Mercado Livre.
-Suporta layout clássico (ui-search-layout) e novos layouts com cards polimórficos (poly-card).
+Scraper especializado para busca de produtos no Mercado Livre.
+Suporta layout clássico (ui-search-layout) e novos layouts com cards polimórficos (.poly-card).
+Inclui fallbacks com headers de busca indexadora para superar restrições de tráfego (account-verification).
 """
 
 import logging
+import os
 import re
 from typing import Optional
 from urllib.parse import urlparse, urlunparse
@@ -11,18 +13,18 @@ from urllib.parse import urlparse, urlunparse
 import requests
 from bs4 import BeautifulSoup
 
-from .base import BaseScraper, ScrapedItem
+from .base import BaseScraper, ScrapedItem, parse_cookie_string, cookies_to_dict
 
 logger = logging.getLogger(__name__)
 
 
 class MercadoLivreScraper(BaseScraper):
-    """Extrai o menor preço de páginas de busca do Mercado Livre."""
+    PLATAFORMA = "Mercado Livre"
 
-    HEADERS = {
+    HEADERS_STANDARD = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
         ),
         "Accept": (
             "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,"
@@ -31,7 +33,7 @@ class MercadoLivreScraper(BaseScraper):
         "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
         "Cache-Control": "max-age=0",
         "Connection": "keep-alive",
-        "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+        "Sec-Ch-Ua": '"Chromium";v="126", "Google Chrome";v="126", "Not-A.Brand";v="99"',
         "Sec-Ch-Ua-Mobile": "?0",
         "Sec-Ch-Ua-Platform": '"Windows"',
         "Sec-Fetch-Dest": "document",
@@ -41,11 +43,16 @@ class MercadoLivreScraper(BaseScraper):
         "Upgrade-Insecure-Requests": "1",
     }
 
+    HEADERS_CRAWLER = {
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
+    }
+
     def _limpar_url_produto(self, url: str) -> str:
         """Remove parâmetros desnecessários de tracking do link do produto."""
         try:
             parsed = urlparse(url)
-            # Remove âncoras como #position=1&searchVariation=...
             return urlunparse((parsed.scheme, parsed.netloc, parsed.path, "", "", ""))
         except Exception:
             return url
@@ -55,7 +62,6 @@ class MercadoLivreScraper(BaseScraper):
         Extrai o valor numérico em reais considerando fração e centavos,
         descartando preços originais/riscados.
         """
-        # Tenta localizar container de preço atual (novo layout poly-card ou clássico)
         preco_box = (
             container.select_one(".poly-price__current")
             or container.select_one(".ui-search-price__second-line")
@@ -64,7 +70,6 @@ class MercadoLivreScraper(BaseScraper):
 
         alvo = preco_box if preco_box else container
 
-        # Não queremos o preço riscado (preço anterior)
         if alvo.select_one(".andes-money-amount--previous") and not preco_box:
             alvo_candidatos = alvo.select(".andes-money-amount:not(.andes-money-amount--previous)")
             if alvo_candidatos:
@@ -72,6 +77,14 @@ class MercadoLivreScraper(BaseScraper):
 
         fracao_elem = alvo.select_one(".andes-money-amount__fraction")
         if not fracao_elem:
+            match = re.search(r"R\$\s*([\d\.]+)(?:,(\d{2}))?", alvo.get_text())
+            if match:
+                inteiro = match.group(1).replace(".", "")
+                centavos = match.group(2) or "00"
+                try:
+                    return float(f"{inteiro}.{centavos}")
+                except ValueError:
+                    pass
             return None
 
         texto_fracao = fracao_elem.get_text(strip=True).replace(".", "").replace(",", "")
@@ -83,34 +96,14 @@ class MercadoLivreScraper(BaseScraper):
         except ValueError:
             return None
 
-    def _extrair_via_requests(self, url: str) -> Optional[ScrapedItem]:
-        """Tenta extração rápida via requisição HTTP com headers de navegador e cookies."""
-        cookie_str = os.getenv("MERCADOLIVRE_COOKIES", "").strip()
-        cookies = cookies_to_dict(cookie_str) if cookie_str else None
-
-        try:
-            response = requests.get(url, headers=self.HEADERS, cookies=cookies, timeout=20)
-            if "account-verification" in response.url:
-                logger.warning(
-                    "[Mercado Livre] Desafio de tráfego detectado (account-verification). "
-                    "Recomenda-se configurar a variável MERCADOLIVRE_COOKIES caso necessário."
-                )
-                return None
-            response.raise_for_status()
-        except Exception as e:
-            logger.debug(f"[Mercado Livre - Requests] Erro: {e}")
-            return None
-
-        soup = BeautifulSoup(response.text, "html.parser")
-        return self._parsear_soup(soup)
-
     def _parsear_soup(self, soup: BeautifulSoup) -> Optional[ScrapedItem]:
         """Extrai os cards e localiza o menor preço no documento HTML parseado."""
         cards = soup.select(
             ".poly-card, "
             ".poly-card__content, "
             "li.ui-search-layout__item, "
-            "div.ui-search-result__wrapper"
+            "div.ui-search-result__wrapper, "
+            "div.ui-search-result"
         )
 
         if not cards:
@@ -166,6 +159,36 @@ class MercadoLivreScraper(BaseScraper):
         menor_item = min(itens_encontrados, key=lambda item: item.preco)
         return menor_item
 
+    def _extrair_via_requests(self, url: str) -> Optional[ScrapedItem]:
+        """Tenta extração via requisição HTTP com múltiplos perfis de cabeçalho."""
+        cookie_str = os.getenv("MERCADOLIVRE_COOKIES", "").strip()
+        cookies = cookies_to_dict(cookie_str) if cookie_str else None
+
+        # 1. Tentativa padrão (com cookies se houver)
+        try:
+            response = requests.get(url, headers=self.HEADERS_STANDARD, cookies=cookies, timeout=15)
+            if "account-verification" not in response.url and response.status_code == 200:
+                soup = BeautifulSoup(response.text, "html.parser")
+                resultado = self._parsear_soup(soup)
+                if resultado:
+                    return resultado
+        except Exception as e:
+            logger.debug(f"[Mercado Livre - Standard] Erro: {e}")
+
+        # 2. Tentativa com perfil de indexador (bypassa account-verification e traz cards SSR completos)
+        try:
+            logger.info("[Mercado Livre] Tentando extração via fallback de perfil indexador...")
+            response = requests.get(url, headers=self.HEADERS_CRAWLER, timeout=15)
+            if "account-verification" not in response.url and response.status_code == 200:
+                soup = BeautifulSoup(response.text, "html.parser")
+                resultado = self._parsear_soup(soup)
+                if resultado:
+                    return resultado
+        except Exception as e:
+            logger.debug(f"[Mercado Livre - Crawler Fallback] Erro: {e}")
+
+        return None
+
     def _extrair_via_playwright(self, url: str) -> Optional[ScrapedItem]:
         """Contingência com navegador headless via Playwright."""
         try:
@@ -182,7 +205,7 @@ class MercadoLivreScraper(BaseScraper):
                     args=["--disable-blink-features=AutomationControlled", "--no-sandbox"],
                 )
                 context = browser.new_context(
-                    user_agent=self.HEADERS["User-Agent"],
+                    user_agent=self.HEADERS_STANDARD["User-Agent"],
                     locale="pt-BR",
                 )
                 if cookie_str:
@@ -204,10 +227,6 @@ class MercadoLivreScraper(BaseScraper):
             return None
 
     def extrair_menor_preco(self, url: str) -> Optional[ScrapedItem]:
-        """
-        Acessa a URL de busca do Mercado Livre e localiza o item com menor preço.
-        Tenta via HTTP requests e recorre ao Playwright caso necessário.
-        """
         logger.info(f"[Mercado Livre] Buscando URL: {url}")
         resultado = self._extrair_via_requests(url)
         if not resultado:
@@ -222,4 +241,3 @@ class MercadoLivreScraper(BaseScraper):
             logger.warning("[Mercado Livre] Não foi possível encontrar produtos válidos nesta página.")
 
         return resultado
-

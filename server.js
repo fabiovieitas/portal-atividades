@@ -99,6 +99,47 @@ app.post('/api/pesquisa/config', (req, res) => {
   }
 });
 
+app.post('/api/pesquisa/verificar', async (req, res) => {
+  try {
+    // 1. Se estiver em ambiente Node local com Python disponível, executa diretamente
+    const pythonScript = path.join(PESQUISA_DIR, 'monitor.py');
+    if (fs.existsSync(pythonScript) && !process.env.VERCEL) {
+      const { spawn } = require('child_process');
+      const pyProc = spawn('python', [pythonScript, '--force'], {
+        cwd: PESQUISA_DIR,
+        detached: true,
+        stdio: 'ignore'
+      });
+      pyProc.unref();
+      return res.json({ sucesso: true, mensagem: 'Monitoramento disparado localmente com sucesso!' });
+    }
+
+    // 2. Se estiver na nuvem (Vercel) e houver GITHUB_TOKEN em variáveis de ambiente
+    const ghToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+    const ghRepo = process.env.GITHUB_REPO || 'fabiovieitas/portal-atividades';
+    if (ghToken) {
+      const response = await fetch(`https://api.github.com/repos/${ghRepo}/actions/workflows/agendador_precos.yml/dispatches`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `token ${ghToken}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json',
+          'User-Agent': 'LabKids-Precos'
+        },
+        body: JSON.stringify({ ref: 'main', inputs: { forcar_execucao: true } })
+      });
+      if (response.ok || response.status === 204) {
+        return res.json({ sucesso: true, mensagem: 'Robô disparado no GitHub Actions com sucesso!' });
+      }
+    }
+
+    // 3. Fallback para disparo via token fornecido pelo cliente no navegador
+    res.json({ sucesso: false, requer_token_cliente: true });
+  } catch (err) {
+    res.status(500).json({ sucesso: false, error: err.message });
+  }
+});
+
 app.get('/api/pesquisa/historico', (req, res) => {
   try {
     const publicPath = path.join(__dirname, 'public', 'pesquisa', 'historico_precos.csv');

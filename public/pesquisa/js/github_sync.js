@@ -166,6 +166,16 @@ const GitHubSync = {
    * Dispara a execução imediata do robô no GitHub Actions.
    */
   async dispararExecucaoManual() {
+    // 1. Tenta acionar endpoint interno do servidor primeiro
+    try {
+      const serverRes = await fetch('/api/pesquisa/verificar', { method: 'POST' });
+      if (serverRes.ok) {
+        const data = await serverRes.json();
+        if (data.sucesso) return true;
+      }
+    } catch (e) {}
+
+    // 2. Disparo direto no GitHub Actions via token do usuário
     const repo = this.getRepo();
     const token = this.getToken();
 
