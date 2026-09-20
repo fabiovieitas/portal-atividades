@@ -99,9 +99,14 @@
         <div class="game-title">
             <span>🐧 Tux Math - Matemática Divertida</span>
         </div>
-        <a href="/" class="btn-back" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-            🏠 PORTAL INICIAL
-        </a>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <button type="button" onclick="toggleFullScreen()" class="btn-back" style="background: linear-gradient(135deg, #0284c7, #0369a1); border-color: #38bdf8; cursor: pointer;" title="Expandir para Tela Cheia">
+                ⛶ TELA CHEIA
+            </button>
+            <a href="/" class="btn-back" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                🏠 PORTAL
+            </a>
+        </div>
     </div>
 
     <!-- Game iframe -->
@@ -109,5 +114,17 @@
         <iframe src="https://tuxmath.org/index-pt.html?opt_lang=pt" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>
     </div>
 
+    <script>
+        function toggleFullScreen() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (elem.requestFullscreen) elem.requestFullscreen();
+                else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
+        }
+    </script>
 </body>
 </html>

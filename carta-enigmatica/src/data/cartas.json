@@ -1,0 +1,478 @@
+{
+  "niveis": {
+    "facil": {
+      "id": "facil",
+      "nivel": "Fácil",
+      "turma": "3º Ano",
+      "titulo": "O Piquenique no Jardim Encantado",
+      "saudacao": "Oi Lúcia,",
+      "despedida": "Com carinho, Gabriel",
+      "totalEnigmas": 6,
+      "corBadge": "bg-emerald-600 text-white",
+      "descricao": "Uma carta simples e divertida com 6 palavras para descobrir!",
+      "linhas": [
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Hoje fomos fazer um piquenique e encontramos uma " },
+            {
+              "tipo": "enigma",
+              "id": "f1",
+              "numero": 1,
+              "imagem": "mala",
+              "opSub": "-la",
+              "opAdd": "+ga",
+              "resposta": "MAGA",
+              "nome": "MALA",
+              "dica": "MALA sem LA (MA) + GA = MAGA"
+            },
+            { "tipo": "texto", "conteudo": " muito sábia perto da grande árvore." }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Ela estava brincando com uma linda " },
+            {
+              "tipo": "enigma",
+              "id": "f2",
+              "numero": 2,
+              "imagem": "gato",
+              "opSub": "-to",
+              "opAdd": "+ta",
+              "resposta": "GATA",
+              "nome": "GATO",
+              "dica": "GATO sem TO (GA) + TA = GATA"
+            },
+            { "tipo": "texto", "conteudo": " branca que abria a " },
+            {
+              "tipo": "enigma",
+              "id": "f3",
+              "numero": 3,
+              "imagem": "bola",
+              "opSub": "-la",
+              "opAdd": "+ca",
+              "resposta": "BOCA",
+              "nome": "BOLA",
+              "dica": "BOLA sem LA (BO) + CA = BOCA"
+            },
+            { "tipo": "texto", "conteudo": " toda vez que via comida!" }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "No jardim também havia um filhote de " },
+            {
+              "tipo": "enigma",
+              "id": "f4",
+              "numero": 4,
+              "imagem": "casa",
+              "opSub": "-sa",
+              "opAdd": "+chorro",
+              "resposta": "CACHORRO",
+              "nome": "CASA",
+              "dica": "CASA sem SA (CA) + CHORRO = CACHORRO"
+            },
+            { "tipo": "texto", "conteudo": " muito fofo." }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Para o lanche, tomamos um copo de " },
+            {
+              "tipo": "enigma",
+              "id": "f5",
+              "numero": 5,
+              "imagem": "suco",
+              "opSub": "",
+              "opAdd": "",
+              "resposta": "SUCO",
+              "nome": "SUCO",
+              "dica": "Bebida refrescante servida no copo"
+            },
+            { "tipo": "texto", "conteudo": " de laranja e torrada com " },
+            {
+              "tipo": "enigma",
+              "id": "f6",
+              "numero": 6,
+              "imagem": "mel",
+              "opSub": "",
+              "opAdd": "",
+              "resposta": "MEL",
+              "nome": "MEL",
+              "dica": "Alimento doce feito pelas abelhas"
+            },
+            { "tipo": "texto", "conteudo": " da fazenda. Foi um dia incrível!" }
+          ]
+        }
+      ]
+    },
+    "medio": {
+      "id": "medio",
+      "nivel": "Médio",
+      "turma": "4º Ano",
+      "titulo": "O Mistério do Zoológico Maluco",
+      "saudacao": "Querido amigo,",
+      "despedida": "Com carinho, Sofia",
+      "totalEnigmas": 10,
+      "corBadge": "bg-amber-600 text-white",
+      "descricao": "Uma expedição cheia de surpresas com 10 palavras misteriosas!",
+      "linhas": [
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Ontem visitei o zoológico e vi um " },
+            {
+              "tipo": "enigma",
+              "id": "m1",
+              "numero": 1,
+              "imagem": "leao",
+              "opSub": "-ão",
+              "opAdd": "+pardo",
+              "resposta": "LEOPARDO",
+              "nome": "LEÃO",
+              "dica": "LEÃO sem ÃO (LE) + PARDO = LEOPARDO"
+            },
+            { "tipo": "texto", "conteudo": " muito veloz e um " },
+            {
+              "tipo": "enigma",
+              "id": "m2",
+              "numero": 2,
+              "imagem": "macaco",
+              "opSub": "-co",
+              "opAdd": "+rrão",
+              "resposta": "MACARRÃO",
+              "nome": "MACACO",
+              "dica": "MACACO sem CO (MACA) + RRÃO = MACARRÃO"
+            },
+            { "tipo": "texto", "conteudo": " gigante desenhado na parede." }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "O tratador levantava uma " },
+            {
+              "tipo": "enigma",
+              "id": "m3",
+              "numero": 3,
+              "imagem": "banana",
+              "opSub": "-na",
+              "opAdd": "+deira",
+              "resposta": "BANDEIRA",
+              "nome": "BANANA",
+              "dica": "BANANA sem NA (BANA) + DEIRA = BANDEIRA"
+            },
+            { "tipo": "texto", "conteudo": " para avisar que o " },
+            {
+              "tipo": "enigma",
+              "id": "m4",
+              "numero": 4,
+              "imagem": "elefante",
+              "opSub": "-fante",
+              "opAdd": "+gante",
+              "resposta": "ELEGANTE",
+              "nome": "ELEFANTE",
+              "dica": "ELEFANTE sem FANTE (ELE) + GANTE = ELEGANTE"
+            },
+            { "tipo": "texto", "conteudo": " ia passar usando um " },
+            {
+              "tipo": "enigma",
+              "id": "m5",
+              "numero": 5,
+              "imagem": "bota",
+              "opSub": "-ta",
+              "opAdd": "+tão",
+              "resposta": "BOTÃO",
+              "nome": "BOTA",
+              "dica": "BOTA sem TA (BO) + TÃO = BOTÃO"
+            },
+            { "tipo": "texto", "conteudo": " brilhante." }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Todas as crianças deram um grande " },
+            {
+              "tipo": "enigma",
+              "id": "m6",
+              "numero": 6,
+              "imagem": "sorvete",
+              "opSub": "-vete",
+              "opAdd": "+riso",
+              "resposta": "SORRISO",
+              "nome": "SORVETE",
+              "dica": "SORVETE sem VETE (SOR) + RISO = SORRISO"
+            },
+            { "tipo": "texto", "conteudo": " quando abriram o " },
+            {
+              "tipo": "enigma",
+              "id": "m7",
+              "numero": 7,
+              "imagem": "pipoca",
+              "opSub": "-poca",
+              "opAdd": "+tão",
+              "resposta": "PORTÃO",
+              "nome": "PIPOCA",
+              "dica": "P + ORTÃO = PORTÃO"
+            },
+            { "tipo": "texto", "conteudo": " principal." }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Parecia até um " },
+            {
+              "tipo": "enigma",
+              "id": "m8",
+              "numero": 8,
+              "imagem": "sol",
+              "opSub": "-l",
+              "opAdd": "+nho",
+              "resposta": "SONHO",
+              "nome": "SOL",
+              "dica": "SOL sem L (SO) + NHO = SONHO"
+            },
+            { "tipo": "texto", "conteudo": "! No lago, havia um " },
+            {
+              "tipo": "enigma",
+              "id": "m9",
+              "numero": 9,
+              "imagem": "pato",
+              "opSub": "-to",
+              "opAdd": "+pete",
+              "resposta": "TAPETE",
+              "nome": "PATO",
+              "dica": "PATO transformado em TA + PETE = TAPETE"
+            },
+            { "tipo": "texto", "conteudo": " flutuante no " },
+            {
+              "tipo": "enigma",
+              "id": "m10",
+              "numero": 10,
+              "imagem": "casa",
+              "opSub": "-a",
+              "opAdd": "+o",
+              "resposta": "CASO",
+              "nome": "CASA",
+              "dica": "CASA trocando A por O = CASO"
+            },
+            { "tipo": "texto", "conteudo": " de chover." }
+          ]
+        }
+      ]
+    },
+    "dificil": {
+      "id": "dificil",
+      "nivel": "Difícil",
+      "turma": "5º Ano",
+      "titulo": "O Restaurante Estranho do Gustavo",
+      "saudacao": "Oi Lúcia,",
+      "despedida": "Abraço, Gustavo",
+      "totalEnigmas": 15,
+      "corBadge": "bg-rose-700 text-white",
+      "descricao": "A carta clássica completa com 15 enigmas sobre um cardápio muito louco!",
+      "linhas": [
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Resolvi começar o " },
+            {
+              "tipo": "enigma",
+              "id": "d1",
+              "numero": 1,
+              "imagem": "carta",
+              "opSub": "-ta",
+              "opAdd": "+dápio",
+              "resposta": "CARDÁPIO",
+              "nome": "CARTA",
+              "dica": "CARTA sem TA (CAR) + DÁPIO = CARDÁPIO"
+            },
+            { "tipo": "texto", "conteudo": " do nosso incrível " },
+            {
+              "tipo": "enigma",
+              "id": "d2",
+              "numero": 2,
+              "imagem": "rei",
+              "opSub": "-i",
+              "opAdd": "+staurante",
+              "resposta": "RESTAURANTE",
+              "nome": "REI",
+              "dica": "REI sem I (RE) + STAURANTE = RESTAURANTE"
+            },
+            { "tipo": "texto", "conteudo": " estranho! Estas são as " },
+            {
+              "tipo": "enigma",
+              "id": "d3",
+              "numero": 3,
+              "imagem": "primeiro",
+              "opSub": "",
+              "opAdd": "+s",
+              "resposta": "PRIMEIRAS",
+              "nome": "PRIMEIRA",
+              "dica": "PRIMEIRA + S = PRIMEIRAS"
+            }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "sugestões: empada de " },
+            {
+              "tipo": "enigma",
+              "id": "d4",
+              "numero": 4,
+              "imagem": "bruxa",
+              "opSub": "-uxa",
+              "opAdd": "+igadeiro",
+              "resposta": "BRIGADEIRO",
+              "nome": "BRUXA",
+              "dica": "BRUXA sem UXA (BR) + IGADEIRO = BRIGADEIRO"
+            },
+            { "tipo": "texto", "conteudo": ", " },
+            {
+              "tipo": "enigma",
+              "id": "d5",
+              "numero": 5,
+              "imagem": "suco",
+              "opSub": "",
+              "opAdd": "",
+              "resposta": "SUCO",
+              "nome": "SUCO",
+              "dica": "Bebida refrescante servida no copo"
+            },
+            { "tipo": "texto", "conteudo": " de " },
+            {
+              "tipo": "enigma",
+              "id": "d6",
+              "numero": 6,
+              "imagem": "mosca",
+              "opSub": "-ca",
+              "opAdd": "+tarda",
+              "resposta": "MOSTARDA",
+              "nome": "MOSCA",
+              "dica": "MOSCA sem CA (MOS) + TARDA = MOSTARDA"
+            },
+            { "tipo": "texto", "conteudo": " e " },
+            {
+              "tipo": "enigma",
+              "id": "d7",
+              "numero": 7,
+              "imagem": "mel",
+              "opSub": "",
+              "opAdd": "",
+              "resposta": "MEL",
+              "nome": "MEL",
+              "dica": "Doce puro produzido pelas abelhas"
+            },
+            { "tipo": "texto", "conteudo": ", " }
+          ]
+        },
+        {
+          "elementos": [
+            {
+              "tipo": "enigma",
+              "id": "d8",
+              "numero": 8,
+              "imagem": "pizza",
+              "opSub": "",
+              "opAdd": "",
+              "resposta": "PIZZA",
+              "nome": "PIZZA",
+              "dica": "Fatia de massa assada com molho e queijo"
+            },
+            { "tipo": "texto", "conteudo": " de " },
+            {
+              "tipo": "enigma",
+              "id": "d9",
+              "numero": 9,
+              "imagem": "bebe",
+              "opSub": "-bê",
+              "opAdd": "+terraba",
+              "resposta": "BETERRABA",
+              "nome": "BEBÊ",
+              "dica": "BEBÊ sem BÊ (BE) + TERRABA = BETERRABA"
+            },
+            { "tipo": "texto", "conteudo": ", " },
+            {
+              "tipo": "enigma",
+              "id": "d10",
+              "numero": 10,
+              "prefixo": "Pico + ",
+              "imagem": "chule",
+              "opSub": "-chu",
+              "opAdd": "",
+              "resposta": "PICOLÉ",
+              "nome": "CHULÉ",
+              "dica": "PICO + CHULÉ sem CHU (LÉ) = PICOLÉ"
+            },
+            { "tipo": "texto", "conteudo": " de " },
+            {
+              "tipo": "enigma",
+              "id": "d11",
+              "numero": 11,
+              "imagem": "feijao",
+              "opSub": "",
+              "opAdd": "",
+              "resposta": "FEIJÃO",
+              "nome": "FEIJÃO",
+              "dica": "Grãozinho nutritivo e saboroso"
+            },
+            { "tipo": "texto", "conteudo": ", " }
+          ]
+        },
+        {
+          "elementos": [
+            {
+              "tipo": "enigma",
+              "id": "d12",
+              "numero": 12,
+              "imagem": "sandalia",
+              "opSub": "-ália",
+              "opAdd": "+uíche",
+              "resposta": "SANDUÍCHE",
+              "nome": "SANDÁLIA",
+              "dica": "SANDÁLIA sem ÁLIA (SAND) + UÍCHE = SANDUÍCHE"
+            },
+            { "tipo": "texto", "conteudo": " de " },
+            {
+              "tipo": "enigma",
+              "id": "d13",
+              "numero": 13,
+              "imagem": "armario",
+              "opSub": "-mário",
+              "opAdd": "+roz",
+              "resposta": "ARROZ",
+              "nome": "ARMÁRIO",
+              "dica": "ARMÁRIO sem MÁRIO (AR) + ROZ = ARROZ"
+            },
+            { "tipo": "texto", "conteudo": "! O que achou? Mande-me sua " },
+            {
+              "tipo": "enigma",
+              "id": "d14",
+              "numero": 14,
+              "imagem": "livro",
+              "opSub": "-vro",
+              "opAdd": "+sta",
+              "resposta": "RESPOSTA",
+              "nome": "LIVRO",
+              "dica": "RE + SPO + STA = RESPOSTA"
+            },
+            { "tipo": "texto", "conteudo": "! " }
+          ]
+        },
+        {
+          "elementos": [
+            { "tipo": "texto", "conteudo": "Meu irmão não gostou tanto das idéias, mas um dia elas serão um " },
+            {
+              "tipo": "enigma",
+              "id": "d15",
+              "numero": 15,
+              "imagem": "surfista",
+              "opSub": "-rfe",
+              "opAdd": "+cesso",
+              "resposta": "SUCESSO",
+              "nome": "SURFE",
+              "dica": "SURFE sem RFE (SU) + CESSO = SUCESSO"
+            },
+            { "tipo": "texto", "conteudo": "!" }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -449,6 +449,9 @@
         </a>
 
         <div class="header-right">
+            <button type="button" class="btn-icon" onclick="toggleFullScreen()" title="Expandir para Tela Cheia">
+                <span>⛶</span> Tela Cheia
+            </button>
             <a href="/" class="btn-icon">
                 <span>🏠</span> Início
             </a>
@@ -551,5 +554,17 @@
 
     <!-- Game Engine -->
     <script src="game.js"></script>
+    <script>
+        function toggleFullScreen() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (elem.requestFullscreen) elem.requestFullscreen();
+                else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
+        }
+    </script>
 </body>
 </html>

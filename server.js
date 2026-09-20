@@ -40,12 +40,12 @@ app.get('/sitemap.xml', (req, res) => {
 });
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, filePath) => {
-    if (filePath.endsWith('.html') || filePath.includes('games')) {
+    if (filePath.endsWith('.html')) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
     } else {
-      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.setHeader('Cache-Control', 'public, max-age=604800');
     }
   },
   etag: false
@@ -354,6 +354,11 @@ app.get('/atividades/labirinto-tabuada', async (req, res) => {
 app.get('/atividades/escape-room-lab', async (req, res) => {
   res.render('escape_room_presentation');
 });
+
+app.get('/atividades/carta-enigmatica', async (req, res) => {
+  res.render('carta_enigmatica_presentation');
+});
+
 
 app.get('/atividades/leitura-datashow', async (req, res) => {
 
@@ -1858,6 +1863,10 @@ app.get('/api/stats', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

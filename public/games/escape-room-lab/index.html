@@ -1137,6 +1137,9 @@
       <div class="hud-pill hud-timer-pill" id="hud-timer-val">
         ⏱️ 45:00
       </div>
+      <button class="hud-btn" id="btn-fullscreen-hud" onclick="toggleFullScreen()" title="Expandir para Tela Cheia">
+        ⛶ Tela Cheia
+      </button>
       <button class="hud-btn" id="btn-sound-hud" onclick="game.toggleSound()" title="Ligar/Desligar Som">
         🔊
       </button>
@@ -1145,6 +1148,13 @@
       </button>
     </div>
   </header>
+
+  <!-- Botão Flutuante de Tela Cheia Global -->
+  <div style="position: fixed; top: 12px; right: 14px; z-index: 99999; display: flex; gap: 8px;">
+    <button type="button" onclick="toggleFullScreen()" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid #06b6d4; padding: 8px 16px; border-radius: 50px; font-family: var(--font-fun); font-size: 0.88rem; font-weight: 700; color: #38bdf8; box-shadow: 0 4px 15px rgba(0,0,0,0.5); cursor: pointer; backdrop-filter: blur(8px);" title="Expandir para Tela Cheia">
+      ⛶ Tela Cheia
+    </button>
+  </div>
 
   <!-- ==================== 1. TELA DE ABERTURA ==================== -->
   <main class="opening-wrapper" id="opening-screen">
@@ -1745,5 +1755,17 @@
   </div>
 
   <script src="js/game.js?v=4"></script>
+  <script>
+    function toggleFullScreen() {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+  </script>
 </body>
 </html>

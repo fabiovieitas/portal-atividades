@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-amber-950 text-ink antialiased select-none;
+    font-family: 'Outfit', sans-serif;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(44, 37, 33, 0.45) 0%, rgba(20, 15, 12, 0.95) 100%),
+      repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 2px, transparent 2px, transparent 8px);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+/* Aged Parchment Paper Texture */
+.parchment-texture {
+  background-color: #f6efe2;
+  background-image: 
+    radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(220,200,170,0.3) 100%),
+    radial-gradient(#b8a58a 0.75px, transparent 0.75px);
+  background-size: 100% 100%, 18px 18px;
+  box-shadow: 
+    inset 0 0 40px rgba(120, 80, 40, 0.18),
+    inset 0 0 100px rgba(80, 45, 20, 0.12),
+    0 12px 35px rgba(15, 10, 5, 0.45);
+}
+
+.wood-desk-texture {
+  background-color: #1f140e;
+  background-image: 
+    linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.4) 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 12px);
+}
+
+/* Stamp border styling */
+.stamp-border {
+  border: 2px dashed #b91c1c;
+  outline: 2px solid #b91c1c;
+  outline-offset: 3px;
+}
+
+.stamp-green-border {
+  border: 2px dashed #15803d;
+  outline: 2px solid #15803d;
+  outline-offset: 3px;
+}
+
+/* Blinking typewriter cursor */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 0.9s infinite;
+}
+
+/* Vintage notebook lines */
+.notebook-ruled {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    rgba(180, 83, 9, 0.15) 31px,
+    rgba(180, 83, 9, 0.15) 32px
+  );
+  line-height: 32px;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(220, 200, 175, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 80, 40, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 80, 40, 0.7);
+}

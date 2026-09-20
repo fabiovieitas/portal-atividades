@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Enigmática & Escape Room: Agência de Investigadores | Lab Kids</title>
+    <meta name="description" content="Jogo educativo e interativo de Carta Enigmática e Escape Room em estilo vintage para 3º, 4º e 5º anos do Ensino Fundamental. Decifre enigmas rebus, destranque salas secretas e abra o cofre mestre. Alinhado à BNCC.">
+    <link rel="stylesheet" href="/css/style.css?v=7">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&family=Cinzel:wght@600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
+    <style>
+        body { 
+            background: linear-gradient(135deg, #130e0a 0%, #1f140e 50%, #100a07 100%); 
+            color: #f8fafc; 
+            font-family: 'Outfit', system-ui, sans-serif; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px 10px 60px 10px; 
+        }
+        .container-presentation { max-width: 1060px; margin: 0 auto; }
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .btn-return-portal { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            background: linear-gradient(135deg, #d97706, #b45309); 
+            color: #fff; 
+            padding: 12px 24px; 
+            border-radius: 50px; 
+            font-weight: 800; 
+            text-decoration: none; 
+            box-shadow: 0 6px 20px rgba(180, 83, 9, 0.4); 
+            border: 2px solid rgba(255, 255, 255, 0.3); 
+            transition: transform 0.2s;
+        }
+        .btn-return-portal:hover { transform: translateY(-2px); }
+        .hero-banner { 
+            background: rgba(28, 20, 15, 0.95); 
+            border: 2px solid rgba(217, 119, 6, 0.4); 
+            border-radius: 28px; 
+            padding: 38px 24px; 
+            text-align: center; 
+            margin-bottom: 30px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 35px rgba(217, 119, 6, 0.15); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .hero-badge { 
+            display: inline-block; 
+            background: linear-gradient(135deg, #d97706, #92400e); 
+            color: #fff; 
+            font-weight: 800; 
+            font-size: 0.85rem; 
+            padding: 6px 20px; 
+            border-radius: 50px; 
+            margin-bottom: 14px; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .game-title { 
+            font-size: clamp(2rem, 5vw, 3.1rem); 
+            font-weight: 800; 
+            color: #fef3c7; 
+            margin: 8px 0; 
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .game-iframe-wrapper {
+            background: #17100b;
+            border: 3px solid #b45309;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            margin-top: 25px;
+            position: relative;
+        }
+        .game-iframe-header {
+            background: #24160e;
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #78350f;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .game-iframe {
+            width: 100%;
+            height: 750px;
+            border: none;
+            display: block;
+        }
+        @media (max-width: 640px) {
+            .game-iframe { height: 680px; }
+        }
+        .btn-fullscreen {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #15803d;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-fullscreen:hover {
+            background: #166534;
+            transform: scale(1.03);
+        }
+        .pedagogical-card { 
+            background: rgba(26, 18, 13, 0.9); 
+            border: 1px solid rgba(217, 119, 6, 0.25); 
+            border-radius: 24px; 
+            padding: 30px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        .pedagogical-card h2 { 
+            color: #fbbf24; 
+            font-size: 1.5rem; 
+            margin-top: 0; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-family: 'Cinzel', serif; 
+        }
+        .bncc-badge { 
+            background: #b45309; 
+            color: white; 
+            padding: 6px 14px; 
+            border-radius: 20px; 
+            font-weight: 700; 
+            font-size: 0.85rem; 
+            display: inline-block; 
+            margin: 4px; 
+        }
+        .bncc-badge-port { background: #15803d; }
+        .bncc-badge-logic { background: #0284c7; }
+        .step-box { 
+            background: rgba(43, 29, 21, 0.6); 
+            border-left: 4px solid #f59e0b; 
+            padding: 16px 20px; 
+            border-radius: 0 16px 16px 0; 
+            margin-bottom: 15px; 
+        }
+        .step-box h4 { margin: 0 0 6px 0; color: #fde68a; font-size: 1.1rem; }
+        .step-box p { margin: 0; color: #e2e8f0; font-size: 0.95rem; line-height: 1.6; }
+        .institutional-footer { 
+            text-align: center; 
+            margin-top: 50px; 
+            padding-top: 30px; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            color: #94a3b8; 
+            font-size: 0.9rem; 
+        }
+        .institutional-footer a { color: #f59e0b; text-decoration: none; margin: 0 8px; }
+        .institutional-footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <%- include('partials/adsense_sidebars') %>
+    <div class="container-presentation">
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">⬅️ VOLTAR AO PORTAL</a>
+            <span style="font-size: 1.1rem; font-weight: 700; color: #fde68a;">🕵️ Lab Kids • Agência de Investigadores</span>
+        </div>
+
+        <div class="hero-banner">
+            <div class="hero-badge">📜 ESCAPE ROOM DE CARTAS ENIGMÁTICAS · 3º, 4º E 5º ANO</div>
+            <h1 class="game-title">Carta Enigmática: O Mistério das Salas Secretas</h1>
+            <p style="font-size: 1.15rem; color: #e2d9cc; max-width: 780px; margin: 12px auto; font-family: 'Outfit', sans-serif; line-height: 1.6;">
+                Uma autêntica experiência investigativa de escape room inspirada nas clássicas cartas enigmáticas de revistas e livros antigos. Os estudantes decifram enigmas de subtração e adição de sílabas diretamente no fluxo da narrativa, acumulam pistas no inventário e abrem o cofre da Frase Mestra!
+            </p>
+            
+            <!-- Embedded Game Frame -->
+            <div class="game-iframe-wrapper">
+                <div class="game-iframe-header">
+                    <span style="font-size: 0.9rem; font-weight: 700; color: #fde68a;">
+                        🕹️ Terminal do Investigador (Embutido)
+                    </span>
+                    <div style="display: flex; gap: 8px;">
+                        <a href="/games/carta-enigmatica/index.html" target="_blank" class="btn-fullscreen">
+                            ⛶ Abrir em Tela Cheia
+                        </a>
+                    </div>
+                </div>
+                <iframe
+                    src="/games/carta-enigmatica/index.html"
+                    class="game-iframe"
+                    title="Carta Enigmática Escape Room"
+                    allow="autoplay"
+                ></iframe>
+            </div>
+        </div>
+
+        <!-- AdSense Top Leaderboard Banner -->
+        <%- include('partials/adsense_banner', { position: 'top' }) %>
+
+        <!-- Bloco 1: Enquadramento Curricular BNCC -->
+        <div class="pedagogical-card">
+            <h2>📘 Alinhamento Curricular BNCC: Alfabetização, Ortografia & Lógica</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                A <strong>Carta Enigmática</strong> explora de maneira lúdica e visual a consciência fonológica e silábica dos estudantes do Ensino Fundamental I. Cada enigma visual (Rebus) demanda decomposição e recomposição de fonemas e grafemas:
+            </p>
+            <div style="margin: 15px 0;">
+                <span class="bncc-badge bncc-badge-port">EF03LP02: Segmentação de Palavras e Consciência Silábica</span>
+                <span class="bncc-badge bncc-badge-port">EF04LP01: Acentuação e Estruturas Ortográficas Complexas</span>
+                <span class="bncc-badge bncc-badge-port">EF05LP01: Concordância, Coesão e Sentido Global de Frases</span>
+                <span class="bncc-badge bncc-badge-logic">EF15LP01: Identificação da Função Social de Textos e Enigmas</span>
+                <span class="bncc-badge bncc-badge-logic">EF35LP05: Inferência de Significados em Textos Narrativos</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: 10px;">
+                <strong>Habilidades Cognitivas Mobilizadas:</strong> Manipulação fonêmica, decodificação de sílabas complexas, memorização de curto e longo prazo através de pistas no inventário e raciocínio lógico-dedutivo.
+            </p>
+        </div>
+
+        <!-- AdSense In-Content Banner -->
+        <%- include('partials/adsense_banner', { position: 'middle' }) %>
+
+        <!-- Bloco 2: Como Conduzir a Experiência em Sala de Aula -->
+        <div class="pedagogical-card">
+            <h2>👩‍🏫 Dinâmica de Sala de Aula: Sequência Metodológica</h2>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                Roteiro recomendado para sessões de 45 a 60 minutos no laboratório de informática, tablets ou projetor interativo:
+            </p>
+
+            <div class="step-box">
+                <h4>1. Credenciamento na Agência de Investigadores (5 min)</h4>
+                <p>Os estudantes abrem o jogo, digitam seus nomes no teclado de máquina de escrever temática e escolhem o dossiê correspondente ao seu ano de estudo (3º Ano: O Jardim Mágico; 4º Ano: A Biblioteca Antiga; 5º Ano: O Laboratório Secreto).</p>
+            </div>
+
+            <div class="step-box">
+                <h4>2. Resolução das Salas de Fuga e Inventário (25 min)</h4>
+                <p>Em duplas ou individualmente, os alunos leem o texto narrativo contínuo e analisam as operações de letras (ex: [MALA - LA] + [GATO - TO] = MAGA). Ao acertar, a tranca range e a pista secreta sobrevoa até o painel de inventário fixo no topo.</p>
+            </div>
+
+            <div class="step-box">
+                <h4>3. O Grande Desafio da Frase Mestra & Diploma (15 min)</h4>
+                <p>Após destravar todas as salas, a tela do Cofre Central abre. Os alunos reorganizam as pistas coletadas, digitam a Frase Mestra e celebram com chuva de confetes, fanfarra festiva e a emissão do <strong>Certificado Oficial de Honra ao Mérito</strong> com o nome do aluno impresso!</p>
+            </div>
+        </div>
+
+        <!-- AdSense Bottom Banner -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
+
+        <div class="institutional-footer">
+            <p>© 2026 Lab Kids — Laboratório Digital de Atividades Educativas. Todos os direitos reservados.</p>
+            <p>
+                <a href="/">Página Inicial</a> • 
+                <a href="/privacidade">Privacidade</a> • 
+                <a href="/contato">Contato & Suporte</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

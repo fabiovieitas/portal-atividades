@@ -120,10 +120,15 @@
 </head>
 <body>
 
-  <!-- BOTÃO FIXO DE VOLTAR AO PORTAL -->
-  <a href="/atividades/gartic" class="btn-return-portal">
-    ⬅️ VOLTAR AO PORTAL
-  </a>
+  <!-- BOTÕES FIXOS DO TOPO -->
+  <div style="position: fixed; top: 15px; left: 15px; right: 15px; z-index: 99999; display: flex; justify-content: space-between; align-items: center; pointer-events: none;">
+    <a href="/atividades/gartic" class="btn-return-portal" style="position: static; pointer-events: auto;">
+      ⬅️ VOLTAR AO PORTAL
+    </a>
+    <button type="button" onclick="toggleFullScreen()" style="pointer-events: auto; background: rgba(15, 23, 42, 0.9); border: 2px solid #60a5fa; color: white; padding: 10px 22px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4); font-family: inherit; transition: transform 0.2s;" title="Expandir para Tela Cheia">
+      ⛶ TELA CHEIA
+    </button>
+  </div>
 
   <!-- CARD DE INICIALIZAÇÃO DO JOGO GARTIC.IO -->
   <div class="launcher-card">
@@ -138,5 +143,17 @@
     </a>
   </div>
 
+  <script>
+    function toggleFullScreen() {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+  </script>
 </body>
 </html>

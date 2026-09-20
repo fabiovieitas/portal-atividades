@@ -18,6 +18,11 @@
     ⬅️ VOLTAR AO PORTAL
   </a>
 
+  <!-- BOTÃO FIXO DE TELA CHEIA (Sempre visível em qualquer tela) -->
+  <button type="button" onclick="toggleFullScreen()" style="position: fixed; top: 15px; right: 15px; z-index: 99999; display: inline-flex; align-items: center; gap: 8px; background: rgba(15, 23, 42, 0.85); color: #ffffff; border: 1.5px solid rgba(255, 255, 255, 0.3); padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); font-family: inherit; transition: transform 0.2s ease;" title="Expandir para Tela Cheia">
+    ⛶ Tela Cheia
+  </button>
+
 
 
   <!-- ==========================================
@@ -328,6 +333,17 @@
   <script src="words-data.js?v=9.0"></script>
   <script src="audio-manager.js?v=9.0"></script>
   <script src="app.js?v=9.0"></script>
-
+  <script>
+    function toggleFullScreen() {
+      const elem = document.documentElement;
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      }
+    }
+  </script>
 </body>
 </html>
