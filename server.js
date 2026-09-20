@@ -57,13 +57,13 @@ app.use(express.static(path.join(__dirname, 'public'), {
 app.use((req, res, next) => {
   const host = (req.headers.host || '').toLowerCase();
   if (host.startsWith('pesquisa.') && req.path === '/') {
-    return res.sendFile(path.join(__dirname, 'public', 'pesquisa', 'index.html'));
+    return res.render('pesquisa');
   }
   next();
 });
 
 app.get('/pesquisa', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'pesquisa', 'index.html'));
+  res.render('pesquisa');
 });
 
 // APIs para o painel web de preços
