@@ -309,15 +309,14 @@ async function dispararVarredura() {
       mostrarToast('Robô iniciado com sucesso! Coletando preços nos marketplaces...', 'success');
 
       let contador = 0;
+      const lenAnterior = appState.historico.length;
       const polling = setInterval(async () => {
         contador++;
         try {
           const dados = await GitHubSync.carregarHistoricoCsv();
-          if (dados && dados.length > historicoGeral.length) {
+          if (dados && dados.length > lenAnterior) {
             clearInterval(polling);
-            historicoGeral = dados;
-            renderizarCardsProdutos(produtosConfig, historicoGeral);
-            if (produtoAtivo) selecionarProduto(produtoAtivo);
+            await recarregarDados();
             mostrarToast('Novos preços sincronizados e atualizados no gráfico!', 'success');
           }
         } catch (e) {}

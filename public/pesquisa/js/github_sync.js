@@ -52,8 +52,14 @@ const GitHubSync = {
     }
 
     // 3. Fallback estático
-    const localRes = await fetch('/pesquisa/config.json?t=' + Date.now());
-    if (localRes.ok) return await localRes.json();
+    try {
+      const r1 = await fetch('/pesquisa/config.json?t=' + Date.now());
+      if (r1.ok) return await r1.json();
+    } catch (e) {}
+    try {
+      const r2 = await fetch('/config.json?t=' + Date.now());
+      if (r2.ok) return await r2.json();
+    } catch (e) {}
 
     return { produtos: [] };
   },
@@ -131,6 +137,12 @@ const GitHubSync = {
       try {
         const localRes = await fetch('/pesquisa/historico_precos.csv?t=' + Date.now());
         if (localRes.ok) csvText = await localRes.text();
+      } catch (e) {}
+    }
+    if (!csvText || csvText.length < 10) {
+      try {
+        const rootRes = await fetch('/historico_precos.csv?t=' + Date.now());
+        if (rootRes.ok) csvText = await rootRes.text();
       } catch (e) {}
     }
 
