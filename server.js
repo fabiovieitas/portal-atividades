@@ -125,28 +125,47 @@ app.get('/ping', (req, res) => {
   res.status(200).json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// DiceBear Avatar Native Engine
-const { createAvatar } = require('@dicebear/core');
-const collection = require('@dicebear/collection');
+// DiceBear Avatar Native Engine (Dynamic ESM import for Node/Vercel compatibility)
+let createAvatar = null;
+let collection = null;
+let dicebearStyleMap = {};
 
-const dicebearStyleMap = {
-  'bottts': collection.bottts,
-  'adventurer': collection.adventurer,
-  'pixel-art': collection.pixelArt,
-  'pixelArt': collection.pixelArt,
-  'lorelei': collection.lorelei,
-  'big-smile': collection.bigSmile,
-  'bigSmile': collection.bigSmile,
-  'fun-emoji': collection.funEmoji,
-  'funEmoji': collection.funEmoji,
-  'voxel-art': collection.bottts,
-  'avataaars': collection.avataaars,
-  'openPeeps': collection.openPeeps,
-  'personas': collection.personas
-};
+async function loadDicebear() {
+  if (!createAvatar) {
+    try {
+      const core = await import('@dicebear/core');
+      collection = await import('@dicebear/collection');
+      createAvatar = core.createAvatar;
+      dicebearStyleMap = {
+        'bottts': collection.bottts,
+        'adventurer': collection.adventurer,
+        'pixel-art': collection.pixelArt,
+        'pixelArt': collection.pixelArt,
+        'lorelei': collection.lorelei,
+        'big-smile': collection.bigSmile,
+        'bigSmile': collection.bigSmile,
+        'fun-emoji': collection.funEmoji,
+        'funEmoji': collection.funEmoji,
+        'voxel-art': collection.bottts,
+        'avataaars': collection.avataaars,
+        'openPeeps': collection.openPeeps,
+        'personas': collection.personas
+      };
+    } catch (e) {
+      console.warn('[DiceBear Engine] Failed to load ESM Dicebear:', e.message);
+    }
+  }
+}
+loadDicebear().catch(() => {});
 
-const handleAvatarRequest = (req, res) => {
+const handleAvatarRequest = async (req, res) => {
   try {
+    if (!createAvatar) await loadDicebear();
+    if (!createAvatar || !collection) {
+      res.setHeader('Content-Type', 'image/svg+xml');
+      return res.send('<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#3b82f6"/><text x="50" y="55" font-size="28" text-anchor="middle" fill="#ffffff" dy=".3em">🤖</text></svg>');
+    }
+
     const rawStyle = req.query.style || 'bottts';
     const style = dicebearStyleMap[rawStyle] || collection.bottts;
     const seed = req.query.seed || 'Student';
