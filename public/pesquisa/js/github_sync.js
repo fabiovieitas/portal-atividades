@@ -1,9 +1,12 @@
 /**
  * github_sync.js
  * Módulo de comunicação com o servidor e sincronização com GitHub para pesquisa.labkids.online.
+ * Inclui cache e persistência local instantânea (localStorage) para que nenhuma edição/exclusão seja perdida no F5.
  */
 
 const GitHubSync = {
+  STORAGE_KEY: 'labkids_pesquisa_config',
+
   getRepo() {
     return localStorage.getItem('gh_repo') || 'fabiovieitas/portal-atividades';
   },
@@ -23,19 +26,33 @@ const GitHubSync = {
   lastConfigSha: null,
 
   /**
-   * Lê o arquivo config.json da API do site ou fallback para GitHub / estático.
+   * Lê o arquivo config.json da persistência local (localStorage), API ou GitHub.
    */
   async carregarConfig() {
-    // 1. Tenta carregar da API Express interna do site
+    // 1. Prioridade absoluta: configuração salva no localStorage pelo usuário
+    const salvoLocal = localStorage.getItem(this.STORAGE_KEY);
+    if (salvoLocal) {
+      try {
+        const parsed = JSON.parse(salvoLocal);
+        if (parsed && Array.isArray(parsed.produtos)) {
+          return parsed;
+        }
+      } catch (e) {}
+    }
+
+    // 2. Tenta carregar da API Express interna do site
     try {
       const apiRes = await fetch('/api/pesquisa/config?t=' + Date.now());
       if (apiRes.ok) {
         const data = await apiRes.json();
-        if (data && data.produtos) return data;
+        if (data && data.produtos && data.produtos.length > 0) {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+          return data;
+        }
       }
     } catch (e) {}
 
-    // 2. Tenta carregar do GitHub se configurado
+    // 3. Tenta carregar do GitHub se configurado
     const repo = this.getRepo();
     const token = this.getToken();
     if (repo && token) {
@@ -46,41 +63,52 @@ const GitHubSync = {
           const data = await res.json();
           this.lastConfigSha = data.sha;
           const decoded = decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))));
-          return JSON.parse(decoded);
+          const parsed = JSON.parse(decoded);
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(parsed));
+          return parsed;
         }
       } catch (err) {}
     }
 
-    // 3. Fallback estático
+    // 4. Fallback arquivos estáticos
     try {
       const r1 = await fetch('/pesquisa/config.json?t=' + Date.now());
-      if (r1.ok) return await r1.json();
+      if (r1.ok) {
+        const data = await r1.json();
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+        return data;
+      }
     } catch (e) {}
+
     try {
       const r2 = await fetch('/config.json?t=' + Date.now());
-      if (r2.ok) return await r2.json();
+      if (r2.ok) {
+        const data = await r2.json();
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+        return data;
+      }
     } catch (e) {}
 
     return { produtos: [] };
   },
 
   /**
-   * Salva o config.json atualizado na API do site e sincroniza no GitHub.
+   * Salva o config.json no localStorage (anti-perda F5), na API do site e sincroniza no GitHub.
    */
   async salvarConfig(configObj) {
-    let salvoNoServidor = false;
+    // 1. Grava instantaneamente no localStorage (garante persistência ao dar F5)
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(configObj));
 
-    // 1. Salva via API interna do site
+    // 2. Salva via API interna do site
     try {
-      const res = await fetch('/api/pesquisa/config', {
+      await fetch('/api/pesquisa/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(configObj)
       });
-      if (res.ok) salvoNoServidor = true;
     } catch (e) {}
 
-    // 2. Sincroniza commit no GitHub se houver token
+    // 3. Sincroniza commit no GitHub se houver token
     const repo = this.getRepo();
     const token = this.getToken();
 
@@ -121,7 +149,7 @@ const GitHubSync = {
   },
 
   /**
-   * Lê o histórico de preços CSV.
+   * Lê o histórico de preços CSV com múltiplos fallbacks.
    */
   async carregarHistoricoCsv() {
     let csvText = '';
@@ -175,10 +203,10 @@ const GitHubSync = {
   },
 
   /**
-   * Dispara a execução imediata do robô no GitHub Actions.
+   * Dispara a execução imediata do robô (servidor local ou nuvem GitHub Actions).
    */
   async dispararExecucaoManual() {
-    // 1. Tenta acionar endpoint interno do servidor primeiro
+    // 1. Tenta endpoint interno do servidor primeiro
     try {
       const serverRes = await fetch('/api/pesquisa/verificar', { method: 'POST' });
       if (serverRes.ok) {
@@ -210,9 +238,8 @@ const GitHubSync = {
 
     if (res.status === 204 || res.ok) {
       return true;
-    } else {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Erro ao acionar workflow (HTTP ${res.status})`);
     }
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.message || `Erro ${res.status} ao disparar robô no GitHub.`);
   }
 };

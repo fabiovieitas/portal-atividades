@@ -1,8 +1,8 @@
 """
-Scraper especializado para busca de produtos no Mercado Livre.
-Suporta layout clássico e cards polimórficos (.poly-card).
-Filtra estritamente produtos NACIONAIS (eliminando anúncios importados/China)
-e utiliza headers resilientes contra bloqueios anti-bot.
+Scraper especializado para Mercado Livre.
+Suporta simultaneamente:
+1. URLs de Pesquisa Filtrada (extrai o menor preço nacional entre todos os vendedores).
+2. URLs Diretas de Produtos específicos (anúncios, catálogo /p/, /up/, /MLB-).
 """
 
 import logging
@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 class MercadoLivreScraper(BaseScraper):
     PLATAFORMA = "Mercado Livre"
 
-    # Headers resilientes que não sofrem bloqueio de IP ou desafio de tráfego
     HEADERS_CRAWLERS = [
         {
             "User-Agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
@@ -41,25 +40,55 @@ class MercadoLivreScraper(BaseScraper):
         },
     ]
 
-    HEADERS_STANDARD = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-        ),
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
-    }
-
     def _limpar_url_produto(self, url: str) -> str:
-        """Remove parâmetros de tracking e âncoras da URL."""
         try:
             parsed = urlparse(url)
             return urlunparse((parsed.scheme, parsed.netloc, parsed.path, "", "", ""))
         except Exception:
-            return url.split("#")[0]
+            return url.split("#")[0].split("?")[0]
+
+    def _eh_link_direto_produto(self, url: str) -> bool:
+        """Identifica se a URL é de um produto individual em vez de uma lista de busca."""
+        u = url.lower()
+        if "produto.mercadolivre.com.br" in u:
+            return True
+        if "/p/mlb" in u or "/up/mlbu" in u:
+            return True
+        if "/mlb-" in u and "lista.mercadolivre.com.br" not in u:
+            return True
+        return False
+
+    def _extrair_produto_direto(self, url: str) -> Optional[ScrapedItem]:
+        """Extrai título e preço diretamente da página de um anúncio específico."""
+        for headers in self.HEADERS_CRAWLERS:
+            try:
+                resp = requests.get(url, headers=headers, timeout=12)
+                if resp.status_code == 200 and "account-verification" not in resp.url:
+                    soup = BeautifulSoup(resp.text, "html.parser")
+                    h1 = soup.select_one("h1.ui-pdp-title, h1")
+                    titulo = h1.get_text(strip=True) if h1 else "Produto Mercado Livre"
+
+                    preco_frac = soup.select_one(
+                        ".ui-pdp-price__second-line .andes-money-amount__fraction, .andes-money-amount__fraction"
+                    )
+                    preco_cents = soup.select_one(
+                        ".ui-pdp-price__second-line .andes-money-amount__cents, .andes-money-amount__cents"
+                    )
+                    if preco_frac:
+                        inteiro = preco_frac.get_text(strip=True).replace(".", "").replace(",", "")
+                        centavos = preco_cents.get_text(strip=True) if preco_cents else "00"
+                        preco = float(f"{inteiro}.{centavos}")
+                        return ScrapedItem(
+                            titulo=titulo,
+                            preco=preco,
+                            link=self._limpar_url_produto(url),
+                            plataforma="Mercado Livre",
+                        )
+            except Exception as e:
+                logger.debug(f"[Mercado Livre - Produto Direto] Falha: {e}")
+        return None
 
     def _extrair_preco_container(self, container) -> Optional[float]:
-        """Extrai o valor numérico em reais considerando fração e centavos."""
         preco_box = (
             container.select_one(".poly-price__current")
             or container.select_one(".ui-search-price__second-line")
@@ -94,7 +123,6 @@ class MercadoLivreScraper(BaseScraper):
             return None
 
     def _eh_internacional(self, card) -> bool:
-        """Verifica se o card pertence a uma compra internacional ou importada."""
         texto_card = card.get_text(" ", strip=True).lower()
         termos_internacionais = [
             "internacional",
@@ -107,8 +135,7 @@ class MercadoLivreScraper(BaseScraper):
         ]
         return any(termo in texto_card for termo in termos_internacionais)
 
-    def _parsear_soup(self, soup: BeautifulSoup, filtro_nacional: bool = True) -> Optional[ScrapedItem]:
-        """Extrai os cards e seleciona o menor preço nacional."""
+    def _parsear_busca_soup(self, soup: BeautifulSoup) -> Optional[ScrapedItem]:
         cards = soup.select(
             ".poly-card, "
             ".poly-card__content, "
@@ -116,14 +143,12 @@ class MercadoLivreScraper(BaseScraper):
             "div.ui-search-result__wrapper, "
             "div.ui-search-result"
         )
-
         if not cards:
             return None
 
-        itens_encontrados = []
+        itens = []
         for card in cards:
-            # 1. Filtra anúncios internacionais se busca nacional
-            if filtro_nacional and self._eh_internacional(card):
+            if self._eh_internacional(card):
                 continue
 
             titulo_elem = (
@@ -143,43 +168,26 @@ class MercadoLivreScraper(BaseScraper):
                 or card.select_one("a[href*='mercadolivre.com.br']")
             )
             if not link_elem or not link_elem.get("href"):
-                if titulo_elem.name == "a" and titulo_elem.get("href"):
-                    link_elem = titulo_elem
-                else:
-                    parent_link = card.find_parent("a")
-                    if parent_link and parent_link.get("href"):
-                        link_elem = parent_link
-                    else:
-                        continue
-
-            link_bruto = link_elem["href"]
-            link_limpo = self._limpar_url_produto(link_bruto)
-
-            preco = self._extrair_preco_container(card)
-            if preco is None or preco <= 0:
                 continue
 
-            itens_encontrados.append(
-                ScrapedItem(
-                    titulo=titulo,
-                    preco=preco,
-                    link=link_limpo,
-                    plataforma="Mercado Livre",
+            link_limpo = self._limpar_url_produto(link_elem["href"])
+            preco = self._extrair_preco_container(card)
+            if preco and preco > 0:
+                itens.append(
+                    ScrapedItem(
+                        titulo=titulo,
+                        preco=preco,
+                        link=link_limpo,
+                        plataforma="Mercado Livre",
+                    )
                 )
-            )
 
-        if not itens_encontrados:
+        if not itens:
             return None
 
-        menor_item = min(itens_encontrados, key=lambda item: item.preco)
-        return menor_item
+        return min(itens, key=lambda item: item.preco)
 
-    def _extrair_via_requests(self, url: str) -> Optional[ScrapedItem]:
-        """Executa requisições com fallbacks de crawlers resilientes."""
-        cookie_str = os.getenv("MERCADOLIVRE_COOKIES", "").strip()
-        cookies = cookies_to_dict(cookie_str) if cookie_str else None
-
-        # Garante que a URL contenha o filtro de Envio Nacional caso ainda não possua
+    def _extrair_busca(self, url: str) -> Optional[ScrapedItem]:
         url_busca = url
         if "SHIPPING*ORIGIN" not in url_busca and "SHIPPING_ORIGIN" not in url_busca:
             if "?" in url_busca:
@@ -187,30 +195,33 @@ class MercadoLivreScraper(BaseScraper):
             else:
                 url_busca += "_SHIPPING*ORIGIN_10215068"
 
-        # Tenta a lista de perfis resilientes
-        headers_lista = self.HEADERS_CRAWLERS + [self.HEADERS_STANDARD]
-        for headers in headers_lista:
+        for headers in self.HEADERS_CRAWLERS:
             try:
-                resp = requests.get(url_busca, headers=headers, cookies=cookies, timeout=12)
+                resp = requests.get(url_busca, headers=headers, timeout=12)
                 if resp.status_code == 200 and "account-verification" not in resp.url:
                     soup = BeautifulSoup(resp.text, "html.parser")
-                    resultado = self._parsear_soup(soup, filtro_nacional=True)
+                    resultado = self._parsear_busca_soup(soup)
                     if resultado:
                         return resultado
             except Exception as e:
-                logger.debug(f"[Mercado Livre] Tentativa falhou com {headers.get('User-Agent')[:20]}: {e}")
+                logger.debug(f"[Mercado Livre - Busca] Erro: {e}")
 
         return None
 
     def extrair_menor_preco(self, url: str) -> Optional[ScrapedItem]:
-        logger.info(f"[Mercado Livre] Buscando menor preço nacional para URL: {url}")
-        resultado = self._extrair_via_requests(url)
+        logger.info(f"[Mercado Livre] Monitorando: {url}")
+        if self._eh_link_direto_produto(url):
+            logger.info("[Mercado Livre] Detectado link direto de produto. Extraindo anúncio específico...")
+            resultado = self._extrair_produto_direto(url)
+        else:
+            logger.info("[Mercado Livre] Detectada URL de busca filtrada. Buscando menor preço nacional...")
+            resultado = self._extrair_busca(url)
 
         if resultado:
             logger.info(
-                f"[Mercado Livre - Nacional] Menor preço encontrado: R$ {resultado.preco:.2f} - '{resultado.titulo[:40]}...'"
+                f"[Mercado Livre] Preço obtido: R$ {resultado.preco:.2f} - '{resultado.titulo[:40]}...'"
             )
         else:
-            logger.warning("[Mercado Livre] Não foi possível encontrar produtos nacionais válidos nesta página.")
+            logger.warning("[Mercado Livre] Não foi possível obter o preço deste anúncio/pesquisa.")
 
         return resultado
