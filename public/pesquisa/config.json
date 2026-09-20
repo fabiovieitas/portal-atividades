@@ -8,13 +8,6 @@
       "ativo": true
     },
     {
-      "nome_produto": "SSD NVMe M.2 1TB",
-      "url_pesquisa": "https://lista.mercadolivre.com.br/ssd-nvme-1tb_OrderId_PRICE_ASC_NoIndex_True",
-      "frequencia_horas": 6,
-      "data_limite": "2026-12-31",
-      "ativo": true
-    },
-    {
       "nome_produto": "Mouse Sem Fio Recarregável",
       "url_pesquisa": "https://shopee.com.br/search?keyword=mouse%20sem%20fio%20recarregavel&sortBy=price&order=asc",
       "frequencia_horas": 8,
