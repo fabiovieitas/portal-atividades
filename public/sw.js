@@ -1,5 +1,5 @@
-const CACHE_NAME = 'portal-lab-v10';
-const POU_CACHE_NAME = 'portal-lab-v10-pou';
+const CACHE_NAME = 'portal-lab-v11';
+const POU_CACHE_NAME = 'portal-lab-v11-pou';
 
 
 const STATIC_ASSETS = [

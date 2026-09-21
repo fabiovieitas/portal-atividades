@@ -727,25 +727,38 @@
             e.preventDefault();
             pwaDeferredPrompt = e;
             console.log('PWA beforeinstallprompt captured!');
+            const btn = document.getElementById('btn-pwa-install');
+            if (btn) {
+                btn.style.boxShadow = '0 0 25px rgba(16,185,129,0.9)';
+            }
         });
 
         window.addEventListener('appinstalled', () => {
             console.log('Lab Kids PWA installed!');
             pwaDeferredPrompt = null;
+            closePwaModal();
+            alert('🎉 Aplicativo Lab Kids instalado com sucesso na tela inicial!');
         });
 
-        function triggerPwaInstall() {
+        async function triggerPwaInstall() {
             if (pwaDeferredPrompt) {
                 pwaDeferredPrompt.prompt();
-                pwaDeferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('PWA installation accepted');
-                    }
-                    pwaDeferredPrompt = null;
-                });
+                const choiceResult = await pwaDeferredPrompt.userChoice;
+                console.log('PWA install choice:', choiceResult.outcome);
+                pwaDeferredPrompt = null;
             } else {
-                window.location.href = '/download/labkids.apk';
+                openPwaModal();
             }
+        }
+
+        function openPwaModal() {
+            const m = document.getElementById('pwa-install-modal');
+            if (m) m.style.display = 'flex';
+        }
+
+        function closePwaModal() {
+            const m = document.getElementById('pwa-install-modal');
+            if (m) m.style.display = 'none';
         }
 
         if ('serviceWorker' in navigator) {
@@ -926,10 +939,29 @@
                 <p style="margin: 0; font-size: 0.95rem; color: #cbd5e1;">Instale no tablet da escola com ícone do robozinho 3D e suporte a Widget estilo Duolingo na tela inicial!</p>
             </div>
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="/download/labkids.apk" onclick="if(pwaDeferredPrompt){triggerPwaInstall();return false;}" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 26px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; text-decoration: none; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); border: 2px solid rgba(255,255,255,0.3); transition: transform 0.2s; cursor: pointer;">
+                <button type="button" id="btn-pwa-install" onclick="triggerPwaInstall()" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 28px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); transition: transform 0.2s; cursor: pointer;">
                     📲 INSTALAR NO TABLET / CELULAR
-                </a>
+                </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal de Instalação PWA Direta -->
+    <div id="pwa-install-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 999999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px);">
+        <div style="background: #1e293b; border: 2px solid #3b82f6; border-radius: 28px; padding: 30px 25px; max-width: 480px; width: 100%; text-align: center; color: white; box-shadow: 0 25px 60px rgba(0,0,0,0.7); position: relative;">
+            <img src="/img/robot-icon-192.png" alt="Lab Kids Robot" style="width: 80px; height: 80px; border-radius: 20px; margin-bottom: 12px; box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5); border: 2px solid rgba(255,255,255,0.2);">
+            <h3 style="margin: 0 0 8px 0; color: #fbbf24; font-size: 1.5rem; font-family: 'Fredoka', sans-serif;">Instalar Lab Kids 🤖</h3>
+            <p style="color: #cbd5e1; font-size: 0.95rem; margin: 0 0 18px 0;">Adicione à tela inicial para abrir em tela cheia como um aplicativo nativo!</p>
+            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 16px; text-align: left; font-size: 0.95rem; color: #e2e8f0; line-height: 1.6; margin-bottom: 22px;">
+                <strong style="color: #60a5fa; display: block; margin-bottom: 6px;">📱 No Google Chrome (Android / Tablet):</strong>
+                1. Toque nos <strong>3 pontinhos (⋮)</strong> no topo direito do navegador.<br>
+                2. Selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.<br><br>
+                <strong style="color: #a78bfa; display: block; margin-bottom: 6px;">🍎 No Safari (iPhone / iPad):</strong>
+                Toque no ícone de <strong>Compartilhar</strong> (quadrado com seta para cima) e escolha <strong>"Adicionar à Tela de Início"</strong>.
+            </div>
+            <button type="button" onclick="closePwaModal()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 14px 30px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; cursor: pointer; width: 100%; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);">
+                Entendi ✓
+            </button>
         </div>
     </div>
 
