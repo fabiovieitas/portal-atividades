@@ -1,18 +1,100 @@
 {
   "produtos": [
     {
+      "id": "prod_1790005877681",
+      "nome_produto": "filamento PETG amarelo 1kg",
+      "url_pesquisa": "https://www.mercadolivre.com.br/filamento-petg-hf-outlet-1kg-impressao-nacional-3d/p/MLB42067081",
+      "imagem": "https://http2.mlstatic.com/D_NQ_NP_665338-MLB115891190961_082026-O-petg-filamento-de-impressora-premium-3d-petg-175mm-1kg.jpg",
+      "preco_inicial": 69.9,
+      "preco_atual": 69.9,
+      "preco_alvo": 65,
+      "frequencia_horas": 4,
+      "data_limite": "2026-12-31",
+      "criado_em": "21/09/2026",
+      "ativo": true,
+      "plataforma": "Mercado Livre",
+      "tipo": "pesquisa_filtrada",
+      "filtros": {
+        "full": false,
+        "nacional": true,
+        "frete_gratis": true,
+        "menor_preco": true
+      },
+      "status": "Monitorando"
+    },
+    {
+      "nome_produto": "Filamento PETG 1kg",
+      "url_pesquisa": "https://lista.mercadolivre.com.br/filamento-petg-1kg__OrderId_PRICE_ASC__CustoEnvio_Gratis_NoIndex_True_SHIPPING*ORIGIN_10215068_Envio_Full",
+      "frequencia_horas": 4,
+      "data_limite": "2026-12-31",
+      "ativo": true,
+      "plataforma": "Mercado Livre",
+      "tipo": "pesquisa_filtrada",
+      "filtros": {
+        "nacional": true,
+        "full": true,
+        "frete_gratis": true,
+        "menor_preco": true,
+        "preco_alvo": null
+      },
+      "id": "prod_2_Filamento_"
+    },
+    {
+      "nome_produto": "Filamento PETG 1kg",
+      "url_pesquisa": "https://lista.mercadolivre.com.br/filamento-petg-1kg__OrderId_PRICE_ASC__CustoEnvio_Gratis_NoIndex_True_SHIPPING*ORIGIN_10215068_Envio_Full",
+      "frequencia_horas": 4,
+      "data_limite": "2026-12-31",
+      "ativo": true,
+      "plataforma": "Mercado Livre",
+      "tipo": "pesquisa_filtrada",
+      "filtros": {
+        "nacional": true,
+        "full": true,
+        "frete_gratis": true,
+        "menor_preco": true,
+        "preco_alvo": null
+      },
+      "id": "prod_3_Filamento_"
+    },
+    {
+      "nome_produto": "petg amarelo 1kg",
+      "url_pesquisa": "https://lista.mercadolivre.com.br/petg-amarelo-1kg__OrderId_PRICE_ASC__CustoEnvio_Gratis_NoIndex_True_SHIPPING*ORIGIN_10215068",
+      "frequencia_horas": 4,
+      "data_limite": "2026-12-31",
+      "ativo": true,
+      "plataforma": "Mercado Livre",
+      "tipo": "pesquisa_filtrada",
+      "filtros": {
+        "nacional": true,
+        "frete_gratis": true,
+        "menor_preco": true,
+        "preco_alvo": 75
+      },
+      "id": "prod_4_petg_amare"
+    },
+    {
+      "nome_produto": "Filamento PETG 1kg Nacional",
+      "url_pesquisa": "https://lista.mercadolivre.com.br/filamento-petg-1kg__OrderId_PRICE_ASC__CustoEnvio_Gratis_NoIndex_True_SHIPPING*ORIGIN_10215068",
+      "frequencia_horas": 4,
+      "data_limite": "2026-12-31",
+      "ativo": true,
+      "plataforma": "Mercado Livre",
+      "tipo": "pesquisa_filtrada",
+      "filtros": {
+        "nacional": true,
+        "frete_gratis": true,
+        "menor_preco": true,
+        "preco_alvo": null
+      },
+      "id": "prod_5_Filamento_"
+    },
+    {
       "nome_produto": "Filamento PETG 1kg Preto",
       "url_pesquisa": "https://lista.mercadolivre.com.br/filamento-petg-1kg-preto_OrderId_PRICE_ASC_CustoEnvio_Gratis_NoIndex_True_SHIPPING*ORIGIN_10215068",
       "frequencia_horas": 4,
       "data_limite": "2026-12-31",
-      "ativo": true
-    },
-    {
-      "nome_produto": "Mouse Sem Fio Recarregável",
-      "url_pesquisa": "https://shopee.com.br/search?keyword=mouse%20sem%20fio%20recarregavel&sortBy=price&order=asc",
-      "frequencia_horas": 8,
-      "data_limite": "2026-12-31",
-      "ativo": true
+      "ativo": true,
+      "id": "prod_6_Filamento_"
     }
   ]
 }

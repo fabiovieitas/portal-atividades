@@ -24,7 +24,7 @@ public class LabKidsWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.lab_kids_widget);
 
         // Define intent de clique no botão "JOGAR" para abrir o portal no navegador/app
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal-atividades.onrender.com/"));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.labkids.online/"));
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         views.setOnClickPendingIntent(R.id.btn_widget_play, pendingIntent);
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);

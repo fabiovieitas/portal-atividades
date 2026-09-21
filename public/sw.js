@@ -1,10 +1,12 @@
-const CACHE_NAME = 'portal-lab-v9';
-const POU_CACHE_NAME = 'portal-lab-v9-pou';
+const CACHE_NAME = 'portal-lab-v10';
+const POU_CACHE_NAME = 'portal-lab-v10-pou';
 
 
 const STATIC_ASSETS = [
   '/',
   '/img/logo-prof.png',
+  '/img/robot-icon-192.png',
+  '/img/robot-icon-512.png',
   '/css/style.css',
   '/js/app-enhancements.js',
   '/js/avatar_system.js',
@@ -24,8 +26,14 @@ const STATIC_ASSETS = [
 self.addEventListener('install', e => {
   self.skipWaiting();
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(STATIC_ASSETS);
+    caches.open(CACHE_NAME).then(async cache => {
+      for (const asset of STATIC_ASSETS) {
+        try {
+          await cache.add(asset);
+        } catch (err) {
+          console.warn('SW pre-cache skip:', asset, err);
+        }
+      }
     })
   );
 });

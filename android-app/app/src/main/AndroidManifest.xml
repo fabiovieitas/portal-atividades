@@ -29,7 +29,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="portal-atividades.onrender.com"
+                    android:host="www.labkids.online"
+                    android:scheme="https" />
+                <data
+                    android:host="labkids.online"
                     android:scheme="https" />
             </intent-filter>
         </activity>

@@ -38,9 +38,25 @@ app.get('/sitemap.xml', (req, res) => {
   res.type('application/xml');
   res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
+app.get('/manifest.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/manifest+json; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.sendFile(path.join(__dirname, 'public', 'manifest.json'));
+});
+
+app.get('/sw.js', (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.sendFile(path.join(__dirname, 'public', 'sw.js'));
+});
+
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, filePath) => {
-    if (filePath.endsWith('.html')) {
+    if (filePath.endsWith('.html') || filePath.endsWith('manifest.json') || filePath.endsWith('sw.js')) {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
@@ -62,6 +78,51 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/pesquisa/admin', (req, res) => {
+  res.render('pesquisa_admin');
+});
+
+
+app.get('/pesquisa/go', (req, res) => {
+  const targetUrl = req.query.url;
+  if (!targetUrl) return res.redirect('/pesquisa');
+
+  let meliTool = '34127116';
+  let meliWord = 'fabiovmarques';
+  let shopeeTag = '';
+
+  try {
+    if (fs.existsSync(AFFILIATE_FILE_PATH)) {
+      const aff = JSON.parse(fs.readFileSync(AFFILIATE_FILE_PATH, 'utf-8'));
+      if (aff.meli_tool) meliTool = aff.meli_tool;
+      if (aff.meli_word) meliWord = aff.meli_word;
+      if (aff.shopee_tag) shopeeTag = aff.shopee_tag;
+    }
+  } catch (e) {}
+
+  try {
+    const u = new URL(targetUrl);
+    const isMeli = u.hostname.includes('mercadolivre.com') || u.hostname.includes('mercadolibre.com');
+    const isShopee = u.hostname.includes('shopee.com');
+
+    if (isMeli) {
+      u.searchParams.set('matt_tool', meliTool);
+      u.searchParams.set('matt_word', meliWord);
+      u.searchParams.set('tracking_id', meliTool);
+      u.searchParams.set('forceInApp', 'true');
+      return res.redirect(302, u.toString());
+    }
+    if (isShopee && shopeeTag) {
+      u.searchParams.set('af_siteid', shopeeTag);
+      u.searchParams.set('af_sub_siteid', 'labkids');
+      return res.redirect(302, u.toString());
+    }
+    return res.redirect(302, targetUrl);
+  } catch (e) {
+    return res.redirect(302, targetUrl);
+  }
+});
+
 app.get('/pesquisa', (req, res) => {
   res.render('pesquisa');
 });
@@ -70,6 +131,40 @@ app.get('/pesquisa', (req, res) => {
 const PESQUISA_DIR = path.join(__dirname, 'pesquisa_bot');
 const CONFIG_FILE_PATH = path.join(PESQUISA_DIR, 'config.json');
 const HISTORICO_FILE_PATH = path.join(PESQUISA_DIR, 'historico_precos.csv');
+
+const AFFILIATE_FILE_PATH = path.join(PESQUISA_DIR, 'affiliate_config.json');
+
+app.get('/api/pesquisa/afiliados', (req, res) => {
+  try {
+    if (fs.existsSync(AFFILIATE_FILE_PATH)) {
+      return res.json(JSON.parse(fs.readFileSync(AFFILIATE_FILE_PATH, 'utf-8')));
+    }
+    res.json({ meli_tool: '34127116', meli_word: 'fabiovmarques', meli_tag: '34127116', shopee_tag: '' });
+  } catch (e) {
+    res.json({ meli_tool: '34127116', meli_word: 'fabiovmarques', meli_tag: '34127116', shopee_tag: '' });
+  }
+});
+
+app.post('/api/pesquisa/afiliados', (req, res) => {
+  try {
+    const { meli_tag, shopee_tag } = req.body;
+    const data = { meli_tag: (meli_tag || '').trim(), shopee_tag: (shopee_tag || '').trim() };
+    if (!fs.existsSync(PESQUISA_DIR)) fs.mkdirSync(PESQUISA_DIR, { recursive: true });
+    fs.writeFileSync(AFFILIATE_FILE_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    res.json({ success: true, ...data });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/pesquisa/admin/verificar-pin', (req, res) => {
+  const { pin } = req.body;
+  const adminPin = process.env.ADMIN_PIN || 'labkids2026';
+  if (pin && pin.trim() === adminPin.trim()) {
+    return res.json({ success: true, role: 'admin' });
+  }
+  return res.status(401).json({ success: false, error: 'PIN incorreto' });
+});
 
 app.get('/api/pesquisa/config', (req, res) => {
   try {
@@ -84,6 +179,33 @@ app.get('/api/pesquisa/config', (req, res) => {
   }
 });
 
+
+app.post('/api/pesquisa/excluir-alerta', (req, res) => {
+  try {
+    const { id, nome_produto } = req.body;
+    const publicPath = path.join(__dirname, 'public', 'pesquisa', 'config.json');
+    const target = fs.existsSync(CONFIG_FILE_PATH) ? CONFIG_FILE_PATH : publicPath;
+    
+    if (fs.existsSync(target)) {
+      let cfg = JSON.parse(fs.readFileSync(target, 'utf-8'));
+      const initialCount = (cfg.produtos || []).length;
+      cfg.produtos = (cfg.produtos || []).filter(p => {
+        if (id && p.id && String(p.id).trim() === String(id).trim()) return false;
+        if (nome_produto && p.nome_produto && p.nome_produto.trim().toLowerCase() === nome_produto.trim().toLowerCase()) return false;
+        return true;
+      });
+
+      if (fs.existsSync(CONFIG_FILE_PATH)) fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(cfg, null, 2), 'utf-8');
+      if (fs.existsSync(publicPath)) fs.writeFileSync(publicPath, JSON.stringify(cfg, null, 2), 'utf-8');
+      return res.json({ success: true, removed: initialCount - cfg.produtos.length, count: cfg.produtos.length });
+    }
+    res.json({ success: true, count: 0 });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+
 app.post('/api/pesquisa/config', (req, res) => {
   try {
     const dataStr = JSON.stringify(req.body, null, 2);
@@ -96,6 +218,137 @@ app.post('/api/pesquisa/config', (req, res) => {
     res.json({ success: true });
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/pesquisa/obter-preco', async (req, res) => {
+  try {
+    const { url } = req.body;
+    if (!url) return res.status(400).json({ error: 'URL obrigatória' });
+
+    const isMeli = url.includes('mercadolivre.com') || url.includes('mercadolibre.com');
+    const isShopee = url.includes('shopee.com');
+    const headers = { 
+      'User-Agent': 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)',
+      'Accept-Language': 'pt-BR,pt;q=0.9'
+    };
+
+    const resp = await fetch(url, { headers });
+    if (!resp.ok) return res.json({ sucesso: false });
+    const text = await resp.text();
+
+    let titulo = '';
+    let preco = null;
+    let imagem = '';
+    let linkOferta = url;
+
+    if (isMeli) {
+      // 1. CAPA REAL: data-zoom (alta definição 2X da foto de capa do anúncio)
+      const mZoom = text.match(/data-zoom=["']([^"']+)["']/i);
+      if (mZoom && !mZoom[1].includes('frontend-assets')) {
+        imagem = mZoom[1];
+      }
+
+      // 2. CAPA REAL: ui-pdp-image (foto de capa principal)
+      if (!imagem) {
+        const mPdp = text.match(/class=["'][^"']*ui-pdp-image[^"']*["'][^>]*src=["']([^"']+)["']/i) ||
+                     text.match(/src=["']([^"']+)["'][^>]*class=["'][^"']*ui-pdp-image/i);
+        if (mPdp && !mPdp[1].includes('frontend-assets')) {
+          imagem = mPdp[1];
+        }
+      }
+
+      // 3. CAPA REAL: JSON-LD (funciona tanto para anúncio individual quanto lista de pesquisa)
+      if (!imagem) {
+        const jsonLdMatches = text.match(/<script[^>]*type=['"]application\/ld\+json['"][^>]*>(.*?)<\/script>/gis);
+        if (jsonLdMatches) {
+          for (const block of jsonLdMatches) {
+            try {
+              const rawJson = block.replace(/<script[^>]*>/i, '').replace(/<\/script>/i, '');
+              const parsed = JSON.parse(rawJson);
+              const items = Array.isArray(parsed) ? parsed : (parsed['@graph'] || [parsed]);
+              for (const it of items) {
+                if (it['@type'] === 'Product') {
+                  if (!titulo) titulo = (it.name || '').trim();
+                  if (it.image) {
+                    const imgVal = Array.isArray(it.image) ? it.image[0] : it.image;
+                    if (imgVal && typeof imgVal === 'string' && !imgVal.includes('frontend-assets')) {
+                      imagem = imgVal;
+                    }
+                  }
+                  if (it.offers) {
+                    const pVal = parseFloat(it.offers.price);
+                    if (preco === null || pVal < preco) {
+                      preco = pVal;
+                      if (it.offers.url) linkOferta = it.offers.url;
+                    }
+                  }
+                }
+              }
+            } catch (e) {}
+            if (imagem) break;
+          }
+        }
+      }
+
+      // 4. CAPA REAL: poly-component__picture / ui-search-result (para buscas filtradas)
+      if (!imagem) {
+        const mPoly = text.match(/class=["'][^"']*(?:poly-component__picture|ui-search-result-image__element)[^"']*["'][^>]*src=["']([^"']+)["']/i) ||
+                      text.match(/src=["']([^"']+)["'][^>]*class=["'][^"']*(?:poly-component__picture|ui-search-result-image__element)/i) ||
+                      text.match(/data-src=["']([^"']+)["'][^>]*class=["'][^"']*(?:poly-component__picture|ui-search-result-image__element)/i);
+        if (mPoly && !mPoly[1].includes('frontend-assets')) {
+          imagem = mPoly[1];
+        }
+      }
+
+      // 5. og:image (ignorando logos genéricos do Mercado Livre)
+      if (!imagem) {
+        const mImg = text.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i) ||
+                     text.match(/<meta\s+content=["']([^"']+)["']\s+property=["']og:image["']/i);
+        if (mImg && !mImg[1].includes('logo_homecom') && !mImg[1].includes('frontend-assets')) {
+          imagem = mImg[1];
+        }
+      }
+
+      // 6. Título do Anúncio (og:title / h1)
+      if (!titulo) {
+        const mTit = text.match(/<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']/i);
+        if (mTit) titulo = mTit[1].split('|')[0].replace(/- R\$\s*\d+.*$/, '').trim();
+      }
+      if (!titulo) {
+        const mH1 = text.match(/<h1[^>]*>([^<]+)<\/h1>/i);
+        if (mH1) titulo = mH1[1].trim();
+      }
+
+      // 7. Preço (andes-money-amount)
+      if (preco === null) {
+        const mFrac = text.match(/class="[^"]*andes-money-amount__fraction[^"]*"[^>]*>([^<]+)<\/span>/);
+        const mCents = text.match(/class="[^"]*andes-money-amount__cents[^"]*"[^>]*>([^<]+)<\/span>/);
+        if (mFrac) {
+          const intP = mFrac[1].replace(/\./g, '').trim();
+          const centP = mCents ? mCents[1].trim() : '00';
+          preco = parseFloat(`${intP}.${centP}`);
+        }
+      }
+    }
+
+    if (isShopee) {
+      const mPrice = text.match(/R\$\s*([\d\.]+),(\d{2})/);
+      if (mPrice) preco = parseFloat(mPrice[1].replace(/\./g, '') + '.' + mPrice[2]);
+      const mTit = text.match(/<meta property=["']og:title["'] content=["']([^"']+)["']/i);
+      if (mTit) titulo = mTit[1].trim();
+      const mImg = text.match(/<meta property=["']og:image["'] content=["']([^"']+)["']/i);
+      if (mImg) imagem = mImg[1];
+    }
+
+    // Se nenhuma imagem foi encontrada, usa thumbnail SVG elegante
+    if (!imagem) {
+      imagem = 'https://http2.mlstatic.com/D_NQ_NP_651784-MLA109546785501_032026-F.jpg';
+    }
+
+    return res.json({ sucesso: true, titulo, preco, imagem, url: linkOferta });
+  } catch (err) {
+    res.status(500).json({ sucesso: false, error: err.message });
   }
 });
 

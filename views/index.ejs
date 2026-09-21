@@ -42,7 +42,7 @@
     <meta name="apple-mobile-web-app-title" content="Lab Kids">
     <meta name="application-name" content="Lab Kids">
     <link rel="icon" type="image/png" sizes="512x512" href="/img/robot-icon-512.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/img/robot-icon-512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/robot-icon-192.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/img/robot-icon-512.png">
     <link rel="shortcut icon" href="/favicon.ico">
     <!-- Google AdSense Official Script -->
@@ -721,7 +721,33 @@
             } catch (e) { console.error('Error submitting comment', e); }
         }
 
-        // PWA Registration
+        // PWA Registration & Install Handling
+        let pwaDeferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            pwaDeferredPrompt = e;
+            console.log('PWA beforeinstallprompt captured!');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('Lab Kids PWA installed!');
+            pwaDeferredPrompt = null;
+        });
+
+        function triggerPwaInstall() {
+            if (pwaDeferredPrompt) {
+                pwaDeferredPrompt.prompt();
+                pwaDeferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA installation accepted');
+                    }
+                    pwaDeferredPrompt = null;
+                });
+            } else {
+                window.location.href = '/download/labkids.apk';
+            }
+        }
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').then(reg => {
@@ -900,8 +926,8 @@
                 <p style="margin: 0; font-size: 0.95rem; color: #cbd5e1;">Instale no tablet da escola com ícone do robozinho 3D e suporte a Widget estilo Duolingo na tela inicial!</p>
             </div>
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="/download/labkids.apk" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 26px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; text-decoration: none; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); border: 2px solid rgba(255,255,255,0.3); transition: transform 0.2s;">
-                    📥 BAIXAR APK (ANDROID)
+                <a href="/download/labkids.apk" onclick="if(pwaDeferredPrompt){triggerPwaInstall();return false;}" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 26px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; text-decoration: none; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); border: 2px solid rgba(255,255,255,0.3); transition: transform 0.2s; cursor: pointer;">
+                    📲 INSTALAR NO TABLET / CELULAR
                 </a>
             </div>
         </div>

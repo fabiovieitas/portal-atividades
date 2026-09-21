@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resultados e Histórico dos Simulados - 1º ao 5º Ano | Prefeitura de Campos</title>
+  <title><%= (typeof simuladoId !== 'undefined' && simuladoId && simuladoId !== 'ALL') ? ('Resultados Simulado - ' + (simuladoId.includes('1ano') ? '1º Ano' : (simuladoId.includes('2ano') ? '2º Ano' : (simuladoId.includes('3ano') ? '3º Ano' : (simuladoId.includes('4ano') ? '4º Ano' : (simuladoId.includes('5ano') ? '5º Ano' : 'Geral'))))) + ' - ' + (simuladoId.includes('setembro') ? 'Setembro' : 'Agosto')) : 'Resultados Simulado - 1º Ano - Agosto' %></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -517,7 +517,11 @@
     <!-- Top Action Bar -->
     <div class="top-actions">
       <a href="/admin" class="back-btn">← Voltar ao Painel Administrativo</a>
-      <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+      <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center;">
+        <span id="pdfFilenameBadge" style="background: #e0f2fe; border: 1.5px solid #7dd3fc; color: #0369a1; padding: 0.45rem 0.85rem; border-radius: 10px; font-weight: 700; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(2,132,199,0.08);" title="Nome sugerido automaticamente pelo navegador ao salvar em PDF">
+          <span>💾 PDF:</span>
+          <strong id="pdfFilenamePreview" style="color: #0c4a6e;">Resultados Simulado - 1º Ano - Agosto.pdf</strong>
+        </span>
         <button class="print-btn" onclick="refreshData()" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
           ⚡ Atualizar em Tempo Real
         </button>
@@ -533,14 +537,22 @@
         <button class="print-btn" onclick="openRestoreModal()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
           📤 Restaurar Backup
         </button>
-        <button class="print-btn" onclick="window.print()">
+        <button class="print-btn" onclick="printSmartReport()">
           🖨️ Imprimir PDF Inteligente
         </button>
       </div>
     </div>
 
-    <!-- Printable Header: APENAS Escola, Turma, Ano e Data -->
+    <!-- Printable Header: Título Oficial do Relatório, Escola, Turma, Ano e Data -->
     <div class="print-header">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 8px;">
+        <h2 id="printDocTitle" style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">
+          Resultados Simulado - 1º Ano - Agosto
+        </h2>
+        <span style="font-size: 0.8rem; font-weight: 700; color: #475569;">
+          SEDUCT • Município de Campos dos Goytacazes
+        </span>
+      </div>
       <div class="print-meta-grid">
         <div class="print-meta-item">
           <strong>Escola:</strong> <span id="printSchoolLabel">Todas as Escolas</span>
@@ -552,7 +564,7 @@
           <strong>Turma:</strong> <span id="printClassLabel">Todas as Turmas</span>
         </div>
         <div class="print-meta-item">
-          <strong>Data:</strong> <span id="printDateLabel"><%= new Date().toLocaleDateString('pt-BR') %></span>
+          <strong>Data de Emissão:</strong> <span id="printDateLabel"><%= new Date().toLocaleDateString('pt-BR') %></span>
         </div>
       </div>
     </div>
@@ -721,17 +733,17 @@
         <div class="filter-group">
           <label for="filterSimulado">📝 Simulado / Caderno:</label>
           <select id="filterSimulado" class="filter-select" onchange="applyFilters()">
-            <option value="ALL">Todos os Simulados (1º ao 5º)</option>
-            <option value="campos-1ano-setembro-2026">🥇 1º Ano (Setembro/2026 - Novo)</option>
-            <option value="campos-2ano-setembro-2026">🥈 2º Ano (Setembro/2026 - Novo)</option>
-            <option value="campos-3ano-setembro-2026">🥉 3º Ano (Setembro/2026 - Novo)</option>
-            <option value="campos-4ano-setembro-2026">🎯 4º Ano (Setembro/2026 - Novo)</option>
-            <option value="campos-5ano-setembro-2026">🚀 5º Ano (Setembro/2026 - Novo)</option>
-            <option value="campos-1ano-agosto-2026">🥇 1º Ano (Agosto/2026)</option>
-            <option value="campos-2ano-agosto-2026">🥈 2º Ano (Agosto/2026)</option>
-            <option value="campos-3ano-agosto-2026">🥉 3º Ano (Agosto/2026)</option>
-            <option value="campos-4ano-agosto-2026">🎯 4º Ano (Agosto/2026)</option>
-            <option value="campos-5ano-agosto-2026">🚀 5º Ano (Agosto/2026)</option>
+            <option value="ALL" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'ALL') ? 'selected' : '' %>>Todos os Simulados (1º ao 5º)</option>
+            <option value="campos-1ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-1ano-setembro-2026') ? 'selected' : '' %>>🥇 1º Ano (Setembro/2026 - Novo)</option>
+            <option value="campos-2ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-2ano-setembro-2026') ? 'selected' : '' %>>🥈 2º Ano (Setembro/2026 - Novo)</option>
+            <option value="campos-3ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-3ano-setembro-2026') ? 'selected' : '' %>>🥉 3º Ano (Setembro/2026 - Novo)</option>
+            <option value="campos-4ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-4ano-setembro-2026') ? 'selected' : '' %>>🎯 4º Ano (Setembro/2026 - Novo)</option>
+            <option value="campos-5ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-5ano-setembro-2026') ? 'selected' : '' %>>🚀 5º Ano (Setembro/2026 - Novo)</option>
+            <option value="campos-1ano-agosto-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-1ano-agosto-2026') ? 'selected' : '' %>>🥇 1º Ano (Agosto/2026)</option>
+            <option value="campos-2ano-agosto-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-2ano-agosto-2026') ? 'selected' : '' %>>🥈 2º Ano (Agosto/2026)</option>
+            <option value="campos-3ano-agosto-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-3ano-agosto-2026') ? 'selected' : '' %>>🥉 3º Ano (Agosto/2026)</option>
+            <option value="campos-4ano-agosto-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-4ano-agosto-2026') ? 'selected' : '' %>>🎯 4º Ano (Agosto/2026)</option>
+            <option value="campos-5ano-agosto-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-5ano-agosto-2026') ? 'selected' : '' %>>🚀 5º Ano (Agosto/2026)</option>
           </select>
         </div>
 
@@ -1123,6 +1135,81 @@
       }
     }
 
+    // --- CÁLCULO E SINCRONIZAÇÃO DO TÍTULO DO RELATÓRIO / NOME DO PDF ---
+    function computeSimuladoReportTitle(customSubName) {
+      const selectedSimulado = document.getElementById('filterSimulado') ? document.getElementById('filterSimulado').value : 'ALL';
+      const selectedClass = document.getElementById('filterClass') ? document.getElementById('filterClass').value : 'ALL';
+      const selectedSchool = document.getElementById('filterSchool') ? document.getElementById('filterSchool').value : 'ALL';
+
+      const sLow = (selectedSimulado || '').toLowerCase();
+      const cLow = (selectedClass || '').toLowerCase();
+
+      // 1. Identificar o Ano de Escolaridade
+      let ano = '';
+      if (sLow.includes('1ano') || cLow.includes('1º ano') || cLow.includes('1 ano') || cLow.startsWith('10')) {
+        ano = '1º Ano';
+      } else if (sLow.includes('2ano') || cLow.includes('2º ano') || cLow.includes('2 ano') || cLow.startsWith('20')) {
+        ano = '2º Ano';
+      } else if (sLow.includes('3ano') || cLow.includes('3º ano') || cLow.includes('3 ano') || cLow.startsWith('30')) {
+        ano = '3º Ano';
+      } else if (sLow.includes('4ano') || cLow.includes('4º ano') || cLow.includes('4 ano') || cLow.startsWith('40')) {
+        ano = '4º Ano';
+      } else if (sLow.includes('5ano') || cLow.includes('5º ano') || cLow.includes('5 ano') || cLow.startsWith('50')) {
+        ano = '5º Ano';
+      } else if (selectedClass !== 'ALL') {
+        ano = selectedClass;
+      } else {
+        ano = 'Todos os Anos';
+      }
+
+      // 2. Identificar o Mês da Edição
+      let mes = '';
+      if (sLow.includes('setembro')) {
+        mes = 'Setembro';
+      } else if (sLow.includes('agosto')) {
+        mes = 'Agosto';
+      } else if (sLow.includes('outubro')) {
+        mes = 'Outubro';
+      } else if (sLow.includes('novembro')) {
+        mes = 'Novembro';
+      } else if (sLow.includes('dezembro')) {
+        mes = 'Dezembro';
+      } else {
+        mes = 'Agosto';
+      }
+
+      // 3. Montar a nomenclatura padronizada
+      let title = `Resultados Simulado - ${ano} - ${mes}`;
+
+      // Se for selecionado aluno único para impressão individual
+      if (customSubName && typeof customSubName === 'string') {
+        title = `Resultados Simulado - ${ano} - ${customSubName.trim()} - ${mes}`;
+      } else if (selectedClass !== 'ALL' && selectedClass !== ano && !ano.includes(selectedClass)) {
+        // Se uma turma ou nível específico foi filtrado (ex: Turma 101, Rosangela, N1)
+        title = `Resultados Simulado - ${ano} - ${selectedClass} - ${mes}`;
+      }
+
+      return title;
+    }
+
+    function updateDocumentAndReportTitle(customSubName) {
+      const formattedTitle = computeSimuladoReportTitle(customSubName);
+      document.title = formattedTitle;
+
+      const docTitleEl = document.getElementById('printDocTitle');
+      if (docTitleEl) docTitleEl.innerText = formattedTitle;
+
+      const previewEl = document.getElementById('pdfFilenamePreview');
+      if (previewEl) previewEl.innerText = `${formattedTitle}.pdf`;
+
+      return formattedTitle;
+    }
+
+    function printSmartReport() {
+      updateDocumentAndReportTitle();
+      window.print();
+    }
+
     function applyFilters() {
       const selectedSimulado = document.getElementById('filterSimulado') ? document.getElementById('filterSimulado').value : 'ALL';
       const selectedClass = document.getElementById('filterClass').value;
@@ -1283,13 +1370,19 @@
 
       if (gradeLabel) {
         let gradeName = 'Todos os Anos (1º ao 5º)';
-        if (selectedSimulado === 'campos-1ano-agosto-2026' || selectedClass.includes('1º Ano')) gradeName = '1º Ano';
-        else if (selectedSimulado === 'campos-2ano-agosto-2026' || selectedClass.includes('2º Ano')) gradeName = '2º Ano';
-        else if (selectedSimulado === 'campos-3ano-agosto-2026' || selectedClass.includes('3º Ano')) gradeName = '3º Ano';
-        else if (selectedSimulado === 'campos-4ano-agosto-2026' || selectedClass.includes('4º Ano')) gradeName = '4º Ano';
-        else if (selectedSimulado === 'campos-5ano-agosto-2026' || selectedClass.includes('5º Ano')) gradeName = '5º Ano';
+        const sLow = (selectedSimulado || '').toLowerCase();
+        const cLow = (selectedClass || '').toLowerCase();
+        if (sLow.includes('1ano') || cLow.includes('1º ano') || cLow.includes('1 ano')) gradeName = '1º Ano';
+        else if (sLow.includes('2ano') || cLow.includes('2º ano') || cLow.includes('2 ano')) gradeName = '2º Ano';
+        else if (sLow.includes('3ano') || cLow.includes('3º ano') || cLow.includes('3 ano')) gradeName = '3º Ano';
+        else if (sLow.includes('4ano') || cLow.includes('4º ano') || cLow.includes('4 ano')) gradeName = '4º Ano';
+        else if (sLow.includes('5ano') || cLow.includes('5º ano') || cLow.includes('5 ano')) gradeName = '5º Ano';
+        else if (selectedClass !== 'ALL') gradeName = selectedClass;
         gradeLabel.innerText = gradeName;
       }
+
+      // Sincronizar título da página e nome sugerido do arquivo PDF
+      updateDocumentAndReportTitle();
 
       if (classLabel) {
         classLabel.innerText = (selectedClass === 'ALL' || !selectedClass) ? 'Todas as Turmas' : selectedClass;
@@ -1545,6 +1638,15 @@
       }
       const selectedIds = new Set(Array.from(checked).map(cb => cb.value));
       
+      // Sincronizar nome sugerido para o arquivo PDF antes de imprimir
+      if (checked.length === 1) {
+        const singleRow = document.querySelector(`tr.student-row[data-id="${Array.from(checked)[0].value}"]`);
+        const stName = singleRow ? singleRow.getAttribute('data-student') : null;
+        updateDocumentAndReportTitle(stName);
+      } else {
+        updateDocumentAndReportTitle();
+      }
+
       const allMainRows = document.querySelectorAll('tr.student-row');
       allMainRows.forEach(row => {
         const id = row.getAttribute('data-id');
@@ -1561,6 +1663,11 @@
         applyFilters();
       }, 1000);
     }
+
+    // Garantir que mesmo no Ctrl+P o nome do arquivo seja configurado
+    window.addEventListener('beforeprint', () => {
+      updateDocumentAndReportTitle();
+    });
 
     // --- ESTUDANTES: EDITAR & APAGAR ---
     function openEditModal(id, studentName, schoolName, className, shift) {

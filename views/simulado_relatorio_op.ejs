@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatório Executivo de Gestão Pedagógica — OP | Portal Lab</title>
+  <title><%= (typeof simuladoId !== 'undefined' && simuladoId && simuladoId !== 'ALL') ? ('Resultados Simulado - ' + (simuladoId.includes('1ano') ? '1º Ano' : (simuladoId.includes('2ano') ? '2º Ano' : (simuladoId.includes('3ano') ? '3º Ano' : (simuladoId.includes('4ano') ? '4º Ano' : (simuladoId.includes('5ano') ? '5º Ano' : 'Geral'))))) + ' - ' + (simuladoId.includes('setembro') ? 'Setembro' : 'Agosto')) : 'Resultados Simulado - 1º ao 5º Ano - Agosto' %></title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
@@ -503,13 +503,17 @@
         <span>Dossiê Executivo de Gestão Pedagógica (OP)</span>
       </div>
       <div class="header-actions">
+        <span id="pdfFilenameBadge" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #e0e7ff; padding: 0.5rem 0.9rem; border-radius: 10px; font-weight: 700; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem;" title="Nome sugerido automaticamente pelo navegador ao salvar em PDF">
+          <span>💾 PDF:</span>
+          <strong id="pdfFilenamePreview" style="color: #ffffff;">Resultados Simulado - 1º Ano - Agosto.pdf</strong>
+        </span>
         <a href="/admin/simulado/resultados" class="btn btn-secondary">
           <span>📊 Painel de Resultados Geral</span>
         </a>
         <a href="/admin" class="btn btn-secondary">
           <span>🏛️ Painel Admin</span>
         </a>
-        <button class="btn btn-print" onclick="window.print()">
+        <button class="btn btn-print" onclick="printOPReport()">
           <span>🖨️ Imprimir Dossiê para OP</span>
         </button>
       </div>
@@ -870,6 +874,71 @@
       });
     }
 
+    // --- CÁLCULO E SINCRONIZAÇÃO DO TÍTULO DO RELATÓRIO OP / NOME DO PDF ---
+    function computeOPReportTitle() {
+      const selectedSimulado = document.getElementById('filterSimulado') ? document.getElementById('filterSimulado').value : '<%= simuladoId %>';
+      const selectedClass = document.getElementById('filterClass') ? document.getElementById('filterClass').value : 'ALL';
+      const sLow = (selectedSimulado || '').toLowerCase();
+      const cLow = (selectedClass || '').toLowerCase();
+
+      let ano = '';
+      if (sLow.includes('1ano') || cLow.includes('1º ano') || cLow.includes('1 ano') || cLow.startsWith('10')) {
+        ano = '1º Ano';
+      } else if (sLow.includes('2ano') || cLow.includes('2º ano') || cLow.includes('2 ano') || cLow.startsWith('20')) {
+        ano = '2º Ano';
+      } else if (sLow.includes('3ano') || cLow.includes('3º ano') || cLow.includes('3 ano') || cLow.startsWith('30')) {
+        ano = '3º Ano';
+      } else if (sLow.includes('4ano') || cLow.includes('4º ano') || cLow.includes('4 ano') || cLow.startsWith('40')) {
+        ano = '4º Ano';
+      } else if (sLow.includes('5ano') || cLow.includes('5º ano') || cLow.includes('5 ano') || cLow.startsWith('50')) {
+        ano = '5º Ano';
+      } else if (selectedClass !== 'ALL') {
+        ano = selectedClass;
+      } else {
+        ano = 'Todos os Anos';
+      }
+
+      let mes = '';
+      if (sLow.includes('setembro')) {
+        mes = 'Setembro';
+      } else if (sLow.includes('agosto')) {
+        mes = 'Agosto';
+      } else if (sLow.includes('outubro')) {
+        mes = 'Outubro';
+      } else if (sLow.includes('novembro')) {
+        mes = 'Novembro';
+      } else if (sLow.includes('dezembro')) {
+        mes = 'Dezembro';
+      } else {
+        mes = 'Agosto';
+      }
+
+      let title = `Resultados Simulado - ${ano} - ${mes}`;
+      if (selectedClass !== 'ALL' && selectedClass !== ano && !ano.includes(selectedClass)) {
+        title = `Resultados Simulado - ${ano} - ${selectedClass} - ${mes}`;
+      }
+      return title;
+    }
+
+    function updateOPReportTitle() {
+      const formattedTitle = computeOPReportTitle();
+      document.title = formattedTitle;
+
+      const previewEl = document.getElementById('pdfFilenamePreview');
+      if (previewEl) previewEl.innerText = `${formattedTitle}.pdf`;
+
+      return formattedTitle;
+    }
+
+    function printOPReport() {
+      updateOPReportTitle();
+      window.print();
+    }
+
+    window.addEventListener('beforeprint', () => {
+      updateOPReportTitle();
+    });
+
     function filterOPData() {
       const selectedSchool = document.getElementById('filterSchool').value;
       const selectedClass = document.getElementById('filterClass').value;
@@ -913,10 +982,12 @@
       document.getElementById('kpiPctHigh').innerText = totalStudents > 0 ? ((countHigh / totalStudents) * 100).toFixed(1) : '0.0';
 
       initCharts(filteredTurmas);
+      updateOPReportTitle();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       initCharts(rawTurmaStats);
+      updateOPReportTitle();
     });
   </script>
 </body>

@@ -112,7 +112,7 @@ function initTabletPreloader() {
 
   schedulePreload(async () => {
     try {
-      const cache = await caches.open('portal-lab-v5-pou');
+      const cache = await caches.open('portal-lab-v10-pou');
       const isAlreadyCached = await cache.match('/games/pou-online/pou.min.js');
       if (isAlreadyCached) return; // Já está no tablet
 

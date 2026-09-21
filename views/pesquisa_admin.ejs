@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔐 Painel do Dono — LabKids Ofertas</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/pesquisa/css/style.css?v=20260920_v5" />
+</head>
+<body>
+
+  <div class="app-container" style="max-width: 900px;">
+    <!-- Navbar Admin -->
+    <header class="navbar">
+      <a href="/pesquisa/admin" class="brand">
+        <div class="brand-icon" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(239, 68, 68, 0.2)); border-color: rgba(245, 158, 11, 0.4);">👑</div>
+        <div>
+          <h1>Painel do Dono</h1>
+          <p style="font-size: 12px; color: var(--accent-amber);">Área de Gestão & Monetização</p>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="/pesquisa" target="_blank" class="tab-btn" style="padding: 6px 14px; font-size: 12px;">
+          👁️ Ver Site Público
+        </a>
+      </div>
+    </header>
+
+    <!-- TELA 1: Bloqueio por PIN -->
+    <div id="adminPinBlock" style="text-align: center; padding: 60px 20px; background: var(--bg-card); border: 1px solid var(--border-glow); border-radius: var(--radius-lg); margin-top: 40px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">🔐</div>
+      <h2 style="font-family: 'Outfit', sans-serif; font-size: 24px; margin-bottom: 8px;">Acesso Restrito ao Administrador</h2>
+      <p style="font-size: 14px; color: var(--text-secondary); max-width: 440px; margin: 0 auto 24px auto;">
+        Este é o link secreto de controle da plataforma. Digite o PIN de administrador para continuar.
+      </p>
+
+      <div style="max-width: 320px; margin: 0 auto;">
+        <input type="password" id="inputAdminPin" class="form-input" placeholder="Digite o PIN (padrão: labkids2026)" style="text-align: center; font-size: 16px; margin-bottom: 14px;" />
+        <button class="btn-track" style="width: 100%; justify-content: center;" onclick="autenticarAdmin()">
+          <span>Destravar Painel</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- TELA 2: Painel do Dono Liberado -->
+    <div id="adminDashboard" style="display: none;">
+      <!-- Seção 1: Credenciais de Afiliado do Dono -->
+      <section class="chart-card" style="border-color: rgba(245, 158, 11, 0.3);">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <span style="font-size: 24px;">💰</span>
+          <div>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700;">Credenciais de Afiliado da Plataforma</h3>
+            <p style="font-size: 13px; color: var(--text-secondary);">Todos os visitantes que clicarem em compras no site público gerarão comissões para estas tags.</p>
+          </div>
+        </div>
+
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 20px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label">🟡 Mercado Livre (matt_tool):</label>
+              <input type="text" id="adminMeliTool" class="form-input" value="34127116" />
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label">🟡 Mercado Livre (matt_word):</label>
+              <input type="text" id="adminMeliWord" class="form-input" value="fabiovmarques" />
+            </div>
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label">🟠 Shopee (Partner ID / af_siteid):</label>
+            <input type="text" id="adminShopeeTag" class="form-input" placeholder="Cole sua tag da Shopee quando criar sua conta de afiliado" />
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <button class="btn-track" style="padding: 10px 24px;" onclick="salvarTagsAdmin()">
+            💾 Salvar Credenciais no Servidor
+          </button>
+        </div>
+      </section>
+
+      <!-- Seção 2: Robô de Monitoramento & GitHub -->
+      <section class="chart-card">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <span style="font-size: 24px;">🤖</span>
+          <div>
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700;">Automação na Nuvem (GitHub Actions)</h3>
+            <p style="font-size: 13px; color: var(--text-secondary);">Dispare a varredura manual de preços e configure a sincronização com o repositório.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+          <button class="btn-track" style="padding: 12px 20px;" onclick="dispararRoboAdmin()">
+            ⚡ Disparar Checagem de Preços Agora
+          </button>
+          <button class="tab-btn" onclick="limparCacheServidor()">
+            🧹 Limpar Cache do Servidor
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">GitHub Token (Para disparo via REST API):</label>
+          <input type="password" id="adminGhToken" class="form-input" placeholder="ghp_..." />
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+          <button class="tab-btn" onclick="salvarGhToken()">Salvar Token GitHub</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="/pesquisa/js/affiliate.js?v=20260920_v5"></script>
+  <script src="/pesquisa/js/github_sync.js?v=20260920_v5"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('labkids_admin_auth') === 'true') {
+        liberarAdmin();
+      }
+      carregarCredenciaisAdmin();
+    });
+
+    async function autenticarAdmin() {
+      const pin = document.getElementById('inputAdminPin').value.trim();
+      try {
+        const res = await fetch('/api/pesquisa/admin/verificar-pin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          sessionStorage.setItem('labkids_admin_auth', 'true');
+          liberarAdmin();
+        } else {
+          alert('PIN incorreto!');
+        }
+      } catch (e) {
+        if (pin === 'labkids2026') {
+          sessionStorage.setItem('labkids_admin_auth', 'true');
+          liberarAdmin();
+        } else {
+          alert('Erro de conexão ao validar PIN.');
+        }
+      }
+    }
+
+    function liberarAdmin() {
+      document.getElementById('adminPinBlock').style.display = 'none';
+      document.getElementById('adminDashboard').style.display = 'block';
+    }
+
+    async function carregarCredenciaisAdmin() {
+      try {
+        const res = await fetch('/api/pesquisa/afiliados?t=' + Date.now());
+        if (res.ok) {
+          const d = await res.json();
+          if (d.meli_tool) document.getElementById('adminMeliTool').value = d.meli_tool;
+          if (d.meli_word) document.getElementById('adminMeliWord').value = d.meli_word;
+          if (d.shopee_tag) document.getElementById('adminShopeeTag').value = d.shopee_tag;
+        }
+      } catch (e) {}
+
+      const token = localStorage.getItem('gh_token');
+      if (token) document.getElementById('adminGhToken').value = token;
+    }
+
+    async function salvarTagsAdmin() {
+      const tool = document.getElementById('adminMeliTool').value.trim();
+      const word = document.getElementById('adminMeliWord').value.trim();
+      const shopee = document.getElementById('adminShopeeTag').value.trim();
+
+      if (typeof AffiliateManager !== 'undefined') {
+        AffiliateManager.setMeliCredentials(tool, word);
+        AffiliateManager.setShopeeTag(shopee);
+      }
+
+      try {
+        await fetch('/api/pesquisa/afiliados', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ meli_tool: tool, meli_word: word, meli_tag: tool, shopee_tag: shopee })
+        });
+      } catch (e) {}
+
+      alert('Credenciais de Afiliado salvas com sucesso no servidor!');
+    }
+
+    async function dispararRoboAdmin() {
+      alert('Disparando verificação nos marketplaces...');
+      try {
+        await fetch('/api/pesquisa/verificar', { method: 'POST' });
+        alert('Robô executando em segundo plano!');
+      } catch (e) {
+        alert('Erro ao disparar robô: ' + e.message);
+      }
+    }
+
+    function salvarGhToken() {
+      const token = document.getElementById('adminGhToken').value.trim();
+      localStorage.setItem('gh_token', token);
+      alert('Token salvo localmente!');
+    }
+
+    function limparCacheServidor() {
+      localStorage.clear();
+      alert('Cache local limpo com sucesso!');
+      location.reload();
+    }
+  </script>
+</body>
+</html>
