@@ -172,13 +172,6 @@
             </a>
         </nav>
 
-        <!-- Top AdSense Banner (Ultra-Fino Horizontal) -->
-        <div class="adsense-tablet-wrapper tablet-ad-banner adsense-top-banner" style="margin-bottom: 1.5rem; padding: 4px 8px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; text-align: center;">
-            <div class="adsense-micro-label" style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 Publicidade Educativa • Lab Kids</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
-
         <% if (article.activity_url) { %>
             <div style="text-align: center; margin: 20px 0 35px 0; padding: 25px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid #4f46e5; border-radius: 24px; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3); color: white;">
                 <h3 style="margin-bottom: 8px; color: #f59e0b; font-size: 1.5rem;">🎮 Quer aplicar esta atividade em sala de aula?</h3>
@@ -193,10 +186,10 @@
             <%- article.content %>
         </div>
 
-        <!-- Bottom AdSense Banner (Ultra-Fino Horizontal) -->
-        <div class="adsense-tablet-wrapper tablet-ad-banner adsense-bottom-banner" style="margin-top: 2rem; padding: 4px 8px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; text-align: center;">
-            <div class="adsense-micro-label" style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 Publicidade Educativa • Lab Kids</div>
-            <ins class="adsbygoogle" style="display:block; max-height:90px; width:100%;" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <!-- Bottom AdSense Banner -->
+        <div class="adsense-tablet-wrapper tablet-ad-banner adsense-bottom-banner" style="margin-top: 2.5rem; text-align: center;">
+            <div class="adsense-micro-label" style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">📢 Publicidade Educativa • Lab Kids</div>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 

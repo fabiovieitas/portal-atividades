@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /pesquisa
+Disallow: /pesquisa/
+Disallow: /api/
+Disallow: /professor/dashboard
+Disallow: /professor/alunos
+Disallow: /qr/
 
 Sitemap: https://labkids.online/sitemap.xml
+

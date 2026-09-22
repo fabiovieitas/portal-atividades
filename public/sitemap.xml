@@ -1,220 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Páginas Principais e Institucionais (E-E-A-T) -->
   <url>
     <loc>https://labkids.online/</loc>
-    <changefreq>daily</changefreq>
+    <lastmod>2026-09-22</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://labkids.online/sobre</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/termos</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/privacidade</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/cookies</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/contato</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/guia-bncc</loc>
+    <loc>https://labkids.online/atividades</loc>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://labkids.online/aluno</loc>
+    <loc>https://labkids.online/blog</loc>
+    <lastmod>2026-09-22</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Blog Pedagógico e Artigos de Conteúdo Rico -->
-  <url>
-    <loc>https://labkids.online/noticias</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://labkids.online/noticia/54</loc>
+    <loc>https://labkids.online/blog/33</loc>
+    <lastmod>2026-09-22 16:05:15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/noticia/53</loc>
+    <loc>https://labkids.online/blog/34</loc>
+    <lastmod>2026-09-22 16:05:16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/noticia/6</loc>
+    <loc>https://labkids.online/blog/35</loc>
+    <lastmod>2026-09-22 16:05:16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/noticia/5</loc>
+    <loc>https://labkids.online/blog/36</loc>
+    <lastmod>2026-09-22 16:05:17</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/noticia/4</loc>
+    <loc>https://labkids.online/blog/37</loc>
+    <lastmod>2026-09-22 14:04:34</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/noticia/3</loc>
+    <loc>https://labkids.online/blog/38</loc>
+    <lastmod>2026-09-22 14:04:35</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/noticia/2</loc>
+    <loc>https://labkids.online/blog/39</loc>
+    <lastmod>2026-09-22 14:04:36</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Atividades e Jogos Educativos -->
-  <url>
-    <loc>https://labkids.online/atividades/escape-room-lab</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/atividades/labirinto-tabuada</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/pou-online</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/tux-math</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/brincando-com-arie-1</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/akinator</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/gartic</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/tabuada-lava</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/chapeuzinho-enigma</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/capitao-alberto</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/caca-palavras</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/arie-colorir</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/arie2</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/arie3</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/leitura-datashow</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/detetive-ortografia</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/fabrica-silabas</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/habitos-higiene</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/escape-room-lab</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/labirinto-tabuada</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://labkids.online/atividades/level-up</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Simulados BNCC -->
-  <url>
-    <loc>https://labkids.online/simulado/1-ano</loc>
+    <loc>https://labkids.online/blog/40</loc>
+    <lastmod>2026-09-22 14:04:37</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/simulado/2-ano</loc>
+    <loc>https://labkids.online/blog/41</loc>
+    <lastmod>2026-09-22 14:04:38</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/simulado/3-ano</loc>
+    <loc>https://labkids.online/blog/43</loc>
+    <lastmod>2026-09-22 14:04:39</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/simulado/4-ano</loc>
+    <loc>https://labkids.online/blog/44</loc>
+    <lastmod>2026-09-22 14:04:40</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://labkids.online/simulado/5-ano</loc>
+    <loc>https://labkids.online/blog/45</loc>
+    <lastmod>2026-09-22 14:04:41</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://labkids.online/blog/47</loc>
+    <lastmod>2026-09-22 14:04:42</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://labkids.online/blog/50</loc>
+    <lastmod>2026-09-22 14:04:43</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://labkids.online/blog/63</loc>
+    <lastmod>2026-09-21 08:41:17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
