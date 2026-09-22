@@ -35,6 +35,30 @@
     <link rel="stylesheet" href="/css/style.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
+    <script>
+        // PWA Early Registration & Prompt Interception
+        window.pwaDeferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.pwaDeferredPrompt = e;
+            console.log('⚡ PWA prompt captured in head!');
+            const btn = document.getElementById('btn-pwa-install');
+            if (btn) btn.style.boxShadow = '0 0 25px rgba(16,185,129,0.9)';
+            if (typeof window.onPwaPromptCaptured === 'function') {
+                window.onPwaPromptCaptured(e);
+            }
+        });
+        window.addEventListener('appinstalled', () => {
+            console.log('⚡ PWA installed!');
+            window.pwaDeferredPrompt = null;
+            if (typeof closePwaModal === 'function') closePwaModal();
+        });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('SW registered early!', reg);
+            }).catch(e => console.warn('SW register error:', e));
+        }
+    </script>
     <meta name="theme-color" content="#4f46e5">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -721,31 +745,51 @@
             } catch (e) { console.error('Error submitting comment', e); }
         }
 
-        // PWA Registration & Install Handling
-        let pwaDeferredPrompt = null;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            pwaDeferredPrompt = e;
-            console.log('PWA beforeinstallprompt captured!');
-            const btn = document.getElementById('btn-pwa-install');
-            if (btn) {
-                btn.style.boxShadow = '0 0 25px rgba(16,185,129,0.9)';
-            }
-        });
-
-        window.addEventListener('appinstalled', () => {
-            console.log('Lab Kids PWA installed!');
-            pwaDeferredPrompt = null;
-            closePwaModal();
-            alert('🎉 Aplicativo Lab Kids instalado com sucesso na tela inicial!');
-        });
-
+        // PWA Direct Install Handler
         async function triggerPwaInstall() {
-            if (pwaDeferredPrompt) {
-                pwaDeferredPrompt.prompt();
-                const choiceResult = await pwaDeferredPrompt.userChoice;
-                console.log('PWA install choice:', choiceResult.outcome);
-                pwaDeferredPrompt = null;
+            const btn = document.getElementById('btn-pwa-install');
+
+            // 1. Se o navegador já disponibilizou o prompt, abre na hora!
+            if (window.pwaDeferredPrompt) {
+                try {
+                    window.pwaDeferredPrompt.prompt();
+                    const choiceResult = await window.pwaDeferredPrompt.userChoice;
+                    console.log('PWA install choice:', choiceResult.outcome);
+                    window.pwaDeferredPrompt = null;
+                } catch (err) {
+                    console.error('Error invoking PWA prompt:', err);
+                }
+                return;
+            }
+
+            // 2. Se o usuário clicou antes do Chrome terminar a avaliação, NÃO abre popup!
+            // Mostra status no botão e dispara AUTOMATICAMENTE assim que o evento chegar.
+            if (btn) {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '⏳ Conectando ao instalador...';
+                btn.style.opacity = '0.85';
+                btn.disabled = true;
+
+                let triggered = false;
+                window.onPwaPromptCaptured = (promptEvent) => {
+                    if (triggered) return;
+                    triggered = true;
+                    btn.innerHTML = originalHtml;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                    promptEvent.prompt();
+                };
+
+                // Limite de tolerância de 3.5 segundos
+                setTimeout(() => {
+                    if (!triggered) {
+                        triggered = true;
+                        btn.innerHTML = originalHtml;
+                        btn.style.opacity = '1';
+                        btn.disabled = false;
+                        openPwaModal();
+                    }
+                }, 3500);
             } else {
                 openPwaModal();
             }
@@ -759,16 +803,6 @@
         function closePwaModal() {
             const m = document.getElementById('pwa-install-modal');
             if (m) m.style.display = 'none';
-        }
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(reg => {
-                    console.log('SW registered!', reg);
-                }).catch(err => {
-                    console.log('SW registration failed: ', err);
-                });
-            });
         }
 
         function openBioModal() { document.getElementById('bio-modal').style.display = 'flex'; }

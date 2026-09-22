@@ -1,8 +1,7 @@
 {
-  "id": "/",
   "name": "Lab Kids - Portal de Atividades Educativas",
   "short_name": "Lab Kids",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",

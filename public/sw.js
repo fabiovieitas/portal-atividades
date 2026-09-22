@@ -1,9 +1,10 @@
-const CACHE_NAME = 'portal-lab-v11';
-const POU_CACHE_NAME = 'portal-lab-v11-pou';
+const CACHE_NAME = 'portal-lab-v12';
+const POU_CACHE_NAME = 'portal-lab-v12-pou';
 
 
 const STATIC_ASSETS = [
   '/',
+  '/?source=pwa',
   '/img/logo-prof.png',
   '/img/robot-icon-192.png',
   '/img/robot-icon-512.png',
