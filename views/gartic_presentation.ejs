@@ -279,6 +279,20 @@
                 </ul>
             </div>
 
+            <!-- Card 3: Diário de Classe -->
+            <div class="info-card" style="border-left: 5px solid #3b82f6;">
+                <h2>📝 Sugestão de Registro para o Diário de Classe</h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">
+                    Copie e utilize este modelo para registrar a prática pedagógica no seu diário de classe:
+                </p>
+                <div id="diario-gartic-text" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(59, 130, 246, 0.3); padding: 18px; border-radius: 14px; font-family: monospace; color: #bfdbfe; font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
+                    "Realização de atividade pedagógica interativa com o jogo multiplayer 'Gartic.io'. Trabalho integrado de Artes Visuais e Língua Portuguesa através de síntese gráfica, expressão simbólica, inferência contextual e fixação ortográfica de vocabulário temático (Habilidades BNCC: EF15AR04, EF15AR02, EF01LP01, EF35LP05). Notou-se agilidade no reconhecimento de pistas visuais e respeito às regras de convivência digital."
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-gartic-text').innerText.trim()); alert('Registro para o diário copiado com sucesso! 📋');" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(59,130,246,0.3);">
+                    📋 Copiar Registro para o Diário
+                </button>
+            </div>
+
         </div>
 
         <!-- Próximos Desafios Recomendados -->

@@ -266,7 +266,7 @@
                 <% const showcaseList = (typeof showcaseActivities !== 'undefined' && showcaseActivities && showcaseActivities.length > 0) ? showcaseActivities : (activities || []); %>
                 <% if (showcaseList && showcaseList.length > 0) { %>
                     <% showcaseList.forEach(act => { %>
-                        <a href="/atividade/<%= act.id %>" class="showcase-item">
+                        <a href="/atividade/<%= act.id %>" class="showcase-item" onclick="handleActivityLaunch(event, <%= act.id %>, '<%= act.activity_url || '' %>')">
                             <div class="showcase-icon-box">
                                 <img src="<%= act.icon_url || '/img/default-icon.png' %>" alt="<%= act.title %>" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
                             </div>
@@ -279,7 +279,7 @@
                     <% }); %>
                     <!-- Repetição para Loop Infinito Contínuo -->
                     <% showcaseList.forEach(act => { %>
-                        <a href="/atividade/<%= act.id %>" class="showcase-item">
+                        <a href="/atividade/<%= act.id %>" class="showcase-item" onclick="handleActivityLaunch(event, <%= act.id %>, '<%= act.activity_url || '' %>')">
                             <div class="showcase-icon-box">
                                 <img src="<%= act.icon_url || '/img/default-icon.png' %>" alt="<%= act.title %>" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
                             </div>
@@ -358,8 +358,8 @@
             </div>
             <% } else { %>
 
-            <!-- Central de Simulados Municipais (Exibido na aba de 1º ao 5º Ano) -->
-            <% if (selectedLevel === '1-5') { %>
+            <!-- Central de Simulados Municipais (Exibido na aba de 1º ao 5º Ano SOMENTE quando liberado pelo Admin) -->
+            <% if (typeof simuladosEnabled !== 'undefined' && simuladosEnabled && selectedLevel === '1-5') { %>
             <section class="simulados-portal-section" id="simulados">
                 <div style="text-align: center; margin-bottom: 1rem;">
                     <span style="background: rgba(2, 132, 199, 0.25); color: #38bdf8; font-weight: 800; font-family: 'Fredoka', sans-serif; padding: 0.4rem 1.2rem; border-radius: 50px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; border: 1px solid #0284c7;">
@@ -550,10 +550,13 @@
                                             <% const isNew = (Date.now() - new Date(activity.created_at).getTime()) < (7 * 24 * 60 * 60 * 1000); %>
                                             <% if (isNew) { %><span class="badge-new">NOVO 🔥</span><% } %>
                                             <% if (activity.visits > 50) { %><span class="badge-popular">POPULAR ⭐</span><% } %>
+                                            <% if (Number(activity.id) === 11 || (activity.activity_url && activity.activity_url.includes('pou'))) { %>
+                                                <span class="badge-pill" style="background: rgba(16, 185, 129, 0.25); border: 1.5px solid #10b981; color: #34d399; font-weight: 800; font-size: 0.72rem; padding: 2px 8px; border-radius: 50px;">📲 APP TABLET</span>
+                                            <% } %>
                                         </div>
 
                                         <a href="/atividade/<%= activity.id %>" class="card-link"
-                                            onclick="trackVisit(<%= activity.id %>)">
+                                            onclick="handleActivityLaunch(event, <%= activity.id %>, '<%= activity.activity_url || '' %>')">
                                             <div class="card-icon">
                                                 <img src="<%= activity.icon_url || '/img/default-icon.png' %>"
                                                     alt="<%= activity.title %>"
@@ -571,7 +574,7 @@
                                         <div class="card-rating">
                                             <div class="stars" data-id="<%= activity.id %>">
                                                 <% const avg=activity.rating_count> 0 ? Math.round(activity.rating_sum /
-                                                    activity.rating_count) : 0; %>
+                                                     activity.rating_count) : 0; %>
                                                     <% for(let i=1; i<=5; i++) { %>
                                                         <span class="star <%= i <= avg ? 'filled' : '' %>"
                                                             data-value="<%= i %>">★</span>
@@ -581,7 +584,7 @@
                                         </div>
                                         <div class="card-footer">
                                             <div class="mission-actions">
-                                                <a href="/atividade/<%= activity.id %>" class="btn-play" onclick="trackVisit(<%= activity.id %>)">INICIAR MISSÃO 🎮</a>
+                                                <a href="/atividade/<%= activity.id %>" class="btn-play" onclick="handleActivityLaunch(event, <%= activity.id %>, '<%= activity.activity_url || '' %>')">INICIAR MISSÃO 🎮</a>
                                                 <% if (typeof teacher !== 'undefined' && teacher) { %>
                                                     <button onclick="toggleFavorite('<%= activity.id %>', this)" class="btn-fav <%= activity.is_favorite ? 'active' : '' %>" title="Favoritar">❤️</button>
                                                     <button onclick="generateQR('<%= activity.id %>', '<%= activity.title %>', '<%= teacher.id %>')" class="btn-qr" title="Gerar QR">📱</button>
@@ -678,6 +681,26 @@
                     await fetch(`/api/visit/${id}`, { method: 'POST' });
                 } catch (e) { console.error('Error tracking visit', e); }
             }
+        }
+
+        function handleActivityLaunch(event, id, url) {
+            trackVisit(id);
+            const isPou = (Number(id) === 11 || (url && url.includes('pou')));
+            const isAndroid = /Android/i.test(navigator.userAgent);
+
+            if (isPou && isAndroid) {
+                if (event) event.preventDefault();
+                const intentUrl = "intent://#Intent;package=me.pou.app;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dme.pou.app;end";
+                const start = Date.now();
+                window.location.href = intentUrl;
+                setTimeout(() => {
+                    if (Date.now() - start < 2000 && !document.hidden) {
+                        window.location.href = "https://play.google.com/store/apps/details?id=me.pou.app";
+                    }
+                }, 1200);
+                return false;
+            }
+            return true;
         }
 
         document.querySelectorAll('.stars .star').forEach(star => {

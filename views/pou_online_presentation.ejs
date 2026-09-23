@@ -310,9 +310,12 @@
             <img src="/games/pou-online/assets/icon.jpeg" alt="Pou Online" class="hero-cover-img">
 
             <div>
-                <a href="/games/pou-online/index.html" class="btn-launch-game">
+                <a href="/games/pou-online/index.html" class="btn-launch-game" onclick="launchPouApp(event)">
                     🎮 INICIAR O JOGO AGORA 🚀
                 </a>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: #34d399;">
+                    📲 <strong>Tablet / Celular Android:</strong> Abre o App instalado ou a Play Store automaticamente!
+                </p>
             </div>
         </div>
 
@@ -378,6 +381,39 @@
                 </ul>
             </div>
 
+            <!-- Card 4: Registro para o Diário de Classe -->
+            <div class="info-card" style="border-left: 5px solid #10b981;">
+                <h2>📝 Sugestão de Registro para o Diário de Classe</h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">
+                    Copie e utilize este modelo para registrar a prática pedagógica no seu diário de classe:
+                </p>
+                <div id="diario-pou-text" style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.4); padding: 18px; border-radius: 14px; font-family: monospace; color: #a7f3d0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
+                    "Realização de atividade lúdico-interativa com o jogo educativo 'Pou Online: Cuide do Mascote Virtual', com ênfase na conscientização sobre rotinas de higiene pessoal (banho e escovação dentária), escolhas de alimentação equilibrada, regulação de sono e noções de responsabilidade e autocuidado (Habilidades BNCC: EI03CG04, EI03EO02, EF01CI01 e EF02CI03)."
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-pou-text').innerText.trim()); alert('Registro para o diário copiado com sucesso! 📋');" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(16,185,129,0.3);">
+                    📋 Copiar Registro para o Diário
+                </button>
+            </div>
+
+            <!-- Card 5: Por que a versão web difere do aplicativo instalado? -->
+            <div class="info-card" style="border: 2px dashed #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                <h2 style="color: #fbbf24;">📲 Versão Web vs. Aplicativo Oficial no Tablet/Celular</h2>
+                <p style="color: #cbd5e1; line-height: 1.6;">
+                    <strong>Nota Importante:</strong> A desenvolvedora oficial do Pou (<em>Zakeh Limited</em>) desenvolveu o jogo original exclusivamente para smartphones e tablets Android e iOS.
+                </p>
+                <p style="color: #cbd5e1; line-height: 1.6;">
+                    A versão online disponível para navegador é uma <strong>adaptação demonstrativa em HTML5</strong>. Por isso, recursos avançados do aplicativo oficial (como repetição de voz via microfone, quintal com flores, mais de 30 minijogos como <em>Hill Drive</em> e <em>Sky Jump</em>, e centenas de roupinhas) estão presentes apenas no aplicativo instalado.
+                </p>
+                <div style="margin-top: 15px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a href="https://play.google.com/store/apps/details?id=me.pou.app" target="_blank" rel="noopener noreferrer" style="background: #1e293b; color: #38bdf8; border: 1.5px solid #38bdf8; padding: 8px 18px; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+                        🤖 Baixar Oficial na Google Play (Android/Tablet/Chromebook)
+                    </a>
+                    <a href="https://apps.apple.com/br/app/pou/id575119594" target="_blank" rel="noopener noreferrer" style="background: #1e293b; color: #f8fafc; border: 1.5px solid #94a3b8; padding: 8px 18px; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px;">
+                        🍎 Baixar Oficial na App Store (iPad / iPhone)
+                    </a>
+                </div>
+            </div>
+
         </div>
 
         <!-- Próximos Desafios Recomendados -->
@@ -388,9 +424,12 @@
 
         <!-- Bottom CTA -->
         <div style="text-align: center; margin-top: 20px;">
-            <a href="/games/pou-online/index.html" class="btn-launch-game">
+            <a href="/games/pou-online/index.html" class="btn-launch-game" onclick="launchPouApp(event)">
                 🎮 JOGAR POU ONLINE AGORA 🚀
             </a>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: #34d399;">
+                📲 <strong>Tablet / Celular Android:</strong> Abre o App instalado ou a Play Store automaticamente!
+            </p>
         </div>
 
         <!-- Rodapé Institucional -->
@@ -410,5 +449,22 @@
 
     </div>
 
+    <script>
+        function launchPouApp(e) {
+            if (/Android/i.test(navigator.userAgent)) {
+                if (e) e.preventDefault();
+                const intentUrl = "intent://#Intent;package=me.pou.app;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dme.pou.app;end";
+                const start = Date.now();
+                window.location.href = intentUrl;
+                setTimeout(() => {
+                    if (Date.now() - start < 2000 && !document.hidden) {
+                        window.location.href = "https://play.google.com/store/apps/details?id=me.pou.app";
+                    }
+                }, 1200);
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>

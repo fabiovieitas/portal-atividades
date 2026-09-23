@@ -92,6 +92,10 @@ try {
       essay_text TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+    CREATE TABLE IF NOT EXISTS system_settings (
+      key TEXT PRIMARY KEY,
+      value TEXT
+    );
   `);
 
   try { sqlite.exec("ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;"); } catch(e){}
@@ -253,6 +257,27 @@ const dbHelper = {
       console.warn('getActivities query warning:', e.message);
     }
 
+    // Always remove raw direct-link duplicate for Leitura Divertida
+    if (rows && rows.length > 0) {
+      rows = rows.filter(r => r.activity_url !== '/games/leitura-datashow/index.html');
+    }
+
+    if (!adminMode) {
+      let isSimuladosEnabled = false;
+      try {
+        const setting = await this.getSetting('simulados_enabled', 'false');
+        isSimuladosEnabled = setting === 'true' || setting === true;
+      } catch (e) {}
+
+      if (!isSimuladosEnabled && rows && rows.length > 0) {
+        rows = rows.filter(r => {
+          const t = (r.title || '').toLowerCase();
+          const u = (r.activity_url || '').toLowerCase();
+          return !t.includes('simulado') && !u.includes('simulado');
+        });
+      }
+    }
+
     const isFiltered = Boolean(search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas') || (month && month !== 'Todas'));
     if ((!rows || rows.length === 0) && !isFiltered) {
       rows = [
@@ -375,6 +400,14 @@ const dbHelper = {
           activity_url: "/atividades/level-up",
           icon_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
           level: "6-9", category: "Jogo Autoral Lab Kids", subject: "Projeto de Vida", bncc_code: "EF06MA32, EF09MA20", status: "public", visits: 380
+        },
+        {
+          id: 16,
+          title: "🕵️ Carta Enigmática & Escape Room [JOGO AUTORAL]",
+          description: "⚡ JOGO AUTORAL LAB KIDS! Decifre enigmas rebus somando e subtraindo letras no estilo clássico da revista e Itaú Criança! Destranque as salas secretas e abra o cofre final.",
+          activity_url: "/atividades/carta-enigmatica",
+          icon_url: "/img/covers/carta-enigmatica.jpg",
+          level: "1-5", category: "Alfabetização & Lógica", subject: "Português", bncc_code: "EF03LP02, EF04LP01, EF05LP01, EF15LP01, EF35LP05", status: "public", visits: 720
         }
       ];
     }
@@ -899,6 +932,34 @@ const dbHelper = {
     }
 
     return { count, pointsAdded: score, medals: newMedals };
+  },
+
+  async getSetting(key, defaultValue = null) {
+    try {
+      const row = await queryGet("SELECT value FROM system_settings WHERE key = ?", [key]);
+      if (row && typeof row.value !== 'undefined' && row.value !== null) {
+        return row.value;
+      }
+    } catch(e) {
+      console.warn('[DB Engine] getSetting error:', e.message);
+    }
+    return defaultValue;
+  },
+
+  async setSetting(key, value) {
+    const valStr = String(value);
+    try {
+      const existing = await queryGet("SELECT key FROM system_settings WHERE key = ?", [key]);
+      if (existing) {
+        await queryRun("UPDATE system_settings SET value = ? WHERE key = ?", [valStr, key]);
+      } else {
+        await queryRun("INSERT INTO system_settings (key, value) VALUES (?, ?)", [key, valStr]);
+      }
+      return true;
+    } catch(e) {
+      console.error('[DB Engine] setSetting error:', e.message);
+      return false;
+    }
   }
 };
 
@@ -983,6 +1044,10 @@ async function initTables() {
       max_score INTEGER DEFAULT 9,
       essay_text TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
+    `CREATE TABLE IF NOT EXISTS system_settings (
+      key TEXT PRIMARY KEY,
+      value TEXT
     );`
   ];
 
@@ -1436,12 +1501,19 @@ async function initTables() {
           activity_url: "/atividades/habitos-de-higiene",
           icon_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
           level: "1-5", category: "Ciências & Saúde", bncc_code: "EF01CI01, EF02CI04", subject: "Ciências"
+        },
+        {
+          title: "🕵️ Carta Enigmática & Escape Room [JOGO AUTORAL]",
+          description: "⚡ JOGO AUTORAL LAB KIDS! Decifre enigmas rebus somando e subtraindo letras no estilo clássico da revista e Itaú Criança! Destranque as salas secretas e abra o cofre final.",
+          activity_url: "/atividades/carta-enigmatica",
+          icon_url: "/img/covers/carta-enigmatica.jpg",
+          level: "1-5", category: "Alfabetização & Lógica", bncc_code: "EF03LP02, EF04LP01, EF05LP01, EF15LP01, EF35LP05", subject: "Português"
         }
       ];
 
       for (const act of fullActivities) {
         try {
-          const searchTitle = act.title.replace('⭐ ', '').split('[')[0].trim();
+          const searchTitle = act.title.replace('⭐ ', '').replace('🕵️ ', '').split('[')[0].trim();
           const existing = await queryGet("SELECT id FROM activities WHERE title LIKE ? LIMIT 1", [`%${searchTitle}%`]);
           if (existing) {
             await queryRun(
@@ -1456,6 +1528,13 @@ async function initTables() {
           }
         } catch(e) {}
       }
+
+      // Limpeza de duplicatas conhecidas
+      try {
+        await queryRun("DELETE FROM activities WHERE activity_url = '/games/leitura-datashow/index.html'");
+        await queryRun("DELETE FROM activities WHERE id = 44 AND title LIKE '%Tux Math%'");
+        await queryRun("DELETE FROM activities WHERE id = 45 AND title LIKE '%Ariê Colorir%'");
+      } catch(e) {}
 
       // Ensure all 15 blog articles exist and have valid activity_url
       const fullArticles = [

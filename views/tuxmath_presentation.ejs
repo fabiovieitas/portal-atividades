@@ -381,6 +381,20 @@
                 </ul>
             </div>
 
+            <!-- Card 4: Diário de Classe -->
+            <div class="info-card" style="border-left: 5px solid #f59e0b;">
+                <h2>📝 Sugestão de Registro para o Diário de Classe</h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">
+                    Copie e utilize este modelo para registrar a prática pedagógica no seu diário de classe:
+                </p>
+                <div id="diario-tux-text" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(245, 158, 11, 0.3); padding: 18px; border-radius: 14px; font-family: monospace; color: #fde68a; font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
+                    "Aplicação de estratégia gamificada de cálculo mental e agilidade operacional através do simulador 'Tux Math: Matemática Divertida'. Consolidação dos fatos fundamentais da adição, subtração, multiplicação e divisão (Habilidades BNCC: EF01MA06, EF02MA05, EF03MA03, EF04MA05). Verificou-se significativa redução do tempo de resposta no raciocínio aritmético e elevado entusiasmo dos educandos."
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-tux-text').innerText.trim()); alert('Registro para o diário copiado com sucesso! 📋');" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(245,158,11,0.3);">
+                    📋 Copiar Registro para o Diário
+                </button>
+            </div>
+
         </div>
 
         <!-- Próximos Desafios Recomendados -->

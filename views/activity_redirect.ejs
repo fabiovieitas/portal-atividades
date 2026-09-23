@@ -166,6 +166,22 @@
             </div>
         </div>
 
+        <!-- Sugestão de Registro para Diário de Classe -->
+        <div class="pedagogical-summary" style="border-left: 4px solid #fbbf24; margin-top: 15px;">
+            <h3 style="margin: 0 0 10px 0; color: #fbbf24; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                <span>📝</span> Sugestão de Registro para o Diário de Classe
+            </h3>
+            <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #94a3b8;">
+                Utilize o modelo pedagógico abaixo para registro de planejamento ou diário escolar:
+            </p>
+            <div id="diario-redirect-text" style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(251, 191, 36, 0.3); padding: 14px; border-radius: 12px; font-family: monospace; color: #fef08a; font-size: 0.9rem; line-height: 1.6; margin-bottom: 12px;">
+                "Desenvolvimento de competências curriculares por meio da ferramenta interativa '<%= activity.title %>' (Habilidades BNCC: <%= activity.bncc_code || 'Competências Gerais da Educação Básica e Cultura Digital' %>). Prática mediada de <%= activity.subject || 'raciocínio lógico e aprendizagem digital' %>, promovendo engajamento e fixação conceitual."
+            </div>
+            <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-redirect-text').innerText.trim()); alert('Registro copiado para a área de transferência! 📋');" style="background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+                📋 Copiar Registro para o Diário
+            </button>
+        </div>
+
         <a href="<%= activity.activity_url %>" class="btn-launch-direct" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener">
             🎮 INICIAR ATIVIDADE AGORA 🚀
         </a>

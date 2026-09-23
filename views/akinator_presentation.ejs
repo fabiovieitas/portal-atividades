@@ -278,6 +278,20 @@
                 </ul>
             </div>
 
+            <!-- Card 3: Diário de Classe -->
+            <div class="info-card" style="border-left: 5px solid #c084fc;">
+                <h2>📝 Sugestão de Registro para o Diário de Classe</h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">
+                    Copie e utilize este modelo para registrar a prática pedagógica no seu diário de classe:
+                </p>
+                <div id="diario-akinator-text" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(192, 132, 252, 0.3); padding: 18px; border-radius: 14px; font-family: monospace; color: #f3e8ff; font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
+                    "Aplicação de atividade digital mediada com o jogo 'Akinator: O Gênio da Lógica', explorando pensamento computacional, árvores de decisão, classificação categórica por atributos e inferência lógica (Habilidades BNCC: EF01MA09, EF02MA18, EF35LP05). Observou-se elevado engajamento na formulação de hipóteses e distinção criteriosa entre características reais e ficcionais."
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-akinator-text').innerText.trim()); alert('Registro para o diário copiado com sucesso! 📋');" style="background: linear-gradient(135deg, #a855f7, #7e22ce); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(168,85,247,0.3);">
+                    📋 Copiar Registro para o Diário
+                </button>
+            </div>
+
         </div>
 
         <!-- Próximos Desafios Recomendados -->

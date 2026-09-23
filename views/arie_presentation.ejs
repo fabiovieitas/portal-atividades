@@ -381,6 +381,20 @@
                 </ul>
             </div>
 
+            <!-- Card 4: Diário de Classe -->
+            <div class="info-card" style="border-left: 5px solid #10b981;">
+                <h2>📝 Sugestão de Registro para o Diário de Classe</h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">
+                    Copie e utilize este modelo para registrar a prática pedagógica no seu diário de classe:
+                </p>
+                <div id="diario-arie1-text" style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(52, 211, 153, 0.3); padding: 18px; border-radius: 14px; font-family: monospace; color: #a7f3d0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
+                    "Realização de vivência lúdico-pedagógica com a suíte interativa 'Brincando com Ariê 1'. Desenvolvimento de consciência fonológica, discriminação visual de cores e formas, associação palavra-imagem e ordenação alfabética (Habilidades BNCC: EI02EF04, EI02ET06, EF01LP10, EF01LP04). Observou-se notável avanço na autonomia de navegação e consolidação do vocabulário temático."
+                </div>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-arie1-text').innerText.trim()); alert('Registro para o diário copiado com sucesso! 📋');" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(16,185,129,0.3);">
+                    📋 Copiar Registro para o Diário
+                </button>
+            </div>
+
         </div>
 
         <!-- Próximos Desafios Recomendados -->

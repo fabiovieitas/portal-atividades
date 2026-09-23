@@ -646,15 +646,21 @@ app.get('/', async (req, res) => {
   const { categories, subjects } = await dbHelper.getCategoriesAndSubjects();
   const projects = await dbHelper.getProjects(12);
   const showcaseActivities = await dbHelper.getActivities({});
+  const simuladosSetting = await dbHelper.getSetting('simulados_enabled', 'false');
+  const simuladosEnabled = simuladosSetting === 'true' || simuladosSetting === true;
 
   res.render('index', { 
     activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories: categories || [], subjects: subjects || [], search, 
-    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher
+    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher, simuladosEnabled
   });
 });
 
-app.get('/simulados', (req, res) => {
-  res.redirect('/?level=1-5#simulados');
+app.get('/simulados', async (req, res) => {
+  const setting = await dbHelper.getSetting('simulados_enabled', 'false');
+  if (setting === 'true' || setting === true || (await isAdmin(req))) {
+    return res.redirect('/?level=1-5#simulados');
+  }
+  res.redirect('/');
 });
 
 app.get('/professor/certificado', (req, res) => {
@@ -1317,6 +1323,53 @@ app.get('/atividade/:id', async (req, res) => {
 
     try { await dbHelper.recordVisit(activityId); } catch(e){}
 
+    const isPou = String(activity.id) === '11' || (activity.activity_url && activity.activity_url.includes('pou'));
+    const isAndroid = req.headers['user-agent'] && /android/i.test(req.headers['user-agent']);
+
+    if (isPou && isAndroid) {
+      return res.send(`<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abrindo Pou no Tablet...</title>
+  <style>
+    body { background: #0f172a; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; padding: 20px; box-sizing: border-box; }
+    .box { background: rgba(30, 41, 59, 0.95); padding: 35px 25px; border-radius: 28px; border: 2px solid #10b981; max-width: 440px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+    .icon { width: 90px; height: 90px; border-radius: 22px; border: 3px solid #10b981; margin-bottom: 15px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.1rem; margin-top: 15px; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); }
+    .btn-store { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #1e293b; color: #38bdf8; border: 1.5px solid #38bdf8; padding: 10px 20px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.95rem; margin-top: 12px; }
+  </style>
+  <script>
+    function launch() {
+      const intentUrl = "intent://#Intent;package=me.pou.app;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dme.pou.app;end";
+      window.location.href = intentUrl;
+      setTimeout(function() {
+        if (!document.hidden) {
+          window.location.href = "https://play.google.com/store/apps/details?id=me.pou.app";
+        }
+      }, 1500);
+    }
+    window.onload = launch;
+  </script>
+</head>
+<body>
+  <div class="box">
+    <img src="/games/pou-online/assets/icon.jpeg" alt="Pou" class="icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
+    <h2 style="color: #34d399; margin: 0 0 10px 0;">🐾 Abrindo Pou no Tablet...</h2>
+    <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.5; margin: 0 0 15px 0;">Iniciando o aplicativo no seu dispositivo Android!</p>
+    <a href="intent://#Intent;package=me.pou.app;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;S.browser_fallback_url=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dme.pou.app;end" class="btn">Toque para Abrir o App 🚀</a>
+    <div style="margin-top: 15px;">
+      <a href="https://play.google.com/store/apps/details?id=me.pou.app" class="btn-store">🛍️ Baixar na Google Play Store</a>
+    </div>
+    <div style="margin-top: 18px;">
+      <a href="/atividades/pou-online" style="color: #94a3b8; font-size: 0.85rem; text-decoration: underline;">Ver guia pedagógico / Jogar versão web</a>
+    </div>
+  </div>
+</body>
+</html>`);
+    }
+
     if (activity.activity_url && activity.activity_url.startsWith('/')) {
       return res.redirect(activity.activity_url);
     }
@@ -1352,6 +1405,8 @@ app.get('/admin', async (req, res) => {
 
       const schools = await dbHelper.getSchools();
       const classes = await dbHelper.getAllClasses();
+      const simuladosSetting = await dbHelper.getSetting('simulados_enabled', 'false');
+      const simuladosEnabled = simuladosSetting === 'true' || simuladosSetting === true;
 
       res.render('admin_panel', { 
         activities: activities || [], 
@@ -1363,7 +1418,8 @@ app.get('/admin', async (req, res) => {
         news: news || [],
         schools: schools || [],
         classes: classes || [],
-        sessionId: sessionId || ''
+        sessionId: sessionId || '',
+        simuladosEnabled
       });
     } else {
       res.render('admin', { error: null });
@@ -1862,6 +1918,19 @@ app.post('/admin/settings', requireAdmin, async (req, res) => {
   const { newPassword, newEmail } = req.body;
   // Implementation for updating admin settings in Supabase if needed
   res.json({ success: true });
+});
+
+app.post('/api/admin/toggle-simulados', requireAdmin, async (req, res) => {
+  try {
+    const current = await dbHelper.getSetting('simulados_enabled', 'false');
+    const newState = (current === 'true' || current === true) ? 'false' : 'true';
+    await dbHelper.setSetting('simulados_enabled', newState);
+    if (typeof clearActivitiesCache === 'function') clearActivitiesCache();
+    res.json({ success: true, enabled: newState === 'true' });
+  } catch (err) {
+    console.error('[Admin Toggle Simulados Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.get('/api/admin/teacher-stats/:id', requireAdmin, async (req, res) => {

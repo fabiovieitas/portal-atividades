@@ -615,6 +615,24 @@
                 <h2 style="color: #0369a1; font-family: 'Outfit', sans-serif;">📝 Central de Simulados & Avaliações Municipais</h2>
                 <p style="color: #64748b; margin-bottom: 20px;">Selecione a Escola, o Ano Escolar e a Turma para visualizar os relatórios e gerenciar o simulado.</p>
 
+                <!-- Status e Controle de Visibilidade da Central no Portal -->
+                <div id="simulado-status-box" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; background: <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' : 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)' %>; border: 2px solid <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '#86efac' : '#fca5a5' %>; border-radius: 16px; padding: 18px 24px; margin-bottom: 25px;">
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '#166534' : '#991b1b' %>;">
+                            🔒 Controle de Acesso aos Alunos
+                        </div>
+                        <h3 id="simulado-status-text" style="margin: 4px 0 2px 0; font-family: 'Outfit', sans-serif; font-size: 1.25rem; color: <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '#15803d' : '#b91c1c' %>;">
+                            <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '🟢 Central de Simulados está ATIVA e VISÍVEL no Portal' : '🔴 Central de Simulados está OCULTA (Bloqueada para Alunos)' %>
+                        </h3>
+                        <p style="margin: 0; font-size: 0.9rem; color: #64748b;">
+                            Quando desligada, a seção inteira e as provas somem totalmente da página inicial para os alunos.
+                        </p>
+                    </div>
+                    <button type="button" id="btnToggleSimulados" onclick="toggleSimuladosStatus()" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.2s ease; background: <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '#ef4444' : '#10b981' %>; color: white;">
+                        <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '🛑 Desligar / Ocultar Simulados' : '🚀 Ligar / Liberar Simulados' %>
+                    </button>
+                </div>
+
                 <!-- Cascading Filter Form -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; background: #f8fafc; padding: 20px; border-radius: 14px; border: 1px solid #e2e8f0;">
                     <div class="input-group">
@@ -1117,6 +1135,54 @@
                 }
                 const queryString = params.toString() ? `?${params.toString()}` : '';
                 btn.href = `/admin/simulado/resultados${queryString}`;
+            }
+        }
+
+        async function toggleSimuladosStatus() {
+            const btn = document.getElementById('btnToggleSimulados');
+            if (!btn) return;
+            btn.disabled = true;
+            const originalText = btn.innerHTML;
+            btn.innerText = 'Processando...';
+
+            try {
+                const res = await fetch('/api/admin/toggle-simulados', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const isEnabled = data.enabled;
+                    const box = document.getElementById('simulado-status-box');
+                    const txt = document.getElementById('simulado-status-text');
+
+                    if (box && txt) {
+                        if (isEnabled) {
+                            box.style.background = 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)';
+                            box.style.borderColor = '#86efac';
+                            txt.style.color = '#15803d';
+                            txt.innerHTML = '🟢 Central de Simulados está ATIVA e VISÍVEL no Portal';
+                            btn.style.background = '#ef4444';
+                            btn.innerHTML = '🛑 Desligar / Ocultar Simulados';
+                        } else {
+                            box.style.background = 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)';
+                            box.style.borderColor = '#fca5a5';
+                            txt.style.color = '#b91c1c';
+                            txt.innerHTML = '🔴 Central de Simulados está OCULTA (Bloqueada para Alunos)';
+                            btn.style.background = '#10b981';
+                            btn.innerHTML = '🚀 Ligar / Liberar Simulados';
+                        }
+                    }
+                    alert(isEnabled ? 'Central de Simulados ATIVADA com sucesso no portal!' : 'Central de Simulados OCULTADA com sucesso do portal!');
+                } else {
+                    alert('Erro ao alterar status: ' + (data.error || 'Erro desconhecido'));
+                    btn.innerHTML = originalText;
+                }
+            } catch (e) {
+                alert('Erro na comunicação com o servidor.');
+                btn.innerHTML = originalText;
+            } finally {
+                btn.disabled = false;
             }
         }
 

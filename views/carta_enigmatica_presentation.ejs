@@ -246,6 +246,23 @@
             </div>
         </div>
 
+        <!-- Bloco 3: Diário de Classe -->
+        <div class="pedagogical-card" style="border-left: 5px solid #d97706;">
+            <h2>📝 Sugestão de Registro para o Diário de Classe</h2>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">
+                Copie e utilize este modelo para registrar a prática pedagógica no seu diário de classe:
+            </p>
+            <div id="diario-carta-text" style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(217, 119, 6, 0.4); padding: 18px; border-radius: 14px; font-family: monospace; color: #fef3c7; font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
+                "Aplicação do jogo educativo autoral 'Carta Enigmática & Escape Room: Agência de Investigadores' para desenvolvimento de consciência fonológica, segmentação e recomposição morfológica de sílabas por meio de enigmas rebus, leitura inferencial e resolução de problemas em narrativa imersiva (Habilidades BNCC: EF03LP02, EF04LP01, EF05LP01, EF15LP01, EF35LP05). Observou-se excelente raciocínio analítico e colaboração na dedução das frases mestras."
+            </div>
+            <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-carta-text').innerText.trim()); alert('Registro para o diário copiado com sucesso! 📋');" style="background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(217,119,6,0.3);">
+                📋 Copiar Registro para o Diário
+            </button>
+        </div>
+
+        <!-- Próximos Desafios Recomendados -->
+        <%- include('partials/recommended_games', { currentGame: 'carta-enigmatica' }) %>
+
         <!-- AdSense Bottom Banner -->
         <%- include('partials/adsense_banner', { position: 'bottom' }) %>
 
