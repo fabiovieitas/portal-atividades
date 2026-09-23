@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, Unlock, ArrowRight, CheckCircle2, Search, Check, Sparkles, HelpCircle } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import NotebookPage from '../components/NotebookPage';
 import EnigmaModal from '../components/EnigmaModal';
+import RebusFormulaBadge from '../components/RebusFormulaBadge';
 import { getEnigmaIllustration } from '../components/illustrations/EnigmaIcons';
 import { sounds } from '../audio/soundEffects';
 
@@ -40,6 +42,13 @@ export default function RoomGameplayScreen({
       if (allSolved && !roomUnlocked) {
         setRoomUnlocked(true);
         sounds.playUnlockRoom();
+        try {
+          confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.5 }
+          });
+        } catch (e) {}
         onSolveRoom(room.pistaInvetario);
       }
 
@@ -95,15 +104,17 @@ export default function RoomGameplayScreen({
           const isSolved = Boolean(solvedEnigmas[currentEnigma.id]);
 
           if (isSolved) {
-            // Replaced by solved word written in blue ballpoint pen ink on the notebook line
+            // Replaced by solved word written in blue ink on the notebook line
             elements.push(
               <span
                 key={`solved-${currentEnigma.id}-${roomIndex}`}
-                className="inline-flex items-center gap-1 mx-1.5 px-2.5 py-0.5 rounded-lg bg-blue-50/90 border border-blue-300 text-blue-800 font-handwritten font-black text-xl sm:text-2xl underline decoration-blue-500 decoration-2 align-baseline shadow-xs"
+                className="inline-flex items-center gap-1.5 mx-1.5 px-3 py-0.5 rounded-xl bg-blue-50/95 border-2 border-blue-400 text-blue-900 font-handwritten font-black text-xl sm:text-2xl underline decoration-blue-500 decoration-2 align-baseline shadow-xs"
                 title={`Palavra Decifrada: ${solvedEnigmas[currentEnigma.id]}!`}
               >
                 <span>{solvedEnigmas[currentEnigma.id]}</span>
-                <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
+                <span className="p-0.5 bg-emerald-100 rounded-full border border-emerald-500">
+                  <Check className="w-3.5 h-3.5 text-emerald-700 stroke-[3]" />
+                </span>
               </span>
             );
           } else {
@@ -116,31 +127,27 @@ export default function RoomGameplayScreen({
                   sounds.playKeyPress();
                   setSelectedEnigmaForModal(currentEnigma);
                 }}
-                className="inline-flex items-center gap-1.5 mx-1.5 my-1 px-2.5 py-1 rounded-xl bg-[#fff8eb] hover:bg-amber-100 border-2 border-amber-800/80 hover:border-amber-950 text-amber-950 shadow-sm hover:scale-105 transition-all cursor-pointer align-middle select-none group"
+                className="inline-flex items-center gap-1.5 sm:gap-2 mx-1.5 my-1 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-2xl bg-[#fffaf0] hover:bg-amber-100 border-2 border-amber-900/80 hover:border-amber-950 text-amber-950 shadow-[0_2px_6px_rgba(120,53,15,0.15)] hover:shadow-md hover:scale-105 transition-all cursor-pointer align-middle select-none group"
                 title={`Enigma: ${currentEnigma.operacao || currentEnigma.nome} — Clique para decifrar no popup!`}
               >
-                {/* Prefix if any (e.g. 'pri +', 'v +', 'F +', 'c +', 'Di +') */}
+                {/* Prefix if any (e.g. 'SU +') */}
                 {currentEnigma.prefixo && (
-                  <span className="font-heading font-black text-sm sm:text-base text-amber-900 tracking-wide">
-                    {currentEnigma.prefixo}
-                  </span>
+                  <RebusFormulaBadge text={currentEnigma.prefixo} size="normal" />
                 )}
 
                 {/* SVG Illustration Stamp */}
-                <span className="p-0.5 bg-white rounded-lg border border-amber-500/60 shadow-xs group-hover:scale-110 transition-transform">
+                <span className="p-1 bg-white rounded-xl border border-amber-600/50 shadow-xs group-hover:scale-110 group-hover:border-amber-700 transition-all flex items-center justify-center shrink-0">
                   {getEnigmaIllustration(currentEnigma.imagem, "w-7 h-7 sm:w-8 sm:h-8")}
                 </span>
 
-                {/* Suffix if any (e.g. '- çã', '- nar', '+ ria', '- do', '- to') */}
+                {/* Suffix if any (e.g. '- SA + CHORRO') */}
                 {currentEnigma.sufixo && (
-                  <span className="font-heading font-black text-xs sm:text-sm text-stamp-red bg-rose-50 px-1.5 py-0.5 rounded border border-rose-300 shadow-xs">
-                    {currentEnigma.sufixo}
-                  </span>
+                  <RebusFormulaBadge text={currentEnigma.sufixo} size="normal" />
                 )}
 
-                {/* Dotted click prompt */}
-                <span className="font-sans font-black text-[11px] text-amber-800 bg-amber-200/80 px-2 py-0.5 rounded-md border border-amber-400/80 group-hover:bg-amber-300 flex items-center gap-1">
-                  <Search className="w-3 h-3 text-amber-700" />
+                {/* Golden Search/Decifrar Action Pill */}
+                <span className="font-heading font-black text-xs text-amber-950 bg-gradient-to-r from-amber-200 to-yellow-300 hover:from-amber-300 hover:to-yellow-400 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg border border-amber-500/80 shadow-xs flex items-center gap-1 sm:gap-1.5 ml-0.5">
+                  <Search className="w-3.5 h-3.5 text-amber-900 stroke-[2.5]" />
                   <span>Decifrar</span>
                 </span>
               </button>
@@ -219,13 +226,26 @@ export default function RoomGameplayScreen({
       <NotebookPage>
         <div className="py-2">
           {/* Handwritten Letter Salutation Header */}
-          <div className="mb-4 pb-2 border-b border-amber-900/20 flex items-center justify-between">
-            <span className="font-handwritten text-xl sm:text-2xl text-stone-800 font-bold">
-              Caderno de Registro — Sala {room.sala}
-            </span>
-            <span className="text-xs font-mono uppercase text-amber-900/70 font-bold bg-amber-100/60 px-2 py-0.5 rounded">
-              Página {room.sala} de {levelData.salas.length}
-            </span>
+          <div className="mb-4 pb-2 border-b border-amber-900/20 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5">
+              <span className="font-handwritten text-xl sm:text-2xl text-stone-800 font-bold">
+                Caderno de Registro — Sala {room.sala}
+              </span>
+              <span className="text-[11px] font-heading font-black uppercase text-amber-950 bg-amber-200/90 border border-amber-400 px-2.5 py-0.5 rounded-full shadow-2xs">
+                {solvedCount} de {room.enigmas.length} decifradas
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-20 sm:w-28 bg-amber-200/70 h-2.5 rounded-full overflow-hidden border border-amber-400/80">
+                <div
+                  className="bg-emerald-600 h-full transition-all duration-500 rounded-full"
+                  style={{ width: `${Math.round((solvedCount / Math.max(1, room.enigmas.length)) * 100)}%` }}
+                />
+              </div>
+              <span className="text-xs font-mono uppercase text-amber-900/80 font-bold bg-amber-100/80 px-2 py-0.5 rounded border border-amber-300/50">
+                Página {room.sala} de {levelData.salas.length}
+              </span>
+            </div>
           </div>
 
           {/* Letter Body on Ruled Lines with Rebus Enigmas */}

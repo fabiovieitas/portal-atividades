@@ -927,40 +927,175 @@ export const RebusIllustrations = {
         1
       </text>
     </svg>
+  ),
+
+  // Ícones adicionais nítidos de alta definição
+  pena: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <path d="M52 10C52 10 32 16 20 32C12 42 10 54 10 54C10 54 22 52 32 44C48 32 54 12 52 10Z" fill="#fef3c7" stroke="#78350f" strokeWidth="2.5" />
+      <line x1="10" y1="54" x2="48" y2="16" stroke="#78350f" strokeWidth="2" />
+      <line x1="28" y1="36" x2="22" y2="40" stroke="#92400e" strokeWidth="1.5" />
+      <line x1="36" y1="28" x2="30" y2="32" stroke="#92400e" strokeWidth="1.5" />
+      <line x1="44" y1="20" x2="38" y2="24" stroke="#92400e" strokeWidth="1.5" />
+    </svg>
+  ),
+
+  telha: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <path d="M12 46C12 40 22 36 32 36C42 36 52 40 52 46L46 16C46 12 39 10 32 10C25 10 18 12 18 16L12 46Z" fill="#fed7aa" stroke="#c2410c" strokeWidth="2.5" />
+      <path d="M14 46C18 42 25 40 32 40C39 40 46 42 50 46" stroke="#7c2d12" strokeWidth="2" fill="none" />
+      <line x1="32" y1="10" x2="32" y2="40" stroke="#7c2d12" strokeWidth="1.5" strokeDasharray="3 2" />
+    </svg>
+  ),
+
+  prato: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <ellipse cx="32" cy="32" rx="26" ry="18" fill="#fef3c7" stroke="#78350f" strokeWidth="2.5" />
+      <ellipse cx="32" cy="32" rx="17" ry="11" fill="#fde68a" stroke="#78350f" strokeWidth="1.8" strokeDasharray="4 2" />
+      <ellipse cx="32" cy="32" rx="10" ry="6" fill="#fef3c7" stroke="#78350f" strokeWidth="1.5" />
+    </svg>
+  ),
+
+  cama: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <line x1="8" y1="18" x2="8" y2="52" stroke="#78350f" strokeWidth="3" strokeLinecap="round" />
+      <line x1="56" y1="28" x2="56" y2="52" stroke="#78350f" strokeWidth="3" strokeLinecap="round" />
+      <rect x="8" y="34" width="48" height="12" rx="2" fill="#fed7aa" stroke="#78350f" strokeWidth="2.5" />
+      <rect x="12" y="26" width="14" height="8" rx="2" fill="#fef3c7" stroke="#78350f" strokeWidth="2" />
+      <path d="M26 34H56V42H26Z" fill="#fde68a" stroke="#78350f" strokeWidth="1.5" />
+    </svg>
+  ),
+
+  peao: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <ellipse cx="32" cy="18" rx="7" ry="6" fill="#fde68a" stroke="#78350f" strokeWidth="2" />
+      <path d="M16 26C20 40 30 50 32 54C34 50 44 40 48 26C42 22 22 22 16 26Z" fill="#fed7aa" stroke="#78350f" strokeWidth="2.5" />
+      <line x1="32" y1="54" x2="32" y2="60" stroke="#78350f" strokeWidth="3" strokeLinecap="round" />
+      <line x1="18" y1="34" x2="46" y2="34" stroke="#92400e" strokeWidth="1.5" strokeDasharray="3 2" />
+    </svg>
+  ),
+
+  milho: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <ellipse cx="32" cy="28" rx="10" ry="18" fill="#fde68a" stroke="#78350f" strokeWidth="2" />
+      <line x1="28" y1="12" x2="28" y2="44" stroke="#d97706" strokeWidth="1.5" />
+      <line x1="36" y1="12" x2="36" y2="44" stroke="#d97706" strokeWidth="1.5" />
+      <line x1="24" y1="20" x2="40" y2="20" stroke="#d97706" strokeWidth="1.5" />
+      <line x1="24" y1="28" x2="40" y2="28" stroke="#d97706" strokeWidth="1.5" />
+      <line x1="24" y1="36" x2="40" y2="36" stroke="#d97706" strokeWidth="1.5" />
+      <path d="M22 46C18 36 12 30 10 24C14 36 22 46 28 52" fill="#bbf7d0" stroke="#15803d" strokeWidth="2" />
+      <path d="M42 46C46 36 52 30 54 24C50 36 42 46 36 52" fill="#bbf7d0" stroke="#15803d" strokeWidth="2" />
+      <line x1="32" y1="46" x2="32" y2="58" stroke="#15803d" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  ),
+
+  sino: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <circle cx="32" cy="12" r="5" fill="#fde68a" stroke="#78350f" strokeWidth="2" />
+      <path d="M20 38C18 26 22 18 32 18C42 18 46 26 44 38C48 42 52 44 52 48H12C12 44 16 42 20 38Z" fill="#fef08a" stroke="#78350f" strokeWidth="2.5" />
+      <circle cx="32" cy="52" r="5" fill="#d97706" stroke="#78350f" strokeWidth="2" />
+    </svg>
+  ),
+
+  planeta: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <circle cx="32" cy="32" r="18" fill="#bae6fd" stroke="#0369a1" strokeWidth="2.5" />
+      <path d="M10 38C16 44 48 44 54 26" stroke="#d97706" strokeWidth="3" strokeLinecap="round" />
+      <path d="M8 32C14 48 50 48 56 28" stroke="#b45309" strokeWidth="1.5" strokeDasharray="3 2" />
+      <ellipse cx="28" cy="26" rx="5" ry="3" fill="#7dd3fc" />
+    </svg>
+  ),
+
+  porta: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <rect x="14" y="10" width="36" height="46" rx="2" fill="#fed7aa" stroke="#78350f" strokeWidth="2.5" />
+      <line x1="22" y1="18" x2="42" y2="18" stroke="#92400e" strokeWidth="1.5" />
+      <line x1="22" y1="46" x2="42" y2="46" stroke="#92400e" strokeWidth="1.5" />
+      <circle cx="42" cy="34" r="3" fill="#d97706" stroke="#78350f" strokeWidth="1.5" />
+    </svg>
+  ),
+
+  muro: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <rect x="10" y="18" width="44" height="34" rx="2" fill="#fed7aa" stroke="#c2410c" strokeWidth="2.5" />
+      <line x1="10" y1="30" x2="54" y2="30" stroke="#c2410c" strokeWidth="2" />
+      <line x1="10" y1="42" x2="54" y2="42" stroke="#c2410c" strokeWidth="2" />
+      <line x1="24" y1="18" x2="24" y2="30" stroke="#c2410c" strokeWidth="1.8" />
+      <line x1="40" y1="18" x2="40" y2="30" stroke="#c2410c" strokeWidth="1.8" />
+      <line x1="18" y1="30" x2="18" y2="42" stroke="#c2410c" strokeWidth="1.8" />
+      <line x1="32" y1="30" x2="32" y2="42" stroke="#c2410c" strokeWidth="1.8" />
+      <line x1="46" y1="30" x2="46" y2="42" stroke="#c2410c" strokeWidth="1.8" />
+      <line x1="26" y1="42" x2="26" y2="52" stroke="#c2410c" strokeWidth="1.8" />
+      <line x1="42" y1="42" x2="42" y2="52" stroke="#c2410c" strokeWidth="1.8" />
+    </svg>
+  ),
+
+  lata: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <ellipse cx="32" cy="18" rx="16" ry="6" fill="#e2e8f0" stroke="#475569" strokeWidth="2" />
+      <rect x="16" y="18" width="32" height="30" fill="#38bdf8" stroke="#475569" strokeWidth="2" />
+      <ellipse cx="32" cy="48" rx="16" ry="6" fill="#0284c7" stroke="#475569" strokeWidth="2" />
+      <line x1="16" y1="18" x2="16" y2="48" stroke="#475569" strokeWidth="2" />
+      <line x1="48" y1="18" x2="48" y2="48" stroke="#475569" strokeWidth="2" />
+      <rect x="20" y="26" width="24" height="12" rx="2" fill="#ffffff" opacity="0.8" />
+    </svg>
+  ),
+
+  vaso: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <polygon points="18,22 46,22 40,54 24,54" fill="#fb923c" stroke="#9a3412" strokeWidth="2" strokeLinejoin="round" />
+      <rect x="16" y="16" width="32" height="6" rx="2" fill="#ea580c" stroke="#9a3412" strokeWidth="1.5" />
+      <path d="M26 16C26 8 32 8 32 16M32 16C32 6 38 6 38 16" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="32" cy="8" r="4" fill="#ef4444" />
+    </svg>
+  ),
+
+  bule: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <path d="M20 24C16 38 20 52 34 52C46 52 48 38 46 24Z" fill="#fde047" stroke="#854d0e" strokeWidth="2" />
+      <ellipse cx="33" cy="22" rx="14" ry="4" fill="#facc15" stroke="#854d0e" strokeWidth="1.8" />
+      <circle cx="33" cy="16" r="3" fill="#ca8a04" />
+      <path d="M46 28C54 30 54 44 44 46" stroke="#854d0e" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      <path d="M20 32C12 28 10 20 12 18L16 20" stroke="#854d0e" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+    </svg>
+  ),
+
+  pote: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <rect x="18" y="24" width="28" height="28" rx="6" fill="#fef08a" stroke="#ca8a04" strokeWidth="2" />
+      <rect x="22" y="16" width="20" height="8" rx="2" fill="#ca8a04" stroke="#854d0e" strokeWidth="1.5" />
+      <rect x="22" y="32" width="20" height="12" rx="2" fill="#ffffff" opacity="0.8" />
+      <circle cx="32" cy="38" r="3" fill="#ef4444" />
+    </svg>
+  ),
+
+  galo: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <ellipse cx="30" cy="38" rx="14" ry="12" fill="#f97316" stroke="#9a3412" strokeWidth="2" />
+      <circle cx="40" cy="24" r="8" fill="#facc15" stroke="#9a3412" strokeWidth="2" />
+      <polygon points="46,24 54,26 46,29" fill="#ea580c" />
+      <circle cx="42" cy="22" r="1.5" fill="#000" />
+      <path d="M38 16C40 10 44 14 46 16" stroke="#dc2626" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <path d="M16 38C12 30 16 20 22 26" stroke="#0284c7" strokeWidth="3" strokeLinecap="round" fill="none" />
+      <line x1="26" y1="50" x2="26" y2="58" stroke="#ca8a04" strokeWidth="2" />
+      <line x1="34" y1="50" x2="34" y2="58" stroke="#ca8a04" strokeWidth="2" />
+    </svg>
+  ),
+
+  bolo: ({ className = "w-10 h-10" }) => (
+    <svg viewBox="0 0 64 64" fill="none" className={className}>
+      <rect x="14" y="32" width="36" height="20" rx="3" fill="#fed7aa" stroke="#78350f" strokeWidth="2" />
+      <rect x="12" y="28" width="40" height="6" rx="2" fill="#f43f5e" stroke="#881337" strokeWidth="1.5" />
+      <rect x="30" y="16" width="4" height="12" rx="1" fill="#fef08a" stroke="#ca8a04" strokeWidth="1" />
+      <polygon points="32,8 30,14 34,14" fill="#f97316" />
+      <circle cx="20" cy="42" r="2" fill="#f43f5e" />
+      <circle cx="32" cy="42" r="2" fill="#f43f5e" />
+      <circle cx="44" cy="42" r="2" fill="#f43f5e" />
+    </svg>
   )
 };
 
-// AI Generated illustrations with high resolution sticker style
-export const AI_AVAILABLE_IMAGES = new Set([
-  'alho',
-  'asa',
-  'bico',
-  'boi',
-  'bola',
-  'casa',
-  'chave',
-  'copo',
-  'dado',
-  'gato',
-  'maca',
-  'mao',
-  'mesa',
-  'nariz',
-  'nozes',
-  'pao',
-  'passaro',
-  'pato',
-  'pipa',
-  'planta',
-  'rato',
-  'sorvete',
-  'trilho'
-]);
-
 export const RebusImageOrSvg = ({ name, className = "w-10 h-10" }) => {
-  const [pathIdx, setPathIdx] = React.useState(0);
-  const [hasError, setHasError] = React.useState(false);
-
   const cleanKey = React.useMemo(() => {
     if (!name) return '';
     return name
@@ -970,41 +1105,17 @@ export const RebusImageOrSvg = ({ name, className = "w-10 h-10" }) => {
       .replace(/[\u0300-\u036f]/g, '');
   }, [name]);
 
-  const candidatePaths = React.useMemo(() => [
-    `./assets/enigmas/${cleanKey}.jpg`,
-    `/games/carta-enigmatica/assets/enigmas/${cleanKey}.jpg`,
-    `/assets/enigmas/${cleanKey}.jpg`,
-    `assets/enigmas/${cleanKey}.jpg`
-  ], [cleanKey]);
-
-  if (AI_AVAILABLE_IMAGES.has(cleanKey) && !hasError && pathIdx < candidatePaths.length) {
-    return (
-      <img
-        src={candidatePaths[pathIdx]}
-        alt={name}
-        className={`${className} object-contain rounded-md drop-shadow-sm select-none pointer-events-none`}
-        onError={() => {
-          if (pathIdx + 1 < candidatePaths.length) {
-            setPathIdx(prev => prev + 1);
-          } else {
-            setHasError(true);
-          }
-        }}
-        loading="eager"
-      />
-    );
-  }
-
   const Component = RebusIllustrations[cleanKey] || RebusIllustrations[name];
-  if (!Component) {
-    return (
-      <div className={`inline-flex items-center justify-center p-1 bg-amber-100 rounded border border-amber-600 text-xs font-bold ${className}`}>
-        {name?.toUpperCase()}
-      </div>
-    );
+
+  if (Component) {
+    return <Component className={className} />;
   }
 
-  return <Component className={className} />;
+  return (
+    <div className={`inline-flex items-center justify-center p-1 bg-amber-100 rounded border border-amber-600 text-xs font-bold text-amber-900 ${className}`}>
+      {name?.toUpperCase()}
+    </div>
+  );
 };
 
 export const getRebusIllustration = (name, className) => {

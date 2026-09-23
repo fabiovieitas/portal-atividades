@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Lightbulb, CheckCircle2, Search, Sparkles } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { getEnigmaIllustration } from './illustrations/EnigmaIcons';
+import RebusFormulaBadge from './RebusFormulaBadge';
 import VirtualKeyboard from './VirtualKeyboard';
 import { sounds } from '../audio/soundEffects';
 
@@ -72,10 +74,19 @@ export default function EnigmaModal({
   const triggerSuccess = (word) => {
     setIsSolvedSuccess(true);
     sounds.playSuccess();
+    try {
+      confetti({
+        particleCount: 85,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    } catch (e) {
+      // ignore
+    }
     setTimeout(() => {
       onSolve(enigma.id, word);
       onClose();
-    }, 600);
+    }, 700);
   };
 
   const handleValidate = () => {
@@ -160,11 +171,9 @@ export default function EnigmaModal({
         {/* Big Rebus Box - ONLY the visual drawing and operators (NO formula text unless hint is used!) */}
         <div className="bg-[#fff9ee] border-2 border-dashed border-amber-800/60 rounded-2xl p-5 sm:p-7 mb-4 text-center shadow-inner relative flex flex-col items-center justify-center gap-3">
           {/* Visual Rebus Equation */}
-          <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+          <div className="flex items-center justify-center gap-2 sm:gap-4 flex-wrap">
             {enigma.prefixo && (
-              <span className="font-heading font-black text-2xl sm:text-3xl text-amber-900 tracking-wide">
-                {enigma.prefixo}
-              </span>
+              <RebusFormulaBadge text={enigma.prefixo} size="large" />
             )}
 
             <motion.div
@@ -176,9 +185,7 @@ export default function EnigmaModal({
             </motion.div>
 
             {enigma.sufixo && (
-              <span className="font-heading font-black text-2xl sm:text-3xl text-stamp-red bg-rose-50 px-3 py-1 rounded-xl border border-rose-300 shadow-xs">
-                {enigma.sufixo}
-              </span>
+              <RebusFormulaBadge text={enigma.sufixo} size="large" />
             )}
           </div>
 

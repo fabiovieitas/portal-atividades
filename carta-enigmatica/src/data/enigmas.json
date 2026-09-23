@@ -2,12 +2,12 @@
   "niveis": {
     "terceiroAno": {
       "titulo": "3º Ano — O Resgate do Mascote Fujão",
-      "descricao": "Pouco texto, frases curtas e 3 salas temáticas com dificuldade progressiva.",
+      "descricao": "Narrativa investigativa clássica com 3 salas temáticas e 24 desafios desafiadores de ortografia e lógica.",
       "salas": [
         {
           "sala": 1,
           "nomeSala": "O Jardim do Parque",
-          "texto": "Detetive [NOME], venha logo! O filhote de [E1] correu pelo [E2]. Ele estava jogando uma divertida partida de [E3] perto da lanchonete e depois tomou um refrescante [E4] geladinho!",
+          "texto": "Detetive [NOME], venha logo! O filhote de [E1] correu pelo [E2]! Ele pulou sobre o [E3] florido, passou por trás do [E4] da praça e começou uma animada partida de [E5] perto da lanchonete! Depois de tanto correr, ele tomou um delicioso [E6] geladinho, comeu um pedaço de [E7] fresquinha e deixou uma pista sobre o [E8]!",
           "enigmas": [
             {
               "id": 1,
@@ -32,6 +32,26 @@
             {
               "id": 3,
               "prefixo": "",
+              "imagem": "cama",
+              "sufixo": "- ma + nteiro",
+              "operacao": "CAMA - ma + nteiro",
+              "resposta": "CANTEIRO",
+              "nome": "CAMA",
+              "dica": "CAMA sem MA (CA) + NTEIRO = CANTEIRO"
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "galo",
+              "sufixo": "- lo + pão",
+              "operacao": "GALO - lo + pão",
+              "resposta": "GALPAO",
+              "nome": "GALO",
+              "dica": "GALO sem LO (GA) + PÃO = GALPÃO"
+            },
+            {
+              "id": 5,
+              "prefixo": "",
               "imagem": "bola",
               "sufixo": "- la + cha",
               "operacao": "BOLA - la + cha",
@@ -40,7 +60,7 @@
               "dica": "BOLA sem LA (BO) + CHA = BOCHA"
             },
             {
-              "id": 4,
+              "id": 6,
               "prefixo": "su + ",
               "imagem": "copo",
               "sufixo": "- po",
@@ -48,17 +68,19 @@
               "resposta": "SUCO",
               "nome": "COPO",
               "dica": "SU + COPO sem PO (CO) = SUCO"
-            }
-          ],
-          "pistaInvetario": "O CACHORRO"
-        },
-        {
-          "sala": 2,
-          "nomeSala": "O Esconderijo na Sala",
-          "texto": "[NOME], o filhote entrou na casa! Ele escondeu o [E5] secreto no fundo da [E6]. Pegue a [E7] dourada que deixaram caída no [E8] e abra a porta da varanda!",
-          "enigmas": [
+            },
             {
-              "id": 5,
+              "id": 7,
+              "prefixo": "",
+              "imagem": "bolo",
+              "sufixo": "- lo + cha",
+              "operacao": "BOLO - lo + cha",
+              "resposta": "BOLACHA",
+              "nome": "BOLO",
+              "dica": "BOLO sem LO (BO) + CHA = BOLACHA"
+            },
+            {
+              "id": 8,
               "prefixo": "",
               "imagem": "mala",
               "sufixo": "- la + pa",
@@ -66,9 +88,27 @@
               "resposta": "MAPA",
               "nome": "MALA",
               "dica": "MALA sem LA (MA) + PA = MAPA"
+            }
+          ],
+          "pistaInvetario": "O CACHORRO"
+        },
+        {
+          "sala": 2,
+          "nomeSala": "O Esconderijo na Casa Antiga",
+          "texto": "[NOME], o filhote entrou na casa antiga! Ele subiu no [E9] macio, guardou a chave no fundo da [E10] e sentou perto do [E11] da sala. Depois acendeu a [E12] na parede, ligou o antigo [E13] para ouvir música, pegou um biscoito na [E14], apertou o [E15] dourado e correu em direção à [E16]!",
+          "enigmas": [
+            {
+              "id": 9,
+              "prefixo": "",
+              "imagem": "sol",
+              "sufixo": "- l + fá",
+              "operacao": "SOL - l + fá",
+              "resposta": "SOFA",
+              "nome": "SOL",
+              "dica": "SOL sem L (SO) + FÁ = SOFÁ"
             },
             {
-              "id": 6,
+              "id": 10,
               "prefixo": "",
               "imagem": "gato",
               "sufixo": "- to + veta",
@@ -78,55 +118,47 @@
               "dica": "GATO sem TO (GA) + VETA = GAVETA"
             },
             {
-              "id": 7,
-              "prefixo": "chá + ",
-              "imagem": "vela",
-              "sufixo": "- la",
-              "operacao": "chá + VELA - la",
-              "resposta": "CHAVE",
-              "nome": "VELA",
-              "dica": "CHÁ + VELA sem LA (VE) = CHAVE"
-            },
-            {
-              "id": 8,
-              "prefixo": "",
-              "imagem": "sol",
-              "sufixo": "- l + fá",
-              "operacao": "SOL - l + fá",
-              "resposta": "SOFA",
-              "nome": "SOL",
-              "dica": "SOL sem L (SO) + FÁ = SOFÁ"
-            }
-          ],
-          "pistaInvetario": "ESTÁ SALVO"
-        },
-        {
-          "sala": 3,
-          "nomeSala": "O Baú no Quintal Florido",
-          "texto": "Veja só, [NOME]! O filhote estava brincando com um [E9] de pano e comendo um doce de [E10]. Ele apertou o [E11] do portão e deixou um bilhete numa folha de [E12]!",
-          "enigmas": [
-            {
-              "id": 9,
-              "prefixo": "",
-              "imagem": "bota",
-              "sufixo": "- ta + neco",
-              "operacao": "BOTA - ta + neco",
-              "resposta": "BONECO",
-              "nome": "BOTA",
-              "dica": "BOTA sem TA (BO) + NECO = BONECO"
-            },
-            {
-              "id": 10,
-              "prefixo": "",
-              "imagem": "meia",
-              "sufixo": "- ia + l",
-              "operacao": "MEIA - ia + l",
-              "resposta": "MEL",
-              "nome": "MEIA",
-              "dica": "MEIA sem IA (ME) + L = MEL"
-            },
-            {
               "id": 11,
+              "prefixo": "",
+              "imagem": "muro",
+              "sufixo": "- ro + ral",
+              "operacao": "MURO - ro + ral",
+              "resposta": "MURAL",
+              "nome": "MURO",
+              "dica": "MURO sem RO (MU) + RAL = MURAL"
+            },
+            {
+              "id": 12,
+              "prefixo": "",
+              "imagem": "vela",
+              "sufixo": "",
+              "operacao": "VELA",
+              "resposta": "VELA",
+              "nome": "VELA",
+              "dica": "Objeto de cera com pavio que produz chama luminosa"
+            },
+            {
+              "id": 13,
+              "prefixo": "",
+              "imagem": "rato",
+              "sufixo": "- to + dio",
+              "operacao": "RATO - to + dio",
+              "resposta": "RADIO",
+              "nome": "RATO",
+              "dica": "RATO sem TO (RA) + DIO = RÁDIO"
+            },
+            {
+              "id": 14,
+              "prefixo": "",
+              "imagem": "prato",
+              "sufixo": "- to + teleira",
+              "operacao": "PRATO - to + teleira",
+              "resposta": "PRATELEIRA",
+              "nome": "PRATO",
+              "dica": "PRATO sem TO (PRA) + TELEIRA = PRATELEIRA"
+            },
+            {
+              "id": 15,
               "prefixo": "",
               "imagem": "bota",
               "sufixo": "- ta + tão",
@@ -136,7 +168,65 @@
               "dica": "BOTA sem TA (BO) + TÃO = BOTÃO"
             },
             {
-              "id": 12,
+              "id": 16,
+              "prefixo": "",
+              "imagem": "porta",
+              "sufixo": "",
+              "operacao": "PORTA",
+              "resposta": "PORTA",
+              "nome": "PORTA",
+              "dica": "Abertura com folha de madeira para entrada e saída"
+            }
+          ],
+          "pistaInvetario": "ESTÁ SALVO"
+        },
+        {
+          "sala": 3,
+          "nomeSala": "O Baú no Quintal Florido",
+          "texto": "Veja só, detetive [NOME]! O mascote estava brincando com um lindo [E17] de pano e saboreando um favo de [E18] fresquinho! Ele pulou o [E19] de pedras, ouviu o badalar do [E20] da torre, escreveu um recado numa folha de [E21] usando uma [E22] de pássaro, tomou água fresca na [E23] de metal e se aconchegou perto do [E24] com flores!",
+          "enigmas": [
+            {
+              "id": 17,
+              "prefixo": "",
+              "imagem": "bota",
+              "sufixo": "- ta + neco",
+              "operacao": "BOTA - ta + neco",
+              "resposta": "BONECO",
+              "nome": "BOTA",
+              "dica": "BOTA sem TA (BO) + NECO = BONECO"
+            },
+            {
+              "id": 18,
+              "prefixo": "",
+              "imagem": "meia",
+              "sufixo": "- ia + l",
+              "operacao": "MEIA - ia + l",
+              "resposta": "MEL",
+              "nome": "MEIA",
+              "dica": "MEIA sem IA (ME) + L = MEL"
+            },
+            {
+              "id": 19,
+              "prefixo": "",
+              "imagem": "muro",
+              "sufixo": "",
+              "operacao": "MURO",
+              "resposta": "MURO",
+              "nome": "MURO",
+              "dica": "Parede que cerca o terreno"
+            },
+            {
+              "id": 20,
+              "prefixo": "",
+              "imagem": "sino",
+              "sufixo": "",
+              "operacao": "SINO",
+              "resposta": "SINO",
+              "nome": "SINO",
+              "dica": "Instrumento musical de metal que soa no alto"
+            },
+            {
+              "id": 21,
               "prefixo": "",
               "imagem": "pato",
               "sufixo": "- to + pel",
@@ -144,6 +234,36 @@
               "resposta": "PAPEL",
               "nome": "PATO",
               "dica": "PATO sem TO (PA) + PEL = PAPEL"
+            },
+            {
+              "id": 22,
+              "prefixo": "",
+              "imagem": "pena",
+              "sufixo": "",
+              "operacao": "PENA",
+              "resposta": "PENA",
+              "nome": "PENA",
+              "dica": "Estrutura leve que cobre o corpo das aves"
+            },
+            {
+              "id": 23,
+              "prefixo": "",
+              "imagem": "lata",
+              "sufixo": "",
+              "operacao": "LATA",
+              "resposta": "LATA",
+              "nome": "LATA",
+              "dica": "Recipiente de metal"
+            },
+            {
+              "id": 24,
+              "prefixo": "",
+              "imagem": "vaso",
+              "sufixo": "",
+              "operacao": "VASO",
+              "resposta": "VASO",
+              "nome": "VASO",
+              "dica": "Recipiente para cultivo de flores e folhagens"
             }
           ],
           "pistaInvetario": "NO JARDIM"
@@ -154,12 +274,12 @@
     },
     "quartoAno": {
       "titulo": "4º Ano — A Carta Secreta das Férias",
-      "descricao": "Carta clássica de revista com 4 salas temáticas e densidade crescente de enigmas.",
+      "descricao": "Carta clássica de revista com 4 salas temáticas e 28 enigmas desafiadores.",
       "salas": [
         {
           "sala": 1,
           "nomeSala": "O Envelope e a Saudação",
-          "texto": "[E1] querida [E2] [NOME], como [E3] as coisas? [E4] [E5] linda cartinha para planejar as nossas férias. Abra a próxima folha para ler as novidades!",
+          "texto": "[E1] querida [E2] [NOME], como [E3] as coisas? [E4] [E5] linda cartinha para planejar as nossas férias! No início do mês, [E6] um lindo [E7] azul cruzando o céu da nossa cidade!",
           "enigmas": [
             {
               "id": 1,
@@ -210,17 +330,37 @@
               "resposta": "UMA",
               "nome": "UM",
               "dica": "UM + A = UMA"
+            },
+            {
+              "id": 6,
+              "prefixo": "v + ",
+              "imagem": "leao",
+              "sufixo": "- leão + i",
+              "operacao": "v + i",
+              "resposta": "VI",
+              "nome": "LEÃO",
+              "dica": "V + I = VI"
+            },
+            {
+              "id": 7,
+              "prefixo": "",
+              "imagem": "passaro",
+              "sufixo": "",
+              "operacao": "PÁSSARO",
+              "resposta": "PASSARO",
+              "nome": "PÁSSARO",
+              "dica": "Ave com penas e asas que voa no céu"
             }
           ],
           "pistaInvetario": "A CARTA"
         },
         {
           "sala": 2,
-          "nomeSala": "A Lista de Passeios",
-          "texto": "Estou planejando [E6] ótimos [E7] para as [E8] tardes ensolaradas: vamos comer taças na [E9] nova e passear na praça [E10] cidade!",
+          "nomeSala": "A Lista de Passeios e Lanches",
+          "texto": "Estou planejando [E8] ótimos [E9] para as [E10] tardes ensolaradas! Vamos comer taças na [E11] nova, provar um picolé com calda de [E12], comprar um pacote de [E13] quentinha e passear na praça [E14] cidade!",
           "enigmas": [
             {
-              "id": 6,
+              "id": 8,
               "prefixo": "",
               "imagem": "alho",
               "sufixo": "- ho + guns",
@@ -230,7 +370,7 @@
               "dica": "ALHO sem HO (AL) + GUNS = ALGUNS"
             },
             {
-              "id": 7,
+              "id": 9,
               "prefixo": "",
               "imagem": "passaro",
               "sufixo": "- aro + eios",
@@ -240,7 +380,7 @@
               "dica": "PÁSSARO sem ARO (PASS) + EIOS = PASSEIOS"
             },
             {
-              "id": 8,
+              "id": 10,
               "prefixo": "",
               "imagem": "nozes",
               "sufixo": "- zes + sas",
@@ -250,7 +390,7 @@
               "dica": "NOZES sem ZES (NOS) + SAS = NOSSAS"
             },
             {
-              "id": 9,
+              "id": 11,
               "prefixo": "",
               "imagem": "sorvete",
               "sufixo": "+ ria",
@@ -260,7 +400,27 @@
               "dica": "SORVETE + RIA = SORVETERIA"
             },
             {
-              "id": 10,
+              "id": 12,
+              "prefixo": "",
+              "imagem": "meia",
+              "sufixo": "- ia + l",
+              "operacao": "MEIA - ia + l",
+              "resposta": "MEL",
+              "nome": "MEIA",
+              "dica": "MEIA sem IA (ME) + L = MEL"
+            },
+            {
+              "id": 13,
+              "prefixo": "",
+              "imagem": "pipoca",
+              "sufixo": "",
+              "operacao": "PIPOCA",
+              "resposta": "PIPOCA",
+              "nome": "PIPOCA",
+              "dica": "Milho estourado em grãos brancos e crocantes"
+            },
+            {
+              "id": 14,
               "prefixo": "",
               "imagem": "dado",
               "sufixo": "- do",
@@ -274,11 +434,11 @@
         },
         {
           "sala": 3,
-          "nomeSala": "A Rota e Aventuras",
-          "texto": "Saindo da [E11], visitaremos o [E12] das estrelas! Depois faremos uma [E13] pedalando a nova [E14] e faremos um [E15] com muitas guloseimas.",
+          "nomeSala": "A Rota e Aventuras Ecológicas",
+          "texto": "Saindo da [E15], visitaremos o [E16] das estrelas! Depois faremos uma [E17] ecológica pedalando a nova [E18], soltaremos uma [E19] bem alto no céu e faremos um [E20] com fatias de [E21] quentinho!",
           "enigmas": [
             {
-              "id": 11,
+              "id": 15,
               "prefixo": "c + ",
               "imagem": "asa",
               "sufixo": "",
@@ -288,7 +448,7 @@
               "dica": "C + ASA = CASA"
             },
             {
-              "id": 12,
+              "id": 16,
               "prefixo": "",
               "imagem": "planta",
               "sufixo": "- nta + tário",
@@ -298,7 +458,7 @@
               "dica": "PLANTA sem NTA (PLA) + NETÁRIO = PLANETÁRIO"
             },
             {
-              "id": 13,
+              "id": 17,
               "prefixo": "",
               "imagem": "trilho",
               "sufixo": "- o + a",
@@ -308,7 +468,7 @@
               "dica": "TRILHO trocando O por A = TRILHA"
             },
             {
-              "id": 14,
+              "id": 18,
               "prefixo": "",
               "imagem": "bico",
               "sufixo": "- o + icleta",
@@ -318,7 +478,17 @@
               "dica": "BICO sem O (BIC) + ICLETA = BICICLETA"
             },
             {
-              "id": 15,
+              "id": 19,
+              "prefixo": "",
+              "imagem": "pipa",
+              "sufixo": "",
+              "operacao": "PIPA",
+              "resposta": "PIPA",
+              "nome": "PIPA",
+              "dica": "Brinquedo de papel de seda e varetas que voa com o vento"
+            },
+            {
+              "id": 20,
               "prefixo": "",
               "imagem": "pipa",
               "sufixo": "- pa + quenique",
@@ -326,17 +496,27 @@
               "resposta": "PIQUENIQUE",
               "nome": "PIPA",
               "dica": "PIPA sem PA (PI) + QUENIQUE = PIQUENIQUE"
+            },
+            {
+              "id": 21,
+              "prefixo": "",
+              "imagem": "pao",
+              "sufixo": "",
+              "operacao": "PÃO",
+              "resposta": "PAO",
+              "nome": "PÃO",
+              "dica": "Alimento assado de trigo, água e fermento"
             }
           ],
           "pistaInvetario": "PROMETE MUITA"
         },
         {
           "sala": 4,
-          "nomeSala": "O Convite Final",
-          "texto": "O encontro será no grande [E16] municipal. [E17] o que você [E18] da ideia, [NOME]? [E19] responda se [E20] puder, mas já estou na [E21] de [E22] vocês todos!",
+          "nomeSala": "O Convite Final e a Festa",
+          "texto": "O encontro será no grande [E22] municipal. [E23] o que você [E24] da ideia, [NOME]? Por favor, [E25] esqueça de confirmar quando [E26] puder, pois estou na [E27] de [E28] todos vocês!",
           "enigmas": [
             {
-              "id": 16,
+              "id": 22,
               "prefixo": "",
               "imagem": "pato",
               "sufixo": "- to + rque",
@@ -346,7 +526,7 @@
               "dica": "PATO sem TO (PA) + RQUE = PARQUE"
             },
             {
-              "id": 17,
+              "id": 23,
               "prefixo": "Di + ",
               "imagem": "gato",
               "sufixo": "- to",
@@ -356,7 +536,7 @@
               "dica": "DI + GATO sem TO (GA) = DIGA"
             },
             {
-              "id": 18,
+              "id": 24,
               "prefixo": "a + ",
               "imagem": "chave",
               "sufixo": "- ve",
@@ -366,17 +546,7 @@
               "dica": "A + CHAVE sem VE (CHA) = ACHA"
             },
             {
-              "id": 19,
-              "prefixo": "",
-              "imagem": "mesa",
-              "sufixo": "- sa",
-              "operacao": "MESA - sa",
-              "resposta": "ME",
-              "nome": "MESA",
-              "dica": "MESA sem SA = ME"
-            },
-            {
-              "id": 20,
+              "id": 25,
               "prefixo": "N + ",
               "imagem": "pao",
               "sufixo": "- p",
@@ -386,7 +556,17 @@
               "dica": "N + PÃO sem P (ÃO) = NÃO"
             },
             {
-              "id": 21,
+              "id": 26,
+              "prefixo": "",
+              "imagem": "bebe",
+              "sufixo": "- be",
+              "operacao": "BEBÊ - be",
+              "resposta": "BE",
+              "nome": "BEBÊ",
+              "dica": "BEBÊ sem BE = BÊ"
+            },
+            {
+              "id": 27,
               "prefixo": "ho + ",
               "imagem": "rato",
               "sufixo": "- to",
@@ -396,7 +576,7 @@
               "dica": "HO + RATO sem TO (RA) = HORA"
             },
             {
-              "id": 22,
+              "id": 28,
               "prefixo": "",
               "imagem": "numero20",
               "sufixo": "- nte + sitar",
@@ -414,12 +594,12 @@
     },
     "quintoAno": {
       "titulo": "5º Ano — O Banquete Secreto do Restaurante",
-      "descricao": "Mistério culinário com 5 salas temáticas e vocabulário desafiador.",
+      "descricao": "Mistério culinário sofisticado com 4 salas temáticas e 28 enigmas desafiadores.",
       "salas": [
         {
           "sala": 1,
           "nomeSala": "O Salão de Entrada e as Boas-Vindas",
-          "texto": "Investigador(a) [NOME], ajude a montar o [E1] do nosso ilustre [E2]! Estas são as [E3] receitas exclusivas, começando pelo famoso docinho de [E4] gourmet!",
+          "texto": "Investigador(a) [NOME], ajude a montar o [E1] do nosso ilustre [E2]! Estas são as [E3] receitas da temporada. Comece vestindo o avental de [E4], olhe as horas no [E5] da parede, acenda o [E6] do fogão e prepare o famoso docinho de [E7] gourmet!",
           "enigmas": [
             {
               "id": 1,
@@ -454,6 +634,36 @@
             {
               "id": 4,
               "prefixo": "",
+              "imagem": "mala",
+              "sufixo": "- la + lha",
+              "operacao": "MALA - la + lha",
+              "resposta": "MALHA",
+              "nome": "MALA",
+              "dica": "MALA sem LA (MA) + LHA = MALHA"
+            },
+            {
+              "id": 5,
+              "prefixo": "",
+              "imagem": "relogio",
+              "sufixo": "",
+              "operacao": "RELÓGIO",
+              "resposta": "RELOGIO",
+              "nome": "RELÓGIO",
+              "dica": "Instrumento que mede as horas e minutos"
+            },
+            {
+              "id": 6,
+              "prefixo": "",
+              "imagem": "fogo",
+              "sufixo": "",
+              "operacao": "FOGO",
+              "resposta": "FOGO",
+              "nome": "FOGO",
+              "dica": "Chama ardente que cozinha os alimentos"
+            },
+            {
+              "id": 7,
+              "prefixo": "",
               "imagem": "bruxa",
               "sufixo": "- uxa + igadeiro",
               "operacao": "BRUXA - uxa + igadeiro",
@@ -467,10 +677,10 @@
         {
           "sala": 2,
           "nomeSala": "O Balcão de Bebidas e Molhos",
-          "texto": "[NOME], para beber sirva uma jarra de [E5] natural. Para temperar, adicione [E6] suave e um toque de [E7] silvestre antes de assar a borda da [E8] crocante!",
+          "texto": "[NOME], para beber sirva uma jarra de [E8] natural de frutas cítricas. Para os molhos, tempere com [E9] suave e um toque de [E10] silvestre. Retire o [E11] dourado do forno, salpique lascas de [E12] tostado e asse a massa da [E13] com muito [E14]!",
           "enigmas": [
             {
-              "id": 5,
+              "id": 8,
               "prefixo": "su + ",
               "imagem": "copo",
               "sufixo": "- po",
@@ -480,7 +690,7 @@
               "dica": "SU + COPO sem PO (CO) = SUCO"
             },
             {
-              "id": 6,
+              "id": 9,
               "prefixo": "",
               "imagem": "mosca",
               "sufixo": "- ca + tarda",
@@ -490,7 +700,7 @@
               "dica": "MOSCA sem CA (MOS) + TARDA = MOSTARDA"
             },
             {
-              "id": 7,
+              "id": 10,
               "prefixo": "",
               "imagem": "meia",
               "sufixo": "- ia + l",
@@ -500,165 +710,207 @@
               "dica": "MEIA sem IA (ME) + L = MEL"
             },
             {
-              "id": 8,
-              "prefixo": "",
-              "imagem": "pipa",
-              "sufixo": "- pa + zza",
-              "operacao": "PIPA - pa + zza",
-              "resposta": "PIZZA",
-              "nome": "PIPA",
-              "dica": "PIPA sem PA (PI) + ZZA = PIZZA"
-            }
-          ],
-          "pistaInvetario": "REVELOU QUE"
-        },
-        {
-          "sala": 3,
-          "nomeSala": "A Cozinha dos Pratos Quentes",
-          "texto": "Na panela temos um caldo vermelho de [E9] e para sobremesa infantil temos [E10] de frutas. Complete o prato servindo [E11] temperado e um saboroso [E12] tostado!",
-          "enigmas": [
-            {
-              "id": 9,
-              "prefixo": "",
-              "imagem": "bebe",
-              "sufixo": "- e + terraba",
-              "operacao": "BEBÊ - ê + terraba",
-              "resposta": "BETERRABA",
-              "nome": "BEBÊ",
-              "dica": "BEBÊ sem BÊ (BE) + TERRABA = BETERRABA"
-            },
-            {
-              "id": 10,
-              "prefixo": "",
-              "imagem": "pipa",
-              "sufixo": "- pa + colé",
-              "operacao": "PIPA - pa + colé",
-              "resposta": "PICOLE",
-              "nome": "PIPA",
-              "dica": "PIPA sem PA (PI) + COLÉ = PICOLÉ"
-            },
-            {
               "id": 11,
-              "prefixo": "fei + ",
-              "imagem": "leao",
-              "sufixo": "- le",
-              "operacao": "fei + LEÃO - le",
-              "resposta": "FEIJAO",
-              "nome": "LEÃO",
-              "dica": "FEI + LEÃO sem LE (ÃO) = FEIJÃO"
+              "prefixo": "",
+              "imagem": "pao",
+              "sufixo": "",
+              "operacao": "PÃO",
+              "resposta": "PAO",
+              "nome": "PÃO",
+              "dica": "Massa assada com crosta dourada"
             },
             {
               "id": 12,
               "prefixo": "",
-              "imagem": "sandalia",
-              "sufixo": "- lia + duíche",
-              "operacao": "SANDÁLIA - lia + duíche",
-              "resposta": "SANDUICHE",
-              "nome": "SANDÁLIA",
-              "dica": "SANDÁLIA sem LIA (SAN) + DUÍCHE = SANDUÍCHE"
-            }
-          ],
-          "pistaInvetario": "A RECEITA"
-        },
-        {
-          "sala": 4,
-          "nomeSala": "O Banquete Imperial",
-          "texto": "No fogão a lenha ferve um [E13] soltinho e uma travessa de [E14] caseiro. Ao lado do [E15] principal há uma linda escultura de [E16] guardando a entrada!",
-          "enigmas": [
+              "imagem": "alho",
+              "sufixo": "",
+              "operacao": "ALHO",
+              "resposta": "ALHO",
+              "nome": "ALHO",
+              "dica": "Tempero de dentes brancos e aroma marcante"
+            },
             {
               "id": 13,
-              "prefixo": "a + ",
-              "imagem": "rato",
-              "sufixo": "- to + z",
-              "operacao": "a + RATO - to + z",
-              "resposta": "ARROZ",
-              "nome": "RATO",
-              "dica": "A + RATO sem TO (RA) + Z = ARROZ"
+              "prefixo": "",
+              "imagem": "pizza",
+              "sufixo": "",
+              "operacao": "PIZZA",
+              "resposta": "PIZZA",
+              "nome": "PIZZA",
+              "dica": "Massa redonda italiana coberta com queijo e molho"
             },
             {
               "id": 14,
-              "prefixo": "",
-              "imagem": "macaco",
-              "sufixo": "- co + rrão",
-              "operacao": "MACACO - co + rrão",
-              "resposta": "MACARRAO",
-              "nome": "MACACO",
-              "dica": "MACACO sem CO (MACA) + RRÃO = MACARRÃO"
-            },
+              "prefixo": "a + ",
+              "imagem": "coracao",
+              "sufixo": "- ção + mor",
+              "operacao": "a + mor",
+              "resposta": "AMOR",
+              "nome": "CORAÇÃO",
+              "dica": "Sentimento de dedicação e carinho"
+            }
+          ],
+          "pistaInvetario": "PREPAROU UM"
+        },
+        {
+          "sala": 3,
+          "nomeSala": "A Cozinha e os Pratos Principais",
+          "texto": "Na estação de pratos quentes, grelhe o filé de [E15] com ervas e monte no grande [E16] de louça. Regue com óleo vegetal da [E17], mexa o caldo usando o [E18] aquecido, observe a água da [E19] borbulhar, pegue o fruto amarelo da [E20] e tempere a salada com sementes de [E21]!",
+          "enigmas": [
             {
               "id": 15,
               "prefixo": "",
-              "imagem": "pipoca",
-              "sufixo": "- poca + rtão",
-              "operacao": "PIPOCA - poca + rtão",
-              "resposta": "PORTAO",
-              "nome": "PIPOCA",
-              "dica": "P + ORTÃO = PORTÃO"
+              "imagem": "peixe",
+              "sufixo": "",
+              "operacao": "PEIXE",
+              "resposta": "PEIXE",
+              "nome": "PEIXE",
+              "dica": "Animal aquático de carne saudável"
             },
             {
               "id": 16,
               "prefixo": "",
-              "imagem": "leao",
-              "sufixo": "- ão + pardo",
-              "operacao": "LEÃO - ão + pardo",
-              "resposta": "LEOPARDO",
-              "nome": "LEÃO",
-              "dica": "LEÃO sem ÃO (LE) + PARDO = LEOPARDO"
-            }
-          ],
-          "pistaInvetario": "DO BANQUETE"
-        },
-        {
-          "sala": 5,
-          "nomeSala": "O Cofre das Especiarias",
-          "texto": "Parabéns pelo trabalho [E17], detetive [NOME]! Conclua a [E18] de pedidos, erga a [E19] da vitória culinária e comemore este grandioso [E20]!",
-          "enigmas": [
+              "imagem": "prato",
+              "sufixo": "",
+              "operacao": "PRATO",
+              "resposta": "PRATO",
+              "nome": "PRATO",
+              "dica": "Louça redonda onde se serve a comida"
+            },
             {
               "id": 17,
               "prefixo": "",
-              "imagem": "elefante",
-              "sufixo": "- fante + gante",
-              "operacao": "ELEFANTE - fante + gante",
-              "resposta": "ELEGANTE",
-              "nome": "ELEFANTE",
-              "dica": "ELEFANTE sem FANTE (ELE) + GANTE = ELEGANTE"
+              "imagem": "planta",
+              "sufixo": "",
+              "operacao": "PLANTA",
+              "resposta": "PLANTA",
+              "nome": "PLANTA",
+              "dica": "Vegetal que brota da terra"
             },
             {
               "id": 18,
               "prefixo": "",
-              "imagem": "livro",
-              "sufixo": "- vro + sta",
-              "operacao": "LIVRO - vro + sta",
-              "resposta": "LISTA",
-              "nome": "LIVRO",
-              "dica": "LIVRO sem VRO (LI) + STA = LISTA"
+              "imagem": "bule",
+              "sufixo": "",
+              "operacao": "BULE",
+              "resposta": "BULE",
+              "nome": "BULE",
+              "dica": "Recipiente com bico e asa para ferver líquidos"
             },
             {
               "id": 19,
               "prefixo": "",
-              "imagem": "banana",
-              "sufixo": "- na + deira",
-              "operacao": "BANANA - na + deira",
-              "resposta": "BANDEIRA",
-              "nome": "BANANA",
-              "dica": "BANANA sem NA (BANA) + DEIRA = BANDEIRA"
+              "imagem": "chuva",
+              "sufixo": "- va + rra",
+              "operacao": "CHUVA - va + rra",
+              "resposta": "JARRA",
+              "nome": "CHUVA",
+              "dica": "Recipiente com asa para água"
             },
             {
               "id": 20,
               "prefixo": "",
-              "imagem": "sol",
-              "sufixo": "- ol + ucesso",
-              "operacao": "SOL - ol + ucesso",
-              "resposta": "SUCESSO",
-              "nome": "SOL",
-              "dica": "S + UCESSO = SUCESSO"
+              "imagem": "banana",
+              "sufixo": "",
+              "operacao": "BANANA",
+              "resposta": "BANANA",
+              "nome": "BANANA",
+              "dica": "Fruta tropical amarela rica em potássio"
+            },
+            {
+              "id": 21,
+              "prefixo": "",
+              "imagem": "nozes",
+              "sufixo": "",
+              "operacao": "NOZES",
+              "resposta": "NOZES",
+              "nome": "NOZES",
+              "dica": "Fruto seco de casca dura e semente saborosa"
             }
           ],
-          "pistaInvetario": "É UM SUCESSO"
+          "pistaInvetario": "BANQUETE"
+        },
+        {
+          "sala": 4,
+          "nomeSala": "A Mesa das Sobremesas Secretas",
+          "texto": "Parabéns, detetive [NOME]! Os convidados estão deliciados e saboreiam a taça de [E22] com calda de morango. Receba a [E23] mestra da cozinha, abra o cofre do [E24] culinário, celebre comendo uma [E25] recheada e veja brilhar a primeira [E26] da noite no céu como um lindo [E27] com calda de [E28]!",
+          "enigmas": [
+            {
+              "id": 22,
+              "prefixo": "",
+              "imagem": "sorvete",
+              "sufixo": "",
+              "operacao": "SORVETE",
+              "resposta": "SORVETE",
+              "nome": "SORVETE",
+              "dica": "Sobremesa gelada e cremosa"
+            },
+            {
+              "id": 23,
+              "prefixo": "",
+              "imagem": "chave",
+              "sufixo": "",
+              "operacao": "CHAVE",
+              "resposta": "CHAVE",
+              "nome": "CHAVE",
+              "dica": "Instrumento que destranca fechaduras"
+            },
+            {
+              "id": 24,
+              "prefixo": "",
+              "imagem": "tesouro",
+              "sufixo": "",
+              "operacao": "TESOURO",
+              "resposta": "TESOURO",
+              "nome": "TESOURO",
+              "dica": "Riqueza ou preciosidade guardada a sete chaves"
+            },
+            {
+              "id": 25,
+              "prefixo": "",
+              "imagem": "bala",
+              "sufixo": "",
+              "operacao": "BALA",
+              "resposta": "BALA",
+              "nome": "BALA",
+              "dica": "Guloseima doce para saborear"
+            },
+            {
+              "id": 26,
+              "prefixo": "",
+              "imagem": "estrela",
+              "sufixo": "",
+              "operacao": "ESTRELA",
+              "resposta": "ESTRELA",
+              "nome": "ESTRELA",
+              "dica": "Astro luminoso que brilha no céu noturno"
+            },
+            {
+              "id": 27,
+              "prefixo": "",
+              "imagem": "bolo",
+              "sufixo": "",
+              "operacao": "BOLO",
+              "resposta": "BOLO",
+              "nome": "BOLO",
+              "dica": "Massa doce assada de festa com cobertura"
+            },
+            {
+              "id": 28,
+              "prefixo": "",
+              "imagem": "meia",
+              "sufixo": "- ia + l",
+              "operacao": "MEIA - ia + l",
+              "resposta": "MEL",
+              "nome": "MEIA",
+              "dica": "MEIA sem IA (ME) + L = MEL"
+            }
+          ],
+          "pistaInvetario": "DELICIOSO"
         }
       ],
-      "perguntaFinal": "Investigador(a) [NOME], ordene as 5 pistas do seu inventário (O CHEF, REVELOU QUE, A RECEITA, DO BANQUETE, É UM SUCESSO) e confirme a mensagem secreta final:",
-      "respostaFinalMestra": "O CHEF REVELOU QUE A RECEITA DO BANQUETE E UM SUCESSO"
+      "perguntaFinal": "Investigador(a) [NOME], junte as pistas do seu inventário (O CHEF, PREPAROU UM, BANQUETE, DELICIOSO) e confirme o relatório da missão:",
+      "respostaFinalMestra": "O CHEF PREPAROU UM BANQUETE DELICIOSO"
     }
   }
 }

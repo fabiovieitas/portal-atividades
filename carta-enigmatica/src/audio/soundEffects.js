@@ -105,7 +105,7 @@ class SoundSynthesizer {
     } catch (e) {}
   }
 
-  // 3. Som de acerto parcial / enigma correto
+  // 3. Som de acerto animado e triunfal: "Tcharaaaam! 🎉🎺"
   playSuccess() {
     if (this.isMuted) return;
     try {
@@ -113,25 +113,106 @@ class SoundSynthesizer {
       if (!this.ctx) return;
 
       const now = this.ctx.currentTime;
-      const notes = [523.25, 659.25, 783.99]; // C5, E5, G5 arpeggio
 
-      notes.forEach((freq, idx) => {
+      // --- PARTE 1: "TCHA!" (Ataque rápido do trompete em dominante G4 -> C5) ---
+      const tchaNotes = [
+        { f: 392.00, start: 0, dur: 0.09, vol: 0.22 },     // Sol (G4)
+        { f: 523.25, start: 0.08, dur: 0.10, vol: 0.25 },   // Dó (C5)
+      ];
+
+      tchaNotes.forEach(n => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(n.f, now + n.start);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2200, now + n.start);
+        filter.frequency.exponentialRampToValueAtTime(1200, now + n.start + n.dur);
+
+        gain.gain.setValueAtTime(n.vol, now + n.start);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + n.start + n.dur);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now + n.start);
+        osc.stop(now + n.start + n.dur + 0.02);
+      });
+
+      // --- PARTE 2: "RAAAAAM!" (Acorde triunfal sustentado de Metais C-Maior) ---
+      const chordStart = now + 0.16;
+      const chordDuration = 0.85;
+      const brassNotes = [
+        { f: 261.63, vol: 0.22 }, // C4 (grave de apoio)
+        { f: 392.00, vol: 0.24 }, // G4 (quinta harmônica)
+        { f: 523.25, vol: 0.26 }, // C5 (oitava principal)
+        { f: 659.25, vol: 0.25 }, // E5 (terça alegre maior)
+        { f: 783.99, vol: 0.22 }, // G5 (brilho agudo)
+        { f: 1046.50, vol: 0.18 } // C6 (topo triunfal)
+      ];
+
+      brassNotes.forEach(b => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(b.f, chordStart);
+
+        // Leve vibrato triunfal
+        const lfo = this.ctx.createOscillator();
+        const lfoGain = this.ctx.createGain();
+        lfo.frequency.setValueAtTime(5.5, chordStart);
+        lfoGain.gain.setValueAtTime(2.5, chordStart);
+        lfo.connect(osc.frequency);
+        lfo.start(chordStart);
+        lfo.stop(chordStart + chordDuration);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(3200, chordStart);
+        filter.frequency.exponentialRampToValueAtTime(1400, chordStart + chordDuration);
+
+        // Curva de envelope: Punch inicial + sustain brilhante + fade out macio
+        gain.gain.setValueAtTime(0.01, chordStart);
+        gain.gain.linearRampToValueAtTime(b.vol, chordStart + 0.03);
+        gain.gain.setValueAtTime(b.vol * 0.9, chordStart + 0.35);
+        gain.gain.exponentialRampToValueAtTime(0.001, chordStart + chordDuration);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(chordStart);
+        osc.stop(chordStart + chordDuration + 0.05);
+      });
+
+      // --- PARTE 3: BRILHO DE SINOS CINTILANTES (Poeira mágica de acerto) ---
+      const chimeNotes = [1046.5, 1318.5, 1567.98, 1975.5, 2093.0, 2637.0];
+      chimeNotes.forEach((freq, i) => {
+        const chimeTime = chordStart + 0.06 + i * 0.05;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
 
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+        osc.frequency.setValueAtTime(freq, chimeTime);
 
-        gain.gain.setValueAtTime(0.18, now + idx * 0.07);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
+        gain.gain.setValueAtTime(0.12, chimeTime);
+        gain.gain.exponentialRampToValueAtTime(0.0005, chimeTime + 0.38);
 
         osc.connect(gain);
         gain.connect(this.ctx.destination);
 
-        osc.start(now + idx * 0.07);
-        osc.stop(now + idx * 0.07 + 0.28);
+        osc.start(chimeTime);
+        osc.stop(chimeTime + 0.40);
       });
-    } catch (e) {}
+
+    } catch (e) {
+      // Audio autoplay policy fallback
+    }
   }
 
   // 4. Som de erro / shake
