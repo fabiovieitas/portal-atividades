@@ -3,58 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>MeLi Alerta de Preços</title>
+  <title>MeLi Alerta de Preços — Monitor Inteligente do Mercado Livre</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🟡</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="/pesquisa/css/style.css?v=20260921_v10" />
+  <link rel="stylesheet" href="/pesquisa/css/style.css?v=20260925_V100" />
+  <link rel="stylesheet" href="css/style.css?v=20260925_V100" />
 </head>
 <body>
 
+  <!-- Pular para o Conteúdo Principal (#9 Acessibilidade) -->
+  <a href="#viewDashboard" class="skip-to-content">Pular para o conteúdo principal</a>
+
   <div class="app-container">
-    <!-- NAVBAR COM USUÁRIOS ONLINE (MÍNIMO 5) E ACESSO AO PAINEL -->
-    <header class="top-navbar">
-      <div onclick="voltarDashboard()" class="brand-meli">
-        <div class="brand-icon-meli">▶</div>
+    <!-- NAVBAR COM PERFIS (#12), NOVIDADES (#20), USUÁRIOS ONLINE E ACESSO AO PAINEL -->
+    <header class="top-navbar" role="banner">
+      <div onclick="voltarDashboard()" class="brand-meli" role="button" tabindex="0" aria-label="Voltar para a página inicial do MeLi Alerta de Preços" onkeydown="if(event.key==='Enter'||event.key===' ') voltarDashboard()">
+        <div class="brand-icon-meli" aria-hidden="true">▶</div>
         <span class="brand-title-meli">MeLi Alerta de Preços</span>
       </div>
 
-      <div class="user-badge-pill">
+      <div class="user-badge-pill" style="display: flex; align-items: center; gap: 12px;">
+        <!-- ITEM 20: Botão O que há de novo / Changelog -->
+        <button type="button" class="btn-changelog-nav" onclick="abrirModalChangelog()" aria-label="Ver o que há de novo e atualizações do sistema">
+          <span aria-hidden="true">✨</span>
+          <span>Novidades</span>
+          <span id="badgeChangelogDot" class="changelog-badge-dot" title="Novidades disponíveis!"></span>
+        </button>
+
         <!-- ITEM 6: Usuários Online (Mínimo 5) -->
-        <div class="online-users-badge">
-          <span class="online-pulsing-dot"></span>
+        <div class="online-users-badge" aria-label="Status do servidor e usuários ativos">
+          <span class="online-pulsing-dot" aria-hidden="true"></span>
           <span id="txtOnlineUsers">5 usuários online</span>
         </div>
 
-        <span class="user-tag">fabio.marques</span>
-        <a href="/pesquisa/admin" class="btn-admin-link" title="Acessar Painel do Dono">Painel do Dono</a>
+        <!-- ITEM 12: Seletor dos 3 Perfis de Acesso -->
+        <div class="profile-switcher-wrap" title="Alternar perfil de acesso do sistema">
+          <span class="profile-switcher-label">Perfil:</span>
+          <select id="selectPerfilAtivo" class="select-profile-dropdown" onchange="alternarPerfilAtivo(this.value)" aria-label="Selecione o perfil de acesso">
+            <option value="visitante">👀 Visitante</option>
+            <option value="usuario" selected>👤 Usuário</option>
+            <option value="admin">👑 Admin</option>
+          </select>
+        </div>
+
+        <!-- Botão de Sessões Ativas (#14) -->
+        <button type="button" id="btnSessoesUsuario" class="btn-admin-link" onclick="abrirModalSessoes()" title="Ver dispositivos e sessões conectadas" style="padding: 6px 12px; font-size: 12px;">
+          🛡️ Sessões
+        </button>
+
+        <!-- Link Painel do Dono (Visível apenas para Admin) -->
+        <a href="/pesquisa/admin" id="linkPainelDonoNav" class="btn-admin-link" title="Acessar Painel do Dono" style="display: inline-block;">Painel do Dono</a>
       </div>
     </header>
 
     <!-- =======================================================================
-         TELA 1: DASHBOARD ("Alertas Monitorados" - Imagem 1 com Feed Todos vs Meus)
+         TELA 1: DASHBOARD ("Alertas Monitorados" com Feed Todos vs Meus)
          ======================================================================= -->
-    <main id="viewDashboard">
+    <main id="viewDashboard" tabindex="-1">
+      
+      <!-- ITEM 8: BANNER DE TRATAMENTO AMIGÁVEL DE ERROS -->
+      <div id="friendlyErrorState" class="friendly-error-card" style="display: none;" role="alert">
+        <div class="friendly-error-content">
+          <span class="friendly-error-icon" aria-hidden="true">📡</span>
+          <div>
+            <h4 class="friendly-error-title">Não foi possível carregar as ofertas agora</h4>
+            <p class="friendly-error-desc">Houve uma instabilidade na conexão ou com o servidor. Seus dados e alertas salvos continuam seguros.</p>
+          </div>
+        </div>
+        <button type="button" class="btn-retry-action" onclick="carregarTodosOsDados()">
+          <span>🔄 Tentar Novamente</span>
+        </button>
+      </div>
+
+      <!-- ITEM 2: ONBOARDING CONTEXTUAL / TOUR RÁPIDO -->
+      <div id="onboardingBanner" class="onboarding-banner" style="display: none;" role="region" aria-label="Guia Rápido do Sistema">
+        <div class="onboarding-banner-header">
+          <h3 class="onboarding-banner-title">
+            <span>🧭 Como funciona o MeLi Alerta de Preços:</span>
+          </h3>
+          <button type="button" class="onboarding-close-btn" onclick="fecharOnboarding()" aria-label="Fechar introdução">&times;</button>
+        </div>
+        <div class="onboarding-steps-grid">
+          <div class="onboarding-step-card">
+            <div class="onboarding-step-num">1</div>
+            <div class="onboarding-step-text">
+              <strong>Busque ou Cole o Link</strong>
+              <p>Pesquise qualquer produto ou cole o link do anúncio do Mercado Livre.</p>
+            </div>
+          </div>
+          <div class="onboarding-step-card">
+            <div class="onboarding-step-num">2</div>
+            <div class="onboarding-step-text">
+              <strong>Defina o Preço Desejado</strong>
+              <p>Veja o histórico de preços e configure quanto você quer pagar.</p>
+            </div>
+          </div>
+          <div class="onboarding-step-card">
+            <div class="onboarding-step-num">3</div>
+            <div class="onboarding-step-text">
+              <strong>Aviso Automático Gratuito</strong>
+              <p>O robô monitora 24 horas e te avisa assim que o preço atingir sua meta!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="dashboard-header">
         <div class="dashboard-title-box">
           <h1 id="dashboardMainTitle">Alertas Monitorados</h1>
-          <p id="statAtivosCount" class="dashboard-stats-subtitle">Carregando alertas...</p>
+          <p id="statAtivosCount" class="dashboard-stats-subtitle" aria-live="polite">Carregando alertas...</p>
         </div>
-        <button class="btn-new-alert" onclick="abrirModalNovoAlerta()">
+        <button class="btn-new-alert" onclick="abrirModalNovoAlerta()" aria-label="Criar um novo alerta de preço">
           <span>+ Novo alerta</span>
         </button>
       </div>
 
+      <!-- BARRA DE BUSCA RÁPIDA ESTILO ZOOM / BUSCAPÉ -->
+      <div class="home-search-section">
+        <div class="home-search-bar">
+          <span class="home-search-icon" aria-hidden="true">🔍</span>
+          <input type="text" id="inputBuscaRapidaHome" class="home-search-input" placeholder="Pesquisar produto ou menor preço (ex: Filamento PETG 1kg, SSD NVMe)..." onkeydown="if(event.key==='Enter') executarBuscaRapidaHome()" aria-label="Buscar produto ou menor preço" />
+          <button type="button" class="btn-home-search" onclick="executarBuscaRapidaHome()" aria-label="Executar busca de menor preço">
+            <span>Buscar Menor Preço ⚡</span>
+          </button>
+        </div>
+        <div class="home-search-tags" role="toolbar" aria-label="Termos mais buscados">
+          <span class="search-tag-label">Mais buscados:</span>
+          <button type="button" class="search-tag-chip" onclick="preencherBuscaRapida('Filamento PETG 1kg')">Filamento PETG</button>
+          <button type="button" class="search-tag-chip" onclick="preencherBuscaRapida('Filamento PLA 1kg')">Filamento PLA</button>
+          <button type="button" class="search-tag-chip" onclick="preencherBuscaRapida('SSD NVMe 1TB')">SSD 1TB</button>
+          <button type="button" class="search-tag-chip" onclick="preencherBuscaRapida('Mouse sem fio')">Mouse sem fio</button>
+        </div>
+      </div>
+
       <!-- ITEM 5: FILTRO DE FEED (Todos os Alertas dos Usuários vs Meus Alertas) -->
-      <div class="alerts-feed-filter">
-        <button type="button" id="tabFeedTodos" class="feed-filter-btn active" onclick="filtrarFeed('todos')">
+      <div class="alerts-feed-filter" role="tablist" aria-label="Filtro de visualização de alertas">
+        <button type="button" id="tabFeedTodos" class="feed-filter-btn active" onclick="filtrarFeed('todos')" role="tab" aria-selected="true">
           <span>🌐 Todos os Alertas</span>
           <span id="badgeCountTodos" class="feed-count-pill">0</span>
         </button>
-        <button type="button" id="tabFeedMeus" class="feed-filter-btn" onclick="filtrarFeed('meus')">
+        <button type="button" id="tabFeedMeus" class="feed-filter-btn" onclick="filtrarFeed('meus')" role="tab" aria-selected="false">
           <span>👤 Meus Alertas</span>
           <span id="badgeCountMeus" class="feed-count-pill">0</span>
         </button>
@@ -63,42 +154,71 @@
       <!-- STATUS ROW: MONITORANDO + ITEM 4: CONTADOR DE QUANTO TEMPO FALTA PRA REPESQUISAR -->
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
         <div class="status-section-title" style="margin-bottom: 0;">
-          <span class="status-dot"></span>
+          <span class="status-dot" aria-hidden="true"></span>
           <span>MONITORANDO</span>
         </div>
 
-        <!-- ITEM 4: Contador Regressivo de Repesquisa -->
-        <div class="recheck-timer-pill">
+        <div class="recheck-timer-pill" aria-live="polite">
           <span>⏱️ Próxima varredura em: <strong id="recheckTimerDisplay">03:59:59</strong></span>
         </div>
       </div>
 
-      <!-- Grid de Cards Idêntico à Imagem 1 -->
-      <div id="alertsGrid" class="alerts-grid">
+      <!-- ITEM 5: SKELETON SCREENS DURANTE O CARREGAMENTO -->
+      <div id="alertsGridSkeleton" class="alerts-grid" style="display: none;" aria-hidden="true">
+        <div class="skeleton-card">
+          <div class="skeleton-shimmer skeleton-img"></div>
+          <div class="skeleton-shimmer skeleton-line-title"></div>
+          <div class="skeleton-shimmer skeleton-line-subtitle"></div>
+          <div class="skeleton-shimmer skeleton-line-price"></div>
+          <div class="skeleton-shimmer skeleton-line-btn"></div>
+        </div>
+        <div class="skeleton-card">
+          <div class="skeleton-shimmer skeleton-img"></div>
+          <div class="skeleton-shimmer skeleton-line-title"></div>
+          <div class="skeleton-shimmer skeleton-line-subtitle"></div>
+          <div class="skeleton-shimmer skeleton-line-price"></div>
+          <div class="skeleton-shimmer skeleton-line-btn"></div>
+        </div>
+        <div class="skeleton-card">
+          <div class="skeleton-shimmer skeleton-img"></div>
+          <div class="skeleton-shimmer skeleton-line-title"></div>
+          <div class="skeleton-shimmer skeleton-line-subtitle"></div>
+          <div class="skeleton-shimmer skeleton-line-price"></div>
+          <div class="skeleton-shimmer skeleton-line-btn"></div>
+        </div>
+        <div class="skeleton-card">
+          <div class="skeleton-shimmer skeleton-img"></div>
+          <div class="skeleton-shimmer skeleton-line-title"></div>
+          <div class="skeleton-shimmer skeleton-line-subtitle"></div>
+          <div class="skeleton-shimmer skeleton-line-price"></div>
+          <div class="skeleton-shimmer skeleton-line-btn"></div>
+        </div>
+      </div>
+
+      <!-- Grid de Cards de Alertas -->
+      <div id="alertsGrid" class="alerts-grid" role="region" aria-label="Lista de produtos monitorados">
         <!-- Renderizado dinamicamente via app.js -->
       </div>
     </main>
 
     <!-- =======================================================================
-         TELA 2: DETALHES DO ALERTA (Imagem 2 - SEM AS INFOS DE AFILIADO/COPIAR LINK)
+         TELA 2: DETALHES DO ALERTA
          ======================================================================= -->
-    <section id="viewDetalhes" style="display: none;">
-      <!-- Barra Superior da Tela 2 -->
+    <section id="viewDetalhes" style="display: none;" tabindex="-1">
       <div class="detail-top-nav">
-        <button class="btn-back-dash" onclick="voltarDashboard()">
+        <button class="btn-back-dash" onclick="voltarDashboard()" aria-label="Voltar para a lista de alertas">
           <span>← Voltar para o Dashboard</span>
         </button>
-        <!-- ITEM 1: Excluir Alerta 100% Funcional -->
-        <button class="btn-delete-alert" onclick="excluirAlertaAtual()">
+        <button class="btn-delete-alert" onclick="excluirAlertaAtual()" aria-label="Excluir este alerta do sistema">
           Excluir Alerta
         </button>
       </div>
 
       <div class="detail-layout-grid">
-        <!-- COLUNA ESQUERDA: Card do Produto (ITEM 3: Sem o box de afiliado e sem botão de copiar link) -->
+        <!-- COLUNA ESQUERDA: Card do Produto -->
         <div class="detail-left-card">
           <div class="detail-img-box">
-            <img id="detailImg" src="" alt="Capa do Produto" />
+            <img id="detailImg" src="" alt="Capa do Produto no Mercado Livre" />
           </div>
           <h2 id="detailTitle" class="detail-product-title">--</h2>
           
@@ -107,13 +227,34 @@
             <span id="detailCreatedDate" class="detail-created-date">Criado em --</span>
           </div>
 
-          <!-- BOTÃO OFICIAL DE COMPRA (Link de Afiliado funciona silenciosamente) -->
-          <a id="btnMeliBuy" href="#" target="_blank" rel="noopener noreferrer" class="btn-buy-meli">
+          <a id="btnMeliBuy" href="#" target="_blank" rel="noopener noreferrer" class="btn-buy-meli" aria-label="Ver anúncio com desconto no Mercado Livre (abre em nova aba)">
             <span>Ver no Mercado Livre ↗</span>
           </a>
+
+          <!-- BLOCO VIRAL: COMPARTILHAR OFERTA -->
+          <div class="detail-share-box">
+            <div class="detail-share-header">
+              <span class="detail-share-icon" aria-hidden="true">📢</span>
+              <div>
+                <strong style="color: #fff; font-size: 13px;">Compartilhar Economia</strong>
+                <p style="font-size: 11px; color: var(--text-muted); margin: 0;">Envie para amigos com link de desconto e do site</p>
+              </div>
+            </div>
+            <div class="detail-share-btns">
+              <button type="button" class="btn-share-action btn-share-wpp" onclick="compartilharOfertaAtiva('whatsapp')">
+                <span>🟢 WhatsApp</span>
+              </button>
+              <button type="button" class="btn-share-action btn-share-tg" onclick="compartilharOfertaAtiva('telegram')">
+                <span>🔵 Telegram</span>
+              </button>
+              <button type="button" class="btn-share-action btn-share-copy" onclick="compartilharOfertaAtiva('copiar')">
+                <span>📋 Copiar Texto</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <!-- COLUNA DIREITA: 4 KPIs + Gráfico de Histórico + Timeline -->
+        <!-- COLUNA DIREITA: KPIs + Gráfico de Histórico + Timeline -->
         <div class="detail-right-content">
           <div class="detail-kpis-row">
             <div class="detail-kpi-card">
@@ -138,7 +279,7 @@
           <div class="detail-chart-box">
             <h3 class="detail-chart-header">Histórico de Preços</h3>
             <div class="chart-canvas-container">
-              <canvas id="priceHistoryChart"></canvas>
+              <canvas id="priceHistoryChart" aria-label="Gráfico de evolução histórica de preços" role="img"></canvas>
             </div>
           </div>
 
@@ -164,41 +305,27 @@
     </section>
   </div>
 
-  <!-- MODAL: + Novo alerta (Inserir Dados Completos de Cada Pesquisa) -->
-  
-  <!-- MODAL DE CONFIRMAÇÃO DE EXCLUSÃO (100% livre de bloqueios de popup do navegador) -->
-  <div id="modalConfirmExclusao" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;">
-    <div class="modal-box" style="max-width: 440px; text-align: center; padding: 28px; border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
-      <div style="font-size: 2.8rem; margin-bottom: 12px; line-height: 1;">🗑️</div>
-      <h3 style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Excluir este Alerta?</h3>
-      <p id="modalConfirmExclusaoText" style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 24px; line-height: 1.5;">
-        Você tem certeza que deseja remover este monitoramento de preço?
-      </p>
-      <div style="display: flex; gap: 14px; justify-content: center;">
-        <button type="button" class="btn-admin-link" onclick="fecharModalConfirmExclusao()" style="padding: 10px 22px; font-size: 0.95rem;">
-          Cancelar
-        </button>
-        <button type="button" id="btnConfirmarExclusaoAcao" onclick="confirmarExclusaoDefinitiva()" style="padding: 10px 22px; background: #ef4444; color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: background 0.2s;">
-          Sim, Excluir Alerta
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- =======================================================================
+       MODAIS DO SISTEMA (#9 Navegação por Teclado e #11 ARIA)
+       ======================================================================= -->
 
-
-  <div id="modalNovoAlerta" class="modal-overlay">
+  <!-- MODAL: + Novo Alerta com Auto-save (#6) -->
+  <div id="modalNovoAlerta" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="novoAlertaTitle">
     <div class="modal-box modal-large">
       <div class="modal-header">
-        <h3 class="modal-title">+ Configurar Novo Alerta de Pesquisa</h3>
-        <button class="close-btn" onclick="fecharModalNovoAlerta()">&times;</button>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <h3 id="novoAlertaTitle" class="modal-title">+ Configurar Novo Alerta de Pesquisa</h3>
+          <span id="badgeDraftRestored" class="draft-restored-pill" style="display: none;">📝 Rascunho restaurado</span>
+        </div>
+        <button class="close-btn" onclick="fecharModalNovoAlerta()" aria-label="Fechar modal de novo alerta">&times;</button>
       </div>
 
       <!-- Abas do Modal: Por Link/URL vs Por Termo de Busca -->
-      <div class="modal-tabs-header">
-        <button type="button" id="btnTabModalLink" class="modal-tab-btn active" onclick="alternarAbaModal('link')">
+      <div class="modal-tabs-header" role="tablist">
+        <button type="button" id="btnTabModalLink" class="modal-tab-btn active" onclick="alternarAbaModal('link')" role="tab" aria-selected="true">
           🔗 Por Link / URL do Produto
         </button>
-        <button type="button" id="btnTabModalTermo" class="modal-tab-btn" onclick="alternarAbaModal('termo')">
+        <button type="button" id="btnTabModalTermo" class="modal-tab-btn" onclick="alternarAbaModal('termo')" role="tab" aria-selected="false">
           🔍 Pesquisar por Termo & Filtros
         </button>
       </div>
@@ -206,13 +333,13 @@
       <!-- PAINEL 1: Link Direto ou URL de Busca Copiada -->
       <div id="painelModalLink">
         <div class="form-group">
-          <label class="form-label">Nome / Identificador do Alerta (Opcional):</label>
-          <input type="text" id="inputNomeLink" class="form-input" placeholder="ex: Filamento PETG 1kg Preto (se vazio, usa o título do site)" />
+          <label class="form-label" for="inputNomeLink">Nome / Identificador do Alerta (Opcional):</label>
+          <input type="text" id="inputNomeLink" class="form-input" placeholder="ex: Filamento PETG 1kg Preto (se vazio, usa o título do site)" oninput="salvarRascunhoAlerta()" />
         </div>
 
         <div class="form-group">
-          <label class="form-label">URL do Produto ou da Busca (Mercado Livre ou Shopee):</label>
-          <textarea id="inputNovoUrl" class="form-textarea" placeholder="Cole aqui o link do anúncio ou a URL da pesquisa filtrada..."></textarea>
+          <label class="form-label" for="inputNovoUrl">URL do Produto ou da Busca (Mercado Livre ou Shopee):</label>
+          <textarea id="inputNovoUrl" class="form-textarea" placeholder="Cole aqui o link do anúncio ou a URL da pesquisa filtrada..." oninput="salvarRascunhoAlerta()"></textarea>
           <small style="color: var(--text-muted); font-size: 11px; margin-top: 4px; display: block;">
             💡 Dica: Você pode copiar o link de qualquer busca já filtrada no Mercado Livre ou Shopee.
           </small>
@@ -223,11 +350,11 @@
       <div id="painelModalTermo" style="display: none;">
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Termo da Pesquisa:</label>
-            <input type="text" id="inputTermoBusca" class="form-input" placeholder="ex: Filamento PETG 1kg" />
+            <label class="form-label" for="inputTermoBusca">Termo da Pesquisa:</label>
+            <input type="text" id="inputTermoBusca" class="form-input" placeholder="ex: Filamento PETG 1kg" oninput="salvarRascunhoAlerta()" />
           </div>
           <div class="form-group">
-            <label class="form-label">Plataforma:</label>
+            <label class="form-label" for="selectPlataformaBusca">Plataforma:</label>
             <select id="selectPlataformaBusca" class="form-input">
               <option value="Mercado Livre">🟡 Mercado Livre</option>
               <option value="Shopee">🟠 Shopee</option>
@@ -256,16 +383,37 @@
             </label>
           </div>
         </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label class="form-label">🔢 Quantos produtos monitorar?</label>
+          <p style="font-size: 12px; color: var(--text-muted); margin: 4px 0 10px;">
+            O sistema vai criar <strong>um alerta individual</strong> para cada produto encontrado.
+          </p>
+          <div class="qty-selector-pills" id="qtySelectorPills">
+            <button type="button" class="qty-pill" data-qty="1" onclick="selecionarQtdAlertas(1)">1 produto</button>
+            <button type="button" class="qty-pill active" data-qty="3" onclick="selecionarQtdAlertas(3)">3 produtos ⭐</button>
+            <button type="button" class="qty-pill" data-qty="5" onclick="selecionarQtdAlertas(5)">5 produtos</button>
+            <button type="button" class="qty-pill" data-qty="10" onclick="selecionarQtdAlertas(10)">10 produtos</button>
+          </div>
+          <input type="hidden" id="inputQtdAlertas" value="3" />
+        </div>
       </div>
 
       <!-- DADOS COMUNS: Preço Alvo, Frequência e Data Limite -->
       <div class="form-row" style="margin-top: 14px;">
         <div class="form-group">
-          <label class="form-label">Preço Alvo Desejado (R$):</label>
-          <input type="number" id="inputNovoAlvo" class="form-input" placeholder="ex: 67.50 (ou -10% padrão)" step="0.01" />
+          <label class="form-label" for="inputNovoAlvo">Preço Alvo Desejado (R$):</label>
+          <input type="number" id="inputNovoAlvo" class="form-input" placeholder="ex: 67.50 (ou use os atalhos)" step="0.01" oninput="salvarRascunhoAlerta()" />
+          <div class="target-discount-shortcuts">
+            <span class="discount-shortcuts-label">Atalhos:</span>
+            <button type="button" class="discount-chip" onclick="aplicarDescontoRapido(5)">-5%</button>
+            <button type="button" class="discount-chip active" id="chipDesc10" onclick="aplicarDescontoRapido(10)">-10% ⭐</button>
+            <button type="button" class="discount-chip" onclick="aplicarDescontoRapido(15)">-15%</button>
+            <button type="button" class="discount-chip" onclick="aplicarDescontoRapido(20)">-20%</button>
+          </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Frequência de Monitoramento:</label>
+          <label class="form-label" for="inputNovoFrequencia">Frequência de Monitoramento:</label>
           <select id="inputNovoFrequencia" class="form-input">
             <option value="1">A cada 1 hora</option>
             <option value="2">A cada 2 horas</option>
@@ -278,7 +426,7 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">Data Limite do Monitoramento:</label>
+          <label class="form-label" for="inputNovoDataLimite">Data Limite do Monitoramento:</label>
           <input type="date" id="inputNovoDataLimite" class="form-input" value="2026-12-31" />
         </div>
         <div class="form-group">
@@ -293,6 +441,31 @@
         </div>
       </div>
 
+      <!-- CAPTURA OPCIONAL DE E-MAIL -->
+      <div class="form-group email-capture-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label class="form-label" for="inputNovoEmail" style="margin-bottom: 0; color: #93c5fd; display: flex; align-items: center; gap: 6px;">
+            <span>📧 Receber Alerta por E-mail (Opcional):</span>
+          </label>
+          <span class="badge-free-pill">100% Gratuito</span>
+        </div>
+        <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 8px;">
+          Sem senha e sem cadastro. Se preenchido, você recebe um e-mail avisando na hora que o produto baixar de preço!
+        </p>
+        <input type="email" id="inputNovoEmail" class="form-input" placeholder="seu-email@exemplo.com (deixe em branco se não quiser)" oninput="salvarRascunhoAlerta()" />
+        
+        <div class="email-trigger-row">
+          <label class="email-trigger-label">
+            <input type="radio" name="radioEmailGatilho" value="alvo" checked />
+            <span>Avisar ao atingir meu Preço Alvo</span>
+          </label>
+          <label class="email-trigger-label">
+            <input type="radio" name="radioEmailGatilho" value="qualquer" />
+            <span>Avisar em qualquer queda</span>
+          </label>
+        </div>
+      </div>
+
       <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06);">
         <button type="button" class="btn-admin-link" onclick="fecharModalNovoAlerta()" style="padding: 10px 18px;">Cancelar</button>
         <button type="button" id="btnSubmitNovoAlerta" class="btn-new-alert" onclick="salvarNovoAlertaCompleto()">
@@ -302,10 +475,217 @@
     </div>
   </div>
 
-  <div id="toastContainer" class="toast-container"></div>
+  <!-- MODAL: CONFIRMAÇÃO DE EXCLUSÃO -->
+  <div id="modalConfirmExclusao" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;" role="dialog" aria-modal="true" aria-labelledby="exclusaoTitle">
+    <div class="modal-box" style="max-width: 440px; text-align: center; padding: 28px; border: 1px solid rgba(239, 68, 68, 0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+      <div style="font-size: 2.8rem; margin-bottom: 12px; line-height: 1;" aria-hidden="true">🗑️</div>
+      <h3 id="exclusaoTitle" style="color: #fff; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Excluir este Alerta?</h3>
+      <p id="modalConfirmExclusaoText" style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 24px; line-height: 1.5;">
+        Você tem certeza que deseja remover este monitoramento de preço?
+      </p>
+      <div style="display: flex; gap: 14px; justify-content: center;">
+        <button type="button" class="btn-admin-link" onclick="fecharModalConfirmExclusao()" style="padding: 10px 22px; font-size: 0.95rem;">
+          Cancelar
+        </button>
+        <button type="button" id="btnConfirmarExclusaoAcao" onclick="confirmarExclusaoDefinitiva()" style="padding: 10px 22px; background: #ef4444; color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: background 0.2s;">
+          Sim, Excluir Alerta
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <!-- Scripts -->
-  <script src="/pesquisa/js/affiliate.js?v=20260921_v10"></script>
-  <script src="/pesquisa/js/app.js?v=20260921_v15"></script>
+  <!-- MODAL: CHANGELOG INTERATIVO (#20) -->
+  <div id="modalChangelog" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;" role="dialog" aria-modal="true" aria-labelledby="changelogTitle">
+    <div class="modal-box" style="max-width: 580px; padding: 26px;">
+      <div class="modal-header">
+        <h3 id="changelogTitle" class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>✨ O que há de novo no MeLi Alerta</span>
+        </h3>
+        <button class="close-btn" onclick="fecharModalChangelog()" aria-label="Fechar novidades">&times;</button>
+      </div>
+      <div style="max-height: 420px; overflow-y: auto; padding-right: 6px;">
+        <div class="changelog-release-box">
+          <div class="changelog-release-header">
+            <span class="changelog-version">Versão 2.4 — Acessibilidade & Confiabilidade</span>
+            <span class="changelog-date">Hoje</span>
+          </div>
+          <ul class="changelog-list">
+            <li class="changelog-item">
+              <span class="changelog-pill changelog-pill-new">Novo</span>
+              <span><strong>Estrutura de 3 Perfis:</strong> Navegue como Visitante, Usuário ou Admin a partir da barra superior.</span>
+            </li>
+            <li class="changelog-item">
+              <span class="changelog-pill changelog-pill-new">Novo</span>
+              <span><strong>Salvamento de Rascunhos:</strong> O modal de alertas guarda automaticamente seus dados para evitar perdas acidentais.</span>
+            </li>
+            <li class="changelog-item">
+              <span class="changelog-pill changelog-pill-improve">Melhoria</span>
+              <span><strong>Navegação Total por Teclado:</strong> Suporte completo a Tab, Enter e tecla Esc para fechar qualquer janela.</span>
+            </li>
+            <li class="changelog-item">
+              <span class="changelog-pill changelog-pill-improve">Melhoria</span>
+              <span><strong>Skeletons e Empty States:</strong> Carregamento fluido com esqueletos visuais e botões de ação se não houver dados.</span>
+            </li>
+            <li class="changelog-item">
+              <span class="changelog-pill changelog-pill-sec">Segurança</span>
+              <span><strong>Central de Sessões:</strong> Visualize e desconecte dispositivos remotos logados na sua conta.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+        <button type="button" class="btn-new-alert" onclick="fecharModalChangelog()" style="padding: 10px 24px;">
+          <span>Entendi, continuar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CENTRAL DE SESSÕES ATIVAS (#14) -->
+  <div id="modalSessoesAtivas" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;" role="dialog" aria-modal="true" aria-labelledby="sessoesTitle">
+    <div class="modal-box" style="max-width: 500px; padding: 24px;">
+      <div class="modal-header">
+        <h3 id="sessoesTitle" class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>🛡️ Central de Sessões Ativas</span>
+        </h3>
+        <button class="close-btn" onclick="fecharModalSessoes()" aria-label="Fechar sessões">&times;</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13px; margin: -6px 0 16px;">
+        Monitore onde sua conta está conectada e desconecte acessos antigos ou suspeitos.
+      </p>
+      <div class="sessions-list" id="sessionsListContainer">
+        <div class="session-card current">
+          <div style="display: flex; align-items: center;">
+            <span class="session-icon" aria-hidden="true">💻</span>
+            <div class="session-info">
+              <strong>Este Navegador (Sessão Atual)</strong>
+              <span>Windows 11 • Conectado agora • IP: 189.40.*.*</span>
+            </div>
+          </div>
+          <span class="session-badge-current">● ATIVA</span>
+        </div>
+        <div class="session-card">
+          <div style="display: flex; align-items: center;">
+            <span class="session-icon" aria-hidden="true">📱</span>
+            <div class="session-info">
+              <strong>Smartphone Chrome Mobile</strong>
+              <span>Android • Último acesso ontem às 19:40</span>
+            </div>
+          </div>
+          <span style="font-size: 11px; color: var(--text-muted);">Inativa</span>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--border-color);">
+        <button type="button" class="btn-delete-alert" onclick="encerrarOutrasSessoes()" style="font-size: 12.5px;">
+          Desconectar Outras Sessões
+        </button>
+        <button type="button" class="btn-admin-link" onclick="fecharModalSessoes()">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CANAL DE FEEDBACK & REPORTE (#18) -->
+  <button type="button" class="btn-floating-feedback" onclick="abrirModalFeedback()" aria-label="Enviar sugestão ou reportar erro">
+    <span aria-hidden="true">💬</span>
+    <span>Feedback & Ajuda</span>
+  </button>
+
+  <div id="modalFeedback" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;" role="dialog" aria-modal="true" aria-labelledby="feedbackTitle">
+    <div class="modal-box" style="max-width: 480px; padding: 24px;">
+      <div class="modal-header">
+        <h3 id="feedbackTitle" class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>💬 Enviar Feedback ou Sugestão</span>
+        </h3>
+        <button class="close-btn" onclick="fecharModalFeedback()" aria-label="Fechar formulário de feedback">&times;</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13px; margin: -6px 0 16px;">
+        Sua mensagem vai direto para nossa equipe para melhorar o monitoramento!
+      </p>
+      <div class="form-group">
+        <label class="form-label">Tipo de Mensagem:</label>
+        <div class="feedback-options-row">
+          <button type="button" class="feedback-type-chip active" onclick="selecionarTipoFeedback(this, 'bug')">🐛 Preço ou Link Incorreto</button>
+          <button type="button" class="feedback-type-chip" onclick="selecionarTipoFeedback(this, 'sugestao')">💡 Sugestão de Melhoria</button>
+          <button type="button" class="feedback-type-chip" onclick="selecionarTipoFeedback(this, 'outro')">⭐ Dúvida ou Elogio</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="txtFeedbackDesc">Descrição:</label>
+        <textarea id="txtFeedbackDesc" class="form-textarea" rows="4" placeholder="Conte o que aconteceu ou o que gostaria de ver no sistema..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inputFeedbackEmail">Seu e-mail (opcional para retorno):</label>
+        <input type="email" id="inputFeedbackEmail" class="form-input" placeholder="seu-email@exemplo.com" />
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button type="button" class="btn-admin-link" onclick="fecharModalFeedback()">Cancelar</button>
+        <button type="button" class="btn-new-alert" onclick="enviarFeedbackUsuario()">
+          <span>Enviar Mensagem</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AVISO PARA VISITANTE (#12) -->
+  <div id="modalVisitanteAviso" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;" role="dialog" aria-modal="true" aria-labelledby="visitanteTitle">
+    <div class="modal-box" style="max-width: 440px; text-align: center; padding: 28px;">
+      <div style="font-size: 2.8rem; margin-bottom: 10px;" aria-hidden="true">👋</div>
+      <h3 id="visitanteTitle" style="color: #fff; font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Acesso de Visitante</h3>
+      <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 22px; line-height: 1.5;">
+        Para criar novos alertas personalizados e receber notificações gratuitas por e-mail, conecte-se como Usuário.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button type="button" class="btn-admin-link" onclick="fecharModalVisitante()">Continuar Explorando</button>
+        <button type="button" class="btn-new-alert" onclick="alternarPerfilAtivo('usuario'); fecharModalVisitante(); abrirModalNovoAlerta();">
+          <span>Entrar como Usuário ⚡</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: COMPARTILHAMENTO VIRAL -->
+  <div id="modalCompartilhar" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;" role="dialog" aria-modal="true" aria-labelledby="shareTitle" onclick="if(event.target===this) fecharModalCompartilhar()">
+    <div class="modal-box" style="max-width: 520px; padding: 24px;">
+      <div class="modal-header">
+        <h3 id="shareTitle" class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>📢 Compartilhar Oferta</span>
+        </h3>
+        <button class="close-btn" onclick="fecharModalCompartilhar()" aria-label="Fechar compartilhamento">&times;</button>
+      </div>
+      <p style="color: var(--text-muted); font-size: 13px; margin: -6px 0 16px;">
+        Envie esta economia para amigos e grupos com seu link de desconto e indicação do site.
+      </p>
+
+      <div class="form-group">
+        <label class="form-label" for="txtPreviewCompartilhar">Preview da Mensagem:</label>
+        <textarea id="txtPreviewCompartilhar" class="form-textarea" rows="6" readonly style="font-size: 12.5px; line-height: 1.5; color: #e2e8f0; background: var(--bg-body); cursor: default;"></textarea>
+      </div>
+
+      <div class="share-modal-actions-grid">
+        <button type="button" class="btn-share-modal btn-share-modal-wpp" onclick="executarCompartilharModal('whatsapp')">
+          <span style="font-size: 18px;" aria-hidden="true">🟢</span>
+          <span>Enviar no WhatsApp</span>
+        </button>
+        <button type="button" class="btn-share-modal btn-share-modal-tg" onclick="executarCompartilharModal('telegram')">
+          <span style="font-size: 18px;" aria-hidden="true">🔵</span>
+          <span>Enviar no Telegram</span>
+        </button>
+        <button type="button" class="btn-share-modal btn-share-modal-copy" onclick="executarCompartilharModal('copiar')">
+          <span style="font-size: 18px;" aria-hidden="true">📋</span>
+          <span id="txtBtnCopiarModal">Copiar Mensagem Pronta</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container" role="status" aria-live="polite"></div>
+
+  <!-- Scripts da Aplicação com Cache-busting v100 -->
+  <script src="/pesquisa/js/charts.js?v=20260925_V100"></script>
+  <script src="/pesquisa/js/affiliate.js?v=20260925_V100"></script>
+  <script src="/pesquisa/js/github_sync.js?v=20260925_V100"></script>
+  <script src="/pesquisa/js/app.js?v=20260925_V100"></script>
 </body>
 </html>
