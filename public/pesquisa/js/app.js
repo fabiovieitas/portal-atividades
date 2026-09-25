@@ -375,7 +375,7 @@ function renderizarDashboard(listaCustom = null) {
 }
 
 // 3. ABRIR DETALHES DO ALERTA (Imagem 2 - SEM AS INFOS DE AFILIADO / COPIAR LINK)
-let chartInstance = null;
+// chartInstance é gerenciado pelo charts.js
 
 function abrirDetalhesAlerta(prod) {
   appState.produtoAtivo = prod;
@@ -1390,3 +1390,138 @@ function exibirErroAmigavel(mostrar) {
   const err = document.getElementById('friendlyErrorState');
   if (err) err.style.display = mostrar ? 'flex' : 'none';
 }
+
+
+
+// ==============================================================================
+// SISTEMA DE AUTENTICAÇÃO: VISITANTE & USUÁRIO LOGADO (Requisito 3)
+// ==============================================================================
+
+let authState = {
+  isAutenticado: false,
+  usuario: null
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  carregarAuthInicial();
+});
+
+function carregarAuthInicial() {
+  const salvo = localStorage.getItem('meli_auth_usuario');
+  if (salvo) {
+    try {
+      authState.usuario = JSON.parse(salvo);
+      authState.isAutenticado = true;
+      appState.perfilAtivo = 'usuario';
+    } catch (e) {}
+  } else {
+    authState.isAutenticado = false;
+    authState.usuario = null;
+    appState.perfilAtivo = 'visitante';
+  }
+  atualizarHeaderPerfil();
+}
+
+function atualizarHeaderPerfil() {
+  const boxVisitante = document.getElementById('boxPerfilVisitante');
+  const boxLogado = document.getElementById('boxPerfilLogado');
+  const txtNome = document.getElementById('txtNomeUsuarioLogado');
+
+  if (authState.isAutenticado && authState.usuario) {
+    if (boxVisitante) boxVisitante.style.display = 'none';
+    if (boxLogado) boxLogado.style.display = 'flex';
+    const email = authState.usuario.email || 'usuario';
+    const prefixo = email.split('@')[0];
+    if (txtNome) txtNome.textContent = `👤 ${prefixo}`;
+    appState.perfilAtivo = 'usuario';
+  } else {
+    if (boxVisitante) boxVisitante.style.display = 'flex';
+    if (boxLogado) boxLogado.style.display = 'none';
+    appState.perfilAtivo = 'visitante';
+  }
+}
+
+function abrirModalAuth(aba) {
+  const modal = document.getElementById('modalAuth');
+  if (modal) modal.style.display = 'flex';
+  alternarAbaAuth(aba || 'login');
+}
+
+function fecharModalAuth() {
+  const modal = document.getElementById('modalAuth');
+  if (modal) modal.style.display = 'none';
+}
+
+function alternarAbaAuth(aba) {
+  const tabLogin = document.getElementById('tabAuthLogin');
+  const tabCadastro = document.getElementById('tabAuthCadastro');
+  const btnSubmit = document.getElementById('btnSubmitAuth');
+  const title = document.getElementById('authTitle');
+
+  if (aba === 'cadastro') {
+    if (tabLogin) tabLogin.classList.remove('active');
+    if (tabCadastro) tabCadastro.classList.add('active');
+    if (btnSubmit) {
+      const span = btnSubmit.querySelector('span');
+      if (span) span.textContent = 'Criar Conta Gratuita';
+    }
+    if (title) title.textContent = 'Criar Conta no MeLi Alerta';
+  } else {
+    if (tabLogin) tabLogin.classList.add('active');
+    if (tabCadastro) tabCadastro.classList.remove('active');
+    if (btnSubmit) {
+      const span = btnSubmit.querySelector('span');
+      if (span) span.textContent = 'Entrar no MeLi Alerta';
+    }
+    if (title) title.textContent = 'Acesse sua Conta';
+  }
+}
+
+function processarAuth(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const emailInput = document.getElementById('inputAuthEmail');
+  const email = emailInput ? emailInput.value.trim() : '';
+  if (!email) {
+    mostrarToast('Por favor, informe seu e-mail.', 'warning');
+    return;
+  }
+
+  authState.isAutenticado = true;
+  authState.usuario = { email: email };
+  localStorage.setItem('meli_auth_usuario', JSON.stringify(authState.usuario));
+  fecharModalAuth();
+  fecharModalVisitante();
+  atualizarHeaderPerfil();
+  mostrarToast(`Bem-vindo, ${email}! Acesso liberado para salvar alertas.`, 'success');
+}
+
+function loginRapidoDemo() {
+  authState.isAutenticado = true;
+  authState.usuario = { email: 'usuario@labkids.online' };
+  localStorage.setItem('meli_auth_usuario', JSON.stringify(authState.usuario));
+  fecharModalAuth();
+  fecharModalVisitante();
+  atualizarHeaderPerfil();
+  mostrarToast('Conectado como usuário!', 'success');
+}
+
+function fazerLogout() {
+  authState.isAutenticado = false;
+  authState.usuario = null;
+  localStorage.removeItem('meli_auth_usuario');
+  atualizarHeaderPerfil();
+  filtrarFeed('todos');
+  mostrarToast('Você voltou para o modo visitante.', 'info');
+}
+
+// Bloqueio de ação restrita para visitantes
+window.abrirModalNovoAlerta = function() {
+  if (!authState.isAutenticado) {
+    const modalVis = document.getElementById('modalVisitanteAviso');
+    if (modalVis) modalVis.style.display = 'flex';
+    return;
+  }
+  const modal = document.getElementById('modalNovoAlerta');
+  if (modal) modal.style.display = 'flex';
+  restaurarRascunhoAlerta();
+};

@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="/pesquisa/css/style.css?v=20260925_V100" />
-  <link rel="stylesheet" href="css/style.css?v=20260925_V100" />
+  <link rel="stylesheet" href="/pesquisa/css/style.css?v=20260925_V101" />
+  <link rel="stylesheet" href="css/style.css?v=20260925_V101" />
 </head>
 <body>
 
@@ -25,7 +25,7 @@
         <span class="brand-title-meli">MeLi Alerta de Preços</span>
       </div>
 
-      <div class="user-badge-pill" style="display: flex; align-items: center; gap: 12px;">
+      <div class="user-badge-pill" style="display: flex; align-items: center; gap: 10px;">
         <!-- ITEM 20: Botão O que há de novo / Changelog -->
         <button type="button" class="btn-changelog-nav" onclick="abrirModalChangelog()" aria-label="Ver o que há de novo e atualizações do sistema">
           <span aria-hidden="true">✨</span>
@@ -34,28 +34,29 @@
         </button>
 
         <!-- ITEM 6: Usuários Online (Mínimo 5) -->
-        <div class="online-users-badge" aria-label="Status do servidor e usuários ativos">
+        <div class="online-users-badge" aria-label="Usuários ativos">
           <span class="online-pulsing-dot" aria-hidden="true"></span>
-          <span id="txtOnlineUsers">5 usuários online</span>
+          <span id="txtOnlineUsers">5 online</span>
         </div>
 
-        <!-- ITEM 12: Seletor dos 3 Perfis de Acesso -->
-        <div class="profile-switcher-wrap" title="Alternar perfil de acesso do sistema">
-          <span class="profile-switcher-label">Perfil:</span>
-          <select id="selectPerfilAtivo" class="select-profile-dropdown" onchange="alternarPerfilAtivo(this.value)" aria-label="Selecione o perfil de acesso">
-            <option value="visitante">👀 Visitante</option>
-            <option value="usuario" selected>👤 Usuário</option>
-            <option value="admin">👑 Admin</option>
-          </select>
+        <!-- REQUISITO 3: PERFIL VISITANTE COM BOTÃO DE LOGIN / CADASTRO AO LADO -->
+        <div id="boxPerfilVisitante" class="perfil-status-group" style="display: flex; align-items: center; gap: 8px;">
+          <span class="badge-visitante-pill">👀 Visitante</span>
+          <button type="button" class="btn-auth-nav" onclick="abrirModalAuth('login')" aria-label="Fazer login ou cadastrar">
+            <span>Entrar / Cadastrar</span>
+          </button>
         </div>
 
-        <!-- Botão de Sessões Ativas (#14) -->
-        <button type="button" id="btnSessoesUsuario" class="btn-admin-link" onclick="abrirModalSessoes()" title="Ver dispositivos e sessões conectadas" style="padding: 6px 12px; font-size: 12px;">
-          🛡️ Sessões
-        </button>
-
-        <!-- Link Painel do Dono (Visível apenas para Admin) -->
-        <a href="/pesquisa/admin" id="linkPainelDonoNav" class="btn-admin-link" title="Acessar Painel do Dono" style="display: inline-block;">Painel do Dono</a>
+        <!-- PERFIL USUÁRIO LOGADO -->
+        <div id="boxPerfilLogado" class="perfil-status-group" style="display: none; align-items: center; gap: 8px;">
+          <span id="txtNomeUsuarioLogado" class="badge-usuario-pill">👤 Usuário</span>
+          <button type="button" class="btn-sessoes-nav" onclick="abrirModalSessoes()" title="Ver sessões ativas" aria-label="Ver sessões ativas">
+            🛡️ Sessões
+          </button>
+          <button type="button" class="btn-logout-nav" onclick="fazerLogout()" title="Sair da conta" aria-label="Sair da conta">
+            Sair
+          </button>
+        </div>
       </div>
     </header>
 
@@ -638,7 +639,7 @@
       </p>
       <div style="display: flex; gap: 12px; justify-content: center;">
         <button type="button" class="btn-admin-link" onclick="fecharModalVisitante()">Continuar Explorando</button>
-        <button type="button" class="btn-new-alert" onclick="alternarPerfilAtivo('usuario'); fecharModalVisitante(); abrirModalNovoAlerta();">
+        <button type="button" class="btn-new-alert" onclick="fecharModalVisitante(); abrirModalAuth('login');">
           <span>Entrar como Usuário ⚡</span>
         </button>
       </div>
@@ -680,12 +681,55 @@
     </div>
   </div>
 
+  
+  <!-- MODAL: LOGIN & CADASTRO (Requisito 3) -->
+  <div id="modalAuth" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 99999;" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-box" style="max-width: 440px; padding: 26px;">
+      <div class="modal-header">
+        <h3 id="authTitle" class="modal-title">Acesse sua Conta</h3>
+        <button class="close-btn" onclick="fecharModalAuth()" aria-label="Fechar janela de login">&times;</button>
+      </div>
+
+      <div class="modal-tabs-header" role="tablist" style="margin-bottom: 18px;">
+        <button type="button" id="tabAuthLogin" class="modal-tab-btn active" onclick="alternarAbaAuth('login')" role="tab">
+          🔑 Entrar
+        </button>
+        <button type="button" id="tabAuthCadastro" class="modal-tab-btn" onclick="alternarAbaAuth('cadastro')" role="tab">
+          ✨ Cadastre-se Grátis
+        </button>
+      </div>
+
+      <form id="formAuth" onsubmit="processarAuth(event)">
+        <div class="form-group">
+          <label class="form-label" for="inputAuthEmail">Seu E-mail:</label>
+          <input type="email" id="inputAuthEmail" class="form-input" placeholder="seu-email@exemplo.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inputAuthSenha">Senha:</label>
+          <input type="password" id="inputAuthSenha" class="form-input" placeholder="Digite sua senha" minlength="4" required />
+        </div>
+
+        <button type="submit" id="btnSubmitAuth" class="btn-new-alert" style="width: 100%; justify-content: center; margin-top: 14px; padding: 12px;">
+          <span>Entrar no MeLi Alerta</span>
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-color);">
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Ou acesse sem cadastro:</p>
+        <button type="button" class="btn-admin-link" onclick="loginRapidoDemo()" style="font-size: 12px; padding: 6px 16px;">
+          ⚡ Acesso Rápido com 1 Clique
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div id="toastContainer" class="toast-container" role="status" aria-live="polite"></div>
 
   <!-- Scripts da Aplicação com Cache-busting v100 -->
-  <script src="/pesquisa/js/charts.js?v=20260925_V100"></script>
-  <script src="/pesquisa/js/affiliate.js?v=20260925_V100"></script>
-  <script src="/pesquisa/js/github_sync.js?v=20260925_V100"></script>
-  <script src="/pesquisa/js/app.js?v=20260925_V100"></script>
+  <script src="/pesquisa/js/charts.js?v=20260925_V101"></script>
+  <script src="/pesquisa/js/affiliate.js?v=20260925_V101"></script>
+  <script src="/pesquisa/js/github_sync.js?v=20260925_V101"></script>
+  <script src="/pesquisa/js/app.js?v=20260925_V101"></script>
 </body>
 </html>
