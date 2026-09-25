@@ -1124,7 +1124,7 @@ window.preencherBuscaRapida = preencherBuscaRapida;
 window.executarBuscaRapidaHome = executarBuscaRapidaHome;
 window.filtrarFeed = filtrarFeed;
 window.voltarDashboard = voltarDashboard;
-window.verDetalhesProduto = verDetalhesProduto;
+window.verDetalhesProduto = typeof abrirDetalhesAlerta !== 'undefined' ? abrirDetalhesAlerta : function(){};
 
 
 
@@ -1525,3 +1525,46 @@ window.abrirModalNovoAlerta = function() {
   if (modal) modal.style.display = 'flex';
   restaurarRascunhoAlerta();
 };
+
+
+
+// ==============================================================================
+// REGISTRO GLOBAL DE TODAS AS FUNÇÕES INTERATIVAS NO OBJETO WINDOW
+// ==============================================================================
+window.abrirModalNovoAlerta = typeof abrirModalNovoAlerta !== 'undefined' ? abrirModalNovoAlerta : function(){};
+window.fecharModalNovoAlerta = typeof fecharModalNovoAlerta !== 'undefined' ? fecharModalNovoAlerta : function(){};
+window.abrirModalChangelog = typeof abrirModalChangelog !== 'undefined' ? abrirModalChangelog : function(){};
+window.fecharModalChangelog = typeof fecharModalChangelog !== 'undefined' ? fecharModalChangelog : function(){};
+window.abrirModalFeedback = typeof abrirModalFeedback !== 'undefined' ? abrirModalFeedback : function(){};
+window.fecharModalFeedback = typeof fecharModalFeedback !== 'undefined' ? fecharModalFeedback : function(){};
+window.abrirModalSessoes = typeof abrirModalSessoes !== 'undefined' ? abrirModalSessoes : function(){};
+window.fecharModalSessoes = typeof fecharModalSessoes !== 'undefined' ? fecharModalSessoes : function(){};
+window.abrirModalAuth = typeof abrirModalAuth !== 'undefined' ? abrirModalAuth : function(){};
+window.fecharModalAuth = typeof fecharModalAuth !== 'undefined' ? fecharModalAuth : function(){};
+window.fecharModalVisitante = typeof fecharModalVisitante !== 'undefined' ? fecharModalVisitante : function(){};
+window.alternarAbaAuth = typeof alternarAbaAuth !== 'undefined' ? alternarAbaAuth : function(){};
+window.processarAuth = typeof processarAuth !== 'undefined' ? processarAuth : function(){};
+window.loginRapidoDemo = typeof loginRapidoDemo !== 'undefined' ? loginRapidoDemo : function(){};
+window.fazerLogout = typeof fazerLogout !== 'undefined' ? fazerLogout : function(){};
+window.executarBuscaRapidaHome = typeof executarBuscaRapidaHome !== 'undefined' ? executarBuscaRapidaHome : function(){};
+window.preencherBuscaRapida = typeof preencherBuscaRapida !== 'undefined' ? preencherBuscaRapida : function(){};
+window.filtrarFeed = typeof filtrarFeed !== 'undefined' ? filtrarFeed : function(){};
+window.voltarDashboard = typeof voltarDashboard !== 'undefined' ? voltarDashboard : function(){};
+window.excluirAlertaAtual = typeof excluirAlertaAtual !== 'undefined' ? excluirAlertaAtual : function(){};
+window.abrirDetalhesAlerta = typeof abrirDetalhesAlerta !== 'undefined' ? abrirDetalhesAlerta : function(){};
+window.verDetalhesProduto = typeof abrirDetalhesAlerta !== 'undefined' ? abrirDetalhesAlerta : function(){};
+window.selecionarTipoFeedback = typeof selecionarTipoFeedback !== 'undefined' ? selecionarTipoFeedback : function(){};
+window.enviarFeedbackUsuario = typeof enviarFeedbackUsuario !== 'undefined' ? enviarFeedbackUsuario : function(){};
+window.encerrarOutrasSessoes = typeof encerrarOutrasSessoes !== 'undefined' ? encerrarOutrasSessoes : function(){};
+window.salvarRascunhoAlerta = typeof salvarRascunhoAlerta !== 'undefined' ? salvarRascunhoAlerta : function(){};
+window.fecharOnboarding = typeof fecharOnboarding !== 'undefined' ? fecharOnboarding : function(){};
+window.carregarTodosOsDados = typeof carregarTodosOsDados !== 'undefined' ? carregarTodosOsDados : function(){};
+window.salvarNovoAlertaCompleto = typeof salvarNovoAlertaCompleto !== 'undefined' ? salvarNovoAlertaCompleto : function(){};
+window.alternarAbaModal = typeof alternarAbaModal !== 'undefined' ? alternarAbaModal : function(){};
+window.selecionarQtdAlertas = typeof selecionarQtdAlertas !== 'undefined' ? selecionarQtdAlertas : function(){};
+window.aplicarDescontoRapido = typeof aplicarDescontoRapido !== 'undefined' ? aplicarDescontoRapido : function(){};
+window.fecharModalConfirmExclusao = typeof fecharModalConfirmExclusao !== 'undefined' ? fecharModalConfirmExclusao : function(){};
+window.confirmarExclusaoDefinitiva = typeof confirmarExclusaoDefinitiva !== 'undefined' ? confirmarExclusaoDefinitiva : function(){};
+window.fecharModalCompartilhar = typeof fecharModalCompartilhar !== 'undefined' ? fecharModalCompartilhar : function(){};
+window.executarCompartilharModal = typeof executarCompartilharModal !== 'undefined' ? executarCompartilharModal : function(){};
+window.compartilharOfertaAtiva = typeof compartilharOfertaAtiva !== 'undefined' ? compartilharOfertaAtiva : function(){};
