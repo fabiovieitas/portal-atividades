@@ -67,6 +67,10 @@ class MercadoLivreScraper(BaseScraper):
                     soup = BeautifulSoup(resp.text, "html.parser")
                     h1 = soup.select_one("h1.ui-pdp-title, h1")
                     titulo = h1.get_text(strip=True) if h1 else "Produto Mercado Livre"
+                    indisponivel = False
+                    resp_lower = resp.text.lower()
+                    if "indisponível" in resp_lower or "escolha outra variação" in resp_lower or "anúncio pausado" in resp_lower:
+                        indisponivel = True
 
                     preco_frac = soup.select_one(
                         ".ui-pdp-price__second-line .andes-money-amount__fraction, .andes-money-amount__fraction"

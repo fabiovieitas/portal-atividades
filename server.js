@@ -346,7 +346,23 @@ app.post('/api/pesquisa/obter-preco', async (req, res) => {
       imagem = 'https://http2.mlstatic.com/D_NQ_NP_651784-MLA109546785501_032026-F.jpg';
     }
 
-    return res.json({ sucesso: true, titulo, preco, imagem, url: linkOferta });
+        // 8. DETECÇÃO DE DISPONIBILIDADE E VARIAÇÕES
+    let indisponivel = false;
+    let motivoIndisponivel = '';
+    if (text) {
+      if (/indispon[íi]vel/i.test(text) || /escolha outra varia[çc][ãa]o/i.test(text)) {
+        indisponivel = true;
+        motivoIndisponivel = 'Este produto está indisponível. Por favor, escolha outra variação.';
+      } else if (/an[úu]ncio pausado/i.test(text) || /pausado/i.test(text)) {
+        indisponivel = true;
+        motivoIndisponivel = 'Anúncio pausado no Mercado Livre.';
+      } else if (/sem estoque/i.test(text) || /esgotado/i.test(text)) {
+        indisponivel = true;
+        motivoIndisponivel = 'Produto sem estoque / esgotado no momento.';
+      }
+    }
+
+    return res.json({ sucesso: true, titulo, preco, imagem, url: linkOferta, indisponivel, motivoIndisponivel });
   } catch (err) {
     res.status(500).json({ sucesso: false, error: err.message });
   }

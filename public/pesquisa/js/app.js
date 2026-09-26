@@ -319,6 +319,7 @@ function renderizarDashboard(listaCustom = null) {
     card.innerHTML = `
       <div>
         <div class="meli-card-img-wrap">
+          ${prod.indisponivel ? '<span class="badge-indisponivel-chip">⚠️ Indisponível</span>' : ''}
           <span class="card-badge-floating ${badgeClass}">${badgeText}</span>
           <div class="meli-card-top-actions">
             <button type="button" class="btn-card-share" onclick="event.stopPropagation(); abrirModalCompartilhar('${prod.id}')" title="Compartilhar Oferta no WhatsApp / Telegram">
@@ -401,6 +402,27 @@ function abrirDetalhesAlerta(prod) {
   // Preenche dados da esquerda
   document.getElementById('detailImg').src = imgUrl;
   document.getElementById('detailTitle').textContent = prod.nome_produto;
+  const statusPill = document.querySelector('.badge-active-pill, .badge-indisponivel-pill');
+  const boxIndisp = document.getElementById('boxAvisoIndisponivel');
+  const txtMotivo = document.getElementById('txtMotivoIndisponivel');
+
+  if (prod.indisponivel) {
+    if (statusPill) {
+      statusPill.className = 'badge-indisponivel-pill';
+      statusPill.textContent = '⚠️ INDISPONÍVEL';
+    }
+    if (boxIndisp) boxIndisp.style.display = 'flex';
+    if (txtMotivo && prod.motivo_indisponivel) {
+      txtMotivo.textContent = prod.motivo_indisponivel;
+    }
+  } else {
+    if (statusPill) {
+      statusPill.className = 'badge-active-pill';
+      statusPill.textContent = 'ATIVO';
+    }
+    if (boxIndisp) boxIndisp.style.display = 'none';
+  }
+
   document.getElementById('detailCreatedDate').textContent = `Criado em ${prod.criado_em || '20/09/2026'}`;
 
   // Link de Afiliado Funciona Silenciosamente no Botão de Compra
@@ -804,7 +826,12 @@ async function salvarNovoAlertaCompleto() {
         : (data.url || urlFinal);
 
       const novoId = 'prod_' + Date.now();
+      const isProdIndisp = data.indisponivel === true;
+      const motivoIndisp = data.motivoIndisponivel || '';
+
       const novoAlerta = {
+        indisponivel: isProdIndisp,
+        motivo_indisponivel: motivoIndisp,
         id: novoId,
         nome_produto: titulo,
         url_pesquisa: urlComAfiliado,
@@ -831,7 +858,11 @@ async function salvarNovoAlertaCompleto() {
       fecharModalNovoAlerta();
   limparRascunhoAlerta();
       renderizarDashboard();
-      mostrarToast(`✅ Alerta para "${titulo}" cadastrado com sucesso!`, 'success');
+      if (isProdIndisp) {
+        mostrarToast(`⚠️ Alerta cadastrado! Este produto está indisponível ou requer escolha de variação. O monitor avisará quando retornar!`, 'warning');
+      } else {
+        mostrarToast(`✅ Alerta para "${titulo}" cadastrado com sucesso!`, 'success');
+      }
 
     } catch (err) {
       mostrarToast('Erro ao criar alerta: ' + err.message, 'error');
@@ -988,44 +1019,7 @@ function fecharModalCompartilhar() {
   produtoCompartilharAtual = null;
 }
 
-async function executarCompartilharModal(canal) {
-  if (!produtoCompartilharAtual || typeof AffiliateManager === 'undefined') return;
-  if (canal === 'whatsapp') {
-    AffiliateManager.compartilharWhatsApp(produtoCompartilharAtual);
-    mostrarToast('🟢 Abrindo WhatsApp com link de afiliado e propaganda do site!', 'success');
-  } else if (canal === 'telegram') {
-    AffiliateManager.compartilharTelegram(produtoCompartilharAtual);
-    mostrarToast('🔵 Abrindo Telegram com a oferta!', 'success');
-  } else if (canal === 'copiar') {
-    const copiou = await AffiliateManager.copiarTextoCompartilhamento(produtoCompartilharAtual);
-    if (copiou) {
-      mostrarToast('📋 Mensagem completa copiada! Pronta para colar no WhatsApp ou Telegram.', 'success');
-      const btn = document.getElementById('txtBtnCopiarModal');
-      if (btn) {
-        const orig = btn.textContent;
-        btn.textContent = '✅ Copiado com Sucesso!';
-        setTimeout(() => { if (btn) btn.textContent = orig; }, 2000);
-      }
-    }
-  }
-}
 
-async function compartilharOfertaAtiva(canal) {
-  const prod = appState.produtoAtivo;
-  if (!prod || typeof AffiliateManager === 'undefined') return;
-  if (canal === 'whatsapp') {
-    AffiliateManager.compartilharWhatsApp(prod);
-    mostrarToast('🟢 Abrindo WhatsApp com a oferta!', 'success');
-  } else if (canal === 'telegram') {
-    AffiliateManager.compartilharTelegram(prod);
-    mostrarToast('🔵 Abrindo Telegram com a oferta!', 'success');
-  } else if (canal === 'copiar') {
-    const copiou = await AffiliateManager.copiarTextoCompartilhamento(prod);
-    if (copiou) {
-      mostrarToast('📋 Mensagem com link de afiliado e propaganda do site copiada!', 'success');
-    }
-  }
-}
 
 // ─── 9. BARRA DE BUSCA RÁPIDA NA HOME (Estilo Zoom / Buscapé) ───
 function preencherBuscaRapida(termo) {
@@ -1568,3 +1562,116 @@ window.confirmarExclusaoDefinitiva = typeof confirmarExclusaoDefinitiva !== 'und
 window.fecharModalCompartilhar = typeof fecharModalCompartilhar !== 'undefined' ? fecharModalCompartilhar : function(){};
 window.executarCompartilharModal = typeof executarCompartilharModal !== 'undefined' ? executarCompartilharModal : function(){};
 window.compartilharOfertaAtiva = typeof compartilharOfertaAtiva !== 'undefined' ? compartilharOfertaAtiva : function(){};
+
+
+
+// ─── COMPARTILHAMENTO AUTÔNOMO À PROVA DE FALHAS (WhatsApp, Telegram, Copiar) ───
+function gerarTextoCompartilhamentoFallback(prod) {
+  if (!prod) return '';
+  const nome = prod.nome_produto || 'Produto em Promoção';
+  const pAtual = prod.preco_atual || prod.preco_inicial || 0;
+  const pInicial = prod.preco_inicial || pAtual;
+  const rawUrl = prod.url_pesquisa || 'https://www.mercadolivre.com.br';
+  const plataforma = prod.plataforma || 'Mercado Livre';
+  const linkAfiliado = (typeof AffiliateManager !== 'undefined' && AffiliateManager.converter)
+    ? AffiliateManager.converter(rawUrl, plataforma)
+    : rawUrl;
+  const nomeLoja = plataforma.includes('Shopee') ? 'Shopee' : 'Mercado Livre';
+
+  let textoPreco = '';
+  if (prod.indisponivel) {
+    textoPreco = '⚠️ *Produto atualmente indisponível (acompanhe o retorno do estoque no site)*';
+  } else if (pInicial > pAtual && pAtual > 0) {
+    const economia = (pInicial - pAtual).toFixed(2).replace('.', ',');
+    textoPreco = `💰 De ~R$ ${pInicial.toFixed(2).replace('.', ',')}~ por apenas *R$ ${pAtual.toFixed(2).replace('.', ',')}* (Economia de R$ ${economia})!`;
+  } else if (pAtual > 0) {
+    textoPreco = `💰 Por apenas *R$ ${pAtual.toFixed(2).replace('.', ',')}*!`;
+  } else {
+    textoPreco = `💰 Menor preço monitorado em tempo real!`;
+  }
+
+  return `🔥 *Olha essa oferta que encontrei!*
+
+` +
+         `📦 *${nome}*
+` +
+         `${textoPreco}
+
+` +
+         `🎯 *Fiz um alerta grátis no site:* https://www.labkids.online/pesquisa/ e acompanho as melhores ofertas!
+
+` +
+         `🛒 *Aproveite no ${nomeLoja}:*
+${linkAfiliado}`;
+}
+
+async function copiarTextoFallback(texto) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(texto);
+      return true;
+    }
+  } catch (e) {}
+  const ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  return true;
+}
+
+async function compartilharOfertaAtiva(canal) {
+  const prod = appState.produtoAtivo;
+  if (!prod) {
+    mostrarToast('Nenhum produto selecionado para compartilhar.', 'warning');
+    return;
+  }
+
+  const texto = (typeof AffiliateManager !== 'undefined' && AffiliateManager.gerarTextoCompartilhamento)
+    ? AffiliateManager.gerarTextoCompartilhamento(prod)
+    : gerarTextoCompartilhamentoFallback(prod);
+
+  if (canal === 'whatsapp') {
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    mostrarToast('🟢 Abrindo WhatsApp com a oferta!', 'success');
+  } else if (canal === 'telegram') {
+    const url = `https://t.me/share/url?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    mostrarToast('🔵 Abrindo Telegram com a oferta!', 'success');
+  } else if (canal === 'copiar') {
+    await copiarTextoFallback(texto);
+    mostrarToast('📋 Mensagem completa copiada para a área de transferência!', 'success');
+  }
+}
+
+async function executarCompartilharModal(canal) {
+  const prod = (typeof produtoCompartilharAtual !== 'undefined' && produtoCompartilharAtual) ? produtoCompartilharAtual : appState.produtoAtivo;
+  if (!prod) return;
+
+  const texto = (typeof AffiliateManager !== 'undefined' && AffiliateManager.gerarTextoCompartilhamento)
+    ? AffiliateManager.gerarTextoCompartilhamento(prod)
+    : gerarTextoCompartilhamentoFallback(prod);
+
+  if (canal === 'whatsapp') {
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    mostrarToast('🟢 Abrindo WhatsApp...', 'success');
+  } else if (canal === 'telegram') {
+    const url = `https://t.me/share/url?text=${encodeURIComponent(texto)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+    mostrarToast('🔵 Abrindo Telegram...', 'success');
+  } else if (canal === 'copiar') {
+    await copiarTextoFallback(texto);
+    mostrarToast('📋 Mensagem copiada com sucesso!', 'success');
+    const btn = document.getElementById('txtBtnCopiarModal');
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copiado com Sucesso!';
+      setTimeout(() => { if (btn) btn.textContent = orig; }, 2000);
+    }
+  }
+}
