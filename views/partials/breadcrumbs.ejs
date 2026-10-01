@@ -1,0 +1,27 @@
+<%
+  const currentTitle = typeof pageTitle !== 'undefined' ? pageTitle : (typeof activityTitle !== 'undefined' ? activityTitle : 'Página');
+  const trail = (typeof breadcrumbTrail !== 'undefined' && breadcrumbTrail.length) ? breadcrumbTrail : [
+    { name: 'Início', url: '/' },
+    { name: 'Jogos & Atividades', url: '/#jogos' },
+    { name: currentTitle, url: null }
+  ];
+%>
+<nav aria-label="Navegação Estruturada (Breadcrumbs)" class="breadcrumbs-widget" style="margin-bottom: 20px;">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; list-style: none; padding: 10px 16px; margin: 0; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50px; font-size: 0.88rem;">
+        <% trail.forEach((item, index) => { %>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline-flex; align-items: center; gap: 8px;">
+                <% if (item.url) { %>
+                    <a itemprop="item" href="<%= item.url %>" style="color: #38bdf8; text-decoration: none; font-weight: 600; transition: color 0.2s;">
+                        <span itemprop="name"><%= item.name %></span>
+                    </a>
+                <% } else { %>
+                    <span itemprop="name" style="color: #cbd5e1; font-weight: 700;"><%= item.name %></span>
+                <% } %>
+                <meta itemprop="position" content="<%= index + 1 %>" />
+                <% if (index < trail.length - 1) { %>
+                    <span style="color: #64748b; font-size: 0.75rem;">➔</span>
+                <% } %>
+            </li>
+        <% }); %>
+    </ol>
+</nav>

@@ -1662,6 +1662,69 @@ async function initTables() {
           category: "Ciências & Saúde", author: "Prof. Fábio Vieitas", activity_url: "/atividades/habitos-de-higiene",
           image_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
           content: `<h2>🧼 Saúde e Autocuidado Infantil</h2><p>Reforço diário de hábitos saudáveis e prevenção de enfermidades.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01CI01</strong></li><li><strong>EF02CI04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Exploração de práticas de higiene corporal, escovação e cuidados com a saúde (BNCC: EF01CI01, EF02CI04)."</em></div>`
+        },
+        {
+          title: "Labirinto da Tabuada: Missão dos Campeões no Ensino Fundamental",
+          summary: "Como utilizar o arcade Labirinto da Tabuada para desenvolver agilidade no cálculo mental da multiplicação sem ansiedade.",
+          category: "Matemática Divertida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/labirinto-tabuada",
+          image_url: "/img/covers/tabuada-chao-e-lava.jpg",
+          content: `<h2>⚽ Arcade Matemático: Fatos Fundamentais</h2><p>Agilidade e cálculo mental com desafios lúdicos de tabuada.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02MA07</strong></li><li><strong>EF03MA07</strong></li><li><strong>EF04MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Treino de cálculo mental e agilidade nos fatos da multiplicação com o jogo Labirinto da Tabuada (BNCC: EF02MA07, EF03MA07)."</em></div>`
+        },
+        {
+          title: "🕵️ Carta Enigmática & Escape Room: Decifrando Enigmas Rebus e Leitura Inferencial",
+          summary: "Resgate das clássicas cartas enigmáticas somando e subtraindo letras em uma narrativa imersiva de escape room.",
+          category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/carta-enigmatica",
+          image_url: "/img/covers/carta-enigmatica.jpg",
+          content: `<h2>🕵️ Enigmas Rebus e Consciência Fonológica</h2><p>Síntese morfológica, hipóteses de escrita e dedução de pistas em salas secretas.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF03LP02</strong></li><li><strong>EF04LP01</strong></li><li><strong>EF35LP05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Aplicação do jogo educativo autoral Carta Enigmática & Escape Room para leitura inferencial e resolução de problemas (BNCC: EF03LP02, EF35LP05)."</em></div>`
+        },
+        {
+          title: "Fábrica de Sílabas & Palavras: Consciência Fonológica e Síntese Silábica",
+          summary: "Guia completo para trabalhar montagem de palavras, famílias silábicas e hipóteses de escrita com a Fábrica de Sílabas.",
+          category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/fabrica-de-silabas",
+          image_url: "https://cdn-icons-png.flaticon.com/512/3898/3898082.png",
+          content: `<h2>🏭 Consciência Silábica Concreta</h2><p>Manipulação de blocos silábicos e transição para a hipótese alfabética.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP08</strong></li><li><strong>EF01LP10</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Síntese silábica e consciência fonológica na Fábrica de Sílabas (BNCC: EF01LP08, EF01LP10)."</em></div>`
+        },
+        {
+          title: "Detetive da Ortografia: Investigando Regularidades e Irregularidades da Escrita",
+          summary: "Coloque os alunos no papel de peritos da escrita, caçando pistas e corrigindo desvios ortográficos comuns.",
+          category: "Língua Portuguesa", author: "Prof. Fábio Vieitas", activity_url: "/atividades/detetive-ortografia",
+          image_url: "https://cdn-icons-png.flaticon.com/512/3662/3662817.png",
+          content: `<h2>🔎 Perícia da Escrita</h2><p>Identificação e autocorreção de regularidades e irregularidades da escrita.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02LP01</strong></li><li><strong>EF03LP01</strong></li><li><strong>EF04LP01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Oficina de ortografia contextual e correção de pistas no Detetive da Ortografia (BNCC: EF02LP01, EF03LP01)."</em></div>`
+        },
+        {
+          title: "O Enigma do Laboratório: Escape Room Educativo e Raciocínio Multidisciplinar",
+          summary: "Salas de fuga virtuais integrando acentuação gráfica, frações, leitura e cooperação em equipe.",
+          category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/escape-room-lab",
+          image_url: "/img/covers/carta-enigmatica.jpg",
+          content: `<h2>🚪 Escape Room Multidisciplinar</h2><p>Acentuação, frações e leitura inferencial para destravar os terminais científicos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF04LP04</strong></li><li><strong>EF05MA08</strong></li><li><strong>EF35LP05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Atividade de investigação imersiva com o Escape Room do Laboratório (BNCC: EF04LP04, EF05MA08)."</em></div>`
+        },
+        {
+          title: "Code.org & Minecraft na Educação: Introdução ao Pensamento Computacional",
+          summary: "A Jornada do Herói do Minecraft para ensinar lógica de blocos, loops, condições e algoritmos na escola.",
+          category: "Cultura Digital & Programação", author: "Prof. Fábio Vieitas", activity_url: "/atividade/1",
+          image_url: "https://cdn-icons-png.flaticon.com/512/616/616430.png",
+          content: `<h2>⛏️ Pensamento Computacional na Prática</h2><p>Decomposição, padrões, abstração e algoritmos com o Minecraft na Code.org.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>Competência Geral 5</strong></li><li><strong>EF01MA09</strong></li><li><strong>EF05MA15</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Introdução ao pensamento computacional e programação em blocos com Minecraft Code.org (BNCC: Comp. Geral 5, EF05MA15)."</em></div>`
+        },
+        {
+          title: "Programação Criativa e Robôs com Scratch: Da Imaginação ao Algoritmo",
+          summary: "Criação de animações e jogos com a linguagem de blocos do MIT, estimulando autoria e criatividade estudantil.",
+          category: "Cultura Digital & Programação", author: "Prof. Fábio Vieitas", activity_url: "/atividade/2",
+          image_url: "https://scratch.mit.edu/favicon.ico",
+          content: `<h2>🐱 Autoria Digital com Scratch</h2><p>Expressão criativa, programação em blocos e animação de personagens.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>Competência Geral 4</strong></li><li><strong>Competência Geral 5</strong></li><li><strong>EF15AR26</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Criação e animação de projetos com linguagem de blocos no Scratch (BNCC: Comp. Geral 4 e 5, EF15AR26)."</em></div>`
+        },
+        {
+          title: "Simulados Diagnósticos Digitais no Portal Lab Kids: Avaliação Formativa Pró-SAEB",
+          summary: "Metodologia das avaliações diagnósticas digitais com relatórios pedagógicos em tempo real para os professores.",
+          category: "Avaliação & Gestão Pedagógica", author: "Prof. Fábio Vieitas", activity_url: "/atividades/simulado-campos-4ano-setembro",
+          image_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
+          content: `<h2>📊 Diagnóstico Formativo Instantâneo</h2><p>Avaliações diagnósticas alinhadas às matrizes SAEB e BNCC com relatórios por turma e escola.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF15LP01</strong></li><li><strong>EF15LP03</strong></li><li><strong>EF35LP01</strong></li><li><strong>EF04MA01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Aplicação do Simulado Diagnóstico Digital Oficial com foco nas matrizes de Língua Portuguesa e Matemática Pró-SAEB (BNCC: EF15LP03, EF35LP01)."</em></div>`
+        },
+        {
+          title: "🥁 Segue o Ritmo!: Percussão Corporal, Ritmo e Psicomotricidade na Escola",
+          summary: "Descubra como o desafio rítmico no Datashow atua como pausa ativa estimulante, desenvolvendo musicalidade, foco e psicomotricidade nas turmas do Ensino Fundamental.",
+          category: "Música & Movimento", author: "Prof. Fábio Vieitas", activity_url: "/atividades/segue-o-ritmo",
+          image_url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=1200",
+          content: `<h2>🥁 A Potência Pedagógica da Percussão Corporal na Escola</h2><p>O corpo humano é o primeiro e mais intuitivo instrumento musical. Desenvolve psicomotricidade, foco atencional e expressão lúdica coletiva.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF15AR14</strong></li><li><strong>EF15AR15</strong></li><li><strong>EF15EF01</strong></li><li><strong>EF15EF02</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Prática interdisciplinar de percussão corporal com o recurso digital Segue o Ritmo! no Datashow (BNCC: EF15AR14, EF15AR15, EF15EF01, EF15EF02)."</em></div>`
         }
       ];
 

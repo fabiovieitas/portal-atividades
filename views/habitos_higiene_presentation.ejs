@@ -29,6 +29,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Hábitos de Higiene & Saúde",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/habitos-de-higiene",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -38,6 +52,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Guia Didático de Ciências Naturais</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'Hábitos de Higiene e Saúde' }) %>
         <div class="hero-banner">
             <div style="font-size: 4rem; margin-bottom: 10px;">🧼🪥🫧</div>
             <h1 class="game-title">Hábitos de Higiene, Saúde & Autocuidado</h1>
@@ -109,13 +126,14 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe -->
-        <div class="pedagogical-card">
-            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Aula de Ciências Naturais com foco no eixo Vida e Evolução através do software 'Hábitos de Higiene & Saúde'. Discussão sobre autocuidado corporal, saúde bucal e prevenção de infecções (EF01CI01, EF02CI04). Registro de evolução na conscientização sobre a importância da lavagem correta das mãos na rotina da escola e em casa."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-habitos-higiene',
+            activityTitle: 'Hábitos de Higiene & Saúde',
+            bnccCode: 'EF01CI01, EF02CI03, EF02CI04',
+            resumido: 'Ciências Naturais e práticas de autocuidado e higiene com o jogo Hábitos de Higiene. BNCC: EF01CI01, EF02CI03.',
+            estendido: 'Aula de Ciências Naturais com foco no eixo Vida e Evolução através do software "Hábitos de Higiene & Saúde". Reflexão sobre microrganismos, cadeia de contaminação e adoção de práticas conscientes de autocuidado e preservação da saúde coletiva (Habilidades BNCC: EF01CI01, EF02CI03, EF02CI04). Registro no diário evidenciando assimilação dos protocolos sanitários diários.'
+        }) %>
 
         <!-- AdSense Bottom Banner -->
         <%- include('partials/adsense_banner', { position: 'bottom' }) %>

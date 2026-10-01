@@ -3,207 +3,500 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= activity.title %> - Guia de Acesso Pedagógico | Lab Kids</title>
-    <meta name="description" content="Acesse <%= activity.title %> no Portal Lab Kids. Atividade educativa recomendada para estudantes, alinhada à BNCC e com foco no desenvolvimento de raciocínio lógico.">
+    <title><%= activity.title %> - Guia Pedagógico & BNCC | Lab Kids</title>
+    <meta name="description" content="Guia oficial e plano de aula da atividade <%= activity.title %>. Alinhamento com a BNCC (<%= activity.bncc_code || 'Cultura Digital' %>), instruções de como jogar e sugestões prontas para o diário de classe.">
+    <link rel="canonical" href="https://labkids.online/atividade/<%= activity.id %>">
+    <meta property="og:title" content="<%= activity.title %> - Portal Lab Kids">
+    <meta property="og:description" content="<%= activity.description || 'Atividade educativa interativa para estudantes da Educação Básica.' %>">
+    <meta property="og:type" content="website">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
     <meta name="google-adsense-account" content="<%= adsensePubId %>">
     <!-- Google AdSense Verification Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "<%= activity.title %>",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "educationalLevel": "<%= activity.level ? activity.level + 'º Ano' : 'Ensino Fundamental' %>",
+      "teaches": "<%= activity.subject || 'Raciocínio Lógico e Cultura Digital' %>",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL"
+      },
+      <% if (activity.bncc_code) { %>
+      "educationalAlignment": [
+        <% const codes = activity.bncc_code.split(',').map(c => c.trim()).filter(Boolean); %>
+        <% codes.forEach((c, idx) => { %>
+        {
+          "@type": "AlignmentObject",
+          "alignmentType": "educationalSubject",
+          "targetName": "<%= c %>"
+        }<%= idx < codes.length - 1 ? ',' : '' %>
+        <% }); %>
+      ],
+      <% } %>
+      "publisher": {
+        "@type": "EducationalOrganization",
+        "name": "Portal Lab Kids",
+        "url": "https://labkids.online"
+      }
+    }
+    </script>
+
     <style>
+        :root {
+            --primary-accent: #fbbf24;
+            --secondary-accent: #38bdf8;
+            --bg-dark: #0f172a;
+        }
+
         body {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: #ffffff;
-            font-family: 'Fredoka', sans-serif;
+            color: #f8fafc;
+            font-family: 'Fredoka', system-ui, sans-serif;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 15px;
             margin: 0;
+            padding: 20px 10px 60px 10px;
         }
 
-        .guide-card {
-            background: rgba(30, 41, 59, 0.95);
-            border: 2px solid rgba(59, 130, 246, 0.4);
-            border-radius: 28px;
-            max-width: 780px;
-            width: 100%;
-            padding: 40px 30px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-            backdrop-filter: blur(12px);
-            text-align: center;
+        .container-presentation {
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .activity-icon-lg {
-            width: 96px;
-            height: 96px;
-            border-radius: 24px;
-            object-fit: cover;
-            border: 4px solid #fbbf24;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-            margin-bottom: 15px;
-        }
-
-        .activity-title {
-            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-            color: #fbbf24;
-            margin: 10px 0;
-            font-weight: 700;
-        }
-
-        .activity-desc {
-            color: #cbd5e1;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            max-width: 650px;
-            margin: 0 auto 25px auto;
-        }
-
-        .pedagogical-summary {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 22px;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
             gap: 15px;
-            margin-top: 12px;
         }
 
-        .summary-item {
-            background: rgba(30, 41, 59, 0.6);
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            color: #e2e8f0;
-        }
-
-        .summary-item strong {
-            color: #38bdf8;
-            display: block;
-            margin-bottom: 4px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-launch-direct {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 18px 45px;
-            font-size: 1.3rem;
-            font-weight: 800;
-            border-radius: 50px;
-            text-decoration: none;
+        .btn-return-portal {
             display: inline-flex;
             align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-return-portal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+        }
+
+        /* 1. Hero Banner Card */
+        .hero-card {
+            background: rgba(30, 41, 59, 0.95);
+            border: 3px solid #fbbf24;
+            border-radius: 28px;
+            padding: 35px 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .badges-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .badge-pill {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1.5px solid #fbbf24;
+            color: #fbbf24;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .badge-pill.blue {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            color: #38bdf8;
+        }
+        .badge-pill.green {
+            background: rgba(52, 211, 153, 0.15);
+            border-color: #34d399;
+            color: #34d399;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(2rem, 4vw, 2.7rem);
+            font-weight: 800;
+            color: #ffffff;
+            margin: 10px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            color: #cbd5e1;
+            font-size: 1.15rem;
+            max-width: 680px;
+            margin: 0 auto 20px auto;
+            line-height: 1.6;
+        }
+
+        .hero-cover-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 26px;
+            border: 4px solid #fbbf24;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+            margin: 10px auto 25px auto;
+            object-fit: cover;
+            display: block;
+            background: #1e293b;
+        }
+
+        .btn-launch-game {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             gap: 12px;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            font-size: 1.35rem;
+            font-weight: 800;
+            padding: 18px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5), inset 0 2px 0 rgba(255,255,255,0.4);
             border: 3px solid rgba(255, 255, 255, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            max-width: 480px;
+            box-sizing: border-box;
+        }
+        .btn-launch-game:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.7);
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
         }
 
-        .btn-launch-direct:hover {
-            transform: scale(1.04);
-            box-shadow: 0 14px 35px rgba(16, 185, 129, 0.6);
+        /* 2, 3, 4, 5. Info Cards Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
-        .safety-note {
-            font-size: 0.9rem;
+        .info-card {
+            background: rgba(30, 41, 59, 0.9);
+            border: 2px solid #334155;
+            border-radius: 24px;
+            padding: 26px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .info-card h2 {
+            font-size: 1.45rem;
+            color: #fbbf24;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .info-card p {
+            line-height: 1.7;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            margin: 0 0 12px 0;
+        }
+
+        /* Gameplay Grid */
+        .gameplay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 15px;
+        }
+        .gameplay-box {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1.5px solid #334155;
+            border-radius: 16px;
+            padding: 16px;
+            transition: border-color 0.2s ease;
+        }
+        .gameplay-box:hover {
+            border-color: #38bdf8;
+        }
+        .gameplay-box h3 {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .gameplay-box p {
+            font-size: 0.95rem;
             color: #94a3b8;
-            margin-top: 20px;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* BNCC Tag list */
+        .bncc-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 0 0;
+        }
+        .bncc-list li {
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid #f59e0b;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+        .bncc-code {
+            font-weight: 800;
+            color: #fbbf24;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .summary-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .spec-item {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+        .spec-item strong {
+            color: #38bdf8;
+            display: block;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .safety-badge {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-        }
-
-        .back-link {
             color: #94a3b8;
-            text-decoration: underline;
-            font-size: 0.95rem;
-            margin-top: 20px;
-            display: inline-block;
+            font-size: 0.88rem;
+            margin-top: 15px;
         }
-        .back-link:hover { color: #ffffff; }
     </style>
 </head>
 <body>
+    <%- include('partials/adsense_sidebars') %>
 
-    <div class="guide-card">
-        <img src="<%= activity.icon_url || 'https://cdn-icons-png.flaticon.com/512/616/616430.png' %>" class="activity-icon-lg" alt="<%= activity.title %>">
-        
-        <h1 class="activity-title"><%= activity.title %></h1>
-        <p class="activity-desc"><%= activity.description || 'Desafio interativo pedagógico selecionado pela coordenação do Lab Kids para enriquecer a experiência de aprendizagem dos estudantes da rede municipal.' %></p>
+    <div class="container-presentation">
 
-        <div class="pedagogical-summary">
-            <h3 style="margin: 0 0 10px 0; color: #38bdf8; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
-                <span>📘</span> Enquadramento Pedagógico e Segurança Digital
-            </h3>
-            <p style="margin: 0; font-size: 0.95rem; color: #94a3b8; line-height: 1.5;">
-                Esta ferramenta foi avaliada sob critérios de adequação à faixa etária, valor educativo no desenvolvimento de raciocínio lógico e conformidade com as diretrizes curriculares da BNCC.
-            </p>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <strong>Disciplina / Foco</strong>
-                    <%= activity.subject || 'Raciocínio Lógico & Cultura Digital' %>
-                </div>
-                <div class="summary-item">
-                    <strong>Público Recomendado</strong>
-                    <%= activity.level ? activity.level + 'º Ano do Ensino Fundamental' : 'Educação Básica' %>
-                </div>
-                <div class="summary-item">
-                    <strong>Habilidade BNCC</strong>
-                    <%= activity.bncc_code || 'Competência Geral 5 (Cultura Digital)' %>
-                </div>
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <a href="/" class="btn-return-portal">
+                ⬅️ VOLTAR AO PORTAL
+            </a>
+            <div style="font-size: 0.9rem; color: #94a3b8; font-weight: 700;">
+                ⭐ <%= activity.subject || 'Atividade Curricular Interativa' %>
             </div>
         </div>
 
-        <!-- Sugestão de Registro para Diário de Classe -->
-        <div class="pedagogical-summary" style="border-left: 4px solid #fbbf24; margin-top: 15px;">
-            <h3 style="margin: 0 0 10px 0; color: #fbbf24; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
-                <span>📝</span> Sugestão de Registro para o Diário de Classe
-            </h3>
-            <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #94a3b8;">
-                Utilize o modelo pedagógico abaixo para registro de planejamento ou diário escolar:
-            </p>
-            <div id="diario-redirect-text" style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(251, 191, 36, 0.3); padding: 14px; border-radius: 12px; font-family: monospace; color: #fef08a; font-size: 0.9rem; line-height: 1.6; margin-bottom: 12px;">
-                "Desenvolvimento de competências curriculares por meio da ferramenta interativa '<%= activity.title %>' (Habilidades BNCC: <%= activity.bncc_code || 'Competências Gerais da Educação Básica e Cultura Digital' %>). Prática mediada de <%= activity.subject || 'raciocínio lógico e aprendizagem digital' %>, promovendo engajamento e fixação conceitual."
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: activity.title }) %>
+
+        <!-- 1. CAIXA PRINCIPAL (HERO CARD COM BOTÃO) -->
+        <div class="hero-card">
+            <div class="badges-row">
+                <span class="badge-pill">🏆 <%= activity.level ? activity.level + 'º Ano' : 'Ensino Fundamental' %></span>
+                <span class="badge-pill blue">⚡ <%= activity.subject || 'Raciocínio & Interatividade' %></span>
+                <% if (activity.bncc_code) { %>
+                    <span class="badge-pill green">📘 BNCC: <%= activity.bncc_code.split(',')[0].trim() %></span>
+                <% } else { %>
+                    <span class="badge-pill green">📘 BNCC Alinhado</span>
+                <% } %>
             </div>
-            <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-redirect-text').innerText.trim()); alert('Registro copiado para a área de transferência! 📋');" style="background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
-                📋 Copiar Registro para o Diário
-            </button>
+
+            <h1 class="hero-title"><%= activity.title %></h1>
+            <p class="hero-subtitle">
+                <%= activity.description || 'Desafio interativo pedagógico selecionado pela coordenação para enriquecer a experiência de aprendizagem dos estudantes da rede municipal.' %>
+            </p>
+
+            <img src="<%= activity.icon_url || 'https://cdn-icons-png.flaticon.com/512/616/616430.png' %>" 
+                 class="hero-cover-img" 
+                 alt="<%= activity.title %>"
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
+
+            <div>
+                <a href="<%= activity.activity_url %>" 
+                   class="btn-launch-game" 
+                   target="<%= isExternal ? '_blank' : '_self' %>" 
+                   rel="noopener">
+                    🎮 INICIAR O JOGO AGORA 🚀
+                </a>
+            </div>
+
+            <div class="safety-badge">
+                <span>🛡️</span> Ambiente educacional seguro. Prática mediada sem coleta de dados privados de menores.
+            </div>
         </div>
 
-        <a href="<%= activity.activity_url %>" class="btn-launch-direct" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener">
-            🎮 INICIAR ATIVIDADE AGORA 🚀
-        </a>
+        <!-- Seções Informativas -->
+        <div class="info-grid">
 
-        <div class="safety-note">
-            <span>🛡️</span> Ambiente educacional seguro. Não coletamos dados pessoais de estudantes menores de idade.
+            <!-- 2. SOBRE O JOGO -->
+            <div class="info-card">
+                <h2>ℹ️ Sobre o <%= activity.title %></h2>
+                <p>
+                    O recurso pedagógico <strong><%= activity.title %></strong> é uma atividade digital cuidadosamente estruturada para integrar o uso consciente de tecnologias ao currículo escolar. Através de mecânicas lúdicas e desafios progressivos, os estudantes vivenciam a aprendizagem ativa, exercitando o raciocínio dedutivo, a concentração e a resolução autônoma de problemas.
+                </p>
+                <p>
+                    Indicado tanto para aulas no laboratório de informática quanto para projeção coletiva e mediação com a turma, este jogo permite que conceitos teóricos sejam visualizados e fixados de maneira intuitiva e prazerosa.
+                </p>
+            </div>
+
+            <!-- 3. COMO JOGAR & DICAS DE SUCESSO -->
+            <div class="info-card">
+                <h2>🎮 Como Jogar & Dicas de Sucesso</h2>
+                <div class="gameplay-grid">
+                    <div class="gameplay-box">
+                        <h3>🎯 Objetivo Principal</h3>
+                        <p>Analise o desafio proposto na tela e utilize o raciocínio para atingir a meta de cada fase.</p>
+                    </div>
+                    <div class="gameplay-box">
+                        <h3>⌨️ Interação e Controles</h3>
+                        <p>Utilize o mouse, teclado ou toque na tela para selecionar respostas e interagir com os elementos.</p>
+                    </div>
+                    <div class="gameplay-box">
+                        <h3>💡 Estratégia de Aprendizado</h3>
+                        <p>Pense antes de responder! O erro faz parte do processo e oferece pistas para o acerto nas rodadas seguintes.</p>
+                    </div>
+                    <div class="gameplay-box">
+                        <h3>⭐ Superação e Foco</h3>
+                        <p>Complete as etapas com calma, mantendo a atenção nos detalhes e nos enunciados de cada missão.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. INFORMAÇÕES AOS PROFESSORES & PAIS COM A BNCC -->
+            <div class="info-card">
+                <h2>👩‍🏫 Informações aos Professores & Pais</h2>
+                <p>
+                    Esta atividade articula práticas pedagógicas modernas ao desenvolvimento de competências gerais da Educação Básica, estimulando o protagonismo infanto-juvenil e a fluência digital mediada.
+                </p>
+
+                <div class="summary-specs">
+                    <div class="spec-item">
+                        <strong>Componente Curricular</strong>
+                        <%= activity.subject || 'Interdisciplinar / Cultura Digital' %>
+                    </div>
+                    <div class="spec-item">
+                        <strong>Faixa Recomendada</strong>
+                        <%= activity.level ? activity.level + 'º Ano do Ensino Fundamental' : 'Educação Básica' %>
+                    </div>
+                    <div class="spec-item">
+                        <strong>Objetivo Central</strong>
+                        Desenvolvimento de raciocínio, fixação conceitual e autonomia investigativa.
+                    </div>
+                </div>
+
+                <h3 style="color: #fbbf24; font-size: 1.15rem; margin-top: 20px; margin-bottom: 10px;">📘 Alinhamento com as Diretrizes da BNCC:</h3>
+                <ul class="bncc-list">
+                    <% if (activity.bncc_code) { %>
+                        <% const codes = activity.bncc_code.split(',').map(c => c.trim()).filter(Boolean); %>
+                        <% codes.forEach(code => { %>
+                            <li>
+                                <span class="bncc-code"><%= code %>:</span>
+                                Mobilização de habilidades essenciais curriculares, promovendo raciocínio reflexivo, domínio conceitual e fluência digital formativa.
+                            </li>
+                        <% }); %>
+                    <% } else { %>
+                        <li>
+                            <span class="bncc-code">Competência Geral 5:</span>
+                            Compreender, utilizar e criar tecnologias digitais de informação e comunicação de forma crítica, significativa, reflexiva e ética.
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+
+            <!-- 5. SUGESTÃO DE REGISTRO PARA O DIÁRIO DE CLASSE (RESUMIDO & ESTENDIDO) -->
+            <%
+              const cleanTitle = activity.title.replace(/'/g, '');
+              const cleanCode = activity.bncc_code || 'Cultura Digital';
+              const cleanSub = activity.subject || 'prática interativa';
+              const textResumido = 'Prática pedagógica com o recurso digital ' + cleanTitle + ' (' + cleanCode + '), estimulando raciocínio e fixação curricular.';
+              const textEstendido = 'Aplicação de prática pedagógica interativa com o software educativo "' + cleanTitle + '" (Habilidades BNCC: ' + cleanCode + '). Trabalho focado em ' + cleanSub + ', promovendo raciocínio lógico, engajamento e consolidação de hipóteses de aprendizagem.';
+            %>
+            <%- include('partials/diario_classe_widget', {
+                widgetId: 'diario-act-' + activity.id,
+                activityTitle: activity.title,
+                bnccCode: activity.bncc_code,
+                resumido: textResumido,
+                estendido: textEstendido
+            }) %>
+
         </div>
 
-        <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        <!-- 6. PUBLICIDADE EDUCATIVA (ADSENSE OFICIAL E ROTULADO) -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
+
+        <!-- 7. PRÓXIMOS DESAFIOS RECOMENDADOS -->
         <%- include('partials/recommended_games', { currentGame: '' }) %>
 
-        <div>
-            <a href="/" class="back-link">⬅️ Voltar à lista de atividades do Portal</a>
+        <!-- Bottom CTA -->
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="<%= activity.activity_url %>" 
+               class="btn-launch-game" 
+               target="<%= isExternal ? '_blank' : '_self' %>" 
+               rel="noopener">
+                🎮 JOGAR <%= activity.title.toUpperCase() %> AGORA 🚀
+            </a>
         </div>
-    </div>
 
-    <!-- Banner Publicidade Educativa Seguro -->
-    <div style="margin-top: 25px; max-width: 780px; width: 100%; text-align: center; background: rgba(15, 23, 42, 0.6); border: 1px dashed rgba(255,255,255,0.2); border-radius: 16px; padding: 12px;">
-        <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 6px; text-transform: uppercase; font-weight: 700;">📢 Publicidade Educativa • Sustentabilidade do Projeto</div>
-        <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
+        <!-- Rodapé Institucional Completo -->
+        <footer style="text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: 0.9rem;">
+            <p><strong>Portal Lab Kids</strong> — Plataforma Educacional Pública Gratuita mantida pelo Prof. Fábio Vieitas Marques</p>
+            <p>
+                <a href="/" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Início</a> •
+                <a href="/sobre" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Quem Somos</a> •
+                <a href="/noticias" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Blog Pedagógico</a> •
+                <a href="/guia-bncc" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Guia BNCC</a> •
+                <a href="/termos" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Termos de Uso</a> •
+                <a href="/privacidade" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Privacidade & LGPD</a> •
+                <a href="/cookies" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Política de Cookies</a> •
+                <a href="/contato" style="color: #60a5fa; text-decoration: none; margin: 0 8px;">Contato Institucional</a>
+            </p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">Campos dos Goytacazes - RJ | Educação Pública Inovadora e 100% Gratuita</p>
+        </footer>
 
+    </div>
 </body>
 </html>

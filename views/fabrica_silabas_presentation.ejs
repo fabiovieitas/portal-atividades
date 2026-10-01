@@ -30,6 +30,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Fábrica de Sílabas & Palavras",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/fabrica-de-silabas",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -39,6 +53,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Guia Didático de Alfabetização</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'Fábrica de Sílabas & Palavras' }) %>
         <div class="hero-banner">
             <div style="font-size: 4rem; margin-bottom: 10px;">🏭🔤</div>
             <h1 class="game-title">Fábrica de Sílabas & Palavras</h1>
@@ -110,19 +127,23 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe -->
-        <div class="pedagogical-card">
-            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Aplicação de metodologia fônica-lúdica através do recurso digital 'Fábrica de Sílabas'. Desenvolvimento de consciência silábica e síntese grafofonêmica alinhada aos códigos EF01LP08 e EF01LP10 da BNCC. Avanço expressivo de alunos na passagem de hipóteses silábicas para alfabéticas com autonomia na junção de fonemas."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-fabrica-silabas',
+            activityTitle: 'Fábrica de Sílabas & Palavras',
+            bnccCode: 'EF01LP08, EF01LP09, EF01LP10',
+            resumido: 'Síntese silábica e consciência fonológica na Fábrica de Sílabas. BNCC: EF01LP08, EF01LP10.',
+            estendido: 'Aplicação de metodologia fônica-lúdica através do recurso digital "Fábrica de Sílabas". Desenvolvimento de consciência silábica e síntese grafofonêmica alinhada aos códigos EF01LP08 e EF01LP10 da BNCC. Avanço expressivo de alunos na passagem de hipóteses silábicas para alfabéticas com autonomia na junção de fonemas.'
+        }) %>
 
         <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        
+        <!-- AdSense Banner Educativo (Seguro e Rotulado) -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
         <%- include('partials/recommended_games', { currentGame: 'fabrica-silabas' }) %>
 
         <!-- AdSense Bottom Banner -->
-        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
+        
 
         <!-- Rodapé Institucional -->
         <footer class="institutional-footer">

@@ -295,6 +295,9 @@
         </div>
 
         <!-- Hero Card -->
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'Pou Online na Escola' }) %>
         <div class="hero-card">
             <div class="badges-row">
                 <span class="badge-pill gold">🏆 Educação Infantil & Ensino Fundamental</span>
@@ -381,22 +384,17 @@
                 </ul>
             </div>
 
-            <!-- Card 4: Registro para o Diário de Classe -->
-            <div class="info-card" style="border-left: 5px solid #10b981;">
-                <h2>📝 Sugestão de Registro para o Diário de Classe</h2>
-                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 12px;">
-                    Copie e utilize este modelo para registrar a prática pedagógica no seu diário de classe:
-                </p>
-                <div id="diario-pou-text" style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.4); padding: 18px; border-radius: 14px; font-family: monospace; color: #a7f3d0; font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px;">
-                    "Realização de atividade lúdico-interativa com o jogo educativo 'Pou Online: Cuide do Mascote Virtual', com ênfase na conscientização sobre rotinas de higiene pessoal (banho e escovação dentária), escolhas de alimentação equilibrada, regulação de sono e noções de responsabilidade e autocuidado (Habilidades BNCC: EI03CG04, EI03EO02, EF01CI01 e EF02CI03)."
-                </div>
-                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('diario-pou-text').innerText.trim()); alert('Registro para o diário copiado com sucesso! 📋');" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 22px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(16,185,129,0.3);">
-                    📋 Copiar Registro para o Diário
-                </button>
-            </div>
+            <!-- Card 4: Diário de Classe (Resumido & Estendido) -->
+            <%- include('partials/diario_classe_widget', {
+                widgetId: 'diario-pou',
+                activityTitle: 'Pou Online: Cuide do Mascote Virtual',
+                bnccCode: 'EI03CG04, EI03EO02, EF01CI01, EF02CI03',
+                resumido: 'Prática de autocuidado e rotinas saudáveis com o mascote virtual Pou Online. BNCC: EI03CG04, EF01CI01.',
+                estendido: 'Realização de atividade lúdico-interativa com o jogo educativo "Pou Online: Cuide do Mascote Virtual", com ênfase na conscientização sobre rotinas de higiene pessoal (banho e escovação dentária), alimentação equilibrada, regulação de sono e noções de responsabilidade e autocuidado (Habilidades BNCC: EI03CG04, EI03EO02, EF01CI01 e EF02CI03).'
+            }) %>
 
             <!-- Card 5: Por que a versão web difere do aplicativo instalado? -->
-            <div class="info-card" style="border: 2px dashed #f59e0b; background: rgba(245, 158, 11, 0.05);">
+            <div class="info-card" style="border: 2px dashed #f59e0b; background: rgba(245, 158, 11, 0.05); margin-top: 20px;">
                 <h2 style="color: #fbbf24;">📲 Versão Web vs. Aplicativo Oficial no Tablet/Celular</h2>
                 <p style="color: #cbd5e1; line-height: 1.6;">
                     <strong>Nota Importante:</strong> A desenvolvedora oficial do Pou (<em>Zakeh Limited</em>) desenvolveu o jogo original exclusivamente para smartphones e tablets Android e iOS.
@@ -416,14 +414,14 @@
 
         </div>
 
+        <!-- AdSense Banner Educativo (Seguro e Rotulado) -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
+
         <!-- Próximos Desafios Recomendados -->
         <%- include('partials/recommended_games', { currentGame: 'pou-online' }) %>
 
-        <!-- AdSense Bottom Banner -->
-        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
-
         <!-- Bottom CTA -->
-        <div style="text-align: center; margin-top: 20px;">
+        <div style="text-align: center; margin-top: 25px;">
             <a href="/games/pou-online/index.html" class="btn-launch-game" onclick="launchPouApp(event)">
                 🎮 JOGAR POU ONLINE AGORA 🚀
             </a>

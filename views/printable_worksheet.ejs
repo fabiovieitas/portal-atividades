@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folha de Registro Pedagógico - <%= activityTitle || 'Atividade Educativa' %> | Lab Kids</title>
+    <meta name="description" content="Folha de registro e atividade pedagógica para impressão em A4. Acompanhamento de aprendizagem, alinhamento BNCC e reflexão para o caderno do aluno.">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a;
+            color: #1e293b;
+            margin: 0;
+            padding: 20px 10px;
+            min-height: 100vh;
+        }
+
+        .no-print-bar {
+            max-width: 820px;
+            margin: 0 auto 20px auto;
+            background: rgba(30, 41, 59, 0.95);
+            border: 2px solid #38bdf8;
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            color: white;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .btn-print:hover { transform: scale(1.03); }
+
+        .btn-back {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-back:hover { color: #38bdf8; }
+
+        /* FOLHA IMPRESSA FORMATO A4 LIMPO */
+        .worksheet-paper {
+            max-width: 820px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #000;
+            border-radius: 4px;
+            padding: 24px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            color: #000;
+            line-height: 1.4;
+        }
+
+        .ws-header {
+            border-bottom: 2px solid #000;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .ws-school-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .ws-fields-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 8px 16px;
+            font-size: 0.95rem;
+        }
+
+        .ws-field-line {
+            border-bottom: 1px dashed #444;
+            padding-bottom: 3px;
+        }
+
+        .ws-activity-badge {
+            background: #f1f5f9;
+            border: 1.5px solid #000;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .ws-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+            color: #000;
+        }
+
+        .ws-bncc-pill {
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid #000;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        .ws-section {
+            margin-bottom: 14px;
+        }
+
+        .ws-section-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-left: 4px solid #000;
+            padding-left: 8px;
+        }
+
+        .ws-box-drawing {
+            border: 1.5px dashed #000;
+            border-radius: 6px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .ws-lines-container {
+            margin-top: 6px;
+        }
+
+        .ws-write-line {
+            border-bottom: 1px solid #999;
+            height: 26px;
+            margin-bottom: 4px;
+        }
+
+        .ws-rubric {
+            border: 1.5px solid #000;
+            border-radius: 6px;
+            padding: 10px 14px;
+            background: #fafafa;
+        }
+
+        .ws-rubric-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .ws-footer {
+            margin-top: 14px;
+            padding-top: 8px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            color: #555;
+        }
+
+        /* CONFIGURAÇÃO DE IMPRESSÃO (PÁGINA A4 ECONÔMICA) */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .worksheet-paper {
+                border: 1.5px solid #000 !important;
+                box-shadow: none !important;
+                max-width: 100% !important;
+                padding: 15px 20px !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+            }
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR PARA O PROFESSOR (OCULTA NA IMPRESSÃO) -->
+    <div class="no-print no-print-bar">
+        <a href="/" class="btn-back">⬅️ Voltar ao Portal</a>
+        <div style="font-size: 0.95rem;">
+            <strong>🖨️ Ficha de Atividade & Registro Pedagógico A4</strong>
+        </div>
+        <button onclick="window.print()" class="btn-print">
+            <span>🖨️</span> IMPRIMIR OU SALVAR EM PDF
+        </button>
+    </div>
+
+    <!-- FOLHA A4 PARA IMPRESSÃO -->
+    <div class="worksheet-paper" id="printableArea">
+        
+        <!-- CABEÇALHO ESCOLAR -->
+        <div class="ws-header">
+            <div class="ws-school-title">
+                <span>🏫 Rede de Ensino • Laboratório de Informática Educativa</span>
+                <span style="font-size: 0.85rem; font-weight: 600;">Lab Kids</span>
+            </div>
+            <div class="ws-fields-grid">
+                <div class="ws-field-line"><strong>Estudante:</strong> ________________________________________________</div>
+                <div class="ws-field-line"><strong>Data:</strong> ____ / ____ / 2026</div>
+                <div class="ws-field-line"><strong>Escola:</strong> __________________________________________________</div>
+                <div class="ws-field-line"><strong>Turma / Ano:</strong> _________</div>
+                <div class="ws-field-line" style="grid-column: 1 / -1;"><strong>Professor(a):</strong> ________________________________________________</div>
+            </div>
+        </div>
+
+        <!-- IDENTIFICAÇÃO DA ATIVIDADE & BNCC -->
+        <div class="ws-activity-badge">
+            <div>
+                <h1 class="ws-title"><%= activityTitle || 'Atividade Educativa Digital' %></h1>
+                <div style="font-size: 0.85rem; color: #333; margin-top: 2px;">
+                    <strong>Componente:</strong> <%= activitySubject || 'Raciocínio Lógico & Cultura Digital' %> 
+                    • <strong>Segmento:</strong> <%= activityLevel ? activityLevel + 'º Ano' : 'Ensino Fundamental' %>
+                </div>
+            </div>
+            <div class="ws-bncc-pill">
+                📘 BNCC: <%= bnccCode || 'Competência Geral 5' %>
+            </div>
+        </div>
+
+        <!-- 1. OBJETIVO DA MISSÃO PEDAGÓGICA -->
+        <div class="ws-section">
+            <div class="ws-section-title">1. 🎯 Objetivo da Prática no Laboratório:</div>
+            <p style="margin: 4px 0 0 0; font-size: 0.92rem; color: #222; text-align: justify;">
+                Explorar o software/jogo educativo como ferramenta de aprendizagem ativa, desenvolvendo foco, raciocínio reflexivo, resolução cooperativa de problemas e hipóteses curriculares através da linguagem digital.
+            </p>
+        </div>
+
+        <!-- 2. REGISTRO DE DESCOBERTAS E ESTRATÉGIAS -->
+        <div class="ws-section">
+            <div class="ws-section-title">2. ✍️ Registro de Descobertas:</div>
+            <div style="font-size: 0.88rem; margin-bottom: 2px;">
+                <strong>A)</strong> Qual foi a maior pontuação, fase ou palavra/conta que você conseguiu resolver hoje?
+            </div>
+            <div class="ws-lines-container">
+                <div class="ws-write-line"></div>
+            </div>
+
+            <div style="font-size: 0.88rem; margin-top: 8px; margin-bottom: 2px;">
+                <strong>B)</strong> Qual estratégia ou dica secreta você descobriu para não errar e vencer o desafio?
+            </div>
+            <div class="ws-lines-container">
+                <div class="ws-write-line"></div>
+                <div class="ws-write-line"></div>
+            </div>
+        </div>
+
+        <!-- 3. ESPAÇO ILUSTRATIVO / CRIATIVO -->
+        <div class="ws-section">
+            <div class="ws-section-title">3. 🎨 Espaço Criativo: Desenhe a fase ou personagem do jogo que você mais gostou:</div>
+            <div class="ws-box-drawing">
+                (Utilize este espaço para desenhar a sua missão ou esquematizar a resposta)
+            </div>
+        </div>
+
+        <!-- 4. RUBRICA DE AUTOAVALIAÇÃO FORMATIVA -->
+        <div class="ws-section">
+            <div class="ws-rubric">
+                <div style="font-size: 0.9rem; font-weight: 700; text-align: center;">
+                    ⭐ Autoavaliação do Estudante: Como você se sentiu nesta missão?
+                </div>
+                <div class="ws-rubric-options">
+                    <div>[ &nbsp; ] 🟢 Fácil! Aprendi rápido.</div>
+                    <div>[ &nbsp; ] 🟡 Desafiador, mas superei!</div>
+                    <div>[ &nbsp; ] 🔵 Preciso treinar mais um pouco.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RODAPÉ INSTITUCIONAL -->
+        <div class="ws-footer">
+            <span>Portal Lab Kids • Coordenação Prof. Fábio Vieitas Marques</span>
+            <span>Acesse em casa: <strong>labkids.online</strong></span>
+            <span>Registro de Aula Formativo</span>
+        </div>
+
+    </div>
+
+</body>
+</html>

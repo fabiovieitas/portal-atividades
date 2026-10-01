@@ -34,10 +34,6 @@ app.get('/robots.txt', (req, res) => {
   res.type('text/plain');
   res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
 });
-app.get('/sitemap.xml', (req, res) => {
-  res.type('application/xml');
-  res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
-});
 app.get('/manifest.json', (req, res) => {
   res.setHeader('Content-Type', 'application/manifest+json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -679,25 +675,122 @@ app.get('/simulados', async (req, res) => {
   res.redirect('/');
 });
 
+// Gerador de Certificado Escolar (Item 11)
 app.get('/professor/certificado', (req, res) => {
   res.render('certificate_generator');
 });
-
-// Guia BNCC Indexável para SEO no Google
-app.get('/bncc', async (req, res) => {
-  const activities = await dbHelper.getActivities({});
-  res.render('bncc_guide', { bnccCode: null, activities });
+app.get('/certificado', (req, res) => {
+  res.redirect(301, '/professor/certificado');
 });
 
-app.get('/bncc/:code', async (req, res) => {
-  const code = req.params.code.toUpperCase();
-  const activities = await dbHelper.getActivities({ bncc: code });
-  res.render('bncc_guide', { bnccCode: code, activities });
+// Folha de Registro Pedagógico A4 para Impressão (Item 7)
+app.get('/folha-registro', async (req, res) => {
+  const { title, bncc, level, subject } = req.query;
+  res.render('printable_worksheet', {
+    activityTitle: title || 'Atividade Educativa Digital',
+    bnccCode: bncc || 'Competência Geral 5 BNCC',
+    activityLevel: level || '1 ao 5',
+    activitySubject: subject || 'Raciocínio Lógico & Cultura Digital'
+  });
+});
+
+app.get(['/folha-registro/:id', '/atividade/:id/folha', '/atividades/:id/folha'], async (req, res) => {
+  const param = req.params.id;
+  const activities = await dbHelper.getActivities({});
+  let act = null;
+  if (!isNaN(param)) {
+    act = (activities || []).find(a => String(a.id) === String(param));
+  }
+  if (!act) {
+    act = (activities || []).find(a => a.activity_url && (a.activity_url.includes(param) || a.activity_url.endsWith(param)));
+  }
+  res.render('printable_worksheet', {
+    activityTitle: act ? act.title : param.replace(/-/g, ' ').toUpperCase(),
+    bnccCode: act ? (act.bncc_code || 'Competência Geral 5 BNCC') : 'Competência Geral 5 BNCC',
+    activityLevel: act ? (act.level || '1 ao 5') : '1 ao 5',
+    activitySubject: act ? (act.subject || 'Raciocínio Lógico & Cultura Digital') : 'Raciocínio Lógico & Cultura Digital'
+  });
+});
+
+// Guia BNCC Indexável para SEO no Google (Item 4)
+app.get(['/bncc', '/guia-bncc'], async (req, res) => {
+  const activities = await dbHelper.getActivities({});
+  res.render('bncc_guide', { 
+    bnccCode: null, 
+    activities: activities || [],
+    adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+  });
+});
+
+app.get(['/bncc/:code', '/guia-bncc/:code'], async (req, res) => {
+  const code = (req.params.code || '').trim().toUpperCase();
+  const all = await dbHelper.getActivities({});
+  const filtered = (all || []).filter(a => a.bncc_code && a.bncc_code.toUpperCase().includes(code));
+  res.render('bncc_guide', { 
+    bnccCode: code, 
+    activities: filtered,
+    adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+  });
+});
+
+// API de Sugestões de Busca Inteligente (Item 19)
+app.get('/api/search-suggest', async (req, res) => {
+  const q = (req.query.q || '').trim().toLowerCase();
+  if (!q || q.length < 2) return res.json({ games: [], articles: [], bncc: [] });
+
+  try {
+    const activities = await dbHelper.getActivities({});
+    const news = await dbHelper.getNews();
+
+    const games = (activities || [])
+      .filter(a => (a.title && a.title.toLowerCase().includes(q)) || (a.subject && a.subject.toLowerCase().includes(q)) || (a.description && a.description.toLowerCase().includes(q)))
+      .slice(0, 5)
+      .map(a => ({
+        title: a.title,
+        url: a.activity_url || `/atividade/${a.id}`,
+        badge: a.subject || 'Jogo',
+        icon: a.icon_url || '🎮'
+      }));
+
+    const articles = (news || [])
+      .filter(n => (n.title && n.title.toLowerCase().includes(q)) || (n.summary && n.summary.toLowerCase().includes(q)))
+      .slice(0, 4)
+      .map(n => ({
+        title: n.title,
+        url: `/noticia/${n.id}`,
+        badge: 'Plano de Aula / Blog'
+      }));
+
+    // Detect if search looks like a BNCC code or keyword
+    const bnccSet = new Set();
+    (activities || []).forEach(a => {
+      if (a.bncc_code) {
+        a.bncc_code.split(',').forEach(c => {
+          const clean = c.trim().toUpperCase();
+          if (clean && clean.toLowerCase().includes(q)) {
+            bnccSet.add(clean);
+          }
+        });
+      }
+    });
+
+    const bncc = Array.from(bnccSet).slice(0, 4).map(code => ({
+      code,
+      url: `/bncc/${code}`,
+      badge: 'Habilidade BNCC'
+    }));
+
+    res.json({ games, articles, bncc });
+  } catch (err) {
+    res.json({ games: [], articles: [], bncc: [] });
+  }
 });
 
 // Presentation routes for new top-demand games
 app.get('/atividades/habitos-de-higiene', (req, res) => res.render('habitos_higiene_presentation'));
 app.get('/atividades/level-up', (req, res) => res.render('levelup_presentation'));
+app.get('/atividades/segue-o-ritmo', (req, res) => res.render('segue_o_ritmo_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
+app.get(['/ritmo', '/percussao-corporal'], (req, res) => res.redirect(301, '/atividades/segue-o-ritmo'));
 
 // SEO Routes: robots.txt & dynamic sitemap.xml
 app.get('/robots.txt', (req, res) => {
@@ -707,7 +800,7 @@ app.get('/robots.txt', (req, res) => {
 
 app.get('/sitemap.xml', async (req, res) => {
   try {
-    const host = req.headers.host || 'labkids.site';
+    const host = req.headers.host || 'labkids.online';
     const baseUrl = `https://${host}`;
     const news = await dbHelper.getNews();
     const activities = await dbHelper.getActivities({});
@@ -715,14 +808,35 @@ app.get('/sitemap.xml', async (req, res) => {
     let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
     xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-    const mainPages = ['', '/noticias', '/aluno', '/professor/login', '/contato', '/privacidade', '/professor/certificado'];
-    mainPages.forEach(page => {
-      xml += `  <url><loc>${baseUrl}${page}</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n`;
+    const mainPages = [
+      { path: '', priority: '1.0', changefreq: 'daily' },
+      { path: '/noticias', priority: '0.9', changefreq: 'daily' },
+      { path: '/guia-bncc', priority: '0.9', changefreq: 'weekly' },
+      { path: '/sobre', priority: '0.8', changefreq: 'monthly' },
+      { path: '/termos', priority: '0.7', changefreq: 'monthly' },
+      { path: '/privacidade', priority: '0.7', changefreq: 'monthly' },
+      { path: '/cookies', priority: '0.7', changefreq: 'monthly' },
+      { path: '/contato', priority: '0.7', changefreq: 'monthly' },
+      { path: '/aluno', priority: '0.8', changefreq: 'weekly' },
+      { path: '/professor/login', priority: '0.8', changefreq: 'weekly' },
+      { path: '/professor/certificado', priority: '0.8', changefreq: 'weekly' }
+    ];
+
+    mainPages.forEach(p => {
+      xml += `  <url><loc>${baseUrl}${p.path}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>\n`;
     });
 
+    const seenUrls = new Set();
     (activities || []).forEach(act => {
-      if (act.activity_url && act.activity_url.startsWith('/')) {
-        xml += `  <url><loc>${baseUrl}${act.activity_url}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+      const actUrl = act.activity_url && act.activity_url.startsWith('/') ? act.activity_url : `/atividade/${act.id}`;
+      if (!seenUrls.has(actUrl)) {
+        seenUrls.add(actUrl);
+        xml += `  <url><loc>${baseUrl}${actUrl}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>\n`;
+      }
+      const genericUrl = `/atividade/${act.id}`;
+      if (!seenUrls.has(genericUrl)) {
+        seenUrls.add(genericUrl);
+        xml += `  <url><loc>${baseUrl}${genericUrl}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
       }
     });
 
@@ -731,6 +845,10 @@ app.get('/sitemap.xml', async (req, res) => {
     });
 
     xml += `</urlset>`;
+
+    try {
+      fs.writeFileSync(path.join(__dirname, 'public', 'sitemap.xml'), xml, 'utf-8');
+    } catch(e) {}
 
     res.header('Content-Type', 'application/xml');
     res.send(xml);
@@ -1009,7 +1127,35 @@ app.get('/simulado/4-ano-agosto', (req, res) => res.redirect(301, '/atividades/s
 
 app.get('/simulado/5-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
 app.get('/simulado/5-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
-app.get('/simulado/5-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-agosto'));
+// Handler dinâmico universal para qualquer apresentação de atividade (evita 404 em jogos atuais e futuros)
+app.get('/atividades/:slug', async (req, res, next) => {
+  try {
+    const slug = req.params.slug;
+    const sanitizedView = slug.replace(/-/g, '_') + '_presentation';
+    const viewPath = path.join(__dirname, 'views', sanitizedView + '.ejs');
+    if (fs.existsSync(viewPath)) {
+      return res.render(sanitizedView, {
+        adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+      });
+    }
+
+    const activities = await dbHelper.getActivities({ adminMode: true });
+    const activity = (activities || []).find(a => 
+      a.activity_url && (a.activity_url.endsWith('/' + slug) || a.activity_url.includes(slug))
+    );
+    if (activity) {
+      const isExternal = Boolean(activity.activity_url && (activity.activity_url.includes('http://') || activity.activity_url.includes('https://')));
+      return res.render('activity_redirect', {
+        activity,
+        isExternal,
+        adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+      });
+    }
+    next();
+  } catch (err) {
+    next();
+  }
+});
 
 app.post('/api/simulado/submit', async (req, res) => {
   try {
@@ -1386,13 +1532,14 @@ app.get('/atividade/:id', async (req, res) => {
 </html>`);
     }
 
-    if (activity.activity_url && activity.activity_url.startsWith('/')) {
+    if (activity.activity_url && activity.activity_url.startsWith('/atividades/')) {
       return res.redirect(activity.activity_url);
     }
 
-    const isExternal = activity.activity_url.includes('http://') || activity.activity_url.includes('https://');
+    const isExternal = Boolean(activity.activity_url && (activity.activity_url.includes('http://') || activity.activity_url.includes('https://')));
+    const adsensePubId = process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531';
 
-    res.render('activity_redirect', { activity, isExternal });
+    res.render('activity_redirect', { activity, isExternal, adsensePubId });
   } catch (err) {
     res.redirect('/');
   }
@@ -2161,14 +2308,7 @@ app.get('/contato', (req, res) => {
   res.render('contact');
 });
 
-app.get('/guia-bncc', async (req, res) => {
-  const activities = await dbHelper.getActivities();
-  res.render('bncc_guide', { activities: activities || [], bnccCode: null });
-});
 
-app.get('/bncc', (req, res) => {
-  res.redirect(301, '/guia-bncc');
-});
 
 // Blog / News Routes
 app.get('/noticias', async (req, res) => {

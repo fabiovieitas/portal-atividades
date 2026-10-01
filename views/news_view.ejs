@@ -3,12 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= article.title %> | Blog Lab Kids</title>
+    <title><%= article.title %> | Blog Pedagógico Lab Kids</title>
+    <meta name="description" content="<%= article.summary || 'Artigo educativo do Portal Lab Kids com sugestões didáticas, enquadramento na BNCC e planos de aula.' %>">
+    <link rel="canonical" href="https://labkids.online/noticia/<%= article.id %>">
+    <meta property="og:title" content="<%= article.title %>">
+    <meta property="og:description" content="<%= article.summary || 'Guia pedagógico e reflexões didáticas no Portal Lab Kids.' %>">
+    <meta property="og:image" content="<%= article.image_url || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1600' %>">
+    <meta property="og:type" content="article">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
     <!-- Google AdSense Auto Ads Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
+
+    <!-- Schema.org JSON-LD para Artigo Educativo no Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalArticle",
+      "headline": "<%= article.title.replace(/"/g, '\\"') %>",
+      "image": "<%= article.image_url || 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1600' %>",
+      "author": {
+        "@type": "Person",
+        "name": "<%= article.author || 'Prof. Fábio Vieitas' %>"
+      },
+      "publisher": {
+        "@type": "EducationalOrganization",
+        "name": "Portal Lab Kids",
+        "url": "https://labkids.online"
+      },
+      "datePublished": "<%= new Date(article.published_at || article.created_at || Date.now()).toISOString() %>",
+      "description": "<%= (article.summary || '').replace(/"/g, '\\"') %>"
+    }
+    </script>
     <style>
         body {
             font-family: 'Outfit', sans-serif;
@@ -166,31 +194,111 @@
     </header>
 
     <main class="main-wrapper">
-        <nav class="back-nav">
-            <a href="/noticias" class="btn-back-blog">
-                <i class="fas fa-arrow-left"></i> Voltar para o Blog
-            </a>
+        <!-- Breadcrumbs Estruturados (Google Search Console & Rich Snippets) -->
+        <nav aria-label="Navegação Estruturada" style="margin-bottom: 2rem;">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="display: flex; gap: 8px; list-style: none; padding: 0; font-size: 0.9rem; color: #64748b; flex-wrap: wrap; align-items: center;">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="/" style="color: #6366f1; text-decoration: none; font-weight: 600;"><span itemprop="name">Início</span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+                <li>/</li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="/noticias" style="color: #6366f1; text-decoration: none; font-weight: 600;"><span itemprop="name">Blog & Planos de Aula</span></a>
+                    <meta itemprop="position" content="2" />
+                </li>
+                <li>/</li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <span itemprop="name" style="color: #1e293b; font-weight: 700;"><%= article.title %></span>
+                    <meta itemprop="position" content="3" />
+                </li>
+            </ol>
         </nav>
 
         <% if (article.activity_url) { %>
             <div style="text-align: center; margin: 20px 0 35px 0; padding: 25px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid #4f46e5; border-radius: 24px; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3); color: white;">
-                <h3 style="margin-bottom: 8px; color: #f59e0b; font-size: 1.5rem;">🎮 Quer aplicar esta atividade em sala de aula?</h3>
-                <p style="margin-bottom: 18px; font-size: 1.05rem; color: #cbd5e1;">Acesse o jogo digital diretamente no nosso portal e divirta-se com seus alunos!</p>
-                <a href="<%= article.activity_url %>" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 15px 35px; border-radius: 50px; font-weight: 800; font-size: 1.2rem; text-decoration: none; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s;">
-                    🚀 JOGAR ESTA ATIVIDADE AGORA
-                </a>
+                <h3 style="margin-bottom: 8px; color: #f59e0b; font-size: 1.45rem;">🎮 Quer aplicar esta atividade em sala de aula?</h3>
+                <p style="margin-bottom: 18px; font-size: 1.05rem; color: #cbd5e1;">Acesse o jogo digital no laboratório ou imprima a ficha pedagógica em folha A4 para o caderno dos alunos:</p>
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                    <a href="<%= article.activity_url %>" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 28px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; text-decoration: none; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s;">
+                        🚀 JOGAR ESTA ATIVIDADE AGORA
+                    </a>
+                    <a href="/folha-registro?title=<%= encodeURIComponent(article.title.replace(/^[^a-zA-Z0-9]+/, '')) %>" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 14px 28px; border-radius: 50px; font-weight: 800; font-size: 1.1rem; text-decoration: none; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5); border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s;">
+                        🖨️ FOLHA A4 PARA CADERNO (PDF)
+                    </a>
+                </div>
             </div>
         <% } %>
 
+        <%
+            let formattedContent = article.content || '';
+            const inArticleAd = `
+            <div class="in-article-ad-box" style="margin: 2.5rem 0; padding: 16px; background: #f8fafc; border: 1.5px dashed #94a3b8; border-radius: 18px; text-align: center;">
+                <div style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">📢 Publicidade Educativa • Lab Kids</div>
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="${adsensePubId}"></ins>
+                <script>
+                (function() {
+                    if ('IntersectionObserver' in window) {
+                        var obs = new IntersectionObserver(function(entries) {
+                            entries.forEach(function(entry) {
+                                if (entry.isIntersecting) {
+                                    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+                                    obs.unobserve(entry.target);
+                                }
+                            });
+                        }, { rootMargin: '250px 0px' });
+                        var el = document.currentScript.previousElementSibling;
+                        if (el) obs.observe(el);
+                    } else {
+                        try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+                    }
+                })();
+                </script>
+            </div>
+            `;
+
+            // Encontra o segundo fechamento </p> para posicionamento ideal segundo diretrizes do AdSense
+            const pMatches = [...formattedContent.matchAll(/<\/p>/gi)];
+            if (pMatches.length >= 3) {
+                const splitIndex = pMatches[2].index + 4;
+                formattedContent = formattedContent.slice(0, splitIndex) + inArticleAd + formattedContent.slice(splitIndex);
+            } else if (pMatches.length >= 2) {
+                const splitIndex = pMatches[1].index + 4;
+                formattedContent = formattedContent.slice(0, splitIndex) + inArticleAd + formattedContent.slice(splitIndex);
+            } else {
+                formattedContent += inArticleAd;
+            }
+        %>
+
         <div class="article-body">
-            <%- article.content %>
+            <%- formattedContent %>
         </div>
 
-        <!-- Bottom AdSense Banner -->
+        <!-- Bottom AdSense Banner com Lazy Loading Inteligente (Viewability > 80%) -->
         <div class="adsense-tablet-wrapper tablet-ad-banner adsense-bottom-banner" style="margin-top: 2.5rem; text-align: center;">
             <div class="adsense-micro-label" style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">📢 Publicidade Educativa • Lab Kids</div>
             <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <script>
+            (function() {
+                if ('IntersectionObserver' in window) {
+                    var obs = new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting) {
+                                try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+                                obs.unobserve(entry.target);
+                            }
+                        });
+                    }, { rootMargin: '250px 0px' });
+                    var el = document.currentScript.previousElementSibling;
+                    if (el) obs.observe(el);
+                } else {
+                    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+                }
+            })();
+            </script>
         </div>
 
         <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee; text-align: center;">

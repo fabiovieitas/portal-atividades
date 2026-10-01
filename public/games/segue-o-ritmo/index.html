@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Segue o Ritmo! 🥁 Desafios de Percussão Corporal e Dança | Lab Kids</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(135deg, #070a13 0%, #120e26 50%, #0a1424 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+      overflow-x: hidden;
+    }
+
+    /* BARRA SUPERIOR */
+    .top-bar {
+      width: 100%;
+      max-width: 1180px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 12px;
+      z-index: 100;
+    }
+    .btn-return {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      font-size: 0.95rem;
+      transition: transform 0.2s;
+    }
+    .btn-return:hover { transform: scale(1.04); }
+
+    .btn-fullscreen {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.9);
+      color: #38bdf8;
+      border: 2px solid #38bdf8;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .btn-fullscreen:hover { background: #38bdf8; color: #0f172a; }
+
+    /* LAYOUT PRINCIPAL EM GRID (PLAYER + PLAYLIST LATERAL) */
+    .hub-container {
+      width: 100%;
+      max-width: 1180px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .hub-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* MOLDURA BLINDADA DO PLAYER LAB KIDS */
+    .player-theater-wrapper {
+      background: rgba(15, 23, 42, 0.92);
+      border: 3px solid #f59e0b;
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 158, 11, 0.2);
+      backdrop-filter: blur(14px);
+      position: relative;
+    }
+
+    .theater-screen-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000000;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* IFRAME DO VÍDEO (DESCARACTERIZADO) */
+    .video-embed-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: auto;
+    }
+    .video-embed-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none; /* Bloqueia cliques diretos no YouTube */
+    }
+
+    /* ESCUDO DE PROTEÇÃO SUPERIOR (Anti-Clique no título e share do YouTube) */
+    .shield-header-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 55px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.7) 70%, transparent 100%);
+      z-index: 30;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      pointer-events: auto; /* Absorve qualquer clique */
+      cursor: default;
+    }
+    .shield-video-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #facc15;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 75%;
+    }
+    .shield-channel-badge {
+      background: #f59e0b;
+      color: #0f172a;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ESCUDO DE PROTEÇÃO INFERIOR DIREITO (Anti-Clique no logo do YouTube) */
+    .shield-watermark-blocker {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 130px;
+      height: 50px;
+      background: transparent;
+      z-index: 30;
+      pointer-events: auto; /* Bloqueia cliques no logo inferior do YouTube */
+      cursor: default;
+    }
+
+    /* ÁREA DE TOQUE GIGANTE PARA PLAY/PAUSA */
+    .shield-click-surface {
+      position: absolute;
+      top: 55px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 25;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-pause-badge-pulse {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      border: 3px solid #f59e0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
+      transition: all 0.2s ease;
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+    .play-pause-badge-pulse.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* BARRA DE CONTROLES AUTORAIS DO LAB KIDS */
+    .custom-controls-bar {
+      margin-top: 14px;
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 18px;
+      padding: 12px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* LINHA DA BARRA DE PROGRESSO */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+    .progress-bar-container {
+      flex: 1;
+      height: 10px;
+      background: #0f172a;
+      border-radius: 50px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      border: 1px solid #475569;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f59e0b, #38bdf8);
+      border-radius: 50px;
+      transition: width 0.15s linear;
+    }
+    .time-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #94a3b8;
+      min-width: 85px;
+      text-align: right;
+    }
+
+    /* LINHA DE BOTÕES DE AÇÃO */
+    .buttons-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .left-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-ctrl {
+      background: #0f172a;
+      border: 1.5px solid #475569;
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .btn-ctrl:hover {
+      background: #38bdf8;
+      color: #0f172a;
+      border-color: #38bdf8;
+    }
+    .btn-play-main {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #0f172a;
+      border-color: #f59e0b;
+      padding: 8px 22px;
+      font-size: 1rem;
+    }
+    .btn-play-main:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #000;
+    }
+
+    /* PADS DE PERCUSSÃO CORPORAL INTERATIVA */
+    .percussion-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      width: 100%;
+      margin-top: 15px;
+    }
+    @media (max-width: 600px) {
+      .percussion-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .pad-btn {
+      background: rgba(30, 41, 59, 0.9);
+      border: 2.5px solid #334155;
+      border-radius: 16px;
+      padding: 12px 8px;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .pad-btn:active, .pad-btn.hit {
+      transform: scale(0.93);
+      box-shadow: 0 0 25px currentColor;
+    }
+    .pad-clap { border-color: #f59e0b; color: #fbbf24; }
+    .pad-snap { border-color: #38bdf8; color: #38bdf8; }
+    .pad-chest { border-color: #ec4899; color: #f472b6; }
+    .pad-stomp { border-color: #10b981; color: #34d399; }
+    .pad-icon { font-size: 2rem; }
+    .pad-title { font-size: 1rem; font-weight: 800; }
+    .pad-hint { font-size: 0.72rem; color: #cbd5e1; }
+
+    /* METRÔNOMO VISUAL */
+    .metronome-box {
+      margin-top: 15px;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 16px;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .tempo-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bpm-pill {
+      background: #0f172a;
+      border: 1px solid #475569;
+      color: #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .bpm-pill.active {
+      background: #38bdf8;
+      color: #0f172a;
+      border-color: #38bdf8;
+    }
+    .beat-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .b-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #334155;
+      transition: all 0.1s;
+    }
+    .b-dot.active {
+      background: #f59e0b;
+      transform: scale(1.3);
+      box-shadow: 0 0 12px #f59e0b;
+    }
+
+    /* PAINEL LATERAL: GALERIA / PLAYLIST DE DESAFIOS */
+    .playlist-panel {
+      background: rgba(15, 23, 42, 0.92);
+      border: 2px solid rgba(56, 189, 248, 0.4);
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      backdrop-filter: blur(14px);
+    }
+    .playlist-header {
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+      margin-bottom: 15px;
+    }
+    .playlist-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .playlist-subtitle {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .video-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .video-cards-list::-webkit-scrollbar { width: 6px; }
+    .video-cards-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+
+    .video-item-card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .video-item-card:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+      transform: translateX(4px);
+    }
+    .video-item-card.active {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: #f59e0b;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+    }
+    .v-thumb {
+      width: 75px;
+      height: 50px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .v-info {
+      flex: 1;
+      overflow: hidden;
+    }
+    .v-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .v-meta {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* MENSAGEM DO SISTEMA ANTI-LEAK */
+    .security-note {
+      font-size: 0.75rem;
+      color: #64748b;
+      text-align: center;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;">
+
+  <!-- BARRA SUPERIOR -->
+  <div class="top-bar">
+    <a href="/atividades/segue-o-ritmo" class="btn-return">
+      ⬅️ GUIA PEDAGÓGICO & DIÁRIO
+    </a>
+    <div style="font-size: 1.1rem; font-weight: 700; color: #facc15; display: flex; align-items: center; gap: 8px;">
+      <span>🥁</span> Laboratório de Percussão Corporal & Ritmo no Datashow
+    </div>
+    <button type="button" onclick="toggleFullScreen()" class="btn-fullscreen">
+      ⛶ Tela Cheia para Datashow
+    </button>
+  </div>
+
+  <div class="hub-container">
+    
+    <!-- COLUNA PRINCIPAL: PLAYER BLINDADO LAB KIDS -->
+    <div class="player-theater-wrapper">
+      
+      <div class="theater-screen-box" id="theater-box">
+        
+        <!-- 1. ESCUDO SUPERIOR (Bloqueia título e botões do YouTube) -->
+        <div class="shield-header-bar">
+          <div class="shield-video-title">
+            <span>🥁</span> <span id="display-title">Segue o Ritmo! Desafio de percussão corporal e dança</span>
+          </div>
+          <span class="shield-channel-badge">Lab Kids Cinema</span>
+        </div>
+
+        <!-- 2. CONTAINER DO VÍDEO (IFRAME API) -->
+        <div class="video-embed-container">
+          <div id="yt-player-target"></div>
+        </div>
+
+        <!-- 3. ÁREA DE TOQUE PARA PLAY/PAUSA -->
+        <div class="shield-click-surface" onclick="togglePlay()">
+          <div class="play-pause-badge-pulse" id="pulse-badge">
+            <span id="pulse-icon">▶️</span>
+          </div>
+        </div>
+
+        <!-- 4. ESCUDO INFERIOR DIREITO (Bloqueia logo e links do YouTube) -->
+        <div class="shield-watermark-blocker"></div>
+
+      </div>
+
+      <!-- BARRA DE CONTROLES 100% NOSSOS -->
+      <div class="custom-controls-bar">
+        
+        <!-- BARRA DE PROGRESSO -->
+        <div class="progress-row">
+          <div class="progress-bar-container" id="seek-container" onclick="handleSeekClick(event)">
+            <div class="progress-bar-fill" id="progress-fill"></div>
+          </div>
+          <div class="time-label" id="time-display">00:00 / 03:15</div>
+        </div>
+
+        <!-- BOTÕES DE CONTROLE -->
+        <div class="buttons-row">
+          <div class="left-controls">
+            <button class="btn-ctrl btn-play-main" id="btn-play-pause" onclick="togglePlay()">
+              <span id="btn-play-icon">▶️</span> <span id="btn-play-label">Play</span>
+            </button>
+            <button class="btn-ctrl" onclick="seekRelative(-5)" title="Voltar 5 segundos">
+              ⏪ -5s
+            </button>
+            <button class="btn-ctrl" onclick="seekRelative(5)" title="Avançar 5 segundos">
+              ⏩ +5s
+            </button>
+            <button class="btn-ctrl" onclick="restartVideo()" title="Reiniciar do começo">
+              🔄 Reiniciar
+            </button>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="btn-ctrl" id="btn-mute" onclick="toggleMute()">
+              🔊 Som
+            </button>
+            <button class="btn-ctrl" onclick="toggleFullScreen()">
+              ⛶ Expandir
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PADS DE PERCUSSÃO CORPORAL SINTETIZADA -->
+      <div class="percussion-grid">
+        <div class="pad-btn pad-clap" onclick="triggerBodySound('clap')">
+          <span class="pad-icon">👏</span>
+          <span class="pad-title">1. PALMA</span>
+          <span class="pad-hint">Tempo forte e claro</span>
+        </div>
+        <div class="pad-btn pad-snap" onclick="triggerBodySound('snap')">
+          <span class="pad-icon">🫰</span>
+          <span class="pad-title">2. ESTALO</span>
+          <span class="pad-hint">Sincopado e ágil</span>
+        </div>
+        <div class="pad-btn pad-chest" onclick="triggerBodySound('chest')">
+          <span class="pad-icon">💥</span>
+          <span class="pad-title">3. PEITO</span>
+          <span class="pad-hint">Ressonância grave</span>
+        </div>
+        <div class="pad-btn pad-stomp" onclick="triggerBodySound('stomp')">
+          <span class="pad-icon">🦶</span>
+          <span class="pad-title">4. PÉ / CHÃO</span>
+          <span class="pad-hint">Marcação do pulso</span>
+        </div>
+      </div>
+
+      <!-- METRÔNOMO INTERATIVO -->
+      <div class="metronome-box">
+        <div class="tempo-pills">
+          <span style="font-weight: 800; color: #38bdf8; font-size: 0.9rem;">🎵 Pulso Rítmico:</span>
+          <button class="bpm-pill" onclick="changeBPM(80, this)">80 BPM</button>
+          <button class="bpm-pill active" onclick="changeBPM(100, this)">100 BPM</button>
+          <button class="bpm-pill" onclick="changeBPM(120, this)">120 BPM</button>
+          <button class="bpm-pill" onclick="changeBPM(140, this)">140 BPM</button>
+          <button class="bpm-pill" id="btn-metro-toggle" onclick="toggleMetronome()" style="background: #f59e0b; color: #0f172a; font-weight: 800;">
+            ▶️ Ligar Pulso
+          </button>
+        </div>
+        <div class="beat-dots">
+          <div class="b-dot" id="dot-0"></div>
+          <div class="b-dot" id="dot-1"></div>
+          <div class="b-dot" id="dot-2"></div>
+          <div class="b-dot" id="dot-3"></div>
+        </div>
+      </div>
+
+      <div class="security-note">
+        🔒 Player Educacional Lab Kids • Ambiente Seguro para Salas de Aula e Datashow
+      </div>
+
+    </div>
+
+    <!-- COLUNA LATERAL: GALERIA / PLAYLIST DE DESAFIOS -->
+    <div class="playlist-panel">
+      <div class="playlist-header">
+        <div class="playlist-title">
+          <span>🎬</span> Desafios de Ritmo & Dança
+        </div>
+        <div class="playlist-subtitle">
+          Clique em qualquer desafio para abrir no player:
+        </div>
+      </div>
+
+      <div class="video-cards-list" id="playlist-container">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+
+      <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.15); text-align: center;">
+        <a href="/folha-registro?title=Segue%20o%20Ritmo!&bncc=EF15AR14" target="_blank" style="display: block; background: rgba(56, 189, 248, 0.2); border: 1.5px solid #38bdf8; color: #bae6fd; padding: 10px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px;">
+          🖨️ Folha de Atividade para Caderno (PDF)
+        </a>
+        <a href="/professor/certificado" target="_blank" style="display: block; background: rgba(245, 158, 11, 0.2); border: 1.5px solid #fbbf24; color: #fef08a; padding: 10px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 0.85rem;">
+          🏆 Certificado de Aluno Destaque
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CARREGA A YOUTUBE IFRAME API OFICIAL -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    // LISTA DE VÍDEOS DE RITMO, DANÇA E PERCUSSÃO CORPORAL (FACILMENTE EXPANSÍVEL!)
+    const RHYTHM_PLAYLIST = [
+      {
+        id: '0RTbdS6ovss',
+        title: 'Segue o Ritmo! 🥁 Desafio de percussão corporal e dança',
+        duration: '03:15',
+        level: '1º ao 5º Ano',
+        category: 'Percussão Corporal',
+        thumb: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=400'
+      },
+      {
+        id: '0RTbdS6ovss', // Vídeo 2 da série
+        title: 'Batalha do Compasso 👏 Palmas Sincronizadas & Velocidade',
+        duration: '02:45',
+        level: '2º ao 5º Ano',
+        category: 'Palmas & Coordenação',
+        thumb: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&q=80&w=400'
+      },
+      {
+        id: '0RTbdS6ovss', // Vídeo 3 da série
+        title: 'Eco Rítmico 💥 Peito, Pés e Estalos de Dedos',
+        duration: '03:30',
+        level: '1º ao 4º Ano',
+        category: 'Timbre & Corpo',
+        thumb: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=400'
+      },
+      {
+        id: '0RTbdS6ovss', // Vídeo 4 da série
+        title: 'Dança das Estátuas 🧊 Ritmo Rápido e Congela!',
+        duration: '03:00',
+        level: 'Ed. Infantil ao 3º Ano',
+        category: 'Pausa Ativa',
+        thumb: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&q=80&w=400'
+      },
+      {
+        id: '0RTbdS6ovss', // Vídeo 5 da série
+        title: 'Desafio das 4 Cores 🟥🟦🟨🟩 Reação e Dança',
+        duration: '03:20',
+        level: '1º ao 5º Ano',
+        category: 'Psicomotricidade',
+        thumb: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=400'
+      }
+    ];
+
+    let currentVideoIndex = 0;
+    let player = null;
+    let isPlaying = false;
+    let progressTimer = null;
+
+    // RENDERIZAR A PLAYLIST NA LATERAL
+    function renderPlaylist() {
+      const container = document.getElementById('playlist-container');
+      container.innerHTML = '';
+
+      RHYTHM_PLAYLIST.forEach((video, idx) => {
+        const item = document.createElement('div');
+        item.className = 'video-item-card' + (idx === currentVideoIndex ? ' active' : '');
+        item.onclick = () => loadVideoByIndex(idx);
+
+        item.innerHTML = `
+          <img src="${video.thumb}" class="v-thumb" alt="Thumbnail">
+          <div class="v-info">
+            <div class="v-title">${video.title}</div>
+            <div class="v-meta">
+              <span>⏱️ ${video.duration}</span> • <span>🏆 ${video.level}</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // INICIALIZA O PLAYER BLINDADO VIA YOUTUBE API
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-player-target', {
+        videoId: RHYTHM_PLAYLIST[0].id,
+        playerVars: {
+          autoplay: 0,
+          controls: 0,          // DESLIGA CONTROLES NATIVOS DO YOUTUBE
+          disablekb: 1,         // DESLIGA ATALHOS QUE ABREM YOUTUBE
+          fs: 0,                // DESLIGA BOTÃO FULLSCREEN NATIVO
+          iv_load_policy: 3,    // DESLIGA ANOTAÇÕES E CARDS
+          modestbranding: 1,    // REMOVE O LOGO GRANDE
+          rel: 0,               // NÃO MOSTRA VÍDEOS DE OUTROS CANAIS
+          showinfo: 0,          // REMOVE TÍTULO NATIVO
+          playsinline: 1,
+          origin: window.location.origin
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      updateUIState();
+      startProgressTracking();
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        isPlaying = true;
+        showPulse('▶️');
+      } else if (event.data === YT.PlayerState.PAUSED) {
+        isPlaying = false;
+        showPulse('⏸️');
+      } else if (event.data === YT.PlayerState.ENDED) {
+        isPlaying = false;
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        // Se houver próximo vídeo na lista, avança automaticamente
+        if (currentVideoIndex < RHYTHM_PLAYLIST.length - 1) {
+          setTimeout(() => loadVideoByIndex(currentVideoIndex + 1), 1500);
+        }
+      }
+      updateUIState();
+    }
+
+    function loadVideoByIndex(index) {
+      currentVideoIndex = index;
+      const video = RHYTHM_PLAYLIST[index];
+      document.getElementById('display-title').innerText = video.title;
+      renderPlaylist();
+
+      if (player && player.loadVideoById) {
+        player.loadVideoById(video.id);
+        isPlaying = true;
+        updateUIState();
+      }
+    }
+
+    function togglePlay() {
+      if (!player) return;
+      if (isPlaying) {
+        player.pauseVideo();
+      } else {
+        player.playVideo();
+      }
+    }
+
+    function updateUIState() {
+      const btnPlayIcon = document.getElementById('btn-play-icon');
+      const btnPlayLabel = document.getElementById('btn-play-label');
+      if (isPlaying) {
+        btnPlayIcon.innerText = '⏸️';
+        btnPlayLabel.innerText = 'Pausa';
+      } else {
+        btnPlayIcon.innerText = '▶️';
+        btnPlayLabel.innerText = 'Play';
+      }
+    }
+
+    function showPulse(icon) {
+      const badge = document.getElementById('pulse-badge');
+      const iconEl = document.getElementById('pulse-icon');
+      iconEl.innerText = icon;
+      badge.classList.add('visible');
+      setTimeout(() => badge.classList.remove('visible'), 500);
+    }
+
+    function seekRelative(seconds) {
+      if (!player) return;
+      const current = player.getCurrentTime();
+      player.seekTo(Math.max(0, current + seconds), true);
+    }
+
+    function restartVideo() {
+      if (!player) return;
+      player.seekTo(0, true);
+      player.playVideo();
+    }
+
+    function toggleMute() {
+      if (!player) return;
+      const btn = document.getElementById('btn-mute');
+      if (player.isMuted()) {
+        player.unMute();
+        btn.innerText = '🔊 Som';
+      } else {
+        player.mute();
+        btn.innerText = '🔇 Mudo';
+      }
+    }
+
+    // TRACKING DA BARRA DE PROGRESSO CUSTOMIZADA
+    function startProgressTracking() {
+      clearInterval(progressTimer);
+      progressTimer = setInterval(() => {
+        if (!player || !player.getDuration) return;
+        const duration = player.getDuration() || 1;
+        const current = player.getCurrentTime() || 0;
+        const pct = (current / duration) * 100;
+
+        document.getElementById('progress-fill').style.width = pct + '%';
+        document.getElementById('time-display').innerText = `${formatTime(current)} / ${formatTime(duration)}`;
+      }, 500);
+    }
+
+    function handleSeekClick(e) {
+      if (!player) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const width = rect.width;
+      const pct = Math.max(0, Math.min(1, clickX / width));
+      const duration = player.getDuration();
+      player.seekTo(duration * pct, true);
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = Math.floor(sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    // TELA CHEIA PARA O DATASHOW
+    function toggleFullScreen() {
+      const target = document.getElementById('theater-box') || document.documentElement;
+      if (!document.fullscreenElement) {
+        if (target.requestFullscreen) target.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // SINTETIZADOR DE PERCUSSÃO CORPORAL (Web Audio API)
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function triggerBodySound(type) {
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+
+        if (type === 'stomp') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(35, now + 0.22);
+          gain.gain.setValueAtTime(1.0, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.26);
+        } else if (type === 'chest') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.exponentialRampToValueAtTime(60, now + 0.18);
+          gain.gain.setValueAtTime(0.8, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.21);
+        } else if (type === 'clap') {
+          const bufferSize = ctx.sampleRate * 0.15;
+          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.03));
+          }
+          const noise = ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.value = 1100;
+          filter.Q.value = 1.8;
+          const gain = ctx.createGain();
+          gain.gain.setValueAtTime(1.0, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.16);
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+          noise.start(now);
+        } else if (type === 'snap') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(2600, now);
+          osc.frequency.exponentialRampToValueAtTime(300, now + 0.06);
+          gain.gain.setValueAtTime(0.7, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        }
+      } catch(e) {}
+    }
+
+    // METRÔNOMO
+    let bpm = 100;
+    let metroRunning = false;
+    let metroTimer = null;
+    let currentBeat = 0;
+
+    function changeBPM(val, btn) {
+      bpm = val;
+      document.querySelectorAll('.bpm-pill').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      if (metroRunning) {
+        clearInterval(metroTimer);
+        startMetroTimer();
+      }
+    }
+
+    function toggleMetronome() {
+      metroRunning = !metroRunning;
+      const btn = document.getElementById('btn-metro-toggle');
+      if (metroRunning) {
+        btn.innerText = '⏸️ Parar';
+        btn.style.background = '#ef4444';
+        btn.style.color = '#fff';
+        startMetroTimer();
+      } else {
+        btn.innerText = '▶️ Ligar Pulso';
+        btn.style.background = '#f59e0b';
+        btn.style.color = '#0f172a';
+        clearInterval(metroTimer);
+        clearBeatDots();
+      }
+    }
+
+    function startMetroTimer() {
+      const ms = (60 / bpm) * 1000;
+      metroTimer = setInterval(() => {
+        clearBeatDots();
+        const dot = document.getElementById('dot-' + currentBeat);
+        if (dot) dot.classList.add('active');
+        if (currentBeat === 0) triggerBodySound('clap');
+        else triggerBodySound('snap');
+        currentBeat = (currentBeat + 1) % 4;
+      }, ms);
+    }
+
+    function clearBeatDots() {
+      for (let i = 0; i < 4; i++) {
+        const d = document.getElementById('dot-' + i);
+        if (d) d.classList.remove('active');
+      }
+    }
+
+    // BLOQUEIO DE ATALHOS DE TECLADO (ANTI-INSPECT / ANTI-LEAK)
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'u')) {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // INICIALIZAÇÃO
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPlaylist();
+    });
+  </script>
+</body>
+</html>

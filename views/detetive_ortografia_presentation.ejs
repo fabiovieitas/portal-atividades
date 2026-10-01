@@ -30,6 +30,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Detetive da Ortografia",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/detetive-ortografia",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -39,6 +53,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Guia Didático de Ortografia</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'Detetive da Ortografia' }) %>
         <div class="hero-banner">
             <div style="font-size: 4rem; margin-bottom: 10px;">🕵️🔍</div>
             <h1 class="game-title">Detetive da Ortografia: A Caça aos Dígrafos</h1>
@@ -110,19 +127,23 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe -->
-        <div class="pedagogical-card">
-            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Realização de oficina de ortografia contextual através do software educacional 'Detetive da Ortografia'. Análise e fixação de dígrafos (CH, LH, NH, RR, SS) e regularidades contextuais conforme as diretrizes EF02LP01 e EF03LP01 da BNCC. Avanço notório na capacidade de autorrevisão e segurança na produção escrita."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-detetive',
+            activityTitle: 'Detetive da Ortografia',
+            bnccCode: 'EF02LP01, EF03LP01, EF04LP01',
+            resumido: 'Oficina de ortografia contextual e correção de pistas com o Detetive da Ortografia. BNCC: EF02LP01, EF03LP01.',
+            estendido: 'Realização de oficina de ortografia contextual através do software educacional "Detetive da Ortografia". Investigação de regularidades e irregularidades da escrita, correspondência fonema-grafema e autocorreção textual monitorada (Habilidades BNCC: EF02LP01, EF03LP01, EF04LP01). Verificou-se significativa atenção aos detalhes e diminuição de desvios ortográficos recorrentes.'
+        }) %>
 
         <!-- Próximos Desafios Recomendados (Navegação Contínua) -->
+        
+        <!-- AdSense Banner Educativo (Seguro e Rotulado) -->
+        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
         <%- include('partials/recommended_games', { currentGame: 'detetive-ortografia' }) %>
 
         <!-- AdSense Bottom Banner -->
-        <%- include('partials/adsense_banner', { position: 'bottom' }) %>
+        
 
         <!-- Rodapé Institucional -->
         <footer class="institutional-footer">

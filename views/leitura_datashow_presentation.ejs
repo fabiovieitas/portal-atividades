@@ -30,6 +30,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Leitura Divertida no Datashow",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/leitura-datashow",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -39,6 +53,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Tecnologia Educacional Autoral</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'Leitura Divertida no Datashow' }) %>
         <div class="hero-banner">
             <span class="badge-autoral">⭐ JOGO AUTORAL LAB KIDS • EXCLUSIVO ⭐</span>
             <h1 class="game-title">Leitura Divertida no Datashow</h1>
@@ -110,13 +127,14 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe -->
-        <div class="pedagogical-card">
-            <h2>📝 Modelo de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Aplicação da tecnologia educacional autoral 'Leitura Divertida no Datashow' com foco em fluência leitora e leitura compartilhada (EF01LP01, EF02LP04). Utilização do recurso em grande formato para mediação coletiva e nivelamento de hipóteses de escrita. Observou-se significativo aumento da confiança dos alunos tíbios e refinamento da prosódia."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-leitura-datashow',
+            activityTitle: 'Leitura Divertida no Datashow',
+            bnccCode: 'EF01LP01, EF01LP08, EF02LP04',
+            resumido: 'Fluência leitora e leitura compartilhada com o jogo autoral Leitura Divertida no Datashow. BNCC: EF01LP01, EF02LP04.',
+            estendido: 'Aplicação da tecnologia educacional autoral "Leitura Divertida no Datashow" com foco em fluência leitora e leitura compartilhada (EF01LP01, EF02LP04). Utilização do recurso em grande formato para mediação coletiva e nivelamento de hipóteses de escrita. Observou-se significativo aumento da confiança dos alunos tíbios e refinamento da prosódia.'
+        }) %>
 
         <!-- AdSense Bottom Banner -->
         <%- include('partials/adsense_banner', { position: 'bottom' }) %>

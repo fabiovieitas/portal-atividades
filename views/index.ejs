@@ -4,36 +4,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Atividades Lab - Jogos Educativos, Robótica e BNCC</title>
-    <meta name="description" content="Portal de Atividades Interativas para Educação Infantil e Ensino Fundamental (BNCC). Jogos de Leitura, Alfabetização, Matemática, Datashow, Tecnologia e Robótica Educativa.">
-    <meta name="keywords" content="portal de atividades, jogos educativos, BNCC, alfabetização, leitura datashow, robótica educativa, atividades 1 ano, atividades 2 ano, ensino fundamental, educação infantil, prof fabio vieitas">
+    <title>Portal Lab Kids — Jogos Educativos, Brincadeiras Infantis & Atividades BNCC</title>
+    <meta name="description" content="Portal de jogos educativos, brincadeiras pedagógicas interativas e atividades curriculares alinhadas à BNCC. Games de matemática, alfabetização, desafios lógicos e simulados para crianças e escolas.">
+    <meta name="keywords" content="jogos educativos, games infantis, brincadeiras pedagógicas, jogos de matemática, jogos de alfabetização, atividades escolares, BNCC, jogos online educativos, games pedagógicos, educação infantil, ensino fundamental, lab kids, prof fabio vieitas">
     <meta name="author" content="Professor Fábio Vieitas Marques">
+    <link rel="canonical" href="https://labkids.online/">
+
+    <!-- Google Search Console Verification (Item 16) -->
+    <meta name="google-site-verification" content="d940c8f24041eae9">
+    <meta name="google-site-verification" content="googled940c8f24041eae9.html">
     
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://labkids.online/">
-    <meta property="og:title" content="Lab Kids - Jogos Educativos, Robótica e BNCC">
-    <meta property="og:description" content="Acesse dezenas de jogos interativos, leituras no datashow e desafios alinhados à BNCC para seus alunos.">
+    <meta property="og:title" content="Portal Lab Kids — Jogos Educativos, Brincadeiras & Atividades BNCC">
+    <meta property="og:description" content="Acesse dezenas de jogos interativos, brincadeiras pedagógicas, leituras no datashow e desafios alinhados à BNCC.">
     <meta property="og:image" content="https://labkids.online/img/robot-icon-512.png">
 
-    <!-- Schema.org JSON-LD for Google Search Engine Optimization -->
+    <!-- Schema.org JSON-LD para Google Search & Google AdSense (Educação + Jogos/Games) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "EducationalWebSite",
-      "name": "Lab Kids - Portal de Atividades Educativas",
+      "@type": ["EducationalWebSite", "WebApplication"],
+      "name": "Portal Lab Kids — Jogos Educativos, Brincadeiras e Atividades BNCC",
       "url": "https://labkids.online/",
-      "description": "Portal de jogos e atividades pedagógicas interativas alinhadas com a BNCC para Ensino Fundamental e Educação Infantil.",
+      "applicationCategory": "GameApplication",
+      "genre": [
+        "Jogos Educativos",
+        "Games Infantis",
+        "Brincadeiras Pedagógicas",
+        "Gamificação Escolar",
+        "Cálculo Mental e Alfabetização"
+      ],
+      "description": "Plataforma gratuita de jogos educativos, brincadeiras interativas e atividades formativas alinhadas à Base Nacional Comum Curricular (BNCC).",
       "author": {
         "@type": "Person",
-        "name": "Fábio Vieitas Marques"
+        "name": "Professor Fábio Vieitas Marques"
       },
-      "educationalCredentialAwarded": "Medalhas e Pontos de Aprendizagem"
+      "educationalCredentialAwarded": "Medalhas, Certificados e Pontos de Aprendizagem"
     }
     </script>
 
     <link rel="stylesheet" href="/css/style.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .search-suggestions-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: #0f172a;
+            border: 2px solid #38bdf8;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: hidden;
+            text-align: left;
+            backdrop-filter: blur(12px);
+        }
+        .search-sugg-section {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .search-sugg-section:last-child { border-bottom: none; }
+        .search-sugg-header {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #fbbf24;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .search-sugg-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            color: #f8fafc;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+        }
+        .search-sugg-item:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+        }
+        .search-sugg-badge {
+            font-size: 0.72rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 2px 8px;
+            border-radius: 50px;
+        }
+    </style>
     <link rel="manifest" href="/manifest.json">
     <script>
         // PWA Early Registration & Prompt Interception
@@ -499,9 +566,10 @@
                         <div class="filter-bar glass-panel animate-up">
                             <form action="/" method="GET" class="filter-form">
                                 <input type="hidden" name="level" value="<%= selectedLevel %>">
-                                <div class="search-box">
-                                    <input type="text" name="search" placeholder="Pesquisar missão..." value="<%= search || '' %>">
+                                <div class="search-box" style="position: relative;">
+                                    <input type="text" id="mainSearchInput" name="search" placeholder="Pesquisar jogos, atividades ou BNCC..." value="<%= search || '' %>" autocomplete="off">
                                     <button type="submit">🔍</button>
+                                    <div id="searchSuggestionsDropdown" class="search-suggestions-dropdown" style="display: none;"></div>
                                 </div>
                                 <div class="category-box">
                                     <input type="text" name="bncc" placeholder="Código BNCC..." value="<%= bncc || '' %>" style="padding: 12px; border-radius: 50px; border: 1px solid #e1e8ef; margin-right: 10px;">
@@ -1122,6 +1190,82 @@
                 : (simMonth === 'todos' ? document.getElementById('tab-simulado-todos') : document.getElementById('tab-simulado-setembro'));
             if (targetSimBtn) {
                 switchSimuladoTab(simMonth, targetSimBtn);
+            }
+
+            // Busca Inteligente com Sugestões Dinâmicas (Item 19)
+            const searchInput = document.getElementById('mainSearchInput');
+            const suggDropdown = document.getElementById('searchSuggestionsDropdown');
+            let debounceTimer = null;
+
+            if (searchInput && suggDropdown) {
+                searchInput.addEventListener('input', function() {
+                    const q = this.value.trim();
+                    clearTimeout(debounceTimer);
+                    if (q.length < 2) {
+                        suggDropdown.style.display = 'none';
+                        suggDropdown.innerHTML = '';
+                        return;
+                    }
+
+                    debounceTimer = setTimeout(async () => {
+                        try {
+                            const res = await fetch('/api/search-suggest?q=' + encodeURIComponent(q));
+                            const data = await res.json();
+                            
+                            let html = '';
+                            if (data.games && data.games.length > 0) {
+                                html += '<div class="search-sugg-section">';
+                                html += '<div class="search-sugg-header"><span>🎮</span> Jogos & Brincadeiras</div>';
+                                data.games.forEach(g => {
+                                    html += `<a href="${g.url}" class="search-sugg-item">
+                                                <span>${g.title}</span>
+                                                <span class="search-sugg-badge">${g.badge}</span>
+                                             </a>`;
+                                });
+                                html += '</div>';
+                            }
+
+                            if (data.articles && data.articles.length > 0) {
+                                html += '<div class="search-sugg-section">';
+                                html += '<div class="search-sugg-header"><span>📖</span> Blog & Planos de Aula</div>';
+                                data.articles.forEach(a => {
+                                    html += `<a href="${a.url}" class="search-sugg-item">
+                                                <span>${a.title}</span>
+                                                <span class="search-sugg-badge">Guia</span>
+                                             </a>`;
+                                });
+                                html += '</div>';
+                            }
+
+                            if (data.bncc && data.bncc.length > 0) {
+                                html += '<div class="search-sugg-section">';
+                                html += '<div class="search-sugg-header"><span>📘</span> Habilidades BNCC</div>';
+                                data.bncc.forEach(b => {
+                                    html += `<a href="${b.url}" class="search-sugg-item">
+                                                <span>Código: ${b.code}</span>
+                                                <span class="search-sugg-badge">Ver Jogos</span>
+                                             </a>`;
+                                });
+                                html += '</div>';
+                            }
+
+                            if (html) {
+                                suggDropdown.innerHTML = html;
+                                suggDropdown.style.display = 'block';
+                            } else {
+                                suggDropdown.style.display = 'none';
+                            }
+                        } catch(err) {
+                            suggDropdown.style.display = 'none';
+                        }
+                    }, 250);
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !suggDropdown.contains(e.target)) {
+                        suggDropdown.style.display = 'none';
+                    }
+                });
             }
         });
     </script>

@@ -30,6 +30,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Chapeuzinho e o Enigma",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/chapeuzinho-enigma",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -39,6 +53,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Guia Didático Interativo</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'Chapeuzinho e o Enigma' }) %>
         <div class="hero-banner">
             <img src="/img/covers/chapeuzinho-enigma.jpg" style="width: 140px; height: 140px; border-radius: 24px; object-fit: cover; border: 4px solid #f59e0b; box-shadow: 0 10px 25px rgba(0,0,0,0.5);" alt="Chapeuzinho e o Enigma">
             <h1 class="game-title">Chapeuzinho e o Enigma</h1>
@@ -110,13 +127,14 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe do Educador -->
-        <div class="pedagogical-card">
-            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Aplicação de atividade digital gamificada com a ferramenta 'Chapeuzinho e o Enigma'. Desenvolvimento de habilidades de consciência fonológica (EF01LP02, EF01LP05) e interpretação de pistas contextuais. Observou-se evolução na autonomia da leitura de pequenos enunciados e cooperação na resolução de problemas lógicos em duplas."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-chapeuzinho',
+            activityTitle: 'Chapeuzinho e o Enigma',
+            bnccCode: 'EF01LP02, EF01LP05, EF15AR04',
+            resumido: 'Consciência fonológica e desafios lógicos com o jogo Chapeuzinho e o Enigma. BNCC: EF01LP02, EF01LP05.',
+            estendido: 'Aplicação de atividade digital gamificada com a ferramenta "Chapeuzinho e o Enigma". Desenvolvimento de habilidades de consciência fonológica (EF01LP02, EF01LP05) e interpretação de pistas contextuais. Observou-se evolução na autonomia da leitura de pequenos enunciados e cooperação na resolução de problemas lógicos em duplas.'
+        }) %>
 
         <!-- AdSense Bottom Banner -->
         <%- include('partials/adsense_banner', { position: 'bottom' }) %>

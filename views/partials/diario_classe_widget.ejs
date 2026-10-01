@@ -1,0 +1,141 @@
+<%
+  const rText = (typeof resumido !== 'undefined' && resumido) ? resumido.trim() : 'Prática pedagógica com recurso digital para desenvolvimento de raciocínio lógico e habilidades da BNCC.';
+  const eText = (typeof estendido !== 'undefined' && estendido) ? estendido.trim() : 'Aplicação de atividade digital interativa para consolidação de competências curriculares essenciais da BNCC, promovendo raciocínio analítico, autonomia investigativa e fixação conceitual através da gamificação mediada.';
+  const idPrefix = (typeof widgetId !== 'undefined' && widgetId) ? widgetId : 'diario-' + Math.random().toString(36).substring(2, 7);
+  const actTitle = (typeof activityTitle !== 'undefined' && activityTitle) ? activityTitle : 'Atividade';
+  const actBncc = (typeof bnccCode !== 'undefined' && bnccCode) ? bnccCode : '';
+%>
+<div class="diario-widget-container" id="<%= idPrefix %>-container" style="background: rgba(15, 23, 42, 0.85); border: 2px solid #f59e0b; border-radius: 20px; padding: 22px; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+        <h3 style="margin: 0; color: #fbbf24; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+            <span>📝</span> Sugestão de Registro para o Diário de Classe
+        </h3>
+        <!-- Abas Resumido / Estendido -->
+        <div class="diario-mode-tabs" style="display: inline-flex; background: rgba(30, 41, 59, 0.9); padding: 4px; border-radius: 50px; border: 1px solid rgba(251, 191, 36, 0.3);">
+            <button type="button" 
+                    id="<%= idPrefix %>-tab-resumido" 
+                    class="diario-tab-btn active" 
+                    onclick="switchDiarioTab('<%= idPrefix %>', 'resumido')"
+                    style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px;">
+                ⚡ Resumido
+            </button>
+            <button type="button" 
+                    id="<%= idPrefix %>-tab-estendido" 
+                    class="diario-tab-btn" 
+                    onclick="switchDiarioTab('<%= idPrefix %>', 'estendido')"
+                    style="background: transparent; color: #94a3b8; border: none; padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 5px;">
+                📖 Estendido
+            </button>
+        </div>
+    </div>
+
+    <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+        <span id="<%= idPrefix %>-mode-hint">⚡ <em>Versão enxuta: ideal para preencher o quadradinho do diário físico ou campos com limite de caracteres.</em></span>
+    </div>
+
+    <!-- Hidden Raw Storage -->
+    <div id="<%= idPrefix %>-raw-resumido" style="display: none;"><%= rText %></div>
+    <div id="<%= idPrefix %>-raw-estendido" style="display: none;"><%= eText %></div>
+
+    <!-- Active Text Display Area -->
+    <div id="<%= idPrefix %>-display-text" style="background: rgba(30, 41, 59, 0.9); border: 1.5px solid rgba(251, 191, 36, 0.3); padding: 16px; border-radius: 14px; font-family: 'Courier New', Courier, monospace; color: #fde68a; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px; position: relative; user-select: all;">
+        "<%= rText %>"
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <button type="button" 
+                id="<%= idPrefix %>-copy-btn"
+                onclick="copyDiarioText('<%= idPrefix %>')" 
+                style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 24px; border-radius: 50px; font-weight: 800; cursor: pointer; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: transform 0.2s, background 0.2s;">
+            <span id="<%= idPrefix %>-copy-icon">📋</span> <span id="<%= idPrefix %>-copy-label">Copiar Registro Selecionado</span>
+        </button>
+        <span style="font-size: 0.8rem; color: #64748b;">
+            💡 Clique no texto ou no botão para copiar instantaneamente
+        </span>
+    </div>
+
+    <!-- RECURSOS COMPLEMENTARES PARA O PROFESSOR (BLOG, FOLHA A4 & CERTIFICADO) -->
+    <div style="margin-top: 18px; padding-top: 16px; border-top: 1px dashed rgba(251, 191, 36, 0.25); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;">
+        <div style="font-size: 0.85rem; color: #cbd5e1; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+            <span>🎒</span> Materiais do Professor:
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <a href="/noticias" 
+               class="btn-pedagogico-extra"
+               title="Ver artigo, sequência didática e plano de aula desta atividade no Blog"
+               style="background: rgba(99, 102, 241, 0.25); border: 1px solid #818cf8; color: #e0e7ff; padding: 7px 16px; border-radius: 50px; font-size: 0.82rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s;">
+                📖 Plano de Aula no Blog
+            </a>
+            <a href="/folha-registro?title=<%= encodeURIComponent(actTitle) %>&bncc=<%= encodeURIComponent(actBncc) %>" 
+               target="_blank"
+               class="btn-pedagogico-extra"
+               title="Gerar e imprimir folha de registro pedagógico A4 para o caderno do estudante"
+               style="background: rgba(16, 185, 129, 0.25); border: 1px solid #34d399; color: #d1fae5; padding: 7px 16px; border-radius: 50px; font-size: 0.82rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s;">
+                🖨️ Folha para Caderno (PDF)
+            </a>
+            <a href="/professor/certificado" 
+               target="_blank"
+               class="btn-pedagogico-extra"
+               title="Gerar certificado escolar de mérito / aluno destaque"
+               style="background: rgba(245, 158, 11, 0.25); border: 1px solid #fbbf24; color: #fef3c7; padding: 7px 16px; border-radius: 50px; font-size: 0.82rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s;">
+                🏆 Certificado de Aluno
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+if (typeof window.switchDiarioTab !== 'function') {
+    window.switchDiarioTab = function(prefix, mode) {
+        var tabResumido = document.getElementById(prefix + '-tab-resumido');
+        var tabEstendido = document.getElementById(prefix + '-tab-estendido');
+        var hint = document.getElementById(prefix + '-mode-hint');
+        var display = document.getElementById(prefix + '-display-text');
+        var rawResumido = document.getElementById(prefix + '-raw-resumido').innerText.trim();
+        var rawEstendido = document.getElementById(prefix + '-raw-estendido').innerText.trim();
+
+        if (mode === 'resumido') {
+            tabResumido.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+            tabResumido.style.color = '#ffffff';
+            tabEstendido.style.background = 'transparent';
+            tabEstendido.style.color = '#94a3b8';
+            hint.innerHTML = '⚡ <em>Versão enxuta: ideal para preencher o quadradinho do diário físico ou campos com limite de caracteres.</em>';
+            display.innerText = '"' + rawResumido + '"';
+        } else {
+            tabEstendido.style.background = 'linear-gradient(135deg, #38bdf8, #0284c7)';
+            tabEstendido.style.color = '#ffffff';
+            tabResumido.style.background = 'transparent';
+            tabResumido.style.color = '#94a3b8';
+            hint.innerHTML = '📖 <em>Versão detalhada: ideal para sistemas eletrônicos (Sige/Conecte), relatórios trimestrais e portfólio pedagógico.</em>';
+            display.innerText = '"' + rawEstendido + '"';
+        }
+    };
+
+    window.copyDiarioText = function(prefix) {
+        var display = document.getElementById(prefix + '-display-text');
+        var text = display.innerText.replace(/^"|"$/g, '').trim();
+        var btnLabel = document.getElementById(prefix + '-copy-label');
+        var btnIcon = document.getElementById(prefix + '-copy-icon');
+
+        navigator.clipboard.writeText(text).then(function() {
+            var oldLabel = btnLabel.innerText;
+            btnLabel.innerText = 'Copiado para a Área de Transferência! ✨';
+            btnIcon.innerText = '✅';
+            setTimeout(function() {
+                btnLabel.innerText = oldLabel;
+                btnIcon.innerText = '📋';
+            }, 2500);
+        }).catch(function() {
+            // Fallback for older browsers
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            btnLabel.innerText = 'Copiado! ✨';
+            setTimeout(function() { btnLabel.innerText = 'Copiar Registro Selecionado'; }, 2000);
+        });
+    };
+}
+</script>

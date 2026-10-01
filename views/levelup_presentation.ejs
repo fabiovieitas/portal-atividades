@@ -31,6 +31,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "LEVEL UP: O Jogo da Vida não tem Botão de Reset",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/level-up",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -40,6 +54,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #ef4444; background: rgba(239, 68, 68, 0.15); padding: 6px 16px; border-radius: 50px;">🛡️ Prevenção ao Bullying & Cyberbullying</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'LEVEL UP: O Jogo da Vida' }) %>
         <div class="hero-banner">
             <span class="badge-autoral">⭐ JOGO AUTORAL LAB KIDS • EXCLUSIVO ⭐</span>
             <div style="margin-bottom: 15px;">
@@ -117,13 +134,14 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe -->
-        <div class="pedagogical-card">
-            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Execução de projeto socioemocional e cívico com o simulador RPG autoral 'LEVEL UP: O Jogo da Vida não tem Botão de Reset'. Trabalho articulado com a Lei 14.811/2024 e habilidades EF69LP55 e CG08 da BNCC. Discussão de dilemas éticos digitais e construção coletiva do plano de convivência pacífica contra o cyberbullying."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-levelup',
+            activityTitle: 'LEVEL UP: O Jogo da Vida não tem Botão de Reset',
+            bnccCode: 'EF69LP55, EF07LP14, EF08LP14',
+            resumido: 'Prevenção ao bullying e empatia com o RPG educativo LEVEL UP. BNCC: EF69LP55, EF07LP14.',
+            estendido: 'Execução de projeto socioemocional e cívico com o simulador RPG autoral "LEVEL UP: O Jogo da Vida não tem Botão de Reset". Debate guiado sobre prevenção ao bullying e cyberbullying (Lei 14.811/2024), resolução pacífica de conflitos, tomada de decisões morais e convivência ética nas redes sociais (Habilidades BNCC: EF69LP55, EF07LP14, EF08LP14). Registro demonstrando alta sensibilidade dos alunos aos dilemas propostos.'
+        }) %>
 
         <!-- AdSense Bottom Banner -->
         <%- include('partials/adsense_banner', { position: 'bottom' }) %>

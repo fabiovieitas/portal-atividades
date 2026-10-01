@@ -93,6 +93,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Labirinto da Tabuada: Missão dos Campeões",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/labirinto-tabuada",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -102,6 +116,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Arcade Matemático</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'Labirinto da Tabuada' }) %>
         <div class="hero-banner">
             <div class="hero-badge">⚽ ARCADE MATEMÁTICO BNCC · 2º AO 5º ANO</div>
             <h1 class="game-title">Labirinto da Tabuada: Missão dos Campeões</h1>
@@ -173,13 +190,14 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe -->
-        <div class="pedagogical-card">
-            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Aplicação pedagógica do arcade matemático 'Labirinto da Tabuada: Missão dos Campeões'. Consolidação dos fatos fundamentais da multiplicação e navegação visuoespacial (EF02MA07, EF03MA07, EF04MA05). Observou-se notável superação da lentidão de cálculo e entusiasmo generalizado na resolução de operações sob temporizador lúdico."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-labirinto-tabuada',
+            activityTitle: 'Labirinto da Tabuada: Missão dos Campeões',
+            bnccCode: 'EF02MA07, EF03MA07, EF04MA05',
+            resumido: 'Cálculo mental e automatização da tabuada com o jogo Labirinto da Tabuada. BNCC: EF03MA07, EF04MA05.',
+            estendido: 'Aplicação pedagógica do arcade matemático "Labirinto da Tabuada: Missão dos Campeões". Treino intensivo de agilidade de cálculo mental e fixação dos fatos fundamentais da multiplicação (Habilidades BNCC: EF02MA07, EF03MA07, EF04MA05). Os alunos apresentaram redução substancial na hesitação ao responder produtos matemáticos e grande entusiasmo com a dinâmica de labirinto gamificado.'
+        }) %>
 
         <!-- AdSense Bottom Banner -->
         <%- include('partials/adsense_banner', { position: 'bottom' }) %>

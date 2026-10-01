@@ -98,6 +98,20 @@
         .institutional-footer a { color: #60a5fa; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "O Enigma do Laboratório (Escape Room)",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/escape-room-lab",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/adsense_sidebars') %>
@@ -107,6 +121,9 @@
             <span style="font-size: 1.1rem; font-weight: 700; color: #cbd5e1;">🤖 Lab Kids • Escape Room de Investigação</span>
         </div>
 
+        
+        <!-- Breadcrumbs Estruturados (Google Rich Snippets) -->
+        <%- include('partials/breadcrumbs', { pageTitle: 'O Enigma do Laboratório - Escape Room' }) %>
         <div class="hero-banner">
             <div class="hero-badge">🧭 ESCAPE ROOM DE INVESTIGAÇÃO INTERDISCIPLINAR · 4º E 5º ANO</div>
             <h1 class="game-title">O Enigma do Laboratório Mágico</h1>
@@ -179,13 +196,14 @@
             </ul>
         </div>
 
-        <!-- Bloco 4: Diário de Classe -->
-        <div class="pedagogical-card">
-            <h2>📝 Sugestão de Registro para Diário de Classe</h2>
-            <div style="background: rgba(15,23,42,0.6); padding: 18px; border-radius: 16px; font-family: monospace; color: #a5f3fc; font-size: 0.9rem; line-height: 1.6;">
-                "Realização de atividade de investigação imersiva com a ferramenta autoral 'O Enigma do Laboratório Mágico (Escape Room)'. Integração curricular de Língua Portuguesa (acentuação e classes gramaticais - EF04LP04, EF05LP04) e Matemática (multiplicação e frações - EF04MA05, EF05MA08). Constatou-se alto índice de cooperação entre pares e refinamento do raciocínio hipotético-dedutivo."
-            </div>
-        </div>
+        <!-- Bloco 4: Diário de Classe (Resumido & Estendido) -->
+        <%- include('partials/diario_classe_widget', {
+            widgetId: 'diario-escape-room',
+            activityTitle: 'O Enigma do Laboratório (Escape Room)',
+            bnccCode: 'EF03LP02, EF04LP04, EF05MA08, EF35LP05',
+            resumido: 'Desafios de leitura, acentuação e frações no jogo autoral Escape Room do Laboratório. BNCC: EF04LP04, EF05MA08.',
+            estendido: 'Realização de atividade de investigação imersiva com a ferramenta autoral "O Enigma do Laboratório (Escape Room)". Integração multidisciplinar de regras de acentuação gráfica (EF04LP04), frações matemáticas (EF05MA08) e inferência em textos instrucionais (EF35LP05). Os educandos demonstraram elevado protagonismo, raciocínio hipotético-dedutivo e excelente dinâmica de equipe sob pressão lúdica.'
+        }) %>
 
         <!-- AdSense Bottom Banner -->
         <%- include('partials/adsense_banner', { position: 'bottom' }) %>
