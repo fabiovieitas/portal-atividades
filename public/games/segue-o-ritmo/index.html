@@ -438,7 +438,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      max-height: 520px;
+      max-height: 590px;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -530,7 +530,7 @@
         <!-- 1. ESCUDO SUPERIOR (Bloqueia título e botões do YouTube) -->
         <div class="shield-header-bar">
           <div class="shield-video-title">
-            <span>🥁</span> <span id="display-title">Segue o Ritmo! Desafio de percussão corporal e dança</span>
+            <span>🥁</span> <span id="display-title">Desafio Ritmo Campeão ⚽ Palmas, Pés e Pulso</span>
           </div>
           <span class="shield-channel-badge">Lab Kids Cinema</span>
         </div>
@@ -676,47 +676,87 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
-    // LISTA DE VÍDEOS DE RITMO, DANÇA E PERCUSSÃO CORPORAL (FACILMENTE EXPANSÍVEL!)
+    // LISTA DE VÍDEOS DE RITMO, DANÇA E PERCUSSÃO CORPORAL (TOP MAIS VISTOS & DESCARACTERIZADOS)
     const RHYTHM_PLAYLIST = [
       {
-        id: '0RTbdS6ovss',
-        title: 'Segue o Ritmo! 🥁 Desafio de percussão corporal e dança',
+        id: 'Ndr9YZTA1D4',
+        title: 'Desafio Ritmo Campeão ⚽ Palmas, Pés e Pulso',
+        duration: '03:05',
+        level: '1º ao 5º Ano',
+        category: 'Coordenação & Torcida',
+        thumb: 'https://img.youtube.com/vi/Ndr9YZTA1D4/mqdefault.jpg'
+      },
+      {
+        id: 'CWxYNgSfWOg',
+        title: 'Eco dos Tambores 🪘 Palmas em Dobro e Agilidade',
+        duration: '02:50',
+        level: '2º ao 5º Ano',
+        category: 'Palmas & Agilidade',
+        thumb: 'https://img.youtube.com/vi/CWxYNgSfWOg/mqdefault.jpg'
+      },
+      {
+        id: 'k2nvB1PoNT8',
+        title: 'Dança do Inverno ❄️ Compassos e Batidas no Peito',
         duration: '03:15',
         level: '1º ao 5º Ano',
-        category: 'Percussão Corporal',
-        thumb: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=400'
+        category: 'Timbre & Corpo',
+        thumb: 'https://img.youtube.com/vi/k2nvB1PoNT8/mqdefault.jpg'
       },
       {
-        id: '0RTbdS6ovss', // Vídeo 2 da série
-        title: 'Batalha do Compasso 👏 Palmas Sincronizadas & Velocidade',
+        id: 'amyLWt6Sn5g',
+        title: 'Alegria da Primavera 🌸 Sequências Rítmicas em Grupo',
+        duration: '03:20',
+        level: '1º ao 4º Ano',
+        category: 'Psicomotricidade',
+        thumb: 'https://img.youtube.com/vi/amyLWt6Sn5g/mqdefault.jpg'
+      },
+      {
+        id: '2BcXy0IMIUs',
+        title: 'O Castelo Misterioso 🏰 Aceleração Contínua do Compasso',
+        duration: '02:40',
+        level: '2º ao 5º Ano',
+        category: 'Andamento & Velocidade',
+        thumb: 'https://img.youtube.com/vi/2BcXy0IMIUs/mqdefault.jpg'
+      },
+      {
+        id: 'FIYQeISYxqI',
+        title: 'Missão Secreta do Ritmo 🕵️ Agilidade e Pausas Rápidas',
+        duration: '03:10',
+        level: '3º ao 5º Ano',
+        category: 'Pausa Ativa & Foco',
+        thumb: 'https://img.youtube.com/vi/FIYQeISYxqI/mqdefault.jpg'
+      },
+      {
+        id: 'gUt-V2d_PQA',
+        title: 'Marcha da Turma 🥁 Batidas com Pés e Palmas Coletivas',
+        duration: '03:00',
+        level: '1º ao 5º Ano',
+        category: 'Marcação Coletiva',
+        thumb: 'https://img.youtube.com/vi/gUt-V2d_PQA/mqdefault.jpg'
+      },
+      {
+        id: 'bHXN40NbTYo',
+        title: 'Corrida dos Cavalos 🐎 Galope e Palmas nas Coxas',
+        duration: '02:55',
+        level: '1º ao 4º Ano',
+        category: 'Coordenação Motora',
+        thumb: 'https://img.youtube.com/vi/bHXN40NbTYo/mqdefault.jpg'
+      },
+      {
+        id: 'AJjWrOx6Xqw',
+        title: 'Batalha Sinfônica ⚡ Desafio de Velocidade e Estalos',
         duration: '02:45',
         level: '2º ao 5º Ano',
-        category: 'Palmas & Coordenação',
-        thumb: 'https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&q=80&w=400'
+        category: 'Desafio Veloz',
+        thumb: 'https://img.youtube.com/vi/AJjWrOx6Xqw/mqdefault.jpg'
       },
       {
-        id: '0RTbdS6ovss', // Vídeo 3 da série
-        title: 'Eco Rítmico 💥 Peito, Pés e Estalos de Dedos',
-        duration: '03:30',
-        level: '1º ao 4º Ano',
-        category: 'Timbre & Corpo',
-        thumb: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: '0RTbdS6ovss', // Vídeo 4 da série
-        title: 'Dança das Estátuas 🧊 Ritmo Rápido e Congela!',
-        duration: '03:00',
-        level: 'Ed. Infantil ao 3º Ano',
-        category: 'Pausa Ativa',
-        thumb: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&q=80&w=400'
-      },
-      {
-        id: '0RTbdS6ovss', // Vídeo 5 da série
-        title: 'Desafio das 4 Cores 🟥🟦🟨🟩 Reação e Dança',
-        duration: '03:20',
+        id: '0RTbdS6ovss',
+        title: 'Segue o Ritmo! 🥁 Desafio de Coordenação e Dança',
+        duration: '02:59',
         level: '1º ao 5º Ano',
-        category: 'Psicomotricidade',
-        thumb: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=400'
+        category: 'Dança & Percussão',
+        thumb: 'https://img.youtube.com/vi/0RTbdS6ovss/mqdefault.jpg'
       }
     ];
 
