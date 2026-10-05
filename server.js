@@ -634,6 +634,9 @@ app.get('/', async (req, res) => {
 
   if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas')) {
     activities = await dbHelper.getActivities({ level, search, category, bncc, subject });
+  } else {
+    // Quando entra na Home sem filtro (Googlebot ou visitante), carrega todas as atividades para vitrine rica e densidade de conteúdo
+    activities = await dbHelper.getActivities({});
   }
 
   const teacher = await getTeacher(req);
@@ -660,10 +663,12 @@ app.get('/', async (req, res) => {
   const showcaseActivities = await dbHelper.getActivities({});
   const simuladosSetting = await dbHelper.getSetting('simulados_enabled', 'false');
   const simuladosEnabled = simuladosSetting === 'true' || simuladosSetting === true;
+  const allNews = await dbHelper.getNews();
+  const featuredNews = (allNews || []).slice(0, 6);
 
   res.render('index', { 
     activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories: categories || [], subjects: subjects || [], search, 
-    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher, simuladosEnabled
+    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher, simuladosEnabled, news: featuredNews
   });
 });
 
@@ -795,7 +800,7 @@ app.get(['/ritmo', '/percussao-corporal'], (req, res) => res.redirect(301, '/ati
 // SEO Routes: robots.txt & dynamic sitemap.xml
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain');
-  res.send(`User-agent: *\nAllow: /\nSitemap: https://${req.headers.host || 'labkids.site'}/sitemap.xml`);
+  res.send(`User-agent: *\nAllow: /\nSitemap: https://${req.headers.host || 'labkids.online'}/sitemap.xml`);
 });
 
 app.get('/sitemap.xml', async (req, res) => {

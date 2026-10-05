@@ -1731,12 +1731,15 @@ async function initTables() {
       for (const art of fullArticles) {
         try {
           const searchTitle = art.title.replace('⭐ ', '').split(':')[0].trim();
-          const existing = await queryGet("SELECT id FROM news WHERE title LIKE ? LIMIT 1", [`%${searchTitle}%`]);
+          const existing = await queryGet("SELECT id, content FROM news WHERE title LIKE ? LIMIT 1", [`%${searchTitle}%`]);
           if (existing) {
-            await queryRun(
-              "UPDATE news SET title = ?, summary = ?, content = ?, image_url = ?, category = ?, author = ?, activity_url = ?, created_at = CURRENT_TIMESTAMP, published_at = CURRENT_TIMESTAMP WHERE id = ?",
-              [art.title, art.summary, art.content, art.image_url, art.category, art.author, art.activity_url, existing.id]
-            );
+            // Se já tem conteúdo enriquecido e longo (> 600 chars), não regride para texto curto
+            if (!existing.content || existing.content.length < 600) {
+              await queryRun(
+                "UPDATE news SET title = ?, summary = ?, content = ?, image_url = ?, category = ?, author = ?, activity_url = ?, created_at = CURRENT_TIMESTAMP, published_at = CURRENT_TIMESTAMP WHERE id = ?",
+                [art.title, art.summary, art.content, art.image_url, art.category, art.author, art.activity_url, existing.id]
+              );
+            }
           } else {
             await queryRun(
               "INSERT INTO news (title, summary, content, image_url, category, author, activity_url, created_at, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
