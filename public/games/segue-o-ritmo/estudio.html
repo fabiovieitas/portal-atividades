@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Estúdio de Ritmo 🥁 Lab Kids • Linha Neon & Editor Multi-Faixas</title>
-  <meta name="description" content="Estúdio autoral de percussão corporal com feixe neon de queda e editor multi-trilhas por camadas (Palma, Peito, Estalo, Coxa, Pé) para Datashow.">
+  <title>Super Estúdio de Ritmo 🥁 Lab Kids • Datashow Full & Pista Neon</title>
+  <meta name="description" content="Estúdio autoral de percussão corporal com palco Datashow em tela ampla, linhas neon permanentes, receptores gigantes e personalização de fundo/capa de CD.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
@@ -158,7 +158,7 @@
     }
 
     /* ======================================================== */
-    /* PALCO DE APRESENTAÇÃO (ESTILO VÍDEO PROFISSIONAL COM PISTA VERTICAL) */
+    /* PALCO DE APRESENTAÇÃO (100% LARGURA TOTAL - SEM CAIXA LATERAL) */
     /* ======================================================== */
     .stage-section {
       display: flex;
@@ -168,17 +168,36 @@
     }
 
     .game-theater-screen {
-      background: radial-gradient(circle at 50% 25%, #1e293b 0%, #070a12 95%);
+      background: #080c14;
       border: 3px solid rgba(245, 158, 11, 0.4);
       border-radius: 26px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
       position: relative;
       overflow: hidden;
-      min-height: 540px;
+      min-height: 560px;
       display: flex;
       flex-direction: column;
       padding: 18px 24px;
       gap: 12px;
+    }
+
+    /* CAMADA DE FUNDO PERSONALIZÁVEL (IMAGEM / CAPA DE CD / GIF) */
+    .theater-custom-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.45;
+      z-index: 1;
+      transition: opacity 0.3s, background-image 0.3s;
+    }
+    .theater-vignette-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.35) 0%, rgba(7, 10, 18, 0.88) 90%);
+      pointer-events: none;
+      z-index: 1;
     }
 
     /* TOPO DA TELA */
@@ -223,124 +242,24 @@
       border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    /* ÁREA PRINCIPAL: GUIA CORPORAL (ESQ) + PISTA VERTICAL (DIR) */
-    .theater-main-stage {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 20px;
+    /* PISTA VERTICAL EM LARGURA TOTAL (OCUPA 100% DO PALCO) */
+    .theater-full-highway {
       flex: 1;
+      display: flex;
+      flex-direction: column;
       position: relative;
       z-index: 5;
     }
 
-    /* COLUNA ESQUERDA: AVATAR / ILUSTRAÇÃO ANIMADA DO MOVIMENTO */
-    .avatar-guide-panel {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
-      border-radius: 22px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      text-align: center;
-    }
-
-    .character-avatar-bubble {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, rgba(15, 23, 42, 0) 70%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .character-avatar-bubble.hit-pulse {
-      transform: scale(1.15);
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.5) 0%, rgba(15, 23, 42, 0) 75%);
-    }
-
-    .action-svg {
-      width: 190px;
-      height: 190px;
-      filter: drop-shadow(0 12px 25px rgba(0,0,0,0.7));
-    }
-
-    .shockwave-burst {
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 4px solid var(--gold);
-      opacity: 0;
-      pointer-events: none;
-    }
-    .shockwave-burst.trigger {
-      animation: burstAnim 0.35s ease-out forwards;
-    }
-    @keyframes burstAnim {
-      0% { opacity: 1; transform: scale(0.6); }
-      100% { opacity: 0; transform: scale(2.6); }
-    }
-
-    .current-move-banner {
-      margin-top: 15px;
-    }
-    .current-move-title {
-      font-size: clamp(1.8rem, 3.2vw, 2.5rem);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      text-shadow: 0 4px 15px rgba(0,0,0,0.8);
-      transition: all 0.1s;
-    }
-    .current-move-hint {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .beat-pulse-dots {
-      display: flex;
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .b-dot {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(30, 41, 59, 0.8);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      font-weight: 800;
-      color: #94a3b8;
-      transition: all 0.12s;
-    }
-    .b-dot.active {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #0f172a;
-      border-color: #fbbf24;
-      transform: scale(1.22);
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.8);
-    }
-
-    /* ======================================================== */
-    /* PISTA VERTICAL COM FEIXES / LINHAS NEON */
-    /* ======================================================== */
     .vertical-highway-container {
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.65);
       border: 2px solid rgba(255, 255, 255, 0.15);
       border-radius: 22px;
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      flex: 1;
       box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
     }
 
@@ -350,7 +269,7 @@
       grid-template-columns: repeat(5, 1fr);
       background: rgba(30, 41, 59, 0.95);
       border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-      padding: 10px 0;
+      padding: 12px 0;
       text-align: center;
       z-index: 10;
     }
@@ -361,11 +280,11 @@
       gap: 2px;
     }
     .col-header-icon {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
     }
     .col-header-name {
-      font-size: 0.75rem;
-      font-weight: 800;
+      font-size: 0.85rem;
+      font-weight: 900;
       letter-spacing: 0.5px;
       text-transform: uppercase;
     }
@@ -374,11 +293,11 @@
     .highway-drop-area {
       flex: 1;
       position: relative;
-      min-height: 380px;
+      min-height: 420px;
       overflow: hidden;
     }
 
-    /* LINHAS GUIAS DE FUNDO */
+    /* LINHAS DIVISÓRIAS DAS COLUNAS */
     .column-guides-grid {
       position: absolute;
       top: 0;
@@ -397,10 +316,51 @@
       border-right: none;
     }
 
+    /* ======================================================== */
+    /* LINHAS NEON PERMANENTES (SEMPRE EXISTENTES DO TOPO À BASE) */
+    /* ======================================================== */
+    .permanent-neon-lanes {
+      position: absolute;
+      top: 0;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .perm-neon-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      transform: translateX(-50%);
+      border-radius: 4px;
+    }
+    .perm-line-clap {
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.6) 70%, rgba(251, 191, 36, 0.95) 100%);
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.6), 0 0 30px rgba(245, 158, 11, 0.35);
+    }
+    .perm-line-chest {
+      background: linear-gradient(180deg, rgba(244, 63, 94, 0.2) 0%, rgba(244, 63, 94, 0.6) 70%, rgba(253, 164, 175, 0.95) 100%);
+      box-shadow: 0 0 14px rgba(244, 63, 94, 0.6), 0 0 30px rgba(244, 63, 94, 0.35);
+    }
+    .perm-line-snap {
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.2) 0%, rgba(56, 189, 248, 0.6) 70%, rgba(186, 230, 253, 0.95) 100%);
+      box-shadow: 0 0 14px rgba(6, 182, 212, 0.6), 0 0 30px rgba(6, 182, 212, 0.35);
+    }
+    .perm-line-thigh {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.6) 70%, rgba(167, 243, 208, 0.95) 100%);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.6), 0 0 30px rgba(16, 185, 129, 0.35);
+    }
+    .perm-line-stomp {
+      background: linear-gradient(180deg, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0.6) 70%, rgba(233, 213, 255, 0.95) 100%);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.6), 0 0 30px rgba(168, 85, 247, 0.35);
+    }
+
     /* LINHA DE IMPACTO INFERIOR */
     .hit-line-barrier {
       position: absolute;
-      bottom: 35px;
+      bottom: 50px;
       left: 0;
       right: 0;
       height: 4px;
@@ -409,10 +369,12 @@
       z-index: 3;
     }
 
-    /* RECEPTÁCULOS FIXOS NA BASE */
+    /* ======================================================== */
+    /* RECEPTÁCULOS FIXOS NA BASE (BEM MAIORES PARA DATASHOW) */
+    /* ======================================================== */
     .receptors-row {
       position: absolute;
-      bottom: 12px;
+      bottom: 8px;
       left: 0;
       right: 0;
       display: grid;
@@ -427,85 +389,72 @@
       justify-content: center;
     }
     .receptor-circle {
-      width: 58px;
-      height: 58px;
+      width: 104px;
+      height: 104px;
       border-radius: 50%;
-      border: 3px solid rgba(255, 255, 255, 0.4);
-      background: rgba(15, 23, 42, 0.8);
+      border: 4px solid rgba(255, 255, 255, 0.4);
+      background: rgba(15, 23, 42, 0.9);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
       transition: all 0.08s ease-out;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      position: relative;
     }
+    .receptor-circle .rec-icon {
+      font-size: 2.7rem;
+      line-height: 1;
+    }
+    .receptor-circle .rec-label {
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+    .rec-clap { border-color: #f59e0b; color: #fde68a; box-shadow: 0 0 25px rgba(245, 158, 11, 0.45); }
+    .rec-chest { border-color: #f43f5e; color: #fda4af; box-shadow: 0 0 25px rgba(244, 63, 94, 0.45); }
+    .rec-snap { border-color: #06b6d4; color: #bae6fd; box-shadow: 0 0 25px rgba(6, 182, 212, 0.45); }
+    .rec-thigh { border-color: #10b981; color: #a7f3d0; box-shadow: 0 0 25px rgba(16, 185, 129, 0.45); }
+    .rec-stomp { border-color: #a855f7; color: #e9d5ff; box-shadow: 0 0 25px rgba(168, 85, 247, 0.45); }
+
     .receptor-circle.hit-active {
-      transform: scale(1.3);
+      transform: scale(1.35);
       border-color: #fff;
-      box-shadow: 0 0 35px rgba(255, 255, 255, 0.95);
-      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 60px rgba(255, 255, 255, 1), 0 0 100px currentColor;
+      filter: brightness(2.2);
+      background: rgba(255, 255, 255, 0.35);
     }
 
-    /* ======================================================== */
-    /* LINHAS / FEIXES NEON DE QUEDA VERTICAL (NEON LASER BEAMS) */
-    /* ======================================================== */
-    .neon-laser-tail {
-      position: absolute;
-      width: 8px;
-      transform: translateX(-50%);
-      border-radius: 6px;
-      pointer-events: none;
-      z-index: 4;
-    }
-    .trail-clap {
-      background: linear-gradient(180deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.8) 75%, #ffffff 100%);
-      box-shadow: 0 0 15px #f59e0b, 0 0 30px #fbbf24;
-    }
-    .trail-chest {
-      background: linear-gradient(180deg, rgba(244, 63, 94, 0.05) 0%, rgba(244, 63, 94, 0.8) 75%, #ffffff 100%);
-      box-shadow: 0 0 15px #f43f5e, 0 0 30px #fda4af;
-    }
-    .trail-snap {
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, rgba(56, 189, 248, 0.8) 75%, #ffffff 100%);
-      box-shadow: 0 0 15px #06b6d4, 0 0 30px #38bdf8;
-    }
-    .trail-thigh {
-      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(52, 211, 153, 0.8) 75%, #ffffff 100%);
-      box-shadow: 0 0 15px #10b981, 0 0 30px #6ee7b7;
-    }
-    .trail-stomp {
-      background: linear-gradient(180deg, rgba(168, 85, 247, 0.05) 0%, rgba(192, 132, 252, 0.8) 75%, #ffffff 100%);
-      box-shadow: 0 0 15px #a855f7, 0 0 30px #d8b4fe;
-    }
-
-    /* SÍMBOLO QUE CAI DE CIMA PARA BAIXO */
+    /* SÍMBOLO QUE CAI DE CIMA PARA BAIXO (DESLIZANDO NA LINHA NEON) */
     .falling-symbol-item {
       position: absolute;
-      width: 58px;
-      height: 58px;
+      width: 66px;
+      height: 66px;
       border-radius: 50%;
       transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 25px currentColor, 0 8px 25px rgba(0,0,0,0.8);
-      border: 3px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 30px currentColor, 0 8px 25px rgba(0,0,0,0.8);
+      border: 3.5px solid rgba(255, 255, 255, 0.95);
       font-weight: 800;
       color: white;
       pointer-events: none;
       z-index: 5;
     }
     .falling-symbol-item .s-icon {
-      font-size: 1.6rem;
+      font-size: 1.9rem;
       line-height: 1;
     }
     .falling-symbol-item .s-txt {
-      font-size: 0.6rem;
+      font-size: 0.65rem;
       font-weight: 800;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
-      margin-top: 1px;
+      margin-top: 2px;
     }
 
     /* CORES TEMÁTICAS DOS 5 MOVIMENTOS */
@@ -607,7 +556,6 @@
       display: flex;
     }
 
-    /* PAINEL SUPERIOR: ÁUDIO & SELEÇÃO DE CAMADA DE GRAVAÇÃO */
     .editor-top-controls {
       display: grid;
       grid-template-columns: 340px 1fr;
@@ -646,7 +594,6 @@
       border-color: var(--gold);
     }
 
-    /* SELETOR DE CAMADA DE GRAVAÇÃO ("GRAVAR UM POR UM") */
     .layer-selector-group {
       display: flex;
       flex-wrap: wrap;
@@ -705,7 +652,7 @@
     }
 
     /* ======================================================== */
-    /* MULTI-TRACK TIMELINE SEQUENCER (AS 5 COLUNAS / FAIXAS HORIZONTAIS) */
+    /* MULTI-TRACK TIMELINE SEQUENCER (5 FAIXAS HORIZONTAIS) */
     /* ======================================================== */
     .multi-track-sequencer-box {
       background: var(--bg-card);
@@ -726,7 +673,6 @@
       gap: 10px;
     }
 
-    /* ÁREA DO CONTAINER COM SCROLL */
     .timeline-viewport {
       background: #090d16;
       border: 2px solid rgba(255, 255, 255, 0.1);
@@ -743,7 +689,6 @@
       flex-direction: column;
     }
 
-    /* RÉGUA DE SEGUNDOS NO TOPO */
     .timeline-ruler-track {
       height: 34px;
       background: rgba(30, 41, 59, 0.9);
@@ -763,7 +708,6 @@
       pointer-events: none;
     }
 
-    /* PLAYHEAD (AGULHA VERMELHA DE REPRODUÇÃO) */
     .timeline-playhead-line {
       position: absolute;
       top: 0;
@@ -786,7 +730,6 @@
       border: 2px solid white;
     }
 
-    /* AS 5 FAIXAS HORIZONTAIS */
     .tracks-stack {
       display: flex;
       flex-direction: column;
@@ -802,7 +745,6 @@
       border-bottom: none;
     }
 
-    /* CABEÇALHO LATERAL FIXO DA FAIXA */
     .track-header-cell {
       width: 160px;
       background: rgba(15, 23, 42, 0.95);
@@ -840,7 +782,6 @@
       color: white;
     }
 
-    /* ÁREA DA FAIXA ONDE OS BLOCOS DE NOTAS FICAM */
     .track-lane-content {
       flex: 1;
       position: relative;
@@ -851,7 +792,6 @@
       background: rgba(30, 41, 59, 0.3);
     }
 
-    /* NOTA MUSICAL DENTRO DA LINHA DO TEMPO */
     .timeline-note-chip {
       position: absolute;
       top: 50%;
@@ -886,10 +826,9 @@
     }
 
     @media (max-width: 900px) {
-      .theater-main-stage { grid-template-columns: 1fr; }
-      .avatar-guide-panel { padding: 12px; }
-      .character-avatar-bubble { width: 160px; height: 160px; }
-      .action-svg { width: 130px; height: 130px; }
+      .receptor-circle { width: 70px; height: 70px; }
+      .receptor-circle .rec-icon { font-size: 1.8rem; }
+      .receptor-circle .rec-label { font-size: 0.65rem; }
       .editor-top-controls { grid-template-columns: 1fr; }
     }
   </style>
@@ -904,7 +843,7 @@
       </a>
       <div class="app-title-group">
         <h1>Super Estúdio de Ritmo 🥁 Lab Kids</h1>
-        <p>Linhas Neon de Queda & Editor Multi-Faixas por Camada • Sem YouTube</p>
+        <p>Palco Datashow Amplo • Linhas Neon Permanentes & Receptores Gigantes</p>
       </div>
     </div>
 
@@ -925,10 +864,13 @@
   <main class="main-container">
 
     <!-- ======================================================== -->
-    <!-- ABA 1: APRESENTAÇÃO / JOGO (DATASHOW COM LINHAS NEON) -->
+    <!-- ABA 1: APRESENTAÇÃO / JOGO (DATASHOW COMPLETO EM TELA AMPLA) -->
     <!-- ======================================================== -->
     <section class="stage-section" id="section-play">
       <div class="game-theater-screen" id="theater-screen">
+        <!-- CAMADA DE FUNDO PERSONALIZÁVEL (CAPA DE CD / IMAGEM / GIF) -->
+        <div class="theater-custom-bg" id="theater-custom-bg"></div>
+        <div class="theater-vignette-overlay"></div>
         <canvas id="fx-canvas"></canvas>
 
         <!-- BARRA SUPERIOR DA TELA -->
@@ -940,33 +882,8 @@
           <div class="time-counter-display" id="time-display">00:00 / 00:48</div>
         </div>
 
-        <!-- PALCO CENTRAL: GUIA CORPORAL (ESQUERDA) + PISTA VERTICAL NEON (DIREITA) -->
-        <div class="theater-main-stage">
-          
-          <!-- ESQUERDA: ILUSTRAÇÃO ANIMADA DO MOVIMENTO EXATO -->
-          <div class="avatar-guide-panel">
-            <div class="character-avatar-bubble" id="avatar-bubble">
-              <div class="shockwave-burst" id="shockwave"></div>
-              <div id="svg-character-target">
-                <!-- Inserido dinamicamente via JS -->
-              </div>
-            </div>
-
-            <div class="current-move-banner">
-              <div class="current-move-title theme-clap-text" id="action-title">👏 PREPARAR!</div>
-              <div class="current-move-hint" id="action-hint">Aguarde os feixes neon descerem na pista</div>
-            </div>
-
-            <!-- CONTADOR DE COMPASSO (1, 2, 3, 4) -->
-            <div class="beat-pulse-dots">
-              <div class="b-dot" id="dot-0">1</div>
-              <div class="b-dot" id="dot-1">2</div>
-              <div class="b-dot" id="dot-2">3</div>
-              <div class="b-dot" id="dot-3">4</div>
-            </div>
-          </div>
-
-          <!-- DIREITA: PISTA VERTICAL COM AS 5 COLUNAS E LINHAS NEON -->
+        <!-- PISTA VERTICAL EM LARGURA TOTAL (SEM A CAIXA LATERAL) -->
+        <div class="theater-full-highway">
           <div class="vertical-highway-container" id="highway-container">
             
             <!-- CABEÇALHO DAS 5 COLUNAS NO TOPO -->
@@ -995,7 +912,8 @@
 
             <!-- PISTA DE QUEDA DAS NOTAS -->
             <div class="highway-drop-area" id="drop-area">
-              <!-- LINHAS GUIAS DE FUNDO -->
+              
+              <!-- LINHAS DIVISÓRIAS -->
               <div class="column-guides-grid">
                 <div class="col-lane"></div>
                 <div class="col-lane"></div>
@@ -1004,34 +922,57 @@
                 <div class="col-lane"></div>
               </div>
 
-              <!-- LINHA DE MIRA / IMPACTO INFERIOR -->
+              <!-- LINHAS NEON PERMANENTES (SEMPRE EXISTENTES DO TOPO À BASE) -->
+              <div class="permanent-neon-lanes">
+                <div class="perm-neon-line perm-line-clap" style="left: 10%;"></div>
+                <div class="perm-neon-line perm-line-chest" style="left: 30%;"></div>
+                <div class="perm-neon-line perm-line-snap" style="left: 50%;"></div>
+                <div class="perm-neon-line perm-line-thigh" style="left: 70%;"></div>
+                <div class="perm-neon-line perm-line-stomp" style="left: 90%;"></div>
+              </div>
+
+              <!-- LINHA DE IMPACTO INFERIOR -->
               <div class="hit-line-barrier"></div>
 
-              <!-- RECEPTÁCULOS FIXOS NA BASE -->
+              <!-- RECEPTÁCULOS FIXOS NA BASE (BEM MAIORES PARA DATASHOW) -->
               <div class="receptors-row">
                 <div class="receptor-box">
-                  <div class="receptor-circle" id="rec-clap" style="border-color: #f59e0b;">👏</div>
+                  <div class="receptor-circle rec-clap" id="rec-clap">
+                    <span class="rec-icon">👏</span>
+                    <span class="rec-label">PALMA</span>
+                  </div>
                 </div>
                 <div class="receptor-box">
-                  <div class="receptor-circle" id="rec-chest" style="border-color: #f43f5e;">🫀</div>
+                  <div class="receptor-circle rec-chest" id="rec-chest">
+                    <span class="rec-icon">🫀</span>
+                    <span class="rec-label">PEITO</span>
+                  </div>
                 </div>
                 <div class="receptor-box">
-                  <div class="receptor-circle" id="rec-snap" style="border-color: #06b6d4;">🫰</div>
+                  <div class="receptor-circle rec-snap" id="rec-snap">
+                    <span class="rec-icon">🫰</span>
+                    <span class="rec-label">ESTALO</span>
+                  </div>
                 </div>
                 <div class="receptor-box">
-                  <div class="receptor-circle" id="rec-thigh" style="border-color: #10b981;">🦵</div>
+                  <div class="receptor-circle rec-thigh" id="rec-thigh">
+                    <span class="rec-icon">🦵</span>
+                    <span class="rec-label">COXA</span>
+                  </div>
                 </div>
                 <div class="receptor-box">
-                  <div class="receptor-circle" id="rec-stomp" style="border-color: #a855f7;">🦶</div>
+                  <div class="receptor-circle rec-stomp" id="rec-stomp">
+                    <span class="rec-icon">🦶</span>
+                    <span class="rec-label">PÉ</span>
+                  </div>
                 </div>
               </div>
 
-              <!-- ELEMENTOS EM QUEDA VERTICAL (NOTAS + LINHAS NEON) -->
-              <div id="falling-notes-layer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+              <!-- ELEMENTOS EM QUEDA VERTICAL (DESLIZANDO NAS LINHAS NEON) -->
+              <div id="falling-notes-layer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 6;"></div>
             </div>
 
           </div>
-
         </div>
       </div>
 
@@ -1062,6 +1003,22 @@
             <button class="ctrl-pill-btn" id="spd-05" onclick="applyPlaybackSpeed(0.5)">0.5x 🐌 Lento</button>
           </div>
 
+          <!-- SELETOR DE FUNDO / CAPA DO CD -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">🖼️ Fundo:</span>
+            <select id="select-bg-preset" onchange="changeStageBackground(this.value)" class="ctrl-pill-btn" style="background: rgba(15, 23, 42, 0.9); border-color: rgba(255,255,255,0.2);">
+              <option value="default">🌟 Palco Neon Escuro</option>
+              <option value="concert">🎤 Show & Holofotes</option>
+              <option value="galaxy">🌌 Galáxia Espacial</option>
+              <option value="disco">🪩 Discoteca / Luzes</option>
+              <option value="custom">📁 Capa do CD / Imagem / GIF</option>
+            </select>
+            <label class="ctrl-pill-btn" style="cursor: pointer;" title="Carregar Capa do CD, Foto ou GIF">
+              📤 Capa CD/GIF
+              <input type="file" id="bg-upload-input" accept="image/*" onchange="handleBgUpload(event)" style="display: none;">
+            </label>
+          </div>
+
           <div style="display: flex; align-items: center; gap: 8px;">
             <button class="ctrl-pill-btn" id="btn-sfx-toggle" onclick="toggleAudioSFX()">
               🔊 Som dos Golpes: LIGADO
@@ -1081,13 +1038,18 @@
         
         <!-- CARD 1: SELECIONAR MP3 E TÍTULO -->
         <div class="editor-box">
-          <h3>🎵 1. Sua Música em MP3</h3>
+          <h3>🎵 1. Sua Música em MP3 & Capa</h3>
           <label class="audio-upload-slot" for="file-mp3-input">
             <input type="file" id="file-mp3-input" accept="audio/mp3, audio/wav, audio/mpeg" onchange="onUploadMP3(event)" style="display: none;">
             <div style="font-size: 1.8rem; margin-bottom: 4px;">📂</div>
             <div style="font-weight: 800; color: #fde68a; font-size: 0.95rem;" id="txt-upload-status">Clique para Carregar seu MP3</div>
           </label>
           <input type="text" id="input-track-title" placeholder="Nome da Coreografia" style="background: #090d16; border: 1px solid #334155; color: white; padding: 8px 12px; border-radius: 10px; font-family: 'Fredoka', sans-serif;">
+          
+          <label class="ctrl-pill-btn" style="cursor: pointer; justify-content: center; text-align: center;">
+            🖼️ Adicionar Capa do CD / Cantor (JPG/PNG/GIF)
+            <input type="file" accept="image/*" onchange="handleBgUpload(event)" style="display: none;">
+          </label>
         </div>
 
         <!-- CARD 2: GRAVAÇÃO POR CAMADA (UM POR UM!) -->
@@ -1123,7 +1085,7 @@
               <span>🔴</span> <span id="txt-rec-btn">Gravar Esta Camada na Música</span>
             </button>
             <span style="font-size: 0.85rem; color: #94a3b8;">
-              Dica: Enquanto grava a camada selecionada, você pode apertar a <strong>Barra de Espaço</strong> ou clicar!
+              Dica: Enquanto grava a camada selecionada, você pode usar a <strong>Barra de Espaço</strong> ou clicar!
             </span>
           </div>
         </div>
@@ -1158,9 +1120,7 @@
           <div class="timeline-inner-board" id="timeline-board">
             
             <!-- RÉGUA DE SEGUNDOS (CLIQUE PARA PULAR O TEMPO) -->
-            <div class="timeline-ruler-track" id="timeline-ruler" onclick="handleTimelineRulerClick(event)">
-              <!-- Marcadores de segundo injetados via JS -->
-            </div>
+            <div class="timeline-ruler-track" id="timeline-ruler" onclick="handleTimelineRulerClick(event)"></div>
 
             <!-- AGULHA DE REPRODUÇÃO (PLAYHEAD) -->
             <div class="timeline-playhead-line" id="timeline-playhead">
@@ -1241,111 +1201,25 @@
 
   </main>
 
-  <!-- MOTOR JAVASCRIPT: FÍSICA NEON, MULTI-TRACK TIMELINE E OVERDUBBING -->
+  <!-- MOTOR JAVASCRIPT: LINHAS NEON CONSTANTES, SUPER EXPLOSÕES E FUNDO CUSTOMIZADO -->
   <script>
-    // ==========================================
-    // 1. ILUSTRAÇÕES VETORIAIS (SVG ART)
-    // ==========================================
-    const SVG_ART = {
-      idle: `
-        <svg class="action-svg" viewBox="0 0 200 200" fill="none">
-          <circle cx="100" cy="100" r="85" fill="#1e293b" stroke="#f59e0b" stroke-width="4" stroke-dasharray="8 6"/>
-          <circle cx="100" cy="95" r="45" fill="#fde68a"/>
-          <circle cx="85" cy="90" r="6" fill="#0f172a"/>
-          <circle cx="115" cy="90" r="6" fill="#0f172a"/>
-          <path d="M85 110 C95 125, 105 125, 115 110" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="75" cy="102" r="7" fill="#f43f5e" opacity="0.6"/>
-          <circle cx="125" cy="102" r="7" fill="#f43f5e" opacity="0.6"/>
-        </svg>
-      `,
-      clap: `
-        <svg class="action-svg" viewBox="0 0 200 200" fill="none">
-          <path d="M100 20 L105 40 L125 45 L110 58 L115 78 L98 65 L82 78 L88 58 L72 45 L92 40 Z" fill="#fbbf24"/>
-          <g transform="translate(42, 60) rotate(25)">
-            <rect x="0" y="20" width="40" height="50" rx="15" fill="#fbbf24" stroke="#d97706" stroke-width="3"/>
-            <rect x="5" y="0" width="12" height="35" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
-            <rect x="20" y="2" width="12" height="32" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
-            <rect x="35" y="8" width="12" height="28" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
-          </g>
-          <g transform="translate(158, 75) rotate(-25) scale(-1, 1)">
-            <rect x="0" y="20" width="40" height="50" rx="15" fill="#fbbf24" stroke="#d97706" stroke-width="3"/>
-            <rect x="5" y="0" width="12" height="35" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
-            <rect x="20" y="2" width="12" height="32" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
-            <rect x="35" y="8" width="12" height="28" rx="6" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
-          </g>
-          <circle cx="100" cy="100" r="70" stroke="#f59e0b" stroke-width="4" stroke-dasharray="12 12"/>
-        </svg>
-      `,
-      chest: `
-        <svg class="action-svg" viewBox="0 0 200 200" fill="none">
-          <path d="M50 140 C50 85, 150 85, 150 140 Z" fill="#be123c"/>
-          <path d="M100 85 C95 70, 75 70, 75 90 C75 110, 100 125, 100 125 C100 125, 125 110, 125 90 C125 70, 105 70, 100 85 Z" fill="#f43f5e" stroke="#fff" stroke-width="3"/>
-          <g transform="translate(75, 80)">
-            <rect x="0" y="10" width="48" height="36" rx="12" fill="#fda4af" stroke="#e11d48" stroke-width="3"/>
-            <circle cx="12" cy="18" r="5" fill="#fff" opacity="0.6"/>
-          </g>
-          <circle cx="100" cy="100" r="65" stroke="#f43f5e" stroke-width="5" stroke-dasharray="10 8"/>
-        </svg>
-      `,
-      snap: `
-        <svg class="action-svg" viewBox="0 0 200 200" fill="none">
-          <polygon points="100,25 106,45 125,50 108,62 112,82 98,70 82,82 88,62 72,50 92,45" fill="#38bdf8"/>
-          <g transform="translate(65, 45)">
-            <rect x="20" y="55" width="45" height="55" rx="16" fill="#38bdf8" stroke="#0284c7" stroke-width="3"/>
-            <rect x="40" y="20" width="16" height="45" rx="8" fill="#bae6fd" stroke="#0284c7" stroke-width="3" transform="rotate(-15 40 20)"/>
-            <rect x="25" y="15" width="16" height="48" rx="8" fill="#bae6fd" stroke="#0284c7" stroke-width="3" transform="rotate(15 25 15)"/>
-            <rect x="8" y="35" width="14" height="35" rx="7" fill="#7dd3fc" stroke="#0284c7" stroke-width="3"/>
-          </g>
-          <circle cx="100" cy="70" r="15" fill="#e0f2fe" opacity="0.7"/>
-        </svg>
-      `,
-      thigh: `
-        <svg class="action-svg" viewBox="0 0 200 200" fill="none">
-          <rect x="55" y="110" width="35" height="60" rx="16" fill="#065f46"/>
-          <rect x="110" y="110" width="35" height="60" rx="16" fill="#065f46"/>
-          <g transform="translate(45, 75)">
-            <rect x="0" y="15" width="40" height="35" rx="12" fill="#6ee7b7" stroke="#059669" stroke-width="3"/>
-            <path d="M10 0 L10 18" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
-          </g>
-          <g transform="translate(115, 75)">
-            <rect x="0" y="15" width="40" height="35" rx="12" fill="#6ee7b7" stroke="#059669" stroke-width="3"/>
-            <path d="M30 0 L30 18" stroke="#10b981" stroke-width="5" stroke-linecap="round"/>
-          </g>
-          <path d="M100 45 L100 80 M92 70 L100 80 L108 70" stroke="#34d399" stroke-width="5" stroke-linecap="round"/>
-        </svg>
-      `,
-      stomp: `
-        <svg class="action-svg" viewBox="0 0 200 200" fill="none">
-          <line x1="30" y1="165" x2="170" y2="165" stroke="#a855f7" stroke-width="6" stroke-linecap="round"/>
-          <g transform="translate(60, 95) rotate(-10)">
-            <path d="M10 40 L60 40 C75 40, 85 55, 75 65 L0 65 C0 50, 0 40, 10 40 Z" fill="#c084fc" stroke="#7e22ce" stroke-width="3"/>
-            <rect x="5" y="25" width="35" height="25" rx="8" fill="#e9d5ff" stroke="#7e22ce" stroke-width="3"/>
-            <circle cx="70" cy="55" r="5" fill="#fff"/>
-          </g>
-          <ellipse cx="65" cy="165" rx="20" ry="7" fill="#c084fc" opacity="0.6"/>
-          <ellipse cx="135" cy="165" rx="14" ry="5" fill="#c084fc" opacity="0.4"/>
-        </svg>
-      `
-    };
-
     // CONFIGURAÇÕES DOS 5 MOVIMENTOS
     const COLUMN_CONFIG = {
-      clap:  { colIndex: 0, icon: '👏', label: 'Palma', theme: 'theme-clap', trailClass: 'trail-clap', color: '#f59e0b', receptorId: 'rec-clap', laneId: 'lane-clap' },
-      chest: { colIndex: 1, icon: '🫀', label: 'Peito', theme: 'theme-chest', trailClass: 'trail-chest', color: '#f43f5e', receptorId: 'rec-chest', laneId: 'lane-chest' },
-      snap:  { colIndex: 2, icon: '🫰', label: 'Estalo', theme: 'theme-snap', trailClass: 'trail-snap', color: '#06b6d4', receptorId: 'rec-snap', laneId: 'lane-snap' },
-      thigh: { colIndex: 3, icon: '🦵', label: 'Coxa', theme: 'theme-thigh', trailClass: 'trail-thigh', color: '#10b981', receptorId: 'rec-thigh', laneId: 'lane-thigh' },
-      stomp: { colIndex: 4, icon: '🦶', label: 'Pé', theme: 'theme-stomp', trailClass: 'trail-stomp', color: '#a855f7', receptorId: 'rec-stomp', laneId: 'lane-stomp' }
+      clap:  { colIndex: 0, icon: '👏', label: 'Palma', theme: 'theme-clap', color: '#f59e0b', receptorId: 'rec-clap', laneId: 'lane-clap' },
+      chest: { colIndex: 1, icon: '🫀', label: 'Peito', theme: 'theme-chest', color: '#f43f5e', receptorId: 'rec-chest', laneId: 'lane-chest' },
+      snap:  { colIndex: 2, icon: '🫰', label: 'Estalo', theme: 'theme-snap', color: '#06b6d4', receptorId: 'rec-snap', laneId: 'lane-snap' },
+      thigh: { colIndex: 3, icon: '🦵', label: 'Coxa', theme: 'theme-thigh', color: '#10b981', receptorId: 'rec-thigh', laneId: 'lane-thigh' },
+      stomp: { colIndex: 4, icon: '🦶', label: 'Pé', theme: 'theme-stomp', color: '#a855f7', receptorId: 'rec-stomp', laneId: 'lane-stomp' }
     };
 
-    // ==========================================
-    // 2. FAIXA PADRÃO (DEMONSTRAÇÃO)
-    // ==========================================
+    // FAIXA PADRÃO
     const DEFAULT_TRACK = {
       id: 'faixa_padrao_2ano',
       title: 'Marcha Suave das Palmas & Peito (Especial 2º Ano)',
       badge: 'FÁCIL • 2º ANO 👶',
       bpm: 80,
       duration: 48,
+      bgImage: '',
       beats: [
         { time: 2.0, type: 'clap' },
         { time: 2.75, type: 'clap' },
@@ -1369,9 +1243,7 @@
       ]
     };
 
-    // ==========================================
-    // 3. ESTADO GLOBAL
-    // ==========================================
+    // ESTADO GLOBAL
     let activeTrack = JSON.parse(JSON.stringify(DEFAULT_TRACK));
     let isPlaying = false;
     let playbackSpeed = 1.0;
@@ -1381,7 +1253,7 @@
     let synthClock = null;
     let synthVirtualTime = 0;
     let isRecordingLive = false;
-    let activeRecordLayer = 'clap'; // 'clap', 'chest', 'snap', 'thigh', 'stomp', 'all'
+    let activeRecordLayer = 'clap';
     let triggeredHitsSet = new Set();
     let animFrame = null;
 
@@ -1399,7 +1271,7 @@
     window.addEventListener('resize', handleResize);
 
     // ==========================================
-    // 4. ÁUDIO & SÍNTESE
+    // ÁUDIO & SÍNTESE
     // ==========================================
     function getAudioCtx() {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1479,11 +1351,6 @@
       synthClock = setInterval(() => {
         if (!isPlaying) return;
         synthVirtualTime += (60 / bpm) / 4;
-        if (count % 4 === 0) {
-          beepMetro(880, 0.08);
-        } else {
-          beepMetro(440, 0.03);
-        }
         count++;
       }, interval / 4);
     }
@@ -1493,21 +1360,8 @@
       synthClock = null;
     }
 
-    function beepMetro(freq, vol) {
-      try {
-        const ac = getAudioCtx();
-        const o = ac.createOscillator();
-        const g = ac.createGain();
-        o.frequency.setValueAtTime(freq, ac.currentTime);
-        g.gain.setValueAtTime(vol, ac.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.04);
-        o.connect(g); g.connect(ac.destination);
-        o.start(); o.stop(ac.currentTime + 0.05);
-      } catch(e){}
-    }
-
     // ==========================================
-    // 5. MOTOR FÍSICO COM LINHAS NEON (DE CIMA PARA BAIXO)
+    // MOTOR FÍSICO COM LINHAS NEON PERMANENTES
     // ==========================================
     function getNowTime() {
       if (customAudio && !activeTrack.isDefaultAudio) {
@@ -1528,29 +1382,21 @@
       const duration = getTotalDuration();
 
       if (isPlaying || isRecordingLive) {
-        // Atualiza barra de progresso
+        // Barra de progresso
         const pct = Math.min(100, (now / duration) * 100);
         document.getElementById('seek-fill').style.width = pct + '%';
         document.getElementById('time-display').innerText = `${formatSec(now)} / ${formatSec(duration)}`;
 
-        // Atualiza Playhead na Linha do Tempo do Editor
+        // Playhead da linha do tempo
         updateTimelinePlayhead(now, duration);
 
-        // Bolinhas de compasso (1, 2, 3, 4)
-        const beatPeriod = 60 / (activeTrack.bpm || 80);
-        const beatIndex = Math.floor(now / beatPeriod) % 4;
-        for (let i = 0; i < 4; i++) {
-          const dot = document.getElementById(`dot-${i}`);
-          if (dot) dot.classList.toggle('active', i === beatIndex);
-        }
-
-        // Renderiza a queda vertical das notas E AS LINHAS NEON
-        renderVerticalFallingNotesWithNeon(now);
+        // Renderiza as notas deslizando nas linhas neon
+        renderVerticalFallingNotes(now);
 
         // Fim da faixa
         if (now >= duration && isPlaying) {
           pausePlaybackEngine();
-          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
         }
       }
 
@@ -1558,114 +1404,117 @@
       animFrame = requestAnimationFrame(mainGameLoop);
     }
 
-    // Renderiza cada nota na sua coluna com seu FEIXE / LINHA NEON brilhante
-    function renderVerticalFallingNotesWithNeon(now) {
+    // Renderiza cada nota deslizando na sua linha neon permanente
+    function renderVerticalFallingNotes(now) {
       const layer = document.getElementById('falling-notes-layer');
       layer.innerHTML = '';
 
       const dropArea = document.getElementById('drop-area');
-      const dropHeight = dropArea.clientHeight || 380;
-      const targetHitY = dropHeight - 35; // Linha de impacto inferior
-      const pixelsPerSec = 220; // Velocidade de descida
+      const dropHeight = dropArea.clientHeight || 420;
+      const targetHitY = dropHeight - 50; // Linha de impacto dos receptores
+      const pixelsPerSec = 230; // Velocidade de descida
       const colWidthPct = 100 / 5; // 5 colunas
 
       activeTrack.beats.forEach((b, idx) => {
         const timeDiff = b.time - now;
         const currentY = targetHitY - (timeDiff * pixelsPerSec);
 
-        // Se está dentro da área visível
-        if (currentY > -180 && currentY < targetHitY + 50) {
+        // Se está descendo dentro da tela visível
+        if (currentY > -60 && currentY < targetHitY + 50) {
           const cfg = COLUMN_CONFIG[b.type] || COLUMN_CONFIG.clap;
           const colCenterX = (cfg.colIndex * colWidthPct) + (colWidthPct / 2);
 
-          // 1. LINHA NEON (LASER BEAM) ACIMA DA NOTA
-          const beamLen = Math.min(160, Math.max(70, currentY + 60));
-          const laserBeam = document.createElement('div');
-          laserBeam.className = `neon-laser-tail ${cfg.trailClass}`;
-          laserBeam.style.left = colCenterX + '%';
-          laserBeam.style.top = Math.max(0, currentY - beamLen) + 'px';
-          laserBeam.style.height = beamLen + 'px';
-          layer.appendChild(laserBeam);
-
-          // 2. SÍMBOLO DA NOTA EM QUEDA
-          if (currentY > -40) {
-            const noteEl = document.createElement('div');
-            noteEl.className = `falling-symbol-item ${cfg.theme}`;
-            noteEl.style.left = colCenterX + '%';
-            noteEl.style.top = currentY + 'px';
-            noteEl.innerHTML = `
-              <span class="s-icon">${cfg.icon}</span>
-              <span class="s-txt">${cfg.label}</span>
-            `;
-            layer.appendChild(noteEl);
-          }
+          const noteEl = document.createElement('div');
+          noteEl.className = `falling-symbol-item ${cfg.theme}`;
+          noteEl.style.left = colCenterX + '%';
+          noteEl.style.top = currentY + 'px';
+          noteEl.innerHTML = `
+            <span class="s-icon">${cfg.icon}</span>
+            <span class="s-txt">${cfg.label}</span>
+          `;
+          layer.appendChild(noteEl);
         }
 
-        // IMPACTO EXATO NA BASE
+        // IMPACTO EXATO NA BASE: QUANDO A PALMA CHEGA NA PALMA!
         if (Math.abs(timeDiff) < 0.07 && !triggeredHitsSet.has(idx)) {
           triggeredHitsSet.add(idx);
-          executeHitEffect(b.type);
+          executeHitSuperExplosion(b.type);
         }
       });
     }
 
-    function executeHitEffect(type) {
+    // EXPLOSÃO BRILHANTEZINHA QUANDO A NOTA CHEGA NO ALVO
+    function executeHitSuperExplosion(type) {
       const cfg = COLUMN_CONFIG[type] || COLUMN_CONFIG.clap;
 
       playPercussionSound(type);
-      setAvatarPose(type);
 
       const receptor = document.getElementById(cfg.receptorId);
       if (receptor) {
         receptor.classList.add('hit-active');
-        setTimeout(() => receptor.classList.remove('hit-active'), 140);
+        setTimeout(() => receptor.classList.remove('hit-active'), 160);
       }
 
-      const shock = document.getElementById('shockwave');
-      shock.classList.remove('trigger');
-      void shock.offsetWidth;
-      shock.classList.add('trigger');
-
-      const avatarBubble = document.getElementById('avatar-bubble');
-      avatarBubble.classList.add('hit-pulse');
-      setTimeout(() => avatarBubble.classList.remove('hit-pulse'), 150);
-
+      // Explosão de brilho e faíscas no receptor
       const rect = document.getElementById(cfg.receptorId).getBoundingClientRect();
       const theaterRect = document.getElementById('theater-screen').getBoundingClientRect();
-      spawnHitParticles(rect.left - theaterRect.left + 28, rect.top - theaterRect.top + 28, cfg.color);
+      const hitX = rect.left - theaterRect.left + (rect.width / 2);
+      const hitY = rect.top - theaterRect.top + (rect.height / 2);
+
+      spawnBrightExplosion(hitX, hitY, cfg.color);
     }
 
-    function setAvatarPose(type) {
-      const svg = SVG_ART[type] || SVG_ART.idle;
-      const cfg = COLUMN_CONFIG[type] || { label: 'PREPARAR', icon: '👏', color: '#f59e0b' };
-
-      document.getElementById('svg-character-target').innerHTML = svg;
-      const title = document.getElementById('action-title');
-      title.innerText = `${cfg.icon} ${cfg.label.toUpperCase()}!`;
-      title.style.color = cfg.color;
-      document.getElementById('action-hint').innerText = `Momento exato: ${cfg.label}`;
-    }
-
-    function spawnHitParticles(x, y, color) {
-      for (let i = 0; i < 18; i++) {
+    // SUPER EXPLOSÃO DE PARTÍCULAS E FAÍSCAS BRILHANTES
+    function spawnBrightExplosion(x, y, color) {
+      // 35+ partículas brilhantes em alta velocidade
+      for (let i = 0; i < 36; i++) {
         const ang = Math.random() * Math.PI * 2;
-        const spd = Math.random() * 6 + 2;
+        const spd = Math.random() * 8 + 3;
         particlesList.push({
           x: x, y: y,
           vx: Math.cos(ang) * spd,
           vy: Math.sin(ang) * spd,
-          radius: Math.random() * 4 + 3,
-          color: color,
+          radius: Math.random() * 6 + 3,
+          color: (i % 2 === 0) ? '#ffffff' : color,
           alpha: 1,
           decay: Math.random() * 0.04 + 0.02
         });
       }
+      // Anel expansivo brilhante
+      particlesList.push({
+        x: x, y: y,
+        isRing: true,
+        radius: 10,
+        color: color,
+        alpha: 1,
+        growth: 7,
+        decay: 0.05
+      });
     }
 
     function renderCanvasParticles() {
       fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
       for (let i = particlesList.length - 1; i >= 0; i--) {
         const p = particlesList[i];
+
+        if (p.isRing) {
+          p.radius += p.growth;
+          p.alpha -= p.decay;
+          if (p.alpha <= 0) {
+            particlesList.splice(i, 1);
+            continue;
+          }
+          fxCtx.save();
+          fxCtx.globalAlpha = p.alpha;
+          fxCtx.strokeStyle = p.color;
+          fxCtx.lineWidth = 4;
+          fxCtx.beginPath();
+          fxCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          fxCtx.stroke();
+          fxCtx.restore();
+          continue;
+        }
+
         p.x += p.vx;
         p.y += p.vy;
         p.alpha -= p.decay;
@@ -1673,9 +1522,12 @@
           particlesList.splice(i, 1);
           continue;
         }
+
         fxCtx.save();
         fxCtx.globalAlpha = p.alpha;
         fxCtx.fillStyle = p.color;
+        fxCtx.shadowColor = p.color;
+        fxCtx.shadowBlur = 12;
         fxCtx.beginPath();
         fxCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         fxCtx.fill();
@@ -1684,7 +1536,46 @@
     }
 
     // ==========================================
-    // 6. CONTROLES DE REPRODUÇÃO & VELOCIDADE
+    // SISTEMA DE FUNDO PERSONALIZÁVEL
+    // ==========================================
+    const BG_PRESETS = {
+      default: '',
+      concert: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1400&q=80',
+      galaxy: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1400&q=80',
+      disco: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1400&q=80'
+    };
+
+    function changeStageBackground(val) {
+      const bgLayer = document.getElementById('theater-custom-bg');
+      if (val === 'custom') {
+        document.getElementById('bg-upload-input').click();
+        return;
+      }
+      const url = BG_PRESETS[val] || '';
+      applyStageBgUrl(url);
+    }
+
+    function handleBgUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      applyStageBgUrl(url);
+      document.getElementById('select-bg-preset').value = 'custom';
+    }
+
+    function applyStageBgUrl(url) {
+      const bgLayer = document.getElementById('theater-custom-bg');
+      if (url) {
+        bgLayer.style.backgroundImage = `url('${url}')`;
+        bgLayer.style.opacity = '0.5';
+      } else {
+        bgLayer.style.backgroundImage = 'none';
+        bgLayer.style.opacity = '0';
+      }
+    }
+
+    // ==========================================
+    // CONTROLES DE REPRODUÇÃO & VELOCIDADE
     // ==========================================
     function togglePlayState() {
       if (isPlaying) {
@@ -1733,8 +1624,6 @@
       } else {
         stopSynthMelody();
       }
-      setAvatarPose('idle');
-      document.getElementById('action-title').innerText = '👏 PREPARAR!';
       setTimeout(startPlaybackEngine, 80);
     }
 
@@ -1762,7 +1651,6 @@
       const clickX = e.clientX - rect.left;
       const pct = Math.max(0, Math.min(1, clickX / rect.width));
       const targetTime = getTotalDuration() * pct;
-
       seekToTime(targetTime);
     }
 
@@ -1783,7 +1671,7 @@
     }
 
     // ==========================================
-    // 7. ABA 2: MULTI-TRACK SEQUENCER & OVERDUBBING
+    // MULTI-TRACK SEQUENCER & OVERDUBBING
     // ==========================================
     function switchAppTab(tab) {
       document.getElementById('tab-play').classList.toggle('active', tab === 'play');
@@ -1824,7 +1712,6 @@
       updateUIHeaders();
     }
 
-    // SELETOR DE CAMADA DE GRAVAÇÃO ("GRAVAR UM POR UM")
     function selectRecordingLayer(layerKey) {
       activeRecordLayer = layerKey;
       document.querySelectorAll('.layer-pill').forEach(b => b.classList.remove('selected'));
@@ -1835,7 +1722,6 @@
       document.getElementById('txt-rec-btn').innerText = isRecordingLive ? '⏹️ Parar Gravação' : labelTxt;
     }
 
-    // GRAVAÇÃO AO VIVO EM CAMADAS (PRESERVA AS OUTRAS CAMADAS!)
     function toggleRecordingSession() {
       if (isRecordingLive) {
         stopRecordingSession();
@@ -1855,16 +1741,15 @@
       isRecordingLive = false;
       pausePlaybackEngine();
       document.getElementById('btn-toggle-rec').classList.remove('recording');
-      selectRecordingLayer(activeRecordLayer); // Restaura texto
+      selectRecordingLayer(activeRecordLayer);
       sortBeatsByTime();
       renderTimelineView();
       saveCoreoToStorage();
-      alert(`🎉 Camada gravada com sucesso! Suas batidas foram adicionadas à linha do tempo mantendo todas as outras camadas intactas!`);
+      alert(`🎉 Camada gravada com sucesso! As novas batidas foram adicionadas à linha do tempo mantendo todas as outras camadas intactas!`);
     }
 
-    // REGISTRA AÇÃO (POR CAMADA ATIVA OU TECLA)
     function recordActionNow(type) {
-      executeHitEffect(type);
+      executeHitSuperExplosion(type);
       const currentTime = getNowTime();
       activeTrack.beats.push({
         time: parseFloat(currentTime.toFixed(2)),
@@ -1874,7 +1759,6 @@
       renderTimelineView();
     }
 
-    // ADICIONA NOTA MANUALMENTE NO CURSOR ATUAL
     function addNoteAtPlayhead(type) {
       const cur = getNowTime();
       activeTrack.beats.push({
@@ -1883,10 +1767,9 @@
       });
       sortBeatsByTime();
       renderTimelineView();
-      executeHitEffect(type);
+      executeHitSuperExplosion(type);
     }
 
-    // CLIQUE DIRETO NA FAIXA HORIZONTAL PARA ADICIONAR NO SEGUNDO CLICADO
     function handleLaneClick(type, event) {
       const rect = event.currentTarget.getBoundingClientRect();
       const clickX = event.clientX - rect.left;
@@ -1899,10 +1782,9 @@
       });
       sortBeatsByTime();
       renderTimelineView();
-      executeHitEffect(type);
+      executeHitSuperExplosion(type);
     }
 
-    // LIMPAR APENAS UMA FAIXA ESPECÍFICA (Ex: regravar só peito sem mexer em palmas)
     function clearSpecificTrack(type) {
       const cfg = COLUMN_CONFIG[type] || { label: type };
       if (!confirm(`Deseja apagar apenas as batidas de "${cfg.label}"? As outras faixas continuarão intactas!`)) return;
@@ -1911,7 +1793,6 @@
       renderTimelineView();
     }
 
-    // LIMPAR TODAS
     function clearAllBeats() {
       if (!confirm('Deseja apagar todas as batidas de todas as faixas?')) return;
       activeTrack.beats = [];
@@ -1923,15 +1804,15 @@
     }
 
     // ==========================================
-    // 8. RENDERIZAÇÃO DA LINHA DO TEMPO MULTI-FAIXAS
+    // RENDERIZAÇÃO DA LINHA DO TEMPO MULTI-FAIXAS
     // ==========================================
     function renderTimelineView() {
       const duration = getTotalDuration();
 
-      // 1. Renderiza a Régua de Segundos
+      // 1. Régua de Segundos
       const ruler = document.getElementById('timeline-ruler');
       ruler.innerHTML = '';
-      const stepSec = duration > 60 ? 5 : 2; // Passos de 2s ou 5s
+      const stepSec = duration > 60 ? 5 : 2;
       for (let sec = 0; sec <= duration; sec += stepSec) {
         const pct = (sec / duration) * 100;
         const tick = document.createElement('div');
@@ -1961,7 +1842,6 @@
         chip.innerHTML = `<span>${cfg.icon}</span> <span>${b.time.toFixed(1)}s</span>`;
         chip.title = `${cfg.label} aos ${b.time.toFixed(2)}s (Clique para ajustar ou excluir)`;
 
-        // Interação com o chip da nota
         chip.onclick = (e) => {
           e.stopPropagation();
           openNoteEditModal(idx);
@@ -1978,7 +1858,6 @@
       if (!playhead) return;
       const pct = Math.min(100, (now / duration) * 100);
 
-      // Deslocamento relativo a partir dos 160px do header da faixa
       const boardWidth = document.getElementById('timeline-board').clientWidth || 1200;
       const usableWidth = boardWidth - 160;
       const leftPx = 160 + (usableWidth * (pct / 100));
@@ -1994,7 +1873,6 @@
       seekToTime(targetTime);
     }
 
-    // DIÁLOGO RÁPIDO DE EDIÇÃO DA NOTA
     function openNoteEditModal(idx) {
       const b = activeTrack.beats[idx];
       const cfg = COLUMN_CONFIG[b.type] || { label: b.type };
@@ -2035,17 +1913,15 @@
       document.getElementById('badge-display').innerText = activeTrack.badge || 'AUTORAL 🎶';
       document.getElementById('time-display').innerText = `00:00 / ${formatSec(getTotalDuration())}`;
       triggeredHitsSet.clear();
-      setAvatarPose('idle');
     }
 
     // ATALHOS DE TECLADO INTELIGENTES
     window.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT') return;
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
 
       if (e.code === 'Space') {
         e.preventDefault();
         if (isRecordingLive && activeRecordLayer !== 'all') {
-          // Na gravação de camada única, espaço registra o movimento daquela camada!
           recordActionNow(activeRecordLayer);
         } else {
           togglePlayState();
@@ -2076,7 +1952,6 @@
     // INICIALIZAÇÃO
     window.addEventListener('DOMContentLoaded', () => {
       handleResize();
-      setAvatarPose('idle');
       updateUIHeaders();
       renderTimelineView();
       mainGameLoop();
