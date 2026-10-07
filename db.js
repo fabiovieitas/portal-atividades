@@ -233,8 +233,27 @@ const dbHelper = {
       params.push(`%${level}%`);
     }
     if (search) {
-      sql += " AND (title LIKE ? OR description LIKE ? OR bncc_code LIKE ?)";
-      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+      const cleanSearch = search.trim();
+      const norm = cleanSearch.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const terms = new Set([cleanSearch, norm]);
+      if (norm.toLowerCase().includes('danc')) {
+        terms.add('dança');
+        terms.add('danca');
+      }
+      if (norm.toLowerCase().includes('music')) {
+        terms.add('música');
+        terms.add('musica');
+      }
+      if (norm.toLowerCase().includes('percuss')) {
+        terms.add('percussão');
+        terms.add('percussao');
+      }
+      const clauses = [];
+      for (const t of terms) {
+        clauses.push("(title LIKE ? OR description LIKE ? OR category LIKE ? OR subject LIKE ? OR bncc_code LIKE ?)");
+        params.push(`%${t}%`, `%${t}%`, `%${t}%`, `%${t}%`, `%${t}%`);
+      }
+      sql += ` AND (${clauses.join(' OR ')})`;
     }
     if (category && category !== 'Todas') {
       sql += " AND category = ?";
@@ -408,6 +427,14 @@ const dbHelper = {
           activity_url: "/atividades/carta-enigmatica",
           icon_url: "/img/covers/carta-enigmatica.jpg",
           level: "1-5", category: "Alfabetização & Lógica", subject: "Português", bncc_code: "EF03LP02, EF04LP01, EF05LP01, EF15LP01, EF35LP05", status: "public", visits: 720
+        },
+        {
+          id: 51,
+          title: "Segue o Ritmo! 🥁 Desafio de Dança e Percussão Corporal [JOGO AUTORAL]",
+          description: "Desafio musical e psicomotor de dança, ritmo, percussão corporal e coreografia coletiva para projeção no Datashow ou prática no laboratório.",
+          activity_url: "/atividades/segue-o-ritmo",
+          icon_url: "https://cdn-icons-png.flaticon.com/512/3845/3845868.png",
+          level: "1-5", category: "Música & Movimento", subject: "Artes / Ed. Física", bncc_code: "EF15AR14, EF15AR15, EF15EF01, EF15EF02", status: "public", visits: 980
         }
       ];
     }

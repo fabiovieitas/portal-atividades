@@ -747,8 +747,17 @@ app.get('/api/search-suggest', async (req, res) => {
     const activities = await dbHelper.getActivities({});
     const news = await dbHelper.getNews();
 
+    const normText = (str) => (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const nq = normText(q);
+
     const games = (activities || [])
-      .filter(a => (a.title && a.title.toLowerCase().includes(q)) || (a.subject && a.subject.toLowerCase().includes(q)) || (a.description && a.description.toLowerCase().includes(q)))
+      .filter(a => {
+        const titleNorm = normText(a.title);
+        const subNorm = normText(a.subject);
+        const descNorm = normText(a.description);
+        const catNorm = normText(a.category);
+        return titleNorm.includes(nq) || subNorm.includes(nq) || descNorm.includes(nq) || catNorm.includes(nq);
+      })
       .slice(0, 5)
       .map(a => ({
         title: a.title,
@@ -758,7 +767,11 @@ app.get('/api/search-suggest', async (req, res) => {
       }));
 
     const articles = (news || [])
-      .filter(n => (n.title && n.title.toLowerCase().includes(q)) || (n.summary && n.summary.toLowerCase().includes(q)))
+      .filter(n => {
+        const titleNorm = normText(n.title);
+        const sumNorm = normText(n.summary);
+        return titleNorm.includes(nq) || sumNorm.includes(nq);
+      })
       .slice(0, 4)
       .map(n => ({
         title: n.title,
@@ -772,7 +785,7 @@ app.get('/api/search-suggest', async (req, res) => {
       if (a.bncc_code) {
         a.bncc_code.split(',').forEach(c => {
           const clean = c.trim().toUpperCase();
-          if (clean && clean.toLowerCase().includes(q)) {
+          if (clean && (clean.toLowerCase().includes(q) || normText(clean).includes(nq))) {
             bnccSet.add(clean);
           }
         });
