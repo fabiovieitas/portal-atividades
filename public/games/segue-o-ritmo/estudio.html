@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Estúdio de Ritmo 🥁 Lab Kids • Pista Vertical & Editor de Coreografias</title>
-  <meta name="description" content="Estúdio autoral de percussão corporal com pista vertical de cima para baixo e gravador/editor de coreografias no tempo exato para Datashow.">
+  <title>Super Estúdio de Ritmo 🥁 Lab Kids • Linha Neon & Editor Multi-Faixas</title>
+  <meta name="description" content="Estúdio autoral de percussão corporal com feixe neon de queda e editor multi-trilhas por camadas (Palma, Peito, Estalo, Coxa, Pé) para Datashow.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
@@ -12,8 +12,8 @@
 
   <style>
     :root {
-      --bg-dark: #080c14;
-      --bg-card: rgba(15, 23, 42, 0.9);
+      --bg-dark: #070a12;
+      --bg-card: rgba(15, 23, 42, 0.92);
       --border-card: rgba(255, 255, 255, 0.12);
       --gold: #fbbf24;
       --amber: #f59e0b;
@@ -33,7 +33,7 @@
     }
 
     body {
-      background: radial-gradient(circle at 50% 15%, #1e1b4b 0%, #080c14 75%);
+      background: radial-gradient(circle at 50% 15%, #1e1b4b 0%, #070a12 75%);
       color: var(--text-main);
       font-family: 'Fredoka', sans-serif;
       min-height: 100vh;
@@ -44,7 +44,7 @@
 
     /* TOP BAR NAVEGAÇÃO */
     .app-header {
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-card);
       padding: 10px 20px;
@@ -151,7 +151,7 @@
       display: flex;
       flex-direction: column;
       padding: 15px;
-      max-width: 1380px;
+      max-width: 1400px;
       margin: 0 auto;
       width: 100%;
       gap: 15px;
@@ -168,10 +168,10 @@
     }
 
     .game-theater-screen {
-      background: radial-gradient(circle at 50% 25%, #1e293b 0%, #090d16 95%);
+      background: radial-gradient(circle at 50% 25%, #1e293b 0%, #070a12 95%);
       border: 3px solid rgba(245, 158, 11, 0.4);
       border-radius: 26px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
       position: relative;
       overflow: hidden;
       min-height: 540px;
@@ -186,7 +186,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(8px);
       padding: 10px 20px;
       border-radius: 50px;
@@ -223,7 +223,7 @@
       border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    /* ÁREA PRINCIPAL: DIVIDIDA EM GUIA CORPORAL (ESQUERDA) + PISTA VERTICAL (DIREITA) */
+    /* ÁREA PRINCIPAL: GUIA CORPORAL (ESQ) + PISTA VERTICAL (DIR) */
     .theater-main-stage {
       display: grid;
       grid-template-columns: 380px 1fr;
@@ -235,7 +235,7 @@
 
     /* COLUNA ESQUERDA: AVATAR / ILUSTRAÇÃO ANIMADA DO MOVIMENTO */
     .avatar-guide-panel {
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(15, 23, 42, 0.7);
       border: 1.5px solid rgba(255, 255, 255, 0.1);
       border-radius: 22px;
       padding: 20px;
@@ -331,17 +331,17 @@
     }
 
     /* ======================================================== */
-    /* PISTA VERTICAL (SÍMBOLOS DESCENDO DE CIMA PARA BAIXO) */
+    /* PISTA VERTICAL COM FEIXES / LINHAS NEON */
     /* ======================================================== */
     .vertical-highway-container {
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.8);
       border: 2px solid rgba(255, 255, 255, 0.15);
       border-radius: 22px;
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
     }
 
     /* CABEÇALHO DAS 5 COLUNAS NO TOPO */
@@ -370,7 +370,7 @@
       text-transform: uppercase;
     }
 
-    /* PISTA ONDE AS NOTAS CAEM VERTICALMENTE */
+    /* PISTA DE QUEDA DAS NOTAS */
     .highway-drop-area {
       flex: 1;
       position: relative;
@@ -378,7 +378,7 @@
       overflow: hidden;
     }
 
-    /* LINHAS DIVISÓRIAS DAS COLUNAS */
+    /* LINHAS GUIAS DE FUNDO */
     .column-guides-grid {
       position: absolute;
       top: 0;
@@ -397,7 +397,7 @@
       border-right: none;
     }
 
-    /* LINHA DE IMPACTO INFERIOR (TARGET HIT LINE) */
+    /* LINHA DE IMPACTO INFERIOR */
     .hit-line-barrier {
       position: absolute;
       bottom: 35px;
@@ -405,11 +405,11 @@
       right: 0;
       height: 4px;
       background: linear-gradient(90deg, rgba(245, 158, 11, 0.4), rgba(56, 189, 248, 0.9), rgba(245, 158, 11, 0.4));
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.9);
       z-index: 3;
     }
 
-    /* ANÉIS ALVOS NA LINHA INFERIOR ONDE O SÍMBOLO ENCOSTA */
+    /* RECEPTÁCULOS FIXOS NA BASE */
     .receptors-row {
       position: absolute;
       bottom: 12px;
@@ -431,7 +431,7 @@
       height: 58px;
       border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, 0.4);
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(15, 23, 42, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -442,23 +442,55 @@
     .receptor-circle.hit-active {
       transform: scale(1.3);
       border-color: #fff;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
-      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.25);
     }
 
-    /* SÍMBOLO QUE CAI DE CIMA PARA BAIXO (FALLING NOTE) */
+    /* ======================================================== */
+    /* LINHAS / FEIXES NEON DE QUEDA VERTICAL (NEON LASER BEAMS) */
+    /* ======================================================== */
+    .neon-laser-tail {
+      position: absolute;
+      width: 8px;
+      transform: translateX(-50%);
+      border-radius: 6px;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .trail-clap {
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.8) 75%, #ffffff 100%);
+      box-shadow: 0 0 15px #f59e0b, 0 0 30px #fbbf24;
+    }
+    .trail-chest {
+      background: linear-gradient(180deg, rgba(244, 63, 94, 0.05) 0%, rgba(244, 63, 94, 0.8) 75%, #ffffff 100%);
+      box-shadow: 0 0 15px #f43f5e, 0 0 30px #fda4af;
+    }
+    .trail-snap {
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, rgba(56, 189, 248, 0.8) 75%, #ffffff 100%);
+      box-shadow: 0 0 15px #06b6d4, 0 0 30px #38bdf8;
+    }
+    .trail-thigh {
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, rgba(52, 211, 153, 0.8) 75%, #ffffff 100%);
+      box-shadow: 0 0 15px #10b981, 0 0 30px #6ee7b7;
+    }
+    .trail-stomp {
+      background: linear-gradient(180deg, rgba(168, 85, 247, 0.05) 0%, rgba(192, 132, 252, 0.8) 75%, #ffffff 100%);
+      box-shadow: 0 0 15px #a855f7, 0 0 30px #d8b4fe;
+    }
+
+    /* SÍMBOLO QUE CAI DE CIMA PARA BAIXO */
     .falling-symbol-item {
       position: absolute;
-      width: 56px;
-      height: 56px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-      border: 2.5px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 25px currentColor, 0 8px 25px rgba(0,0,0,0.8);
+      border: 3px solid rgba(255, 255, 255, 0.95);
       font-weight: 800;
       color: white;
       pointer-events: none;
@@ -564,7 +596,7 @@
     }
 
     /* ======================================================== */
-    /* ABA 2: EDITOR & GRAVADOR DE COREOGRAFIAS (SISTEMA DE GRAVAÇÃO) */
+    /* ABA 2: EDITOR MULTI-FAIXAS / CAMADAS (GRAVAR UM POR UM) */
     /* ======================================================== */
     .editor-section {
       display: none;
@@ -575,103 +607,107 @@
       display: flex;
     }
 
-    .editor-cards-grid {
+    /* PAINEL SUPERIOR: ÁUDIO & SELEÇÃO DE CAMADA DE GRAVAÇÃO */
+    .editor-top-controls {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 340px 1fr;
       gap: 20px;
     }
 
-    .editor-card {
+    .editor-box {
       background: var(--bg-card);
       border: 1.5px solid var(--border-card);
       border-radius: 24px;
-      padding: 24px;
+      padding: 22px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
-    .editor-card h3 {
-      font-size: 1.25rem;
+    .editor-box h3 {
+      font-size: 1.15rem;
       color: var(--gold);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    /* DROPZONE DE MP3 */
-    .audio-dropzone {
+    .audio-upload-slot {
       border: 2px dashed rgba(245, 158, 11, 0.5);
-      border-radius: 18px;
-      padding: 24px;
+      border-radius: 16px;
+      padding: 16px;
       text-align: center;
       cursor: pointer;
       background: rgba(245, 158, 11, 0.05);
       transition: all 0.2s;
     }
-    .audio-dropzone:hover {
+    .audio-upload-slot:hover {
       background: rgba(245, 158, 11, 0.12);
       border-color: var(--gold);
     }
 
-    /* BOTÕES DE GRAVAÇÃO AO VIVO NO TECLADO */
-    .recorder-live-pads {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin: 8px 0;
-    }
-    .rec-pad-button {
-      padding: 14px 6px;
-      border-radius: 14px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      background: rgba(30, 41, 59, 0.9);
-      color: white;
-      font-family: 'Fredoka', sans-serif;
-      cursor: pointer;
+    /* SELETOR DE CAMADA DE GRAVAÇÃO ("GRAVAR UM POR UM") */
+    .layer-selector-group {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
+      gap: 8px;
       align-items: center;
-      gap: 4px;
-      transition: all 0.1s;
     }
-    .rec-pad-button:active { transform: scale(0.92); }
-    .rec-pad-button .k-tag {
-      background: rgba(0, 0, 0, 0.55);
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-family: monospace;
+    .layer-pill {
+      background: rgba(30, 41, 59, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 10px 16px;
+      border-radius: 50px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s;
     }
+    .layer-pill:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+    .layer-pill.selected {
+      border-color: #fff;
+      color: white;
+      box-shadow: 0 0 20px currentColor;
+    }
+    .layer-pill.selected.theme-clap { color: #0f172a !important; }
 
-    .btn-record-toggle {
+    .btn-record-action {
       background: linear-gradient(135deg, #ef4444, #dc2626);
       color: white;
       border: none;
-      padding: 14px 25px;
+      padding: 14px 28px;
       border-radius: 50px;
       font-family: 'Fredoka', sans-serif;
       font-size: 1.1rem;
       font-weight: 800;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 10px;
       box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
       transition: all 0.2s;
     }
-    .btn-record-toggle.recording {
-      animation: recPulse 1s infinite alternate;
+    .btn-record-action.recording {
+      animation: recBlink 1s infinite alternate;
       background: #b91c1c;
     }
-    @keyframes recPulse {
+    @keyframes recBlink {
       0% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
       100% { box-shadow: 0 0 35px rgba(239, 68, 68, 1); }
     }
 
-    /* CARD DE EDIÇÃO FINA / TABELA DE NOTAS NA LINHA DO TEMPO */
-    .timeline-full-editor {
+    /* ======================================================== */
+    /* MULTI-TRACK TIMELINE SEQUENCER (AS 5 COLUNAS / FAIXAS HORIZONTAIS) */
+    /* ======================================================== */
+    .multi-track-sequencer-box {
       background: var(--bg-card);
       border: 1.5px solid var(--border-card);
       border-radius: 24px;
@@ -679,66 +715,165 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     }
 
-    .manual-add-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      background: rgba(15, 23, 42, 0.7);
-      padding: 12px 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .btn-add-action {
-      padding: 8px 14px;
-      border-radius: 50px;
-      border: none;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: transform 0.1s;
-    }
-    .btn-add-action:hover { transform: scale(1.05); }
-
-    .beats-table-wrap {
-      max-height: 320px;
-      overflow-y: auto;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.6);
-    }
-    .beat-item-row {
+    .timeline-header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      transition: background 0.15s;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .beat-item-row:hover {
-      background: rgba(30, 41, 59, 0.7);
+
+    /* ÁREA DO CONTAINER COM SCROLL */
+    .timeline-viewport {
+      background: #090d16;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      position: relative;
     }
-    .beat-item-row:last-child {
+
+    .timeline-inner-board {
+      min-width: 1200px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* RÉGUA DE SEGUNDOS NO TOPO */
+    .timeline-ruler-track {
+      height: 34px;
+      background: rgba(30, 41, 59, 0.9);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      cursor: pointer;
+    }
+    .ruler-tick {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      border-left: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.72rem;
+      font-family: monospace;
+      padding-left: 4px;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+
+    /* PLAYHEAD (AGULHA VERMELHA DE REPRODUÇÃO) */
+    .timeline-playhead-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #f43f5e;
+      box-shadow: 0 0 12px #f43f5e, 0 0 20px #fda4af;
+      z-index: 30;
+      pointer-events: none;
+      transition: left 0.05s linear;
+    }
+    .playhead-needle-cap {
+      width: 14px;
+      height: 14px;
+      background: #f43f5e;
+      border-radius: 50%;
+      position: absolute;
+      top: -2px;
+      left: -5.5px;
+      border: 2px solid white;
+    }
+
+    /* AS 5 FAIXAS HORIZONTAIS */
+    .tracks-stack {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .track-row {
+      height: 58px;
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .track-row:last-child {
       border-bottom: none;
     }
 
-    .nudge-btn {
+    /* CABEÇALHO LATERAL FIXO DA FAIXA */
+    .track-header-cell {
+      width: 160px;
+      background: rgba(15, 23, 42, 0.95);
+      border-right: 2px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      z-index: 10;
+      flex-shrink: 0;
+    }
+    .track-header-title {
+      font-weight: 800;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .track-header-btns {
+      display: flex;
+      gap: 4px;
+    }
+    .btn-track-action {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #cbd5e1;
-      padding: 4px 8px;
+      padding: 3px 6px;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
+      cursor: pointer;
       font-weight: 700;
+    }
+    .btn-track-action:hover {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+    }
+
+    /* ÁREA DA FAIXA ONDE OS BLOCOS DE NOTAS FICAM */
+    .track-lane-content {
+      flex: 1;
+      position: relative;
+      background: rgba(15, 23, 42, 0.4);
       cursor: pointer;
     }
-    .nudge-btn:hover { background: rgba(255, 255, 255, 0.2); color: white; }
+    .track-lane-content:hover {
+      background: rgba(30, 41, 59, 0.3);
+    }
+
+    /* NOTA MUSICAL DENTRO DA LINHA DO TEMPO */
+    .timeline-note-chip {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 10px currentColor;
+      cursor: pointer;
+      z-index: 5;
+      transition: transform 0.1s;
+    }
+    .timeline-note-chip:hover {
+      transform: translate(-50%, -50%) scale(1.15);
+      z-index: 20;
+      border-color: #ffffff;
+    }
 
     #fx-canvas {
       position: absolute;
@@ -755,7 +890,7 @@
       .avatar-guide-panel { padding: 12px; }
       .character-avatar-bubble { width: 160px; height: 160px; }
       .action-svg { width: 130px; height: 130px; }
-      .editor-cards-grid { grid-template-columns: 1fr; }
+      .editor-top-controls { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -769,7 +904,7 @@
       </a>
       <div class="app-title-group">
         <h1>Super Estúdio de Ritmo 🥁 Lab Kids</h1>
-        <p>Pista Vertical de Queda & Editor Exato de Coreografia • 100% Sem YouTube</p>
+        <p>Linhas Neon de Queda & Editor Multi-Faixas por Camada • Sem YouTube</p>
       </div>
     </div>
 
@@ -778,7 +913,7 @@
         🎮 Apresentar (Datashow)
       </button>
       <button class="tab-btn" id="tab-studio" onclick="switchAppTab('studio')">
-        🛠️ Gravar / Editar Músicas
+        🛠️ Editor Multi-Trilhas
       </button>
       <button class="btn-fullscreen" onclick="toggleFullscreenMode()">
         ⛶ Tela Cheia
@@ -790,7 +925,7 @@
   <main class="main-container">
 
     <!-- ======================================================== -->
-    <!-- ABA 1: APRESENTAÇÃO / JOGO (DATASHOW COM PISTA VERTICAL) -->
+    <!-- ABA 1: APRESENTAÇÃO / JOGO (DATASHOW COM LINHAS NEON) -->
     <!-- ======================================================== -->
     <section class="stage-section" id="section-play">
       <div class="game-theater-screen" id="theater-screen">
@@ -805,7 +940,7 @@
           <div class="time-counter-display" id="time-display">00:00 / 00:48</div>
         </div>
 
-        <!-- PALCO CENTRAL DIVIDIDO: AVATAR À ESQUERDA + PISTA VERTICAL À DIREITA -->
+        <!-- PALCO CENTRAL: GUIA CORPORAL (ESQUERDA) + PISTA VERTICAL NEON (DIREITA) -->
         <div class="theater-main-stage">
           
           <!-- ESQUERDA: ILUSTRAÇÃO ANIMADA DO MOVIMENTO EXATO -->
@@ -819,7 +954,7 @@
 
             <div class="current-move-banner">
               <div class="current-move-title theme-clap-text" id="action-title">👏 PREPARAR!</div>
-              <div class="current-move-hint" id="action-hint">Aguarde os símbolos descerem na pista</div>
+              <div class="current-move-hint" id="action-hint">Aguarde os feixes neon descerem na pista</div>
             </div>
 
             <!-- CONTADOR DE COMPASSO (1, 2, 3, 4) -->
@@ -831,7 +966,7 @@
             </div>
           </div>
 
-          <!-- DIREITA: PISTA VERTICAL COM AS 5 COLUNAS (DE CIMA PARA BAIXO) -->
+          <!-- DIREITA: PISTA VERTICAL COM AS 5 COLUNAS E LINHAS NEON -->
           <div class="vertical-highway-container" id="highway-container">
             
             <!-- CABEÇALHO DAS 5 COLUNAS NO TOPO -->
@@ -872,7 +1007,7 @@
               <!-- LINHA DE MIRA / IMPACTO INFERIOR -->
               <div class="hit-line-barrier"></div>
 
-              <!-- RECEPTÁCULOS FIXOS NA BASE ONDE O SÍMBOLO ENCOSTA -->
+              <!-- RECEPTÁCULOS FIXOS NA BASE -->
               <div class="receptors-row">
                 <div class="receptor-box">
                   <div class="receptor-circle" id="rec-clap" style="border-color: #f59e0b;">👏</div>
@@ -891,7 +1026,7 @@
                 </div>
               </div>
 
-              <!-- ELEMENTOS EM QUEDA VERTICAL INJETADOS AQUI -->
+              <!-- ELEMENTOS EM QUEDA VERTICAL (NOTAS + LINHAS NEON) -->
               <div id="falling-notes-layer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
             </div>
 
@@ -937,131 +1072,176 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- ABA 2: EDITOR & GRAVADOR DE COREOGRAFIAS (SISTEMA EXATO) -->
+    <!-- ABA 2: EDITOR MULTI-TRILHAS (LINHA DO TEMPO POR CAMADAS) -->
     <!-- ======================================================== -->
     <section class="editor-section" id="section-studio">
-      <div class="editor-cards-grid">
-
-        <!-- CARD 1: CARREGAR ÁUDIO & DEFINIR TÍTULO -->
-        <div class="editor-card">
+      
+      <!-- CONTROLES SUPERIORES DO EDITOR -->
+      <div class="editor-top-controls">
+        
+        <!-- CARD 1: SELECIONAR MP3 E TÍTULO -->
+        <div class="editor-box">
           <h3>🎵 1. Sua Música em MP3</h3>
-          <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">
-            Escolha o arquivo de áudio da escola ou use a música instrumental integrada. O áudio roda diretamente no seu navegador.
-          </p>
-
-          <label class="audio-dropzone" for="file-mp3-input">
+          <label class="audio-upload-slot" for="file-mp3-input">
             <input type="file" id="file-mp3-input" accept="audio/mp3, audio/wav, audio/mpeg" onchange="onUploadMP3(event)" style="display: none;">
-            <div style="font-size: 2.5rem; margin-bottom: 6px;">📂</div>
-            <div style="font-weight: 800; color: #fde68a;" id="txt-upload-status">Clique para Selecionar seu MP3</div>
-            <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">Suporta MP3, WAV e M4A</div>
+            <div style="font-size: 1.8rem; margin-bottom: 4px;">📂</div>
+            <div style="font-weight: 800; color: #fde68a; font-size: 0.95rem;" id="txt-upload-status">Clique para Carregar seu MP3</div>
           </label>
-
-          <div style="display: flex; flex-direction: column; gap: 6px;">
-            <label style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">Título da Atividade:</label>
-            <input type="text" id="input-track-title" placeholder="Ex: Coreografia Suave 2º Ano" style="background: #0f172a; border: 1px solid #334155; color: white; padding: 10px 14px; border-radius: 12px; font-family: 'Fredoka', sans-serif;">
-          </div>
+          <input type="text" id="input-track-title" placeholder="Nome da Coreografia" style="background: #090d16; border: 1px solid #334155; color: white; padding: 8px 12px; border-radius: 10px; font-family: 'Fredoka', sans-serif;">
         </div>
 
-        <!-- CARD 2: GRAVAÇÃO AO VIVO NO TECLADO (MODO MAESTRO) -->
-        <div class="editor-card">
-          <h3>🔴 2. Gravação ao Vivo com o Teclado</h3>
-          <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">
-            Aperte <strong>Iniciar Gravação</strong> e marque as batidas no momento exato em que a música toca usando as teclas <strong>1 a 5</strong>:
+        <!-- CARD 2: GRAVAÇÃO POR CAMADA (UM POR UM!) -->
+        <div class="editor-box">
+          <h3>🔴 2. Gravação por Camada (Grave Um Movimento por Vez!)</h3>
+          <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.4;">
+            Escolha qual movimento gravar nesta passagem. As outras batidas já gravadas <strong>não serão apagadas</strong>!
           </p>
 
-          <div class="recorder-live-pads">
-            <button class="rec-pad-button theme-clap" onclick="recordActionNow('clap')">
-              <span style="font-size: 1.5rem;">👏</span>
-              <span style="font-weight: 800; font-size: 0.75rem;">PALMA</span>
-              <span class="k-tag">1</span>
+          <div class="layer-selector-group">
+            <button class="layer-pill theme-clap selected" id="lpill-clap" onclick="selectRecordingLayer('clap')">
+              👏 Só Palmas
             </button>
-            <button class="rec-pad-button theme-chest" onclick="recordActionNow('chest')">
-              <span style="font-size: 1.5rem;">🫀</span>
-              <span style="font-weight: 800; font-size: 0.75rem;">PEITO</span>
-              <span class="k-tag">2</span>
+            <button class="layer-pill theme-chest" id="lpill-chest" onclick="selectRecordingLayer('chest')">
+              🫀 Só Peito
             </button>
-            <button class="rec-pad-button theme-snap" onclick="recordActionNow('snap')">
-              <span style="font-size: 1.5rem;">🫰</span>
-              <span style="font-weight: 800; font-size: 0.75rem;">ESTALO</span>
-              <span class="k-tag">3</span>
+            <button class="layer-pill theme-snap" id="lpill-snap" onclick="selectRecordingLayer('snap')">
+              🫰 Só Estalos
             </button>
-            <button class="rec-pad-button theme-thigh" onclick="recordActionNow('thigh')">
-              <span style="font-size: 1.5rem;">🦵</span>
-              <span style="font-weight: 800; font-size: 0.75rem;">COXA</span>
-              <span class="k-tag">4</span>
+            <button class="layer-pill theme-thigh" id="lpill-thigh" onclick="selectRecordingLayer('thigh')">
+              🦵 Só Coxas
             </button>
-            <button class="rec-pad-button theme-stomp" onclick="recordActionNow('stomp')">
-              <span style="font-size: 1.5rem;">🦶</span>
-              <span style="font-weight: 800; font-size: 0.75rem;">PÉ</span>
-              <span class="k-tag">5</span>
+            <button class="layer-pill theme-stomp" id="lpill-stomp" onclick="selectRecordingLayer('stomp')">
+              🦶 Só Pés
+            </button>
+            <button class="layer-pill" id="lpill-all" onclick="selectRecordingLayer('all')">
+              ⚡ Modo Geral (1 a 5)
             </button>
           </div>
 
-          <button class="btn-record-toggle" id="btn-toggle-rec" onclick="toggleRecordingSession()">
-            <span>🔴</span> <span id="txt-rec-btn">Iniciar Gravação com Música</span>
-          </button>
-          <div style="font-size: 0.85rem; color: #94a3b8; text-align: center;">
-            Batidas registradas até agora: <strong id="lbl-rec-count" style="color: var(--cyan);">0</strong>
+          <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
+            <button class="btn-record-action" id="btn-toggle-rec" onclick="toggleRecordingSession()">
+              <span>🔴</span> <span id="txt-rec-btn">Gravar Esta Camada na Música</span>
+            </button>
+            <span style="font-size: 0.85rem; color: #94a3b8;">
+              Dica: Enquanto grava a camada selecionada, você pode apertar a <strong>Barra de Espaço</strong> ou clicar!
+            </span>
           </div>
         </div>
 
       </div>
 
-      <!-- CARD 3: TABELA DE EDIÇÃO FINA & INSERÇÃO MANUAL DE PONTOS -->
-      <div class="timeline-full-editor">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <!-- ======================================================== -->
+      <!-- O SEQUENCIADOR VISUAL MULTI-TRILHAS (5 FAIXAS HORIZONTAIS) -->
+      <!-- ======================================================== -->
+      <div class="multi-track-sequencer-box">
+        <div class="timeline-header-bar">
           <div>
             <h3 style="color: var(--gold); display: flex; align-items: center; gap: 8px;">
-              <span>⏱️</span> 3. Ajuste Fino & Momentos Exatos na Linha do Tempo
+              <span>🎛️</span> Linha do Tempo Multi-Trilhas (5 Colunas de Movimento)
             </h3>
-            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">
-              Pause a música em qualquer segundo ou adicione batidas manualmente no momento exato:
+            <p style="color: #94a3b8; font-size: 0.85rem;">
+              Clique em qualquer ponto de uma faixa para adicionar notas, ou clique numa nota existente para ajustar/excluir:
             </p>
           </div>
-
           <div style="display: flex; gap: 8px;">
             <button class="ctrl-pill-btn" onclick="clearAllBeats()" style="color: #f43f5e;">
-              🗑️ Limpar Todas
+              🗑️ Limpar Tudo
             </button>
             <button class="ctrl-pill-btn active" onclick="saveCoreoAndPlay()">
-              💾 Salvar & Apresentar no Datashow 🚀
+              💾 Salvar & Ver no Datashow 🚀
             </button>
           </div>
         </div>
 
-        <!-- PAINEL DE ADICIONAR NO SEGUNDO ATUAL -->
-        <div class="manual-add-buttons">
-          <span style="font-weight: 700; color: #38bdf8; font-size: 0.9rem;">
-            Inserir no segundo atual (<span id="lbl-cursor-time">00:00.0</span>):
-          </span>
-          <button class="btn-add-action theme-clap" onclick="addBeatAtCurrentTime('clap')">
-            + 👏 Palma
-          </button>
-          <button class="btn-add-action theme-chest" onclick="addBeatAtCurrentTime('chest')">
-            + 🫀 Peito
-          </button>
-          <button class="btn-add-action theme-snap" onclick="addBeatAtCurrentTime('snap')">
-            + 🫰 Estalo
-          </button>
-          <button class="btn-add-action theme-thigh" onclick="addBeatAtCurrentTime('thigh')">
-            + 🦵 Coxa
-          </button>
-          <button class="btn-add-action theme-stomp" onclick="addBeatAtCurrentTime('stomp')">
-            + 🦶 Pé
-          </button>
+        <!-- VIEWPORT DA LINHA DO TEMPO COM SCROLL HORIZONTAL -->
+        <div class="timeline-viewport" id="timeline-viewport">
+          <div class="timeline-inner-board" id="timeline-board">
+            
+            <!-- RÉGUA DE SEGUNDOS (CLIQUE PARA PULAR O TEMPO) -->
+            <div class="timeline-ruler-track" id="timeline-ruler" onclick="handleTimelineRulerClick(event)">
+              <!-- Marcadores de segundo injetados via JS -->
+            </div>
+
+            <!-- AGULHA DE REPRODUÇÃO (PLAYHEAD) -->
+            <div class="timeline-playhead-line" id="timeline-playhead">
+              <div class="playhead-needle-cap"></div>
+            </div>
+
+            <!-- AS 5 FAIXAS HORIZONTAIS -->
+            <div class="tracks-stack">
+              
+              <!-- FAIXA 1: PALMA -->
+              <div class="track-row" id="row-clap">
+                <div class="track-header-cell">
+                  <span class="track-header-title" style="color: #f59e0b;">👏 Palmas</span>
+                  <div class="track-header-btns">
+                    <button class="btn-track-action" onclick="addNoteAtPlayhead('clap')" title="Adicionar no cursor">+Add</button>
+                    <button class="btn-track-action" onclick="clearSpecificTrack('clap')" title="Limpar só palmas" style="color: #f43f5e;">🗑️</button>
+                  </div>
+                </div>
+                <div class="track-lane-content" id="lane-clap" onclick="handleLaneClick('clap', event)"></div>
+              </div>
+
+              <!-- FAIXA 2: PEITO -->
+              <div class="track-row" id="row-chest">
+                <div class="track-header-cell">
+                  <span class="track-header-title" style="color: #f43f5e;">🫀 Peito</span>
+                  <div class="track-header-btns">
+                    <button class="btn-track-action" onclick="addNoteAtPlayhead('chest')" title="Adicionar no cursor">+Add</button>
+                    <button class="btn-track-action" onclick="clearSpecificTrack('chest')" title="Limpar só peito" style="color: #f43f5e;">🗑️</button>
+                  </div>
+                </div>
+                <div class="track-lane-content" id="lane-chest" onclick="handleLaneClick('chest', event)"></div>
+              </div>
+
+              <!-- FAIXA 3: ESTALO -->
+              <div class="track-row" id="row-snap">
+                <div class="track-header-cell">
+                  <span class="track-header-title" style="color: #06b6d4;">🫰 Estalo</span>
+                  <div class="track-header-btns">
+                    <button class="btn-track-action" onclick="addNoteAtPlayhead('snap')" title="Adicionar no cursor">+Add</button>
+                    <button class="btn-track-action" onclick="clearSpecificTrack('snap')" title="Limpar só estalos" style="color: #f43f5e;">🗑️</button>
+                  </div>
+                </div>
+                <div class="track-lane-content" id="lane-snap" onclick="handleLaneClick('snap', event)"></div>
+              </div>
+
+              <!-- FAIXA 4: COXA -->
+              <div class="track-row" id="row-thigh">
+                <div class="track-header-cell">
+                  <span class="track-header-title" style="color: #10b981;">🦵 Coxa</span>
+                  <div class="track-header-btns">
+                    <button class="btn-track-action" onclick="addNoteAtPlayhead('thigh')" title="Adicionar no cursor">+Add</button>
+                    <button class="btn-track-action" onclick="clearSpecificTrack('thigh')" title="Limpar só coxas" style="color: #f43f5e;">🗑️</button>
+                  </div>
+                </div>
+                <div class="track-lane-content" id="lane-thigh" onclick="handleLaneClick('thigh', event)"></div>
+              </div>
+
+              <!-- FAIXA 5: PÉ -->
+              <div class="track-row" id="row-stomp">
+                <div class="track-header-cell">
+                  <span class="track-header-title" style="color: #a855f7;">🦶 Pé</span>
+                  <div class="track-header-btns">
+                    <button class="btn-track-action" onclick="addNoteAtPlayhead('stomp')" title="Adicionar no cursor">+Add</button>
+                    <button class="btn-track-action" onclick="clearSpecificTrack('stomp')" title="Limpar só pés" style="color: #f43f5e;">🗑️</button>
+                  </div>
+                </div>
+                <div class="track-lane-content" id="lane-stomp" onclick="handleLaneClick('stomp', event)"></div>
+              </div>
+
+            </div>
+
+          </div>
         </div>
 
-        <!-- LISTA / TABELA COM TODAS AS BATIDAS REGISTRADAS -->
-        <div class="beats-table-wrap" id="beats-list-container">
-          <!-- Renderizado dinamicamente via JS -->
-        </div>
       </div>
 
     </section>
 
   </main>
 
-  <!-- MOTOR JAVASCRIPT: LÓGICA, FÍSICA VERTICAL E GRAVAÇÃO -->
+  <!-- MOTOR JAVASCRIPT: FÍSICA NEON, MULTI-TRACK TIMELINE E OVERDUBBING -->
   <script>
     // ==========================================
     // 1. ILUSTRAÇÕES VETORIAIS (SVG ART)
@@ -1148,17 +1328,17 @@
       `
     };
 
-    // DEFINIÇÕES DAS 5 COLUNAS (ÍNDICES 0 A 4)
+    // CONFIGURAÇÕES DOS 5 MOVIMENTOS
     const COLUMN_CONFIG = {
-      clap:  { colIndex: 0, icon: '👏', label: 'Palma', theme: 'theme-clap', color: '#f59e0b', receptorId: 'rec-clap' },
-      chest: { colIndex: 1, icon: '🫀', label: 'Peito', theme: 'theme-chest', color: '#f43f5e', receptorId: 'rec-chest' },
-      snap:  { colIndex: 2, icon: '🫰', label: 'Estalo', theme: 'theme-snap', color: '#06b6d4', receptorId: 'rec-snap' },
-      thigh: { colIndex: 3, icon: '🦵', label: 'Coxa', theme: 'theme-thigh', color: '#10b981', receptorId: 'rec-thigh' },
-      stomp: { colIndex: 4, icon: '🦶', label: 'Pé', theme: 'theme-stomp', color: '#a855f7', receptorId: 'rec-stomp' }
+      clap:  { colIndex: 0, icon: '👏', label: 'Palma', theme: 'theme-clap', trailClass: 'trail-clap', color: '#f59e0b', receptorId: 'rec-clap', laneId: 'lane-clap' },
+      chest: { colIndex: 1, icon: '🫀', label: 'Peito', theme: 'theme-chest', trailClass: 'trail-chest', color: '#f43f5e', receptorId: 'rec-chest', laneId: 'lane-chest' },
+      snap:  { colIndex: 2, icon: '🫰', label: 'Estalo', theme: 'theme-snap', trailClass: 'trail-snap', color: '#06b6d4', receptorId: 'rec-snap', laneId: 'lane-snap' },
+      thigh: { colIndex: 3, icon: '🦵', label: 'Coxa', theme: 'theme-thigh', trailClass: 'trail-thigh', color: '#10b981', receptorId: 'rec-thigh', laneId: 'lane-thigh' },
+      stomp: { colIndex: 4, icon: '🦶', label: 'Pé', theme: 'theme-stomp', trailClass: 'trail-stomp', color: '#a855f7', receptorId: 'rec-stomp', laneId: 'lane-stomp' }
     };
 
     // ==========================================
-    // 2. FAIXA PADRÃO (DEMONSTRAÇÃO INICIAL)
+    // 2. FAIXA PADRÃO (DEMONSTRAÇÃO)
     // ==========================================
     const DEFAULT_TRACK = {
       id: 'faixa_padrao_2ano',
@@ -1185,12 +1365,7 @@
         { time: 12.5, type: 'clap' },
         { time: 13.25, type: 'clap' },
         { time: 14.0, type: 'chest' },
-        { time: 14.75, type: 'chest' },
-
-        { time: 16.0, type: 'thigh' },
-        { time: 16.75, type: 'thigh' },
-        { time: 17.5, type: 'clap' },
-        { time: 18.25, type: 'stomp' }
+        { time: 14.75, type: 'chest' }
       ]
     };
 
@@ -1206,6 +1381,7 @@
     let synthClock = null;
     let synthVirtualTime = 0;
     let isRecordingLive = false;
+    let activeRecordLayer = 'clap'; // 'clap', 'chest', 'snap', 'thigh', 'stomp', 'all'
     let triggeredHitsSet = new Set();
     let animFrame = null;
 
@@ -1218,6 +1394,7 @@
       const rect = document.getElementById('theater-screen').getBoundingClientRect();
       fxCanvas.width = rect.width;
       fxCanvas.height = rect.height;
+      renderTimelineView();
     }
     window.addEventListener('resize', handleResize);
 
@@ -1330,7 +1507,7 @@
     }
 
     // ==========================================
-    // 5. MOTOR FÍSICO DA PISTA VERTICAL (DE CIMA PARA BAIXO)
+    // 5. MOTOR FÍSICO COM LINHAS NEON (DE CIMA PARA BAIXO)
     // ==========================================
     function getNowTime() {
       if (customAudio && !activeTrack.isDefaultAudio) {
@@ -1346,7 +1523,6 @@
       return activeTrack.duration || 48;
     }
 
-    // A cada frame, renderiza as notas caindo verticalmente
     function mainGameLoop() {
       const now = getNowTime();
       const duration = getTotalDuration();
@@ -1356,9 +1532,11 @@
         const pct = Math.min(100, (now / duration) * 100);
         document.getElementById('seek-fill').style.width = pct + '%';
         document.getElementById('time-display').innerText = `${formatSec(now)} / ${formatSec(duration)}`;
-        document.getElementById('lbl-cursor-time').innerText = formatSecWithDec(now);
 
-        // Atualiza bolinhas de compasso (1, 2, 3, 4)
+        // Atualiza Playhead na Linha do Tempo do Editor
+        updateTimelinePlayhead(now, duration);
+
+        // Bolinhas de compasso (1, 2, 3, 4)
         const beatPeriod = 60 / (activeTrack.bpm || 80);
         const beatIndex = Math.floor(now / beatPeriod) % 4;
         for (let i = 0; i < 4; i++) {
@@ -1366,8 +1544,8 @@
           if (dot) dot.classList.toggle('active', i === beatIndex);
         }
 
-        // Renderiza a queda vertical das notas
-        renderVerticalFallingNotes(now);
+        // Renderiza a queda vertical das notas E AS LINHAS NEON
+        renderVerticalFallingNotesWithNeon(now);
 
         // Fim da faixa
         if (now >= duration && isPlaying) {
@@ -1380,40 +1558,50 @@
       animFrame = requestAnimationFrame(mainGameLoop);
     }
 
-    // Renderiza cada nota na sua coluna correspondente caindo em direção à base
-    function renderVerticalFallingNotes(now) {
+    // Renderiza cada nota na sua coluna com seu FEIXE / LINHA NEON brilhante
+    function renderVerticalFallingNotesWithNeon(now) {
       const layer = document.getElementById('falling-notes-layer');
       layer.innerHTML = '';
 
       const dropArea = document.getElementById('drop-area');
       const dropHeight = dropArea.clientHeight || 380;
-      const targetHitY = dropHeight - 35; // Altura exata da linha de impacto inferior
-      const pixelsPerSec = 220; // Velocidade de descida vertical
-
-      const colWidthPct = 100 / 5; // 5 colunas = 20% cada
+      const targetHitY = dropHeight - 35; // Linha de impacto inferior
+      const pixelsPerSec = 220; // Velocidade de descida
+      const colWidthPct = 100 / 5; // 5 colunas
 
       activeTrack.beats.forEach((b, idx) => {
-        const timeDiff = b.time - now; // Positivo = está vindo do topo; 0 = bateu agora
+        const timeDiff = b.time - now;
         const currentY = targetHitY - (timeDiff * pixelsPerSec);
 
-        // Só renderiza se estiver dentro da tela vertical (-60px até targetHitY + 40px)
-        if (currentY > -60 && currentY < targetHitY + 50) {
+        // Se está dentro da área visível
+        if (currentY > -180 && currentY < targetHitY + 50) {
           const cfg = COLUMN_CONFIG[b.type] || COLUMN_CONFIG.clap;
           const colCenterX = (cfg.colIndex * colWidthPct) + (colWidthPct / 2);
 
-          const noteEl = document.createElement('div');
-          noteEl.className = `falling-symbol-item ${cfg.theme}`;
-          noteEl.style.left = colCenterX + '%';
-          noteEl.style.top = currentY + 'px';
+          // 1. LINHA NEON (LASER BEAM) ACIMA DA NOTA
+          const beamLen = Math.min(160, Math.max(70, currentY + 60));
+          const laserBeam = document.createElement('div');
+          laserBeam.className = `neon-laser-tail ${cfg.trailClass}`;
+          laserBeam.style.left = colCenterX + '%';
+          laserBeam.style.top = Math.max(0, currentY - beamLen) + 'px';
+          laserBeam.style.height = beamLen + 'px';
+          layer.appendChild(laserBeam);
 
-          noteEl.innerHTML = `
-            <span class="s-icon">${cfg.icon}</span>
-            <span class="s-txt">${cfg.label}</span>
-          `;
-          layer.appendChild(noteEl);
+          // 2. SÍMBOLO DA NOTA EM QUEDA
+          if (currentY > -40) {
+            const noteEl = document.createElement('div');
+            noteEl.className = `falling-symbol-item ${cfg.theme}`;
+            noteEl.style.left = colCenterX + '%';
+            noteEl.style.top = currentY + 'px';
+            noteEl.innerHTML = `
+              <span class="s-icon">${cfg.icon}</span>
+              <span class="s-txt">${cfg.label}</span>
+            `;
+            layer.appendChild(noteEl);
+          }
         }
 
-        // MOMENTO EXATO DO IMPACTO NO FINAL (CHEGOU NA LINHA INFERIOR)
+        // IMPACTO EXATO NA BASE
         if (Math.abs(timeDiff) < 0.07 && !triggeredHitsSet.has(idx)) {
           triggeredHitsSet.add(idx);
           executeHitEffect(b.type);
@@ -1421,24 +1609,18 @@
       });
     }
 
-    // DISPARO NO MOMENTO EM QUE A NOTA ENCOSTA NO RECEPTÁCULO INFERIOR
     function executeHitEffect(type) {
       const cfg = COLUMN_CONFIG[type] || COLUMN_CONFIG.clap;
 
-      // 1. Toca o som do movimento
       playPercussionSound(type);
-
-      // 2. Anima a ilustração do avatar à esquerda
       setAvatarPose(type);
 
-      // 3. Efeito luminoso no anel receptor correspondente
       const receptor = document.getElementById(cfg.receptorId);
       if (receptor) {
         receptor.classList.add('hit-active');
         setTimeout(() => receptor.classList.remove('hit-active'), 140);
       }
 
-      // 4. Efeito shockwave no avatar
       const shock = document.getElementById('shockwave');
       shock.classList.remove('trigger');
       void shock.offsetWidth;
@@ -1448,7 +1630,6 @@
       avatarBubble.classList.add('hit-pulse');
       setTimeout(() => avatarBubble.classList.remove('hit-pulse'), 150);
 
-      // 5. Partículas coloridas
       const rect = document.getElementById(cfg.receptorId).getBoundingClientRect();
       const theaterRect = document.getElementById('theater-screen').getBoundingClientRect();
       spawnHitParticles(rect.left - theaterRect.left + 28, rect.top - theaterRect.top + 28, cfg.color);
@@ -1465,9 +1646,6 @@
       document.getElementById('action-hint').innerText = `Momento exato: ${cfg.label}`;
     }
 
-    // ==========================================
-    // 6. SISTEMA DE PARTÍCULAS
-    // ==========================================
     function spawnHitParticles(x, y, color) {
       for (let i = 0; i < 18; i++) {
         const ang = Math.random() * Math.PI * 2;
@@ -1506,7 +1684,7 @@
     }
 
     // ==========================================
-    // 7. CONTROLES DE REPRODUÇÃO & VELOCIDADE
+    // 6. CONTROLES DE REPRODUÇÃO & VELOCIDADE
     // ==========================================
     function togglePlayState() {
       if (isPlaying) {
@@ -1585,12 +1763,17 @@
       const pct = Math.max(0, Math.min(1, clickX / rect.width));
       const targetTime = getTotalDuration() * pct;
 
+      seekToTime(targetTime);
+    }
+
+    function seekToTime(targetTime) {
       triggeredHitsSet.clear();
       if (customAudio && !activeTrack.isDefaultAudio) {
         customAudio.currentTime = targetTime;
       } else {
         synthVirtualTime = targetTime;
       }
+      updateTimelinePlayhead(targetTime, getTotalDuration());
     }
 
     function formatSec(s) {
@@ -1599,14 +1782,8 @@
       return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
     }
 
-    function formatSecWithDec(s) {
-      const m = Math.floor(s / 60);
-      const sec = (s % 60).toFixed(1);
-      return `${String(m).padStart(2, '0')}:${String(sec).padStart(4, '0')}s`;
-    }
-
     // ==========================================
-    // 8. ABA 2: EDITOR & GRAVAÇÃO AO VIVO (SISTEMA EXATO)
+    // 7. ABA 2: MULTI-TRACK SEQUENCER & OVERDUBBING
     // ==========================================
     function switchAppTab(tab) {
       document.getElementById('tab-play').classList.toggle('active', tab === 'play');
@@ -1614,7 +1791,7 @@
       document.getElementById('section-play').style.display = tab === 'play' ? 'flex' : 'none';
       document.getElementById('section-studio').style.display = tab === 'studio' ? 'flex' : 'none';
       if (tab === 'play') handleResize();
-      if (tab === 'studio') renderBeatsTable();
+      if (tab === 'studio') renderTimelineView();
     }
 
     function onUploadMP3(e) {
@@ -1642,12 +1819,23 @@
       customAudio.onloadedmetadata = () => {
         activeTrack.duration = customAudio.duration;
         updateUIHeaders();
-        renderBeatsTable();
+        renderTimelineView();
       };
       updateUIHeaders();
     }
 
-    // GRAVAÇÃO AO VIVO
+    // SELETOR DE CAMADA DE GRAVAÇÃO ("GRAVAR UM POR UM")
+    function selectRecordingLayer(layerKey) {
+      activeRecordLayer = layerKey;
+      document.querySelectorAll('.layer-pill').forEach(b => b.classList.remove('selected'));
+      const activeBtn = document.getElementById(`lpill-${layerKey}`);
+      if (activeBtn) activeBtn.classList.add('selected');
+
+      const labelTxt = layerKey === 'all' ? 'Gravar Modo Geral (Teclas 1 a 5)' : `Gravar Camada: ${COLUMN_CONFIG[layerKey].label.toUpperCase()} ${COLUMN_CONFIG[layerKey].icon}`;
+      document.getElementById('txt-rec-btn').innerText = isRecordingLive ? '⏹️ Parar Gravação' : labelTxt;
+    }
+
+    // GRAVAÇÃO AO VIVO EM CAMADAS (PRESERVA AS OUTRAS CAMADAS!)
     function toggleRecordingSession() {
       if (isRecordingLive) {
         stopRecordingSession();
@@ -1659,7 +1847,7 @@
     function startRecordingSession() {
       isRecordingLive = true;
       document.getElementById('btn-toggle-rec').classList.add('recording');
-      document.getElementById('txt-rec-btn').innerText = '⏹️ Parar Gravação & Salvar Coreografia';
+      document.getElementById('txt-rec-btn').innerText = '⏹️ Parar Gravação & Salvar Camada';
       startPlaybackEngine();
     }
 
@@ -1667,13 +1855,14 @@
       isRecordingLive = false;
       pausePlaybackEngine();
       document.getElementById('btn-toggle-rec').classList.remove('recording');
-      document.getElementById('txt-rec-btn').innerText = '🔴 Gravar Novamente';
+      selectRecordingLayer(activeRecordLayer); // Restaura texto
       sortBeatsByTime();
-      renderBeatsTable();
+      renderTimelineView();
       saveCoreoToStorage();
-      alert(`🎉 Coreografia gravada com sucesso! ${activeTrack.beats.length} movimentos registrados no tempo exato. Você já pode apresentar no Datashow!`);
+      alert(`🎉 Camada gravada com sucesso! Suas batidas foram adicionadas à linha do tempo mantendo todas as outras camadas intactas!`);
     }
 
+    // REGISTRA AÇÃO (POR CAMADA ATIVA OU TECLA)
     function recordActionNow(type) {
       executeHitEffect(type);
       const currentTime = getNowTime();
@@ -1681,82 +1870,152 @@
         time: parseFloat(currentTime.toFixed(2)),
         type: type
       });
-      document.getElementById('lbl-rec-count').innerText = activeTrack.beats.length;
       sortBeatsByTime();
-      renderBeatsTable();
+      renderTimelineView();
     }
 
-    // INSERÇÃO MANUAL NO SEGUNDO ATUAL
-    function addBeatAtCurrentTime(type) {
+    // ADICIONA NOTA MANUALMENTE NO CURSOR ATUAL
+    function addNoteAtPlayhead(type) {
       const cur = getNowTime();
       activeTrack.beats.push({
         time: parseFloat(cur.toFixed(2)),
         type: type
       });
       sortBeatsByTime();
-      renderBeatsTable();
+      renderTimelineView();
       executeHitEffect(type);
+    }
+
+    // CLIQUE DIRETO NA FAIXA HORIZONTAL PARA ADICIONAR NO SEGUNDO CLICADO
+    function handleLaneClick(type, event) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const pct = Math.max(0, Math.min(1, clickX / rect.width));
+      const targetTime = parseFloat((getTotalDuration() * pct).toFixed(2));
+
+      activeTrack.beats.push({
+        time: targetTime,
+        type: type
+      });
+      sortBeatsByTime();
+      renderTimelineView();
+      executeHitEffect(type);
+    }
+
+    // LIMPAR APENAS UMA FAIXA ESPECÍFICA (Ex: regravar só peito sem mexer em palmas)
+    function clearSpecificTrack(type) {
+      const cfg = COLUMN_CONFIG[type] || { label: type };
+      if (!confirm(`Deseja apagar apenas as batidas de "${cfg.label}"? As outras faixas continuarão intactas!`)) return;
+
+      activeTrack.beats = activeTrack.beats.filter(b => b.type !== type);
+      renderTimelineView();
+    }
+
+    // LIMPAR TODAS
+    function clearAllBeats() {
+      if (!confirm('Deseja apagar todas as batidas de todas as faixas?')) return;
+      activeTrack.beats = [];
+      renderTimelineView();
     }
 
     function sortBeatsByTime() {
       activeTrack.beats.sort((a, b) => a.time - b.time);
     }
 
-    // AJUSTE FINO (+0.1s / -0.1s) OU REMOVER
-    function adjustBeatTime(idx, delta) {
-      activeTrack.beats[idx].time = Math.max(0, parseFloat((activeTrack.beats[idx].time + delta).toFixed(2)));
-      sortBeatsByTime();
-      renderBeatsTable();
-    }
+    // ==========================================
+    // 8. RENDERIZAÇÃO DA LINHA DO TEMPO MULTI-FAIXAS
+    // ==========================================
+    function renderTimelineView() {
+      const duration = getTotalDuration();
 
-    function removeBeatByIndex(idx) {
-      activeTrack.beats.splice(idx, 1);
-      renderBeatsTable();
-      document.getElementById('lbl-rec-count').innerText = activeTrack.beats.length;
-    }
-
-    function clearAllBeats() {
-      if (!confirm('Deseja apagar todas as batidas desta coreografia?')) return;
-      activeTrack.beats = [];
-      renderBeatsTable();
-      document.getElementById('lbl-rec-count').innerText = '0';
-    }
-
-    // RENDERIZA A TABELA DE BATIDAS NA LINHA DO TEMPO
-    function renderBeatsTable() {
-      const container = document.getElementById('beats-list-container');
-      if (!container) return;
-      container.innerHTML = '';
-
-      if (activeTrack.beats.length === 0) {
-        container.innerHTML = `
-          <div style="padding: 25px; text-align: center; color: #94a3b8; font-size: 0.95rem;">
-            Nenhuma batida registrada ainda. Dê Play e aperte as teclas 1 a 5 ou clique em "+ Inserir no segundo atual" acima!
-          </div>
-        `;
-        return;
+      // 1. Renderiza a Régua de Segundos
+      const ruler = document.getElementById('timeline-ruler');
+      ruler.innerHTML = '';
+      const stepSec = duration > 60 ? 5 : 2; // Passos de 2s ou 5s
+      for (let sec = 0; sec <= duration; sec += stepSec) {
+        const pct = (sec / duration) * 100;
+        const tick = document.createElement('div');
+        tick.className = 'ruler-tick';
+        tick.style.left = pct + '%';
+        tick.innerText = formatSec(sec);
+        ruler.appendChild(tick);
       }
 
-      activeTrack.beats.forEach((b, idx) => {
-        const cfg = COLUMN_CONFIG[b.type] || COLUMN_CONFIG.clap;
-        const row = document.createElement('div');
-        row.className = 'beat-item-row';
-        row.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 1.4rem;">${cfg.icon}</span>
-            <div>
-              <strong style="color: ${cfg.color}; font-size: 0.95rem;">${cfg.label.toUpperCase()}</strong>
-              <div style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">Tempo: ${b.time.toFixed(2)}s</div>
-            </div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <button class="nudge-btn" onclick="adjustBeatTime(${idx}, -0.1)" title="Adiantar 0.1s">◀ -0.1s</button>
-            <button class="nudge-btn" onclick="adjustBeatTime(${idx}, +0.1)" title="Atrasar 0.1s">+0.1s ▶</button>
-            <button class="nudge-btn" onclick="removeBeatByIndex(${idx})" style="color: #f43f5e;" title="Excluir">🗑️</button>
-          </div>
-        `;
-        container.appendChild(row);
+      // 2. Limpa as 5 faixas
+      ['clap', 'chest', 'snap', 'thigh', 'stomp'].forEach(key => {
+        const lane = document.getElementById(COLUMN_CONFIG[key].laneId);
+        if (lane) lane.innerHTML = '';
       });
+
+      // 3. Popula cada nota na sua faixa correspondente
+      activeTrack.beats.forEach((b, idx) => {
+        const cfg = COLUMN_CONFIG[b.type];
+        if (!cfg) return;
+        const lane = document.getElementById(cfg.laneId);
+        if (!lane) return;
+
+        const pct = (b.time / duration) * 100;
+        const chip = document.createElement('div');
+        chip.className = `timeline-note-chip ${cfg.theme}`;
+        chip.style.left = pct + '%';
+        chip.innerHTML = `<span>${cfg.icon}</span> <span>${b.time.toFixed(1)}s</span>`;
+        chip.title = `${cfg.label} aos ${b.time.toFixed(2)}s (Clique para ajustar ou excluir)`;
+
+        // Interação com o chip da nota
+        chip.onclick = (e) => {
+          e.stopPropagation();
+          openNoteEditModal(idx);
+        };
+
+        lane.appendChild(chip);
+      });
+
+      updateTimelinePlayhead(getNowTime(), duration);
+    }
+
+    function updateTimelinePlayhead(now, duration) {
+      const playhead = document.getElementById('timeline-playhead');
+      if (!playhead) return;
+      const pct = Math.min(100, (now / duration) * 100);
+
+      // Deslocamento relativo a partir dos 160px do header da faixa
+      const boardWidth = document.getElementById('timeline-board').clientWidth || 1200;
+      const usableWidth = boardWidth - 160;
+      const leftPx = 160 + (usableWidth * (pct / 100));
+      playhead.style.left = leftPx + 'px';
+    }
+
+    function handleTimelineRulerClick(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const boardWidth = e.currentTarget.clientWidth;
+      const pct = Math.max(0, Math.min(1, (clickX - 160) / (boardWidth - 160)));
+      const targetTime = getTotalDuration() * pct;
+      seekToTime(targetTime);
+    }
+
+    // DIÁLOGO RÁPIDO DE EDIÇÃO DA NOTA
+    function openNoteEditModal(idx) {
+      const b = activeTrack.beats[idx];
+      const cfg = COLUMN_CONFIG[b.type] || { label: b.type };
+
+      const opt = prompt(`Ajustar ${cfg.label} (Tempo atual: ${b.time.toFixed(2)}s):\n\nDigite novo tempo em segundos, ou digite "-" para adiantar 0.1s, "+" para atrasar 0.1s, ou "del" para excluir:`, `${b.time.toFixed(2)}`);
+      if (!opt) return;
+
+      if (opt.trim().toLowerCase() === 'del') {
+        activeTrack.beats.splice(idx, 1);
+      } else if (opt.trim() === '-') {
+        b.time = Math.max(0, parseFloat((b.time - 0.1).toFixed(2)));
+      } else if (opt.trim() === '+') {
+        b.time = parseFloat((b.time + 0.1).toFixed(2));
+      } else {
+        const val = parseFloat(opt);
+        if (!isNaN(val) && val >= 0) {
+          b.time = val;
+        }
+      }
+      sortBeatsByTime();
+      renderTimelineView();
     }
 
     function saveCoreoToStorage() {
@@ -1779,30 +2038,30 @@
       setAvatarPose('idle');
     }
 
-    // ATALHOS DE TECLADO
+    // ATALHOS DE TECLADO INTELIGENTES
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT') return;
 
       if (e.code === 'Space') {
         e.preventDefault();
-        togglePlayState();
+        if (isRecordingLive && activeRecordLayer !== 'all') {
+          // Na gravação de camada única, espaço registra o movimento daquela camada!
+          recordActionNow(activeRecordLayer);
+        } else {
+          togglePlayState();
+        }
       } else if (e.key === 'r' || e.key === 'R') {
         restartPlayState();
       } else if (e.key === '1') {
-        if (isRecordingLive) recordActionNow('clap');
-        else executeHitEffect('clap');
+        recordActionNow('clap');
       } else if (e.key === '2') {
-        if (isRecordingLive) recordActionNow('chest');
-        else executeHitEffect('chest');
+        recordActionNow('chest');
       } else if (e.key === '3') {
-        if (isRecordingLive) recordActionNow('snap');
-        else executeHitEffect('snap');
+        recordActionNow('snap');
       } else if (e.key === '4') {
-        if (isRecordingLive) recordActionNow('thigh');
-        else executeHitEffect('thigh');
+        recordActionNow('thigh');
       } else if (e.key === '5') {
-        if (isRecordingLive) recordActionNow('stomp');
-        else executeHitEffect('stomp');
+        recordActionNow('stomp');
       }
     });
 
@@ -1819,7 +2078,7 @@
       handleResize();
       setAvatarPose('idle');
       updateUIHeaders();
-      renderBeatsTable();
+      renderTimelineView();
       mainGameLoop();
     });
   </script>
