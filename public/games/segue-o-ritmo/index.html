@@ -67,6 +67,90 @@
     }
     .btn-fullscreen:hover { background: #38bdf8; color: #0f172a; }
 
+    .btn-studio-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #0f172a;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+      border: 2px solid #fbbf24;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .btn-studio-badge:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+    }
+
+    .banner-authoring-promo {
+      width: 100%;
+      max-width: 1180px;
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      border-radius: 20px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      flex-wrap: wrap;
+    }
+    .b-promo-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .b-badge-new {
+      background: #f59e0b;
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+    .b-promo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .b-promo-text strong {
+      color: #fde68a;
+      font-size: 1.05rem;
+    }
+    .b-promo-text span {
+      color: #cbd5e1;
+      font-size: 0.88rem;
+    }
+    .btn-open-studio {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-open-studio:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.6);
+    }
+
     /* LAYOUT PRINCIPAL EM GRID (PLAYER + PLAYLIST LATERAL) */
     .hub-container {
       width: 100%;
@@ -509,15 +593,34 @@
 
   <!-- BARRA SUPERIOR -->
   <div class="top-bar">
-    <a href="/atividades/segue-o-ritmo" class="btn-return">
-      ⬅️ GUIA PEDAGÓGICO & DIÁRIO
-    </a>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <a href="/atividades/segue-o-ritmo" class="btn-return">
+        ⬅️ GUIA PEDAGÓGICO & DIÁRIO
+      </a>
+      <a href="/games/segue-o-ritmo/estudio.html" class="btn-studio-badge">
+        ⚡ SUPER ESTÚDIO (CRIE COM SEU MP3)
+      </a>
+    </div>
     <div style="font-size: 1.1rem; font-weight: 700; color: #facc15; display: flex; align-items: center; gap: 8px;">
       <span>🥁</span> Laboratório de Percussão Corporal & Ritmo no Datashow
     </div>
     <button type="button" onclick="toggleFullScreen()" class="btn-fullscreen">
       ⛶ Tela Cheia para Datashow
     </button>
+  </div>
+
+  <!-- BANNER DE DESTAQUE DO NOVO ESTÚDIO AUTORAL -->
+  <div class="banner-authoring-promo">
+    <div class="b-promo-content">
+      <span class="b-badge-new">NOVIDADE AUTORAL 🌟</span>
+      <div class="b-promo-text">
+        <strong>Quer usar suas próprias músicas em MP3 sem depender do YouTube?</strong>
+        <span>Crie ou toque desafios com palmas, peito e estalos em 2 minutos com as ilustrações animadas do Lab Kids!</span>
+      </div>
+    </div>
+    <a href="/games/segue-o-ritmo/estudio.html" class="btn-open-studio">
+      ⚡ ABRIR ESTÚDIO COM MINHAS MÚSICAS 🚀
+    </a>
   </div>
 
   <div class="hub-container">
