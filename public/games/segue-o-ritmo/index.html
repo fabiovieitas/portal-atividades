@@ -530,7 +530,7 @@
         <!-- 1. ESCUDO SUPERIOR (Bloqueia título e botões do YouTube) -->
         <div class="shield-header-bar">
           <div class="shield-video-title">
-            <span>🥁</span> <span id="display-title">Desafio Ritmo Campeão ⚽ Palmas, Pés e Pulso</span>
+            <span>🥁</span> <span id="display-title">Batida Suave & Dança 🌟 Coordenação Passo a Passo (Especial 2º Ano)</span>
           </div>
           <span class="shield-channel-badge">Lab Kids Cinema</span>
         </div>
@@ -580,6 +580,9 @@
             </button>
             <button class="btn-ctrl" onclick="restartVideo()" title="Reiniciar do começo">
               🔄 Reiniciar
+            </button>
+            <button class="btn-ctrl" id="btn-speed" onclick="togglePlaybackSpeed()" title="Velocidade de treino lento para os menores" style="background: rgba(245, 158, 11, 0.2); border: 1.5px solid #f59e0b; color: #fde68a;">
+              🐢 <span id="speed-label">Velocidade: 1x</span>
             </button>
           </div>
 
@@ -679,12 +682,38 @@
     // LISTA DE VÍDEOS DE RITMO, DANÇA E PERCUSSÃO CORPORAL (TOP MAIS VISTOS & DESCARACTERIZADOS)
     const RHYTHM_PLAYLIST = [
       {
+        id: 'LtEO11MM_2k',
+        title: 'Batida Suave & Dança 🌟 Coordenação Passo a Passo (Especial 2º Ano)',
+        duration: '03:20',
+        level: '1º e 2º Ano (Fácil)',
+        category: 'Iniciante • Dança Suave',
+        badge: 'FÁCIL • 2º ANO 👶',
+        thumb: 'https://img.youtube.com/vi/LtEO11MM_2k/mqdefault.jpg'
+      },
+      {
         id: 'Ndr9YZTA1D4',
         title: 'Desafio Ritmo Campeão ⚽ Palmas, Pés e Pulso',
         duration: '03:05',
         level: '1º ao 5º Ano',
         category: 'Coordenação & Torcida',
         thumb: 'https://img.youtube.com/vi/Ndr9YZTA1D4/mqdefault.jpg'
+      },
+      {
+        id: 'gUt-V2d_PQA',
+        title: 'Marcha da Turma 🥁 Batidas com Pés e Palmas Coletivas',
+        duration: '03:00',
+        level: '1º e 2º Ano (Fácil)',
+        category: 'Marcação Coletiva',
+        badge: 'FÁCIL • 2º ANO 👶',
+        thumb: 'https://img.youtube.com/vi/gUt-V2d_PQA/mqdefault.jpg'
+      },
+      {
+        id: 'bHXN40NbTYo',
+        title: 'Corrida dos Cavalos 🐎 Galope e Palmas nas Coxas',
+        duration: '02:55',
+        level: '1º ao 4º Ano',
+        category: 'Coordenação Motora',
+        thumb: 'https://img.youtube.com/vi/bHXN40NbTYo/mqdefault.jpg'
       },
       {
         id: 'CWxYNgSfWOg',
@@ -711,6 +740,14 @@
         thumb: 'https://img.youtube.com/vi/amyLWt6Sn5g/mqdefault.jpg'
       },
       {
+        id: '0RTbdS6ovss',
+        title: 'Segue o Ritmo! 🥁 Desafio de Coordenação e Dança',
+        duration: '02:59',
+        level: '1º ao 5º Ano',
+        category: 'Dança & Percussão',
+        thumb: 'https://img.youtube.com/vi/0RTbdS6ovss/mqdefault.jpg'
+      },
+      {
         id: '2BcXy0IMIUs',
         title: 'O Castelo Misterioso 🏰 Aceleração Contínua do Compasso',
         duration: '02:40',
@@ -727,36 +764,12 @@
         thumb: 'https://img.youtube.com/vi/FIYQeISYxqI/mqdefault.jpg'
       },
       {
-        id: 'gUt-V2d_PQA',
-        title: 'Marcha da Turma 🥁 Batidas com Pés e Palmas Coletivas',
-        duration: '03:00',
-        level: '1º ao 5º Ano',
-        category: 'Marcação Coletiva',
-        thumb: 'https://img.youtube.com/vi/gUt-V2d_PQA/mqdefault.jpg'
-      },
-      {
-        id: 'bHXN40NbTYo',
-        title: 'Corrida dos Cavalos 🐎 Galope e Palmas nas Coxas',
-        duration: '02:55',
-        level: '1º ao 4º Ano',
-        category: 'Coordenação Motora',
-        thumb: 'https://img.youtube.com/vi/bHXN40NbTYo/mqdefault.jpg'
-      },
-      {
         id: 'AJjWrOx6Xqw',
         title: 'Batalha Sinfônica ⚡ Desafio de Velocidade e Estalos',
         duration: '02:45',
         level: '2º ao 5º Ano',
         category: 'Desafio Veloz',
         thumb: 'https://img.youtube.com/vi/AJjWrOx6Xqw/mqdefault.jpg'
-      },
-      {
-        id: '0RTbdS6ovss',
-        title: 'Segue o Ritmo! 🥁 Desafio de Coordenação e Dança',
-        duration: '02:59',
-        level: '1º ao 5º Ano',
-        category: 'Dança & Percussão',
-        thumb: 'https://img.youtube.com/vi/0RTbdS6ovss/mqdefault.jpg'
       }
     ];
 
@@ -781,6 +794,7 @@
             <div class="v-title">${video.title}</div>
             <div class="v-meta">
               <span>⏱️ ${video.duration}</span> • <span>🏆 ${video.level}</span>
+              ${video.badge ? `<span style="background: rgba(16, 185, 129, 0.25); border: 1px solid #10b981; color: #34d399; padding: 1px 6px; border-radius: 4px; font-size: 0.68rem; font-weight: 800; margin-left: 4px;">${video.badge}</span>` : ''}
             </div>
           </div>
         `;
@@ -842,6 +856,7 @@
 
       if (player && player.loadVideoById) {
         player.loadVideoById(video.id);
+        if (player.setPlaybackRate) player.setPlaybackRate(currentSpeed);
         isPlaying = true;
         updateUIState();
       }
@@ -885,7 +900,25 @@
     function restartVideo() {
       if (!player) return;
       player.seekTo(0, true);
+      if (player.setPlaybackRate) player.setPlaybackRate(currentSpeed);
       player.playVideo();
+    }
+
+    let currentSpeed = 1;
+    function togglePlaybackSpeed() {
+      if (!player || !player.setPlaybackRate) return;
+      if (currentSpeed === 1) {
+        currentSpeed = 0.75;
+      } else if (currentSpeed === 0.75) {
+        currentSpeed = 0.5;
+      } else {
+        currentSpeed = 1;
+      }
+      player.setPlaybackRate(currentSpeed);
+      const label = document.getElementById('speed-label');
+      if (label) {
+        label.textContent = currentSpeed === 1 ? 'Velocidade: 1x' : (currentSpeed === 0.75 ? 'Treino Lento: 0.75x 🐢' : 'Super Lento: 0.5x 🐌');
+      }
     }
 
     function toggleMute() {
