@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Estúdio de Ritmo 🥁 Lab Kids • Datashow Full & Pista Neon</title>
-  <meta name="description" content="Estúdio autoral de percussão corporal com palco Datashow em tela ampla, linhas neon permanentes, receptores gigantes e personalização de fundo/capa de CD.">
+  <title>Super Estúdio de Ritmo 🥁 Padrão Oficial do Vídeo de Percussão | Lab Kids</title>
+  <meta name="description" content="Estúdio autoral de percussão corporal idêntico ao vídeo oficial: 5 cordas neon verticais, botões metálicos 3D, escudos triangulares de impacto e fundo em vídeo ou imagem.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800;900&family=Outfit:wght@400;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     :root {
       --bg-dark: #070a12;
-      --bg-card: rgba(15, 23, 42, 0.92);
-      --border-card: rgba(255, 255, 255, 0.12);
       --gold: #fbbf24;
-      --amber: #f59e0b;
-      --cyan: #38bdf8;
-      --emerald: #10b981;
-      --rose: #f43f5e;
-      --purple: #a855f7;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      /* AS 5 CORES OFICIAIS DO VÍDEO DE REFERÊNCIA */
+      --c-foot: #f5cb35;    /* 1. Pé (Amarelo Ouro) */
+      --c-thigh: #34bebe;   /* 2. Coxa (Turquesa / Ciano) */
+      --c-chest: #4272b8;   /* 3. Peito (Azul Real) */
+      --c-clap: #e94875;    /* 4. Palma (Rosa Melancia / Vermelho) */
+      --c-snap: #ab3f89;    /* 5. Estalo (Magenta / Orquídea) */
+
+      --glow-foot: rgba(245, 203, 53, 0.9);
+      --glow-thigh: rgba(52, 190, 190, 0.9);
+      --glow-chest: rgba(66, 114, 184, 0.9);
+      --glow-clap: rgba(233, 72, 117, 0.9);
+      --glow-snap: rgba(171, 63, 137, 0.9);
     }
 
     * {
@@ -33,8 +36,8 @@
     }
 
     body {
-      background: radial-gradient(circle at 50% 15%, #1e1b4b 0%, #070a12 75%);
-      color: var(--text-main);
+      background: #060911;
+      color: #f8fafc;
       font-family: 'Fredoka', sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
@@ -42,16 +45,16 @@
       flex-direction: column;
     }
 
-    /* TOP BAR NAVEGAÇÃO */
+    /* BARRA SUPERIOR DE CONTROLE E NAVEGAÇÃO */
     .app-header {
-      background: rgba(15, 23, 42, 0.96);
+      background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-card);
-      padding: 10px 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -65,11 +68,11 @@
 
     .btn-nav-back {
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
       color: #cbd5e1;
-      padding: 8px 16px;
+      padding: 7px 16px;
       border-radius: 50px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       text-decoration: none;
       display: inline-flex;
@@ -80,11 +83,11 @@
     .btn-nav-back:hover {
       background: rgba(255, 255, 255, 0.2);
       color: #fff;
-      transform: translateX(-3px);
+      transform: translateX(-2px);
     }
 
     .app-title-group h1 {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--gold);
       display: flex;
@@ -92,614 +95,645 @@
       gap: 8px;
     }
     .app-title-group p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      font-size: 0.76rem;
+      color: #94a3b8;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .tab-btn {
+    .mode-tab-btn {
       background: rgba(255, 255, 255, 0.06);
-      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.16);
       color: #cbd5e1;
-      padding: 8px 18px;
+      padding: 7px 16px;
       border-radius: 50px;
       font-family: 'Fredoka', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       transition: all 0.2s;
     }
-    .tab-btn.active {
+    .mode-tab-btn.active {
       background: linear-gradient(135deg, #f59e0b, #d97706);
       color: #0f172a;
       border-color: #fbbf24;
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
     }
-    .tab-btn:hover:not(.active) {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-    }
 
-    .btn-fullscreen {
+    .btn-fullscreen-toggle {
       background: rgba(56, 189, 248, 0.15);
-      border: 1.5px solid var(--cyan);
-      color: var(--cyan);
-      padding: 8px 14px;
+      border: 1.5px solid #38bdf8;
+      color: #38bdf8;
+      padding: 7px 14px;
       border-radius: 50px;
-      font-size: 0.9rem;
-      font-weight: 700;
+      font-size: 0.85rem;
+      font-weight: 800;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.2s;
     }
-    .btn-fullscreen:hover {
-      background: var(--cyan);
+    .btn-fullscreen-toggle:hover {
+      background: #38bdf8;
       color: #080c14;
     }
 
-    /* CONTAINER PRINCIPAL */
-    .main-container {
+    /* CORPO PRINCIPAL */
+    .main-workspace {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 15px;
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
-      gap: 15px;
-    }
-
-    /* ======================================================== */
-    /* PALCO DE APRESENTAÇÃO (100% LARGURA TOTAL - SEM CAIXA LATERAL) */
-    /* ======================================================== */
-    .stage-section {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      flex: 1;
-    }
-
-    .game-theater-screen {
-      background: #080c14;
-      border: 3px solid rgba(245, 158, 11, 0.4);
-      border-radius: 26px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
       position: relative;
-      overflow: hidden;
-      min-height: 560px;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ======================================================== */
+    /* MODO APRESENTAÇÃO / DATASHOW - 100% TELA DE CINEMA */
+    /* ======================================================== */
+    .theater-viewport {
+      width: 100%;
+      flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 18px 24px;
-      gap: 12px;
+      position: relative;
+      background: #000;
+      min-height: calc(100vh - 65px);
     }
 
-    /* CAMADA DE FUNDO PERSONALIZÁVEL (IMAGEM / CAPA DE CD / GIF) */
-    .theater-custom-bg {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.45;
-      z-index: 1;
-      transition: opacity 0.3s, background-image 0.3s;
+    /* MOLDURA DE PROJEÇÃO 16:9 IMERSIVA */
+    .stage-canvas-frame {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 520px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #04060b;
     }
-    .theater-vignette-overlay {
+
+    /* ======================================================== */
+    /* CAMADA DE FUNDO EM VÍDEO OU IMAGEM (100% DA TELA) */
+    /* ======================================================== */
+    .stage-media-bg-wrapper {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.35) 0%, rgba(7, 10, 18, 0.88) 90%);
+      width: 100%; height: 100%;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .bg-video-element,
+    .bg-image-element {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+      opacity: 0.88;
+      transition: opacity 0.5s ease;
+    }
+
+    /* OVERLAY AMBIENTE SUTIL (NÃO OFUSCA OS BOTÕES E O NEON) */
+    .stage-media-scrim {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(6, 9, 17, 0.45) 0%, rgba(6, 9, 17, 0.2) 50%, rgba(6, 9, 17, 0.75) 100%);
+      z-index: 2;
       pointer-events: none;
-      z-index: 1;
     }
 
-    /* TOPO DA TELA */
-    .theater-top-info {
+    /* ======================================================== */
+    /* FAIXA KARAOKE DO TOPO COM OS DOIS CHIBIS */
+    /* ======================================================== */
+    .karaoke-top-header {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .chibi-avatar-badge {
+      width: 68px;
+      height: 68px;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.8));
+      flex-shrink: 0;
+      animation: chibiFloat 3s ease-in-out infinite alternate;
+    }
+    .chibi-right { animation-delay: 1.5s; }
+
+    @keyframes chibiFloat {
+      0% { transform: translateY(0) rotate(-2deg); }
+      100% { transform: translateY(-8px) rotate(2deg); }
+    }
+
+    .karaoke-lyrics-box {
+      flex: 1;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    /* FONTE BOLD AMARELA COM CONTORNO AZUL ESCURO 3D (EXATAMENTE COMO NO VÍDEO) */
+    .karaoke-primary-line {
+      font-family: 'Fredoka', 'Outfit', cursive, sans-serif;
+      font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+      font-weight: 900;
+      color: #ffe600;
+      letter-spacing: 0.5px;
+      text-transform: none;
+      line-height: 1.15;
+      text-shadow: 
+        3px 3px 0 #1e3a8a,
+        -3px -3px 0 #1e3a8a,
+        3px -3px 0 #1e3a8a,
+        -3px 3px 0 #1e3a8a,
+        0 4px 0 #172554,
+        0 8px 18px rgba(0, 0, 0, 0.9);
+      transition: all 0.2s ease;
+    }
+
+    .karaoke-sub-line {
+      font-size: clamp(0.78rem, 1.2vw, 1.05rem);
+      font-weight: 700;
+      color: #e0f2fe;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 3px 18px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      letter-spacing: 0.5px;
+    }
+
+    /* ======================================================== */
+    /* PISTA DE RITMO COM AS 5 CORDAS NEON CONTÍNUAS */
+    /* ======================================================== */
+    .rhythm-highway-plane {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* AS 5 CORDAS NEON VERTICAIS */
+    .neon-lasers-container {
+      position: absolute;
+      top: 0;
+      bottom: 120px;
+      left: 2%; right: 2%;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(8px);
-      padding: 10px 20px;
-      border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 10;
-    }
-    .song-title-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .badge-grade {
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid var(--amber);
-      color: var(--gold);
-      padding: 4px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-    .song-title-display {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: #fde68a;
-    }
-    .time-counter-display {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--cyan);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 4px 16px;
-      border-radius: 20px;
-      border: 1px solid rgba(56, 189, 248, 0.3);
     }
 
-    /* PISTA VERTICAL EM LARGURA TOTAL (OCUPA 100% DO PALCO) */
-    .theater-full-highway {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      z-index: 5;
-    }
-
-    .vertical-highway-container {
-      background: rgba(15, 23, 42, 0.65);
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      border-radius: 22px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
-    }
-
-    /* CABEÇALHO DAS 5 COLUNAS NO TOPO */
-    .highway-columns-header {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      background: rgba(30, 41, 59, 0.95);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-      padding: 12px 0;
-      text-align: center;
-      z-index: 10;
-    }
-    .col-header-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-    .col-header-icon {
-      font-size: 1.8rem;
-    }
-    .col-header-name {
-      font-size: 0.85rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    /* PISTA DE QUEDA DAS NOTAS */
-    .highway-drop-area {
+    .neon-laser-column {
       flex: 1;
       position: relative;
-      min-height: 420px;
-      overflow: hidden;
+      display: flex;
+      justify-content: center;
     }
 
-    /* LINHAS DIVISÓRIAS DAS COLUNAS */
-    .column-guides-grid {
+    /* LINHA DE LASER NEON CONTÍNUA */
+    .laser-beam-string {
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 0;
-      right: 0;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      pointer-events: none;
-    }
-    .col-lane {
-      border-right: 1px dashed rgba(255, 255, 255, 0.08);
-      position: relative;
-    }
-    .col-lane:last-child {
-      border-right: none;
-    }
-
-    /* ======================================================== */
-    /* LINHAS NEON PERMANENTES (SEMPRE EXISTENTES DO TOPO À BASE) */
-    /* ======================================================== */
-    .permanent-neon-lanes {
-      position: absolute;
-      top: 0;
-      bottom: 50px;
-      left: 0;
-      right: 0;
-      pointer-events: none;
-      z-index: 2;
-    }
-    .perm-neon-line {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 6px;
-      transform: translateX(-50%);
+      width: 4px;
       border-radius: 4px;
     }
-    .perm-line-clap {
-      background: linear-gradient(180deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.6) 70%, rgba(251, 191, 36, 0.95) 100%);
-      box-shadow: 0 0 14px rgba(245, 158, 11, 0.6), 0 0 30px rgba(245, 158, 11, 0.35);
-    }
-    .perm-line-chest {
-      background: linear-gradient(180deg, rgba(244, 63, 94, 0.2) 0%, rgba(244, 63, 94, 0.6) 70%, rgba(253, 164, 175, 0.95) 100%);
-      box-shadow: 0 0 14px rgba(244, 63, 94, 0.6), 0 0 30px rgba(244, 63, 94, 0.35);
-    }
-    .perm-line-snap {
-      background: linear-gradient(180deg, rgba(6, 182, 212, 0.2) 0%, rgba(56, 189, 248, 0.6) 70%, rgba(186, 230, 253, 0.95) 100%);
-      box-shadow: 0 0 14px rgba(6, 182, 212, 0.6), 0 0 30px rgba(6, 182, 212, 0.35);
-    }
-    .perm-line-thigh {
-      background: linear-gradient(180deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.6) 70%, rgba(167, 243, 208, 0.95) 100%);
-      box-shadow: 0 0 14px rgba(16, 185, 129, 0.6), 0 0 30px rgba(16, 185, 129, 0.35);
-    }
-    .perm-line-stomp {
-      background: linear-gradient(180deg, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0.6) 70%, rgba(233, 213, 255, 0.95) 100%);
-      box-shadow: 0 0 14px rgba(168, 85, 247, 0.6), 0 0 30px rgba(168, 85, 247, 0.35);
-    }
 
-    /* LINHA DE IMPACTO INFERIOR */
-    .hit-line-barrier {
-      position: absolute;
-      bottom: 50px;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, rgba(245, 158, 11, 0.4), rgba(56, 189, 248, 0.9), rgba(245, 158, 11, 0.4));
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.9);
-      z-index: 3;
+    .laser-col-1 .laser-beam-string {
+      background: #ffffff;
+      box-shadow: 0 0 8px var(--c-foot), 0 0 16px var(--c-foot), 0 0 32px var(--glow-foot);
+    }
+    .laser-col-2 .laser-beam-string {
+      background: #ffffff;
+      box-shadow: 0 0 8px var(--c-thigh), 0 0 16px var(--c-thigh), 0 0 32px var(--glow-thigh);
+    }
+    .laser-col-3 .laser-beam-string {
+      background: #ffffff;
+      box-shadow: 0 0 8px var(--c-chest), 0 0 16px var(--c-chest), 0 0 32px var(--glow-chest);
+    }
+    .laser-col-4 .laser-beam-string {
+      background: #ffffff;
+      box-shadow: 0 0 8px var(--c-clap), 0 0 16px var(--c-clap), 0 0 32px var(--glow-clap);
+    }
+    .laser-col-5 .laser-beam-string {
+      background: #ffffff;
+      box-shadow: 0 0 8px var(--c-snap), 0 0 16px var(--c-snap), 0 0 32px var(--glow-snap);
     }
 
     /* ======================================================== */
-    /* RECEPTÁCULOS FIXOS NA BASE (BEM MAIORES PARA DATASHOW) */
+    /* OS BOTÕES METÁLICOS 3D DESCENDO (NOTAS QUE CAEM) */
     /* ======================================================== */
-    .receptors-row {
+    .falling-notes-layer {
       position: absolute;
-      bottom: 8px;
-      left: 0;
-      right: 0;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      z-index: 4;
+      top: 0; left: 2%; right: 2%; bottom: 0;
       pointer-events: none;
     }
-    .receptor-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .receptor-circle {
-      width: 104px;
-      height: 104px;
+
+    .saucer-note-disc {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: clamp(74px, 8.5vw, 115px);
+      height: clamp(38px, 4.4vw, 56px);
       border-radius: 50%;
-      border: 4px solid rgba(255, 255, 255, 0.4);
-      background: rgba(15, 23, 42, 0.9);
+      background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, #cbd5e1 30%, #475569 65%, #0f172a 100%);
+      border: 3.5px solid var(--note-edge-color, #fff);
+      box-shadow: 
+        0 10px 22px rgba(0, 0, 0, 0.85),
+        0 0 25px var(--note-glow-color, #fff),
+        inset 0 3px 6px rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+    }
+
+    /* DOME CENTRAL BRILHANTE COM A COR DA TRILHA */
+    .saucer-note-disc::after {
+      content: '';
+      width: 44%;
+      height: 42%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, var(--note-edge-color, #fff) 60%, rgba(255, 255, 255, 0) 100%);
+      box-shadow: 0 0 10px var(--note-edge-color, #fff);
+    }
+
+    .saucer-note-foot  { --note-edge-color: var(--c-foot);  --note-glow-color: var(--glow-foot); }
+    .saucer-note-thigh { --note-edge-color: var(--c-thigh); --note-glow-color: var(--glow-thigh); }
+    .saucer-note-chest { --note-edge-color: var(--c-chest); --note-glow-color: var(--glow-chest); }
+    .saucer-note-clap  { --note-edge-color: var(--c-clap);  --note-glow-color: var(--glow-clap); }
+    .saucer-note-snap  { --note-edge-color: var(--c-snap);  --note-glow-color: var(--glow-snap); }
+
+    /* ======================================================== */
+    /* OS 5 ALVOS GIGANTES NA BASE (PADRÃO IDÊNTICO AO VÍDEO) */
+    /* ======================================================== */
+    .base-receptors-assembly-row {
+      position: absolute;
+      bottom: 12px;
+      left: 2%; right: 2%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .target-column-unit {
+      flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      transition: all 0.08s ease-out;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      justify-content: flex-end;
       position: relative;
     }
-    .receptor-circle .rec-icon {
-      font-size: 2.7rem;
-      line-height: 1;
-    }
-    .receptor-circle .rec-label {
-      font-size: 0.82rem;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      margin-top: 3px;
-      text-transform: uppercase;
-    }
-    .rec-clap { border-color: #f59e0b; color: #fde68a; box-shadow: 0 0 25px rgba(245, 158, 11, 0.45); }
-    .rec-chest { border-color: #f43f5e; color: #fda4af; box-shadow: 0 0 25px rgba(244, 63, 94, 0.45); }
-    .rec-snap { border-color: #06b6d4; color: #bae6fd; box-shadow: 0 0 25px rgba(6, 182, 212, 0.45); }
-    .rec-thigh { border-color: #10b981; color: #a7f3d0; box-shadow: 0 0 25px rgba(16, 185, 129, 0.45); }
-    .rec-stomp { border-color: #a855f7; color: #e9d5ff; box-shadow: 0 0 25px rgba(168, 85, 247, 0.45); }
 
-    .receptor-circle.hit-active {
-      transform: scale(1.35);
-      border-color: #fff;
-      box-shadow: 0 0 60px rgba(255, 255, 255, 1), 0 0 100px currentColor;
-      filter: brightness(2.2);
-      background: rgba(255, 255, 255, 0.35);
-    }
-
-    /* SÍMBOLO QUE CAI DE CIMA PARA BAIXO (DESLIZANDO NA LINHA NEON) */
-    .falling-symbol-item {
-      position: absolute;
-      width: 66px;
-      height: 66px;
+    /* 1. BOTÃO METÁLICO 3D DO ALVO (EM CIMA DO ESCUDO) */
+    .target-saucer-puck {
+      width: clamp(82px, 9.5vw, 130px);
+      height: clamp(42px, 4.8vw, 60px);
       border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, #cbd5e1 32%, #475569 68%, #0f172a 100%);
+      border: 4px solid var(--unit-color, #fff);
+      box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.9),
+        0 0 28px var(--unit-color, #fff),
+        inset 0 3px 6px rgba(255, 255, 255, 0.95);
+      position: relative;
+      margin-bottom: -14px;
+      z-index: 4;
+      transition: transform 0.08s ease-out, filter 0.08s ease-out;
+    }
+
+    .target-saucer-puck::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 30px currentColor, 0 8px 25px rgba(0,0,0,0.8);
-      border: 3.5px solid rgba(255, 255, 255, 0.95);
-      font-weight: 800;
-      color: white;
-      pointer-events: none;
-      z-index: 5;
+      width: 44%;
+      height: 42%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, var(--unit-color, #fff) 65%, transparent 100%);
+      box-shadow: 0 0 12px var(--unit-color, #fff);
     }
-    .falling-symbol-item .s-icon {
-      font-size: 1.9rem;
-      line-height: 1;
+
+    .target-saucer-puck.hit-pulse {
+      transform: scale(1.32);
+      filter: brightness(2.4);
+      box-shadow: 0 0 70px #ffffff, 0 0 100px var(--unit-color, #fff);
     }
-    .falling-symbol-item .s-txt {
-      font-size: 0.65rem;
+
+    /* 2. ESCUDO TRIANGULAR GIGANTE (OPACO, SÓLIDO, VIBRANTE) */
+    .target-triangle-shield {
+      width: clamp(94px, 11vw, 150px);
+      height: clamp(98px, 11.5vw, 156px);
+      position: relative;
+      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.85));
+      transition: transform 0.08s ease-out, filter 0.08s ease-out;
+      z-index: 2;
+    }
+
+    .target-triangle-shield.hit-pulse {
+      transform: scale(1.18);
+      filter: drop-shadow(0 0 40px #ffffff) drop-shadow(0 0 60px var(--unit-color, #fff));
+    }
+
+    .shield-svg-graphic {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* 3. ETIQUETA COM NOME DA PERCUSSÃO EM BAIXO DO ESCUDO */
+    .target-text-badge {
+      margin-top: 4px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 2px solid var(--unit-color);
+      color: #ffffff;
+      padding: 3px clamp(8px, 1.2vw, 16px);
+      border-radius: 50px;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
-      letter-spacing: 0.4px;
+      font-size: clamp(0.72rem, 1.1vw, 1.05rem);
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
       text-transform: uppercase;
-      margin-top: 2px;
+      z-index: 5;
+      white-space: nowrap;
     }
 
-    /* CORES TEMÁTICAS DOS 5 MOVIMENTOS */
-    .theme-clap { background: linear-gradient(135deg, #f59e0b, #d97706); color: #0f172a !important; }
-    .theme-chest { background: linear-gradient(135deg, #f43f5e, #be123c); }
-    .theme-snap { background: linear-gradient(135deg, #06b6d4, #0284c7); }
-    .theme-thigh { background: linear-gradient(135deg, #10b981, #047857); }
-    .theme-stomp { background: linear-gradient(135deg, #a855f7, #6b21a8); }
+    /* CANVAS DE EXPLOSÕES E PARTÍCULAS */
+    #fx-fireworks-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 30;
+    }
 
-    /* CONTROLES DO PLAYER */
-    .player-dock-bar {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 20px;
-      padding: 12px 20px;
+    /* ======================================================== */
+    /* BARRA DE CONTROLES INFERIORES DO MODO APRESENTAÇÃO */
+    /* ======================================================== */
+    .floating-player-dock {
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(14px);
+      border-top: 2px solid rgba(255, 255, 255, 0.12);
+      padding: 10px 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      gap: 8px;
+      z-index: 40;
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
-    .progress-seek-row {
+
+    .progress-timeline-bar {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .seek-slider-track {
+
+    .scrub-track {
       flex: 1;
       height: 12px;
-      background: #0f172a;
+      background: #090d16;
       border-radius: 50px;
       border: 1px solid #334155;
       cursor: pointer;
       position: relative;
       overflow: hidden;
     }
-    .seek-slider-fill {
+    .scrub-track-fill {
       height: 100%;
-      background: linear-gradient(90deg, #f59e0b, #38bdf8);
+      background: linear-gradient(90deg, #f59e0b, #38bdf8, #ec4899);
       width: 0%;
       border-radius: 50px;
+      transition: width 0.05s linear;
     }
 
-    .controls-btns-row {
+    .time-readout {
+      font-family: monospace;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #38bdf8;
+      min-width: 110px;
+      text-align: right;
+    }
+
+    .dock-buttons-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
     }
-    .btn-main-play {
+
+    .group-left, .group-center, .group-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action-primary {
       background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
+      color: #ffffff;
       border: none;
-      padding: 12px 30px;
+      padding: 10px 24px;
       border-radius: 50px;
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-      transition: transform 0.15s;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.2s;
     }
-    .btn-main-play:hover { transform: scale(1.04); }
+    .btn-action-primary:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+    }
 
-    .ctrl-pill-btn {
+    .pill-btn {
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
       color: #cbd5e1;
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 50px;
       font-family: 'Fredoka', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.15s;
+      transition: all 0.2s;
     }
-    .ctrl-pill-btn:hover { background: rgba(255, 255, 255, 0.18); color: white; }
-    .ctrl-pill-btn.active {
-      background: var(--amber);
+    .pill-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+    .pill-btn.active {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
       color: #0f172a;
-      border-color: var(--gold);
+      border-color: #fbbf24;
+      font-weight: 800;
     }
 
     /* ======================================================== */
-    /* ABA 2: EDITOR MULTI-FAIXAS / CAMADAS (GRAVAR UM POR UM) */
+    /* MODO EDITOR MULTI-TRILHAS (GRAVAÇÃO POR CAMADAS) */
     /* ======================================================== */
-    .editor-section {
+    .editor-workspace {
       display: none;
       flex-direction: column;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
       gap: 20px;
     }
-    .editor-section.active {
+    .editor-workspace.active {
       display: flex;
     }
 
-    .editor-top-controls {
+    .editor-top-grid {
       display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
     }
 
-    .editor-box {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-card);
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    .panel-card {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
     }
-    .editor-box h3 {
-      font-size: 1.15rem;
+    .panel-card h3 {
+      font-size: 1.05rem;
       color: var(--gold);
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .audio-upload-slot {
-      border: 2px dashed rgba(245, 158, 11, 0.5);
-      border-radius: 16px;
+    .upload-dropzone {
+      border: 2px dashed rgba(245, 158, 11, 0.4);
+      background: rgba(30, 41, 59, 0.4);
+      border-radius: 14px;
       padding: 16px;
       text-align: center;
       cursor: pointer;
-      background: rgba(245, 158, 11, 0.05);
       transition: all 0.2s;
     }
-    .audio-upload-slot:hover {
-      background: rgba(245, 158, 11, 0.12);
-      border-color: var(--gold);
+    .upload-dropzone:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: #f59e0b;
     }
 
-    .layer-selector-group {
+    .layer-selector-row {
       display: flex;
+      gap: 6px;
       flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
     }
-    .layer-pill {
-      background: rgba(30, 41, 59, 0.9);
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      color: #cbd5e1;
-      padding: 10px 16px;
+    .layer-tab-chip {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      color: #94a3b8;
+      padding: 6px 12px;
       border-radius: 50px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 700;
+      font-size: 0.82rem;
+      font-weight: 800;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.15s;
+      transition: all 0.2s;
     }
-    .layer-pill:hover {
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: translateY(-2px);
+    .layer-tab-chip.selected {
+      background: var(--layer-c);
+      color: #0f172a;
+      border-color: #ffffff;
+      box-shadow: 0 4px 14px var(--layer-c);
     }
-    .layer-pill.selected {
-      border-color: #fff;
-      color: white;
-      box-shadow: 0 0 20px currentColor;
-    }
-    .layer-pill.selected.theme-clap { color: #0f172a !important; }
 
-    .btn-record-action {
+    .btn-record-huge {
       background: linear-gradient(135deg, #ef4444, #dc2626);
       color: white;
       border: none;
-      padding: 14px 28px;
+      padding: 12px 20px;
       border-radius: 50px;
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.3);
       transition: all 0.2s;
     }
-    .btn-record-action.recording {
-      animation: recBlink 1s infinite alternate;
+    .btn-record-huge.recording-pulse {
+      animation: recordBlink 1s infinite alternate;
       background: #b91c1c;
     }
-    @keyframes recBlink {
+    @keyframes recordBlink {
       0% { box-shadow: 0 0 10px rgba(239, 68, 68, 0.6); }
-      100% { box-shadow: 0 0 35px rgba(239, 68, 68, 1); }
+      100% { box-shadow: 0 0 40px rgba(239, 68, 68, 1); }
     }
 
-    /* ======================================================== */
-    /* MULTI-TRACK TIMELINE SEQUENCER (5 FAIXAS HORIZONTAIS) */
-    /* ======================================================== */
-    .multi-track-sequencer-box {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-card);
-      border-radius: 24px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    }
-
-    .timeline-header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .timeline-viewport {
-      background: #090d16;
-      border: 2px solid rgba(255, 255, 255, 0.1);
+    /* SEQUENCIADOR MULTI-TRILHAS */
+    .sequencer-viewport {
+      background: #070b14;
+      border: 2px solid rgba(255, 255, 255, 0.12);
       border-radius: 18px;
       overflow-x: auto;
       overflow-y: hidden;
       position: relative;
     }
 
-    .timeline-inner-board {
+    .sequencer-inner-board {
       min-width: 1200px;
       position: relative;
       display: flex;
       flex-direction: column;
     }
 
-    .timeline-ruler-track {
-      height: 34px;
-      background: rgba(30, 41, 59, 0.9);
+    .timeline-ruler-bar {
+      height: 32px;
+      background: #111827;
       border-bottom: 2px solid rgba(255, 255, 255, 0.15);
       position: relative;
       cursor: pointer;
     }
-    .ruler-tick {
+    .ruler-second-mark {
       position: absolute;
-      top: 0;
-      bottom: 0;
+      top: 0; bottom: 0;
       border-left: 1px solid rgba(255, 255, 255, 0.2);
       font-size: 0.72rem;
       font-family: monospace;
@@ -708,46 +742,35 @@
       pointer-events: none;
     }
 
-    .timeline-playhead-line {
+    .timeline-playhead-needle {
       position: absolute;
-      top: 0;
-      bottom: 0;
+      top: 0; bottom: 0;
       width: 3px;
       background: #f43f5e;
-      box-shadow: 0 0 12px #f43f5e, 0 0 20px #fda4af;
+      box-shadow: 0 0 12px #f43f5e;
       z-index: 30;
       pointer-events: none;
-      transition: left 0.05s linear;
     }
-    .playhead-needle-cap {
-      width: 14px;
-      height: 14px;
+    .needle-cap {
+      width: 14px; height: 14px;
       background: #f43f5e;
       border-radius: 50%;
       position: absolute;
-      top: -2px;
-      left: -5.5px;
+      top: -2px; left: -5.5px;
       border: 2px solid white;
     }
 
-    .tracks-stack {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .track-row {
-      height: 58px;
+    .track-row-lane {
+      height: 60px;
       display: flex;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       position: relative;
     }
-    .track-row:last-child {
-      border-bottom: none;
-    }
+    .track-row-lane:last-child { border-bottom: none; }
 
-    .track-header-cell {
-      width: 160px;
-      background: rgba(15, 23, 42, 0.95);
+    .track-header-badge {
+      width: 170px;
+      background: rgba(15, 23, 42, 0.98);
       border-right: 2px solid rgba(255, 255, 255, 0.12);
       display: flex;
       align-items: center;
@@ -756,1205 +779,1468 @@
       z-index: 10;
       flex-shrink: 0;
     }
-    .track-header-title {
+    .track-title-text {
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .track-header-btns {
-      display: flex;
-      gap: 4px;
-    }
-    .btn-track-action {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #cbd5e1;
-      padding: 3px 6px;
-      border-radius: 6px;
-      font-size: 0.7rem;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    .btn-track-action:hover {
-      background: rgba(255, 255, 255, 0.25);
-      color: white;
-    }
 
-    .track-lane-content {
+    .lane-strip-canvas {
       flex: 1;
       position: relative;
       background: rgba(15, 23, 42, 0.4);
       cursor: pointer;
     }
-    .track-lane-content:hover {
-      background: rgba(30, 41, 59, 0.3);
-    }
+    .lane-strip-canvas:hover { background: rgba(30, 41, 59, 0.35); }
 
-    .timeline-note-chip {
+    .note-marker-chip {
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.72rem;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 0.75rem;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      border: 2px solid rgba(255, 255, 255, 0.8);
+      border: 2px solid rgba(255, 255, 255, 0.85);
       box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 10px currentColor;
       cursor: pointer;
       z-index: 5;
       transition: transform 0.1s;
     }
-    .timeline-note-chip:hover {
+    .note-marker-chip:hover {
       transform: translate(-50%, -50%) scale(1.15);
       z-index: 20;
       border-color: #ffffff;
     }
 
-    #fx-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 8;
-    }
-
     @media (max-width: 900px) {
-      .receptor-circle { width: 70px; height: 70px; }
-      .receptor-circle .rec-icon { font-size: 1.8rem; }
-      .receptor-circle .rec-label { font-size: 0.65rem; }
-      .editor-top-controls { grid-template-columns: 1fr; }
+      .chibi-avatar-badge { width: 48px; height: 48px; }
+      .karaoke-top-header { padding: 8px 12px; }
+      .dock-buttons-row { justify-content: center; }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- CABEÇALHO -->
+  <!-- TOPO: NAVEGAÇÃO E MODOS -->
   <header class="app-header">
     <div class="brand-section">
-      <a href="/games/segue-o-ritmo/index.html" class="btn-nav-back">
-        ⬅️ Hub de Desafios
+      <a href="index.html" class="btn-nav-back">
+        ⬅ Voltar ao Hub
       </a>
       <div class="app-title-group">
         <h1>Super Estúdio de Ritmo 🥁 Lab Kids</h1>
-        <p>Palco Datashow Amplo • Linhas Neon Permanentes & Receptores Gigantes</p>
+        <p>Padrão Idêntico ao Vídeo Oficial • 5 Cordas Neon & Escudos</p>
       </div>
     </div>
 
     <div class="header-actions">
-      <button class="tab-btn active" id="tab-play" onclick="switchAppTab('play')">
-        🎮 Apresentar (Datashow)
+      <button class="mode-tab-btn active" id="tab-btn-theater" onclick="switchViewMode('theater')">
+        📺 Apresentação (Datashow)
       </button>
-      <button class="tab-btn" id="tab-studio" onclick="switchAppTab('studio')">
-        🛠️ Editor Multi-Trilhas
+      <button class="mode-tab-btn" id="tab-btn-editor" onclick="switchViewMode('editor')">
+        🎛️ Gravador Multi-Trilhas
       </button>
-      <button class="btn-fullscreen" onclick="toggleFullscreenMode()">
+      <button class="btn-fullscreen-toggle" onclick="toggleTheaterFullscreen()">
         ⛶ Tela Cheia
       </button>
     </div>
   </header>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="main-container">
+  <!-- WORKSPACE PRINCIPAL -->
+  <main class="main-workspace">
 
     <!-- ======================================================== -->
-    <!-- ABA 1: APRESENTAÇÃO / JOGO (DATASHOW COMPLETO EM TELA AMPLA) -->
+    <!-- MODO 1: APRESENTAÇÃO / DATASHOW (100% CINEMA / SALA DE AULA) -->
     <!-- ======================================================== -->
-    <section class="stage-section" id="section-play">
-      <div class="game-theater-screen" id="theater-screen">
-        <!-- CAMADA DE FUNDO PERSONALIZÁVEL (CAPA DE CD / IMAGEM / GIF) -->
-        <div class="theater-custom-bg" id="theater-custom-bg"></div>
-        <div class="theater-vignette-overlay"></div>
-        <canvas id="fx-canvas"></canvas>
+    <section class="theater-viewport" id="view-theater">
+      
+      <div class="stage-canvas-frame" id="stage-frame">
 
-        <!-- BARRA SUPERIOR DA TELA -->
-        <div class="theater-top-info">
-          <div class="song-title-group">
-            <span class="badge-grade" id="badge-display">FÁCIL • 2º ANO 👶</span>
-            <span class="song-title-display" id="title-display">Marcha das Palmas & Peito (80 BPM)</span>
-          </div>
-          <div class="time-counter-display" id="time-display">00:00 / 00:48</div>
+        <!-- FUNDO EM VÍDEO OU IMAGEM (100% DA TELA) -->
+        <div class="stage-media-bg-wrapper">
+          <img id="stage-bg-image" class="bg-image-element" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1920&q=80" alt="Fundo Palco">
+          <video id="stage-bg-video" class="bg-video-element" loop muted playsinline style="display: none;"></video>
+          <div class="stage-media-scrim"></div>
         </div>
 
-        <!-- PISTA VERTICAL EM LARGURA TOTAL (SEM A CAIXA LATERAL) -->
-        <div class="theater-full-highway">
-          <div class="vertical-highway-container" id="highway-container">
+        <!-- FAIXA KARAOKE DO TOPO COM OS 2 CHIBIS -->
+        <div class="karaoke-top-header">
+          <!-- CHIBI ESQUERDA -->
+          <svg class="chibi-avatar-badge chibi-left" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="45" r="32" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
+            <path d="M22 45 C20 18, 80 18, 78 45 C78 28, 62 24, 50 24 C38 24, 22 28, 22 45 Z" fill="#9333ea"/>
+            <circle cx="38" cy="44" r="5" fill="#1e1b4b"/><circle cx="40" cy="42" r="1.5" fill="#fff"/>
+            <circle cx="62" cy="44" r="5" fill="#1e1b4b"/><circle cx="64" cy="42" r="1.5" fill="#fff"/>
+            <path d="M44 54 Q50 60 56 54" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="25" y="70" width="50" height="25" rx="8" fill="#1e293b"/>
+            <path d="M40 70 L50 82 L60 70 Z" fill="#facc15"/>
+          </svg>
+
+          <!-- LETRA KARAOKE NO ESTILO VIBRANTE 3D -->
+          <div class="karaoke-lyrics-box">
+            <div class="karaoke-primary-line" id="karaoke-title-line">
+              Dreaming's always in my blood, since I learned to stand so well!
+            </div>
+            <div class="karaoke-sub-line" id="karaoke-sub-line">
+              Siga a batida: Pé • Coxa • Peito • Palma • Estalo
+            </div>
+          </div>
+
+          <!-- CHIBI DIREITA -->
+          <svg class="chibi-avatar-badge chibi-right" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="45" r="32" fill="#fde68a" stroke="#d97706" stroke-width="3"/>
+            <path d="M22 45 C20 18, 80 18, 78 45 C78 28, 62 24, 50 24 C38 24, 22 28, 22 45 Z" fill="#c026d3"/>
+            <circle cx="38" cy="44" r="5" fill="#1e1b4b"/><circle cx="40" cy="42" r="1.5" fill="#fff"/>
+            <circle cx="62" cy="44" r="5" fill="#1e1b4b"/><circle cx="64" cy="42" r="1.5" fill="#fff"/>
+            <path d="M44 54 Q50 60 56 54" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="25" y="70" width="50" height="25" rx="8" fill="#1e293b"/>
+            <path d="M40 70 L50 82 L60 70 Z" fill="#facc15"/>
+          </svg>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- PISTA DE RITMO COM AS 5 CORDAS NEON E OS ALVOS GIGANTES -->
+        <!-- ======================================================== -->
+        <div class="rhythm-highway-plane">
+          
+          <!-- AS 5 CORDAS NEON VERTICAIS CONTÍNUAS (DO TOPO AOS ALVOS) -->
+          <div class="neon-lasers-container">
+            <div class="neon-laser-column laser-col-1"><div class="laser-beam-string"></div></div>
+            <div class="neon-laser-column laser-col-2"><div class="laser-beam-string"></div></div>
+            <div class="neon-laser-column laser-col-3"><div class="laser-beam-string"></div></div>
+            <div class="neon-laser-column laser-col-4"><div class="laser-beam-string"></div></div>
+            <div class="neon-laser-column laser-col-5"><div class="laser-beam-string"></div></div>
+          </div>
+
+          <!-- CAMADA DAS NOTAS METÁLICAS DESCENDO -->
+          <div class="falling-notes-layer" id="falling-saucers-layer"></div>
+
+          <!-- OS 5 ALVOS GIGANTES NA BASE (PADRÃO EXATO DO VÍDEO) -->
+          <div class="base-receptors-assembly-row">
             
-            <!-- CABEÇALHO DAS 5 COLUNAS NO TOPO -->
-            <div class="highway-columns-header">
-              <div class="col-header-item" style="color: #f59e0b;">
-                <span class="col-header-icon">👏</span>
-                <span class="col-header-name">1. Palma</span>
+            <!-- ALVO 1: PÉ (AMARELO OURO) -->
+            <div class="target-column-unit" style="--unit-color: var(--c-foot); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('foot')" title="Tocar Pé">
+              <div class="target-saucer-puck" id="saucer-puck-foot"></div>
+              <div class="target-triangle-shield" id="triangle-shield-foot">
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
+                  <!-- Escudo Triangular Invertido Arredondado (Sólido Ouro) -->
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#f5cb35" stroke="#1e293b" stroke-width="4.5"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
+                  <!-- Ilustração: Tênis azul pisando com risquinhos de impacto -->
+                  <g transform="translate(24, 28)">
+                    <!-- Risquinhos de impacto no chão -->
+                    <line x1="8" y1="68" x2="2" y2="76" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
+                    <line x1="22" y1="72" x2="16" y2="80" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
+                    <line x1="80" y1="68" x2="86" y2="76" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
+                    <!-- Solado Branco do Tênis -->
+                    <path d="M14 60 L78 60 C84 60 86 66 80 68 L10 68 C6 68 8 60 14 60 Z" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+                    <!-- Bico Branco do Tênis -->
+                    <path d="M62 60 L78 60 C84 60 85 54 78 48 L64 48 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+                    <!-- Corpo do Tênis Azul Claro -->
+                    <path d="M20 36 L36 36 L52 48 L76 48 L64 60 L14 60 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="3"/>
+                    <!-- Meia branca com listras pretas -->
+                    <rect x="20" y="20" width="16" height="18" rx="2" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
+                    <line x1="20" y1="26" x2="36" y2="26" stroke="#0f172a" stroke-width="2.5"/>
+                    <line x1="20" y1="32" x2="36" y2="32" stroke="#0f172a" stroke-width="2.5"/>
+                    <!-- Cadarço -->
+                    <line x1="40" y1="42" x2="48" y2="44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                  </g>
+                </svg>
               </div>
-              <div class="col-header-item" style="color: #f43f5e;">
-                <span class="col-header-icon">🫀</span>
-                <span class="col-header-name">2. Peito</span>
-              </div>
-              <div class="col-header-item" style="color: #06b6d4;">
-                <span class="col-header-icon">🫰</span>
-                <span class="col-header-name">3. Estalo</span>
-              </div>
-              <div class="col-header-item" style="color: #10b981;">
-                <span class="col-header-icon">🦵</span>
-                <span class="col-header-name">4. Coxa</span>
-              </div>
-              <div class="col-header-item" style="color: #a855f7;">
-                <span class="col-header-icon">🦶</span>
-                <span class="col-header-name">5. Pé</span>
-              </div>
+              <div class="target-text-badge">1. PÉ</div>
             </div>
 
-            <!-- PISTA DE QUEDA DAS NOTAS -->
-            <div class="highway-drop-area" id="drop-area">
-              
-              <!-- LINHAS DIVISÓRIAS -->
-              <div class="column-guides-grid">
-                <div class="col-lane"></div>
-                <div class="col-lane"></div>
-                <div class="col-lane"></div>
-                <div class="col-lane"></div>
-                <div class="col-lane"></div>
+            <!-- ALVO 2: COXA (TURQUESA / CIANO) -->
+            <div class="target-column-unit" style="--unit-color: var(--c-thigh); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('thigh')" title="Tocar Coxa">
+              <div class="target-saucer-puck" id="saucer-puck-thigh"></div>
+              <div class="target-triangle-shield" id="triangle-shield-thigh">
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
+                  <!-- Escudo Triangular Invertido (Sólido Turquesa) -->
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#34bebe" stroke="#1e293b" stroke-width="4.5"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
+                  <!-- Ilustração: Mãos batendo nas duas coxas -->
+                  <g transform="translate(24, 26)">
+                    <!-- Linhas de impacto -->
+                    <line x1="14" y1="62" x2="26" y2="24" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="78" y1="62" x2="66" y2="24" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Pernas/Coxas com calça azul -->
+                    <rect x="22" y="32" width="20" height="38" rx="8" fill="#1d4ed8" stroke="#0f172a" stroke-width="3"/>
+                    <rect x="50" y="32" width="20" height="38" rx="8" fill="#1d4ed8" stroke="#0f172a" stroke-width="3"/>
+                    <!-- Mãos batendo na coxa -->
+                    <circle cx="20" cy="46" r="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+                    <circle cx="72" cy="46" r="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+                  </g>
+                </svg>
               </div>
+              <div class="target-text-badge">2. COXA</div>
+            </div>
 
-              <!-- LINHAS NEON PERMANENTES (SEMPRE EXISTENTES DO TOPO À BASE) -->
-              <div class="permanent-neon-lanes">
-                <div class="perm-neon-line perm-line-clap" style="left: 10%;"></div>
-                <div class="perm-neon-line perm-line-chest" style="left: 30%;"></div>
-                <div class="perm-neon-line perm-line-snap" style="left: 50%;"></div>
-                <div class="perm-neon-line perm-line-thigh" style="left: 70%;"></div>
-                <div class="perm-neon-line perm-line-stomp" style="left: 90%;"></div>
+            <!-- ALVO 3: PEITO (AZUL REAL) -->
+            <div class="target-column-unit" style="--unit-color: var(--c-chest); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('chest')" title="Tocar Peito">
+              <div class="target-saucer-puck" id="saucer-puck-chest"></div>
+              <div class="target-triangle-shield" id="triangle-shield-chest">
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
+                  <!-- Escudo Triangular Invertido (Sólido Azul Real) -->
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#4272b8" stroke="#1e293b" stroke-width="4.5"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
+                  <!-- Ilustração: Torso com mão sobre o peito com ondas sonoras -->
+                  <g transform="translate(26, 26)">
+                    <!-- Ondas sonoras de batida no tórax -->
+                    <path d="M14 50 Q8 58 14 66" stroke="#93c5fd" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                    <path d="M74 50 Q80 58 74 66" stroke="#93c5fd" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                    <!-- Tronco com camisa azul-ciano -->
+                    <path d="M18 68 C18 36, 70 36, 70 68 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3"/>
+                    <!-- Pescoço e queixo -->
+                    <path d="M36 38 L36 28 C36 24, 52 24, 52 28 L52 38 Z" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
+                    <!-- Mão espalmada no peito -->
+                    <ellipse cx="44" cy="52" rx="12" ry="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+                    <circle cx="44" cy="52" r="4" fill="#f43f5e"/>
+                  </g>
+                </svg>
               </div>
+              <div class="target-text-badge">3. PEITO</div>
+            </div>
 
-              <!-- LINHA DE IMPACTO INFERIOR -->
-              <div class="hit-line-barrier"></div>
-
-              <!-- RECEPTÁCULOS FIXOS NA BASE (BEM MAIORES PARA DATASHOW) -->
-              <div class="receptors-row">
-                <div class="receptor-box">
-                  <div class="receptor-circle rec-clap" id="rec-clap">
-                    <span class="rec-icon">👏</span>
-                    <span class="rec-label">PALMA</span>
-                  </div>
-                </div>
-                <div class="receptor-box">
-                  <div class="receptor-circle rec-chest" id="rec-chest">
-                    <span class="rec-icon">🫀</span>
-                    <span class="rec-label">PEITO</span>
-                  </div>
-                </div>
-                <div class="receptor-box">
-                  <div class="receptor-circle rec-snap" id="rec-snap">
-                    <span class="rec-icon">🫰</span>
-                    <span class="rec-label">ESTALO</span>
-                  </div>
-                </div>
-                <div class="receptor-box">
-                  <div class="receptor-circle rec-thigh" id="rec-thigh">
-                    <span class="rec-icon">🦵</span>
-                    <span class="rec-label">COXA</span>
-                  </div>
-                </div>
-                <div class="receptor-box">
-                  <div class="receptor-circle rec-stomp" id="rec-stomp">
-                    <span class="rec-icon">🦶</span>
-                    <span class="rec-label">PÉ</span>
-                  </div>
-                </div>
+            <!-- ALVO 4: PALMA (ROSA MELANCIA / VERMELHO) -->
+            <div class="target-column-unit" style="--unit-color: var(--c-clap); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('clap')" title="Tocar Palma">
+              <div class="target-saucer-puck" id="saucer-puck-clap"></div>
+              <div class="target-triangle-shield" id="triangle-shield-clap">
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
+                  <!-- Escudo Triangular Invertido (Sólido Rosa Melancia) -->
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#e94875" stroke="#1e293b" stroke-width="4.5"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
+                  <!-- Ilustração: Duas mãos batendo palmas juntas com explosão estelar -->
+                  <g transform="translate(24, 24)">
+                    <!-- Estrela de impacto do aplauso -->
+                    <path d="M46 16 L49 28 L61 30 L51 38 L54 50 L46 42 L38 50 L41 38 L31 30 L43 28 Z" fill="#fef08a" stroke="#0f172a" stroke-width="1.5"/>
+                    <!-- Mão Esquerda aberta -->
+                    <rect x="20" y="32" width="18" height="28" rx="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(22 20 32)"/>
+                    <!-- Mão Direita aberta -->
+                    <rect x="54" y="38" width="18" height="28" rx="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(-22 54 38)"/>
+                  </g>
+                </svg>
               </div>
+              <div class="target-text-badge">4. PALMA</div>
+            </div>
 
-              <!-- ELEMENTOS EM QUEDA VERTICAL (DESLIZANDO NAS LINHAS NEON) -->
-              <div id="falling-notes-layer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 6;"></div>
+            <!-- ALVO 5: ESTALO (MAGENTA / ORQUÍDEA) -->
+            <div class="target-column-unit" style="--unit-color: var(--c-snap); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('snap')" title="Tocar Estalo">
+              <div class="target-saucer-puck" id="saucer-puck-snap"></div>
+              <div class="target-triangle-shield" id="triangle-shield-snap">
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
+                  <!-- Escudo Triangular Invertido (Sólido Magenta) -->
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#ab3f89" stroke="#1e293b" stroke-width="4.5"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
+                  <!-- Ilustração: Mão estalando dedos com faísca brilhante -->
+                  <g transform="translate(26, 22)">
+                    <!-- Faísca de estalo brilhante -->
+                    <path d="M42 12 L45 22 L55 24 L46 30 L48 40 L42 34 L36 40 L38 30 L29 24 L39 22 Z" fill="#ffffff" stroke="#fef08a" stroke-width="2"/>
+                    <!-- Mão e Dedos estalando -->
+                    <rect x="28" y="38" width="26" height="34" rx="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+                    <rect x="34" y="22" width="10" height="24" rx="5" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(18 34 22)"/>
+                    <rect x="42" y="24" width="10" height="22" rx="5" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(-18 42 24)"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="target-text-badge">5. ESTALO</div>
             </div>
 
           </div>
+
+          <!-- CANVAS DE FOGOS / PARTÍCULAS -->
+          <canvas id="fx-fireworks-canvas"></canvas>
+
         </div>
+
       </div>
 
-      <!-- BARRA DE CONTROLES INFERIORES -->
-      <div class="player-dock-bar">
-        <div class="progress-seek-row">
-          <div class="seek-slider-track" id="seek-track" onclick="handleSeekTrackClick(event)">
-            <div class="seek-slider-fill" id="seek-fill"></div>
+      <!-- BARRA DE CONTROLE FLUTUANTE (DATASHOW) -->
+      <div class="floating-player-dock" id="player-dock">
+        <div class="progress-timeline-bar">
+          <div class="scrub-track" id="scrub-bar" onclick="seekThroughTrack(event)">
+            <div class="scrub-track-fill" id="scrub-fill"></div>
           </div>
+          <span class="time-readout" id="playback-timer">00:00 / 00:48</span>
         </div>
 
-        <div class="controls-btns-row">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <button class="btn-main-play" id="btn-play-pause" onclick="togglePlayState()">
-              <span id="btn-play-icon">▶️</span>
-              <span id="btn-play-text">Iniciar Desafio</span>
+        <div class="dock-buttons-row">
+          <div class="group-left">
+            <button class="btn-action-primary" id="btn-master-play" onclick="toggleEnginePlay()">
+              <span id="btn-play-symbol">▶️</span>
+              <span id="btn-play-label">Iniciar Desafio</span>
             </button>
-            <button class="ctrl-pill-btn" onclick="restartPlayState()">
+            <button class="pill-btn" onclick="restartEnginePlay()">
               🔄 Reiniciar (R)
             </button>
           </div>
 
-          <!-- VELOCIDADE PEDAGÓGICA AO VIVO -->
-          <div style="display: flex; align-items: center; gap: 8px;">
+          <!-- VELOCIDADE PEDAGÓGICA (PARA CRIANÇAS PEQUENAS) -->
+          <div class="group-center">
             <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">Velocidade:</span>
-            <button class="ctrl-pill-btn active" id="spd-1" onclick="applyPlaybackSpeed(1.0)">1.0x Normal</button>
-            <button class="ctrl-pill-btn" id="spd-075" onclick="applyPlaybackSpeed(0.75)">0.75x 🐢 Treino</button>
-            <button class="ctrl-pill-btn" id="spd-05" onclick="applyPlaybackSpeed(0.5)">0.5x 🐌 Lento</button>
+            <button class="pill-btn active" id="spd-btn-10" onclick="setTempoSpeed(1.0)">1.0x Normal</button>
+            <button class="pill-btn" id="spd-btn-075" onclick="setTempoSpeed(0.75)">0.75x 🐢 Treino</button>
+            <button class="pill-btn" id="spd-btn-050" onclick="setTempoSpeed(0.5)">0.5x 🐌 Bem Lento</button>
           </div>
 
-          <!-- SELETOR DE FUNDO / CAPA DO CD -->
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 700;">🖼️ Fundo:</span>
-            <select id="select-bg-preset" onchange="changeStageBackground(this.value)" class="ctrl-pill-btn" style="background: rgba(15, 23, 42, 0.9); border-color: rgba(255,255,255,0.2);">
-              <option value="default">🌟 Palco Neon Escuro</option>
-              <option value="concert">🎤 Show & Holofotes</option>
-              <option value="galaxy">🌌 Galáxia Espacial</option>
-              <option value="disco">🪩 Discoteca / Luzes</option>
-              <option value="custom">📁 Capa do CD / Imagem / GIF</option>
+          <!-- SELETOR DE MÚSICA & FUNDO -->
+          <div class="group-right">
+            <select id="select-preset-song" onchange="loadPresetTrack(this.value)" class="pill-btn" style="background: rgba(15, 23, 42, 0.9);">
+              <option value="how_its_done">🌟 How It’s Done (K-Pop Cover)</option>
+              <option value="suave_2ano">🐢 Ritmo Suave (Fácil - 2º Ano)</option>
+              <option value="groove_5">🚀 Desafio 5 Movimentos</option>
             </select>
-            <label class="ctrl-pill-btn" style="cursor: pointer;" title="Carregar Capa do CD, Foto ou GIF">
-              📤 Capa CD/GIF
-              <input type="file" id="bg-upload-input" accept="image/*" onchange="handleBgUpload(event)" style="display: none;">
-            </label>
-          </div>
 
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <button class="ctrl-pill-btn" id="btn-sfx-toggle" onclick="toggleAudioSFX()">
-              🔊 Som dos Golpes: LIGADO
+            <select id="select-bg-theme" onchange="applyBackgroundPreset(this.value)" class="pill-btn" style="background: rgba(15, 23, 42, 0.9);">
+              <option value="concert">🎤 Show Neon (Oficial)</option>
+              <option value="cabin">✈️ Cabine VIP K-Pop</option>
+              <option value="disco">🪩 Discoteca & Dança</option>
+              <option value="stars">🌌 Galáxia Espacial</option>
+            </select>
+
+            <label class="pill-btn" style="cursor: pointer;" title="Carregar Capa do CD, Foto ou Vídeo MP4">
+              📤 Capa/Vídeo MP4
+              <input type="file" id="input-bg-file" accept="image/*, video/mp4" onchange="uploadCustomStageMedia(event)" style="display: none;">
+            </label>
+
+            <button class="pill-btn" id="btn-sfx-state" onclick="togglePercussionSound()">
+              🔊 Sons: LIGADO
             </button>
           </div>
         </div>
       </div>
+
     </section>
 
     <!-- ======================================================== -->
-    <!-- ABA 2: EDITOR MULTI-TRILHAS (LINHA DO TEMPO POR CAMADAS) -->
+    <!-- MODO 2: GRAVADOR / EDITOR MULTI-TRILHAS (PÉ, COXA, ETC.) -->
     <!-- ======================================================== -->
-    <section class="editor-section" id="section-studio">
+    <section class="editor-workspace" id="view-editor">
       
-      <!-- CONTROLES SUPERIORES DO EDITOR -->
-      <div class="editor-top-controls">
+      <div class="editor-top-grid">
         
-        <!-- CARD 1: SELECIONAR MP3 E TÍTULO -->
-        <div class="editor-box">
+        <!-- CARD 1: CARREGAR MP3 & DETALHES -->
+        <div class="panel-card">
           <h3>🎵 1. Sua Música em MP3 & Capa</h3>
-          <label class="audio-upload-slot" for="file-mp3-input">
-            <input type="file" id="file-mp3-input" accept="audio/mp3, audio/wav, audio/mpeg" onchange="onUploadMP3(event)" style="display: none;">
+          <label class="upload-dropzone" for="input-mp3-file">
+            <input type="file" id="input-mp3-file" accept="audio/mp3, audio/wav, audio/mpeg" onchange="loadUserMP3Audio(event)" style="display: none;">
             <div style="font-size: 1.8rem; margin-bottom: 4px;">📂</div>
-            <div style="font-weight: 800; color: #fde68a; font-size: 0.95rem;" id="txt-upload-status">Clique para Carregar seu MP3</div>
+            <div style="font-weight: 800; color: #fde68a;" id="lbl-mp3-name">Clique para carregar seu arquivo MP3</div>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 4px;">Sem depender do YouTube! Toca 100% no seu navegador.</div>
           </label>
-          <input type="text" id="input-track-title" placeholder="Nome da Coreografia" style="background: #090d16; border: 1px solid #334155; color: white; padding: 8px 12px; border-radius: 10px; font-family: 'Fredoka', sans-serif;">
-          
-          <label class="ctrl-pill-btn" style="cursor: pointer; justify-content: center; text-align: center;">
-            🖼️ Adicionar Capa do CD / Cantor (JPG/PNG/GIF)
-            <input type="file" accept="image/*" onchange="handleBgUpload(event)" style="display: none;">
-          </label>
+          <input type="text" id="edit-choreography-title" placeholder="Nome da Coreografia" value="How It’s Done – Percussão Corporal" style="background: #090d16; border: 1px solid #334155; color: white; padding: 8px 12px; border-radius: 10px; font-family: 'Fredoka', sans-serif;">
+          <input type="text" id="edit-lyrics-line" placeholder="Frase Karaoke do Topo" value="Dreaming's always in my blood, since I learned to stand so well!" style="background: #090d16; border: 1px solid #334155; color: white; padding: 8px 12px; border-radius: 10px; font-family: 'Fredoka', sans-serif;">
         </div>
 
-        <!-- CARD 2: GRAVAÇÃO POR CAMADA (UM POR UM!) -->
-        <div class="editor-box">
-          <h3>🔴 2. Gravação por Camada (Grave Um Movimento por Vez!)</h3>
-          <p style="color: #cbd5e1; font-size: 0.88rem; line-height: 1.4;">
-            Escolha qual movimento gravar nesta passagem. As outras batidas já gravadas <strong>não serão apagadas</strong>!
+        <!-- CARD 2: GRAVAÇÃO POR CAMADAS (GRAVE UMA DE CADA VEZ!) -->
+        <div class="panel-card">
+          <h3>🔴 2. Gravar Camada por Camada (Overdub)</h3>
+          <p style="color: #cbd5e1; font-size: 0.86rem; line-height: 1.4;">
+            Grave primeiro só o <strong>Pé</strong>. Depois, repita a música e grave só a <strong>Palma</strong>. As faixas anteriores <strong>nunca são apagadas</strong>!
           </p>
 
-          <div class="layer-selector-group">
-            <button class="layer-pill theme-clap selected" id="lpill-clap" onclick="selectRecordingLayer('clap')">
-              👏 Só Palmas
+          <div class="layer-selector-row">
+            <button class="layer-tab-chip selected" id="lchip-foot" onclick="pickRecordingLayer('foot')" style="--layer-c: var(--c-foot);">
+              🟡 1. Só Pé
             </button>
-            <button class="layer-pill theme-chest" id="lpill-chest" onclick="selectRecordingLayer('chest')">
-              🫀 Só Peito
+            <button class="layer-tab-chip" id="lchip-thigh" onclick="pickRecordingLayer('thigh')" style="--layer-c: var(--c-thigh);">
+              🩵 2. Só Coxa
             </button>
-            <button class="layer-pill theme-snap" id="lpill-snap" onclick="selectRecordingLayer('snap')">
-              🫰 Só Estalos
+            <button class="layer-tab-chip" id="lchip-chest" onclick="pickRecordingLayer('chest')" style="--layer-c: var(--c-chest);">
+              💙 3. Só Peito
             </button>
-            <button class="layer-pill theme-thigh" id="lpill-thigh" onclick="selectRecordingLayer('thigh')">
-              🦵 Só Coxas
+            <button class="layer-tab-chip" id="lchip-clap" onclick="pickRecordingLayer('clap')" style="--layer-c: var(--c-clap);">
+              🔴 4. Só Palma
             </button>
-            <button class="layer-pill theme-stomp" id="lpill-stomp" onclick="selectRecordingLayer('stomp')">
-              🦶 Só Pés
-            </button>
-            <button class="layer-pill" id="lpill-all" onclick="selectRecordingLayer('all')">
-              ⚡ Modo Geral (1 a 5)
+            <button class="layer-tab-chip" id="lchip-snap" onclick="pickRecordingLayer('snap')" style="--layer-c: var(--c-snap);">
+              🟣 5. Só Estalo
             </button>
           </div>
 
-          <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
-            <button class="btn-record-action" id="btn-toggle-rec" onclick="toggleRecordingSession()">
-              <span>🔴</span> <span id="txt-rec-btn">Gravar Esta Camada na Música</span>
+          <div style="display: flex; gap: 8px; align-items: center; margin-top: 6px;">
+            <button class="btn-record-huge" id="btn-overdub-record" onclick="toggleOverdubRecording()">
+              <span id="rec-dot-icon">🔴</span>
+              <span id="rec-label-text">Gravar Camada Selecionada</span>
             </button>
-            <span style="font-size: 0.85rem; color: #94a3b8;">
-              Dica: Enquanto grava a camada selecionada, você pode usar a <strong>Barra de Espaço</strong> ou clicar!
-            </span>
+            <span style="font-size: 0.8rem; color: #94a3b8;">Dica: Toque <strong>Espaço</strong> ou teclas <strong>1 a 5</strong> durante a música!</span>
+          </div>
+        </div>
+
+        <!-- CARD 3: SALVAR E EXPORTAR -->
+        <div class="panel-card">
+          <h3>💾 3. Salvar e Exportar</h3>
+          <p style="color: #cbd5e1; font-size: 0.86rem;">
+            Salve seu trabalho no computador para usar em qualquer aula ou projetor.
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="pill-btn" onclick="exportChoreographyJSON()" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #6ee7b7;">
+              📥 Baixar Arquivo (.json)
+            </button>
+            <label class="pill-btn" style="cursor: pointer; background: rgba(56, 189, 248, 0.2); border-color: #38bdf8; color: #7dd3fc;">
+              📂 Abrir Arquivo (.json)
+              <input type="file" accept=".json" onchange="importChoreographyJSON(event)" style="display: none;">
+            </label>
+            <button class="pill-btn" onclick="saveToLocalBrowser()" style="background: rgba(245, 158, 11, 0.2); border-color: #f59e0b; color: #fde68a;">
+              ⭐ Salvar no Navegador
+            </button>
           </div>
         </div>
 
       </div>
 
-      <!-- ======================================================== -->
-      <!-- O SEQUENCIADOR VISUAL MULTI-TRILHAS (5 FAIXAS HORIZONTAIS) -->
-      <!-- ======================================================== -->
-      <div class="multi-track-sequencer-box">
-        <div class="timeline-header-bar">
-          <div>
-            <h3 style="color: var(--gold); display: flex; align-items: center; gap: 8px;">
-              <span>🎛️</span> Linha do Tempo Multi-Trilhas (5 Colunas de Movimento)
-            </h3>
-            <p style="color: #94a3b8; font-size: 0.85rem;">
-              Clique em qualquer ponto de uma faixa para adicionar notas, ou clique numa nota existente para ajustar/excluir:
-            </p>
-          </div>
+      <!-- SEQUENCIADOR VISUAL DE 5 COLUNAS / LINHA DO TEMPO -->
+      <div class="panel-card" style="padding: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="margin: 0;">⏱️ Linha do Tempo das 5 Ações (Clique na pista para adicionar ou remover)</h3>
           <div style="display: flex; gap: 8px;">
-            <button class="ctrl-pill-btn" onclick="clearAllBeats()" style="color: #f43f5e;">
+            <button class="pill-btn" onclick="quantizeBeatsToQuarter()" title="Alinha as batidas no tempo exato">
+              🎯 Alinhar no Tempo (Quantizar)
+            </button>
+            <button class="pill-btn" onclick="clearCurrentTrack()" style="color: #f43f5e;">
               🗑️ Limpar Tudo
             </button>
-            <button class="ctrl-pill-btn active" onclick="saveCoreoAndPlay()">
-              💾 Salvar & Ver no Datashow 🚀
-            </button>
           </div>
         </div>
 
-        <!-- VIEWPORT DA LINHA DO TEMPO COM SCROLL HORIZONTAL -->
-        <div class="timeline-viewport" id="timeline-viewport">
-          <div class="timeline-inner-board" id="timeline-board">
+        <div class="sequencer-viewport" id="seq-viewport">
+          <div class="sequencer-inner-board" id="seq-board">
             
-            <!-- RÉGUA DE SEGUNDOS (CLIQUE PARA PULAR O TEMPO) -->
-            <div class="timeline-ruler-track" id="timeline-ruler" onclick="handleTimelineRulerClick(event)"></div>
+            <!-- RÉGUA DE SEGUNDOS -->
+            <div class="timeline-ruler-bar" id="seq-ruler" onclick="scrubSequencerTime(event)"></div>
 
-            <!-- AGULHA DE REPRODUÇÃO (PLAYHEAD) -->
-            <div class="timeline-playhead-line" id="timeline-playhead">
-              <div class="playhead-needle-cap"></div>
+            <!-- AGULHA DA LINHA DO TEMPO -->
+            <div class="timeline-playhead-needle" id="seq-needle">
+              <div class="needle-cap"></div>
             </div>
 
-            <!-- AS 5 FAIXAS HORIZONTAIS -->
-            <div class="tracks-stack">
-              
-              <!-- FAIXA 1: PALMA -->
-              <div class="track-row" id="row-clap">
-                <div class="track-header-cell">
-                  <span class="track-header-title" style="color: #f59e0b;">👏 Palmas</span>
-                  <div class="track-header-btns">
-                    <button class="btn-track-action" onclick="addNoteAtPlayhead('clap')" title="Adicionar no cursor">+Add</button>
-                    <button class="btn-track-action" onclick="clearSpecificTrack('clap')" title="Limpar só palmas" style="color: #f43f5e;">🗑️</button>
-                  </div>
-                </div>
-                <div class="track-lane-content" id="lane-clap" onclick="handleLaneClick('clap', event)"></div>
+            <!-- 5 FAIXAS HORIZONTAIS INDEPENDENTES -->
+            <div class="track-row-lane">
+              <div class="track-header-badge">
+                <span class="track-title-text" style="color: var(--c-foot);">🟡 1. Pé</span>
+                <button class="pill-btn" style="padding: 2px 8px; font-size: 0.72rem;" onclick="addNoteAtCurrentPlayhead('foot')">+Pé</button>
               </div>
+              <div class="lane-strip-canvas" id="lane-canvas-foot" onclick="handleLaneClick('foot', event)"></div>
+            </div>
 
-              <!-- FAIXA 2: PEITO -->
-              <div class="track-row" id="row-chest">
-                <div class="track-header-cell">
-                  <span class="track-header-title" style="color: #f43f5e;">🫀 Peito</span>
-                  <div class="track-header-btns">
-                    <button class="btn-track-action" onclick="addNoteAtPlayhead('chest')" title="Adicionar no cursor">+Add</button>
-                    <button class="btn-track-action" onclick="clearSpecificTrack('chest')" title="Limpar só peito" style="color: #f43f5e;">🗑️</button>
-                  </div>
-                </div>
-                <div class="track-lane-content" id="lane-chest" onclick="handleLaneClick('chest', event)"></div>
+            <div class="track-row-lane">
+              <div class="track-header-badge">
+                <span class="track-title-text" style="color: var(--c-thigh);">🩵 2. Coxa</span>
+                <button class="pill-btn" style="padding: 2px 8px; font-size: 0.72rem;" onclick="addNoteAtCurrentPlayhead('thigh')">+Coxa</button>
               </div>
+              <div class="lane-strip-canvas" id="lane-canvas-thigh" onclick="handleLaneClick('thigh', event)"></div>
+            </div>
 
-              <!-- FAIXA 3: ESTALO -->
-              <div class="track-row" id="row-snap">
-                <div class="track-header-cell">
-                  <span class="track-header-title" style="color: #06b6d4;">🫰 Estalo</span>
-                  <div class="track-header-btns">
-                    <button class="btn-track-action" onclick="addNoteAtPlayhead('snap')" title="Adicionar no cursor">+Add</button>
-                    <button class="btn-track-action" onclick="clearSpecificTrack('snap')" title="Limpar só estalos" style="color: #f43f5e;">🗑️</button>
-                  </div>
-                </div>
-                <div class="track-lane-content" id="lane-snap" onclick="handleLaneClick('snap', event)"></div>
+            <div class="track-row-lane">
+              <div class="track-header-badge">
+                <span class="track-title-text" style="color: var(--c-chest);">💙 3. Peito</span>
+                <button class="pill-btn" style="padding: 2px 8px; font-size: 0.72rem;" onclick="addNoteAtCurrentPlayhead('chest')">+Peito</button>
               </div>
+              <div class="lane-strip-canvas" id="lane-canvas-chest" onclick="handleLaneClick('chest', event)"></div>
+            </div>
 
-              <!-- FAIXA 4: COXA -->
-              <div class="track-row" id="row-thigh">
-                <div class="track-header-cell">
-                  <span class="track-header-title" style="color: #10b981;">🦵 Coxa</span>
-                  <div class="track-header-btns">
-                    <button class="btn-track-action" onclick="addNoteAtPlayhead('thigh')" title="Adicionar no cursor">+Add</button>
-                    <button class="btn-track-action" onclick="clearSpecificTrack('thigh')" title="Limpar só coxas" style="color: #f43f5e;">🗑️</button>
-                  </div>
-                </div>
-                <div class="track-lane-content" id="lane-thigh" onclick="handleLaneClick('thigh', event)"></div>
+            <div class="track-row-lane">
+              <div class="track-header-badge">
+                <span class="track-title-text" style="color: var(--c-clap);">🔴 4. Palma</span>
+                <button class="pill-btn" style="padding: 2px 8px; font-size: 0.72rem;" onclick="addNoteAtCurrentPlayhead('clap')">+Palma</button>
               </div>
+              <div class="lane-strip-canvas" id="lane-canvas-clap" onclick="handleLaneClick('clap', event)"></div>
+            </div>
 
-              <!-- FAIXA 5: PÉ -->
-              <div class="track-row" id="row-stomp">
-                <div class="track-header-cell">
-                  <span class="track-header-title" style="color: #a855f7;">🦶 Pé</span>
-                  <div class="track-header-btns">
-                    <button class="btn-track-action" onclick="addNoteAtPlayhead('stomp')" title="Adicionar no cursor">+Add</button>
-                    <button class="btn-track-action" onclick="clearSpecificTrack('stomp')" title="Limpar só pés" style="color: #f43f5e;">🗑️</button>
-                  </div>
-                </div>
-                <div class="track-lane-content" id="lane-stomp" onclick="handleLaneClick('stomp', event)"></div>
+            <div class="track-row-lane">
+              <div class="track-header-badge">
+                <span class="track-title-text" style="color: var(--c-snap);">🟣 5. Estalo</span>
+                <button class="pill-btn" style="padding: 2px 8px; font-size: 0.72rem;" onclick="addNoteAtCurrentPlayhead('snap')">+Estalo</button>
               </div>
-
+              <div class="lane-strip-canvas" id="lane-canvas-snap" onclick="handleLaneClick('snap', event)"></div>
             </div>
 
           </div>
         </div>
-
       </div>
 
     </section>
 
   </main>
 
-  <!-- MOTOR JAVASCRIPT: LINHAS NEON CONSTANTES, SUPER EXPLOSÕES E FUNDO CUSTOMIZADO -->
+  <!-- MOTOR COMPLETO DE JOGO E ÁUDIO -->
   <script>
-    // CONFIGURAÇÕES DOS 5 MOVIMENTOS
-    const COLUMN_CONFIG = {
-      clap:  { colIndex: 0, icon: '👏', label: 'Palma', theme: 'theme-clap', color: '#f59e0b', receptorId: 'rec-clap', laneId: 'lane-clap' },
-      chest: { colIndex: 1, icon: '🫀', label: 'Peito', theme: 'theme-chest', color: '#f43f5e', receptorId: 'rec-chest', laneId: 'lane-chest' },
-      snap:  { colIndex: 2, icon: '🫰', label: 'Estalo', theme: 'theme-snap', color: '#06b6d4', receptorId: 'rec-snap', laneId: 'lane-snap' },
-      thigh: { colIndex: 3, icon: '🦵', label: 'Coxa', theme: 'theme-thigh', color: '#10b981', receptorId: 'rec-thigh', laneId: 'lane-thigh' },
-      stomp: { colIndex: 4, icon: '🦶', label: 'Pé', theme: 'theme-stomp', color: '#a855f7', receptorId: 'rec-stomp', laneId: 'lane-stomp' }
+    // DEFINIÇÃO DOS 5 CANAIS ANATÔMICOS
+    const TRACK_CHANNELS = {
+      foot: {
+        index: 0,
+        label: 'Pé',
+        color: '#f5cb35',
+        glow: 'rgba(245, 203, 53, 0.9)',
+        saucerNoteClass: 'saucer-note-foot',
+        targetPuckId: 'saucer-puck-foot',
+        targetShieldId: 'triangle-shield-foot',
+        laneId: 'lane-canvas-foot'
+      },
+      thigh: {
+        index: 1,
+        label: 'Coxa',
+        color: '#34bebe',
+        glow: 'rgba(52, 190, 190, 0.9)',
+        saucerNoteClass: 'saucer-note-thigh',
+        targetPuckId: 'saucer-puck-thigh',
+        targetShieldId: 'triangle-shield-thigh',
+        laneId: 'lane-canvas-thigh'
+      },
+      chest: {
+        index: 2,
+        label: 'Peito',
+        color: '#4272b8',
+        glow: 'rgba(66, 114, 184, 0.9)',
+        saucerNoteClass: 'saucer-note-chest',
+        targetPuckId: 'saucer-puck-chest',
+        targetShieldId: 'triangle-shield-chest',
+        laneId: 'lane-canvas-chest'
+      },
+      clap: {
+        index: 3,
+        label: 'Palma',
+        color: '#e94875',
+        glow: 'rgba(233, 72, 117, 0.9)',
+        saucerNoteClass: 'saucer-note-clap',
+        targetPuckId: 'saucer-puck-clap',
+        targetShieldId: 'triangle-shield-clap',
+        laneId: 'lane-canvas-clap'
+      },
+      snap: {
+        index: 4,
+        label: 'Estalo',
+        color: '#ab3f89',
+        glow: 'rgba(171, 63, 137, 0.9)',
+        saucerNoteClass: 'saucer-note-snap',
+        targetPuckId: 'saucer-puck-snap',
+        targetShieldId: 'triangle-shield-snap',
+        laneId: 'lane-canvas-snap'
+      }
     };
 
-    // FAIXA PADRÃO
-    const DEFAULT_TRACK = {
-      id: 'faixa_padrao_2ano',
-      title: 'Marcha Suave das Palmas & Peito (Especial 2º Ano)',
-      badge: 'FÁCIL • 2º ANO 👶',
-      bpm: 80,
-      duration: 48,
-      bgImage: '',
-      beats: [
-        { time: 2.0, type: 'clap' },
-        { time: 2.75, type: 'clap' },
-        { time: 3.5, type: 'chest' },
-        { time: 4.25, type: 'chest' },
-
-        { time: 5.5, type: 'clap' },
-        { time: 6.25, type: 'clap' },
-        { time: 7.0, type: 'chest' },
-        { time: 7.75, type: 'chest' },
-
-        { time: 9.0, type: 'snap' },
-        { time: 9.75, type: 'snap' },
-        { time: 10.5, type: 'thigh' },
-        { time: 11.25, type: 'stomp' },
-
-        { time: 12.5, type: 'clap' },
-        { time: 13.25, type: 'clap' },
-        { time: 14.0, type: 'chest' },
-        { time: 14.75, type: 'chest' }
-      ]
+    // ROTINAS DE RITMO PRÉ-CONFIGURADAS
+    const PRESET_SONGS = {
+      how_its_done: {
+        id: 'how_its_done',
+        title: 'How It’s Done – Percussão Corporal',
+        lyrics: "Dreaming's always in my blood, since I learned to stand so well!",
+        bpm: 92,
+        duration: 48,
+        beats: [
+          { time: 2.0, type: 'foot' },
+          { time: 2.65, type: 'foot' },
+          { time: 3.3, type: 'clap' },
+          { time: 3.95, type: 'clap' },
+          { time: 5.2, type: 'thigh' },
+          { time: 5.85, type: 'thigh' },
+          { time: 6.5, type: 'chest' },
+          { time: 7.15, type: 'chest' },
+          { time: 8.5, type: 'foot' },
+          { time: 9.15, type: 'clap' },
+          { time: 9.8, type: 'snap' },
+          { time: 10.45, type: 'snap' },
+          { time: 11.8, type: 'thigh' },
+          { time: 12.45, type: 'chest' },
+          { time: 13.1, type: 'clap' },
+          { time: 13.75, type: 'foot' },
+          { time: 15.0, type: 'foot' },
+          { time: 15.65, type: 'foot' },
+          { time: 16.3, type: 'clap' },
+          { time: 16.95, type: 'snap' },
+          { time: 18.2, type: 'thigh' },
+          { time: 18.85, type: 'thigh' },
+          { time: 19.5, type: 'chest' },
+          { time: 20.15, type: 'clap' },
+          { time: 21.5, type: 'clap' },
+          { time: 22.15, type: 'clap' },
+          { time: 22.8, type: 'snap' },
+          { time: 23.45, type: 'snap' },
+          { time: 25.0, type: 'foot' },
+          { time: 25.65, type: 'thigh' },
+          { time: 26.3, type: 'chest' },
+          { time: 26.95, type: 'clap' },
+          { time: 27.6, type: 'snap' },
+          { time: 29.0, type: 'foot' },
+          { time: 29.65, type: 'foot' },
+          { time: 30.3, type: 'clap' },
+          { time: 30.95, type: 'clap' },
+          { time: 32.2, type: 'thigh' },
+          { time: 32.85, type: 'chest' },
+          { time: 33.5, type: 'clap' },
+          { time: 34.15, type: 'snap' },
+          { time: 36.0, type: 'foot' },
+          { time: 36.65, type: 'foot' },
+          { time: 37.3, type: 'clap' },
+          { time: 37.95, type: 'snap' },
+          { time: 39.2, type: 'thigh' },
+          { time: 39.85, type: 'thigh' },
+          { time: 40.5, type: 'chest' },
+          { time: 41.15, type: 'clap' },
+          { time: 42.5, type: 'foot' },
+          { time: 43.15, type: 'clap' },
+          { time: 43.8, type: 'snap' },
+          { time: 44.45, type: 'snap' }
+        ]
+      },
+      suave_2ano: {
+        id: 'suave_2ano',
+        title: 'Ritmo Suave para os Menores (2º Ano)',
+        lyrics: 'No ritmo do coração: bate o pé e bate a mão!',
+        bpm: 68,
+        duration: 40,
+        beats: [
+          { time: 2.5, type: 'foot' },
+          { time: 4.0, type: 'clap' },
+          { time: 5.5, type: 'foot' },
+          { time: 7.0, type: 'clap' },
+          { time: 9.0, type: 'thigh' },
+          { time: 10.5, type: 'thigh' },
+          { time: 12.0, type: 'clap' },
+          { time: 14.0, type: 'foot' },
+          { time: 15.5, type: 'clap' },
+          { time: 17.0, type: 'chest' },
+          { time: 18.5, type: 'clap' }
+        ]
+      },
+      groove_5: {
+        id: 'groove_5',
+        title: 'Desafio Completo dos 5 Movimentos',
+        lyrics: 'Pé, coxa, peito, palma e estalo: todo mundo dançando!',
+        bpm: 100,
+        duration: 45,
+        beats: [
+          { time: 2.0, type: 'foot' },
+          { time: 2.5, type: 'thigh' },
+          { time: 3.0, type: 'chest' },
+          { time: 3.5, type: 'clap' },
+          { time: 4.0, type: 'snap' },
+          { time: 5.5, type: 'foot' },
+          { time: 6.0, type: 'thigh' },
+          { time: 6.5, type: 'chest' },
+          { time: 7.0, type: 'clap' },
+          { time: 7.5, type: 'snap' }
+        ]
+      }
     };
 
-    // ESTADO GLOBAL
-    let activeTrack = JSON.parse(JSON.stringify(DEFAULT_TRACK));
+    // ESTADO DO JOGO
+    let activeTrack = JSON.parse(JSON.stringify(PRESET_SONGS.how_its_done));
     let isPlaying = false;
     let playbackSpeed = 1.0;
-    let sfxOn = true;
-    let audioCtx = null;
-    let customAudio = null;
-    let synthClock = null;
-    let synthVirtualTime = 0;
-    let isRecordingLive = false;
-    let activeRecordLayer = 'clap';
-    let triggeredHitsSet = new Set();
-    let animFrame = null;
+    let sfxEnabled = true;
+    let currentRecordLayer = 'foot';
+    let isOverdubRecording = false;
 
-    // Canvas FX
-    const fxCanvas = document.getElementById('fx-canvas');
-    const fxCtx = fxCanvas.getContext('2d');
-    let particlesList = [];
+    // CONTROLE DE TEMPO SUAVE (CLIQUE DE ALTA PRECISÃO)
+    let playStartTime = 0;
+    let playOffsetTime = 0;
+    let triggeredBeatsSet = new Set();
+    let animFrameRequest = null;
 
-    function handleResize() {
-      const rect = document.getElementById('theater-screen').getBoundingClientRect();
-      fxCanvas.width = rect.width;
-      fxCanvas.height = rect.height;
-      renderTimelineView();
+    // ÁUDIO E WEBAUDIO
+    let audioContext = null;
+    let userAudioElement = null;
+    let synthGrooveInterval = null;
+    let synthStepCounter = 0;
+
+    // CANVAS DE EFEITOS
+    const fireworksCanvas = document.getElementById('fx-fireworks-canvas');
+    const fwCtx = fireworksCanvas.getContext('2d');
+    let explosionParticles = [];
+
+    function updateCanvasSize() {
+      const frame = document.getElementById('stage-frame');
+      fireworksCanvas.width = frame.clientWidth;
+      fireworksCanvas.height = frame.clientHeight;
+      renderSequencerBoard();
     }
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', updateCanvasSize);
+    setTimeout(updateCanvasSize, 200);
 
     // ==========================================
-    // ÁUDIO & SÍNTESE
+    // SISTEMA DE ÁUDIO WEB AUDIO PROFISSIONAL
     // ==========================================
-    function getAudioCtx() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      return audioCtx;
-    }
-
-    function playPercussionSound(type) {
-      if (!sfxOn) return;
-      try {
-        const ac = getAudioCtx();
-        const now = ac.currentTime;
-
-        if (type === 'clap') {
-          const buf = ac.createBuffer(1, ac.sampleRate * 0.1, ac.sampleRate);
-          const d = buf.getChannelData(0);
-          for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
-          const src = ac.createBufferSource();
-          src.buffer = buf;
-          const f = ac.createBiquadFilter();
-          f.type = 'bandpass';
-          f.frequency.setValueAtTime(1300, now);
-          const g = ac.createGain();
-          g.gain.setValueAtTime(0.7, now);
-          g.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-          src.connect(f); f.connect(g); g.connect(ac.destination);
-          src.start(now);
-        } else if (type === 'chest') {
-          const osc = ac.createOscillator();
-          const g = ac.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(110, now);
-          osc.frequency.exponentialRampToValueAtTime(35, now + 0.15);
-          g.gain.setValueAtTime(0.9, now);
-          g.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-          osc.connect(g); g.connect(ac.destination);
-          osc.start(now); osc.stop(now + 0.16);
-        } else if (type === 'snap') {
-          const osc = ac.createOscillator();
-          const g = ac.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(2400, now);
-          osc.frequency.exponentialRampToValueAtTime(500, now + 0.05);
-          g.gain.setValueAtTime(0.8, now);
-          g.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-          osc.connect(g); g.connect(ac.destination);
-          osc.start(now); osc.stop(now + 0.06);
-        } else if (type === 'thigh') {
-          const osc = ac.createOscillator();
-          const g = ac.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(250, now);
-          osc.frequency.exponentialRampToValueAtTime(80, now + 0.1);
-          g.gain.setValueAtTime(0.7, now);
-          g.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-          osc.connect(g); g.connect(ac.destination);
-          osc.start(now); osc.stop(now + 0.11);
-        } else if (type === 'stomp') {
-          const osc = ac.createOscillator();
-          const g = ac.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(85, now);
-          osc.frequency.exponentialRampToValueAtTime(25, now + 0.22);
-          g.gain.setValueAtTime(1.0, now);
-          g.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
-          osc.connect(g); g.connect(ac.destination);
-          osc.start(now); osc.stop(now + 0.23);
-        }
-      } catch(e){}
-    }
-
-    function startSynthMelody() {
-      stopSynthMelody();
-      const bpm = activeTrack.bpm || 80;
-      const interval = (60 / bpm) * 1000 / playbackSpeed;
-      let count = 0;
-      synthClock = setInterval(() => {
-        if (!isPlaying) return;
-        synthVirtualTime += (60 / bpm) / 4;
-        count++;
-      }, interval / 4);
-    }
-
-    function stopSynthMelody() {
-      clearInterval(synthClock);
-      synthClock = null;
-    }
-
-    // ==========================================
-    // MOTOR FÍSICO COM LINHAS NEON PERMANENTES
-    // ==========================================
-    function getNowTime() {
-      if (customAudio && !activeTrack.isDefaultAudio) {
-        return customAudio.currentTime;
+    function getAudioContext() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
       }
-      return synthVirtualTime;
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      return audioContext;
     }
 
-    function getTotalDuration() {
-      if (customAudio && !activeTrack.isDefaultAudio && customAudio.duration) {
-        return customAudio.duration;
+    // SOM DE PERCUSSÃO CORPORAL PERSONALIZADO POR TIPO
+    function playHitAudioSFX(type) {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const t = ctx.currentTime;
+
+        if (type === 'foot') {
+          // Bumbo profundo no chão
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(110, t);
+          osc.frequency.exponentialRampToValueAtTime(30, t + 0.22);
+          gain.gain.setValueAtTime(1.0, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.22);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.23);
+        } else if (type === 'thigh') {
+          // Tapa seco na coxa
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(320, t);
+          osc.frequency.exponentialRampToValueAtTime(80, t + 0.12);
+          gain.gain.setValueAtTime(0.8, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.12);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.13);
+        } else if (type === 'chest') {
+          // Batida oca e grave no tórax
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(140, t);
+          osc.frequency.exponentialRampToValueAtTime(45, t + 0.16);
+          gain.gain.setValueAtTime(0.95, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.16);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.17);
+        } else if (type === 'clap') {
+          // Palmas estaladas e brilhantes com ruído branco
+          const bufferSize = ctx.sampleRate * 0.12;
+          const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+
+          const whiteNoise = ctx.createBufferSource();
+          whiteNoise.buffer = noiseBuffer;
+
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(1400, t);
+          filter.Q.setValueAtTime(2.5, t);
+
+          const gain = ctx.createGain();
+          gain.gain.setValueAtTime(0.9, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.12);
+
+          whiteNoise.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+          whiteNoise.start(t);
+        } else if (type === 'snap') {
+          // Estalo agudo de dedos (snap)
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(2800, t);
+          osc.frequency.exponentialRampToValueAtTime(600, t + 0.05);
+          gain.gain.setValueAtTime(0.85, t);
+          gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.06);
+        }
+      } catch (err) {}
+    }
+
+    // BASE MUSICAL SINTETIZADA (FUNK GROOVE PARA AULA NÃO FICAR EM SILÊNCIO)
+    function startGrooveBackingTrack() {
+      stopGrooveBackingTrack();
+      if (userAudioElement) return; // Se tem MP3 carregado, toca o MP3!
+
+      const bpm = activeTrack.bpm || 92;
+      const stepDuration = (60 / bpm) / 4; // Semicolcheia
+      synthStepCounter = Math.floor((playOffsetTime / (60 / bpm)) * 4);
+
+      synthGrooveInterval = setInterval(() => {
+        if (!isPlaying && !isOverdubRecording) return;
+        try {
+          const ctx = getAudioContext();
+          const t = ctx.currentTime;
+          const step = synthStepCounter % 16;
+          synthStepCounter++;
+
+          // Chimbal em todas as notas
+          if (step % 2 === 0) {
+            const buf = ctx.createBuffer(1, ctx.sampleRate * 0.03, ctx.sampleRate);
+            const d = buf.getChannelData(0);
+            for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+            const src = ctx.createBufferSource();
+            src.buffer = buf;
+            const flt = ctx.createBiquadFilter();
+            flt.type = 'highpass';
+            flt.frequency.setValueAtTime(8000, t);
+            const gn = ctx.createGain();
+            gn.gain.setValueAtTime((step % 4 === 2) ? 0.2 : 0.09, t);
+            gn.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
+            src.connect(flt); flt.connect(gn); gn.connect(ctx.destination);
+            src.start(t);
+          }
+
+          // Bumbo leve nos tempos 0 e 8
+          if (step === 0 || step === 8 || step === 14) {
+            const osc = ctx.createOscillator();
+            const gn = ctx.createGain();
+            osc.frequency.setValueAtTime(90, t);
+            osc.frequency.exponentialRampToValueAtTime(35, t + 0.15);
+            gn.gain.setValueAtTime(0.4, t);
+            gn.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+            osc.connect(gn); gn.connect(ctx.destination);
+            osc.start(t); osc.stop(t + 0.16);
+          }
+
+          // Caixa / Palminha nos tempos 4 e 12
+          if (step === 4 || step === 12) {
+            const buf = ctx.createBuffer(1, ctx.sampleRate * 0.08, ctx.sampleRate);
+            const d = buf.getChannelData(0);
+            for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+            const src = ctx.createBufferSource();
+            src.buffer = buf;
+            const flt = ctx.createBiquadFilter();
+            flt.type = 'bandpass';
+            flt.frequency.setValueAtTime(1200, t);
+            const gn = ctx.createGain();
+            gn.gain.setValueAtTime(0.3, t);
+            gn.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
+            src.connect(flt); flt.connect(gn); gn.connect(ctx.destination);
+            src.start(t);
+          }
+        } catch (e) {}
+      }, (stepDuration * 1000) / playbackSpeed);
+    }
+
+    function stopGrooveBackingTrack() {
+      if (synthGrooveInterval) {
+        clearInterval(synthGrooveInterval);
+        synthGrooveInterval = null;
+      }
+    }
+
+    // ==========================================
+    // RELÓGIO DE ALTA PRECISÃO E LOOP PRINCIPAL
+    // ==========================================
+    function getCurrentAudioTime() {
+      if (userAudioElement) {
+        return userAudioElement.currentTime;
+      }
+      if (!isPlaying && !isOverdubRecording) {
+        return playOffsetTime;
+      }
+      const elapsed = (performance.now() - playStartTime) / 1000;
+      return playOffsetTime + (elapsed * playbackSpeed);
+    }
+
+    function getSongDuration() {
+      if (userAudioElement && userAudioElement.duration) {
+        return userAudioElement.duration;
       }
       return activeTrack.duration || 48;
     }
 
-    function mainGameLoop() {
-      const now = getNowTime();
-      const duration = getTotalDuration();
+    function mainEngineLoop() {
+      const now = getCurrentAudioTime();
+      const duration = getSongDuration();
 
-      if (isPlaying || isRecordingLive) {
-        // Barra de progresso
+      if (isPlaying || isOverdubRecording) {
+        // Atualiza progresso e timer
         const pct = Math.min(100, (now / duration) * 100);
-        document.getElementById('seek-fill').style.width = pct + '%';
-        document.getElementById('time-display').innerText = `${formatSec(now)} / ${formatSec(duration)}`;
+        document.getElementById('scrub-fill').style.width = pct + '%';
+        document.getElementById('playback-timer').innerText = `${formatSeconds(now)} / ${formatSeconds(duration)}`;
 
-        // Playhead da linha do tempo
-        updateTimelinePlayhead(now, duration);
+        // Atualiza agulha no sequenciador
+        updateSequencerPlayhead(now, duration);
 
-        // Renderiza as notas deslizando nas linhas neon
-        renderVerticalFallingNotes(now);
+        // Renderiza botões metálicos descendo pelas cordas
+        renderFallingSaucers(now);
 
         // Fim da faixa
-        if (now >= duration && isPlaying) {
-          pausePlaybackEngine();
-          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        if (now >= duration) {
+          pauseEnginePlay();
+          confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
         }
       }
 
-      renderCanvasParticles();
-      animFrame = requestAnimationFrame(mainGameLoop);
+      // Renderiza partículas no canvas
+      drawFireworksParticles();
+
+      animFrameRequest = requestAnimationFrame(mainEngineLoop);
     }
 
-    // Renderiza cada nota deslizando na sua linha neon permanente
-    function renderVerticalFallingNotes(now) {
-      const layer = document.getElementById('falling-notes-layer');
-      layer.innerHTML = '';
+    // ==========================================
+    // RENDERIZAÇÃO DOS BOTÕES METÁLICOS 3D
+    // ==========================================
+    function renderFallingSaucers(currentTime) {
+      const container = document.getElementById('falling-saucers-layer');
+      container.innerHTML = '';
 
-      const dropArea = document.getElementById('drop-area');
-      const dropHeight = dropArea.clientHeight || 420;
-      const targetHitY = dropHeight - 50; // Linha de impacto dos receptores
-      const pixelsPerSec = 230; // Velocidade de descida
-      const colWidthPct = 100 / 5; // 5 colunas
+      const frame = document.getElementById('stage-frame');
+      const stageH = frame.clientHeight || 560;
 
-      activeTrack.beats.forEach((b, idx) => {
-        const timeDiff = b.time - now;
-        const currentY = targetHitY - (timeDiff * pixelsPerSec);
+      // O ponto de impacto é EXATAMENTE sobre o botão metálico da base (alvo)
+      const targetHitY = stageH - 128;
+      const travelDuration = 2.8; // Tempo de descida suave e visível para os alunos
+      const pixelsPerSecond = (targetHitY - 20) / travelDuration;
+      const colWidthPct = 100 / 5;
 
-        // Se está descendo dentro da tela visível
-        if (currentY > -60 && currentY < targetHitY + 50) {
-          const cfg = COLUMN_CONFIG[b.type] || COLUMN_CONFIG.clap;
-          const colCenterX = (cfg.colIndex * colWidthPct) + (colWidthPct / 2);
+      activeTrack.beats.forEach((beat, index) => {
+        const timeDiff = beat.time - currentTime;
+        const currentY = targetHitY - (timeDiff * pixelsPerSecond);
 
-          const noteEl = document.createElement('div');
-          noteEl.className = `falling-symbol-item ${cfg.theme}`;
-          noteEl.style.left = colCenterX + '%';
-          noteEl.style.top = currentY + 'px';
-          noteEl.innerHTML = `
-            <span class="s-icon">${cfg.icon}</span>
-            <span class="s-txt">${cfg.label}</span>
-          `;
-          layer.appendChild(noteEl);
+        // Renderiza se estiver descendo dentro da tela
+        if (currentY >= 10 && currentY <= targetHitY + 35) {
+          const ch = TRACK_CHANNELS[beat.type] || TRACK_CHANNELS.clap;
+          const colCenterX = (ch.index * colWidthPct) + (colWidthPct / 2);
+
+          const disc = document.createElement('div');
+          disc.className = `saucer-note-disc ${ch.saucerNoteClass}`;
+          disc.style.left = colCenterX + '%';
+          disc.style.top = currentY + 'px';
+          container.appendChild(disc);
         }
 
-        // IMPACTO EXATO NA BASE: QUANDO A PALMA CHEGA NA PALMA!
-        if (Math.abs(timeDiff) < 0.07 && !triggeredHitsSet.has(idx)) {
-          triggeredHitsSet.add(idx);
-          executeHitSuperExplosion(b.type);
+        // DISPARO NO ALVO DA BASE QUANDO A NOTA CHEGA
+        if (Math.abs(timeDiff) < 0.075 && !triggeredBeatsSet.has(index)) {
+          triggeredBeatsSet.add(index);
+          triggerReceptorImpact(beat.type);
         }
       });
     }
 
-    // EXPLOSÃO BRILHANTEZINHA QUANDO A NOTA CHEGA NO ALVO
-    function executeHitSuperExplosion(type) {
-      const cfg = COLUMN_CONFIG[type] || COLUMN_CONFIG.clap;
+    // EXPLOSÃO E FEEDBACK VISUAL NO RECEPTOR DA BASE
+    function triggerReceptorImpact(type) {
+      const ch = TRACK_CHANNELS[type] || TRACK_CHANNELS.clap;
+      playHitAudioSFX(type);
 
-      playPercussionSound(type);
+      const puckEl = document.getElementById(ch.targetPuckId);
+      const shieldEl = document.getElementById(ch.targetShieldId);
 
-      const receptor = document.getElementById(cfg.receptorId);
-      if (receptor) {
-        receptor.classList.add('hit-active');
-        setTimeout(() => receptor.classList.remove('hit-active'), 160);
+      if (puckEl) {
+        puckEl.classList.add('hit-pulse');
+        setTimeout(() => puckEl.classList.remove('hit-pulse'), 140);
+      }
+      if (shieldEl) {
+        shieldEl.classList.add('hit-pulse');
+        setTimeout(() => shieldEl.classList.remove('hit-pulse'), 160);
       }
 
-      // Explosão de brilho e faíscas no receptor
-      const rect = document.getElementById(cfg.receptorId).getBoundingClientRect();
-      const theaterRect = document.getElementById('theater-screen').getBoundingClientRect();
-      const hitX = rect.left - theaterRect.left + (rect.width / 2);
-      const hitY = rect.top - theaterRect.top + (rect.height / 2);
-
-      spawnBrightExplosion(hitX, hitY, cfg.color);
+      // Dispara partículas brilhantes no local do impacto
+      if (puckEl) {
+        const pRect = puckEl.getBoundingClientRect();
+        const fRect = document.getElementById('stage-frame').getBoundingClientRect();
+        const hitX = (pRect.left - fRect.left) + (pRect.width / 2);
+        const hitY = (pRect.top - fRect.top) + (pRect.height / 2);
+        spawnImpactExplosion(hitX, hitY, ch.color);
+      }
     }
 
-    // SUPER EXPLOSÃO DE PARTÍCULAS E FAÍSCAS BRILHANTES
-    function spawnBrightExplosion(x, y, color) {
-      // 35+ partículas brilhantes em alta velocidade
-      for (let i = 0; i < 36; i++) {
-        const ang = Math.random() * Math.PI * 2;
-        const spd = Math.random() * 8 + 3;
-        particlesList.push({
+    function spawnImpactExplosion(x, y, color) {
+      // Faíscas radiais
+      for (let i = 0; i < 40; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 9 + 4;
+        explosionParticles.push({
           x: x, y: y,
-          vx: Math.cos(ang) * spd,
-          vy: Math.sin(ang) * spd,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
           radius: Math.random() * 6 + 3,
           color: (i % 2 === 0) ? '#ffffff' : color,
-          alpha: 1,
+          alpha: 1.0,
           decay: Math.random() * 0.04 + 0.02
         });
       }
-      // Anel expansivo brilhante
-      particlesList.push({
+      // Anel de choque expansivo
+      explosionParticles.push({
         x: x, y: y,
-        isRing: true,
-        radius: 10,
+        isShockwave: true,
+        radius: 14,
         color: color,
-        alpha: 1,
-        growth: 7,
+        alpha: 1.0,
+        growth: 9,
         decay: 0.05
       });
     }
 
-    function renderCanvasParticles() {
-      fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
-      for (let i = particlesList.length - 1; i >= 0; i--) {
-        const p = particlesList[i];
-
-        if (p.isRing) {
+    function drawFireworksParticles() {
+      fwCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+      for (let i = explosionParticles.length - 1; i >= 0; i--) {
+        const p = explosionParticles[i];
+        if (p.isShockwave) {
           p.radius += p.growth;
           p.alpha -= p.decay;
           if (p.alpha <= 0) {
-            particlesList.splice(i, 1);
+            explosionParticles.splice(i, 1);
             continue;
           }
-          fxCtx.save();
-          fxCtx.globalAlpha = p.alpha;
-          fxCtx.strokeStyle = p.color;
-          fxCtx.lineWidth = 4;
-          fxCtx.beginPath();
-          fxCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          fxCtx.stroke();
-          fxCtx.restore();
-          continue;
+          fwCtx.save();
+          fwCtx.globalAlpha = p.alpha;
+          fwCtx.strokeStyle = p.color;
+          fwCtx.lineWidth = 4;
+          fwCtx.shadowColor = '#ffffff';
+          fwCtx.shadowBlur = 15;
+          fwCtx.beginPath();
+          fwCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          fwCtx.stroke();
+          fwCtx.restore();
+        } else {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.15; // Gravidade sutil
+          p.alpha -= p.decay;
+          if (p.alpha <= 0) {
+            explosionParticles.splice(i, 1);
+            continue;
+          }
+          fwCtx.save();
+          fwCtx.globalAlpha = p.alpha;
+          fwCtx.fillStyle = p.color;
+          fwCtx.shadowColor = p.color;
+          fwCtx.shadowBlur = 10;
+          fwCtx.beginPath();
+          fwCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          fwCtx.fill();
+          fwCtx.restore();
         }
-
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha -= p.decay;
-        if (p.alpha <= 0) {
-          particlesList.splice(i, 1);
-          continue;
-        }
-
-        fxCtx.save();
-        fxCtx.globalAlpha = p.alpha;
-        fxCtx.fillStyle = p.color;
-        fxCtx.shadowColor = p.color;
-        fxCtx.shadowBlur = 12;
-        fxCtx.beginPath();
-        fxCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        fxCtx.fill();
-        fxCtx.restore();
       }
     }
 
     // ==========================================
-    // SISTEMA DE FUNDO PERSONALIZÁVEL
+    // CONTROLES DE REPRODUÇÃO & OVERDUB
     // ==========================================
-    const BG_PRESETS = {
-      default: '',
-      concert: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1400&q=80',
-      galaxy: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1400&q=80',
-      disco: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1400&q=80'
-    };
-
-    function changeStageBackground(val) {
-      const bgLayer = document.getElementById('theater-custom-bg');
-      if (val === 'custom') {
-        document.getElementById('bg-upload-input').click();
-        return;
-      }
-      const url = BG_PRESETS[val] || '';
-      applyStageBgUrl(url);
-    }
-
-    function handleBgUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const url = URL.createObjectURL(file);
-      applyStageBgUrl(url);
-      document.getElementById('select-bg-preset').value = 'custom';
-    }
-
-    function applyStageBgUrl(url) {
-      const bgLayer = document.getElementById('theater-custom-bg');
-      if (url) {
-        bgLayer.style.backgroundImage = `url('${url}')`;
-        bgLayer.style.opacity = '0.5';
-      } else {
-        bgLayer.style.backgroundImage = 'none';
-        bgLayer.style.opacity = '0';
-      }
-    }
-
-    // ==========================================
-    // CONTROLES DE REPRODUÇÃO & VELOCIDADE
-    // ==========================================
-    function togglePlayState() {
+    function toggleEnginePlay() {
       if (isPlaying) {
-        pausePlaybackEngine();
+        pauseEnginePlay();
       } else {
-        startPlaybackEngine();
+        startEnginePlay();
       }
     }
 
-    function startPlaybackEngine() {
-      getAudioCtx();
+    function startEnginePlay() {
+      getAudioContext();
       isPlaying = true;
-      document.getElementById('btn-play-icon').innerText = '⏸️';
-      document.getElementById('btn-play-text').innerText = 'Pausar';
+      playStartTime = performance.now();
 
-      if (customAudio && !activeTrack.isDefaultAudio) {
-        customAudio.playbackRate = playbackSpeed;
-        customAudio.play();
+      if (userAudioElement) {
+        userAudioElement.playbackRate = playbackSpeed;
+        userAudioElement.currentTime = playOffsetTime;
+        userAudioElement.play().catch(() => {});
       } else {
-        startSynthMelody();
+        startGrooveBackingTrack();
       }
+
+      document.getElementById('btn-play-symbol').innerText = '⏸️';
+      document.getElementById('btn-play-label').innerText = 'Pausar';
+      document.getElementById('btn-master-play').style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
     }
 
-    function pausePlaybackEngine() {
+    function pauseEnginePlay() {
       isPlaying = false;
-      document.getElementById('btn-play-icon').innerText = '▶️';
-      document.getElementById('btn-play-text').innerText = 'Continuar';
+      playOffsetTime = getCurrentAudioTime();
 
-      if (customAudio && !activeTrack.isDefaultAudio) {
-        customAudio.pause();
-      } else {
-        stopSynthMelody();
+      if (userAudioElement) userAudioElement.pause();
+      stopGrooveBackingTrack();
+
+      document.getElementById('btn-play-symbol').innerText = '▶️';
+      document.getElementById('btn-play-label').innerText = 'Continuar';
+      document.getElementById('btn-master-play').style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    }
+
+    function restartEnginePlay() {
+      pauseEnginePlay();
+      playOffsetTime = 0;
+      triggeredBeatsSet.clear();
+      if (userAudioElement) userAudioElement.currentTime = 0;
+      document.getElementById('scrub-fill').style.width = '0%';
+      document.getElementById('playback-timer').innerText = `00:00 / ${formatSeconds(getSongDuration())}`;
+      renderFallingSaucers(0);
+      updateSequencerPlayhead(0, getSongDuration());
+    }
+
+    function setTempoSpeed(speed) {
+      playbackSpeed = speed;
+      if (userAudioElement) userAudioElement.playbackRate = speed;
+      document.querySelectorAll('.group-center .pill-btn').forEach(b => b.classList.remove('active'));
+      if (speed === 1.0) document.getElementById('spd-btn-10').classList.add('active');
+      if (speed === 0.75) document.getElementById('spd-btn-075').classList.add('active');
+      if (speed === 0.5) document.getElementById('spd-btn-050').classList.add('active');
+
+      if (isPlaying) {
+        playOffsetTime = getCurrentAudioTime();
+        playStartTime = performance.now();
+        stopGrooveBackingTrack();
+        startGrooveBackingTrack();
       }
     }
 
-    function restartPlayState() {
-      isPlaying = false;
-      synthVirtualTime = 0;
-      triggeredHitsSet.clear();
-      document.getElementById('btn-play-icon').innerText = '▶️';
-      document.getElementById('btn-play-text').innerText = 'Iniciar Desafio';
+    function seekThroughTrack(event) {
+      const track = document.getElementById('scrub-bar');
+      const rect = track.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+      const targetTime = pct * getSongDuration();
 
-      if (customAudio && !activeTrack.isDefaultAudio) {
-        customAudio.pause();
-        customAudio.currentTime = 0;
-      } else {
-        stopSynthMelody();
-      }
-      setTimeout(startPlaybackEngine, 80);
-    }
+      playOffsetTime = targetTime;
+      playStartTime = performance.now();
+      if (userAudioElement) userAudioElement.currentTime = targetTime;
 
-    function applyPlaybackSpeed(spd) {
-      playbackSpeed = spd;
-      document.querySelectorAll('#spd-1, #spd-075, #spd-05').forEach(b => b.classList.remove('active'));
-      if (spd === 1.0) document.getElementById('spd-1').classList.add('active');
-      if (spd === 0.75) document.getElementById('spd-075').classList.add('active');
-      if (spd === 0.5) document.getElementById('spd-05').classList.add('active');
-
-      if (customAudio && !activeTrack.isDefaultAudio) {
-        customAudio.playbackRate = spd;
-      } else if (isPlaying) {
-        startSynthMelody();
-      }
-    }
-
-    function toggleAudioSFX() {
-      sfxOn = !sfxOn;
-      document.getElementById('btn-sfx-toggle').innerText = sfxOn ? '🔊 Som dos Golpes: LIGADO' : '🔇 Som dos Golpes: MUDO';
-    }
-
-    function handleSeekTrackClick(e) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const pct = Math.max(0, Math.min(1, clickX / rect.width));
-      const targetTime = getTotalDuration() * pct;
-      seekToTime(targetTime);
-    }
-
-    function seekToTime(targetTime) {
-      triggeredHitsSet.clear();
-      if (customAudio && !activeTrack.isDefaultAudio) {
-        customAudio.currentTime = targetTime;
-      } else {
-        synthVirtualTime = targetTime;
-      }
-      updateTimelinePlayhead(targetTime, getTotalDuration());
-    }
-
-    function formatSec(s) {
-      const m = Math.floor(s / 60);
-      const sec = Math.floor(s % 60);
-      return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-    }
-
-    // ==========================================
-    // MULTI-TRACK SEQUENCER & OVERDUBBING
-    // ==========================================
-    function switchAppTab(tab) {
-      document.getElementById('tab-play').classList.toggle('active', tab === 'play');
-      document.getElementById('tab-studio').classList.toggle('active', tab === 'studio');
-      document.getElementById('section-play').style.display = tab === 'play' ? 'flex' : 'none';
-      document.getElementById('section-studio').style.display = tab === 'studio' ? 'flex' : 'none';
-      if (tab === 'play') handleResize();
-      if (tab === 'studio') renderTimelineView();
-    }
-
-    function onUploadMP3(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const objUrl = URL.createObjectURL(file);
-      if (!customAudio) customAudio = new Audio();
-      customAudio.src = objUrl;
-
-      const cleanName = file.name.replace(/\.[^/.]+$/, "");
-      document.getElementById('txt-upload-status').innerText = `✅ Carregado: ${file.name}`;
-      document.getElementById('input-track-title').value = cleanName;
-
-      activeTrack = {
-        id: 'user_' + Date.now(),
-        title: cleanName,
-        badge: 'AUTORAL 🎶',
-        bpm: 90,
-        isDefaultAudio: false,
-        duration: 60,
-        beats: []
-      };
-
-      customAudio.onloadedmetadata = () => {
-        activeTrack.duration = customAudio.duration;
-        updateUIHeaders();
-        renderTimelineView();
-      };
-      updateUIHeaders();
-    }
-
-    function selectRecordingLayer(layerKey) {
-      activeRecordLayer = layerKey;
-      document.querySelectorAll('.layer-pill').forEach(b => b.classList.remove('selected'));
-      const activeBtn = document.getElementById(`lpill-${layerKey}`);
-      if (activeBtn) activeBtn.classList.add('selected');
-
-      const labelTxt = layerKey === 'all' ? 'Gravar Modo Geral (Teclas 1 a 5)' : `Gravar Camada: ${COLUMN_CONFIG[layerKey].label.toUpperCase()} ${COLUMN_CONFIG[layerKey].icon}`;
-      document.getElementById('txt-rec-btn').innerText = isRecordingLive ? '⏹️ Parar Gravação' : labelTxt;
-    }
-
-    function toggleRecordingSession() {
-      if (isRecordingLive) {
-        stopRecordingSession();
-      } else {
-        startRecordingSession();
-      }
-    }
-
-    function startRecordingSession() {
-      isRecordingLive = true;
-      document.getElementById('btn-toggle-rec').classList.add('recording');
-      document.getElementById('txt-rec-btn').innerText = '⏹️ Parar Gravação & Salvar Camada';
-      startPlaybackEngine();
-    }
-
-    function stopRecordingSession() {
-      isRecordingLive = false;
-      pausePlaybackEngine();
-      document.getElementById('btn-toggle-rec').classList.remove('recording');
-      selectRecordingLayer(activeRecordLayer);
-      sortBeatsByTime();
-      renderTimelineView();
-      saveCoreoToStorage();
-      alert(`🎉 Camada gravada com sucesso! As novas batidas foram adicionadas à linha do tempo mantendo todas as outras camadas intactas!`);
-    }
-
-    function recordActionNow(type) {
-      executeHitSuperExplosion(type);
-      const currentTime = getNowTime();
-      activeTrack.beats.push({
-        time: parseFloat(currentTime.toFixed(2)),
-        type: type
+      triggeredBeatsSet.clear();
+      activeTrack.beats.forEach((b, i) => {
+        if (b.time < targetTime) triggeredBeatsSet.add(i);
       });
-      sortBeatsByTime();
-      renderTimelineView();
+
+      renderFallingSaucers(targetTime);
+      updateSequencerPlayhead(targetTime, getSongDuration());
     }
 
-    function addNoteAtPlayhead(type) {
-      const cur = getNowTime();
-      activeTrack.beats.push({
-        time: parseFloat(cur.toFixed(2)),
-        type: type
-      });
-      sortBeatsByTime();
-      renderTimelineView();
-      executeHitSuperExplosion(type);
-    }
-
-    function handleLaneClick(type, event) {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const clickX = event.clientX - rect.left;
-      const pct = Math.max(0, Math.min(1, clickX / rect.width));
-      const targetTime = parseFloat((getTotalDuration() * pct).toFixed(2));
-
-      activeTrack.beats.push({
-        time: targetTime,
-        type: type
-      });
-      sortBeatsByTime();
-      renderTimelineView();
-      executeHitSuperExplosion(type);
-    }
-
-    function clearSpecificTrack(type) {
-      const cfg = COLUMN_CONFIG[type] || { label: type };
-      if (!confirm(`Deseja apagar apenas as batidas de "${cfg.label}"? As outras faixas continuarão intactas!`)) return;
-
-      activeTrack.beats = activeTrack.beats.filter(b => b.type !== type);
-      renderTimelineView();
-    }
-
-    function clearAllBeats() {
-      if (!confirm('Deseja apagar todas as batidas de todas as faixas?')) return;
-      activeTrack.beats = [];
-      renderTimelineView();
-    }
-
-    function sortBeatsByTime() {
-      activeTrack.beats.sort((a, b) => a.time - b.time);
+    function togglePercussionSound() {
+      sfxEnabled = !sfxEnabled;
+      const btn = document.getElementById('btn-sfx-state');
+      btn.innerText = sfxEnabled ? '🔊 Sons: LIGADO' : '🔇 Sons: MUDO';
     }
 
     // ==========================================
-    // RENDERIZAÇÃO DA LINHA DO TEMPO MULTI-FAIXAS
+    // GRAVAÇÃO POR CAMADAS (OVERDUB)
     // ==========================================
-    function renderTimelineView() {
-      const duration = getTotalDuration();
+    function pickRecordingLayer(layer) {
+      currentRecordLayer = layer;
+      document.querySelectorAll('.layer-tab-chip').forEach(c => c.classList.remove('selected'));
+      document.getElementById('lchip-' + layer).classList.add('selected');
+    }
 
-      // 1. Régua de Segundos
-      const ruler = document.getElementById('timeline-ruler');
+    function toggleOverdubRecording() {
+      if (isOverdubRecording) {
+        stopOverdubRecording();
+      } else {
+        startOverdubRecording();
+      }
+    }
+
+    function startOverdubRecording() {
+      getAudioContext();
+      isOverdubRecording = true;
+      startEnginePlay();
+
+      const btn = document.getElementById('btn-overdub-record');
+      btn.classList.add('recording-pulse');
+      document.getElementById('rec-dot-icon').innerText = '⏹️';
+      document.getElementById('rec-label-text').innerText = `Gravando Camada [${TRACK_CHANNELS[currentRecordLayer].label}]...`;
+    }
+
+    function stopOverdubRecording() {
+      isOverdubRecording = false;
+      pauseEnginePlay();
+
+      const btn = document.getElementById('btn-overdub-record');
+      btn.classList.remove('recording-pulse');
+      document.getElementById('rec-dot-icon').innerText = '🔴';
+      document.getElementById('rec-label-text').innerText = 'Gravar Camada Selecionada';
+
+      renderSequencerBoard();
+    }
+
+    function stampRecordingBeat(type) {
+      const now = getCurrentAudioTime();
+      playHitAudioSFX(type);
+      triggerReceptorImpact(type);
+
+      if (isOverdubRecording || isPlaying) {
+        activeTrack.beats.push({ time: parseFloat(now.toFixed(2)), type: type });
+        activeTrack.beats.sort((a, b) => a.time - b.time);
+        renderSequencerBoard();
+      }
+    }
+
+    // TECLADO PARA GRAVAÇÃO RÁPIDA
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (isOverdubRecording) stampRecordingBeat(currentRecordLayer);
+        else toggleEnginePlay();
+      }
+      if (e.key === '1' || e.code === 'KeyZ') stampRecordingBeat('foot');
+      if (e.key === '2' || e.code === 'KeyX') stampRecordingBeat('thigh');
+      if (e.key === '3' || e.code === 'KeyC') stampRecordingBeat('chest');
+      if (e.key === '4' || e.code === 'KeyV') stampRecordingBeat('clap');
+      if (e.key === '5' || e.code === 'KeyB') stampRecordingBeat('snap');
+      if (e.code === 'KeyR') restartEnginePlay();
+    });
+
+    // ==========================================
+    // SEQUENCIADOR MULTI-TRILHAS VISUAL
+    // ==========================================
+    const PIXELS_PER_SEC = 60;
+
+    function renderSequencerBoard() {
+      const duration = getSongDuration();
+      const totalWidth = Math.max(1200, duration * PIXELS_PER_SEC);
+      document.getElementById('seq-board').style.width = totalWidth + 'px';
+
+      // Régua de segundos
+      const ruler = document.getElementById('seq-ruler');
       ruler.innerHTML = '';
-      const stepSec = duration > 60 ? 5 : 2;
-      for (let sec = 0; sec <= duration; sec += stepSec) {
-        const pct = (sec / duration) * 100;
-        const tick = document.createElement('div');
-        tick.className = 'ruler-tick';
-        tick.style.left = pct + '%';
-        tick.innerText = formatSec(sec);
-        ruler.appendChild(tick);
+      for (let sec = 0; sec <= duration; sec += 2) {
+        const mark = document.createElement('div');
+        mark.className = 'ruler-second-mark';
+        mark.style.left = (sec * PIXELS_PER_SEC) + 'px';
+        mark.innerText = sec + 's';
+        ruler.appendChild(mark);
       }
 
-      // 2. Limpa as 5 faixas
-      ['clap', 'chest', 'snap', 'thigh', 'stomp'].forEach(key => {
-        const lane = document.getElementById(COLUMN_CONFIG[key].laneId);
+      // Limpa faixas
+      Object.keys(TRACK_CHANNELS).forEach(k => {
+        const lane = document.getElementById(TRACK_CHANNELS[k].laneId);
         if (lane) lane.innerHTML = '';
       });
 
-      // 3. Popula cada nota na sua faixa correspondente
-      activeTrack.beats.forEach((b, idx) => {
-        const cfg = COLUMN_CONFIG[b.type];
-        if (!cfg) return;
-        const lane = document.getElementById(cfg.laneId);
+      // Posiciona notas
+      activeTrack.beats.forEach((b, index) => {
+        const ch = TRACK_CHANNELS[b.type];
+        if (!ch) return;
+        const lane = document.getElementById(ch.laneId);
         if (!lane) return;
 
-        const pct = (b.time / duration) * 100;
         const chip = document.createElement('div');
-        chip.className = `timeline-note-chip ${cfg.theme}`;
-        chip.style.left = pct + '%';
-        chip.innerHTML = `<span>${cfg.icon}</span> <span>${b.time.toFixed(1)}s</span>`;
-        chip.title = `${cfg.label} aos ${b.time.toFixed(2)}s (Clique para ajustar ou excluir)`;
-
+        chip.className = 'note-marker-chip';
+        chip.style.left = (b.time * PIXELS_PER_SEC) + 'px';
+        chip.style.background = ch.color;
+        chip.style.color = '#0f172a';
+        chip.innerText = `${ch.label} (${b.time}s)`;
+        chip.title = 'Clique para remover esta batida';
         chip.onclick = (e) => {
           e.stopPropagation();
-          openNoteEditModal(idx);
+          activeTrack.beats.splice(index, 1);
+          renderSequencerBoard();
         };
-
         lane.appendChild(chip);
       });
-
-      updateTimelinePlayhead(getNowTime(), duration);
     }
 
-    function updateTimelinePlayhead(now, duration) {
-      const playhead = document.getElementById('timeline-playhead');
-      if (!playhead) return;
-      const pct = Math.min(100, (now / duration) * 100);
-
-      const boardWidth = document.getElementById('timeline-board').clientWidth || 1200;
-      const usableWidth = boardWidth - 160;
-      const leftPx = 160 + (usableWidth * (pct / 100));
-      playhead.style.left = leftPx + 'px';
+    function updateSequencerPlayhead(now, duration) {
+      const needle = document.getElementById('seq-needle');
+      needle.style.left = (now * PIXELS_PER_SEC + 170) + 'px'; // 170px é a largura do cabeçalho da faixa
     }
 
-    function handleTimelineRulerClick(e) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const boardWidth = e.currentTarget.clientWidth;
-      const pct = Math.max(0, Math.min(1, (clickX - 160) / (boardWidth - 160)));
-      const targetTime = getTotalDuration() * pct;
-      seekToTime(targetTime);
+    function scrubSequencerTime(event) {
+      const ruler = document.getElementById('seq-ruler');
+      const rect = ruler.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const targetTime = Math.max(0, Math.min(getSongDuration(), clickX / PIXELS_PER_SEC));
+      playOffsetTime = targetTime;
+      playStartTime = performance.now();
+      if (userAudioElement) userAudioElement.currentTime = targetTime;
+      renderSequencerBoard();
+      renderFallingSaucers(targetTime);
     }
 
-    function openNoteEditModal(idx) {
-      const b = activeTrack.beats[idx];
-      const cfg = COLUMN_CONFIG[b.type] || { label: b.type };
+    function handleLaneClick(type, event) {
+      const lane = document.getElementById(TRACK_CHANNELS[type].laneId);
+      const rect = lane.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const time = parseFloat((clickX / PIXELS_PER_SEC).toFixed(2));
+      activeTrack.beats.push({ time: time, type: type });
+      activeTrack.beats.sort((a, b) => a.time - b.time);
+      playHitAudioSFX(type);
+      renderSequencerBoard();
+    }
 
-      const opt = prompt(`Ajustar ${cfg.label} (Tempo atual: ${b.time.toFixed(2)}s):\n\nDigite novo tempo em segundos, ou digite "-" para adiantar 0.1s, "+" para atrasar 0.1s, ou "del" para excluir:`, `${b.time.toFixed(2)}`);
-      if (!opt) return;
+    function addNoteAtCurrentPlayhead(type) {
+      const now = parseFloat(getCurrentAudioTime().toFixed(2));
+      activeTrack.beats.push({ time: now, type: type });
+      activeTrack.beats.sort((a, b) => a.time - b.time);
+      playHitAudioSFX(type);
+      renderSequencerBoard();
+    }
 
-      if (opt.trim().toLowerCase() === 'del') {
-        activeTrack.beats.splice(idx, 1);
-      } else if (opt.trim() === '-') {
-        b.time = Math.max(0, parseFloat((b.time - 0.1).toFixed(2)));
-      } else if (opt.trim() === '+') {
-        b.time = parseFloat((b.time + 0.1).toFixed(2));
+    function quantizeBeatsToQuarter() {
+      const bpm = activeTrack.bpm || 92;
+      const quarterSec = 60 / bpm;
+      activeTrack.beats.forEach(b => {
+        b.time = parseFloat((Math.round(b.time / quarterSec) * quarterSec).toFixed(2));
+      });
+      activeTrack.beats.sort((a, b) => a.time - b.time);
+      renderSequencerBoard();
+    }
+
+    function clearCurrentTrack() {
+      if (confirm('Deseja apagar todas as batidas gravadas?')) {
+        activeTrack.beats = [];
+        renderSequencerBoard();
+      }
+    }
+
+    // ==========================================
+    // CARREGAMENTO DE ARQUIVOS (MP3 & MÍDIA)
+    // ==========================================
+    function loadUserMP3Audio(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+      if (userAudioElement) {
+        userAudioElement.pause();
+      }
+      userAudioElement = new Audio(url);
+      userAudioElement.onloadedmetadata = () => {
+        activeTrack.duration = userAudioElement.duration;
+        document.getElementById('lbl-mp3-name').innerText = `🎵 ${file.name}`;
+        renderSequencerBoard();
+        restartEnginePlay();
+      };
+    }
+
+    function uploadCustomStageMedia(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const url = URL.createObjectURL(file);
+      const isVideo = file.type.startsWith('video');
+
+      const imgEl = document.getElementById('stage-bg-image');
+      const vidEl = document.getElementById('stage-bg-video');
+
+      if (isVideo) {
+        imgEl.style.display = 'none';
+        vidEl.style.display = 'block';
+        vidEl.src = url;
+        vidEl.play().catch(() => {});
       } else {
-        const val = parseFloat(opt);
-        if (!isNaN(val) && val >= 0) {
-          b.time = val;
-        }
+        vidEl.style.display = 'none';
+        vidEl.pause();
+        imgEl.style.display = 'block';
+        imgEl.src = url;
       }
-      sortBeatsByTime();
-      renderTimelineView();
     }
 
-    function saveCoreoToStorage() {
-      localStorage.setItem('labkids_saved_coreo', JSON.stringify(activeTrack));
-    }
+    function applyBackgroundPreset(preset) {
+      const imgEl = document.getElementById('stage-bg-image');
+      const vidEl = document.getElementById('stage-bg-video');
+      vidEl.style.display = 'none';
+      vidEl.pause();
+      imgEl.style.display = 'block';
 
-    function saveCoreoAndPlay() {
-      const titleInput = document.getElementById('input-track-title').value.trim();
-      if (titleInput) activeTrack.title = titleInput;
-      saveCoreoToStorage();
-      updateUIHeaders();
-      switchAppTab('play');
-    }
-
-    function updateUIHeaders() {
-      document.getElementById('title-display').innerText = activeTrack.title;
-      document.getElementById('badge-display').innerText = activeTrack.badge || 'AUTORAL 🎶';
-      document.getElementById('time-display').innerText = `00:00 / ${formatSec(getTotalDuration())}`;
-      triggeredHitsSet.clear();
-    }
-
-    // ATALHOS DE TECLADO INTELIGENTES
-    window.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-
-      if (e.code === 'Space') {
-        e.preventDefault();
-        if (isRecordingLive && activeRecordLayer !== 'all') {
-          recordActionNow(activeRecordLayer);
-        } else {
-          togglePlayState();
-        }
-      } else if (e.key === 'r' || e.key === 'R') {
-        restartPlayState();
-      } else if (e.key === '1') {
-        recordActionNow('clap');
-      } else if (e.key === '2') {
-        recordActionNow('chest');
-      } else if (e.key === '3') {
-        recordActionNow('snap');
-      } else if (e.key === '4') {
-        recordActionNow('thigh');
-      } else if (e.key === '5') {
-        recordActionNow('stomp');
+      if (preset === 'concert') {
+        imgEl.src = 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1920&q=80';
+      } else if (preset === 'cabin') {
+        // Cabine VIP com assentos e estética idêntica ao vídeo
+        imgEl.src = 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1920&q=80';
+      } else if (preset === 'disco') {
+        imgEl.src = 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80';
+      } else if (preset === 'stars') {
+        imgEl.src = 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1920&q=80';
       }
-    });
+    }
 
-    function toggleFullscreenMode() {
+    function loadPresetTrack(key) {
+      const track = PRESET_SONGS[key];
+      if (!track) return;
+      activeTrack = JSON.parse(JSON.stringify(track));
+
+      document.getElementById('karaoke-title-line').innerText = activeTrack.lyrics;
+      document.getElementById('edit-choreography-title').value = activeTrack.title;
+      document.getElementById('edit-lyrics-line').value = activeTrack.lyrics;
+
+      restartEnginePlay();
+      renderSequencerBoard();
+    }
+
+    // EXPORTAÇÃO E IMPORTAÇÃO DE ARQUIVO (.JSON)
+    function exportChoreographyJSON() {
+      activeTrack.title = document.getElementById('edit-choreography-title').value;
+      activeTrack.lyrics = document.getElementById('edit-lyrics-line').value;
+
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(activeTrack, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute('href', dataStr);
+      a.setAttribute('download', `${activeTrack.title.replace(/\s+/g, '_')}_labkids.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function importChoreographyJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const json = JSON.parse(e.target.result);
+          if (json.beats) {
+            activeTrack = json;
+            document.getElementById('karaoke-title-line').innerText = activeTrack.lyrics || 'Siga a Batida!';
+            document.getElementById('edit-choreography-title').value = activeTrack.title || 'Coreografia Importada';
+            document.getElementById('edit-lyrics-line').value = activeTrack.lyrics || '';
+            restartEnginePlay();
+            renderSequencerBoard();
+            alert('Coreografia importada com sucesso!');
+          }
+        } catch (err) {
+          alert('Erro ao carregar arquivo de coreografia.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function saveToLocalBrowser() {
+      localStorage.setItem('labkids_rhythm_studio_saved', JSON.stringify(activeTrack));
+      alert('Coreografia salva no navegador! Ela estará aqui sempre que você voltar.');
+    }
+
+    // NAVEGAÇÃO DE MODOS
+    function switchViewMode(mode) {
+      document.querySelectorAll('.mode-tab-btn').forEach(b => b.classList.remove('active'));
+      if (mode === 'theater') {
+        document.getElementById('tab-btn-theater').classList.add('active');
+        document.getElementById('view-theater').style.display = 'flex';
+        document.getElementById('view-editor').classList.remove('active');
+      } else {
+        document.getElementById('tab-btn-editor').classList.add('active');
+        document.getElementById('view-theater').style.display = 'none';
+        document.getElementById('view-editor').classList.add('active');
+        renderSequencerBoard();
+      }
+      setTimeout(updateCanvasSize, 100);
+    }
+
+    function toggleTheaterFullscreen() {
+      const el = document.getElementById('view-theater');
       if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(e => console.log(e));
+        if (el.requestFullscreen) el.requestFullscreen();
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
       } else {
-        document.exitFullscreen().catch(e => console.log(e));
+        if (document.exitFullscreen) document.exitFullscreen();
       }
+    }
+
+    // UTILITÁRIOS
+    function formatSeconds(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
     // INICIALIZAÇÃO
     window.addEventListener('DOMContentLoaded', () => {
-      handleResize();
-      updateUIHeaders();
-      renderTimelineView();
-      mainGameLoop();
+      renderSequencerBoard();
+      renderFallingSaucers(0);
+      mainEngineLoop();
     });
   </script>
 </body>
