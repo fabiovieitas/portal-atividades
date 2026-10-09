@@ -409,54 +409,19 @@
       position: relative;
     }
 
-    /* 1. BOTÃO METÁLICO 3D DO ALVO (EM CIMA DO ESCUDO) */
-    .target-saucer-puck {
-      width: clamp(82px, 9.5vw, 130px);
-      height: clamp(42px, 4.8vw, 60px);
-      border-radius: 50%;
-      background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, #cbd5e1 32%, #475569 68%, #0f172a 100%);
-      border: 4px solid var(--unit-color, #fff);
-      box-shadow: 
-        0 8px 20px rgba(0, 0, 0, 0.9),
-        0 0 28px var(--unit-color, #fff),
-        inset 0 3px 6px rgba(255, 255, 255, 0.95);
-      position: relative;
-      margin-bottom: -14px;
-      z-index: 4;
-      transition: transform 0.08s ease-out, filter 0.08s ease-out;
-    }
-
-    .target-saucer-puck::after {
-      content: '';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 44%;
-      height: 42%;
-      border-radius: 50%;
-      background: radial-gradient(ellipse at 50% 25%, #ffffff 0%, var(--unit-color, #fff) 65%, transparent 100%);
-      box-shadow: 0 0 12px var(--unit-color, #fff);
-    }
-
-    .target-saucer-puck.hit-pulse {
-      transform: scale(1.32);
-      filter: brightness(2.4);
-      box-shadow: 0 0 70px #ffffff, 0 0 100px var(--unit-color, #fff);
-    }
-
-    /* 2. ESCUDO TRIANGULAR GIGANTE (OPACO, SÓLIDO, VIBRANTE) */
+    /* ESCUDO TRIANGULAR GIGANTE COM IMAGEM 3D DE ALTO NÍVEL */
     .target-triangle-shield {
-      width: clamp(94px, 11vw, 150px);
-      height: clamp(98px, 11.5vw, 156px);
+      width: clamp(100px, 12vw, 156px);
+      height: clamp(104px, 12.5vw, 162px);
       position: relative;
-      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.85));
+      filter: drop-shadow(0 14px 28px rgba(0,0,0,0.92));
       transition: transform 0.08s ease-out, filter 0.08s ease-out;
-      z-index: 2;
+      z-index: 5;
     }
 
     .target-triangle-shield.hit-pulse {
-      transform: scale(1.18);
-      filter: drop-shadow(0 0 40px #ffffff) drop-shadow(0 0 60px var(--unit-color, #fff));
+      transform: scale(1.22);
+      filter: drop-shadow(0 0 55px #ffffff) drop-shadow(0 0 85px var(--unit-color, #fff)) brightness(1.65);
     }
 
     .shield-svg-graphic {
@@ -927,31 +892,19 @@
             
             <!-- ALVO 1: PÉ (AMARELO OURO) -->
             <div class="target-column-unit" style="--unit-color: var(--c-foot); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('foot')" title="Tocar Pé">
-              <div class="target-saucer-puck" id="saucer-puck-foot"></div>
               <div class="target-triangle-shield" id="triangle-shield-foot">
-                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
-                  <!-- Escudo Triangular Invertido Arredondado (Sólido Ouro) -->
-                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#f5cb35" stroke="#1e293b" stroke-width="4.5"/>
-                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
-                  <!-- Ilustração: Tênis azul pisando com risquinhos de impacto -->
-                  <g transform="translate(24, 28)">
-                    <!-- Risquinhos de impacto no chão -->
-                    <line x1="8" y1="68" x2="2" y2="76" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
-                    <line x1="22" y1="72" x2="16" y2="80" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
-                    <line x1="80" y1="68" x2="86" y2="76" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round"/>
-                    <!-- Solado Branco do Tênis -->
-                    <path d="M14 60 L78 60 C84 60 86 66 80 68 L10 68 C6 68 8 60 14 60 Z" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
-                    <!-- Bico Branco do Tênis -->
-                    <path d="M62 60 L78 60 C84 60 85 54 78 48 L64 48 Z" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
-                    <!-- Corpo do Tênis Azul Claro -->
-                    <path d="M20 36 L36 36 L52 48 L76 48 L64 60 L14 60 Z" fill="#38bdf8" stroke="#0f172a" stroke-width="3"/>
-                    <!-- Meia branca com listras pretas -->
-                    <rect x="20" y="20" width="16" height="18" rx="2" fill="#ffffff" stroke="#0f172a" stroke-width="2.5"/>
-                    <line x1="20" y1="26" x2="36" y2="26" stroke="#0f172a" stroke-width="2.5"/>
-                    <line x1="20" y1="32" x2="36" y2="32" stroke="#0f172a" stroke-width="2.5"/>
-                    <!-- Cadarço -->
-                    <line x1="40" y1="42" x2="48" y2="44" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140">
+                  <defs>
+                    <clipPath id="clip-shield-foot">
+                      <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z"/>
+                    </clipPath>
+                  </defs>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#0d111c" stroke="#1e293b" stroke-width="5"/>
+                  <g clip-path="url(#clip-shield-foot)">
+                    <image href="img/pe.jpg" x="0" y="0" width="140" height="140" preserveAspectRatio="xMidYMid slice"/>
                   </g>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" stroke="var(--c-foot)" stroke-width="4.5" fill="none"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2" fill="none"/>
                 </svg>
               </div>
               <div class="target-text-badge">1. PÉ</div>
@@ -959,24 +912,19 @@
 
             <!-- ALVO 2: COXA (TURQUESA / CIANO) -->
             <div class="target-column-unit" style="--unit-color: var(--c-thigh); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('thigh')" title="Tocar Coxa">
-              <div class="target-saucer-puck" id="saucer-puck-thigh"></div>
               <div class="target-triangle-shield" id="triangle-shield-thigh">
-                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
-                  <!-- Escudo Triangular Invertido (Sólido Turquesa) -->
-                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#34bebe" stroke="#1e293b" stroke-width="4.5"/>
-                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
-                  <!-- Ilustração: Mãos batendo nas duas coxas -->
-                  <g transform="translate(24, 26)">
-                    <!-- Linhas de impacto -->
-                    <line x1="14" y1="62" x2="26" y2="24" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
-                    <line x1="78" y1="62" x2="66" y2="24" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
-                    <!-- Pernas/Coxas com calça azul -->
-                    <rect x="22" y="32" width="20" height="38" rx="8" fill="#1d4ed8" stroke="#0f172a" stroke-width="3"/>
-                    <rect x="50" y="32" width="20" height="38" rx="8" fill="#1d4ed8" stroke="#0f172a" stroke-width="3"/>
-                    <!-- Mãos batendo na coxa -->
-                    <circle cx="20" cy="46" r="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
-                    <circle cx="72" cy="46" r="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140">
+                  <defs>
+                    <clipPath id="clip-shield-thigh">
+                      <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z"/>
+                    </clipPath>
+                  </defs>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#0d111c" stroke="#1e293b" stroke-width="5"/>
+                  <g clip-path="url(#clip-shield-thigh)">
+                    <image href="img/coxa.jpg" x="0" y="0" width="140" height="140" preserveAspectRatio="xMidYMid slice"/>
                   </g>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" stroke="var(--c-thigh)" stroke-width="4.5" fill="none"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2" fill="none"/>
                 </svg>
               </div>
               <div class="target-text-badge">2. COXA</div>
@@ -984,25 +932,19 @@
 
             <!-- ALVO 3: PEITO (AZUL REAL) -->
             <div class="target-column-unit" style="--unit-color: var(--c-chest); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('chest')" title="Tocar Peito">
-              <div class="target-saucer-puck" id="saucer-puck-chest"></div>
               <div class="target-triangle-shield" id="triangle-shield-chest">
-                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
-                  <!-- Escudo Triangular Invertido (Sólido Azul Real) -->
-                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#4272b8" stroke="#1e293b" stroke-width="4.5"/>
-                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
-                  <!-- Ilustração: Torso com mão sobre o peito com ondas sonoras -->
-                  <g transform="translate(26, 26)">
-                    <!-- Ondas sonoras de batida no tórax -->
-                    <path d="M14 50 Q8 58 14 66" stroke="#93c5fd" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-                    <path d="M74 50 Q80 58 74 66" stroke="#93c5fd" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-                    <!-- Tronco com camisa azul-ciano -->
-                    <path d="M18 68 C18 36, 70 36, 70 68 Z" fill="#0284c7" stroke="#0f172a" stroke-width="3"/>
-                    <!-- Pescoço e queixo -->
-                    <path d="M36 38 L36 28 C36 24, 52 24, 52 28 L52 38 Z" fill="#fed7aa" stroke="#0f172a" stroke-width="2.5"/>
-                    <!-- Mão espalmada no peito -->
-                    <ellipse cx="44" cy="52" rx="12" ry="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
-                    <circle cx="44" cy="52" r="4" fill="#f43f5e"/>
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140">
+                  <defs>
+                    <clipPath id="clip-shield-chest">
+                      <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z"/>
+                    </clipPath>
+                  </defs>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#0d111c" stroke="#1e293b" stroke-width="5"/>
+                  <g clip-path="url(#clip-shield-chest)">
+                    <image href="img/peito.jpg" x="0" y="0" width="140" height="140" preserveAspectRatio="xMidYMid slice"/>
                   </g>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" stroke="var(--c-chest)" stroke-width="4.5" fill="none"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2" fill="none"/>
                 </svg>
               </div>
               <div class="target-text-badge">3. PEITO</div>
@@ -1010,21 +952,19 @@
 
             <!-- ALVO 4: PALMA (ROSA MELANCIA / VERMELHO) -->
             <div class="target-column-unit" style="--unit-color: var(--c-clap); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('clap')" title="Tocar Palma">
-              <div class="target-saucer-puck" id="saucer-puck-clap"></div>
               <div class="target-triangle-shield" id="triangle-shield-clap">
-                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
-                  <!-- Escudo Triangular Invertido (Sólido Rosa Melancia) -->
-                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#e94875" stroke="#1e293b" stroke-width="4.5"/>
-                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
-                  <!-- Ilustração: Duas mãos batendo palmas juntas com explosão estelar -->
-                  <g transform="translate(24, 24)">
-                    <!-- Estrela de impacto do aplauso -->
-                    <path d="M46 16 L49 28 L61 30 L51 38 L54 50 L46 42 L38 50 L41 38 L31 30 L43 28 Z" fill="#fef08a" stroke="#0f172a" stroke-width="1.5"/>
-                    <!-- Mão Esquerda aberta -->
-                    <rect x="20" y="32" width="18" height="28" rx="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(22 20 32)"/>
-                    <!-- Mão Direita aberta -->
-                    <rect x="54" y="38" width="18" height="28" rx="8" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(-22 54 38)"/>
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140">
+                  <defs>
+                    <clipPath id="clip-shield-clap">
+                      <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z"/>
+                    </clipPath>
+                  </defs>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#0d111c" stroke="#1e293b" stroke-width="5"/>
+                  <g clip-path="url(#clip-shield-clap)">
+                    <image href="img/palma.jpg" x="0" y="0" width="140" height="140" preserveAspectRatio="xMidYMid slice"/>
                   </g>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" stroke="var(--c-clap)" stroke-width="4.5" fill="none"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2" fill="none"/>
                 </svg>
               </div>
               <div class="target-text-badge">4. PALMA</div>
@@ -1032,21 +972,19 @@
 
             <!-- ALVO 5: ESTALO (MAGENTA / ORQUÍDEA) -->
             <div class="target-column-unit" style="--unit-color: var(--c-snap); cursor: pointer; pointer-events: auto;" onclick="stampRecordingBeat('snap')" title="Tocar Estalo">
-              <div class="target-saucer-puck" id="saucer-puck-snap"></div>
               <div class="target-triangle-shield" id="triangle-shield-snap">
-                <svg class="shield-svg-graphic" viewBox="0 0 140 140" fill="none">
-                  <!-- Escudo Triangular Invertido (Sólido Magenta) -->
-                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#ab3f89" stroke="#1e293b" stroke-width="4.5"/>
-                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.45)" stroke-width="2" fill="none"/>
-                  <!-- Ilustração: Mão estalando dedos com faísca brilhante -->
-                  <g transform="translate(26, 22)">
-                    <!-- Faísca de estalo brilhante -->
-                    <path d="M42 12 L45 22 L55 24 L46 30 L48 40 L42 34 L36 40 L38 30 L29 24 L39 22 Z" fill="#ffffff" stroke="#fef08a" stroke-width="2"/>
-                    <!-- Mão e Dedos estalando -->
-                    <rect x="28" y="38" width="26" height="34" rx="10" fill="#fed7aa" stroke="#0f172a" stroke-width="3"/>
-                    <rect x="34" y="22" width="10" height="24" rx="5" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(18 34 22)"/>
-                    <rect x="42" y="24" width="10" height="22" rx="5" fill="#fed7aa" stroke="#0f172a" stroke-width="3" transform="rotate(-18 42 24)"/>
+                <svg class="shield-svg-graphic" viewBox="0 0 140 140">
+                  <defs>
+                    <clipPath id="clip-shield-snap">
+                      <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z"/>
+                    </clipPath>
+                  </defs>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" fill="#0d111c" stroke="#1e293b" stroke-width="5"/>
+                  <g clip-path="url(#clip-shield-snap)">
+                    <image href="img/estalo.jpg" x="0" y="0" width="140" height="140" preserveAspectRatio="xMidYMid slice"/>
                   </g>
+                  <path d="M14 12 L126 12 Q136 12 131 22 L76 126 Q70 137 64 126 L9 22 Q4 12 14 12 Z" stroke="var(--c-snap)" stroke-width="4.5" fill="none"/>
+                  <path d="M22 18 L118 18 Q124 18 120 26 L74 116 Q70 123 66 116 L20 26 Q16 18 22 18 Z" stroke="rgba(255, 255, 255, 0.6)" stroke-width="2" fill="none"/>
                 </svg>
               </div>
               <div class="target-text-badge">5. ESTALO</div>
@@ -1695,8 +1633,22 @@
       const frame = document.getElementById('stage-frame');
       const stageH = frame.clientHeight || 560;
 
-      // O ponto de impacto é EXATAMENTE sobre o botão metálico da base (alvo)
-      const targetHitY = stageH - 128;
+      // Ponto de impacto: exatamente no topo do triângulo invertido
+      const sampleShield = document.getElementById('triangle-shield-foot');
+      let targetHitY = stageH - 146;
+      if (sampleShield) {
+        const sRect = sampleShield.getBoundingClientRect();
+        const fRect = frame.getBoundingClientRect();
+        targetHitY = (sRect.top - fRect.top) + 8;
+      }
+
+      // Alinha o término das cordas laser neon exatamente com o topo do triângulo invertido
+      const lasersContainer = document.querySelector('.neon-lasers-container');
+      if (lasersContainer) {
+        const laserBottomDist = Math.max(0, stageH - targetHitY);
+        lasersContainer.style.bottom = laserBottomDist + 'px';
+      }
+
       const travelDuration = 2.8; // Tempo de descida suave e visível para os alunos
       const pixelsPerSecond = (targetHitY - 20) / travelDuration;
       const colWidthPct = 100 / 5;
@@ -1705,8 +1657,8 @@
         const timeDiff = beat.time - currentTime;
         const currentY = targetHitY - (timeDiff * pixelsPerSecond);
 
-        // Renderiza se estiver descendo dentro da tela
-        if (currentY >= 10 && currentY <= targetHitY + 35) {
+        // Renderiza se estiver descendo dentro da tela até tocar no topo do triângulo
+        if (currentY >= 10 && currentY <= targetHitY + 16) {
           const ch = TRACK_CHANNELS[beat.type] || TRACK_CHANNELS.clap;
           const colCenterX = (ch.index * colWidthPct) + (colWidthPct / 2);
 
@@ -1717,7 +1669,7 @@
           container.appendChild(disc);
         }
 
-        // DISPARO NO ALVO DA BASE QUANDO A NOTA CHEGA
+        // DISPARO NO MOMENTO EM QUE A NOTA ENCOSTA NO TRIÂNGULO
         if (Math.abs(timeDiff) < 0.075 && !triggeredBeatsSet.has(index)) {
           triggeredBeatsSet.add(index);
           triggerReceptorImpact(beat.type);
@@ -1725,29 +1677,21 @@
       });
     }
 
-    // EXPLOSÃO E FEEDBACK VISUAL NO RECEPTOR DA BASE
+    // FEEDBACK VISUAL NO TRIÂNGULO (SEM TOCAR SOM ARTIFICIAL - SOM ORIGINAL DA MÚSICA LIMPO)
     function triggerReceptorImpact(type) {
       const ch = TRACK_CHANNELS[type] || TRACK_CHANNELS.clap;
-      playHitAudioSFX(type);
+      // Não adiciona sons artificiais para manter a música 100% original e limpa
 
-      const puckEl = document.getElementById(ch.targetPuckId);
       const shieldEl = document.getElementById(ch.targetShieldId);
-
-      if (puckEl) {
-        puckEl.classList.add('hit-pulse');
-        setTimeout(() => puckEl.classList.remove('hit-pulse'), 140);
-      }
       if (shieldEl) {
         shieldEl.classList.add('hit-pulse');
-        setTimeout(() => shieldEl.classList.remove('hit-pulse'), 160);
-      }
+        setTimeout(() => shieldEl.classList.remove('hit-pulse'), 180);
 
-      // Dispara partículas brilhantes no local do impacto
-      if (puckEl) {
-        const pRect = puckEl.getBoundingClientRect();
+        // Dispara explosão brilhante no topo do triângulo
+        const sRect = shieldEl.getBoundingClientRect();
         const fRect = document.getElementById('stage-frame').getBoundingClientRect();
-        const hitX = (pRect.left - fRect.left) + (pRect.width / 2);
-        const hitY = (pRect.top - fRect.top) + (pRect.height / 2);
+        const hitX = (sRect.left - fRect.left) + (sRect.width / 2);
+        const hitY = (sRect.top - fRect.top) + 8;
         spawnImpactExplosion(hitX, hitY, ch.color);
       }
     }
@@ -1842,8 +1786,6 @@
         userAudioElement.playbackRate = playbackSpeed;
         userAudioElement.currentTime = playOffsetTime;
         userAudioElement.play().catch(() => {});
-      } else {
-        startGrooveBackingTrack();
       }
 
       document.getElementById('btn-play-symbol').innerText = '⏸️';
@@ -1856,7 +1798,6 @@
       playOffsetTime = getCurrentAudioTime();
 
       if (userAudioElement) userAudioElement.pause();
-      stopGrooveBackingTrack();
 
       document.getElementById('btn-play-symbol').innerText = '▶️';
       document.getElementById('btn-play-label').innerText = 'Continuar';
@@ -1885,8 +1826,6 @@
       if (isPlaying) {
         playOffsetTime = getCurrentAudioTime();
         playStartTime = performance.now();
-        stopGrooveBackingTrack();
-        startGrooveBackingTrack();
       }
     }
 
@@ -1957,7 +1896,6 @@
 
     function stampRecordingBeat(type) {
       const now = getCurrentAudioTime();
-      playHitAudioSFX(type);
       triggerReceptorImpact(type);
 
       if (isOverdubRecording || isPlaying) {
