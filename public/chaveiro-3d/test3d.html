@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test 3D Paw & Plate</title>
+  <style>
+    body { margin: 0; background: #0b0f19; overflow: hidden; }
+    #c { width: 100vw; height: 100vh; display: block; }
+    #info { position: absolute; top: 10px; left: 10px; color: #fff; font-family: monospace; font-size: 14px; z-index: 10; background: rgba(0,0,0,0.7); padding: 8px; }
+  </style>
+</head>
+<body>
+  <div id="info">Carregando...</div>
+  <canvas id="c"></canvas>
+
+  <script type="module">
+    import * as THREE from '/node_modules/three/build/three.module.js';
+    import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls.js';
+    import JSZip from '/node_modules/jszip/dist/jszip.min.js';
+    import opentype from '/node_modules/opentype.js/dist/opentype.module.js';
+    import { parse3MFMeshXml, createPetNameGeometry, createQr3DGeometry } from '/src/services/model3dService.js';
+
+    const info = document.getElementById('info');
+    const canvas = document.getElementById('c');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#0b0f19');
+
+    const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 48, 60);
+    camera.lookAt(0, 2.5, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.target.set(0, 2.5, 0);
+    controls.update();
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1.8));
+    const dir = new THREE.DirectionalLight(0xffffff, 2.5);
+    dir.position.set(20, 40, 30);
+    scene.add(dir);
+
+    // Build Plate
+    const plateCanvas = document.createElement('canvas');
+    plateCanvas.width = 1024;
+    plateCanvas.height = 1024;
+    const ctx = plateCanvas.getContext('2d');
+    ctx.fillStyle = '#161922';
+    ctx.fillRect(0, 0, 1024, 1024);
+    ctx.strokeStyle = '#3b4252';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(40, 40, 944, 944);
+    for (let i = 0; i <= 12; i++) {
+      const p = 50 + i * (924/12);
+      ctx.beginPath(); ctx.moveTo(50, p); ctx.lineTo(974, p); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(p, 50); ctx.lineTo(p, 974); ctx.stroke();
+    }
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 28px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('ANYCUBIC KOBRA - 220x220mm', 512, 990);
+
+    const plateTex = new THREE.CanvasTexture(plateCanvas);
+    const plate = new THREE.Mesh(
+      new THREE.PlaneGeometry(72, 72),
+      new THREE.MeshStandardMaterial({ map: plateTex, side: THREE.DoubleSide })
+    );
+    plate.rotation.x = -Math.PI / 2;
+    scene.add(plate);
+
+    // Group for Paw
+    const group = new THREE.Group();
+    group.rotation.x = -Math.PI / 2;
+    group.scale.set(3.0747, 2.0544, 3.0747);
+    group.position.set(0, 2.0544, 0);
+    scene.add(group);
+
+    // Load assets
+    try {
+      info.textContent = 'Carregando 3MF e fonte...';
+      const [res3mf, resFont] = await Promise.all([
+        fetch('/Llavero_Pata.3mf'),
+        fetch('/fonts/segoesc.ttf')
+      ]);
+      const [buf3mf, bufFont] = await Promise.all([
+        res3mf.arrayBuffer(),
+        resFont.arrayBuffer()
+      ]);
+
+      const font = opentype.parse(bufFont);
+      const zip = await JSZip.loadAsync(buf3mf);
+      const xml = await zip.file('3D/Objects/Llavero Pata.stl_2.model').async('string');
+
+      const parsed = parse3MFMeshXml(xml, '1');
+      if (parsed) {
+        // Body (White)
+        const bodyMesh = new THREE.Mesh(
+          parsed.bodyGeom,
+          new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.35, metalness: 0.05, side: THREE.DoubleSide })
+        );
+        group.add(bodyMesh);
+
+        // Pads (Dark Slate)
+        const padsMesh = new THREE.Mesh(
+          parsed.padsGeom,
+          new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.45, metalness: 0.1, side: THREE.DoubleSide })
+        );
+        group.add(padsMesh);
+      }
+
+      // Name (Red)
+      const nameGeom = createPetNameGeometry(font, 'GUGU', 9, 0.7);
+      const nameMesh = new THREE.Mesh(
+        nameGeom,
+        new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.25, metalness: 0.15, side: THREE.DoubleSide })
+      );
+      group.add(nameMesh);
+
+      // QR (White)
+      const { geom: qrGeom } = createQr3DGeometry('http://localhost:5173/pet/PET-0001', {
+        size: 6.2, depth: 0.35, zBase: -1.0, yCenter: -1.2, mirrorX: true
+      });
+      const qrMesh = new THREE.Mesh(
+        qrGeom,
+        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.25, metalness: 0.1, side: THREE.DoubleSide })
+      );
+      group.add(qrMesh);
+
+      info.textContent = 'Sucesso! Malhas carregadas: ' + group.children.length;
+    } catch (e) {
+      info.textContent = 'ERRO: ' + e.message;
+      console.error(e);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
