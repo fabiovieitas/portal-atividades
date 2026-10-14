@@ -638,14 +638,15 @@ async function getTeacherLevel(id) {
 
 // Routes
 app.get('/', async (req, res) => {
-  const { level, search, category, bncc, subject } = req.query;
+  const { search, category, bncc, subject } = req.query;
+  const level = '1-5';
   let activities = [];
 
-  if (level || search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas')) {
-    activities = await dbHelper.getActivities({ level, search, category, bncc, subject });
+  if (search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas')) {
+    activities = await dbHelper.getActivities({ level: '1-5', search, category, bncc, subject });
   } else {
-    // Quando entra na Home sem filtro (Googlebot ou visitante), carrega todas as atividades para vitrine rica e densidade de conteúdo
-    activities = await dbHelper.getActivities({});
+    // Carrega diretamente as atividades de 1º ao 5º Ano
+    activities = await dbHelper.getActivities({ level: '1-5' });
   }
 
   const teacher = await getTeacher(req);

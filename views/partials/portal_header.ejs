@@ -1,0 +1,178 @@
+<!-- GLOBAL PORTAL TOP NAVBAR -->
+<style>
+  body {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  .portal-top-navbar {
+    background: rgba(15, 23, 42, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    width: 100%;
+    padding: 10px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    font-family: 'Outfit', sans-serif;
+  }
+  .portal-nav-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .portal-nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+  .portal-nav-brand:hover {
+    transform: scale(1.02);
+  }
+  .portal-brand-tag {
+    font-size: 0.72rem;
+    background: linear-gradient(135deg, #0284c7, #38bdf8);
+    color: #0f172a;
+    padding: 2px 10px;
+    border-radius: 50px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .portal-nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+  .portal-nav-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 7px 12px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .portal-nav-link:hover {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+  }
+  .portal-nav-link.active {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.18);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+  /* Grupo de botões lado a lado: Área do Aluno & Área do Professor */
+  .portal-nav-auth-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 6px;
+  }
+  .portal-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+  .portal-btn-student {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #ffffff !important;
+    border: 1.5px solid rgba(251, 191, 36, 0.5);
+  }
+  .portal-btn-student:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(245, 158, 11, 0.45);
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  }
+  .portal-btn-teacher {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    color: #ffffff !important;
+    border: 1.5px solid rgba(129, 140, 248, 0.4);
+  }
+  .portal-btn-teacher:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.45);
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+  }
+
+  @media (max-width: 992px) {
+    .portal-nav-container {
+      justify-content: center;
+    }
+    .portal-nav-menu {
+      justify-content: center;
+      gap: 6px;
+    }
+    .portal-nav-auth-group {
+      margin-left: 0;
+      margin-top: 4px;
+      justify-content: center;
+      width: 100%;
+    }
+  }
+  @media (max-width: 580px) {
+    .portal-nav-link {
+      font-size: 0.82rem;
+      padding: 5px 8px;
+    }
+    .portal-nav-btn {
+      font-size: 0.82rem;
+      padding: 6px 12px;
+    }
+  }
+</style>
+
+<nav class="portal-top-navbar" aria-label="Navegação Principal">
+  <div class="portal-nav-container">
+    <a href="/" class="portal-nav-brand">
+      <span style="font-size: 1.6rem;">🤖</span>
+      <span>Lab Kids</span>
+      <span class="portal-brand-tag">1º ao 5º Ano</span>
+    </a>
+
+    <ul class="portal-nav-menu">
+      <li><a href="/" class="portal-nav-link">🏠 Início</a></li>
+      <li><a href="/#atividades" class="portal-nav-link">🎮 Jogos & Missões</a></li>
+      <li><a href="/noticias" class="portal-nav-link">📰 Blog Pedagógico</a></li>
+      <li><a href="/guia-bncc" class="portal-nav-link">📘 Catálogo BNCC</a></li>
+      <li><a href="/sobre" class="portal-nav-link">👨‍🏫 Sobre o Projeto</a></li>
+      <li><a href="/contato" class="portal-nav-link">✉️ Contato</a></li>
+    </ul>
+
+    <!-- Botões Lado a Lado: Área do Aluno e Área do Professor -->
+    <div class="portal-nav-auth-group">
+      <a href="/aluno" class="portal-nav-btn portal-btn-student" title="Acesse o Portal do Aluno, crie seu avatar e veja suas medalhas">
+        <span>📱</span> <span>Área do Aluno</span>
+      </a>
+      <a href="/professor/login" class="portal-nav-btn portal-btn-teacher" title="Acesso dos educadores ao diário, banco de questões e relatórios">
+        <span>🧑‍🏫</span> <span>Área do Professor</span>
+      </a>
+    </div>
+  </div>
+</nav>

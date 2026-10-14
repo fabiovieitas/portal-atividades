@@ -488,7 +488,7 @@ const dbHelper = {
 
   // 5. Get News
   async getNews() {
-    return await queryAll("SELECT * FROM news ORDER BY created_at DESC, id DESC");
+    return await queryAll("SELECT * FROM news WHERE title NOT LIKE '%Simulado%' ORDER BY created_at DESC, id DESC");
   },
 
   // 6. Get Single News
