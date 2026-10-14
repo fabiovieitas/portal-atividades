@@ -2373,8 +2373,32 @@ app.post('/admin/teacher/reset-password/:id', requireAdmin, async (req, res) => 
   }
 });
 
+app.post('/admin/activities/notify/:id', requireAdmin, async (req, res) => {
+  try {
+    const activityId = req.params.id;
+    const activity = await dbHelper.queryGet("SELECT * FROM activities WHERE id = ?", [activityId]);
+    if (!activity) {
+      return res.status(404).json({ success: false, error: 'Atividade não encontrada.' });
+    }
+
+    const teachers = await dbHelper.queryAll(
+      "SELECT id, name, email FROM teachers WHERE status = 'approved' AND email IS NOT NULL AND email != ''"
+    );
+
+    if (!teachers || teachers.length === 0) {
+      return res.json({ success: true, count: 0, message: 'Nenhum professor ativo encontrado para notificar.' });
+    }
+
+    const result = await mailService.broadcastNewActivityToTeachers({ activity, teachers });
+    res.json({ success: true, count: result.count, simulated: result.simulated });
+  } catch (err) {
+    console.error('Broadcast notification error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.post('/admin/add', requireAdmin, async (req, res) => {
-  const { title, description, activity_url, icon_url, category, bncc_code, subject, month } = req.body;
+  const { title, description, activity_url, icon_url, category, bncc_code, subject, month, notify_teachers } = req.body;
   let { level } = req.body;
   if (Array.isArray(level)) level = level.join(',');
 
@@ -2385,6 +2409,19 @@ app.post('/admin/add', requireAdmin, async (req, res) => {
       "INSERT INTO activities (title, description, activity_url, icon_url, level, category, bncc_code, subject, month) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [title, description, activity_url, icon_url, level || '1-5', category || 'Geral', bncc_code || '', subject || 'Geral', actMonth]
     );
+
+    // If requested, notify all approved teachers about this new launch
+    if (notify_teachers === '1') {
+      const created = await dbHelper.queryGet("SELECT * FROM activities WHERE title = ? ORDER BY id DESC LIMIT 1", [title]);
+      if (created) {
+        const teachers = await dbHelper.queryAll(
+          "SELECT id, name, email FROM teachers WHERE status = 'approved' AND email IS NOT NULL AND email != ''"
+        );
+        if (teachers && teachers.length > 0) {
+          mailService.broadcastNewActivityToTeachers({ activity: created, teachers }).catch(e => console.error('Auto broadcast error:', e));
+        }
+      }
+    }
   } catch(e) {
     console.warn('[Admin Add] DB queryRun error:', e.message);
   }
