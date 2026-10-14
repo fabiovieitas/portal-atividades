@@ -129,17 +129,19 @@ if (tursoUrl && tursoToken) {
   console.log('[DB Engine] Turso não configurado no .env, tentando SQLite local.');
 }
 
-// Safely initialize Supabase client
-const supabaseUrl = process.env.SUPABASE_URL || 'https://ziaubnmbnpqgsiouoret.supabase.co';
+// Safely initialize Supabase client (only if a valid, active URL is provided)
+const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 let supabase = null;
-try {
-  if (supabaseUrl && supabaseKey) {
+if (supabaseUrl && supabaseKey && !supabaseUrl.includes('ziaubnmbnpqgsiouoret')) {
+  try {
     supabase = createSupabaseClient(supabaseUrl, supabaseKey);
     console.log('[DB Engine] Supabase Client conectado!');
+  } catch (e) {
+    console.warn('[DB Engine] Falha ao conectar ao Supabase:', e.message);
   }
-} catch (e) {
-  console.warn('[DB Engine] Falha ao conectar ao Supabase:', e.message);
+} else {
+  console.log('[DB Engine] Supabase desabilitado. Operando 100% via Turso Cloud / SQLite.');
 }
 
 // Memory Cache for Categories/Subjects
@@ -501,7 +503,7 @@ const dbHelper = {
     if (!sessionId) return null;
     const session = await queryGet("SELECT teacher_id, expires FROM teacher_sessions WHERE id = ?", [sessionId]);
     if (!session) return null;
-    return await queryGet("SELECT id, name, email, password_hash FROM teachers WHERE id = ?", [session.teacher_id]);
+    return await queryGet("SELECT id, name, email, password_hash, login_count, last_login, created_at FROM teachers WHERE id = ?", [session.teacher_id]);
   },
 
   async getTeachers() {

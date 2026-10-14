@@ -1778,42 +1778,38 @@ app.get('/professor/login', async (req, res) => {
 app.post('/professor/register', async (req, res) => {
   const { name, email, password } = req.body;
   try {
+    if (!name || !email || !password) {
+      return res.render('teacher_login', { error: 'Por favor, preencha todos os campos obrigatórios.' });
+    }
     const cleanEmail = String(email || '').trim().toLowerCase();
 
-    // Check if email exists in Supabase or DB Engine
-    let existing = null;
-    if (supabase) {
-      try {
-        const { data } = await supabase.from('teachers').select('id').eq('email', cleanEmail).maybeSingle();
-        if (data) existing = data;
-      } catch(e){}
-    }
-    if (!existing) {
-      existing = await dbHelper.queryGet("SELECT id FROM teachers WHERE email = ?", [cleanEmail]);
-    }
-
+    // Check if email already registered in Turso/SQLite
+    const existing = await dbHelper.queryGet("SELECT id FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
     if (existing) {
-      return res.render('teacher_login', { error: 'E-mail já cadastrado.' });
+      return res.render('teacher_login', { error: 'Este e-mail já está cadastrado. Por favor, faça login com sua senha.' });
     }
 
     const hash = await bcrypt.hash(password, 10);
 
-    // Save in Supabase if available
-    if (supabase) {
-      try {
-        await supabase.from('teachers').insert({ name, email: cleanEmail, password_hash: hash });
-      } catch(e){}
+    // Save teacher into database
+    await dbHelper.queryRun("INSERT INTO teachers (name, email, password_hash) VALUES (?, ?, ?)", [name.trim(), cleanEmail, hash]);
+    const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+    if (!newTeacher) {
+      throw new Error("Não foi possível confirmar a criação da conta. Tente novamente.");
     }
 
-    // Save in Turso Cloud / SQLite DB Engine
-    try {
-      await dbHelper.queryRun("INSERT INTO teachers (name, email, password_hash) VALUES (?, ?, ?)", [name, cleanEmail, hash]);
-    } catch(e){}
+    // Auto-login newly registered teacher
+    const sessionId = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, newTeacher.id, expires]);
+    await dbHelper.queryRun("UPDATE teachers SET login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [newTeacher.id]);
+    await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [newTeacher.id]);
 
-    res.render('teacher_login', { error: 'Cadastro realizado com sucesso! Faça login.' });
+    res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
+    res.redirect('/professor/dashboard?welcome=1');
   } catch (err) {
     console.error('Registration error:', err);
-    res.render('teacher_login', { error: `Erro ao registrar: ${err.message || err}` });
+    res.render('teacher_login', { error: `Erro ao cadastrar: ${err.message || err}` });
   }
 });
 
@@ -1821,43 +1817,15 @@ app.post('/professor/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const cleanEmail = String(email || '').trim().toLowerCase();
-    let teacher = null;
-
-    // Search in Supabase if available
-    if (supabase) {
-      try {
-        const { data } = await supabase.from('teachers').select('*').eq('email', cleanEmail).maybeSingle();
-        if (data) teacher = data;
-      } catch(e){}
-    }
-
-    // Fallback to Turso / SQLite DB Engine
-    if (!teacher) {
-      teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE email = ?", [cleanEmail]);
-    }
+    const teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
 
     if (teacher && await bcrypt.compare(password, teacher.password_hash)) {
       const sessionId = crypto.randomBytes(32).toString('hex');
       const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
-      // Store session in Supabase if available
-      if (supabase) {
-        try {
-          await supabase.from('teacher_sessions').insert({ id: sessionId, teacher_id: teacher.id, expires });
-          await supabase.from('teachers').update({ 
-            login_count: (teacher.login_count || 0) + 1, 
-            last_login: new Date().toISOString() 
-          }).eq('id', teacher.id);
-          await supabase.from('teacher_logins').insert({ teacher_id: teacher.id });
-        } catch(e){}
-      }
-
-      // Store session in Turso Cloud / SQLite DB Engine
-      try {
-        await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, teacher.id, expires]);
-        await dbHelper.queryRun("UPDATE teachers SET login_count = COALESCE(login_count, 0) + 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
-        await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [teacher.id]);
-      } catch(e){}
+      await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, teacher.id, expires]);
+      await dbHelper.queryRun("UPDATE teachers SET login_count = COALESCE(login_count, 0) + 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
+      await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [teacher.id]);
 
       res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
       res.redirect('/professor/dashboard');
@@ -1873,7 +1841,9 @@ app.post('/professor/login', async (req, res) => {
 app.get('/professor/logout', async (req, res) => {
   const sessionId = req.cookies.teacher_session;
   if (sessionId) {
-    await supabase.from('teacher_sessions').delete().eq('id', sessionId);
+    try {
+      await dbHelper.queryRun("DELETE FROM teacher_sessions WHERE id = ?", [sessionId]);
+    } catch(e){}
   }
   res.clearCookie('teacher_session');
   res.redirect('/professor/login');
@@ -1881,79 +1851,114 @@ app.get('/professor/logout', async (req, res) => {
 
 // Teacher Dashboard
 app.get('/professor/dashboard', requireTeacher, async (req, res) => {
-  const { data: activities } = await supabase.from('activities').select('*').order('created_at', { ascending: false });
-  const { data: favoritesData } = await supabase.from('teacher_favorites').select('activity_id').eq('teacher_id', req.teacher.id);
-  const favorites = (favoritesData || []).map(f => f.activity_id);
-  
-  const { data: exams } = await supabase.from('exams').select('*').eq('teacher_id', req.teacher.id).order('created_at', { ascending: false });
-  const { data: classes } = await supabase.from('teacher_classes').select('*').eq('teacher_id', req.teacher.id).order('created_at', { ascending: false });
-  const { data: globalExams } = await supabase.from('global_exams').select('*').order('created_at', { ascending: false });
-  
-  const examIds = (exams || []).map(e => e.id);
-  let examSubmissions = [];
-  if (examIds.length > 0) {
-    const { data: subs } = await supabase.from('exam_submissions').select('*, exams(title, access_code, num_questions)').in('exam_id', examIds).order('created_at', { ascending: false });
-    examSubmissions = subs || [];
-  }
+  try {
+    const activities = await dbHelper.queryAll("SELECT * FROM activities ORDER BY created_at DESC");
+    const favoritesData = await dbHelper.queryAll("SELECT activity_id FROM teacher_favorites WHERE teacher_id = ?", [req.teacher.id]);
+    const favorites = (favoritesData || []).map(f => f.activity_id);
+    
+    const exams = await dbHelper.queryAll("SELECT * FROM exams WHERE teacher_id = ? ORDER BY created_at DESC", [req.teacher.id]);
+    const classes = await dbHelper.queryAll("SELECT * FROM teacher_classes WHERE teacher_id = ? ORDER BY created_at DESC", [req.teacher.id]);
+    const globalExams = await dbHelper.queryAll("SELECT * FROM global_exams ORDER BY created_at DESC");
+    
+    const examIds = (exams || []).map(e => e.id);
+    let examSubmissions = [];
+    if (examIds.length > 0) {
+      const placeholders = examIds.map(() => '?').join(',');
+      examSubmissions = await dbHelper.queryAll(
+        `SELECT es.*, e.title, e.access_code, e.num_questions 
+         FROM exam_submissions es 
+         JOIN exams e ON es.exam_id = e.id 
+         WHERE es.exam_id IN (${placeholders}) 
+         ORDER BY es.created_at DESC`,
+        examIds
+      );
+    }
 
-  const { data: collections } = await supabase.from('teacher_collections').select('*').eq('teacher_id', req.teacher.id);
-  const { data: planning } = await supabase.from('teacher_planning').select('*, activities(title)').eq('teacher_id', req.teacher.id);
-  
-  res.render('teacher_dashboard', { 
-    teacher: { ...req.teacher, level: await getTeacherLevel(req.teacher.id) },
-    activities: activities || [],
-    favorites,
-    exams: exams || [],
-    classes: classes || [],
-    globalExams: globalExams || [],
-    collections: collections || [],
-    planning: planning || [],
-    examSubmissions
-  });
+    const collections = await dbHelper.queryAll("SELECT * FROM teacher_collections WHERE teacher_id = ?", [req.teacher.id]);
+    const planning = await dbHelper.queryAll(
+      `SELECT tp.*, a.title 
+       FROM teacher_planning tp 
+       LEFT JOIN activities a ON tp.activity_id = a.id 
+       WHERE tp.teacher_id = ? 
+       ORDER BY tp.planned_date DESC`,
+      [req.teacher.id]
+    );
+    
+    res.render('teacher_dashboard', { 
+      teacher: { ...req.teacher, level: await getTeacherLevel(req.teacher.id) },
+      activities: activities || [],
+      favorites,
+      exams: exams || [],
+      classes: classes || [],
+      globalExams: globalExams || [],
+      collections: collections || [],
+      planning: planning || [],
+      examSubmissions: examSubmissions || []
+    });
+  } catch (err) {
+    console.error('Teacher dashboard error:', err);
+    res.status(500).send('Erro ao abrir Painel do Professor: ' + err.message);
+  }
 });
 
 // Teacher API Routes
 app.post('/api/teacher/password', requireTeacher, async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  const match = await bcrypt.compare(currentPassword, req.teacher.password_hash);
-  if (!match) return res.json({ success: false, message: 'Senha atual incorreta' });
-  const hash = await bcrypt.hash(newPassword, 10);
-  await supabase.from('teachers').update({ password_hash: hash }).eq('id', req.teacher.id);
-  res.json({ success: true });
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const match = await bcrypt.compare(currentPassword, req.teacher.password_hash);
+    if (!match) return res.json({ success: false, message: 'Senha atual incorreta' });
+    const hash = await bcrypt.hash(newPassword, 10);
+    await dbHelper.queryRun("UPDATE teachers SET password_hash = ? WHERE id = ?", [hash, req.teacher.id]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/teacher/activities/add', requireTeacher, async (req, res) => {
-  const { title, description, activity_url, category, bncc_code, subject, level } = req.body;
-  await supabase.from('activities').insert({
-    title, description, activity_url, 
-    category: category || 'Geral', 
-    bncc_code: bncc_code || '', 
-    subject: subject || 'Geral', 
-    level: level || '1-5', 
-    teacher_id: req.teacher.id, 
-    status: 'private'
-  });
-  clearActivitiesCache();
-  res.json({ success: true });
+  try {
+    const { title, description, activity_url, category, bncc_code, subject, level } = req.body;
+    await dbHelper.queryRun(
+      "INSERT INTO activities (title, description, activity_url, category, bncc_code, subject, level, teacher_id, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, description, activity_url, category || 'Geral', bncc_code || '', subject || 'Geral', level || '1-5', req.teacher.id, 'private']
+    );
+    if (typeof clearActivitiesCache === 'function') clearActivitiesCache();
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/teacher/classes/add', requireTeacher, async (req, res) => {
-  const { school_name, class_name } = req.body;
-  if (!school_name || !class_name) return res.json({ success: false });
-  await supabase.from('teacher_classes').insert({
-    teacher_id: req.teacher.id, school_name, class_name
-  });
-  res.json({ success: true });
+  try {
+    const { school_name, class_name } = req.body;
+    if (!school_name || !class_name) return res.json({ success: false });
+    await dbHelper.queryRun(
+      "INSERT INTO teacher_classes (teacher_id, school_name, class_name) VALUES (?, ?, ?)",
+      [req.teacher.id, school_name, class_name]
+    );
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/teacher/activities/request-public/:id', requireTeacher, async (req, res) => {
-  await supabase.from('activities').update({ status: 'pending' }).eq('id', req.params.id).eq('teacher_id', req.teacher.id);
-  res.json({ success: true });
+  try {
+    await dbHelper.queryRun("UPDATE activities SET status = 'pending' WHERE id = ? AND teacher_id = ?", [req.params.id, req.teacher.id]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/teacher/classes/delete/:id', requireTeacher, async (req, res) => {
-  await supabase.from('teacher_classes').delete().eq('id', req.params.id).eq('teacher_id', req.teacher.id);
-  res.json({ success: true });
+  try {
+    await dbHelper.queryRun("DELETE FROM teacher_classes WHERE id = ? AND teacher_id = ?", [req.params.id, req.teacher.id]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/teacher/exams/add', requireTeacher, async (req, res) => {
@@ -1961,12 +1966,12 @@ app.post('/api/teacher/exams/add', requireTeacher, async (req, res) => {
     const { title, num_questions, pdf_source, pdf_url, pdf_base64, pdf_name } = req.body;
     let final_pdf_url = pdf_url;
 
-    // Generate random 5-character access code
+    // Generate unique 5-character access code
     let access_code;
     let codeExists = true;
     while (codeExists) {
       access_code = Math.random().toString(36).substring(2, 7).toUpperCase();
-      const { data: existing } = await supabase.from('exams').select('id').eq('access_code', access_code).maybeSingle();
+      const existing = await dbHelper.queryGet("SELECT id FROM exams WHERE access_code = ?", [access_code]);
       if (!existing) codeExists = false;
     }
 
@@ -1975,32 +1980,18 @@ app.post('/api/teacher/exams/add', requireTeacher, async (req, res) => {
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
-      const uniqueFileName = `${Date.now()}-${pdf_name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+      const uniqueFileName = `${Date.now()}-${(pdf_name || 'prova.pdf').replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const filePath = path.join(uploadDir, uniqueFileName);
       fs.writeFileSync(filePath, Buffer.from(pdf_base64, 'base64'));
       final_pdf_url = `/uploads/${uniqueFileName}`;
     }
 
-    const insertData = {
-      title,
-      pdf_url: final_pdf_url,
-      access_code,
-      num_questions: parseInt(num_questions) || 10,
-      teacher_id: req.teacher.id
-    };
+    await dbHelper.queryRun(
+      "INSERT INTO exams (title, pdf_url, access_code, num_questions, teacher_id) VALUES (?, ?, ?, ?, ?)",
+      [title, final_pdf_url, access_code, parseInt(num_questions) || 10, req.teacher.id]
+    );
 
-    let { data: newExam, error } = await supabase.from('exams').insert(insertData).select().single();
-
-    if (error && error.message && error.message.includes('num_questions')) {
-      console.warn("Database is missing 'num_questions' column. Falling back to insert without it.");
-      delete insertData.num_questions;
-      const retryResult = await supabase.from('exams').insert(insertData).select().single();
-      newExam = retryResult.data;
-      error = retryResult.error;
-    }
-
-    if (error) throw error;
-
+    const newExam = await dbHelper.queryGet("SELECT * FROM exams WHERE access_code = ?", [access_code]);
     res.json({ success: true, exam: newExam });
   } catch (err) {
     console.error(err);
@@ -2010,17 +2001,16 @@ app.post('/api/teacher/exams/add', requireTeacher, async (req, res) => {
 
 app.post('/api/teacher/exams/delete/:id', requireTeacher, async (req, res) => {
   try {
-    // Delete files if uploaded locally
-    const { data: exam } = await supabase.from('exams').select('pdf_url').eq('id', req.params.id).eq('teacher_id', req.teacher.id).single();
+    const exam = await dbHelper.queryGet("SELECT pdf_url FROM exams WHERE id = ? AND teacher_id = ?", [req.params.id, req.teacher.id]);
     if (exam && exam.pdf_url && exam.pdf_url.startsWith('/uploads/')) {
       const filePath = path.join(__dirname, 'public', exam.pdf_url);
       if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+        try { fs.unlinkSync(filePath); } catch(e){}
       }
     }
 
-    const { error } = await supabase.from('exams').delete().eq('id', req.params.id).eq('teacher_id', req.teacher.id);
-    if (error) throw error;
+    await dbHelper.queryRun("DELETE FROM exam_submissions WHERE exam_id = ?", [req.params.id]);
+    await dbHelper.queryRun("DELETE FROM exams WHERE id = ? AND teacher_id = ?", [req.params.id, req.teacher.id]);
     res.json({ success: true });
   } catch (err) {
     console.error(err);
@@ -2030,14 +2020,15 @@ app.post('/api/teacher/exams/delete/:id', requireTeacher, async (req, res) => {
 
 app.post('/api/teacher/submissions/delete/:id', requireTeacher, async (req, res) => {
   try {
-    // Make sure this submission belongs to one of this teacher's exams
-    const { data: sub } = await supabase.from('exam_submissions').select('*, exams(teacher_id)').eq('id', req.params.id).single();
-    if (!sub || sub.exams.teacher_id !== req.teacher.id) {
+    const sub = await dbHelper.queryGet(
+      "SELECT es.*, e.teacher_id FROM exam_submissions es JOIN exams e ON es.exam_id = e.id WHERE es.id = ?",
+      [req.params.id]
+    );
+    if (!sub || sub.teacher_id !== req.teacher.id) {
       return res.status(403).json({ success: false, error: 'Acesso negado' });
     }
 
-    const { error } = await supabase.from('exam_submissions').delete().eq('id', req.params.id);
-    if (error) throw error;
+    await dbHelper.queryRun("DELETE FROM exam_submissions WHERE id = ?", [req.params.id]);
     res.json({ success: true });
   } catch (err) {
     console.error(err);
@@ -2047,46 +2038,79 @@ app.post('/api/teacher/submissions/delete/:id', requireTeacher, async (req, res)
 
 // Collections API
 app.get('/api/teacher/collections', requireTeacher, async (req, res) => {
-  const { data: collections } = await supabase.from('teacher_collections').select('*, collection_items(activities(*))').eq('teacher_id', req.teacher.id);
-  res.json(collections || []);
+  try {
+    const collections = await dbHelper.queryAll("SELECT * FROM teacher_collections WHERE teacher_id = ?", [req.teacher.id]);
+    for (const col of (collections || [])) {
+      col.collection_items = await dbHelper.queryAll(
+        "SELECT ci.*, a.* FROM collection_items ci JOIN activities a ON ci.activity_id = a.id WHERE ci.collection_id = ?",
+        [col.id]
+      );
+    }
+    res.json(collections || []);
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/api/teacher/collections/add', requireTeacher, async (req, res) => {
-  const { name } = req.body;
-  await supabase.from('teacher_collections').insert({ teacher_id: req.teacher.id, name });
-  res.json({ success: true });
+  try {
+    const { name } = req.body;
+    await dbHelper.queryRun("INSERT INTO teacher_collections (teacher_id, name) VALUES (?, ?)", [req.teacher.id, name]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/teacher/collections/add-item', requireTeacher, async (req, res) => {
-  const { collection_id, activity_id } = req.body;
-  await supabase.from('collection_items').upsert({ collection_id, activity_id });
-  res.json({ success: true });
+  try {
+    const { collection_id, activity_id } = req.body;
+    await dbHelper.queryRun("INSERT OR REPLACE INTO collection_items (collection_id, activity_id) VALUES (?, ?)", [collection_id, activity_id]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Planning API
 app.get('/api/teacher/planning', requireTeacher, async (req, res) => {
-  const { data: planning } = await supabase.from('teacher_planning').select('*, activities(title)').eq('teacher_id', req.teacher.id);
-  res.json(planning || []);
+  try {
+    const planning = await dbHelper.queryAll(
+      "SELECT tp.*, a.title FROM teacher_planning tp LEFT JOIN activities a ON tp.activity_id = a.id WHERE tp.teacher_id = ?",
+      [req.teacher.id]
+    );
+    res.json(planning || []);
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/api/teacher/planning/add', requireTeacher, async (req, res) => {
-  const { activity_id, planned_date } = req.body;
-  await supabase.from('teacher_planning').insert({ teacher_id: req.teacher.id, activity_id, planned_date });
-  res.json({ success: true });
+  try {
+    const { activity_id, planned_date } = req.body;
+    await dbHelper.queryRun("INSERT INTO teacher_planning (teacher_id, activity_id, planned_date) VALUES (?, ?, ?)", [req.teacher.id, activity_id, planned_date]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.get('/api/teacher/export', requireTeacher, async (req, res) => {
-  const { data: favs } = await supabase.from('teacher_favorites').select('activities(title, subject, bncc_code)').eq('teacher_id', req.teacher.id);
-  
-  let csv = 'Titulo,Disciplina,BNCC\\n';
-  (favs || []).forEach(row => {
-    const a = row.activities;
-    csv += `"${a.title}","${a.subject}","${a.bncc_code}"\\n`;
-  });
-  
-  res.header('Content-Type', 'text/csv');
-  res.attachment('meu_relatorio.csv');
-  res.send(csv);
+  try {
+    const favs = await dbHelper.queryAll(
+      "SELECT a.title, a.subject, a.bncc_code FROM teacher_favorites tf JOIN activities a ON tf.activity_id = a.id WHERE tf.teacher_id = ?",
+      [req.teacher.id]
+    );
+    let csv = 'Titulo,Disciplina,BNCC\n';
+    (favs || []).forEach(row => {
+      csv += `"${(row.title || '').replace(/"/g, '""')}","${(row.subject || '').replace(/"/g, '""')}","${(row.bncc_code || '').replace(/"/g, '""')}"\n`;
+    });
+    res.header('Content-Type', 'text/csv; charset=utf-8');
+    res.attachment('minhas_atividades_favoritas.csv');
+    res.send(csv);
+  } catch(err) {
+    res.status(500).send("Erro ao exportar: " + err.message);
+  }
 });
 
 app.post('/admin/settings', requireAdmin, async (req, res) => {
@@ -2109,17 +2133,22 @@ app.post('/api/admin/toggle-simulados', requireAdmin, async (req, res) => {
 });
 
 app.get('/api/admin/teacher-stats/:id', requireAdmin, async (req, res) => {
-  const teacherId = req.params.id;
-  // Simplified weekly stats for Supabase
-  const { data: logins } = await supabase.from('teacher_logins').select('timestamp').eq('teacher_id', teacherId).order('timestamp', { ascending: false }).limit(50);
-  const { data: scans } = await supabase.from('activity_scans').select('activity_id, activities(title)').eq('teacher_id', teacherId).limit(20);
-
-  res.json({ logins: logins || [], scans: scans || [] });
+  try {
+    const teacherId = req.params.id;
+    const logins = await dbHelper.queryAll("SELECT timestamp FROM teacher_logins WHERE teacher_id = ? ORDER BY timestamp DESC LIMIT 50", [teacherId]);
+    const scans = await dbHelper.queryAll(
+      "SELECT s.activity_id, a.title FROM activity_scans s LEFT JOIN activities a ON s.activity_id = a.id WHERE s.teacher_id = ? LIMIT 20",
+      [teacherId]
+    );
+    res.json({ logins: logins || [], scans: scans || [] });
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/admin/activity/approve/:id', requireAdmin, async (req, res) => {
   try {
-    await supabase.from('activities').update({ status: 'public' }).eq('id', req.params.id);
+    await dbHelper.queryRun("UPDATE activities SET status = 'public' WHERE id = ?", [req.params.id]);
     if (typeof clearActivitiesCache === 'function') clearActivitiesCache();
     res.json({ success: true });
   } catch (err) {
@@ -2131,10 +2160,10 @@ app.post('/admin/activity/approve/:id', requireAdmin, async (req, res) => {
 app.post('/admin/teacher/delete/:id', requireAdmin, async (req, res) => {
   try {
     const teacherId = req.params.id;
-    await supabase.from('teacher_sessions').delete().eq('teacher_id', teacherId);
-    await supabase.from('teacher_classes').delete().eq('teacher_id', teacherId);
-    await supabase.from('teacher_favorites').delete().eq('teacher_id', teacherId);
-    await supabase.from('teachers').delete().eq('id', teacherId);
+    await dbHelper.queryRun("DELETE FROM teacher_sessions WHERE teacher_id = ?", [teacherId]);
+    await dbHelper.queryRun("DELETE FROM teacher_classes WHERE teacher_id = ?", [teacherId]);
+    await dbHelper.queryRun("DELETE FROM teacher_favorites WHERE teacher_id = ?", [teacherId]);
+    await dbHelper.queryRun("DELETE FROM teachers WHERE id = ?", [teacherId]);
     res.json({ success: true });
   } catch (err) {
     console.error(err);
@@ -2147,7 +2176,7 @@ app.post('/admin/teacher/reset-password/:id', requireAdmin, async (req, res) => 
     const teacherId = req.params.id;
     const newPassword = 'mudar123'; // Temporary default password
     const hash = await bcrypt.hash(newPassword, 10);
-    await supabase.from('teachers').update({ password_hash: hash }).eq('id', teacherId);
+    await dbHelper.queryRun("UPDATE teachers SET password_hash = ? WHERE id = ?", [hash, teacherId]);
     res.json({ success: true, newPassword });
   } catch (err) {
     console.error(err);
@@ -2355,16 +2384,20 @@ app.get('/noticia/:id', async (req, res) => {
 
 // QR Code Redirection (AdSense Landing)
 app.get('/qr/:id', async (req, res) => {
-  const { data: activity } = await supabase.from('activities').select('*').eq('id', req.params.id).single();
-  if (!activity) return res.status(404).send('Atividade não encontrada');
-  
-  const teacherId = req.query.t || null;
-  await supabase.from('activities').update({ qr_scans: (activity.qr_scans || 0) + 1 }).eq('id', req.params.id);
-  if (teacherId) {
-    await supabase.from('activity_scans').insert({ activity_id: req.params.id, teacher_id: teacherId });
+  try {
+    const activity = await dbHelper.queryGet("SELECT * FROM activities WHERE id = ?", [req.params.id]);
+    if (!activity) return res.status(404).send('Atividade não encontrada');
+    
+    const teacherId = req.query.t || null;
+    await dbHelper.queryRun("UPDATE activities SET qr_scans = COALESCE(qr_scans, 0) + 1 WHERE id = ?", [req.params.id]);
+    if (teacherId) {
+      await dbHelper.queryRun("INSERT INTO activity_scans (activity_id, teacher_id) VALUES (?, ?)", [req.params.id, teacherId]);
+    }
+    
+    res.render('qr_redirect', { activity });
+  } catch(e) {
+    res.status(500).send('Erro ao redirecionar QR Code');
   }
-  
-  res.render('qr_redirect', { activity });
 });
 
 // Student Exams System
@@ -2373,108 +2406,137 @@ app.get('/prova', (req, res) => {
 });
 
 app.post('/prova/login', async (req, res) => {
-  const { access_code, student_name } = req.body;
-  const { data: exam } = await supabase.from('exams').select('*').eq('access_code', access_code).single();
-  
-  if (!exam) {
-    return res.render('exam_login', { error: 'Código de acesso inválido.' });
-  }
+  try {
+    const { access_code, student_name } = req.body;
+    const exam = await dbHelper.queryGet("SELECT * FROM exams WHERE access_code = ?", [access_code]);
+    
+    if (!exam) {
+      return res.render('exam_login', { error: 'Código de acesso inválido.' });
+    }
 
-  let { data: submission } = await supabase.from('exam_submissions').select('*').eq('exam_id', exam.id).eq('student_name', student_name).single();
-  if (!submission) {
-    const { data: newSub } = await supabase.from('exam_submissions').insert({ exam_id: exam.id, student_name }).select().single();
-    submission = newSub;
-  }
+    let submission = await dbHelper.queryGet("SELECT * FROM exam_submissions WHERE exam_id = ? AND student_name = ?", [exam.id, student_name]);
+    if (!submission) {
+      await dbHelper.queryRun("INSERT INTO exam_submissions (exam_id, student_name) VALUES (?, ?)", [exam.id, student_name]);
+      submission = await dbHelper.queryGet("SELECT * FROM exam_submissions WHERE exam_id = ? AND student_name = ?", [exam.id, student_name]);
+    }
 
-  res.cookie('exam_session', JSON.stringify({ submission_id: submission.id, exam_id: exam.id }), { maxAge: 4 * 60 * 60 * 1000 }); // 4 hours
-  res.redirect(`/prova/sala`);
+    res.cookie('exam_session', JSON.stringify({ submission_id: submission.id, exam_id: exam.id }), { maxAge: 4 * 60 * 60 * 1000 }); // 4 hours
+    res.redirect(`/prova/sala`);
+  } catch(e) {
+    res.render('exam_login', { error: 'Erro ao entrar na prova: ' + e.message });
+  }
 });
 
 app.get('/prova/sala', async (req, res) => {
-  const sessionCookie = req.cookies.exam_session;
-  if (!sessionCookie) return res.redirect('/prova');
-  
-  const session = JSON.parse(sessionCookie);
-  const { data: exam } = await supabase.from('exams').select('*').eq('id', session.exam_id).single();
-  const { data: submission } = await supabase.from('exam_submissions').select('*').eq('id', session.submission_id).single();
+  try {
+    const sessionCookie = req.cookies.exam_session;
+    if (!sessionCookie) return res.redirect('/prova');
+    
+    const session = JSON.parse(sessionCookie);
+    const exam = await dbHelper.queryGet("SELECT * FROM exams WHERE id = ?", [session.exam_id]);
+    const submission = await dbHelper.queryGet("SELECT * FROM exam_submissions WHERE id = ?", [session.submission_id]);
 
-  if (!exam || !submission) return res.redirect('/prova');
+    if (!exam || !submission) return res.redirect('/prova');
 
-  res.render('exam_room', { exam, submission });
+    res.render('exam_room', { exam, submission });
+  } catch(e) {
+    res.redirect('/prova');
+  }
 });
 
 // API Routes
 app.post('/api/exam/submit-answer', async (req, res) => {
-  const sessionCookie = req.cookies.exam_session;
-  if (!sessionCookie) return res.status(401).json({ error: 'Unauthorized' });
-  
-  const session = JSON.parse(sessionCookie);
-  const { answers } = req.body;
-  
-  await supabase.from('exam_submissions').update({ answers_json: answers, updated_at: new Date().toISOString() }).eq('id', session.submission_id);
-  res.json({ success: true });
+  try {
+    const sessionCookie = req.cookies.exam_session;
+    if (!sessionCookie) return res.status(401).json({ error: 'Unauthorized' });
+    
+    const session = JSON.parse(sessionCookie);
+    const { answers } = req.body;
+    
+    await dbHelper.queryRun("UPDATE exam_submissions SET answers_json = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?", [JSON.stringify(answers), session.submission_id]);
+    res.json({ success: true });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 // Teacher API: Favorites
 app.post('/api/teacher/favorite/:id', requireTeacher, async (req, res) => {
-  const activity_id = parseInt(req.params.id);
-  const teacherId = req.teacher.id;
-  const { data: existing } = await supabase.from('teacher_favorites').select('*').eq('teacher_id', teacherId).eq('activity_id', activity_id).single();
-  
-  if (existing) {
-    await supabase.from('teacher_favorites').delete().eq('teacher_id', teacherId).eq('activity_id', activity_id);
-    res.json({ success: true, status: 'removed' });
-  } else {
-    try {
-      await supabase.from('teacher_favorites').insert({ teacher_id: teacherId, activity_id });
+  try {
+    const activity_id = parseInt(req.params.id);
+    const teacherId = req.teacher.id;
+    const existing = await dbHelper.queryGet("SELECT * FROM teacher_favorites WHERE teacher_id = ? AND activity_id = ?", [teacherId, activity_id]);
+    
+    if (existing) {
+      await dbHelper.queryRun("DELETE FROM teacher_favorites WHERE teacher_id = ? AND activity_id = ?", [teacherId, activity_id]);
+      res.json({ success: true, status: 'removed' });
+    } else {
+      await dbHelper.queryRun("INSERT INTO teacher_favorites (teacher_id, activity_id) VALUES (?, ?)", [teacherId, activity_id]);
       res.json({ success: true, status: 'added' });
-    } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
     }
+  } catch(e) {
+    res.status(500).json({ success: false, error: e.message });
   }
 });
 
 app.post('/api/rate/:id', async (req, res) => {
-  const { rating } = req.body;
-  const stars = parseInt(rating);
-  if (stars >= 1 && stars <= 5) {
-    const { data: activity } = await supabase.from('activities').select('rating_sum, rating_count').eq('id', req.params.id).single();
-    await supabase.from('activities').update({ 
-      rating_sum: (activity.rating_sum || 0) + stars, 
-      rating_count: (activity.rating_count || 0) + 1 
-    }).eq('id', req.params.id);
-    res.json({ success: true });
-  } else {
-    res.status(400).json({ error: 'Invalid rating' });
+  try {
+    const { rating } = req.body;
+    const stars = parseInt(rating);
+    if (stars >= 1 && stars <= 5) {
+      await dbHelper.queryRun(
+        "UPDATE activities SET rating_sum = COALESCE(rating_sum, 0) + ?, rating_count = COALESCE(rating_count, 0) + 1 WHERE id = ?",
+        [stars, req.params.id]
+      );
+      res.json({ success: true });
+    } else {
+      res.status(400).json({ error: 'Invalid rating' });
+    }
+  } catch(e) {
+    res.status(500).json({ error: e.message });
   }
 });
 
 app.post('/api/visit/:id', async (req, res) => {
-  const { data: activity } = await supabase.from('activities').select('visits').eq('id', req.params.id).single();
-  await supabase.from('activities').update({ visits: (activity.visits || 0) + 1 }).eq('id', req.params.id);
-  res.json({ success: true });
+  try {
+    await dbHelper.queryRun("UPDATE activities SET visits = COALESCE(visits, 0) + 1 WHERE id = ?", [req.params.id]);
+    res.json({ success: true });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.post('/api/comment', async (req, res) => {
-  const { activity_id, student_name, school_name, class_name, comment_text, avatar } = req.body;
-  if (!activity_id || !student_name || !comment_text) return res.status(400).json({ error: 'Missing fields' });
+  try {
+    const { activity_id, student_name, school_name, class_name, comment_text, avatar } = req.body;
+    if (!activity_id || !student_name || !comment_text) return res.status(400).json({ error: 'Missing fields' });
 
-  const lastCommentTime = req.cookies.last_comment_time;
-  const now = Date.now();
-  if (lastCommentTime && (now - lastCommentTime < 60000)) return res.status(429).json({ error: 'flood' });
+    const lastCommentTime = req.cookies.last_comment_time;
+    const now = Date.now();
+    if (lastCommentTime && (now - lastCommentTime < 60000)) return res.status(429).json({ error: 'flood' });
 
-  // Simplified duplicate check
-  const { data: duplicate } = await supabase.from('comments').select('id').eq('activity_id', activity_id).eq('student_name', student_name).eq('comment_text', comment_text).gt('created_at', new Date(now - 300000).toISOString()).single();
-  if (duplicate) return res.status(429).json({ error: 'duplicate' });
-
-  await supabase.from('comments').insert({ activity_id, student_name, school_name: school_name || '', class_name: class_name || '', avatar: avatar || '🤖', comment_text });
-  res.cookie('last_comment_time', now, { maxAge: 60000 });
-  res.json({ success: true });
+    await dbHelper.createComment({ 
+      activity_id: parseInt(activity_id), 
+      student_name, 
+      school_name: school_name || '', 
+      class_name: class_name || '', 
+      avatar: avatar || '🤖', 
+      comment_text 
+    });
+    res.cookie('last_comment_time', now, { maxAge: 60000 });
+    res.json({ success: true });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.get('/api/stats', async (req, res) => {
-  const { data: topActivities } = await supabase.from('activities').select('title, visits').order('visits', { ascending: false }).limit(5);
-  res.json(topActivities || []);
+  try {
+    const topActivities = await dbHelper.queryAll("SELECT title, visits FROM activities ORDER BY visits DESC LIMIT 5");
+    res.json(topActivities || []);
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 const PORT = process.env.PORT || 3000;

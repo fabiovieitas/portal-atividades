@@ -156,23 +156,23 @@
   <div class="auth-wrapper">
     <div class="auth-benefits">
       <h2>Transforme sua Sala de Aula 🚀</h2>
-      <div style="background: rgba(255,255,255,0.2); display: inline-block; padding: 5px 15px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.5);">
-        ✨ 100% Gratuito para Professores
+      <div style="background: rgba(255,255,255,0.2); display: inline-block; padding: 6px 16px; border-radius: 50px; font-weight: bold; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.5);">
+        ✨ 100% Gratuito para Educadores de Todas as Redes
       </div>
-      <p>Junte-se ao Portal Lab e tenha acesso a ferramentas exclusivas para potencializar o aprendizado dos seus alunos.</p>
+      <p>Junte-se ao Portal Lab Kids! Seja de escola municipal, estadual, federal ou particular, tenha acesso gratuito a ferramentas pedagógicas interativas.</p>
       <ul>
         <li><span>📂</span> Crie seu acervo de atividades favoritas</li>
-        <li><span>📱</span> Gere QR Codes para acesso rápido via tablets</li>
+        <li><span>📱</span> Gere QR Codes para acesso rápido dos alunos</li>
         <li><span>📊</span> Aplique provas digitais com salvamento em tempo real</li>
-        <li><span>💬</span> Receba e gerencie feedbacks dos alunos</li>
+        <li><span>💬</span> Receba e gerencie feedbacks dos estudantes</li>
       </ul>
     </div>
     
     <div class="login-container">
-      <h1 id="form-title">Login</h1>
+      <h1 id="form-title">Login do Professor</h1>
       
       <% if (error) { %>
-        <% if (error.includes('sucesso') || error.includes('Verifique seu e-mail')) { %>
+        <% if (error.includes('sucesso') || error.includes('Verifique seu e-mail') || error.includes('Parabéns')) { %>
           <div class="success"><%= error %></div>
         <% } else { %>
           <div class="error"><%= error %></div>
@@ -180,23 +180,24 @@
       <% } %>
       
       <form id="login-form" class="login-form" action="/professor/login" method="POST">
-        <input type="email" name="email" placeholder="Seu E-mail" required>
+        <input type="email" name="email" placeholder="Seu E-mail (ex: professor@escola.com ou gmail)" required>
         <input type="password" name="password" placeholder="Sua Senha" required>
         <button type="submit">Entrar na Plataforma</button>
-        <div class="toggle-form" onclick="toggleForm()">Ainda não tem conta? Cadastre-se</div>
+        <div class="toggle-form" onclick="toggleForm()">Novo por aqui? Cadastre-se gratuitamente</div>
         <div style="margin-top: 20px;">
-          <a href="/" style="color: #888; text-decoration: none; font-size: 0.9em;">⬅ Voltar para o Portal</a>
+          <a href="/" style="color: #64748b; text-decoration: none; font-size: 0.9em; font-weight: 600;">⬅ Voltar para a Página Inicial</a>
         </div>
       </form>
   
       <form id="register-form" class="login-form" action="/professor/register" method="POST" style="display: none;">
-        <input type="text" name="name" placeholder="Seu Nome Completo" required>
-        <input type="email" name="email" placeholder="Seu E-mail Institucional" required>
-        <input type="password" name="password" placeholder="Crie uma Senha" required>
-        <button type="submit">Criar minha conta gratuita</button>
+        <p style="font-size: 0.9rem; color: #64748b; margin-top: -10px; margin-bottom: 15px;">Acesso aberto a professores de qualquer escola!</p>
+        <input type="text" name="name" placeholder="Seu Nome Completo (ex: Prof. Carlos Silva)" required>
+        <input type="email" name="email" placeholder="Seu E-mail (institucional ou pessoal)" required>
+        <input type="password" name="password" placeholder="Crie uma Senha (mín. 6 caracteres)" minlength="6" required>
+        <button type="submit">Criar minha conta gratuita 🚀</button>
         <div class="toggle-form" onclick="toggleForm()">Já tem uma conta? Fazer Login</div>
         <div style="margin-top: 20px;">
-          <a href="/" style="color: #888; text-decoration: none; font-size: 0.9em;">⬅ Voltar para o Portal</a>
+          <a href="/" style="color: #64748b; text-decoration: none; font-size: 0.9em; font-weight: 600;">⬅ Voltar para a Página Inicial</a>
         </div>
       </form>
     </div>
@@ -208,7 +209,13 @@
       isLogin = !isLogin;
       document.getElementById('login-form').style.display = isLogin ? 'block' : 'none';
       document.getElementById('register-form').style.display = isLogin ? 'none' : 'block';
-      document.getElementById('form-title').innerText = isLogin ? 'Login' : 'Cadastro';
+      document.getElementById('form-title').innerText = isLogin ? 'Login do Professor' : 'Cadastro de Professor';
+    }
+
+    // Auto-open register tab if requested
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('cadastro') === '1' || urlParams.get('cadastrar') === '1' || urlParams.get('register') === '1') {
+      toggleForm();
     }
   </script>
 </body>
