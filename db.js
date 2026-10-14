@@ -96,12 +96,45 @@ try {
       key TEXT PRIMARY KEY,
       value TEXT
     );
+    CREATE TABLE IF NOT EXISTS teachers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      school TEXT DEFAULT '',
+      status TEXT DEFAULT 'approved',
+      login_count INTEGER DEFAULT 0,
+      last_login DATETIME,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS teacher_sessions (
+      id TEXT PRIMARY KEY,
+      teacher_id INTEGER NOT NULL,
+      expires DATETIME NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS teacher_favorites (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      teacher_id INTEGER NOT NULL,
+      activity_id INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS teacher_classes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      teacher_id INTEGER NOT NULL,
+      name TEXT NOT NULL,
+      grade_level TEXT,
+      access_code TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   try { sqlite.exec("ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN avatar_config TEXT DEFAULT '{}';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN medals_json TEXT DEFAULT '[]';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE activities ADD COLUMN month TEXT DEFAULT 'Agosto';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE teachers ADD COLUMN school TEXT DEFAULT '';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE teachers ADD COLUMN status TEXT DEFAULT 'approved';"); } catch(e){}
 } catch (e) {
   console.warn('[DB Engine] SQLite local driver standard bypass (running in serverless environment):', e.message);
 }
@@ -129,20 +162,9 @@ if (tursoUrl && tursoToken) {
   console.log('[DB Engine] Turso não configurado no .env, tentando SQLite local.');
 }
 
-// Safely initialize Supabase client (only if a valid, active URL is provided)
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
-let supabase = null;
-if (supabaseUrl && supabaseKey && !supabaseUrl.includes('ziaubnmbnpqgsiouoret')) {
-  try {
-    supabase = createSupabaseClient(supabaseUrl, supabaseKey);
-    console.log('[DB Engine] Supabase Client conectado!');
-  } catch (e) {
-    console.warn('[DB Engine] Falha ao conectar ao Supabase:', e.message);
-  }
-} else {
-  console.log('[DB Engine] Supabase desabilitado. Operando 100% via Turso Cloud / SQLite.');
-}
+// Supabase is completely decommissioned. Database operations run 100% via Turso Cloud (libsql) with local SQLite fallback.
+const supabase = null;
+console.log('[DB Engine] Supabase desabilitado. Operando 100% via Turso Cloud (libsql).');
 
 // Memory Cache for Categories/Subjects
 let cachedMeta = null;
@@ -503,7 +525,7 @@ const dbHelper = {
     if (!sessionId) return null;
     const session = await queryGet("SELECT teacher_id, expires FROM teacher_sessions WHERE id = ?", [sessionId]);
     if (!session) return null;
-    return await queryGet("SELECT id, name, email, password_hash, login_count, last_login, created_at FROM teachers WHERE id = ?", [session.teacher_id]);
+    return await queryGet("SELECT id, name, email, school, status, password_hash, login_count, last_login, created_at FROM teachers WHERE id = ?", [session.teacher_id]);
   },
 
   async getTeachers() {
@@ -511,21 +533,6 @@ const dbHelper = {
     try {
       teachers = await queryAll("SELECT * FROM teachers ORDER BY created_at DESC");
     } catch(e){}
-
-    if (supabase) {
-      try {
-        const { data } = await supabase.from('teachers').select('*');
-        if (data && data.length > 0) {
-          const emails = new Set(teachers.map(t => String(t.email || '').toLowerCase()));
-          for (const t of data) {
-            if (t.email && !emails.has(String(t.email).toLowerCase())) {
-              teachers.push(t);
-              emails.add(String(t.email).toLowerCase());
-            }
-          }
-        }
-      } catch(e){}
-    }
 
     // Calculate class_count, favorite_count and safe fields for each teacher
     for (let t of teachers) {
@@ -1032,6 +1039,8 @@ async function initTables() {
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       password_hash TEXT NOT NULL,
+      school TEXT DEFAULT '',
+      status TEXT DEFAULT 'approved',
       login_count INTEGER DEFAULT 0,
       last_login DATETIME,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -1094,7 +1103,9 @@ async function initTables() {
     "ALTER TABLE activities ADD COLUMN bncc_code TEXT DEFAULT '';",
     "ALTER TABLE activities ADD COLUMN subject TEXT DEFAULT 'Geral';",
     "ALTER TABLE news ADD COLUMN activity_url TEXT;",
-    "ALTER TABLE simulado_submissions ADD COLUMN shift TEXT DEFAULT 'Manhã';"
+    "ALTER TABLE simulado_submissions ADD COLUMN shift TEXT DEFAULT 'Manhã';",
+    "ALTER TABLE teachers ADD COLUMN school TEXT DEFAULT '';",
+    "ALTER TABLE teachers ADD COLUMN status TEXT DEFAULT 'approved';"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}

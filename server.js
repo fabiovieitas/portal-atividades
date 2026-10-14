@@ -9,7 +9,8 @@ const QRCode = require('qrcode');
 const fs = require('fs');
 
 const dbHelper = require('./db');
-const supabase = dbHelper.supabase;
+// Supabase fully decommissioned. All operations run via Turso Cloud (libsql).
+const supabase = null;
 
 const app = express();
 
@@ -481,11 +482,11 @@ async function getUniqueCategoriesAndSubjects() {
   }
   
   try {
-    const { data: categoriesData } = await supabase.from('activities').select('category');
-    const { data: subjectsData } = await supabase.from('activities').select('subject').not('subject', 'eq', 'Geral');
+    const categoriesData = await dbHelper.queryAll("SELECT DISTINCT category FROM activities WHERE category IS NOT NULL AND category != ''");
+    const subjectsData = await dbHelper.queryAll("SELECT DISTINCT subject FROM activities WHERE subject IS NOT NULL AND subject != '' AND subject != 'Geral'");
     
     cachedCategories = [...new Set((categoriesData || []).map(c => c.category))];
-    cachedSubjects = [...new Set((subjectsData || []).map(s => s.subject))].filter(s => s);
+    cachedSubjects = [...new Set((subjectsData || []).map(s => s.subject))].filter(Boolean);
     cacheTimestamp = now;
     
     return { categories: cachedCategories, subjects: cachedSubjects };
@@ -651,20 +652,11 @@ app.get('/', async (req, res) => {
 
   const teacher = await getTeacher(req);
   if (teacher && activities.length > 0) {
-    const online = await dbHelper.isOnline();
-    let favIds = [];
-    if (online) {
-      try {
-        const { data: favorites } = await supabase.from('teacher_favorites').select('activity_id').eq('teacher_id', teacher.id);
-        favIds = (favorites || []).map(f => f.activity_id);
-      } catch (e) {}
-    } else {
-      try {
-        const favorites = dbHelper.sqlite.prepare("SELECT activity_id FROM teacher_favorites WHERE teacher_id = ?").all(teacher.id);
-        favIds = favorites.map(f => f.activity_id);
-      } catch (e) {}
-    }
-    activities = activities.map(a => ({ ...a, is_favorite: favIds.includes(a.id) }));
+    try {
+      const favorites = await dbHelper.queryAll("SELECT activity_id FROM teacher_favorites WHERE teacher_id = ?", [teacher.id]);
+      const favIds = (favorites || []).map(f => f.activity_id);
+      activities = activities.map(a => ({ ...a, is_favorite: favIds.includes(a.id) }));
+    } catch (e) {}
   }
 
   const comments = await dbHelper.getApprovedComments(15);
@@ -1569,13 +1561,7 @@ app.get('/admin', async (req, res) => {
       teachers = await dbHelper.getTeachers();
       news = await dbHelper.getNews();
       try {
-        if (supabase) {
-          const { data: pc } = await supabase.from('comments').select('*').eq('approved', 0);
-          if (pc) pendingComments = pc;
-        }
-        if (!pendingComments || pendingComments.length === 0) {
-          pendingComments = await dbHelper.queryAll("SELECT * FROM comments WHERE approved = 0");
-        }
+        pendingComments = await dbHelper.queryAll("SELECT * FROM comments WHERE approved = 0");
       } catch (e) {}
 
       const schools = await dbHelper.getSchools();
@@ -1618,10 +1604,6 @@ app.post('/admin/login', async (req, res) => {
 });
 
 app.get('/admin/logout', async (req, res) => {
-  const sessionId = req.cookies.admin_session;
-  if (sessionId) {
-    await supabase.from('sessions').delete().eq('id', sessionId);
-  }
   res.clearCookie('admin_session');
   res.redirect('/admin');
 });
@@ -1776,12 +1758,13 @@ app.get('/professor/login', async (req, res) => {
 });
 
 app.post('/professor/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, school, password } = req.body;
   try {
     if (!name || !email || !password) {
       return res.render('teacher_login', { error: 'Por favor, preencha todos os campos obrigatórios.' });
     }
     const cleanEmail = String(email || '').trim().toLowerCase();
+    const cleanSchool = String(school || '').trim();
 
     // Check if email already registered in Turso/SQLite
     const existing = await dbHelper.queryGet("SELECT id FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
@@ -1789,24 +1772,44 @@ app.post('/professor/register', async (req, res) => {
       return res.render('teacher_login', { error: 'Este e-mail já está cadastrado. Por favor, faça login com sua senha.' });
     }
 
+    // Check institutional email domain for Campos dos Goytacazes
+    const isInstitutional = cleanEmail.endsWith('@edu.campos.rj.gov.br') || 
+                            cleanEmail.endsWith('@campos.rj.gov.br') || 
+                            cleanEmail.endsWith('@prof.campos.rj.gov.br') || 
+                            cleanEmail.endsWith('@educacao.campos.rj.gov.br') ||
+                            cleanEmail.endsWith('.campos.rj.gov.br');
+
+    const status = isInstitutional ? 'approved' : 'pending';
     const hash = await bcrypt.hash(password, 10);
 
-    // Save teacher into database
-    await dbHelper.queryRun("INSERT INTO teachers (name, email, password_hash) VALUES (?, ?, ?)", [name.trim(), cleanEmail, hash]);
+    // Save teacher permanently into Turso Cloud database
+    await dbHelper.queryRun(
+      "INSERT INTO teachers (name, email, school, status, password_hash) VALUES (?, ?, ?, ?, ?)",
+      [name.trim(), cleanEmail, cleanSchool, status, hash]
+    );
+
+    // Immediately verify data persistence in Turso Cloud
     const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
     if (!newTeacher) {
-      throw new Error("Não foi possível confirmar a criação da conta. Tente novamente.");
+      throw new Error("Não foi possível confirmar o salvamento da conta no banco de dados. Tente novamente.");
     }
 
-    // Auto-login newly registered teacher
-    const sessionId = crypto.randomBytes(32).toString('hex');
-    const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, newTeacher.id, expires]);
-    await dbHelper.queryRun("UPDATE teachers SET login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [newTeacher.id]);
-    await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [newTeacher.id]);
+    if (isInstitutional) {
+      // Institutional accounts are automatically approved and logged in
+      const sessionId = crypto.randomBytes(32).toString('hex');
+      const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, newTeacher.id, expires]);
+      await dbHelper.queryRun("UPDATE teachers SET login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [newTeacher.id]);
+      await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [newTeacher.id]);
 
-    res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
-    res.redirect('/professor/dashboard?welcome=1');
+      res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
+      return res.redirect('/professor/dashboard?welcome=1');
+    } else {
+      // Non-institutional accounts are created with pending status for LGPD protection & teacher validation
+      return res.render('teacher_login', { 
+        error: 'Cadastro realizado com sucesso! Para proteção e conformidade com a LGPD, contas com e-mails externos passam por validação pedagógica pela Coordenação do Portal (Prof. Fábio). Assim que aprovado, seu acesso será liberado!' 
+      });
+    }
   } catch (err) {
     console.error('Registration error:', err);
     res.render('teacher_login', { error: `Erro ao cadastrar: ${err.message || err}` });
@@ -1820,6 +1823,18 @@ app.post('/professor/login', async (req, res) => {
     const teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
 
     if (teacher && await bcrypt.compare(password, teacher.password_hash)) {
+      // LGPD & moderation status verification
+      if (teacher.status === 'pending') {
+        return res.render('teacher_login', { 
+          error: 'Sua conta de professor está aguardando aprovação da Coordenação Pedagógica (Prof. Fábio) para conformidade com a LGPD. Em breve seu acesso estará liberado!' 
+        });
+      }
+      if (teacher.status === 'rejected') {
+        return res.render('teacher_login', { 
+          error: 'Seu cadastro de professor não foi aprovado pela equipe pedagógica. Entre em contato com a coordenação.' 
+        });
+      }
+
       const sessionId = crypto.randomBytes(32).toString('hex');
       const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
@@ -2157,6 +2172,29 @@ app.post('/admin/activity/approve/:id', requireAdmin, async (req, res) => {
   }
 });
 
+app.post('/admin/teacher/approve/:id', requireAdmin, async (req, res) => {
+  try {
+    const teacherId = req.params.id;
+    await dbHelper.queryRun("UPDATE teachers SET status = 'approved' WHERE id = ?", [teacherId]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/admin/teacher/reject/:id', requireAdmin, async (req, res) => {
+  try {
+    const teacherId = req.params.id;
+    await dbHelper.queryRun("UPDATE teachers SET status = 'rejected' WHERE id = ?", [teacherId]);
+    await dbHelper.queryRun("DELETE FROM teacher_sessions WHERE teacher_id = ?", [teacherId]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 app.post('/admin/teacher/delete/:id', requireAdmin, async (req, res) => {
   try {
     const teacherId = req.params.id;
@@ -2192,16 +2230,6 @@ app.post('/admin/add', requireAdmin, async (req, res) => {
   const actMonth = month || 'Setembro';
 
   try {
-    if (supabase) {
-      await supabase.from('activities').insert({
-        title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral', month: actMonth
-      });
-    }
-  } catch(e) {
-    console.warn('[Admin Add] Supabase warning:', e.message);
-  }
-
-  try {
     await dbHelper.queryRun(
       "INSERT INTO activities (title, description, activity_url, icon_url, level, category, bncc_code, subject, month) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [title, description, activity_url, icon_url, level || '1-5', category || 'Geral', bncc_code || '', subject || 'Geral', actMonth]
@@ -2221,9 +2249,6 @@ app.post('/admin/duplicate/:id', requireAdmin, async (req, res) => {
     const { id, ...newData } = activity;
     newData.title = `${newData.title} (Cópia)`;
     try {
-      if (supabase) await supabase.from('activities').insert(newData);
-    } catch(e){}
-    try {
       await dbHelper.queryRun(
         "INSERT INTO activities (title, description, activity_url, icon_url, level, category, bncc_code, subject, month) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [newData.title, newData.description, newData.activity_url, newData.icon_url, newData.level, newData.category, newData.bncc_code || '', newData.subject || 'Geral', newData.month || 'Setembro']
@@ -2235,9 +2260,6 @@ app.post('/admin/duplicate/:id', requireAdmin, async (req, res) => {
 });
 
 app.post('/admin/delete/:id', requireAdmin, async (req, res) => {
-  try {
-    if (supabase) await supabase.from('activities').delete().eq('id', req.params.id);
-  } catch(e){}
   try {
     await dbHelper.queryRun("DELETE FROM activities WHERE id = ?", [req.params.id]);
   } catch(e){}
@@ -2251,16 +2273,6 @@ app.post('/admin/edit/:id', requireAdmin, async (req, res) => {
   if (Array.isArray(level)) level = level.join(',');
 
   const actMonth = month || 'Agosto';
-
-  try {
-    if (supabase) {
-      await supabase.from('activities').update({
-        title, description, activity_url, icon_url, level: level || '1-5', category: category || 'Geral', bncc_code: bncc_code || '', subject: subject || 'Geral', month: actMonth
-      }).eq('id', req.params.id);
-    }
-  } catch(e) {
-    console.warn('[Admin Edit] Supabase warning:', e.message);
-  }
 
   try {
     await dbHelper.queryRun(
@@ -2277,46 +2289,49 @@ app.post('/admin/edit/:id', requireAdmin, async (req, res) => {
 
 // Comment Moderation
 app.post('/admin/comments/approve/:id', requireAdmin, async (req, res) => {
-  await supabase.from('comments').update({ approved: 1 }).eq('id', req.params.id);
+  await dbHelper.queryRun("UPDATE comments SET approved = 1 WHERE id = ?", [req.params.id]);
   res.json({ success: true });
 });
 
 app.post('/admin/comments/delete/:id', requireAdmin, async (req, res) => {
-  await supabase.from('comments').delete().eq('id', req.params.id);
+  await dbHelper.queryRun("DELETE FROM comments WHERE id = ?", [req.params.id]);
   res.json({ success: true });
 });
 
 app.post('/admin/comments/edit/:id', requireAdmin, async (req, res) => {
   const { comment_text } = req.body;
-  await supabase.from('comments').update({ comment_text }).eq('id', req.params.id);
+  await dbHelper.queryRun("UPDATE comments SET comment_text = ? WHERE id = ?", [comment_text, req.params.id]);
   res.redirect('/admin');
 });
 
 // Project Management
 app.post('/admin/projects/add', requireAdmin, async (req, res) => {
   const { title, description, image_url, school_name, class_name } = req.body;
-  await supabase.from('projects').insert({ title, description, image_url, school_name: school_name || '', class_name: class_name || '' });
+  await dbHelper.queryRun("INSERT INTO projects (title, description, image_url, school_name, class_name) VALUES (?, ?, ?, ?, ?)", [title, description, image_url, school_name || '', class_name || '']);
   res.redirect('/admin');
 });
 
 app.post('/admin/projects/delete/:id', requireAdmin, async (req, res) => {
-  await supabase.from('projects').delete().eq('id', req.params.id);
+  await dbHelper.queryRun("DELETE FROM projects WHERE id = ?", [req.params.id]);
   res.redirect('/admin');
 });
 
 // Admin News Management
 app.post('/admin/news/add', requireAdmin, async (req, res) => {
   const { title, summary, content, image_url, category, author, published_at } = req.body;
-  const { error } = await supabase.from('news').insert({
-    title, summary, content, image_url, category, author,
-    published_at: published_at || new Date().toISOString()
-  });
-  if (error) console.error('Error adding news:', error);
+  try {
+    await dbHelper.queryRun(
+      "INSERT INTO news (title, summary, content, image_url, category, author, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [title, summary, content, image_url, category || 'Geral', author || 'Equipe Lab', published_at || new Date().toISOString()]
+    );
+  } catch (err) {
+    console.error('Error adding news:', err);
+  }
   res.redirect('/admin#news');
 });
 
 app.post('/admin/news/delete/:id', requireAdmin, async (req, res) => {
-  await supabase.from('news').delete().eq('id', req.params.id);
+  await dbHelper.queryRun("DELETE FROM news WHERE id = ?", [req.params.id]);
   res.redirect('/admin');
 });
 

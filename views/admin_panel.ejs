@@ -146,7 +146,9 @@
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Nome / Email</th>
+                            <th>Professor / Escola</th>
+                            <th>Rede</th>
+                            <th>Status (LGPD)</th>
                             <th>Turmas</th>
                             <th>Favoritos</th>
                             <th>Acessos</th>
@@ -156,20 +158,45 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% teachers.forEach(t => { %>
+                        <% teachers.forEach(t => { 
+                            const isInst = String(t.email || '').toLowerCase().includes('.campos.rj.gov.br');
+                            const status = t.status || 'approved';
+                        %>
                             <tr onclick="showTeacherDetails('<%= t.id %>', '<%= t.name %>')" style="cursor: pointer;">
                                 <td>
                                     <strong><%= t.name %></strong><br>
                                     <small style="color: #64748b;"><%= t.email %></small>
+                                    <% if (t.school) { %>
+                                        <br><small style="color: #0369a1; font-weight: 600;">🏫 <%= t.school %></small>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <% if (isInst) { %>
+                                        <span style="background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">🏛️ Municipal</span>
+                                    <% } else { %>
+                                        <span style="background: #f1f5f9; color: #475569; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">🌐 Externo</span>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <% if (status === 'approved') { %>
+                                        <span style="background: #dcfce7; color: #166534; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">✓ Aprovado</span>
+                                    <% } else if (status === 'pending') { %>
+                                        <span style="background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">⏳ Em Análise</span>
+                                    <% } else { %>
+                                        <span style="background: #fee2e2; color: #991b1b; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">✕ <%= status %></span>
+                                    <% } %>
                                 </td>
                                 <td><%= t.class_count %></td>
                                 <td><%= t.favorite_count %></td>
                                 <td><%= t.login_count || 0 %></td>
                                 <td><%= new Date(t.created_at).toLocaleDateString() %></td>
                                 <td><%= t.last_login ? new Date(t.last_login).toLocaleString() : 'Nunca' %></td>
-                                <td onclick="event.stopPropagation()">
-                                    <button onclick="resetTeacherPassword('<%= t.id %>')" class="btn-edit" style="padding: 5px 10px; font-size: 0.8rem; background: #4a90e2;">Reset</button>
-                                    <button onclick="deleteTeacher('<%= t.id %>')" class="btn-delete" style="padding: 5px 10px; font-size: 0.8rem; background: #ff6b6b; margin-left: 5px;">Apagar</button>
+                                <td onclick="event.stopPropagation()" style="white-space: nowrap;">
+                                    <% if (status !== 'approved') { %>
+                                        <button onclick="approveTeacher('<%= t.id %>')" class="btn-approve" style="padding: 5px 10px; font-size: 0.8rem; background: #22c55e; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-right: 5px;" title="Aprovar e Liberar Professor">✓ Aprovar</button>
+                                    <% } %>
+                                    <button onclick="resetTeacherPassword('<%= t.id %>')" class="btn-edit" style="padding: 5px 10px; font-size: 0.8rem; background: #4a90e2; color: white; border: none; border-radius: 6px; cursor: pointer;">Reset</button>
+                                    <button onclick="deleteTeacher('<%= t.id %>')" class="btn-delete" style="padding: 5px 10px; font-size: 0.8rem; background: #ff6b6b; color: white; border: none; border-radius: 6px; cursor: pointer; margin-left: 5px;">Apagar</button>
                                 </td>
                             </tr>
                         <% }); %>
@@ -1044,6 +1071,13 @@
         }
 
         function closeTeacherModal() { document.getElementById('teacher-modal').style.display = 'none'; }
+
+        async function approveTeacher(id) {
+            if (!confirm('Deseja aprovar este professor e liberar imediatamente o acesso pedagógico?')) return;
+            const res = await fetch(`/admin/teacher/approve/${id}`, { method: 'POST' });
+            if (res.ok) location.reload();
+            else alert('Erro ao aprovar professor.');
+        }
 
         async function deleteTeacher(id) {
             if (!confirm('AVISO: Isso apagará todas as turmas e favoritos deste professor. Deseja continuar?')) return;

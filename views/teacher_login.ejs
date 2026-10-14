@@ -190,11 +190,15 @@
       </form>
   
       <form id="register-form" class="login-form" action="/professor/register" method="POST" style="display: none;">
-        <p style="font-size: 0.9rem; color: #64748b; margin-top: -10px; margin-bottom: 15px;">Acesso aberto a professores de qualquer escola!</p>
+        <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 12px; margin-bottom: 15px; font-size: 0.85rem; color: #166534; text-align: left; line-height: 1.4;">
+          🏛️ <strong>Rede Municipal de Campos:</strong> E-mails <code>@edu.campos.rj.gov.br</code> são aprovados automaticamente de forma imediata!<br><br>
+          🌐 <strong>Outras Redes / Pessoal:</strong> Para proteger os dados dos estudantes (LGPD), contas externas passam por rápida validação pedagógica do Prof. Fábio.
+        </div>
         <input type="text" name="name" placeholder="Seu Nome Completo (ex: Prof. Carlos Silva)" required>
-        <input type="email" name="email" placeholder="Seu E-mail (institucional ou pessoal)" required>
+        <input type="email" name="email" placeholder="Seu E-mail (ex: nome@edu.campos.rj.gov.br ou gmail)" required>
+        <input type="text" name="school" placeholder="Sua Escola / Unidade Escolar (Obrigatório)" required>
         <input type="password" name="password" placeholder="Crie uma Senha (mín. 6 caracteres)" minlength="6" required>
-        <button type="submit">Criar minha conta gratuita 🚀</button>
+        <button type="submit">Cadastrar como Professor 🚀</button>
         <div class="toggle-form" onclick="toggleForm()">Já tem uma conta? Fazer Login</div>
         <div style="margin-top: 20px;">
           <a href="/" style="color: #64748b; text-decoration: none; font-size: 0.9em; font-weight: 600;">⬅ Voltar para a Página Inicial</a>
