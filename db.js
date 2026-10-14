@@ -332,7 +332,7 @@ const dbHelper = {
           title: "⭐ Leitura Divertida no Datashow [JOGO AUTORAL]",
           description: "⚡ JOGO AUTORAL LAB KIDS! Ferramenta pedagógica interativa para projeção de palavras, sílabas e leitura guiada em datashow ou tela cheia.",
           activity_url: "/atividades/leitura-datashow",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3429/3429433.png",
+          icon_url: "/img/covers/leitura-datashow.jpg",
           level: "1-5", category: "Alfabetização Autoral", subject: "Português", bncc_code: "EF01LP01, EF01LP08, EF02LP04", status: "public", visits: 850
         },
         {
@@ -1428,7 +1428,7 @@ async function initTables() {
           title: "⭐ Leitura Divertida no Datashow [JOGO AUTORAL]",
           description: "⚡ JOGO AUTORAL LAB KIDS! Ferramenta pedagógica interativa para projeção de palavras, sílabas e leitura guiada em datashow ou tela cheia.",
           activity_url: "/atividades/leitura-datashow",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3429/3429433.png",
+          icon_url: "/img/covers/leitura-datashow.jpg",
           level: "1-5", category: "Alfabetização Autoral", bncc_code: "EF01LP01, EF01LP08, EF02LP04", subject: "Português"
         },
         {
