@@ -179,6 +179,12 @@
         <% } %>
       <% } %>
       
+      <!-- Student redirect notice -->
+      <div style="background: #f1f5f9; border-radius: 10px; padding: 10px 14px; margin-bottom: 20px; font-size: 0.88rem; color: #475569; text-align: center;">
+        🎒 <strong>É estudante?</strong> Você não precisa de cadastro! <br>
+        <a href="/#activities" style="color: #4f46e5; font-weight: 700; text-decoration: underline;">Clique aqui para ir aos Jogos e Desafios 🚀</a>
+      </div>
+      
       <form id="login-form" class="login-form" action="/professor/login" method="POST">
         <input type="email" name="email" placeholder="Seu E-mail (ex: professor@escola.com ou gmail)" required>
         <input type="password" name="password" placeholder="Sua Senha" required>
@@ -190,15 +196,19 @@
       </form>
   
       <form id="register-form" class="login-form" action="/professor/register" method="POST" style="display: none;">
-        <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 10px; padding: 12px; margin-bottom: 15px; font-size: 0.85rem; color: #166534; text-align: left; line-height: 1.4;">
-          🏛️ <strong>Rede Municipal de Campos:</strong> E-mails <code>@edu.campos.rj.gov.br</code> são aprovados automaticamente de forma imediata!<br><br>
-          🌐 <strong>Outras Redes / Pessoal:</strong> Para proteger os dados dos estudantes (LGPD), contas externas passam por rápida validação pedagógica do Prof. Fábio.
+        <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 12px; margin-bottom: 15px; font-size: 0.85rem; color: #1e40af; text-align: left; line-height: 1.4;">
+          ✨ <strong>Acesso Aberto a Educadores de Qualquer Rede:</strong><br>
+          Após o cadastro, você receberá um <strong>código de 6 dígitos no seu e-mail</strong> para ativar seu acesso pedagógico com total segurança (LGPD).
         </div>
         <input type="text" name="name" placeholder="Seu Nome Completo (ex: Prof. Carlos Silva)" required>
-        <input type="email" name="email" placeholder="Seu E-mail (ex: nome@edu.campos.rj.gov.br ou gmail)" required>
-        <input type="text" name="school" placeholder="Sua Escola / Unidade Escolar (Obrigatório)" required>
+        <input type="email" name="email" placeholder="Seu E-mail (ex: nome@edu.campos.rj.gov.br ou seu Gmail)" required>
+        <input type="text" name="school" placeholder="Sua Escola / Cidade (ex: E.M. 29 de Maio - Campos)" required>
         <input type="password" name="password" placeholder="Crie uma Senha (mín. 6 caracteres)" minlength="6" required>
-        <button type="submit">Cadastrar como Professor 🚀</button>
+        <label style="display: flex; align-items: flex-start; text-align: left; font-size: 0.82rem; color: #475569; margin: 12px 0 16px 0; cursor: pointer; line-height: 1.35;">
+          <input type="checkbox" name="teacher_declaration" required style="width: 18px; height: 18px; margin-right: 8px; margin-top: 2px; flex-shrink: 0; cursor: pointer;">
+          Declaro que atuo como educador(a) / professor(a) e utilizarei esta conta exclusivamente para fins pedagógicos (LGPD).
+        </label>
+        <button type="submit">Cadastrar e Receber Código 🚀</button>
         <div class="toggle-form" onclick="toggleForm()">Já tem uma conta? Fazer Login</div>
         <div style="margin-top: 20px;">
           <a href="/" style="color: #64748b; text-decoration: none; font-size: 0.9em; font-weight: 600;">⬅ Voltar para a Página Inicial</a>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Verifique seu E-mail - Portal Lab Kids</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <link rel="icon" type="image/png" sizes="512x512" href="/img/robot-icon-512.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/robot-icon-192.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css?v=3">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, var(--bg-color) 0%, #d4e4f7 100%);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .verify-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .verify-icon {
+      font-size: 50px;
+      margin-bottom: 10px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      color: #1e1b4b;
+      margin: 0 0 10px 0;
+      font-size: 1.8rem;
+    }
+    p {
+      color: #64748b;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    .email-highlight {
+      color: #4f46e5;
+      font-weight: 700;
+      background: #eff6ff;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
+      word-break: break-all;
+    }
+    .code-input {
+      width: 100%;
+      font-size: 2rem;
+      letter-spacing: 12px;
+      text-align: center;
+      padding: 15px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-weight: 800;
+      font-family: monospace;
+      color: #1e293b;
+      box-sizing: border-box;
+      transition: all 0.3s;
+      background: #f8fafc;
+      margin-bottom: 20px;
+    }
+    .code-input:focus {
+      border-color: #4f46e5;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+      background: #ffffff;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Outfit', sans-serif;
+    }
+    .btn-submit:hover {
+      background: #4338ca;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+    }
+    .error {
+      background: #ffe5e5;
+      color: #d63031;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .success {
+      background: #e5ffe5;
+      color: #27ae60;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .resend-box {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 0.88rem;
+      color: #64748b;
+    }
+    .resend-link {
+      color: #4f46e5;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .resend-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="verify-card">
+    <div class="verify-icon">📬</div>
+    <h1>Verifique seu E-mail</h1>
+    <p>
+      Enviamos um código de segurança de 6 dígitos para:<br>
+      <span class="email-highlight"><%= email %></span>
+    </p>
+
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="success"><%= success %></div>
+    <% } %>
+
+    <form action="/professor/verificar" method="POST">
+      <input type="hidden" name="email" value="<%= email %>">
+      <input 
+        type="text" 
+        name="code" 
+        class="code-input" 
+        placeholder="000000" 
+        maxlength="6" 
+        pattern="[0-9]{6}" 
+        inputmode="numeric" 
+        autocomplete="one-time-code" 
+        required 
+        autofocus
+      >
+      <button type="submit" class="btn-submit">Confirmar e Ativar Conta 🚀</button>
+    </form>
+
+    <div class="resend-box">
+      <p style="margin: 0 0 10px 0;">Não recebeu o e-mail? Verifique também a pasta de <strong>Spam</strong>.</p>
+      <form action="/professor/reenviar-codigo" method="POST" style="display: inline;">
+        <input type="hidden" name="email" value="<%= email %>">
+        <button type="submit" style="background: none; border: none; color: #4f46e5; font-weight: 700; cursor: pointer; font-size: 0.9rem; font-family: inherit; text-decoration: underline;">
+          🔄 Reenviar Código por E-mail
+        </button>
+      </form>
+      <div style="margin-top: 15px;">
+        <a href="/professor/login?cadastro=1" style="color: #94a3b8; text-decoration: none; font-size: 0.85rem;">
+          ⬅ Informou o e-mail errado? Corrigir cadastro
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

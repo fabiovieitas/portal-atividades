@@ -9,6 +9,7 @@ const QRCode = require('qrcode');
 const fs = require('fs');
 
 const dbHelper = require('./db');
+const mailService = require('./mailService');
 // Supabase fully decommissioned. All operations run via Turso Cloud (libsql).
 const supabase = null;
 
@@ -1767,8 +1768,29 @@ app.post('/professor/register', async (req, res) => {
     const cleanSchool = String(school || '').trim();
 
     // Check if email already registered in Turso/SQLite
-    const existing = await dbHelper.queryGet("SELECT id FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+    const existing = await dbHelper.queryGet("SELECT id, status FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
     if (existing) {
+      if (existing.status === 'pending_verification') {
+        // Teacher registered previously but didn't finish email confirmation: resend code
+        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const verificationToken = crypto.randomBytes(24).toString('hex');
+        const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+        const hash = await bcrypt.hash(password, 10);
+
+        await dbHelper.queryRun(
+          "UPDATE teachers SET name = ?, school = ?, password_hash = ?, verification_code = ?, verification_token = ?, verification_expires = ? WHERE id = ?",
+          [name.trim(), cleanSchool, hash, verificationCode, verificationToken, verificationExpires, existing.id]
+        );
+
+        await mailService.sendTeacherActivationEmail({
+          name: name.trim(),
+          email: cleanEmail,
+          code: verificationCode,
+          token: verificationToken
+        });
+
+        return res.redirect(`/professor/verificar?email=${encodeURIComponent(cleanEmail)}`);
+      }
       return res.render('teacher_login', { error: 'Este e-mail já está cadastrado. Por favor, faça login com sua senha.' });
     }
 
@@ -1779,23 +1801,17 @@ app.post('/professor/register', async (req, res) => {
                             cleanEmail.endsWith('@educacao.campos.rj.gov.br') ||
                             cleanEmail.endsWith('.campos.rj.gov.br');
 
-    const status = isInstitutional ? 'approved' : 'pending';
     const hash = await bcrypt.hash(password, 10);
 
-    // Save teacher permanently into Turso Cloud database
-    await dbHelper.queryRun(
-      "INSERT INTO teachers (name, email, school, status, password_hash) VALUES (?, ?, ?, ?, ?)",
-      [name.trim(), cleanEmail, cleanSchool, status, hash]
-    );
-
-    // Immediately verify data persistence in Turso Cloud
-    const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
-    if (!newTeacher) {
-      throw new Error("Não foi possível confirmar o salvamento da conta no banco de dados. Tente novamente.");
-    }
-
     if (isInstitutional) {
-      // Institutional accounts are automatically approved and logged in
+      // Institutional accounts from Campos Municipal network are auto-approved with immediate login
+      await dbHelper.queryRun(
+        "INSERT INTO teachers (name, email, school, status, password_hash) VALUES (?, ?, ?, 'approved', ?)",
+        [name.trim(), cleanEmail, cleanSchool, hash]
+      );
+      const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+      if (!newTeacher) throw new Error("Falha ao salvar conta institucional.");
+
       const sessionId = crypto.randomBytes(32).toString('hex');
       const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, newTeacher.id, expires]);
@@ -1805,14 +1821,146 @@ app.post('/professor/register', async (req, res) => {
       res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
       return res.redirect('/professor/dashboard?welcome=1');
     } else {
-      // Non-institutional accounts are created with pending status for LGPD protection & teacher validation
-      return res.render('teacher_login', { 
-        error: 'Cadastro realizado com sucesso! Para proteção e conformidade com a LGPD, contas com e-mails externos passam por validação pedagógica pela Coordenação do Portal (Prof. Fábio). Assim que aprovado, seu acesso será liberado!' 
+      // General / external email accounts: Generate 6-digit verification code & token via Resend
+      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const verificationToken = crypto.randomBytes(24).toString('hex');
+      const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+      await dbHelper.queryRun(
+        "INSERT INTO teachers (name, email, school, status, password_hash, verification_code, verification_token, verification_expires) VALUES (?, ?, ?, 'pending_verification', ?, ?, ?, ?)",
+        [name.trim(), cleanEmail, cleanSchool, hash, verificationCode, verificationToken, verificationExpires]
+      );
+
+      // Verify immediate persistence
+      const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+      if (!newTeacher) throw new Error("Não foi possível confirmar o salvamento da conta no banco de dados.");
+
+      // Dispatch activation email via Resend
+      await mailService.sendTeacherActivationEmail({
+        name: name.trim(),
+        email: cleanEmail,
+        code: verificationCode,
+        token: verificationToken
       });
+
+      return res.redirect(`/professor/verificar?email=${encodeURIComponent(cleanEmail)}`);
     }
   } catch (err) {
     console.error('Registration error:', err);
     res.render('teacher_login', { error: `Erro ao cadastrar: ${err.message || err}` });
+  }
+});
+
+// Teacher Email Verification Pages & Actions
+app.get('/professor/verificar', async (req, res) => {
+  const email = String(req.query.email || '').trim();
+  if (!email) return res.redirect('/professor/login');
+  res.render('teacher_verify', { email, error: null, success: null });
+});
+
+app.post('/professor/verificar', async (req, res) => {
+  const { email, code } = req.body;
+  const cleanEmail = String(email || '').trim().toLowerCase();
+  const cleanCode = String(code || '').trim();
+
+  try {
+    const teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+    if (!teacher) {
+      return res.render('teacher_verify', { email: cleanEmail, error: 'Cadastro não encontrado. Por favor, crie sua conta novamente.', success: null });
+    }
+
+    if (teacher.status === 'approved') {
+      return res.redirect('/professor/login?verified=1');
+    }
+
+    if (!teacher.verification_code || teacher.verification_code !== cleanCode) {
+      return res.render('teacher_verify', { email: cleanEmail, error: 'Código incorreto. Por favor, confira os 6 dígitos enviados no seu e-mail.', success: null });
+    }
+
+    if (teacher.verification_expires && new Date() > new Date(teacher.verification_expires)) {
+      return res.render('teacher_verify', { email: cleanEmail, error: 'Este código expirou. Clique em "Reenviar Código" abaixo para receber um novo.', success: null });
+    }
+
+    // Activate teacher account
+    await dbHelper.queryRun("UPDATE teachers SET status = 'approved', verification_code = NULL, verification_token = NULL, login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
+
+    // Create session & log in
+    const sessionId = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, teacher.id, expires]);
+    await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [teacher.id]);
+
+    res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
+    res.redirect('/professor/dashboard?welcome=1');
+  } catch (err) {
+    console.error('Verification error:', err);
+    res.render('teacher_verify', { email: cleanEmail, error: `Erro ao verificar código: ${err.message || err}`, success: null });
+  }
+});
+
+app.post('/professor/reenviar-codigo', async (req, res) => {
+  const cleanEmail = String(req.body.email || '').trim().toLowerCase();
+  try {
+    const teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+    if (!teacher) {
+      return res.redirect('/professor/login?cadastro=1');
+    }
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verificationToken = crypto.randomBytes(24).toString('hex');
+    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+    await dbHelper.queryRun(
+      "UPDATE teachers SET verification_code = ?, verification_token = ?, verification_expires = ? WHERE id = ?",
+      [verificationCode, verificationToken, verificationExpires, teacher.id]
+    );
+
+    await mailService.sendTeacherActivationEmail({
+      name: teacher.name,
+      email: cleanEmail,
+      code: verificationCode,
+      token: verificationToken
+    });
+
+    res.render('teacher_verify', { email: cleanEmail, error: null, success: 'Novo código enviado com sucesso! Verifique sua caixa de entrada e a pasta de Spam.' });
+  } catch (err) {
+    console.error('Resend code error:', err);
+    res.render('teacher_verify', { email: cleanEmail, error: `Erro ao reenviar código: ${err.message || err}`, success: null });
+  }
+});
+
+app.get('/professor/ativar', async (req, res) => {
+  const { token, email } = req.query;
+  const cleanEmail = String(email || '').trim().toLowerCase();
+  const cleanToken = String(token || '').trim();
+
+  try {
+    if (!cleanEmail || !cleanToken) {
+      return res.redirect('/professor/login');
+    }
+
+    const teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?) AND verification_token = ?", [cleanEmail, cleanToken]);
+    if (!teacher) {
+      return res.render('teacher_login', { error: 'Link de ativação inválido ou já utilizado. Por favor, faça login com sua senha.' });
+    }
+
+    if (teacher.verification_expires && new Date() > new Date(teacher.verification_expires)) {
+      return res.render('teacher_login', { error: 'Este link de ativação expirou. Solicite um novo código na tela de verificação.' });
+    }
+
+    // Activate teacher account
+    await dbHelper.queryRun("UPDATE teachers SET status = 'approved', verification_code = NULL, verification_token = NULL, login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
+
+    const sessionId = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, teacher.id, expires]);
+    await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [teacher.id]);
+
+    res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
+    res.redirect('/professor/dashboard?welcome=1');
+  } catch (err) {
+    console.error('Activation link error:', err);
+    res.render('teacher_login', { error: `Erro ao ativar conta: ${err.message || err}` });
   }
 });
 
@@ -1823,7 +1971,10 @@ app.post('/professor/login', async (req, res) => {
     const teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
 
     if (teacher && await bcrypt.compare(password, teacher.password_hash)) {
-      // LGPD & moderation status verification
+      // Pending email verification
+      if (teacher.status === 'pending_verification') {
+        return res.redirect(`/professor/verificar?email=${encodeURIComponent(cleanEmail)}`);
+      }
       if (teacher.status === 'pending') {
         return res.render('teacher_login', { 
           error: 'Sua conta de professor está aguardando aprovação da Coordenação Pedagógica (Prof. Fábio) para conformidade com a LGPD. Em breve seu acesso estará liberado!' 

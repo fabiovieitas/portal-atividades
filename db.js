@@ -135,6 +135,9 @@ try {
   try { sqlite.exec("ALTER TABLE activities ADD COLUMN month TEXT DEFAULT 'Agosto';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE teachers ADD COLUMN school TEXT DEFAULT '';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE teachers ADD COLUMN status TEXT DEFAULT 'approved';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE teachers ADD COLUMN verification_code TEXT;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE teachers ADD COLUMN verification_token TEXT;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE teachers ADD COLUMN verification_expires DATETIME;"); } catch(e){}
 } catch (e) {
   console.warn('[DB Engine] SQLite local driver standard bypass (running in serverless environment):', e.message);
 }
@@ -1105,7 +1108,10 @@ async function initTables() {
     "ALTER TABLE news ADD COLUMN activity_url TEXT;",
     "ALTER TABLE simulado_submissions ADD COLUMN shift TEXT DEFAULT 'Manhã';",
     "ALTER TABLE teachers ADD COLUMN school TEXT DEFAULT '';",
-    "ALTER TABLE teachers ADD COLUMN status TEXT DEFAULT 'approved';"
+    "ALTER TABLE teachers ADD COLUMN status TEXT DEFAULT 'approved';",
+    "ALTER TABLE teachers ADD COLUMN verification_code TEXT;",
+    "ALTER TABLE teachers ADD COLUMN verification_token TEXT;",
+    "ALTER TABLE teachers ADD COLUMN verification_expires DATETIME;"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}
