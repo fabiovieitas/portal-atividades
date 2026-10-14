@@ -16,6 +16,15 @@ const app = express();
 // Enable Gzip/Brotli compression
 app.use(compression());
 
+// Redirecionamento canônico 301 para domínio raiz (elimina duplicação www vs non-www no AdSense)
+app.use((req, res, next) => {
+  const host = (req.headers.host || '').toLowerCase();
+  if (host.startsWith('www.')) {
+    return res.redirect(301, `https://${host.replace(/^www\./, '')}${req.originalUrl}`);
+  }
+  next();
+});
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.json({ limit: '15mb' }));
@@ -810,16 +819,10 @@ app.get('/atividades/level-up', (req, res) => res.render('levelup_presentation')
 app.get('/atividades/segue-o-ritmo', (req, res) => res.render('segue_o_ritmo_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
 app.get(['/ritmo', '/percussao-corporal'], (req, res) => res.redirect(301, '/atividades/segue-o-ritmo'));
 
-// SEO Routes: robots.txt & dynamic sitemap.xml
-app.get('/robots.txt', (req, res) => {
-  res.type('text/plain');
-  res.send(`User-agent: *\nAllow: /\nSitemap: https://${req.headers.host || 'labkids.online'}/sitemap.xml`);
-});
-
+// SEO Routes: dynamic sitemap.xml canônico e limpo
 app.get('/sitemap.xml', async (req, res) => {
   try {
-    const host = req.headers.host || 'labkids.online';
-    const baseUrl = `https://${host}`;
+    const baseUrl = 'https://labkids.online';
     const news = await dbHelper.getNews();
     const activities = await dbHelper.getActivities({});
 
@@ -834,10 +837,7 @@ app.get('/sitemap.xml', async (req, res) => {
       { path: '/termos', priority: '0.7', changefreq: 'monthly' },
       { path: '/privacidade', priority: '0.7', changefreq: 'monthly' },
       { path: '/cookies', priority: '0.7', changefreq: 'monthly' },
-      { path: '/contato', priority: '0.7', changefreq: 'monthly' },
-      { path: '/aluno', priority: '0.8', changefreq: 'weekly' },
-      { path: '/professor/login', priority: '0.8', changefreq: 'weekly' },
-      { path: '/professor/certificado', priority: '0.8', changefreq: 'weekly' }
+      { path: '/contato', priority: '0.7', changefreq: 'monthly' }
     ];
 
     mainPages.forEach(p => {
@@ -846,15 +846,11 @@ app.get('/sitemap.xml', async (req, res) => {
 
     const seenUrls = new Set();
     (activities || []).forEach(act => {
-      const actUrl = act.activity_url && act.activity_url.startsWith('/') ? act.activity_url : `/atividade/${act.id}`;
-      if (!seenUrls.has(actUrl)) {
-        seenUrls.add(actUrl);
-        xml += `  <url><loc>${baseUrl}${actUrl}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>\n`;
-      }
-      const genericUrl = `/atividade/${act.id}`;
-      if (!seenUrls.has(genericUrl)) {
-        seenUrls.add(genericUrl);
-        xml += `  <url><loc>${baseUrl}${genericUrl}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>\n`;
+      if (act.activity_url && act.activity_url.startsWith('/atividades/')) {
+        if (!seenUrls.has(act.activity_url)) {
+          seenUrls.add(act.activity_url);
+          xml += `  <url><loc>${baseUrl}${act.activity_url}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>\n`;
+        }
       }
     });
 
@@ -1492,13 +1488,10 @@ app.get('/atividade/:id', async (req, res) => {
     let activity = activities.find(a => String(a.id) === String(activityId));
 
     if (!activity) {
-      activity = {
-        id: activityId,
-        title: "Atividade Educacional",
-        description: "Aprenda e divirta-se com este desafio interativo!",
-        activity_url: "https://code.org/minecraft",
-        icon_url: "https://cdn-icons-png.flaticon.com/512/616/616430.png"
-      };
+      if (String(activityId) === '4' || String(activityId) === '5') return res.redirect(301, '/atividades/level-up');
+      if (String(activityId) === '14') return res.redirect(301, '/atividades/chapeuzinho-enigma');
+      if (String(activityId) === '3') return res.redirect(301, '/');
+      return res.redirect(301, '/');
     }
 
     try { await dbHelper.recordVisit(activityId); } catch(e){}
@@ -1551,7 +1544,7 @@ app.get('/atividade/:id', async (req, res) => {
     }
 
     if (activity.activity_url && activity.activity_url.startsWith('/atividades/')) {
-      return res.redirect(activity.activity_url);
+      return res.redirect(301, activity.activity_url);
     }
 
     const isExternal = Boolean(activity.activity_url && (activity.activity_url.includes('http://') || activity.activity_url.includes('https://')));

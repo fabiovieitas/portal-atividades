@@ -1361,12 +1361,6 @@ async function initTables() {
 <p>O <strong>Tux Math</strong> é um dos jogos educativos digitais mais eficazes e consagrados para o ensino de matemática nos anos iniciais do Ensino Fundamental. No jogo, cometas contendo equações matemáticas caem em direção às cidades, e o aluno assume o papel do pinguim Tux para defender a cidade digitando a resposta correta da operação matemática no teclado antes que o cometa atinja o solo.</p>
 <p>Diferente das fichas de exercícios impressas tradicionais, a mecânica de jogo arcade transforma a prática do cálculo mental em uma experiência imersiva e de alta motivação. O principal benefício pedagógico do Tux Math é o <strong>desenvolvimento da automatização das operações básicas</strong> (adição, subtração, multiplicação e divisão), permitindo que a criança libere recursos da memória de trabalho para problemas matemáticos mais complexos no futuro.</p>
 
-<div class="adsense-blog-inline" style="margin: 25px 0; padding: 15px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; text-align: center;">
-  <span style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1234567890123456" data-ad-slot="9876543210" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
 <h2>📘 Enquadramento com as Habilidades da BNCC</h2>
 <p>A aplicação do Tux Math em sala de aula ou no laboratório de informática contempla diretamente diversas habilidades de Matemática da Base Nacional Comum Curricular (BNCC):</p>
 <ul>
@@ -1383,12 +1377,6 @@ async function initTables() {
   <li><strong>Progressão por Fases:</strong> Comece pelas fases de "Fatos Simples de Adição" (Soma até 10) no 1º e 2º Ano e avance gradativamente para "Subtração" e "Tabuada de Multiplicação" no 3º e 4º Ano.</li>
   <li><strong>Roda de Conversa Prévia:</strong> Antes da atividade, revise estratégias de cálculo mental rápido (como arredondar números ou decomposição).</li>
 </ol>
-
-<div class="adsense-blog-inline" style="margin: 25px 0; padding: 15px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; text-align: center;">
-  <span style="font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase;">📢 Espaço Publicitário AdSense</span>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1234567890123456" data-ad-slot="9876543211" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
 
 <h2 style="color: #4f46e5; background: #e0e7ff; padding: 15px 20px; border-radius: 14px; border-left: 6px solid #4338ca;">📝 Como registrar esta atividade no Diário de Classe (Resumo para Copiar e Colar)</h2>
 <p>Professores podem utilizar o texto resumido abaixo para realizar o registro oficial da aula no diário físico ou digital:</p>

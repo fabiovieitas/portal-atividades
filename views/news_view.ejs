@@ -229,76 +229,8 @@
             </div>
         <% } %>
 
-        <%
-            let formattedContent = article.content || '';
-            const inArticleAd = `
-            <div class="in-article-ad-box" style="margin: 2.5rem 0; padding: 16px; background: #f8fafc; border: 1.5px dashed #94a3b8; border-radius: 18px; text-align: center;">
-                <div style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">📢 Publicidade Educativa • Lab Kids</div>
-                <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="${adsensePubId}"></ins>
-                <script>
-                (function() {
-                    if ('IntersectionObserver' in window) {
-                        var obs = new IntersectionObserver(function(entries) {
-                            entries.forEach(function(entry) {
-                                if (entry.isIntersecting) {
-                                    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
-                                    obs.unobserve(entry.target);
-                                }
-                            });
-                        }, { rootMargin: '250px 0px' });
-                        var el = document.currentScript.previousElementSibling;
-                        if (el) obs.observe(el);
-                    } else {
-                        try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
-                    }
-                })();
-                </script>
-            </div>
-            `;
-
-            // Encontra o segundo fechamento </p> para posicionamento ideal segundo diretrizes do AdSense
-            const pMatches = [...formattedContent.matchAll(/<\/p>/gi)];
-            if (pMatches.length >= 3) {
-                const splitIndex = pMatches[2].index + 4;
-                formattedContent = formattedContent.slice(0, splitIndex) + inArticleAd + formattedContent.slice(splitIndex);
-            } else if (pMatches.length >= 2) {
-                const splitIndex = pMatches[1].index + 4;
-                formattedContent = formattedContent.slice(0, splitIndex) + inArticleAd + formattedContent.slice(splitIndex);
-            } else {
-                formattedContent += inArticleAd;
-            }
-        %>
-
         <div class="article-body">
-            <%- formattedContent %>
-        </div>
-
-        <!-- Bottom AdSense Banner com Lazy Loading Inteligente (Viewability > 80%) -->
-        <div class="adsense-tablet-wrapper tablet-ad-banner adsense-bottom-banner" style="margin-top: 2.5rem; text-align: center;">
-            <div class="adsense-micro-label" style="font-size: 0.72rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 8px;">📢 Publicidade Educativa • Lab Kids</div>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="<%= adsensePubId %>" data-ad-format="auto" data-full-width-responsive="true"></ins>
-            <script>
-            (function() {
-                if ('IntersectionObserver' in window) {
-                    var obs = new IntersectionObserver(function(entries) {
-                        entries.forEach(function(entry) {
-                            if (entry.isIntersecting) {
-                                try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
-                                obs.unobserve(entry.target);
-                            }
-                        });
-                    }, { rootMargin: '250px 0px' });
-                    var el = document.currentScript.previousElementSibling;
-                    if (el) obs.observe(el);
-                } else {
-                    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
-                }
-            })();
-            </script>
+            <%- article.content %>
         </div>
 
         <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee; text-align: center;">
