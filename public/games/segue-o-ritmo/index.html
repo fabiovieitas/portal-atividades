@@ -67,90 +67,6 @@
     }
     .btn-fullscreen:hover { background: #38bdf8; color: #0f172a; }
 
-    .btn-studio-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #0f172a;
-      padding: 10px 20px;
-      border-radius: 50px;
-      font-weight: 800;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-      border: 2px solid #fbbf24;
-      font-size: 0.9rem;
-      transition: all 0.2s;
-    }
-    .btn-studio-badge:hover {
-      transform: scale(1.04);
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
-    }
-
-    .banner-authoring-promo {
-      width: 100%;
-      max-width: 1180px;
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
-      border: 2px solid rgba(245, 158, 11, 0.4);
-      border-radius: 20px;
-      padding: 14px 20px;
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      flex-wrap: wrap;
-    }
-    .b-promo-content {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    .b-badge-new {
-      background: #f59e0b;
-      color: #0f172a;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 0.75rem;
-      letter-spacing: 0.5px;
-    }
-    .b-promo-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .b-promo-text strong {
-      color: #fde68a;
-      font-size: 1.05rem;
-    }
-    .b-promo-text span {
-      color: #cbd5e1;
-      font-size: 0.88rem;
-    }
-    .btn-open-studio {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      text-decoration: none;
-      padding: 10px 22px;
-      border-radius: 50px;
-      font-weight: 800;
-      font-size: 0.92rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .btn-open-studio:hover {
-      transform: scale(1.04);
-      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.6);
-    }
-
     /* LAYOUT PRINCIPAL EM GRID (PLAYER + PLAYLIST LATERAL) */
     .hub-container {
       width: 100%;
@@ -403,93 +319,6 @@
       color: #000;
     }
 
-    /* PADS DE PERCUSSÃO CORPORAL INTERATIVA */
-    .percussion-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      width: 100%;
-      margin-top: 15px;
-    }
-    @media (max-width: 600px) {
-      .percussion-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .pad-btn {
-      background: rgba(30, 41, 59, 0.9);
-      border: 2.5px solid #334155;
-      border-radius: 16px;
-      padding: 12px 8px;
-      color: white;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.1s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-    .pad-btn:active, .pad-btn.hit {
-      transform: scale(0.93);
-      box-shadow: 0 0 25px currentColor;
-    }
-    .pad-clap { border-color: #f59e0b; color: #fbbf24; }
-    .pad-snap { border-color: #38bdf8; color: #38bdf8; }
-    .pad-chest { border-color: #ec4899; color: #f472b6; }
-    .pad-stomp { border-color: #10b981; color: #34d399; }
-    .pad-icon { font-size: 2rem; }
-    .pad-title { font-size: 1rem; font-weight: 800; }
-    .pad-hint { font-size: 0.72rem; color: #cbd5e1; }
-
-    /* METRÔNOMO VISUAL */
-    .metronome-box {
-      margin-top: 15px;
-      background: rgba(15, 23, 42, 0.6);
-      border-radius: 16px;
-      padding: 12px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .tempo-pills {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .bpm-pill {
-      background: #0f172a;
-      border: 1px solid #475569;
-      color: #cbd5e1;
-      padding: 6px 12px;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .bpm-pill.active {
-      background: #38bdf8;
-      color: #0f172a;
-      border-color: #38bdf8;
-    }
-    .beat-dots {
-      display: flex;
-      gap: 8px;
-    }
-    .b-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #334155;
-      transition: all 0.1s;
-    }
-    .b-dot.active {
-      background: #f59e0b;
-      transform: scale(1.3);
-      box-shadow: 0 0 12px #f59e0b;
-    }
-
     /* PAINEL LATERAL: GALERIA / PLAYLIST DE DESAFIOS */
     .playlist-panel {
       background: rgba(15, 23, 42, 0.92);
@@ -593,34 +422,15 @@
 
   <!-- BARRA SUPERIOR -->
   <div class="top-bar">
-    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-      <a href="/atividades/segue-o-ritmo" class="btn-return">
-        ⬅️ GUIA PEDAGÓGICO & DIÁRIO
-      </a>
-      <a href="/games/segue-o-ritmo/estudio.html" class="btn-studio-badge">
-        ⚡ SUPER ESTÚDIO (CRIE COM SEU MP3)
-      </a>
-    </div>
+    <a href="/atividades/segue-o-ritmo" class="btn-return">
+      ⬅️ GUIA PEDAGÓGICO & DIÁRIO
+    </a>
     <div style="font-size: 1.1rem; font-weight: 700; color: #facc15; display: flex; align-items: center; gap: 8px;">
       <span>🥁</span> Laboratório de Percussão Corporal & Ritmo no Datashow
     </div>
     <button type="button" onclick="toggleFullScreen()" class="btn-fullscreen">
       ⛶ Tela Cheia para Datashow
     </button>
-  </div>
-
-  <!-- BANNER DE DESTAQUE DO NOVO ESTÚDIO AUTORAL -->
-  <div class="banner-authoring-promo">
-    <div class="b-promo-content">
-      <span class="b-badge-new">NOVIDADE AUTORAL 🌟</span>
-      <div class="b-promo-text">
-        <strong>Quer usar suas próprias músicas em MP3 sem depender do YouTube?</strong>
-        <span>Crie ou toque desafios com palmas, peito e estalos em 2 minutos com as ilustrações animadas do Lab Kids!</span>
-      </div>
-    </div>
-    <a href="/games/segue-o-ritmo/estudio.html" class="btn-open-studio">
-      ⚡ ABRIR ESTÚDIO COM MINHAS MÚSICAS 🚀
-    </a>
   </div>
 
   <div class="hub-container">
@@ -699,50 +509,6 @@
           </div>
         </div>
 
-      </div>
-
-      <!-- PADS DE PERCUSSÃO CORPORAL SINTETIZADA -->
-      <div class="percussion-grid">
-        <div class="pad-btn pad-clap" onclick="triggerBodySound('clap')">
-          <span class="pad-icon">👏</span>
-          <span class="pad-title">1. PALMA</span>
-          <span class="pad-hint">Tempo forte e claro</span>
-        </div>
-        <div class="pad-btn pad-snap" onclick="triggerBodySound('snap')">
-          <span class="pad-icon">🫰</span>
-          <span class="pad-title">2. ESTALO</span>
-          <span class="pad-hint">Sincopado e ágil</span>
-        </div>
-        <div class="pad-btn pad-chest" onclick="triggerBodySound('chest')">
-          <span class="pad-icon">💥</span>
-          <span class="pad-title">3. PEITO</span>
-          <span class="pad-hint">Ressonância grave</span>
-        </div>
-        <div class="pad-btn pad-stomp" onclick="triggerBodySound('stomp')">
-          <span class="pad-icon">🦶</span>
-          <span class="pad-title">4. PÉ / CHÃO</span>
-          <span class="pad-hint">Marcação do pulso</span>
-        </div>
-      </div>
-
-      <!-- METRÔNOMO INTERATIVO -->
-      <div class="metronome-box">
-        <div class="tempo-pills">
-          <span style="font-weight: 800; color: #38bdf8; font-size: 0.9rem;">🎵 Pulso Rítmico:</span>
-          <button class="bpm-pill" onclick="changeBPM(80, this)">80 BPM</button>
-          <button class="bpm-pill active" onclick="changeBPM(100, this)">100 BPM</button>
-          <button class="bpm-pill" onclick="changeBPM(120, this)">120 BPM</button>
-          <button class="bpm-pill" onclick="changeBPM(140, this)">140 BPM</button>
-          <button class="bpm-pill" id="btn-metro-toggle" onclick="toggleMetronome()" style="background: #f59e0b; color: #0f172a; font-weight: 800;">
-            ▶️ Ligar Pulso
-          </button>
-        </div>
-        <div class="beat-dots">
-          <div class="b-dot" id="dot-0"></div>
-          <div class="b-dot" id="dot-1"></div>
-          <div class="b-dot" id="dot-2"></div>
-          <div class="b-dot" id="dot-3"></div>
-        </div>
       </div>
 
       <div class="security-note">
@@ -1073,131 +839,6 @@
         if (target.requestFullscreen) target.requestFullscreen().catch(() => {});
       } else {
         if (document.exitFullscreen) document.exitFullscreen();
-      }
-    }
-
-    // SINTETIZADOR DE PERCUSSÃO CORPORAL (Web Audio API)
-    let audioCtx = null;
-    function getAudioContext() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      return audioCtx;
-    }
-
-    function triggerBodySound(type) {
-      try {
-        const ctx = getAudioContext();
-        const now = ctx.currentTime;
-
-        if (type === 'stomp') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(140, now);
-          osc.frequency.exponentialRampToValueAtTime(35, now + 0.22);
-          gain.gain.setValueAtTime(1.0, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.26);
-        } else if (type === 'chest') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(180, now);
-          osc.frequency.exponentialRampToValueAtTime(60, now + 0.18);
-          gain.gain.setValueAtTime(0.8, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.21);
-        } else if (type === 'clap') {
-          const bufferSize = ctx.sampleRate * 0.15;
-          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-          const data = buffer.getChannelData(0);
-          for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.03));
-          }
-          const noise = ctx.createBufferSource();
-          noise.buffer = buffer;
-          const filter = ctx.createBiquadFilter();
-          filter.type = 'bandpass';
-          filter.frequency.value = 1100;
-          filter.Q.value = 1.8;
-          const gain = ctx.createGain();
-          gain.gain.setValueAtTime(1.0, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.16);
-          noise.connect(filter);
-          filter.connect(gain);
-          gain.connect(ctx.destination);
-          noise.start(now);
-        } else if (type === 'snap') {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(2600, now);
-          osc.frequency.exponentialRampToValueAtTime(300, now + 0.06);
-          gain.gain.setValueAtTime(0.7, now);
-          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.08);
-        }
-      } catch(e) {}
-    }
-
-    // METRÔNOMO
-    let bpm = 100;
-    let metroRunning = false;
-    let metroTimer = null;
-    let currentBeat = 0;
-
-    function changeBPM(val, btn) {
-      bpm = val;
-      document.querySelectorAll('.bpm-pill').forEach(p => p.classList.remove('active'));
-      if (btn) btn.classList.add('active');
-      if (metroRunning) {
-        clearInterval(metroTimer);
-        startMetroTimer();
-      }
-    }
-
-    function toggleMetronome() {
-      metroRunning = !metroRunning;
-      const btn = document.getElementById('btn-metro-toggle');
-      if (metroRunning) {
-        btn.innerText = '⏸️ Parar';
-        btn.style.background = '#ef4444';
-        btn.style.color = '#fff';
-        startMetroTimer();
-      } else {
-        btn.innerText = '▶️ Ligar Pulso';
-        btn.style.background = '#f59e0b';
-        btn.style.color = '#0f172a';
-        clearInterval(metroTimer);
-        clearBeatDots();
-      }
-    }
-
-    function startMetroTimer() {
-      const ms = (60 / bpm) * 1000;
-      metroTimer = setInterval(() => {
-        clearBeatDots();
-        const dot = document.getElementById('dot-' + currentBeat);
-        if (dot) dot.classList.add('active');
-        if (currentBeat === 0) triggerBodySound('clap');
-        else triggerBodySound('snap');
-        currentBeat = (currentBeat + 1) % 4;
-      }, ms);
-    }
-
-    function clearBeatDots() {
-      for (let i = 0; i < 4; i++) {
-        const d = document.getElementById('dot-' + i);
-        if (d) d.classList.remove('active');
       }
     }
 
