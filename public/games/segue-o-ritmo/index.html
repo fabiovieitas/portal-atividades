@@ -230,6 +230,57 @@
       transform: scale(1);
     }
 
+    /* CAPA / POSTER INICIAL DO DESAFIO NO PLAYER */
+    .video-poster-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #000 url('/img/covers/segue-o-ritmo.jpg') center/cover no-repeat;
+      z-index: 28;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .video-poster-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .poster-play-btn {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.88);
+      border: 3.5px solid #f59e0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 158, 11, 0.6);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .video-poster-overlay:hover .poster-play-btn {
+      transform: scale(1.08);
+      box-shadow: 0 12px 45px rgba(0, 0, 0, 0.9), 0 0 45px rgba(245, 158, 11, 0.8);
+    }
+    .poster-label {
+      margin-top: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      color: #facc15;
+      padding: 8px 22px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: 2px solid rgba(245, 158, 11, 0.6);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      letter-spacing: 0.5px;
+    }
+
     /* BARRA DE CONTROLES AUTORAIS DO LAB KIDS */
     .custom-controls-bar {
       margin-top: 14px;
@@ -453,7 +504,13 @@
           <div id="yt-player-target"></div>
         </div>
 
-        <!-- 3. ÁREA DE TOQUE PARA PLAY/PAUSA -->
+        <!-- 3. CAPA / POSTER INICIAL (DESAPARECE AO INICIAR) -->
+        <div class="video-poster-overlay" id="video-poster-cover" onclick="startPlaybackFromPoster()">
+          <div class="poster-play-btn">▶️</div>
+          <div class="poster-label">CLIQUE PARA INICIAR O DESAFIO 🥁</div>
+        </div>
+
+        <!-- 4. ÁREA DE TOQUE PARA PLAY/PAUSA -->
         <div class="shield-click-surface" onclick="togglePlay()">
           <div class="play-pause-badge-pulse" id="pulse-badge">
             <span id="pulse-icon">▶️</span>
@@ -702,6 +759,8 @@
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING) {
         isPlaying = true;
+        const poster = document.getElementById('video-poster-cover');
+        if (poster) poster.classList.add('hidden');
         showPulse('▶️');
       } else if (event.data === YT.PlayerState.PAUSED) {
         isPlaying = false;
@@ -717,11 +776,20 @@
       updateUIState();
     }
 
+    function startPlaybackFromPoster() {
+      const poster = document.getElementById('video-poster-cover');
+      if (poster) poster.classList.add('hidden');
+      togglePlay();
+    }
+
     function loadVideoByIndex(index) {
       currentVideoIndex = index;
       const video = RHYTHM_PLAYLIST[index];
       document.getElementById('display-title').innerText = video.title;
       renderPlaylist();
+
+      const poster = document.getElementById('video-poster-cover');
+      if (poster) poster.classList.add('hidden');
 
       if (player && player.loadVideoById) {
         player.loadVideoById(video.id);
@@ -732,6 +800,8 @@
     }
 
     function togglePlay() {
+      const poster = document.getElementById('video-poster-cover');
+      if (poster) poster.classList.add('hidden');
       if (!player) return;
       if (isPlaying) {
         player.pauseVideo();

@@ -460,7 +460,7 @@ const dbHelper = {
           title: "Segue o Ritmo! 🥁 Desafio de Dança e Percussão Corporal [JOGO AUTORAL]",
           description: "Desafio musical e psicomotor de dança, ritmo, percussão corporal e coreografia coletiva para projeção no Datashow ou prática no laboratório.",
           activity_url: "/atividades/segue-o-ritmo",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/3845/3845868.png",
+          icon_url: "/img/covers/segue-o-ritmo.jpg",
           level: "1-5", category: "Música & Movimento", subject: "Artes / Ed. Física", bncc_code: "EF15AR14, EF15AR15, EF15EF01, EF15EF02", status: "public", visits: 980
         }
       ];
