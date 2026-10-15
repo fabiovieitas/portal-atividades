@@ -125,15 +125,37 @@ async function sendTeacherActivationEmail({ name, email, code, token }) {
   }
 
   try {
-    const data = await resend.emails.send({
+    const res = await resend.emails.send({
       from: DEFAULT_FROM,
       to: [email],
       subject: subject,
       html: html
     });
 
-    console.log(`✅ [Resend] E-mail de ativação enviado com sucesso para ${email}! ID:`, data.id || data);
-    return { success: true, data };
+    if (res && res.error) {
+      console.warn(`[Resend Warning] Tentativa com '${DEFAULT_FROM}' retornou erro:`, res.error.message);
+      // Se o domínio próprio ainda não estiver 100% propagado no DNS, tenta via onboarding@resend.dev
+      if (DEFAULT_FROM !== 'Portal Lab Kids <onboarding@resend.dev>') {
+        try {
+          const fallbackRes = await resend.emails.send({
+            from: 'Portal Lab Kids <onboarding@resend.dev>',
+            to: [email],
+            subject: subject,
+            html: html
+          });
+          if (!fallbackRes.error) {
+            console.log(`✅ [Resend] E-mail enviado com sucesso via fallback onboarding@resend.dev para ${email}! ID:`, fallbackRes.data?.id);
+            return { success: true, data: fallbackRes.data };
+          }
+        } catch (fErr) {
+          console.error('❌ [Resend Fallback Error]:', fErr.message);
+        }
+      }
+      return { success: false, error: res.error.message };
+    }
+
+    console.log(`✅ [Resend] E-mail de ativação enviado com sucesso para ${email}! ID:`, res.data?.id || res);
+    return { success: true, data: res.data };
   } catch (error) {
     console.error('❌ [Resend Error] Falha ao enviar e-mail de ativação:', error.message);
     return { success: false, error: error.message };
