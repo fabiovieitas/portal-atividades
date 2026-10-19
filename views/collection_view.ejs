@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --brand-primary: #2563eb;
+            --brand-accent: #f59e0b;
+            --bg-page: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .collection-hero {
+            text-align: center;
+            padding: 50px 20px 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .collection-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(37, 99, 235, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.4);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        .collection-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 2.8rem;
+            color: #ffffff;
+            margin: 0 0 12px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .collection-author {
+            color: #94a3b8;
+            font-size: 1.15rem;
+            margin-bottom: 24px;
+        }
+        .collection-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+        }
+        .btn-action-alt {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f1f5f9;
+        }
+        .btn-action-alt:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .games-grid {
+            max-width: 1100px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .game-card-num {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.15);
+            font-weight: 700;
+        }
+        .game-card h3 {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin: 0 0 10px;
+            padding-right: 40px;
+        }
+        .game-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .badge-subject { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .badge-bncc { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .game-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-play {
+            flex: 2;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-play:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        .btn-qr {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-qr:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .modal-box {
+            background: #1e293b;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-bar">
+        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: white;">
+            <img src="/img/logo-prof.png" alt="Lab Kids" style="height: 38px;">
+            <span style="font-family: 'Fredoka', cursive; font-size: 1.2rem; font-weight: 700; color: #fbbf24;">Lab Kids</span>
+        </a>
+        <a href="/" class="btn-action btn-action-alt" style="font-size: 0.85rem; padding: 8px 18px;">
+            🏠 Ver Todas as Atividades
+        </a>
+    </header>
+
+    <div class="collection-hero">
+        <div class="collection-badge">
+            📂 Missão Coletiva
+        </div>
+        <h1 class="collection-title"><%= collection.name %></h1>
+        <p class="collection-author">
+            Organizado por: <strong><%= collection.teacher_name || 'Professor do Lab Kids' %></strong> • <%= items.length %> <%= items.length === 1 ? 'atividade' : 'atividades' %>
+        </p>
+        <div class="collection-actions">
+            <button class="btn-action" onclick="copyPlaylistLink()">
+                🔗 Copiar Link da Playlist
+            </button>
+            <a href="https://api.whatsapp.com/send?text=Confira%20esta%20cole%C3%A7%C3%A3o%20de%20atividades%20no%20Lab%20Kids:%20<%= encodeURIComponent(collection.name) %>%20-%20https://labkids.online/colecao/<%= collection.id %>" target="_blank" class="btn-action" style="background: #25d366;">
+                📲 Compartilhar no WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <div class="games-grid">
+        <% if (items.length === 0) { %>
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: rgba(30, 41, 59, 0.4); border-radius: 20px; border: 1px dashed var(--border);">
+                <p style="font-size: 1.2rem; color: #94a3b8;">Nenhuma atividade adicionada nesta coleção ainda.</p>
+                <a href="/" class="btn-action" style="margin-top: 15px;">Explorar Jogos do Portal</a>
+            </div>
+        <% } else { %>
+            <% items.forEach((item, index) => { %>
+                <div class="game-card">
+                    <span class="game-card-num">#<%= index + 1 %></span>
+                    <div>
+                        <h3><%= item.title %></h3>
+                        <div class="game-badges">
+                            <span class="badge badge-subject">📚 <%= item.subject || 'Geral' %></span>
+                            <% if (item.bncc_code) { %>
+                                <span class="badge badge-bncc">🎯 <%= item.bncc_code %></span>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="game-actions">
+                        <a href="/qr/<%= item.activity_id %>" target="_blank" class="btn-play">
+                            ▶️ JOGAR
+                        </a>
+                        <button class="btn-qr" onclick="showQR('<%= item.activity_id %>', '<%= item.title.replace(/'/g, "\\'") %>')">
+                            📱 QR Code
+                        </button>
+                    </div>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qr-modal" class="modal">
+        <div class="modal-box">
+            <h3 id="qr-title" style="margin-top: 0; color: #fbbf24; font-family: 'Fredoka', cursive; font-size: 1.3rem;">QR Code</h3>
+            <div id="qrcode-container" style="background: white; padding: 15px; border-radius: 12px; display: inline-block; margin: 15px 0;"></div>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 15px;">Aponte a câmera para abrir o jogo!</p>
+            <button class="btn-action btn-action-alt" style="width: 100%;" onclick="closeQR()">Fechar</button>
+        </div>
+    </div>
+
+    <script>
+        function copyPlaylistLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link da playlist copiado com sucesso! Você pode colar no grupo de WhatsApp da turma.');
+        }
+
+        function showQR(id, title) {
+            document.getElementById('qr-title').innerText = title;
+            const container = document.getElementById('qrcode-container');
+            container.innerHTML = '';
+            new QRCode(container, {
+                text: window.location.origin + '/qr/' + id,
+                width: 220,
+                height: 220
+            });
+            document.getElementById('qr-modal').style.display = 'flex';
+        }
+
+        function closeQR() {
+            document.getElementById('qr-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

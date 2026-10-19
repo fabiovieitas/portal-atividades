@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Imprimir Mini Cartões QR Code — Portal Lab Kids (A4)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0f172a;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1e293b;
+      padding: 30px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Floating control bar for screen view */
+    .screen-controls {
+      background: rgba(30, 41, 59, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border-radius: 16px;
+      padding: 16px 24px;
+      margin-bottom: 25px;
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      color: #ffffff;
+    }
+
+    .controls-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .controls-info img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 2px solid #38bdf8;
+    }
+
+    .controls-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      color: #ffffff;
+    }
+
+    .controls-sub {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .controls-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-toggle {
+      background: #334155;
+      color: #cbd5e1;
+      border: 1px solid #475569;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-toggle.active {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s;
+    }
+
+    .btn-print:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-pdf {
+      background: #475569;
+      color: #f1f5f9;
+      text-decoration: none;
+      padding: 9px 15px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-pdf:hover {
+      background: #64748b;
+      color: #ffffff;
+    }
+
+    /* A4 Physical Sheet representation */
+    .a4-sheet {
+      width: 210mm;
+      height: 297mm;
+      background: #ffffff;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    /* Layout 1: 30 cards (5 cols x 6 rows) - Maximum */
+    .grid-30 {
+      display: grid;
+      grid-template-columns: repeat(5, 40.5mm);
+      grid-template-rows: repeat(6, 47.5mm);
+      justify-content: center;
+      align-content: center;
+      width: 100%;
+      height: 100%;
+      padding: 6mm 4mm;
+    }
+
+    /* Layout 2: 20 cards (4 cols x 5 rows) - Comfortable */
+    .grid-20 {
+      display: grid;
+      grid-template-columns: repeat(4, 46mm);
+      grid-template-rows: repeat(5, 52mm);
+      justify-content: center;
+      align-content: center;
+      width: 100%;
+      height: 100%;
+      padding: 15mm 10mm;
+    }
+
+    /* Individual Mini Card */
+    .mini-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      border: 1px dashed #cbd5e1;
+      background: #ffffff;
+      padding-top: 1.2mm;
+    }
+
+    /* Target QR Code Image: Exactly 4x4 cm */
+    .qr-img {
+      width: 40mm;
+      height: 40mm;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Website URL Label below */
+    .card-url {
+      font-family: 'Fredoka', 'Outfit', sans-serif;
+      font-size: 10pt;
+      font-weight: 700;
+      color: #0f172a;
+      text-align: center;
+      line-height: 1.1;
+      letter-spacing: -0.2px;
+      margin-top: 1.2mm;
+    }
+
+    .grid-20 .card-url {
+      font-size: 11pt;
+      margin-top: 2mm;
+    }
+
+    /* Cut markers in corners */
+    .cut-icon {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      font-size: 8px;
+      color: #94a3b8;
+      line-height: 1;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       PRINT MEDIA QUERY (Exact 1:1 Physical dimensions)
+       ============================================================ */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+      }
+
+      .screen-controls {
+        display: none !important;
+      }
+
+      .a4-sheet {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+      }
+
+      .mini-card {
+        border: 1px dashed #94a3b8 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Controls (hidden on print) -->
+  <div class="screen-controls">
+    <div class="controls-info">
+      <img src="/img/robot-icon-512.png" alt="Robô">
+      <div>
+        <div class="controls-title">Mini Cartões QR Code — Folha A4</div>
+        <div class="controls-sub">Imagem: <strong>4x4 cm</strong> • Abaixo: <strong>labkids.online</strong></div>
+      </div>
+    </div>
+
+    <div class="controls-actions">
+      <!-- Layout toggles -->
+      <button class="btn-toggle active" id="btn-30" onclick="setLayout(30)">🔥 30 por Folha (Máximo)</button>
+      <button class="btn-toggle" id="btn-20" onclick="setLayout(20)">✂️ 20 por Folha (Espaçado)</button>
+
+      <!-- Print Button -->
+      <button class="btn-print" onclick="window.print()">
+        🖨️ Imprimir / Salvar PDF
+      </button>
+
+      <!-- Direct PDF Download Links -->
+      <a href="/folha_a4_qrcodes_30_cards.pdf" download class="btn-pdf" title="Baixar PDF pronto em 300 DPI">
+        📥 PDF (30)
+      </a>
+      <a href="/folha_a4_qrcodes_20_cards.pdf" download class="btn-pdf" title="Baixar PDF pronto em 300 DPI">
+        📥 PDF (20)
+      </a>
+    </div>
+  </div>
+
+  <!-- A4 Printable Sheet -->
+  <div class="a4-sheet">
+    <div id="cards-container" class="grid-30">
+      <!-- Cards will be populated by JavaScript -->
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('cards-container');
+    const btn30 = document.getElementById('btn-30');
+    const btn20 = document.getElementById('btn-20');
+
+    function createCard() {
+      const card = document.createElement('div');
+      card.className = 'mini-card';
+      card.innerHTML = `
+        <span class="cut-icon">✂</span>
+        <img src="/img/qrcode_labkids_mini.png" alt="QR Code labkids.online" class="qr-img">
+        <span class="card-url">labkids.online</span>
+      `;
+      return card;
+    }
+
+    function setLayout(count) {
+      container.innerHTML = '';
+      if (count === 30) {
+        container.className = 'grid-30';
+        btn30.classList.add('active');
+        btn20.classList.remove('active');
+        for (let i = 0; i < 30; i++) {
+          container.appendChild(createCard());
+        }
+      } else {
+        container.className = 'grid-20';
+        btn20.classList.add('active');
+        btn30.classList.remove('active');
+        for (let i = 0; i < 20; i++) {
+          container.appendChild(createCard());
+        }
+      }
+    }
+
+    // Default to 30 cards (Maximum requested by user)
+    setLayout(30);
+  </script>
+
+</body>
+</html>

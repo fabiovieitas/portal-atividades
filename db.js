@@ -138,6 +138,8 @@ try {
   try { sqlite.exec("ALTER TABLE teachers ADD COLUMN verification_code TEXT;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE teachers ADD COLUMN verification_token TEXT;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE teachers ADD COLUMN verification_expires DATETIME;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE teachers ADD COLUMN reset_token TEXT;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE teachers ADD COLUMN reset_expires DATETIME;"); } catch(e){}
 } catch (e) {
   console.warn('[DB Engine] SQLite local driver standard bypass (running in serverless environment):', e.message);
 }

@@ -188,6 +188,9 @@
       <form id="login-form" class="login-form" action="/professor/login" method="POST">
         <input type="email" name="email" placeholder="Seu E-mail (ex: professor@escola.com ou gmail)" required>
         <input type="password" name="password" placeholder="Sua Senha" required>
+        <div style="text-align: right; margin-top: -6px; margin-bottom: 14px;">
+          <a href="/professor/esqueci-senha" style="color: #64748b; font-size: 0.86rem; text-decoration: none; font-weight: 600; transition: color 0.2s;" onmouseover="this.style.color='#0284c7'" onmouseout="this.style.color='#64748b'">Esqueceu sua senha?</a>
+        </div>
         <button type="submit">Entrar na Plataforma</button>
         <div class="toggle-form" onclick="toggleForm()">Novo por aqui? Cadastre-se gratuitamente</div>
         <div style="margin-top: 20px;">

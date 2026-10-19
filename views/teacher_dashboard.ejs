@@ -120,6 +120,9 @@
             <button class="nav-item" onclick="switchTab('provas', this)">
                 <span class="nav-icon">📝</span> <span class="nav-text">Provas</span>
             </button>
+            <button class="nav-item" onclick="switchTab('analytics', this)">
+                <span class="nav-icon">📊</span> <span class="nav-text">Relatórios</span>
+            </button>
             <button class="nav-item" onclick="switchTab('config', this)">
                 <span class="nav-icon">⚙️</span> <span class="nav-text">Ajustes</span>
             </button>
@@ -137,11 +140,14 @@
             <header class="workspace-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
                 <div>
                     <h1>⭐ Atividades Favoritas & QR Codes</h1>
-                    <p>Gere QR Codes pedagógicos para imprimir ou projetar na sua sala de aula.</p>
+                    <p>Gere QR Codes pedagógicos, projete no Datashow ou envie bilhetes no WhatsApp da turma.</p>
                 </div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <a href="/professor/certificado" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 12px 22px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 15px rgba(245,158,11,0.3); border: 2px solid rgba(255,255,255,0.3);">
                         🏆 GERAR CERTIFICADO DE ALUNO
+                    </a>
+                    <a href="/imprimir-qrcodes" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #0284c7, #2563eb); color: white; padding: 12px 22px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 15px rgba(2,132,199,0.3); border: 2px solid rgba(255,255,255,0.3);">
+                        🏷️ IMPRIMIR MINI CARTÕES (A4)
                     </a>
                     <a href="https://api.whatsapp.com/send?text=Recomendo%20este%20portal%20gratuito%20de%20jogos%20pedag%C3%B3gicos%20e%20atividades%20para%20Datashow%20(BNCC):%20https://labkids.online/" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: white; padding: 12px 22px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 15px rgba(37,211,102,0.3); border: 2px solid rgba(255,255,255,0.3);">
                         📲 RECOMENDAR NO WHATSAPP
@@ -160,15 +166,41 @@
                 <% } else {
                    favActivities.forEach(activity => { 
                 %>
-                    <div class="project-admin-card glass-panel" style="padding: 24px; border: 1px solid var(--border); border-radius: 16px;">
-                        <h3 style="color: var(--accent); margin-top: 0;">
-                            <a href="/qr/<%= activity.id %>" target="_blank" style="text-decoration: none; color: inherit;"><%= activity.title %> 🔗</a>
-                        </h3>
-                        <p style="color: var(--text-muted); font-size: 1rem; margin: 12px 0;">BNCC: <%= activity.bncc_code || 'N/A' %> | <%= activity.subject %></p>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="btn-submit" onclick="generateQR('<%= activity.id %>', '<%= activity.title %>', '<%= teacher.id %>')" style="flex: 2;">📱 QR Code</button>
-                            <button class="btn-icon-small" onclick="addToCollectionPrompt('<%= activity.id %>')" title="Add à Coleção">📂</button>
-                            <button class="btn-icon-small" onclick="scheduleActivityPrompt('<%= activity.id %>')" title="Agendar Aula">📅</button>
+                    <div class="project-admin-card glass-panel" style="padding: 24px; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 style="color: var(--accent); margin-top: 0; font-size: 1.25rem;">
+                                <a href="/qr/<%= activity.id %>" target="_blank" style="text-decoration: none; color: inherit;"><%= activity.title %> 🔗</a>
+                            </h3>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 16px;">
+                                <span style="background: rgba(37,99,235,0.1); color: #2563eb; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 700;">
+                                    📚 <%= activity.subject %>
+                                </span>
+                                <% if (activity.bncc_code) { %>
+                                    <span style="background: rgba(16,185,129,0.1); color: #059669; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 700;">
+                                        🎯 BNCC: <%= activity.bncc_code %>
+                                    </span>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div>
+                            <!-- Botões de Ação Rápida -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                <button class="btn-submit" onclick="openDatashow('<%= activity.id %>', '<%= activity.title.replace(/'/g, "\\'") %>', '<%= activity.subject %>', '<%= activity.bncc_code || '' %>', '/qr/<%= activity.id %>')" style="background: linear-gradient(135deg, #6366f1, #4f46e5); font-size: 0.85rem; padding: 10px 8px;">
+                                    🖥️ Datashow
+                                </button>
+                                <button class="btn-submit" onclick="openWhatsAppModal('<%= activity.title.replace(/'/g, "\\'") %>', '<%= activity.bncc_code || '' %>', '<%= activity.id %>')" style="background: #25d366; font-size: 0.85rem; padding: 10px 8px;">
+                                    💬 WhatsApp
+                                </button>
+                            </div>
+
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-submit" onclick="generateQR('<%= activity.id %>', '<%= activity.title.replace(/'/g, "\\'") %>', '<%= teacher.id %>')" style="flex: 2; font-size: 0.85rem; padding: 9px 8px;">
+                                    📱 QR Code
+                                </button>
+                                <button class="btn-icon-small" onclick="addToCollectionPrompt('<%= activity.id %>')" title="Adicionar à Coleção" style="padding: 8px 12px; font-size: 1rem; border: 1px solid var(--border); background: white; border-radius: 8px; cursor: pointer;">📂</button>
+                                <button class="btn-icon-small" onclick="scheduleActivityPrompt('<%= activity.id %>')" title="Agendar Aula" style="padding: 8px 12px; font-size: 1rem; border: 1px solid var(--border); background: white; border-radius: 8px; cursor: pointer;">📅</button>
+                            </div>
                         </div>
                     </div>
                 <% }); } %>
@@ -177,18 +209,40 @@
 
         <!-- COLEÇÕES -->
         <div id="colecoes" class="tab-pane">
-            <header class="workspace-header">
-                <h1>📂 Minhas Coleções Temáticas</h1>
+            <header class="workspace-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h1>📂 Minhas Coleções Temáticas</h1>
+                    <p>Organize suas atividades em playlists por bimestre, matéria ou projeto escolar.</p>
+                </div>
                 <button class="btn-add-main" onclick="createNewCollection()">+ Nova Coleção</button>
             </header>
             <div class="projects-admin-grid">
                 <% if(collections.length === 0) { %>
                     <p style="color: var(--text-muted); text-align: center; width: 100%; padding: 40px;">Crie coleções para organizar suas atividades favoritas por tema ou bimestre.</p>
-                <% } else { collections.forEach(col => { %>
-                    <div class="project-admin-card glass-panel" style="padding: 24px; border: 1px solid var(--border); border-radius: 16px;">
-                        <h3 style="color: var(--accent); margin-top: 0;"><%= col.name %></h3>
-                        <p style="color: var(--text-muted);">Pasta de organização pedagógica.</p>
-                        <button class="btn-submit" onclick="alert('Funcionalidade de visualizar itens da coleção em breve!')" style="width: 100%; margin-top: 15px;">Ver Atividades</button>
+                <% } else { collections.forEach(col => { 
+                    const itemCount = (col.items && col.items.length) || 0;
+                %>
+                    <div class="project-admin-card glass-panel" style="padding: 24px; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
+                                <h3 style="color: var(--accent); margin: 0; font-size: 1.3rem;"><%= col.name %></h3>
+                                <span style="background: #e0f2fe; color: #0284c7; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;">
+                                    ⭐ <%= itemCount %> <%= itemCount === 1 ? 'missão' : 'missões' %>
+                                </span>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 6px;">Playlist pedagógica para compartilhar com a turma ou projetar em sequência.</p>
+                        </div>
+                        <div style="margin-top: 20px; display: flex; gap: 8px;">
+                            <button class="btn-submit" onclick="openCollectionModal('<%= col.id %>')" style="flex: 2;">
+                                📂 Ver Atividades
+                            </button>
+                            <a href="/colecao/<%= col.id %>" target="_blank" class="btn-submit" style="background: #10b981; text-decoration: none; display: flex; align-items: center; justify-content: center; padding: 0 14px;" title="Abrir Playlist Pública">
+                                🔗 Playlist
+                            </a>
+                            <button onclick="deleteCollection('<%= col.id %>')" style="background: rgba(255,107,107,0.1); color: #ff6b6b; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer;" title="Excluir Coleção">
+                                🗑️
+                            </button>
+                        </div>
                     </div>
                 <% }); } %>
             </div>
@@ -408,30 +462,132 @@
 
         <!-- ANALYTICS -->
         <div id="analytics" class="tab-pane">
-            <header class="workspace-header">
-                <h1>📊 Relatórios e Analytics</h1>
-                <a href="/api/teacher/export" class="export-btn">📥 Exportar Relatório (CSV)</a>
+            <header class="workspace-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h1>📊 Painel de Desempenho & Relatórios</h1>
+                    <p>Acompanhe o engajamento das suas turmas e o retorno das avaliações digitais.</p>
+                </div>
+                <a href="/api/teacher/export" class="btn-submit" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background: #0284c7;">
+                    📥 Exportar Acervo Completo (CSV)
+                </a>
             </header>
 
-            <div class="stats-grid">
+            <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px;">
                 <div class="stat-card-new glass-panel">
-                    <div class="stat-icon" style="background: rgba(74, 144, 226, 0.1); color: var(--primary);">🎯</div>
+                    <div class="stat-icon" style="background: rgba(37, 99, 235, 0.1); color: #2563eb; font-size: 2rem;">❤️</div>
                     <div class="stat-data">
-                        <span class="label">Atividades no Acervo</span>
+                        <span class="label">Atividades Salvas</span>
                         <span class="value"><%= favActivities.length %></span>
                     </div>
                 </div>
                 <div class="stat-card-new glass-panel">
-                    <div class="stat-icon" style="background: rgba(29, 209, 161, 0.1); color: var(--success);">👩‍🎓</div>
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-size: 2rem;">🏫</div>
                     <div class="stat-data">
                         <span class="label">Turmas Atendidas</span>
                         <span class="value"><%= classes.length %></span>
                     </div>
                 </div>
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; font-size: 2rem;">📝</div>
+                    <div class="stat-data">
+                        <span class="label">Provas no Banco</span>
+                        <span class="value"><%= exams.length %></span>
+                    </div>
+                </div>
+                <div class="stat-card-new glass-panel">
+                    <div class="stat-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6; font-size: 2rem;">👩‍🎓</div>
+                    <div class="stat-data">
+                        <span class="label">Respostas Recebidas</span>
+                        <span class="value"><%= examSubmissions.length %></span>
+                    </div>
+                </div>
             </div>
 
-            <div class="stats-chart-placeholder">
-                <p>Gráficos detalhados de engajamento por aluno/turma (Módulo em Desenvolvimento)</p>
+            <!-- Diagnóstico de Provas Digitais -->
+            <div class="glass-panel" style="margin-bottom: 30px; padding: 24px;">
+                <h2 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
+                    📝 Diagnóstico de Avaliações Digitais
+                </h2>
+                <% if (exams.length === 0) { %>
+                    <p style="color: var(--text-muted); padding: 20px 0;">Você ainda não criou nenhuma avaliação digital. Acesse a aba <strong>Provas</strong> para cadastrar a primeira com código de acesso.</p>
+                <% } else { %>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 15px;">
+                        <% exams.forEach(exam => { 
+                            const subsCount = examSubmissions.filter(s => s.exam_id === exam.id).length;
+                        %>
+                            <div style="border: 1px solid var(--border); border-radius: 12px; padding: 18px; background: #fafafa;">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                                    <h4 style="margin: 0; color: var(--text-main); font-size: 1.1rem;"><%= exam.title %></h4>
+                                    <span style="background: #e0e7ff; color: #4338ca; padding: 3px 10px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; font-family: monospace;">
+                                        <%= exam.access_code %>
+                                    </span>
+                                </div>
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin: 6px 0;">
+                                    Total de Questões: <strong><%= exam.num_questions || 10 %></strong>
+                                </p>
+                                <div style="margin: 12px 0;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px;">
+                                        <span>Participação da Turma</span>
+                                        <strong><%= subsCount %> <%= subsCount === 1 ? 'resposta' : 'respostas' %></strong>
+                                    </div>
+                                    <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: <%= Math.min(subsCount * 10, 100) %>%; height: 100%; background: #10b981; border-radius: 4px;"></div>
+                                    </div>
+                                </div>
+                                <button class="btn-submit" onclick="viewSubmissions('<%= exam.id %>', '<%= exam.title.replace(/'/g, "\\'") %>')" style="width: 100%; font-size: 0.85rem; padding: 8px 12px; margin-top: 8px;">
+                                    👁️ Ver Respostas Detalhadas
+                                </button>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Últimas Respostas de Alunos -->
+            <div class="glass-panel" style="padding: 24px;">
+                <h2 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">
+                    ⚡ Últimas Submissões de Alunos (Tempo Real)
+                </h2>
+                <% if (examSubmissions.length === 0) { %>
+                    <p style="color: var(--text-muted); padding: 20px 0;">Nenhuma resposta enviada ainda pelos alunos. Quando os alunos responderem pelo código de acesso, o feed aparecerá aqui automaticamente.</p>
+                <% } else { %>
+                    <div style="overflow-x: auto; margin-top: 15px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border); text-align: left; color: var(--text-muted);">
+                                    <th style="padding: 12px;">Aluno</th>
+                                    <th style="padding: 12px;">Avaliação</th>
+                                    <th style="padding: 12px;">Código</th>
+                                    <th style="padding: 12px;">Data & Hora</th>
+                                    <th style="padding: 12px; text-align: center;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% examSubmissions.slice(0, 10).forEach(sub => { %>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 12px; font-weight: 700; color: var(--text-main);">
+                                            👩‍🎓 <%= sub.student_name %>
+                                        </td>
+                                        <td style="padding: 12px; color: var(--text-main);">
+                                            <%= sub.title %>
+                                        </td>
+                                        <td style="padding: 12px; font-family: monospace; font-weight: 800; color: var(--accent);">
+                                            <%= sub.access_code %>
+                                        </td>
+                                        <td style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">
+                                            <%= new Date(sub.created_at).toLocaleString('pt-BR') %>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center;">
+                                            <button class="btn-submit" onclick="viewSubmissions('<%= sub.exam_id %>', '<%= sub.title.replace(/'/g, "\\'") %>')" style="padding: 6px 12px; font-size: 0.8rem;">
+                                                Ver
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
             </div>
         </div>
 
@@ -787,7 +943,189 @@
                 alert('Erro ao excluir: ' + data.error);
             }
         }
+
+        // Dados Injetados do Backend
+        const teacherCollections = <%- JSON.stringify(collections) %>;
+        const teacherClasses = <%- JSON.stringify(classes) %>;
+        const teacherName = "<%= (teacher.name || 'Professor(a)').replace(/"/g, '\\"') %>";
+
+        // --- DATASHOW PRESENTATION ---
+        let currentDatashowUrl = '';
+        function openDatashow(id, title, subject, bncc, url) {
+            document.getElementById('datashow-title').innerText = title;
+            document.getElementById('datashow-bncc').innerText = bncc ? `🎯 BNCC: ${bncc} | 📚 ${subject}` : `📚 ${subject}`;
+            
+            const qrDiv = document.getElementById('datashow-qrcode');
+            qrDiv.innerHTML = '';
+            const fullUrl = window.location.origin + '/qr/' + id + '?t=<%= teacher.id %>';
+            currentDatashowUrl = fullUrl;
+            
+            new QRCode(qrDiv, { text: fullUrl, width: 250, height: 250 });
+            
+            const playBtn = document.getElementById('datashow-play-btn');
+            playBtn.href = '/qr/' + id + '?t=<%= teacher.id %>';
+            
+            document.getElementById('datashow-modal').style.display = 'flex';
+        }
+
+        function closeDatashowModal() {
+            document.getElementById('datashow-modal').style.display = 'none';
+        }
+
+        function toggleDatashowFullscreen() {
+            const modalBox = document.querySelector('#datashow-modal .modal-content');
+            if (!document.fullscreenElement) {
+                if (modalBox.requestFullscreen) modalBox.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        function copyDatashowLink() {
+            navigator.clipboard.writeText(currentDatashowUrl);
+            alert('Link do jogo copiado com sucesso! Você pode compartilhar com os alunos.');
+        }
+
+        // --- WHATSAPP GENERATOR ---
+        let currentWaActivity = { title: '', bncc: '', id: '' };
+        function openWhatsAppModal(title, bncc, id) {
+            currentWaActivity = { title, bncc, id };
+            updateWhatsAppPreview();
+            document.getElementById('whatsapp-modal').style.display = 'flex';
+        }
+
+        function closeWhatsAppModal() {
+            document.getElementById('whatsapp-modal').style.display = 'none';
+        }
+
+        function updateWhatsAppPreview() {
+            const turmaSelect = document.getElementById('wa-turma');
+            const turma = turmaSelect ? turmaSelect.value : 'nossa turma';
+            const template = document.querySelector('input[name="wa_template"]:checked')?.value || '1';
+            const link = window.location.origin + '/qr/' + currentWaActivity.id + '?t=<%= teacher.id %>';
+            
+            let text = '';
+            if (template === '1') {
+                text = `Olá, famílias da ${turma}! 🌟\n\n` +
+                       `O(A) Prof(a). ${teacherName} preparou uma atividade pedagógica interativa no Portal Lab Kids para praticarmos os conteúdos da semana:\n\n` +
+                       `🎮 *${currentWaActivity.title}*\n` +
+                       (currentWaActivity.bncc ? `📚 Habilidade BNCC: ${currentWaActivity.bncc}\n` : '') +
+                       `👉 *Clique para jogar pelo celular, tablet ou computador:*\n${link}\n\n` +
+                       `Dica: Incentive seu filho a completar a missão e se divertir aprendendo! 🚀👏`;
+            } else {
+                text = `Atenção, responsáveis da ${turma}! 💡✨\n\n` +
+                       `Nesta semana estamos realizando missões pedagógicas lúdicas em sala de aula.\n\n` +
+                       `Convidamos todos os pais e alunos a acessarem juntos o jogo educativo:\n` +
+                       `🎯 *${currentWaActivity.title}*\n` +
+                       `🔗 *Acesse aqui:* ${link}\n\n` +
+                       `Contamos com o apoio de vocês para fortalecer a aprendizagem! Um abraço, Prof(a). ${teacherName}. 🎒👩‍🏫`;
+            }
+            
+            document.getElementById('wa-preview').value = text;
+        }
+
+        function copyWhatsAppMessage() {
+            const text = document.getElementById('wa-preview').value;
+            navigator.clipboard.writeText(text);
+            alert('Recado copiado! Agora basta colar no grupo de WhatsApp da turma.');
+        }
+
+        function sendWhatsAppDirect() {
+            const text = document.getElementById('wa-preview').value;
+            const waUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(text);
+            window.open(waUrl, '_blank');
+        }
+
+        // --- COLEÇÕES INTERATIVAS ---
+        let activeCollectionId = null;
+        function openCollectionModal(colId) {
+            activeCollectionId = colId;
+            const col = teacherCollections.find(c => c.id === parseInt(colId));
+            if (!col) return;
+            
+            document.getElementById('modal-col-title').innerText = col.name;
+            const itemsContainer = document.getElementById('modal-col-items');
+            itemsContainer.innerHTML = '';
+            
+            const items = col.items || [];
+            if (items.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 12px; border: 1px dashed var(--border);">
+                        <p style="color: var(--text-muted); margin: 0 0 10px;">Esta coleção ainda não possui atividades.</p>
+                        <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Para adicionar, volte em <strong>Favoritos</strong> e clique no ícone 📂 em qualquer atividade.</p>
+                    </div>
+                `;
+            } else {
+                let html = '<div style="display: flex; flex-direction: column; gap: 10px;">';
+                items.forEach((item, idx) => {
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: white;">
+                            <div>
+                                <h4 style="margin: 0 0 4px; color: var(--text-main); font-size: 1rem;">
+                                    ${idx + 1}. ${item.title}
+                                </h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">
+                                    📚 ${item.subject || 'Geral'} ${item.bncc_code ? ' | 🎯 ' + item.bncc_code : ''}
+                                </span>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <a href="/qr/${item.activity_id}" target="_blank" class="btn-submit" style="padding: 6px 12px; font-size: 0.8rem; background: #10b981; text-decoration: none;">
+                                    ▶️ Jogar
+                                </a>
+                                <button onclick="removeItemFromCollection('${col.id}', '${item.activity_id}')" style="background: none; border: none; color: #ff6b6b; cursor: pointer; font-size: 1.1rem;" title="Remover da coleção">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                itemsContainer.innerHTML = html;
+            }
+            
+            document.getElementById('modal-col-share').onclick = () => copyCollectionLink(colId);
+            document.getElementById('modal-col-delete').onclick = () => deleteCollection(colId);
+            
+            document.getElementById('collection-modal').style.display = 'flex';
+        }
+
+        function closeCollectionModal() {
+            document.getElementById('collection-modal').style.display = 'none';
+        }
+
+        function copyCollectionLink(colId) {
+            const url = window.location.origin + '/colecao/' + colId;
+            navigator.clipboard.writeText(url);
+            alert('Link público da playlist copiado! Os alunos podem acessar todas as atividades em sequência:\n' + url);
+        }
+
+        async function removeItemFromCollection(colId, activityId) {
+            if (!confirm('Deseja remover esta atividade da coleção?')) return;
+            const res = await fetch('/api/teacher/collections/remove-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ collection_id: colId, activity_id: activityId })
+            });
+            const data = await res.json();
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erro ao remover: ' + (data.error || 'Erro desconhecido'));
+            }
+        }
+
+        async function deleteCollection(colId) {
+            if (!confirm('Deseja realmente excluir esta coleção? As atividades não serão apagadas, apenas a pasta.')) return;
+            const res = await fetch('/api/teacher/collections/delete/' + colId, { method: 'POST' });
+            const data = await res.json();
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Erro ao excluir: ' + (data.error || 'Erro desconhecido'));
+            }
+        }
     </script>
+    
     <!-- Submissions Modal -->
     <div id="submissions-modal" class="modal" style="display:none">
         <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 20px; text-align: left; max-width: 700px; border: 1px solid var(--border); width: 90%; max-height: 80vh; overflow-y: auto;">
@@ -800,6 +1138,143 @@
             
             <div style="text-align: right; margin-top: 20px;">
                 <button onclick="closeSubmissionsModal()" class="btn-submit">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATASHOW / APRESENTAÇÃO MODAL -->
+    <div id="datashow-modal" class="modal" style="display:none; background: rgba(5, 10, 25, 0.94); backdrop-filter: blur(8px);">
+        <div class="modal-content" style="background: linear-gradient(145deg, #0f172a, #1e293b); color: white; padding: 40px; border-radius: 28px; max-width: 800px; width: 92%; border: 2px solid rgba(59, 130, 246, 0.4); box-shadow: 0 25px 60px rgba(0,0,0,0.8); position: relative;">
+            <span class="close" onclick="closeDatashowModal()" style="color: #94a3b8; font-size: 2rem; position: absolute; right: 25px; top: 20px; cursor: pointer;">&times;</span>
+            
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="background: #2563eb; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">
+                    🖥️ MODO DATASHOW / SALA DE AULA
+                </span>
+                <span id="datashow-bncc" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 700;">
+                    BNCC
+                </span>
+            </div>
+
+            <h1 id="datashow-title" style="font-family: 'Fredoka', cursive; font-size: 2.2rem; color: #fbbf24; margin: 10px 0 25px; text-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                Título da Atividade
+            </h1>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; margin-bottom: 25px;">
+                <div style="text-align: center; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                    <div id="datashow-qrcode" style="display: inline-block;"></div>
+                    <p style="color: #1e293b; font-weight: 800; margin: 10px 0 0; font-size: 1rem;">
+                        📱 Aponte a Câmera para Jogar!
+                    </p>
+                    <p style="color: #64748b; font-size: 0.8rem; margin: 4px 0 0;">
+                        labkids.online
+                    </p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.06); padding: 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
+                        <h4 style="margin: 0 0 6px; color: #60a5fa; font-size: 1rem;">💡 Dica para a Turma:</h4>
+                        <p style="margin: 0; color: #cbd5e1; font-size: 0.95rem; line-height: 1.5;">
+                            Projete esta tela na lousa digital ou parede. Cada aluno pode jogar no seu próprio aparelho ou a turma pode resolver os desafios em conjunto!
+                        </p>
+                    </div>
+
+                    <a id="datashow-play-btn" href="#" target="_blank" class="btn-submit" style="background: linear-gradient(135deg, #10b981, #059669); font-size: 1.1rem; padding: 16px; text-align: center; text-decoration: none; border-radius: 14px; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);">
+                        ▶️ INICIAR ATIVIDADE NO DATASHOW
+                    </a>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="toggleDatashowFullscreen()" class="btn-submit" style="flex: 1; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);">
+                            ⛶ Tela Cheia
+                        </button>
+                        <button onclick="copyDatashowLink()" class="btn-submit" style="flex: 1; background: #2563eb;">
+                            📋 Copiar Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <button onclick="closeDatashowModal()" class="btn-submit" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #cbd5e1;">
+                    Fechar Modo Apresentação
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WHATSAPP BILHETE MODAL -->
+    <div id="whatsapp-modal" class="modal" style="display:none;">
+        <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 24px; text-align: left; max-width: 620px; width: 92%; max-height: 85vh; overflow-y: auto;">
+            <span class="close" onclick="closeWhatsAppModal()" style="font-size: 1.8rem; cursor: pointer;">&times;</span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <span style="font-size: 1.8rem;">📲</span>
+                <div>
+                    <h2 style="margin: 0; color: #1e293b; font-size: 1.4rem;">Gerador de Recados para o WhatsApp</h2>
+                    <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Envie instruções da atividade diretamente para os pais ou responsáveis.</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: 700; color: var(--text-main); font-size: 0.9rem; display: block; margin-bottom: 6px;">Turma de Destino:</label>
+                <select id="wa-turma" onchange="updateWhatsAppPreview()" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;">
+                    <% if (classes.length === 0) { %>
+                        <option value="Turma">Geral (Turma)</option>
+                    <% } else { %>
+                        <% classes.forEach(c => { %>
+                            <option value="<%= c.class_name %> - <%= c.school_name %>"><%= c.class_name %> (<%= c.school_name %>)</option>
+                        <% }); %>
+                    <% } %>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: 700; color: var(--text-main); font-size: 0.9rem; display: block; margin-bottom: 6px;">Modelo do Recado:</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <label style="border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                        <input type="radio" name="wa_template" value="1" checked onchange="updateWhatsAppPreview()"> 🎮 Tarefa / Prática da Semana
+                    </label>
+                    <label style="border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                        <input type="radio" name="wa_template" value="2" onchange="updateWhatsAppPreview()"> 🌟 Parceria Família & Escola
+                    </label>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: 700; color: var(--text-main); font-size: 0.9rem; display: block; margin-bottom: 6px;">Prévia da Mensagem (Editável):</label>
+                <textarea id="wa-preview" rows="8" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 12px; font-family: sans-serif; font-size: 0.95rem; line-height: 1.5; background: #f8fafc; color: #1e293b;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+                <button onclick="closeWhatsAppModal()" class="btn-submit" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border);">Cancelar</button>
+                <button onclick="copyWhatsAppMessage()" class="btn-submit" style="background: #0284c7;">📋 Copiar Recado</button>
+                <button onclick="sendWhatsAppDirect()" class="btn-submit" style="background: #25d366; display: inline-flex; align-items: center; gap: 6px;">
+                    <span>🟢</span> Abrir no WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLEÇÃO DETALHES MODAL -->
+    <div id="collection-modal" class="modal" style="display:none;">
+        <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 24px; text-align: left; max-width: 650px; width: 92%; max-height: 85vh; overflow-y: auto;">
+            <span class="close" onclick="closeCollectionModal()" style="font-size: 1.8rem; cursor: pointer;">&times;</span>
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                <div>
+                    <span class="badge" style="background: #e0f2fe; color: #0284c7; margin-bottom: 6px; display: inline-block;">📂 Coleção Temática</span>
+                    <h2 id="modal-col-title" style="margin: 0; color: var(--accent); font-size: 1.5rem;">Nome da Coleção</h2>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button id="modal-col-share" class="btn-submit" style="background: #10b981; padding: 8px 14px; font-size: 0.85rem;" title="Copiar link da playlist">🔗 Copiar Link</button>
+                    <button id="modal-col-delete" class="btn-delete-small" style="background: rgba(255,107,107,0.1); color: #ff6b6b; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer;" title="Excluir Coleção">🗑️</button>
+                </div>
+            </div>
+
+            <div id="modal-col-items" style="margin-top: 20px;">
+                <!-- Preenchido dinamicamente por JS -->
+            </div>
+
+            <div style="text-align: right; margin-top: 25px;">
+                <button onclick="closeCollectionModal()" class="btn-submit">Fechar</button>
             </div>
         </div>
     </div>

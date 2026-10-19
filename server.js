@@ -1560,6 +1560,21 @@ app.get('/admin', async (req, res) => {
       let news = [];
 
       teachers = await dbHelper.getTeachers();
+      try {
+        const allSessions = await dbHelper.queryAll("SELECT teacher_id, expires FROM teacher_sessions");
+        const now = new Date();
+        const onlineTeacherIds = new Set();
+        for (let s of (allSessions || [])) {
+          if (s.expires && new Date(s.expires) > now) {
+            onlineTeacherIds.add(Number(s.teacher_id));
+          }
+        }
+        for (let t of (teachers || [])) {
+          t.is_online = onlineTeacherIds.has(Number(t.id));
+        }
+      } catch(e) {
+        console.error('Error calculating online teachers:', e);
+      }
       news = await dbHelper.getNews();
       try {
         pendingComments = await dbHelper.queryAll("SELECT * FROM comments WHERE approved = 0");
@@ -1755,6 +1770,12 @@ app.post('/api/students/:id/activity-complete', async (req, res) => {
 // Teacher Authentication
 app.get('/professor/login', async (req, res) => {
   if (await getTeacher(req)) return res.redirect('/professor/dashboard');
+  if (req.query.reset === '1') {
+    return res.render('teacher_login', { error: 'Sua senha foi redefinida com sucesso! Você já pode entrar com sua nova senha.' });
+  }
+  if (req.query.verified === '1') {
+    return res.render('teacher_login', { error: 'Sua conta foi ativada com sucesso! Faça login para acessar o painel.' });
+  }
   res.render('teacher_login', { error: null });
 });
 
@@ -1849,6 +1870,11 @@ app.post('/professor/register', async (req, res) => {
     console.error('Registration error:', err);
     res.render('teacher_login', { error: `Erro ao cadastrar: ${err.message || err}` });
   }
+});
+
+// A4 QR Code mini cards printable sheet
+app.get('/imprimir-qrcodes', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'imprimir_qrcodes_a4.html'));
 });
 
 // Teacher Email Verification Pages & Actions
@@ -1964,6 +1990,153 @@ app.get('/professor/ativar', async (req, res) => {
   }
 });
 
+// Teacher Password Recovery (Forgot Password)
+app.get(['/professor/esqueci-senha', '/professor/recuperar-senha'], async (req, res) => {
+  if (await getTeacher(req)) return res.redirect('/professor/dashboard');
+  res.render('teacher_forgot_password', { error: null, success: null });
+});
+
+app.post(['/professor/esqueci-senha', '/professor/recuperar-senha'], async (req, res) => {
+  const { email } = req.body;
+  const cleanEmail = String(email || '').trim().toLowerCase();
+
+  if (!cleanEmail) {
+    return res.render('teacher_forgot_password', { error: 'Por favor, informe seu e-mail cadastrado.', success: null });
+  }
+
+  try {
+    const teacher = await dbHelper.queryGet("SELECT id, name, email FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+
+    if (teacher) {
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      const resetExpires = new Date(Date.now() + 60 * 60 * 1000).toISOString(); // 1 hour
+
+      await dbHelper.queryRun(
+        "UPDATE teachers SET reset_token = ?, reset_expires = ? WHERE id = ?",
+        [resetToken, resetExpires, teacher.id]
+      );
+
+      await mailService.sendTeacherPasswordResetEmail({
+        name: teacher.name,
+        email: cleanEmail,
+        token: resetToken
+      });
+    }
+
+    // Standard message to avoid email enumeration
+    res.render('teacher_forgot_password', {
+      error: null,
+      success: 'Se o e-mail informado estiver cadastrado em nossa rede de educadores, você receberá um link de redefinição em instantes. Verifique também sua caixa de Spam.'
+    });
+  } catch (err) {
+    console.error('Password reset request error:', err);
+    res.render('teacher_forgot_password', {
+      error: `Erro ao processar solicitação: ${err.message || err}`,
+      success: null
+    });
+  }
+});
+
+// Teacher Password Reset (New Password Page)
+app.get('/professor/redefinir-senha', async (req, res) => {
+  const { token, email } = req.query;
+  const cleanEmail = String(email || '').trim().toLowerCase();
+  const cleanToken = String(token || '').trim();
+
+  if (!cleanEmail || !cleanToken) {
+    return res.redirect('/professor/esqueci-senha');
+  }
+
+  try {
+    const teacher = await dbHelper.queryGet(
+      "SELECT id, name, email, reset_token, reset_expires FROM teachers WHERE LOWER(email) = LOWER(?) AND reset_token = ?",
+      [cleanEmail, cleanToken]
+    );
+
+    if (!teacher) {
+      return res.render('teacher_forgot_password', {
+        error: 'Este link de redefinição é inválido ou já foi utilizado. Solicite um novo link abaixo.',
+        success: null
+      });
+    }
+
+    if (teacher.reset_expires && new Date() > new Date(teacher.reset_expires)) {
+      return res.render('teacher_forgot_password', {
+        error: 'Este link de redefinição expirou (validade de 1 hora). Solicite um novo link abaixo.',
+        success: null
+      });
+    }
+
+    res.render('teacher_reset_password', {
+      email: cleanEmail,
+      token: cleanToken,
+      error: null
+    });
+  } catch (err) {
+    console.error('Password reset view error:', err);
+    res.redirect('/professor/login');
+  }
+});
+
+app.post('/professor/redefinir-senha', async (req, res) => {
+  const { token, email, password, confirm_password } = req.body;
+  const cleanEmail = String(email || '').trim().toLowerCase();
+  const cleanToken = String(token || '').trim();
+
+  if (!password || password.length < 6) {
+    return res.render('teacher_reset_password', {
+      email: cleanEmail,
+      token: cleanToken,
+      error: 'A nova senha deve ter no mínimo 6 caracteres.'
+    });
+  }
+
+  if (password !== confirm_password) {
+    return res.render('teacher_reset_password', {
+      email: cleanEmail,
+      token: cleanToken,
+      error: 'As duas senhas não coincidem. Digite senhas iguais.'
+    });
+  }
+
+  try {
+    const teacher = await dbHelper.queryGet(
+      "SELECT id, name, email, reset_token, reset_expires FROM teachers WHERE LOWER(email) = LOWER(?) AND reset_token = ?",
+      [cleanEmail, cleanToken]
+    );
+
+    if (!teacher) {
+      return res.render('teacher_forgot_password', {
+        error: 'Este link de redefinição expirou ou já foi utilizado. Solicite um novo link abaixo.',
+        success: null
+      });
+    }
+
+    if (teacher.reset_expires && new Date() > new Date(teacher.reset_expires)) {
+      return res.render('teacher_forgot_password', {
+        error: 'Este link de redefinição expirou. Solicite um novo link abaixo.',
+        success: null
+      });
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    await dbHelper.queryRun(
+      "UPDATE teachers SET password_hash = ?, reset_token = NULL, reset_expires = NULL WHERE id = ?",
+      [hash, teacher.id]
+    );
+
+    console.log(`✅ [Password Reset] Senha do professor ${cleanEmail} redefinida com sucesso!`);
+    res.redirect('/professor/login?reset=1');
+  } catch (err) {
+    console.error('Password reset update error:', err);
+    res.render('teacher_reset_password', {
+      email: cleanEmail,
+      token: cleanToken,
+      error: `Erro ao redefinir senha: ${err.message || err}`
+    });
+  }
+});
+
 app.post('/professor/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -2040,7 +2213,16 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
       );
     }
 
-    const collections = await dbHelper.queryAll("SELECT * FROM teacher_collections WHERE teacher_id = ?", [req.teacher.id]);
+    const collections = await dbHelper.queryAll("SELECT * FROM teacher_collections WHERE teacher_id = ? ORDER BY created_at DESC", [req.teacher.id]);
+    for (const col of (collections || [])) {
+      col.items = await dbHelper.queryAll(
+        `SELECT ci.activity_id, a.title, a.subject, a.bncc_code, a.activity_url 
+         FROM collection_items ci 
+         JOIN activities a ON ci.activity_id = a.id 
+         WHERE ci.collection_id = ?`,
+        [col.id]
+      ) || [];
+    }
     const planning = await dbHelper.queryAll(
       `SELECT tp.*, a.title 
        FROM teacher_planning tp 
@@ -2238,6 +2420,60 @@ app.post('/api/teacher/collections/add-item', requireTeacher, async (req, res) =
   }
 });
 
+app.post('/api/teacher/collections/remove-item', requireTeacher, async (req, res) => {
+  try {
+    const { collection_id, activity_id } = req.body;
+    const col = await dbHelper.queryGet("SELECT id FROM teacher_collections WHERE id = ? AND teacher_id = ?", [collection_id, req.teacher.id]);
+    if (!col) return res.status(403).json({ success: false, error: 'Acesso negado' });
+    await dbHelper.queryRun("DELETE FROM collection_items WHERE collection_id = ? AND activity_id = ?", [collection_id, activity_id]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/teacher/collections/delete/:id', requireTeacher, async (req, res) => {
+  try {
+    const colId = req.params.id;
+    const col = await dbHelper.queryGet("SELECT id FROM teacher_collections WHERE id = ? AND teacher_id = ?", [colId, req.teacher.id]);
+    if (!col) return res.status(403).json({ success: false, error: 'Acesso negado' });
+    await dbHelper.queryRun("DELETE FROM collection_items WHERE collection_id = ?", [colId]);
+    await dbHelper.queryRun("DELETE FROM teacher_collections WHERE id = ?", [colId]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Rota pública de playlist de coleção para turmas e alunos
+app.get('/colecao/:id', async (req, res) => {
+  try {
+    const colId = req.params.id;
+    const col = await dbHelper.queryGet(
+      "SELECT tc.*, t.name as teacher_name FROM teacher_collections tc LEFT JOIN teachers t ON tc.teacher_id = t.id WHERE tc.id = ?",
+      [colId]
+    );
+    if (!col) {
+      return res.redirect('/');
+    }
+    const items = await dbHelper.queryAll(
+      `SELECT ci.activity_id, a.title, a.description, a.subject, a.bncc_code, a.activity_url, a.image_url 
+       FROM collection_items ci 
+       JOIN activities a ON ci.activity_id = a.id 
+       WHERE ci.collection_id = ?`,
+      [colId]
+    );
+    res.render('collection_view', {
+      collection: col,
+      items: items || [],
+      title: `${col.name} - Coleção Lab Kids`
+    });
+  } catch (err) {
+    console.error('Error viewing collection:', err);
+    res.redirect('/');
+  }
+});
+
 // Planning API
 app.get('/api/teacher/planning', requireTeacher, async (req, res) => {
   try {
@@ -2369,6 +2605,37 @@ app.post('/admin/teacher/reset-password/:id', requireAdmin, async (req, res) => 
     res.json({ success: true, newPassword });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Acessar painel diretamente como o professor (Impersonate Admin -> Professor)
+app.get('/admin/teacher/impersonate/:id', requireAdmin, async (req, res) => {
+  try {
+    const teacherId = req.params.id;
+    const teacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE id = ?", [teacherId]);
+    if (!teacher) return res.status(404).send("Professor não encontrado");
+
+    const sessionId = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, teacher.id, expires]);
+
+    res.cookie('teacher_session', sessionId, { maxAge: 24 * 60 * 60 * 1000, path: '/' });
+    res.redirect('/professor/dashboard');
+  } catch (err) {
+    console.error('Impersonate error:', err);
+    res.status(500).send("Erro ao acessar conta do professor: " + err.message);
+  }
+});
+
+// Desconectar todas as sessões ativas de um professor (Forçar Logout)
+app.post('/admin/teacher/logout/:id', requireAdmin, async (req, res) => {
+  try {
+    const teacherId = req.params.id;
+    await dbHelper.queryRun("DELETE FROM teacher_sessions WHERE teacher_id = ?", [teacherId]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Admin force logout error:', err);
     res.status(500).json({ success: false, error: err.message });
   }
 });
