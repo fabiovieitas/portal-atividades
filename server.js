@@ -1835,8 +1835,9 @@ app.post('/professor/register', async (req, res) => {
 
       const sessionId = crypto.randomBytes(32).toString('hex');
       const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      const nowIso = new Date().toISOString();
       await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, newTeacher.id, expires]);
-      await dbHelper.queryRun("UPDATE teachers SET login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [newTeacher.id]);
+      await dbHelper.queryRun("UPDATE teachers SET login_count = 1, last_login = ? WHERE id = ?", [nowIso, newTeacher.id]);
       await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [newTeacher.id]);
 
       res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
@@ -1908,7 +1909,8 @@ app.post('/professor/verificar', async (req, res) => {
     }
 
     // Activate teacher account
-    await dbHelper.queryRun("UPDATE teachers SET status = 'approved', verification_code = NULL, verification_token = NULL, login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
+    const nowIso = new Date().toISOString();
+    await dbHelper.queryRun("UPDATE teachers SET status = 'approved', verification_code = NULL, verification_token = NULL, login_count = 1, last_login = ? WHERE id = ?", [nowIso, teacher.id]);
 
     // Create session & log in
     const sessionId = crypto.randomBytes(32).toString('hex');
@@ -1975,7 +1977,8 @@ app.get('/professor/ativar', async (req, res) => {
     }
 
     // Activate teacher account
-    await dbHelper.queryRun("UPDATE teachers SET status = 'approved', verification_code = NULL, verification_token = NULL, login_count = 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
+    const nowIso = new Date().toISOString();
+    await dbHelper.queryRun("UPDATE teachers SET status = 'approved', verification_code = NULL, verification_token = NULL, login_count = 1, last_login = ? WHERE id = ?", [nowIso, teacher.id]);
 
     const sessionId = crypto.randomBytes(32).toString('hex');
     const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
@@ -2161,9 +2164,10 @@ app.post('/professor/login', async (req, res) => {
 
       const sessionId = crypto.randomBytes(32).toString('hex');
       const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      const nowIso = new Date().toISOString();
 
       await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, teacher.id, expires]);
-      await dbHelper.queryRun("UPDATE teachers SET login_count = COALESCE(login_count, 0) + 1, last_login = CURRENT_TIMESTAMP WHERE id = ?", [teacher.id]);
+      await dbHelper.queryRun("UPDATE teachers SET login_count = COALESCE(login_count, 0) + 1, last_login = ? WHERE id = ?", [nowIso, teacher.id]);
       await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [teacher.id]);
 
       res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
@@ -2265,13 +2269,15 @@ app.post('/api/teacher/password', requireTeacher, async (req, res) => {
 
 app.post('/api/teacher/activities/add', requireTeacher, async (req, res) => {
   try {
-    const { title, description, activity_url, category, bncc_code, subject, level } = req.body;
+    const { title, description, activity_url, category, bncc_code, subject, level, icon_url, submit_public } = req.body;
+    const initialStatus = (submit_public === true || submit_public === 'true' || submit_public === 'on') ? 'pending' : 'private';
+    const authorCredit = req.teacher.name || null;
     await dbHelper.queryRun(
-      "INSERT INTO activities (title, description, activity_url, category, bncc_code, subject, level, teacher_id, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [title, description, activity_url, category || 'Geral', bncc_code || '', subject || 'Geral', level || '1-5', req.teacher.id, 'private']
+      "INSERT INTO activities (title, description, activity_url, icon_url, category, bncc_code, subject, level, teacher_id, status, author_credit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, description || '', activity_url, icon_url || '', category || 'Geral', bncc_code || '', subject || 'Geral', level || '1-5', req.teacher.id, initialStatus, authorCredit]
     );
     if (typeof clearActivitiesCache === 'function') clearActivitiesCache();
-    res.json({ success: true });
+    res.json({ success: true, status: initialStatus });
   } catch(err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -2293,7 +2299,10 @@ app.post('/api/teacher/classes/add', requireTeacher, async (req, res) => {
 
 app.post('/api/teacher/activities/request-public/:id', requireTeacher, async (req, res) => {
   try {
-    await dbHelper.queryRun("UPDATE activities SET status = 'pending' WHERE id = ? AND teacher_id = ?", [req.params.id, req.teacher.id]);
+    await dbHelper.queryRun(
+      "UPDATE activities SET status = 'pending', author_credit = ? WHERE id = ? AND teacher_id = ?",
+      [req.teacher.name || null, req.params.id, req.teacher.id]
+    );
     res.json({ success: true });
   } catch(err) {
     res.status(500).json({ success: false, error: err.message });
@@ -2491,6 +2500,15 @@ app.post('/api/teacher/planning/add', requireTeacher, async (req, res) => {
   try {
     const { activity_id, planned_date } = req.body;
     await dbHelper.queryRun("INSERT INTO teacher_planning (teacher_id, activity_id, planned_date) VALUES (?, ?, ?)", [req.teacher.id, activity_id, planned_date]);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/teacher/planning/delete/:id', requireTeacher, async (req, res) => {
+  try {
+    await dbHelper.queryRun("DELETE FROM teacher_planning WHERE id = ? AND teacher_id = ?", [req.params.id, req.teacher.id]);
     res.json({ success: true });
   } catch(err) {
     res.status(500).json({ success: false, error: err.message });

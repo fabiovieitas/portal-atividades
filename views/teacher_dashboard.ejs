@@ -112,7 +112,7 @@
                 <span class="nav-icon">📅</span> <span class="nav-text">Agenda</span>
             </button>
             <button class="nav-item" onclick="switchTab('minhas-aulas', this)">
-                <span class="nav-icon">💡</span> <span class="nav-text">Minhas Aulas</span>
+                <span class="nav-icon">💡</span> <span class="nav-text">Minhas Atividades</span>
             </button>
             <button class="nav-item" onclick="switchTab('turmas', this)">
                 <span class="nav-icon">🏫</span> <span class="nav-text">Turmas</span>
@@ -139,8 +139,8 @@
         <div id="acervo" class="tab-pane active">
             <header class="workspace-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
                 <div>
-                    <h1>⭐ Atividades Favoritas & QR Codes</h1>
-                    <p>Gere QR Codes pedagógicos, projete no Datashow ou envie bilhetes no WhatsApp da turma.</p>
+                    <h1>⭐ Atividades Favoritas & Sala de Aula</h1>
+                    <p>Projete na lousa digital, compartilhe no WhatsApp ou organize suas aulas.</p>
                 </div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <a href="/professor/certificado" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 12px 22px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 15px rgba(245,158,11,0.3); border: 2px solid rgba(255,255,255,0.3);">
@@ -166,17 +166,25 @@
                 <% } else {
                    favActivities.forEach(activity => { 
                 %>
-                    <div class="project-admin-card glass-panel" style="padding: 24px; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div class="project-admin-card glass-panel" style="padding: 20px; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
                         <div>
-                            <h3 style="color: var(--accent); margin-top: 0; font-size: 1.25rem;">
+                            <!-- Capa da Atividade -->
+                            <div style="position: relative; width: 100%; height: 140px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #f8fafc, #e2e8f0); margin-bottom: 14px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center;">
+                                <img src="<%= activity.icon_url || '/img/robot-icon-192.png' %>" alt="<%= activity.title %>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='/img/robot-icon-192.png'; this.style.objectFit='contain'; this.style.padding='20px';">
+                                <span style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); color: #fbbf24; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 800;">
+                                    ❤️ Favorito
+                                </span>
+                            </div>
+
+                            <h3 style="color: var(--accent); margin: 0 0 6px 0; font-size: 1.15rem; line-height: 1.3;">
                                 <a href="/qr/<%= activity.id %>" target="_blank" style="text-decoration: none; color: inherit;"><%= activity.title %> 🔗</a>
                             </h3>
-                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0 16px;">
-                                <span style="background: rgba(37,99,235,0.1); color: #2563eb; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 700;">
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;">
+                                <span style="background: rgba(37,99,235,0.1); color: #2563eb; padding: 3px 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700;">
                                     📚 <%= activity.subject %>
                                 </span>
                                 <% if (activity.bncc_code) { %>
-                                    <span style="background: rgba(16,185,129,0.1); color: #059669; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 700;">
+                                    <span style="background: rgba(16,185,129,0.1); color: #059669; padding: 3px 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700;">
                                         🎯 BNCC: <%= activity.bncc_code %>
                                     </span>
                                 <% } %>
@@ -184,22 +192,23 @@
                         </div>
 
                         <div>
-                            <!-- Botões de Ação Rápida -->
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
-                                <button class="btn-submit" onclick="openDatashow('<%= activity.id %>', '<%= activity.title.replace(/'/g, "\\'") %>', '<%= activity.subject %>', '<%= activity.bncc_code || '' %>', '/qr/<%= activity.id %>')" style="background: linear-gradient(135deg, #6366f1, #4f46e5); font-size: 0.85rem; padding: 10px 8px;">
-                                    🖥️ Datashow
+                            <!-- Botões de Ação Rápida: Projetar / QR Code + WhatsApp -->
+                            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                <button class="btn-submit" onclick="openDatashow('<%= activity.id %>', '<%= activity.title.replace(/'/g, "\\'") %>', '<%= activity.subject %>', '<%= activity.bncc_code || '' %>', '/qr/<%= activity.id %>')" style="background: linear-gradient(135deg, #6366f1, #4f46e5); font-size: 0.85rem; padding: 10px 8px; font-weight: 700;" title="Abrir modo de projeção na lousa com QR Code gigante para alunos">
+                                    🖥️ Projetar / QR Code
                                 </button>
-                                <button class="btn-submit" onclick="openWhatsAppModal('<%= activity.title.replace(/'/g, "\\'") %>', '<%= activity.bncc_code || '' %>', '<%= activity.id %>')" style="background: #25d366; font-size: 0.85rem; padding: 10px 8px;">
+                                <button class="btn-submit" onclick="openWhatsAppModal('<%= activity.title.replace(/'/g, "\\'") %>', '<%= activity.bncc_code || '' %>', '<%= activity.id %>')" style="background: #25d366; font-size: 0.85rem; padding: 10px 8px; font-weight: 700;" title="Enviar bilhete com link no WhatsApp da turma">
                                     💬 WhatsApp
                                 </button>
                             </div>
 
                             <div style="display: flex; gap: 8px;">
-                                <button class="btn-submit" onclick="generateQR('<%= activity.id %>', '<%= activity.title.replace(/'/g, "\\'") %>', '<%= teacher.id %>')" style="flex: 2; font-size: 0.85rem; padding: 9px 8px;">
-                                    📱 QR Code
+                                <button class="btn-submit" onclick="addToCollectionPrompt('<%= activity.id %>')" style="flex: 1; background: #f8fafc; color: var(--text-main); border: 1px solid var(--border); font-size: 0.82rem; padding: 8px 10px; font-weight: 600;" title="Salvar em Coleção / Pasta">
+                                    📂 Salvar Coleção
                                 </button>
-                                <button class="btn-icon-small" onclick="addToCollectionPrompt('<%= activity.id %>')" title="Adicionar à Coleção" style="padding: 8px 12px; font-size: 1rem; border: 1px solid var(--border); background: white; border-radius: 8px; cursor: pointer;">📂</button>
-                                <button class="btn-icon-small" onclick="scheduleActivityPrompt('<%= activity.id %>')" title="Agendar Aula" style="padding: 8px 12px; font-size: 1rem; border: 1px solid var(--border); background: white; border-radius: 8px; cursor: pointer;">📅</button>
+                                <button class="btn-submit" onclick="scheduleActivityPrompt('<%= activity.id %>')" style="flex: 1; background: #f8fafc; color: var(--text-main); border: 1px solid var(--border); font-size: 0.82rem; padding: 8px 10px; font-weight: 600;" title="Agendar aula no Calendário">
+                                    📅 Agendar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -272,45 +281,71 @@
                      const dateStr = `${now.getFullYear()}-${m}-${d}`;
                      const items = planning.filter(p => p.planned_date === dateStr);
                 %>
-                    <div class="calendar-day" style="min-height: 100px; border: 1px solid var(--border); border-radius: 12px; padding: 10px; background: white;">
+                    <div class="calendar-day" style="min-height: 105px; border: 1px solid var(--border); border-radius: 12px; padding: 10px; background: white; display: flex; flex-direction: column;">
                         <span style="font-size: 0.9rem; font-weight: 700; color: <%= items.length > 0 ? 'var(--accent)' : 'var(--text-muted)' %>;"><%= i+1 %></span>
-                        <% items.forEach(item => { %>
-                            <div style="font-size: 0.75rem; background: var(--accent); color: white; padding: 4px 8px; border-radius: 6px; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<%= item.activity_title %>">
-                                🚀 <%= item.activity_title %>
-                            </div>
-                        <% }); %>
+                        <div style="flex: 1; display: flex; flex-direction: column; gap: 4px; margin-top: 5px;">
+                            <% items.forEach(item => { %>
+                                <div style="font-size: 0.72rem; background: var(--accent); color: white; padding: 4px 6px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; gap: 4px;" title="<%= item.activity_title %>">
+                                    <a href="/qr/<%= item.activity_id %>" target="_blank" style="color: white; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; font-weight: 600;">
+                                        🚀 <%= item.activity_title %>
+                                    </a>
+                                    <button onclick="deletePlanningItem('<%= item.id %>')" style="background: none; border: none; color: #fca5a5; cursor: pointer; padding: 0; font-size: 0.75rem; font-weight: bold; line-height: 1;" title="Remover da agenda">✕</button>
+                                </div>
+                            <% }); %>
+                        </div>
                     </div>
                 <% } %>
             </div>
         </div>
 
-        <!-- MINHAS AULAS -->
+        <!-- MINHAS ATIVIDADES -->
         <div id="minhas-aulas" class="tab-pane">
             <header class="workspace-header">
-                <h1>💡 Minhas Aulas Particulares</h1>
-                <button class="btn-add-main" onclick="toggleForm('add-lesson-form')">+ Nova Aula</button>
+                <h1>💡 Minhas Atividades Criadas</h1>
+                <p>Cadastre suas próprias atividades, use na sala de aula e compartilhe no portal.</p>
+                <button class="btn-add-main" onclick="toggleForm('add-lesson-form')">+ Nova Atividade</button>
             </header>
 
             <div id="add-lesson-form" class="admin-card-new glass-panel" style="display:none; margin-bottom: 30px;">
-                <h2>Cadastrar Nova Atividade/Aula</h2>
+                <h2>Cadastrar Nova Atividade Pedagógica</h2>
                 <form onsubmit="addTeacherActivity(event)" class="form-grid">
                     <div class="input-group">
-                        <label>Título da Missão</label>
-                        <input type="text" name="title" required>
+                        <label>Título da Atividade</label>
+                        <input type="text" name="title" required placeholder="Ex: Jogo da Memória de Frações">
                     </div>
                     <div class="input-group">
-                        <label>URL da Atividade (Link)</label>
-                        <input type="url" name="activity_url" required>
+                        <label>URL / Link da Atividade (Jogo, Simulação ou Formulário)</label>
+                        <input type="url" name="activity_url" required placeholder="https://exemplo.com/jogo">
                     </div>
                     <div class="input-group">
                         <label>Disciplina</label>
-                        <input type="text" name="subject" placeholder="Ex: Matemática">
+                        <input type="text" name="subject" placeholder="Ex: Matemática, Robótica, Português...">
                     </div>
                     <div class="input-group">
-                        <label>BNCC (Opcional)</label>
-                        <input type="text" name="bncc_code">
+                        <label>Habilidade BNCC (Opcional)</label>
+                        <input type="text" name="bncc_code" placeholder="Ex: EF04MA03">
                     </div>
-                    <button type="submit" class="btn-submit">Criar Aula Privada</button>
+                    <div class="input-group" style="grid-column: 1 / -1;">
+                        <label>URL da Imagem de Capa (Opcional)</label>
+                        <input type="url" name="icon_url" placeholder="https://exemplo.com/capa.png">
+                    </div>
+
+                    <!-- Pergunta sobre inclusão no catálogo do site com crédito de autoria -->
+                    <div style="grid-column: 1 / -1; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 14px; padding: 18px; margin: 10px 0;">
+                        <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; color: #166534; font-size: 0.95rem; font-weight: 600;">
+                            <input type="checkbox" name="submit_public" value="true" style="width: 22px; height: 22px; margin-top: 2px; accent-color: #16a34a; flex-shrink: 0;">
+                            <div>
+                                <span style="font-size: 1rem; color: #14532d;">🚀 <strong>Autorizo adicionar esta atividade ao catálogo público do Lab Kids (após aprovação)</strong></span>
+                                <p style="font-weight: 400; color: #15803d; margin: 6px 0 0; font-size: 0.88rem; line-height: 1.45;">
+                                    Caso esta atividade seja autoral, seu nome receberá os devidos créditos de autoria como criador(a) em destaque no portal após ser revisada e aprovada pela nossa equipe pedagógica!
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit" style="grid-column: 1 / -1; padding: 14px; font-size: 1rem;">
+                        Salvar Minha Atividade ✨
+                    </button>
                 </form>
             </div>
 
@@ -319,22 +354,55 @@
                    const myActivities = activities.filter(a => a.teacher_id === teacher.id);
                    if(myActivities.length === 0) { 
                 %>
-                    <p style="color: var(--text-muted);">Você ainda não criou nenhuma aula própria.</p>
+                    <p style="color: var(--text-muted); font-size: 1.05rem; padding: 25px 0; text-align: center; width: 100%;">
+                        Você ainda não cadastrou nenhuma atividade própria. Clique em <strong>+ Nova Atividade</strong> acima para começar!
+                    </p>
                 <% } else {
                    myActivities.forEach(activity => { 
                 %>
-                    <div class="project-admin-card glass-panel" style="padding: 24px;">
-                        <h3 style="color: var(--accent);"><%= activity.title %></h3>
-                        <div style="margin: 10px 0;">
-                            <span class="badge" style="background: <%= activity.status === 'public' ? '#dcfce7' : (activity.status === 'pending' ? '#fef9c3' : '#f1f5f9') %>; color: #1e293b;">
-                                <%= activity.status === 'public' ? 'Pública' : (activity.status === 'pending' ? 'Aguardando Aprovação' : 'Privada') %>
-                            </span>
-                        </div>
-                        <div style="display: flex; gap: 10px; margin-top: 15px;">
-                            <button class="btn-submit" onclick="generateQR('<%= activity.id %>', '<%= activity.title %>', '<%= teacher.id %>')" style="flex: 1;">📱 QR Code</button>
-                            <% if (activity.status === 'private') { %>
-                                <button class="btn-submit" onclick="requestPublic('<%= activity.id %>')" style="flex: 1; background: #6366f1;">Solicitar Público</button>
+                    <div class="project-admin-card glass-panel" style="padding: 20px; border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <!-- Capa se existir -->
+                            <% if (activity.icon_url) { %>
+                                <div style="width: 100%; height: 130px; border-radius: 12px; overflow: hidden; margin-bottom: 12px; background: #f8fafc; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);">
+                                    <img src="<%= activity.icon_url %>" alt="<%= activity.title %>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='/img/robot-icon-192.png'; this.style.objectFit='contain'; this.style.padding='16px';">
+                                </div>
                             <% } %>
+
+                            <h3 style="color: var(--accent); margin: 0 0 6px 0; font-size: 1.15rem; line-height: 1.3;"><%= activity.title %></h3>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;">
+                                <span class="badge" style="background: <%= activity.status === 'public' ? '#dcfce7' : (activity.status === 'pending' ? '#fef9c3' : '#f1f5f9') %>; color: #1e293b; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700;">
+                                    <%= activity.status === 'public' ? '✓ Pública no Catálogo' : (activity.status === 'pending' ? '⏳ Em Análise' : '🔒 Privada (Somente sua)') %>
+                                </span>
+                                <% if (activity.subject) { %>
+                                    <span style="background: rgba(37,99,235,0.1); color: #2563eb; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 700;">
+                                        📚 <%= activity.subject %>
+                                    </span>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div>
+                            <!-- Botões de Ação: Testar / Abrir + Projetar / QR -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                <a href="<%= activity.activity_url %>" target="_blank" class="btn-submit" style="text-align: center; text-decoration: none; background: #0284c7; font-size: 0.85rem; padding: 10px 8px; font-weight: 700;" title="Abrir e testar o jogo agora">
+                                    ▶️ Testar / Abrir
+                                </a>
+                                <button class="btn-submit" onclick="openDatashow('<%= activity.id %>', '<%= activity.title.replace(/'/g, "\\'") %>', '<%= activity.subject || '' %>', '<%= activity.bncc_code || '' %>', '/qr/<%= activity.id %>')" style="background: linear-gradient(135deg, #6366f1, #4f46e5); font-size: 0.85rem; padding: 10px 8px; font-weight: 700;" title="Projetar na lousa com QR Code gigante para alunos">
+                                    🖥️ Projetar / QR
+                                </button>
+                            </div>
+
+                            <div style="display: flex; gap: 8px;">
+                                <% if (activity.status === 'private') { %>
+                                    <button class="btn-submit" onclick="requestPublic('<%= activity.id %>')" style="flex: 1; background: #16a34a; font-size: 0.82rem; padding: 8px 10px; font-weight: 700;" title="Sugerir inclusão no site com seus créditos de autoria">
+                                        🚀 Sugerir p/ Site
+                                    </button>
+                                <% } %>
+                                <button class="btn-submit" onclick="scheduleActivityPrompt('<%= activity.id %>')" style="flex: 1; background: #f8fafc; color: var(--text-main); border: 1px solid var(--border); font-size: 0.82rem; padding: 8px 10px; font-weight: 600;" title="Agendar aula no Calendário">
+                                    📅 Agendar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 <% }); } %>
@@ -575,7 +643,13 @@
                                             <%= sub.access_code %>
                                         </td>
                                         <td style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">
-                                            <%= new Date(sub.created_at).toLocaleString('pt-BR') %>
+                                            <% 
+                                                const subRaw = String(sub.created_at || '').trim();
+                                                const subUtc = (subRaw.includes('T') || subRaw.includes('Z')) 
+                                                    ? (subRaw.endsWith('Z') ? subRaw : subRaw + 'Z') 
+                                                    : subRaw.replace(' ', 'T') + 'Z';
+                                            %>
+                                            <%= sub.created_at ? new Date(subUtc).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : '-' %>
                                         </td>
                                         <td style="padding: 12px; text-align: center;">
                                             <button class="btn-submit" onclick="viewSubmissions('<%= sub.exam_id %>', '<%= sub.title.replace(/'/g, "\\'") %>')" style="padding: 6px 12px; font-size: 0.8rem;">
@@ -650,20 +724,34 @@
             e.preventDefault();
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
+            data.submit_public = !!e.target.querySelector('[name="submit_public"]:checked');
+            
             const res = await fetch('/api/teacher/activities/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            if (res.ok) location.reload();
+            const result = await res.json();
+            if (res.ok && result.success) {
+                if (data.submit_public) {
+                    alert('🎉 Atividade cadastrada com sucesso! Ela foi enviada para moderação pedagógica e será publicada no site com seus devidos créditos de autoria assim que aprovada.');
+                } else {
+                    alert('✨ Atividade criada com sucesso! Ela está salva no seu acervo pessoal para você testar, projetar e agendar com suas turmas.');
+                }
+                location.reload();
+            } else {
+                alert('Erro ao salvar atividade: ' + (result.error || 'Erro desconhecido'));
+            }
         }
 
         async function requestPublic(id) {
-            if (!confirm('Deseja solicitar que esta aula se torne pública? Ela passará por análise do administrador.')) return;
+            if (!confirm('Deseja solicitar que esta atividade seja adicionada ao catálogo público do Lab Kids? Ela passará por moderação pedagógica e você receberá créditos de autoria como criador(a).')) return;
             const res = await fetch(`/api/teacher/activities/request-public/${id}`, { method: 'POST' });
             if (res.ok) {
-                alert('Solicitação enviada!');
+                alert('🎉 Solicitação enviada com sucesso! Nossa equipe analisará e publicará no portal com seu nome.');
                 location.reload();
+            } else {
+                alert('Erro ao enviar solicitação.');
             }
         }
 
@@ -697,12 +785,21 @@
         async function scheduleActivityPrompt(activityId) {
             const date = prompt('Data para a aula (AAAA-MM-DD):', new Date().toISOString().split('T')[0]);
             if(!date) return;
-            await fetch('/api/teacher/planning/add', {
+            const res = await fetch('/api/teacher/planning/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ activity_id: activityId, planned_date: date })
             });
-            alert('Agendado no calendário!');
+            if (res.ok) {
+                alert('📅 Atividade agendada com sucesso no calendário da sua turma!');
+                location.reload();
+            }
+        }
+
+        async function deletePlanningItem(id) {
+            if(!confirm('Deseja desmarcar esta atividade da sua agenda?')) return;
+            const res = await fetch(`/api/teacher/planning/delete/${id}`, { method: 'POST' });
+            if(res.ok) location.reload();
         }
 
         function generateQR(id, title, teacherId) {
@@ -890,7 +987,11 @@
                         gabaritoText.push(`${i}:${answers[i] || '-'}`);
                     }
                     
-                    const dateStr = new Date(s.created_at).toLocaleString('pt-BR');
+                    const sRaw = String(s.created_at || '').trim();
+                    const sUtc = (sRaw.includes('T') || sRaw.includes('Z')) 
+                        ? (sRaw.endsWith('Z') ? sRaw : sRaw + 'Z') 
+                        : sRaw.replace(' ', 'T') + 'Z';
+                    const dateStr = s.created_at ? new Date(sUtc).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : '-';
                     
                     tableHtml += `
                         <tr style="border-bottom: 1px solid var(--border);">
