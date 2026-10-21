@@ -22,7 +22,13 @@
         body, html {
             width: 100%;
             height: 100%;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overscroll-behavior: none;
             background-color: #0d0806;
             font-family: 'Outfit', sans-serif;
             color: #fff;
@@ -133,7 +139,7 @@
         /* HUD Overlays (Scroll, Target, Score, Belt, Live Hits & Misses) */
         .hud-overlay {
             position: absolute;
-            top: 60px;
+            top: 10px;
             left: 0;
             right: 0;
             pointer-events: none;
@@ -148,11 +154,11 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            top: 6px;
+            top: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             pointer-events: auto;
         }
 
@@ -1592,6 +1598,64 @@
             .mascot-avatar-frame {
                 width: 68px;
                 height: 68px;
+            }
+        }
+
+        /* Mobile Landscape Optimization */
+        @media (max-height: 520px) {
+            .top-bar {
+                height: 38px;
+                padding: 0 10px;
+            }
+            .top-bar .btn-top {
+                padding: 4px 8px;
+                font-size: 0.72rem;
+            }
+            .top-bar .arena-badge-top,
+            .top-bar #speed-btn,
+            .top-bar button[title="Ver Conquistas Digitais"],
+            .top-bar button[title="Diploma Ninja de Honra"],
+            .top-bar button[title="Ranking Geral do Dojo"],
+            .top-bar button[title="Loja de Katanas e Lâminas"] {
+                display: none;
+            }
+            #game-container {
+                top: 38px;
+            }
+            .hud-overlay {
+                top: 4px;
+                padding: 0 8px;
+            }
+            .target-container {
+                top: 0;
+                gap: 2px;
+            }
+            .target-scroll {
+                padding: 2px 14px;
+                min-width: 160px;
+                border-radius: 12px;
+                border-width: 2px;
+            }
+            .target-label {
+                font-size: 0.6rem;
+                letter-spacing: 0.5px;
+            }
+            .target-equation {
+                font-size: 1.4rem;
+            }
+            .hud-stats {
+                gap: 3px;
+            }
+            .stat-pill {
+                padding: 2px 8px;
+                font-size: 0.74rem;
+                gap: 4px;
+            }
+            .mascot-widget {
+                bottom: 6px;
+                left: 6px;
+                transform: scale(0.7);
+                transform-origin: bottom left;
             }
         }
     </style>
@@ -3745,6 +3809,7 @@
 
         // --- Spawner Logic ---
         let lastSpawnTime = 0;
+        let spawnerWatchdogTime = 0;
         function updateSpawner() {
             if (gameState !== 'PLAYING') return;
 
@@ -3773,9 +3838,25 @@
             }
 
             // Modo Normal: 1 onda pedagógica por vez
-            const fruitsRemaining = activeFruits.filter(f => !f.isHalf).length;
-            if (fruitsRemaining === 0 && now > waveTimer) {
+            // Frutas ativas não cortadas da rodada atual
+            const activeUncutFruits = activeFruits.filter(f => !f.isHalf && !f.sliced);
+
+            if (activeUncutFruits.length === 0 && now > waveTimer) {
+                activeFruits = activeFruits.filter(f => f.isHalf);
+                spawnerWatchdogTime = 0;
                 spawnWave();
+            } else if (activeUncutFruits.length === 0) {
+                // Watchdog de Segurança: se não há nenhuma fruta ativa por mais de 2 segundos, destrava e gera nova onda
+                if (!spawnerWatchdogTime) {
+                    spawnerWatchdogTime = now;
+                } else if (now - spawnerWatchdogTime > 2000) {
+                    spawnerWatchdogTime = 0;
+                    activeFruits = activeFruits.filter(f => f.isHalf);
+                    nextTarget();
+                    spawnWave();
+                }
+            } else {
+                spawnerWatchdogTime = 0;
             }
         }
 
@@ -4112,16 +4193,26 @@
         function initEvents() {
             const container = document.getElementById('game-container');
 
+            function getCanvasCoords(clientX, clientY) {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: (clientX - rect.left) * (width / (rect.width || 1)),
+                    y: (clientY - rect.top) * (height / (rect.height || 1))
+                };
+            }
+
             container.addEventListener('mousedown', (e) => {
                 isSwiping = true;
-                addSwipePoint(e.clientX, e.clientY - 52);
+                const pt = getCanvasCoords(e.clientX, e.clientY);
+                addSwipePoint(pt.x, pt.y);
                 sound.playSwoosh();
                 tryStartMusic();
             });
 
             window.addEventListener('mousemove', (e) => {
                 if (!isSwiping) return;
-                addSwipePoint(e.clientX, e.clientY - 52);
+                const pt = getCanvasCoords(e.clientX, e.clientY);
+                addSwipePoint(pt.x, pt.y);
                 checkSlices();
             });
 
@@ -4132,7 +4223,8 @@
             container.addEventListener('touchstart', (e) => {
                 isSwiping = true;
                 const touch = e.touches[0];
-                addSwipePoint(touch.clientX, touch.clientY - 52);
+                const pt = getCanvasCoords(touch.clientX, touch.clientY);
+                addSwipePoint(pt.x, pt.y);
                 sound.playSwoosh();
                 tryStartMusic();
             }, { passive: false });
@@ -4140,7 +4232,8 @@
             window.addEventListener('touchmove', (e) => {
                 if (!isSwiping) return;
                 const touch = e.touches[0];
-                addSwipePoint(touch.clientX, touch.clientY - 52);
+                const pt = getCanvasCoords(touch.clientX, touch.clientY);
+                addSwipePoint(pt.x, pt.y);
                 checkSlices();
             }, { passive: false });
 
@@ -4250,6 +4343,7 @@
 
             // 1. Bomba Ninja
             if (fruit.isBomb) {
+                activeFruits = activeFruits.filter(f => f !== fruit);
                 if (hasShield) {
                     hasShield = false;
                     updateShieldHUD();
@@ -4277,6 +4371,7 @@
 
             // Power-Up: Pergaminho do Sensei 📜 (Ganha Escudo Ninja 🛡️)
             if (fruit.isSenseiScroll) {
+                activeFruits = activeFruits.filter(f => f !== fruit);
                 sound.playShieldGain();
                 hasShield = true;
                 updateShieldHUD();
@@ -4293,6 +4388,7 @@
 
             // 2. Power-Up: Gelo Ninja ❄️ (Slow-Motion)
             if (fruit.isPowerUp === 'ice') {
+                activeFruits = activeFruits.filter(f => f !== fruit);
                 sound.playIce();
                 slowMoUntil = Date.now() + 6000;
                 score += 25;
@@ -4306,6 +4402,7 @@
 
             // 3. Power-Up: Raio Ninja ⚡ (Zaps Wrong Fruits)
             if (fruit.isPowerUp === 'lightning') {
+                activeFruits = activeFruits.filter(f => f !== fruit);
                 sound.playThunder();
                 score += 25;
                 addCoins(10);
@@ -4314,18 +4411,22 @@
                 spawnFloatingText(fruit.x, fruit.y, '⚡ RAIO NINJA! ⚡', '#facc15', 32);
                 setMascotMood('attack', 'Raio exterminador!');
 
+                const toRemove = [];
                 activeFruits.forEach(other => {
                     if (!other.sliced && other.value !== currentTarget.answer && !other.isHalf && !other.isBomb) {
                         other.sliced = true;
+                        toRemove.push(other);
                         createExplosion(other.x, other.y, '#facc15');
                         lightningBolts.push({ x1: fruit.x, y1: fruit.y, x2: other.x, y2: other.y, time: Date.now() });
                     }
                 });
+                activeFruits = activeFruits.filter(f => !toRemove.includes(f));
                 return;
             }
 
             // 4. Fruta Especial de FISSÃO: Multiplica em 3 mini-frutas
             if (fruit.isSpecialMulti) {
+                activeFruits = activeFruits.filter(f => f !== fruit);
                 sound.playFission();
                 score += 30;
                 addCoins(15);
@@ -4388,6 +4489,7 @@
 
             // 7. Fruta Dourada Original de Frenesi
             if (fruit.isGolden) {
+                activeFruits = activeFruits.filter(f => f !== fruit);
                 sound.playFrenzy();
                 frenzyMode = true;
                 frenzyTimer = Date.now() + 6500;
@@ -4487,13 +4589,13 @@
                 }
                 activeFruits = activeFruits.filter(f => f.isHalf);
 
-                waveTimer = Date.now() + 1100;
+                waveTimer = Date.now() + 1000;
                 setTimeout(() => {
                     if (gameState === 'PLAYING') {
                         nextTarget();
                         spawnWave();
                     }
-                }, 1100);
+                }, 1000);
 
             } else {
                 if (hasShield) {
@@ -4509,6 +4611,7 @@
                 }
                 sound.playWrong();
                 missesCount++;
+                document.getElementById('live-misses').innerText = missesCount;
                 if (gameMode === 'classic') {
                     hearts--;
                     updateHeartsHUD();
@@ -4531,11 +4634,31 @@
 
                 if (gameMode === 'classic' && hearts <= 0) {
                     gameOver("Você errou as contas e perdeu todas as 5 vidas!");
+                    return;
                 }
+
+                // Finaliza a rodada em caso de erro para evitar que as outras frutas caiam e dupliquem a penalidade
+                for (let other of activeFruits) {
+                    if (!other.sliced && other !== fruit && !other.isHalf) {
+                        other.sliced = true;
+                        createConfettiPoof(other.x, other.y);
+                    }
+                }
+                activeFruits = activeFruits.filter(f => f.isHalf);
+
+                waveTimer = Date.now() + 1050;
+                setTimeout(() => {
+                    if (gameState === 'PLAYING' && (gameMode !== 'classic' || hearts > 0)) {
+                        nextTarget();
+                        spawnWave();
+                    }
+                }, 1050);
             }
         }
 
         function splitFruitHalves(fruit, p1, p2) {
+            activeFruits = activeFruits.filter(f => f !== fruit);
+
             const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
             const normalX = -Math.sin(angle);
             const normalY = Math.cos(angle);
@@ -5023,7 +5146,7 @@
                 f.y += f.vy * timeScale;
                 f.angle += f.vAngle * timeScale;
 
-                if (f.y > height + 90 && f.vy > 0) {
+                if ((f.y > height + 90 && f.vy > 0) || f.x < -180 || f.x > width + 180) {
                     if (!f.sliced && !f.isHalf && !f.isFrenzyBonus && !f.isPowerUp && !f.isSpecialMulti && !f.isBomb && !f.isSenseiScroll && String(f.value) === String(currentTarget?.answer) && gameState === 'PLAYING') {
                         combo = 0;
                         deactivateFeverMode();
@@ -5059,12 +5182,22 @@
                             spawnFloatingText(width / 2, height * 0.45, 'Tempo esgotado! Tente novamente!', '#f59e0b', 24);
                         }
 
+                        // Remove todas as outras frutas não-metades dessa rodada caída
+                        for (let other of activeFruits) {
+                            if (!other.sliced && other !== f && !other.isHalf) {
+                                other.sliced = true;
+                            }
+                        }
+                        activeFruits = activeFruits.filter(item => item.isHalf);
+
                         waveTimer = Date.now() + 1000;
                         setTimeout(() => {
                             if (gameState === 'PLAYING' && (gameMode !== 'classic' || hearts > 0)) {
                                 nextTarget();
+                                spawnWave();
                             }
                         }, 900);
+                        continue;
                     }
                     activeFruits.splice(i, 1);
                     continue;
