@@ -1489,8 +1489,12 @@
 
                 <!-- 1. BNCC Category Picker -->
                 <div class="level-picker" id="bncc-picker">
-                    <div class="level-btn active" onclick="selectLevel('1-2', this)">
-                        <h4>🟢 1º e 2º Ano</h4>
+                    <div class="level-btn active" onclick="selectLevel('1', this)">
+                        <h4>🟢 1º Ano (Fácil até 10)</h4>
+                        <p>Continhas bem simples de 1 a 10 (+ e -)</p>
+                    </div>
+                    <div class="level-btn" onclick="selectLevel('2', this)">
+                        <h4>🟢 2º Ano (até 50)</h4>
                         <p>Adições e Subtrações até 20 e até 50</p>
                     </div>
                     <div class="level-btn" onclick="selectLevel('3', this)">
@@ -1505,9 +1509,9 @@
                         <h4>📐 Frações & Geometria</h4>
                         <p>Metades (1/2), quartos (1/4) e polígonos</p>
                     </div>
-                    <div class="level-btn" onclick="selectLevel('mestre', this)" style="grid-column: span 2;">
-                        <h4>⚡ Mestre Ninja (Desafio Completo)</h4>
-                        <p>Todas as operações, tabuadas e operações inversas</p>
+                    <div class="level-btn" onclick="selectLevel('mestre', this)">
+                        <h4>⚡ Mestre Ninja</h4>
+                        <p>Todas as operações, tabuadas e incógnitas</p>
                     </div>
                 </div>
 
@@ -1672,7 +1676,8 @@
 
                 <!-- Leaderboard Tabs -->
                 <div class="leaderboard-tabs">
-                    <button class="lb-tab active" onclick="switchLbTab('1-2', this)">🟢 1º/2º Ano</button>
+                    <button class="lb-tab active" onclick="switchLbTab('1', this)">🟢 1º Ano</button>
+                    <button class="lb-tab" onclick="switchLbTab('2', this)">🟢 2º Ano</button>
                     <button class="lb-tab" onclick="switchLbTab('3', this)">🟡 3º Ano</button>
                     <button class="lb-tab" onclick="switchLbTab('4-5', this)">🔴 4º/5º Ano</button>
                     <button class="lb-tab" onclick="switchLbTab('geometria', this)">📐 Frações</button>
@@ -2364,14 +2369,16 @@
             }
         }
 
-        // --- Belt Progression ---
+        // --- Belt Progression (Calibrado com precisão para aulas de 50 minutos) ---
         const BELTS = [
             { name: "Faixa Branca", minScore: 0, color: "#f8fafc", icon: "🥋" },
-            { name: "Faixa Amarela", minScore: 300, color: "#facc15", icon: "🟡" },
-            { name: "Faixa Verde", minScore: 800, color: "#22c55e", icon: "🟢" },
-            { name: "Faixa Azul", minScore: 1600, color: "#3b82f6", icon: "🔵" },
-            { name: "Faixa Vermelha", minScore: 2600, color: "#ef4444", icon: "🔴" },
-            { name: "Faixa Preta", minScore: 4000, color: "#18181b", icon: "👑" }
+            { name: "Faixa Amarela", minScore: 1500, color: "#facc15", icon: "🟡" },
+            { name: "Faixa Laranja", minScore: 3800, color: "#fb923c", icon: "🟠" },
+            { name: "Faixa Verde", minScore: 7000, color: "#22c55e", icon: "🟢" },
+            { name: "Faixa Azul", minScore: 11500, color: "#3b82f6", icon: "🔵" },
+            { name: "Faixa Roxa", minScore: 17000, color: "#a855f7", icon: "🟣" },
+            { name: "Faixa Marrom", minScore: 24000, color: "#92400e", icon: "🟤" },
+            { name: "Faixa Preta", minScore: 32000, color: "#18181b", icon: "👑" }
         ];
 
         // --- Blade Config (5 Lâminas Mágicas do Dojo) ---
@@ -2441,7 +2448,7 @@
         let canvas, ctx;
         let width, height;
         let selectedTab = 'bncc'; // 'bncc' or 'custom'
-        let selectedLevel = '1-2';
+        let selectedLevel = '1';
         let selectedBlade = localStorage.getItem('ninja_equipped_blade') || 'steel';
         let gameMode = 'classic'; // 'classic', 'blitz', 'zen'
         let gameState = 'MENU'; // MENU, PLAYING, PAUSED, BELT_PROMOTION, GAMEOVER
@@ -2561,12 +2568,28 @@
                 return { text: item.text, answer: item.answer, distractors: item.distractors };
             }
 
-            if (selectedLevel === '1-2') {
+            if (selectedLevel === '1') {
+                // 1º Ano (BNCC EF01MA06/08): Contas bem simples de 1 a 10 (adição e subtração direta)
                 const isSub = Math.random() > 0.5;
-                const isInverse = Math.random() < 0.3;
                 if (isSub) {
-                    num1 = Math.floor(Math.random() * 15) + 6;
-                    num2 = Math.floor(Math.random() * 5) + 1;
+                    num1 = Math.floor(Math.random() * 8) + 3; // 3 a 10
+                    num2 = Math.floor(Math.random() * (num1 - 1)) + 1; // 1 a num1 - 1 (garante resposta >= 1)
+                    answer = num1 - num2;
+                    text = `${num1} - ${num2} = ?`;
+                } else {
+                    num1 = Math.floor(Math.random() * 5) + 1; // 1 a 5
+                    num2 = Math.floor(Math.random() * 5) + 1; // 1 a 5
+                    answer = num1 + num2;
+                    text = `${num1} + ${num2} = ?`;
+                }
+                return { text, answer };
+            } else if (selectedLevel === '2' || selectedLevel === '1-2') {
+                // 2º Ano: Adições e Subtrações até 20 e até 50
+                const isSub = Math.random() > 0.5;
+                const isInverse = Math.random() < 0.2;
+                if (isSub) {
+                    num1 = Math.floor(Math.random() * 20) + 10;
+                    num2 = Math.floor(Math.random() * 8) + 2;
                     if (isInverse) {
                         text = `${num1} - ? = ${num1 - num2}`;
                         answer = num2;
@@ -2575,8 +2598,8 @@
                         answer = num1 - num2;
                     }
                 } else {
-                    num1 = Math.floor(Math.random() * 12) + 2;
-                    num2 = Math.floor(Math.random() * 9) + 1;
+                    num1 = Math.floor(Math.random() * 15) + 5;
+                    num2 = Math.floor(Math.random() * 12) + 2;
                     if (isInverse) {
                         text = `? + ${num2} = ${num1 + num2}`;
                         answer = num1;
@@ -2585,6 +2608,7 @@
                         answer = num1 + num2;
                     }
                 }
+                return { text, answer };
             } else if (selectedLevel === '3') {
                 const tables = [2, 3, 4, 5, 10];
                 num1 = tables[Math.floor(Math.random() * tables.length)];
@@ -3044,13 +3068,13 @@
         function updateMascotAppearance(beltIdx) {
             const img = document.getElementById('mascot-img');
             const tag = document.getElementById('mascot-tag');
-            if (beltIdx >= 4) { // Faixa Vermelha e Preta -> Dragão Ryu
+            if (beltIdx >= 6) { // Faixa Marrom e Preta -> Dragão Ryu
                 img.src = 'mascot-dragon.jpg';
                 tag.innerText = '🐉 Dragão Ryu';
-            } else if (beltIdx >= 2) { // Faixa Verde e Azul -> Kitsune Ninja
+            } else if (beltIdx >= 3) { // Faixa Verde, Azul e Roxa -> Kitsune Ninja
                 img.src = 'mascot-fox.jpg';
                 tag.innerText = '🦊 Kitsune Ninja';
-            } else { // Faixa Branca e Amarela -> Panda Po
+            } else { // Faixa Branca, Amarela e Laranja -> Panda Po
                 img.src = 'mascot-panda.jpg';
                 tag.innerText = '🐼 Panda Po';
             }
@@ -3112,10 +3136,10 @@
 
             waveCount++;
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
-            const count = (selectedLevel === '1-2' && selectedTab === 'bncc') ? 2 : 3;
+            const count = (selectedLevel === '1' || (selectedLevel === '2' && Math.random() < 0.5)) ? 2 : 3;
 
-            // Trigger Boss Fight every 10 waves in Classic mode if not yet active
-            if (gameMode === 'classic' && waveCount % 10 === 0 && !bossActive && Math.random() < 0.7) {
+            // Trigger Boss Fight every 12 waves in Classic mode if not yet active
+            if (gameMode === 'classic' && waveCount % 12 === 0 && !bossActive && Math.random() < 0.7) {
                 triggerBossFight();
             }
 
@@ -3143,8 +3167,8 @@
                 spawnPowerUpFruit('lightning', width * 0.55);
             }
 
-            // Fruta da Fissão (multiplica em 3) (18% chance)
-            if (!frenzyMode && (waveCount % 5 === 0 || Math.random() < 0.18) && !activeFruits.some(f => f.isSpecialMulti || f.isPowerUp)) {
+            // Fruta da Fissão (multiplica em 3) (16% chance)
+            if (!frenzyMode && (waveCount % 6 === 0 || Math.random() < 0.16) && !activeFruits.some(f => f.isSpecialMulti || f.isPowerUp)) {
                 spawnSpecialMultiFruit(width * 0.5);
             }
 
@@ -3153,28 +3177,29 @@
                 spawnFruit(true, false, width * 0.5);
             }
 
-            // Bomba Ninja (apenas no modo clássico e acima do 2º ano)
-            if (gameMode === 'classic' && !frenzyMode && selectedLevel !== '1-2' && Math.random() < 0.14 && !activeFruits.some(f => f.isBomb)) {
+            // Bomba Ninja (apenas no modo clássico e do 3º ano em diante)
+            if (gameMode === 'classic' && !frenzyMode && selectedLevel !== '1' && selectedLevel !== '2' && Math.random() < 0.14 && !activeFruits.some(f => f.isBomb)) {
                 spawnBomb();
             }
 
-            // Distratores
+            // Distratores protegidos contra loops infinitos e travamento do jogo
             let distractors = [];
-            if (currentTarget.distractors) {
+            if (currentTarget.distractors && Array.isArray(currentTarget.distractors)) {
                 distractors = [...currentTarget.distractors];
             } else {
-                const usedValues = new Set([currentTarget.answer]);
-                for (let i = 0; i < count; i++) {
-                    if (i === correctIndex) continue;
-                    let offset = (Math.floor(Math.random() * 4) + 1) * (Math.random() < 0.5 ? 1 : -1);
-                    let val = Math.max(1, currentTarget.answer + offset);
-                    while (usedValues.has(val)) {
-                        offset = (offset > 0) ? offset + 1 : offset - 1;
-                        val = Math.max(1, currentTarget.answer + offset);
+                const ans = Number(currentTarget.answer) || 5;
+                const pool = [ans + 1, Math.max(1, ans - 1), ans + 2, Math.max(1, ans - 2), ans + 3, Math.max(1, ans - 3), ans + 4, ans + 5];
+                const unique = [];
+                for (let c of pool) {
+                    if (c !== ans && !unique.includes(c)) {
+                        unique.push(c);
+                        if (unique.length >= count) break;
                     }
-                    usedValues.add(val);
-                    distractors.push(val);
                 }
+                while (unique.length < count) {
+                    unique.push(ans + unique.length + 1);
+                }
+                distractors = unique;
             }
 
             let distractorIdx = 0;
@@ -3532,7 +3557,7 @@
             if (fruit.isPowerUp === 'ice') {
                 sound.playIce();
                 slowMoUntil = Date.now() + 6000;
-                score += 150;
+                score += 25;
                 addCoins(10);
                 updateScoreHUD();
                 createExplosion(fruit.x, fruit.y, '#38bdf8');
@@ -3544,7 +3569,7 @@
             // 3. Power-Up: Raio Ninja ⚡ (Zaps Wrong Fruits)
             if (fruit.isPowerUp === 'lightning') {
                 sound.playThunder();
-                score += 150;
+                score += 25;
                 addCoins(10);
                 updateScoreHUD();
                 createExplosion(fruit.x, fruit.y, '#facc15');
@@ -3564,7 +3589,7 @@
             // 4. Fruta Especial de FISSÃO: Multiplica em 3 mini-frutas
             if (fruit.isSpecialMulti) {
                 sound.playFission();
-                score += 150;
+                score += 30;
                 addCoins(15);
                 updateScoreHUD();
                 createExplosion(fruit.x, fruit.y, '#38bdf8');
@@ -3586,7 +3611,7 @@
                         vAngle: (Math.random() - 0.5) * 0.04,
                         radius: 36,
                         template: templates[idx],
-                        value: '⭐100',
+                        value: '⭐15',
                         isGolden: false,
                         isSpecialMulti: false,
                         isPowerUp: null,
@@ -3602,10 +3627,10 @@
             // 5. Mini-Fruta cortada
             if (fruit.isMini) {
                 sound.playCorrect();
-                score += 100;
-                addCoins(5);
+                score += 15;
+                addCoins(3);
                 updateScoreHUD();
-                spawnFloatingText(fruit.x, fruit.y, '⭐ +100!', '#facc15', 28);
+                spawnFloatingText(fruit.x, fruit.y, '⭐ +15!', '#facc15', 28);
                 createJuiceSplash(fruit.x, fruit.y, fruit.template.innerColor);
                 splitFruitHalves(fruit, p1, p2);
                 return;
@@ -3614,10 +3639,10 @@
             // 6. Fruta Bônus de Frenesi
             if (fruit.isFrenzyBonus) {
                 sound.playCorrect();
-                score += 50;
-                addCoins(3);
+                score += 10;
+                addCoins(2);
                 updateScoreHUD();
-                spawnFloatingText(fruit.x, fruit.y, '⭐ +50', '#facc15', 24);
+                spawnFloatingText(fruit.x, fruit.y, '⭐ +10', '#facc15', 24);
                 createExplosion(fruit.x, fruit.y, '#facc15');
                 splitFruitHalves(fruit, p1, p2);
                 return;
@@ -3628,8 +3653,8 @@
                 sound.playFrenzy();
                 frenzyMode = true;
                 frenzyTimer = Date.now() + 5000;
-                score += 300;
-                addCoins(25);
+                score += 50;
+                addCoins(20);
                 updateScoreHUD();
                 document.getElementById('frenzy-banner').classList.add('show');
                 createExplosion(fruit.x, fruit.y, '#facc15');
@@ -3644,7 +3669,8 @@
             if (isAnswerMatch) {
                 sound.playCorrect();
                 hitsCount++;
-                const points = 100 * (combo > 1 ? combo : 1);
+                const comboBonus = (combo > 1) ? Math.min(50, combo * 10) : 0;
+                const points = 100 + comboBonus;
                 score += points;
                 addCoins(5);
                 updateScoreHUD();
@@ -3664,12 +3690,12 @@
                     if (bossHp <= 0) {
                         bossActive = false;
                         shogunDefeatedCount++;
-                        score += 500;
+                        score += 150;
                         addCoins(100); // 100 moedas ao vencer o Shogun!
                         updateScoreHUD();
                         document.getElementById('boss-hud').style.display = 'none';
                         sound.playAchievement();
-                        spawnFloatingText(width / 2, height * 0.4, '🏆 SHOGUN DERROTADO! +100 MOEDAS +500 PTS!', '#facc15', 34);
+                        spawnFloatingText(width / 2, height * 0.4, '🏆 SHOGUN DERROTADO! +100 MOEDAS +150 PTS!', '#facc15', 34);
                         createExplosion(width / 2, height * 0.4, '#facc15');
                         setMascotMood('happy', 'Vencemos o Shogun!');
 
@@ -4469,7 +4495,7 @@
             list.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span>${unlockedAchievements.blackBelt ? '👑' : '🔒'}</span>
-                    <span><strong>Graduação de Faixa Preta:</strong> ${unlockedAchievements.blackBelt ? '<span style="color:#4ade80;">DESBLOQUEADO (4000 pts)</span>' : '<span style="color:#9ca3af;">Alcance 4000 pts no Dojo</span>'}</span>
+                    <span><strong>Graduação de Faixa Preta:</strong> ${unlockedAchievements.blackBelt ? '<span style="color:#4ade80;">DESBLOQUEADO (32.000 pts)</span>' : '<span style="color:#9ca3af;">Alcance 32.000 pts no Dojo</span>'}</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <span>${unlockedAchievements.shogunSlayer || shogunDefeatedCount > 0 ? '👹' : '🔒'}</span>
@@ -4753,7 +4779,7 @@
 
         function openLeaderboardModal() {
             document.getElementById('leaderboard-modal').style.display = 'flex';
-            switchLbTab(currentLbTab || '1-2');
+            switchLbTab(currentLbTab || '1');
         }
 
         function closeLeaderboardModal() {
@@ -4870,7 +4896,7 @@
             }
             document.getElementById('diploma-belt-icon').innerText = curBelt.icon;
             document.getElementById('diploma-belt-name').innerText = `${curBelt.name}`;
-            document.getElementById('diploma-score').innerText = Math.max(score, 500);
+            document.getElementById('diploma-score').innerText = score;
             const total = hitsCount + missesCount;
             const accuracy = total > 0 ? Math.round((hitsCount / total) * 100) : 100;
             document.getElementById('diploma-accuracy').innerText = `${accuracy}%`;
@@ -4991,7 +5017,7 @@
 
             // Métricas em caixas
             const metrics = [
-                { label: 'PONTUAÇÃO', val: String(Math.max(score, 500)) },
+                { label: 'PONTUAÇÃO', val: String(score) },
                 { label: 'APROVEITAMENTO', val: `${Math.round(((hitsCount || 1) / Math.max(1, hitsCount + missesCount)) * 100)}%` },
                 { label: 'MAIOR COMBO', val: `x${Math.max(maxCombo, 1)}` },
                 { label: 'SHOGUNS', val: String(shogunDefeatedCount) }

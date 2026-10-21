@@ -11,7 +11,7 @@ const fs = require('fs');
 const dbHelper = require('./db');
 const mailService = require('./mailService');
 // Supabase fully decommissioned. All operations run via Turso Cloud (libsql).
-// Ninja Math v2.5 - Leaderboard API, Virtual Keyboard, Dojo Shop, Zen Mode, Bullet Time, Shogun Boss, Personal Diploma, Inverse Math
+// Ninja Math v2.6 - Calibrated 50min Belts, Safe Distractor Loop (No-Freeze), Ultra-Easy 1st Grade Math (1-10)
 const supabase = null;
 
 const app = express();

@@ -1040,8 +1040,13 @@ const dbHelper = {
           args.push(difficulty);
         }
         if (grade_level && grade_level !== 'ALL') {
-          sql += ` AND grade_level = ?`;
-          args.push(grade_level);
+          if (grade_level === '1' || grade_level === '2') {
+            sql += ` AND (grade_level = ? OR grade_level = '1-2')`;
+            args.push(grade_level);
+          } else {
+            sql += ` AND grade_level = ?`;
+            args.push(grade_level);
+          }
         }
       }
 
