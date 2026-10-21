@@ -33,14 +33,14 @@
             left: 0;
             right: 0;
             height: 52px;
-            background: rgba(13, 8, 6, 0.9);
+            background: rgba(13, 8, 6, 0.92);
             border-bottom: 2px solid #eab308;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
             z-index: 1000;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
         }
 
@@ -74,6 +74,7 @@
         .btn-portal {
             background: linear-gradient(135deg, #ef4444, #b91c1c);
             box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            border-color: #f87171;
         }
 
         .game-logo {
@@ -84,6 +85,21 @@
             align-items: center;
             gap: 8px;
             text-shadow: 0 2px 8px rgba(245, 158, 11, 0.5);
+        }
+
+        .arena-badge-top {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1.5px solid #f59e0b;
+            color: #fde047;
+            font-weight: 800;
+            font-size: 0.78rem;
+            padding: 5px 12px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
         }
 
         /* Canvas Arena */
@@ -165,7 +181,7 @@
         }
 
         .stat-pill {
-            background: rgba(15, 23, 42, 0.75);
+            background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(6px);
             border: 2px solid rgba(255, 255, 255, 0.15);
             border-radius: 50px;
@@ -195,7 +211,7 @@
             position: absolute;
             inset: 0;
             background: rgba(8, 5, 4, 0.88);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -208,7 +224,7 @@
             border: 3px solid #f59e0b;
             border-radius: 28px;
             padding: 32px;
-            max-width: 540px;
+            max-width: 560px;
             width: 100%;
             text-align: center;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(245, 158, 11, 0.25);
@@ -310,13 +326,13 @@
         .blade-selector {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 24px;
         }
 
         .blade-item {
-            width: 52px;
-            height: 52px;
+            width: 54px;
+            height: 54px;
             border-radius: 14px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.05);
@@ -382,6 +398,31 @@
             transform: translateX(-50%) scale(1);
         }
 
+        /* Map / Arena Transition Banner */
+        .arena-banner {
+            position: absolute;
+            top: 135px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            color: #fef08a;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.55rem;
+            padding: 10px 28px;
+            border-radius: 50px;
+            border: 2.5px solid #a5b4fc;
+            box-shadow: 0 0 35px rgba(99, 102, 241, 0.7);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            pointer-events: none;
+            z-index: 70;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+        }
+
+        .arena-banner.show {
+            transform: translateX(-50%) scale(1);
+        }
+
         @media (max-width: 600px) {
             .target-scroll {
                 padding: 6px 16px;
@@ -396,10 +437,16 @@
             .modal-card {
                 padding: 20px;
             }
+            .arena-badge-top {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Audio Element: Trilha Sonora Ninja de Alta Energia -->
+    <audio id="bgm" src="ninja-theme.mp3" loop preload="auto"></audio>
 
     <!-- Header Navigation -->
     <header class="top-bar">
@@ -410,13 +457,19 @@
             <div class="game-logo">
                 <span>🥷 NINJA MATH</span>
             </div>
+            <div class="arena-badge-top" id="top-arena-badge">
+                ⛩️ Dojo do Mestre
+            </div>
         </div>
         <div class="top-right">
             <button class="btn-top" onclick="cycleSpeed()" id="speed-btn" title="Velocidade das Frutas" style="background: rgba(34, 197, 94, 0.25); border-color: #22c55e; color: #4ade80;">
                 🐢 CALMO
             </button>
-            <button class="btn-top" onclick="toggleMute()" id="mute-btn" title="Ligar/Desligar Sons">
-                🔊 SOM
+            <button class="btn-top" onclick="toggleMusic()" id="music-btn" title="Ligar/Desligar Música de Batalha">
+                🎵 MÚSICA
+            </button>
+            <button class="btn-top" onclick="toggleMute()" id="mute-btn" title="Ligar/Desligar Efeitos Sonoros">
+                🔊 SONS
             </button>
             <button class="btn-top" onclick="toggleFullScreen()" title="Tela Cheia">
                 ⛶ EXPANDIR
@@ -463,6 +516,11 @@
             🍉 FRENESI NINJA! CORTE TUDO! ⚡
         </div>
 
+        <!-- Arena Change Banner -->
+        <div class="arena-banner" id="arena-banner">
+            ⛩️ NOVO MAPA: Floresta de Bambu!
+        </div>
+
         <!-- Start / Difficulty Screen -->
         <div class="modal-screen" id="start-modal">
             <div class="modal-card">
@@ -505,7 +563,7 @@
                     </div>
                 </div>
 
-                <!-- Blade Skin Picker -->
+                <!-- Blade Skin Picker (SEM ARCO-ÍRIS - LÂMINAS AUTÊNTICAS NINJA) -->
                 <div style="margin-bottom: 8px; font-weight: 700; font-size: 0.85rem; color: #fbbf24; text-transform: uppercase;">
                     Escolha a sua Lâmina:
                 </div>
@@ -513,7 +571,7 @@
                     <div class="blade-item selected" onclick="selectBlade('steel', this)" title="Katana de Aço">⚔️</div>
                     <div class="blade-item" onclick="selectBlade('lightning', this)" title="Lâmina de Trovão">⚡</div>
                     <div class="blade-item" onclick="selectBlade('fire', this)" title="Espada de Fogo">🔥</div>
-                    <div class="blade-item" onclick="selectBlade('rainbow', this)" title="Lâmina do Mestre">🌈</div>
+                    <div class="blade-item" onclick="selectBlade('shadow', this)" title="Katana das Sombras">🥷</div>
                 </div>
 
                 <button class="btn-play-big" onclick="startGame()">
@@ -598,7 +656,6 @@
             playSlice() {
                 if (this.isMuted || !this.ctx) return;
                 try {
-                    // Crisp metallic slash + juicy pop
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'triangle';
@@ -613,7 +670,7 @@
                     osc.start();
                     osc.stop(this.ctx.currentTime + 0.15);
 
-                    // High snap
+                    // High metallic snap
                     const snap = this.ctx.createOscillator();
                     const snapGain = this.ctx.createGain();
                     snap.type = 'sine';
@@ -631,7 +688,6 @@
             playCorrect() {
                 if (this.isMuted || !this.ctx) return;
                 try {
-                    // Bright ascending chime (ding-ding!)
                     [587.33, 880.00].forEach((freq, idx) => {
                         const osc = this.ctx.createOscillator();
                         const gain = this.ctx.createGain();
@@ -668,7 +724,6 @@
             playBomb() {
                 if (this.isMuted || !this.ctx) return;
                 try {
-                    // Deep explosion sound
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'square';
@@ -702,13 +757,93 @@
                     });
                 } catch(e) {}
             }
+
+            playFission() {
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    // Mystic crystal fission chime
+                    [784, 988, 1175, 1568].forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.value = freq;
+                        const start = this.ctx.currentTime + idx * 0.06;
+                        gain.gain.setValueAtTime(0.3, start);
+                        gain.gain.exponentialRampToValueAtTime(0.01, start + 0.35);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(start);
+                        osc.stop(start + 0.35);
+                    });
+                } catch(e) {}
+            }
+
+            playArenaUnlock() {
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    // Deep Japanese Taiko resonance + high koto ascending run
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(120, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.7);
+                    gain.gain.setValueAtTime(0.6, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.7);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.7);
+
+                    [440, 554, 659, 880, 1108].forEach((freq, idx) => {
+                        const chime = this.ctx.createOscillator();
+                        const chimeGain = this.ctx.createGain();
+                        chime.type = 'triangle';
+                        chime.frequency.value = freq;
+                        const start = this.ctx.currentTime + 0.12 + idx * 0.08;
+                        chimeGain.gain.setValueAtTime(0.3, start);
+                        chimeGain.gain.exponentialRampToValueAtTime(0.01, start + 0.45);
+                        chime.connect(chimeGain);
+                        chimeGain.connect(this.ctx.destination);
+                        chime.start(start);
+                        chime.stop(start + 0.45);
+                    });
+                } catch(e) {}
+            }
         }
 
         const sound = new SoundFX();
+        let musicEnabled = true;
 
         function toggleMute() {
             sound.isMuted = !sound.isMuted;
-            document.getElementById('mute-btn').innerText = sound.isMuted ? '🔇 MUDO' : '🔊 SOM';
+            document.getElementById('mute-btn').innerText = sound.isMuted ? '🔇 SONS' : '🔊 SONS';
+        }
+
+        function toggleMusic() {
+            musicEnabled = !musicEnabled;
+            const bgm = document.getElementById('bgm');
+            const btn = document.getElementById('music-btn');
+            if (musicEnabled) {
+                btn.innerText = '🎵 MÚSICA';
+                btn.style.opacity = '1';
+                if (gameState === 'PLAYING') {
+                    bgm.volume = 0.45;
+                    bgm.play().catch(() => {});
+                }
+            } else {
+                btn.innerText = '🔇 MÚSICA';
+                btn.style.opacity = '0.7';
+                bgm.pause();
+            }
+        }
+
+        function tryStartMusic() {
+            if (!musicEnabled) return;
+            const bgm = document.getElementById('bgm');
+            if (bgm && bgm.paused) {
+                bgm.volume = 0.45;
+                bgm.play().catch(() => {});
+            }
         }
 
         // --- Belt Progression ---
@@ -721,13 +856,27 @@
             { name: "Faixa Preta", minScore: 4000, color: "#18181b", icon: "👑" }
         ];
 
-        // --- Blade Config ---
+        // --- Blade Config (SEM ARCO-ÍRIS - Lâminas autênticas de Ninja) ---
         const BLADE_STYLES = {
             steel: { color: "#38bdf8", glow: "#bae6fd", width: 7, particleColor: "#e0f2fe" },
-            lightning: { color: "#a855f7", glow: "#d8b4fe", width: 9, particleColor: "#f3e8ff" },
-            fire: { color: "#f97316", glow: "#fde047", width: 10, particleColor: "#fef08a" },
-            rainbow: { color: "#ec4899", glow: "#8b5cf6", width: 10, particleColor: "#fdf4ff", isRainbow: true }
+            lightning: { color: "#eab308", glow: "#fef08a", width: 9, particleColor: "#fef9c3" },
+            fire: { color: "#f97316", glow: "#ef4444", width: 10, particleColor: "#fde047" },
+            shadow: { color: "#a855f7", glow: "#6b21a8", width: 9, particleColor: "#c084fc" }
         };
+
+        // --- Arenas Dinâmicas (O Mapa Muda Conforme Você Joga!) ---
+        const ARENAS = [
+            { id: 'dojo', name: '⛩️ Dojo do Mestre', src: 'dojo-bg.jpg', color: '#f59e0b' },
+            { id: 'bamboo', name: '🎋 Floresta de Bambu', src: 'bamboo-bg.jpg', color: '#10b981' },
+            { id: 'fuji', name: '🗻 Monte Fuji Sagrado', src: 'fuji-bg.jpg', color: '#ec4899' }
+        ];
+        let currentArenaIndex = 0;
+        let questionsInCurrentArena = 0;
+        const arenaImages = ARENAS.map(a => {
+            const img = new Image();
+            img.src = a.src;
+            return img;
+        });
 
         // --- Speed Modes Configuration ---
         const SPEED_MODES = {
@@ -758,13 +907,15 @@
         };
         let currentSpeed = 'calmo';
 
-        // --- Fruit Definitions (Maior tamanho para visualização clara) ---
+        // --- Definições de Frutas com Silhuetas e Desenhos Únicos ---
         const FRUIT_TYPES = [
-            { type: 'watermelon', color: '#15803d', innerColor: '#f43f5e', seedColor: '#000', radius: 58, icon: '🍉' },
-            { type: 'orange', color: '#ea580c', innerColor: '#fb923c', seedColor: '#fff', radius: 54, icon: '🍊' },
-            { type: 'apple', color: '#b91c1c', innerColor: '#fef08a', seedColor: '#451a03', radius: 52, icon: '🍎' },
-            { type: 'pineapple', color: '#ca8a04', innerColor: '#fef08a', seedColor: '#78350f', radius: 56, icon: '🍍' },
-            { type: 'strawberry', color: '#e11d48', innerColor: '#fda4af', seedColor: '#fef08a', radius: 48, icon: '🍓' }
+            { type: 'watermelon', name: 'Melancia', color: '#15803d', innerColor: '#ef4444', seedColor: '#171717', radius: 58 },
+            { type: 'banana', name: 'Banana', color: '#facc15', innerColor: '#fef08a', seedColor: '#713f12', radius: 54 },
+            { type: 'pineapple', name: 'Abacaxi', color: '#ca8a04', innerColor: '#fde047', seedColor: '#78350f', radius: 56 },
+            { type: 'strawberry', name: 'Morango', color: '#e11d48', innerColor: '#fda4af', seedColor: '#fde047', radius: 50 },
+            { type: 'apple', name: 'Maçã', color: '#dc2626', innerColor: '#fef3c7', seedColor: '#451a03', radius: 52 },
+            { type: 'orange', name: 'Laranja', color: '#ea580c', innerColor: '#fed7aa', seedColor: '#ffffff', radius: 54 },
+            { type: 'grapes', name: 'Uva', color: '#7c3aed', innerColor: '#c084fc', seedColor: '#4c1d95', radius: 52 }
         ];
 
         // --- State ---
@@ -782,6 +933,7 @@
         let frenzyMode = false;
         let frenzyTimer = 0;
         let waveTimer = 0;
+        let waveCount = 0;
 
         // Arrays
         let activeFruits = [];
@@ -791,15 +943,10 @@
         let petals = [];
         let swipeTrail = [];
 
-        // Dojo Background Image
-        const bgImg = new Image();
-        bgImg.src = 'dojo-bg.jpg';
-
         // --- Level Question Generator ---
         function generateQuestion(level) {
             let num1, num2, answer, text;
             if (level === '1-2') {
-                // Soma ou Subtração simples
                 const isSub = Math.random() > 0.5;
                 if (isSub) {
                     num1 = Math.floor(Math.random() * 15) + 6;
@@ -813,17 +960,15 @@
                     text = `${num1} + ${num2} = ?`;
                 }
             } else if (level === '3') {
-                // Tabuadas do 2, 3, 4, 5, 10
                 const tables = [2, 3, 4, 5, 10];
                 num1 = tables[Math.floor(Math.random() * tables.length)];
                 num2 = Math.floor(Math.random() * 9) + 2;
                 answer = num1 * num2;
                 text = `${num1} × ${num2} = ?`;
             } else if (level === '4-5') {
-                // Tabuadas do 6, 7, 8, 9 ou Divisões exatas
                 const isDiv = Math.random() > 0.6;
                 if (isDiv) {
-                    const divisor = Math.floor(Math.random() * 6) + 3; // 3 a 8
+                    const divisor = Math.floor(Math.random() * 6) + 3;
                     answer = Math.floor(Math.random() * 8) + 2;
                     const dividend = divisor * answer;
                     text = `${dividend} ÷ ${divisor} = ?`;
@@ -835,7 +980,6 @@
                     text = `${num1} × ${num2} = ?`;
                 }
             } else {
-                // Mestre Ninja (Mistura tudo)
                 const types = ['add', 'sub', 'mul', 'div'];
                 const t = types[Math.floor(Math.random() * types.length)];
                 if (t === 'mul') {
@@ -871,6 +1015,7 @@
             window.addEventListener('resize', resize);
             initEvents();
             initPetals();
+            updateArenaTopBadge();
             requestAnimationFrame(gameLoop);
         });
 
@@ -931,12 +1076,38 @@
             if (btn) btn.innerText = spd.name;
         }
 
+        function updateArenaTopBadge() {
+            const arena = ARENAS[currentArenaIndex];
+            const badge = document.getElementById('top-arena-badge');
+            if (badge) {
+                badge.innerText = arena.name;
+                badge.style.borderColor = arena.color;
+            }
+        }
+
+        function advanceArena() {
+            currentArenaIndex = (currentArenaIndex + 1) % ARENAS.length;
+            questionsInCurrentArena = 0;
+            updateArenaTopBadge();
+            const arena = ARENAS[currentArenaIndex];
+            const banner = document.getElementById('arena-banner');
+            if (banner) {
+                banner.innerText = `⛩️ NOVO MAPA: ${arena.name}!`;
+                banner.classList.add('show');
+                setTimeout(() => banner.classList.remove('show'), 2600);
+            }
+            sound.playArenaUnlock();
+        }
+
         function startGame() {
             sound.init();
+            tryStartMusic();
             score = 0;
             hearts = 3;
             combo = 0;
             maxCombo = 0;
+            waveCount = 0;
+            questionsInCurrentArena = 0;
             activeFruits = [];
             particles = [];
             juiceSplats = [];
@@ -976,7 +1147,6 @@
         function updateScoreHUD() {
             document.getElementById('score-val').innerText = score;
 
-            // Check Belt
             let curBelt = BELTS[0];
             for (let b of BELTS) {
                 if (score >= b.minScore) curBelt = b;
@@ -1002,7 +1172,7 @@
             document.getElementById('gameover-modal').style.display = 'flex';
         }
 
-        // --- Spawner Logic (Ondas calmas, ordenadas e sem sobreposição) ---
+        // --- Spawner Logic ---
         let lastSpawnTime = 0;
         function updateSpawner() {
             if (gameState !== 'PLAYING') return;
@@ -1023,7 +1193,7 @@
                 return;
             }
 
-            // Modo Normal: apenas 1 onda pedagógica por vez!
+            // Modo Normal: 1 onda pedagógica por vez
             const fruitsRemaining = activeFruits.filter(f => !f.isHalf).length;
             if (fruitsRemaining === 0 && now > waveTimer) {
                 spawnWave();
@@ -1033,10 +1203,11 @@
         function spawnWave() {
             if (!currentTarget || gameState !== 'PLAYING') return;
 
+            waveCount++;
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
             const count = (selectedLevel === '1-2') ? 2 : 3;
 
-            // Posições horizontais espaçadas para NUNCA encavalar ou sobrepor frutas
+            // Posições horizontais espaçadas para NUNCA sobrepor
             const positions = [];
             if (count === 2) {
                 positions.push(width * 0.35 + (Math.random() - 0.5) * 30);
@@ -1051,12 +1222,18 @@
             // 1 Posição correta
             const correctIndex = Math.floor(Math.random() * count);
 
-            // Chance de Melancia Dourada (10% de chance se não estiver em frenesi)
-            if (!frenzyMode && Math.random() < 0.10 && !activeFruits.some(f => f.isGolden)) {
+            // Chance de Fruta Especial da FISSÃO (Estoura e se multiplica em 3 mini-frutas!)
+            // Ocorre a cada 4 ondas ou 22% de chance se não estiver em frenesi
+            if (!frenzyMode && (waveCount % 4 === 0 || Math.random() < 0.22) && !activeFruits.some(f => f.isSpecialMulti)) {
+                spawnSpecialMultiFruit(width * 0.5);
+            }
+
+            // Chance de Melancia Dourada de Frenesi (10% de chance)
+            if (!frenzyMode && Math.random() < 0.10 && !activeFruits.some(f => f.isGolden || f.isSpecialMulti)) {
                 spawnFruit(true, false, width * 0.5);
             }
 
-            // Chance de Bomba Ninja (apenas a partir do 3º ano e moderado)
+            // Chance de Bomba Ninja (a partir do 3º ano)
             if (!frenzyMode && selectedLevel !== '1-2' && Math.random() < 0.14 && !activeFruits.some(f => f.isBomb)) {
                 spawnBomb();
             }
@@ -1080,26 +1257,24 @@
                     usedValues.add(val);
                 }
 
-                spawnFruit(false, isCorrect, positions[i], val);
+                // Alterna frutas diferentes para cada resposta!
+                const template = FRUIT_TYPES[i % FRUIT_TYPES.length];
+                spawnFruit(false, isCorrect, positions[i], val, template);
             }
         }
 
-        function spawnFruit(isGolden = false, isCorrect = false, customX = null, customVal = null) {
+        function spawnFruit(isGolden = false, isCorrect = false, customX = null, customVal = null, customTemplate = null) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
-            const template = FRUIT_TYPES[Math.floor(Math.random() * FRUIT_TYPES.length)];
+            const template = customTemplate || FRUIT_TYPES[Math.floor(Math.random() * FRUIT_TYPES.length)];
             
             const startX = customX !== null ? customX : width * (Math.random() * 0.6 + 0.2);
             const startY = height + 50;
 
-            // Altura do ápice na tela (entre 20% e 35% do topo - visão perfeita)
             const apexY = height * (Math.random() * 0.15 + 0.22);
             const gravity = spd.gravity * (frenzyMode ? 0.7 : 1);
 
-            // Tempo de subida calmo e suave
             const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
             const vy = -gravity * timeToApex;
-            
-            // Deriva horizontal super sutil
             const vx = (Math.random() - 0.5) * 1.0 * spd.vxMultiplier;
 
             let val;
@@ -1122,11 +1297,45 @@
                 hangFramesLeft: isGolden ? 35 : spd.hangFrames,
                 isHanging: false,
                 angle: 0,
-                vAngle: (Math.random() - 0.5) * 0.012, // Rotação bem lenta e suave
+                vAngle: (Math.random() - 0.5) * 0.012,
                 radius: template.radius,
                 template: template,
                 value: val,
                 isGolden: isGolden,
+                isSpecialMulti: false,
+                isMini: false,
+                isBomb: false,
+                sliced: false
+            });
+        }
+
+        // --- Fruta Especial de FISSÃO (Se Multiplica em 3 ao ser cortada!) ---
+        function spawnSpecialMultiFruit(customX) {
+            const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
+            const startX = customX !== null ? customX : width * 0.5;
+            const startY = height + 50;
+            const apexY = height * 0.25;
+            const gravity = spd.gravity * 0.95;
+            const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
+            const vy = -gravity * timeToApex;
+            const vx = (Math.random() - 0.5) * 0.7;
+
+            activeFruits.push({
+                x: startX,
+                y: startY,
+                vx: vx,
+                vy: vy,
+                gravity: gravity,
+                hangFramesLeft: 55,
+                isHanging: false,
+                angle: 0,
+                vAngle: 0.025,
+                radius: 60,
+                template: { type: 'specialMulti', name: 'Fruta Fissão', color: '#38bdf8', innerColor: '#facc15' },
+                value: '🌟 3×',
+                isGolden: false,
+                isSpecialMulti: true,
+                isMini: false,
                 isBomb: false,
                 sliced: false
             });
@@ -1152,6 +1361,8 @@
                 template: template,
                 value: '⭐',
                 isGolden: true,
+                isSpecialMulti: false,
+                isMini: false,
                 isBomb: false,
                 sliced: false
             });
@@ -1180,6 +1391,8 @@
                 radius: 48,
                 value: '💣',
                 isGolden: false,
+                isSpecialMulti: false,
+                isMini: false,
                 isBomb: true,
                 sliced: false
             });
@@ -1212,6 +1425,7 @@
                 isSwiping = true;
                 addSwipePoint(e.clientX, e.clientY - 52);
                 sound.playSwoosh();
+                tryStartMusic();
             });
 
             window.addEventListener('mousemove', (e) => {
@@ -1230,6 +1444,7 @@
                 const touch = e.touches[0];
                 addSwipePoint(touch.clientX, touch.clientY - 52);
                 sound.playSwoosh();
+                tryStartMusic();
             }, { passive: false });
 
             window.addEventListener('touchmove', (e) => {
@@ -1248,7 +1463,6 @@
             const now = Date.now();
             swipeTrail.push({ x, y, time: now });
 
-            // Spawn blade sparks
             const blade = BLADE_STYLES[selectedBlade] || BLADE_STYLES.steel;
             for (let i = 0; i < 2; i++) {
                 particles.push({
@@ -1274,7 +1488,6 @@
             activeFruits.forEach(fruit => {
                 if (fruit.sliced) return;
 
-                // Line segment to circle distance
                 if (lineIntersectsCircle(p1.x, p1.y, p2.x, p2.y, fruit.x, fruit.y, fruit.radius)) {
                     sliceFruit(fruit, p1, p2);
                     slicedThisFrame++;
@@ -1282,7 +1495,6 @@
             });
 
             if (slicedThisFrame > 1) {
-                // Combo triggered!
                 combo += slicedThisFrame;
                 if (combo > maxCombo) maxCombo = combo;
                 comboTimer = Date.now() + 1800;
@@ -1308,8 +1520,8 @@
             fruit.sliced = true;
             sound.playSlice();
 
+            // 1. Bomba Ninja
             if (fruit.isBomb) {
-                // Hit Bomb
                 sound.playBomb();
                 hearts--;
                 updateHeartsHUD();
@@ -1321,8 +1533,58 @@
                 return;
             }
 
+            // 2. Fruta Especial de FISSÃO: Estoura e se multiplica em 3 Mini-Frutas!
+            if (fruit.isSpecialMulti) {
+                sound.playFission();
+                score += 150;
+                updateScoreHUD();
+                createExplosion(fruit.x, fruit.y, '#38bdf8');
+                createExplosion(fruit.x, fruit.y, '#facc15');
+                spawnFloatingText(fruit.x, fruit.y - 40, '⚡ FISSÃO! +3 MINI-FRUTAS! 🌟', '#38bdf8', 32);
+
+                // Multiplica em 3 mini-frutas que saltam pelo ar em arco!
+                const templates = [
+                    FRUIT_TYPES[0], // melancia
+                    FRUIT_TYPES[3], // morango
+                    FRUIT_TYPES[4]  // maca
+                ];
+                [-1, 0, 1].forEach((k, idx) => {
+                    activeFruits.push({
+                        x: fruit.x + k * 20,
+                        y: fruit.y - 10,
+                        vx: k * 3.2 + (Math.random() - 0.5) * 0.8,
+                        vy: -(Math.random() * 2 + 7.5),
+                        gravity: 0.11,
+                        hangFramesLeft: 45,
+                        isHanging: false,
+                        angle: 0,
+                        vAngle: (Math.random() - 0.5) * 0.04,
+                        radius: 36,
+                        template: templates[idx],
+                        value: '⭐100',
+                        isGolden: false,
+                        isSpecialMulti: false,
+                        isMini: true,
+                        isBomb: false,
+                        sliced: false
+                    });
+                });
+                return;
+            }
+
+            // 3. Mini-Fruta cortada
+            if (fruit.isMini) {
+                sound.playCorrect();
+                score += 100;
+                updateScoreHUD();
+                spawnFloatingText(fruit.x, fruit.y, '⭐ +100!', '#facc15', 28);
+                createJuiceSplash(fruit.x, fruit.y, fruit.template.innerColor);
+                splitFruitHalves(fruit, p1, p2);
+                return;
+            }
+
+            // 4. Fruta Dourada de Frenesi
             if (fruit.isGolden) {
-                // Golden Frenzy
                 sound.playFrenzy();
                 frenzyMode = true;
                 frenzyTimer = Date.now() + 6000;
@@ -1334,9 +1596,9 @@
                 return;
             }
 
-            // Regular Fruit Evaluation
+            // 5. Fruta Pedagógica Normal
             if (fruit.value === currentTarget.answer) {
-                // CORRECT CUT!
+                // CORTE CORRETO!
                 sound.playCorrect();
                 const points = 100 * (combo > 1 ? combo : 1);
                 score += points;
@@ -1346,7 +1608,13 @@
                 createJuiceSplash(fruit.x, fruit.y, fruit.template.innerColor);
                 splitFruitHalves(fruit, p1, p2);
 
-                // Limpa outras frutas da onda suavemente em pétalas de cerejeira
+                // Contabiliza acertos no mapa atual
+                questionsInCurrentArena++;
+                if (questionsInCurrentArena >= 5) {
+                    advanceArena();
+                }
+
+                // Limpa outras frutas da onda suavemente em pétalas
                 for (let other of activeFruits) {
                     if (!other.sliced && other !== fruit && !other.isHalf) {
                         other.sliced = true;
@@ -1355,7 +1623,7 @@
                 }
                 activeFruits = activeFruits.filter(f => f.isHalf);
 
-                // Pausa confortável de 1.1s para comemorar antes da próxima conta e frutas subirem
+                // Intervalo de 1.1s para comemorar e respirar antes da próxima
                 waveTimer = Date.now() + 1100;
                 setTimeout(() => {
                     if (gameState === 'PLAYING') {
@@ -1364,7 +1632,7 @@
                     }
                 }, 1100);
             } else {
-                // WRONG CUT!
+                // CORTE INCORRETO!
                 sound.playWrong();
                 hearts--;
                 updateHeartsHUD();
@@ -1419,7 +1687,6 @@
         }
 
         function createJuiceSplash(x, y, color) {
-            // Screen juice splat
             juiceSplats.push({
                 x, y,
                 radius: Math.random() * 35 + 25,
@@ -1427,7 +1694,6 @@
                 alpha: 0.65
             });
 
-            // Splash drops
             for (let i = 0; i < 20; i++) {
                 const spd = Math.random() * 8 + 3;
                 const a = Math.random() * Math.PI * 2;
@@ -1472,34 +1738,35 @@
         function gameLoop() {
             ctx.clearRect(0, 0, width, height);
 
-            // Draw Dojo Background
-            if (bgImg.complete && bgImg.naturalWidth > 0) {
-                ctx.drawImage(bgImg, 0, 0, width, height);
+            // 1. Draw Dynamic Arena Background
+            const curBg = arenaImages[currentArenaIndex];
+            if (curBg && curBg.complete && curBg.naturalWidth > 0) {
+                ctx.drawImage(curBg, 0, 0, width, height);
             } else {
                 ctx.fillStyle = '#1e130c';
                 ctx.fillRect(0, 0, width, height);
             }
 
-            // Draw Falling Cherry Blossom Petals
+            // 2. Draw Falling Cherry Blossom Petals
             drawPetals();
 
-            // Draw Juice Splats on Wall
+            // 3. Draw Juice Splats on Wall
             drawJuiceSplats();
 
             if (gameState === 'PLAYING') {
                 updateSpawner();
             }
 
-            // Update & Draw Fruits
+            // 4. Update & Draw Fruits (Custom Shapes & Silhouettes)
             updateAndDrawFruits();
 
-            // Update & Draw Particles
+            // 5. Update & Draw Particles
             updateAndDrawParticles();
 
-            // Draw Swipe Trail
+            // 6. Draw Blade Trail (Lâmina de Ninja - Sem Arco-íris)
             drawSwipeTrail();
 
-            // Draw Floating Texts
+            // 7. Draw Floating Texts
             drawFloatingTexts();
 
             // Reset Combo if expired
@@ -1549,6 +1816,246 @@
             }
         }
 
+        // --- Custom Distinct Fruit Renderers ---
+        function drawFruitSilhouette(ctx, f) {
+            const type = f.template.type;
+            const r = f.radius;
+
+            if (type === 'watermelon') {
+                // Melancia: Oval com listras verdes escuras
+                ctx.fillStyle = '#166534';
+                ctx.beginPath();
+                ctx.ellipse(0, 0, r * 1.12, r * 0.96, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#14532d';
+                ctx.stroke();
+
+                // Listras zebradas da casca
+                ctx.strokeStyle = '#052e16';
+                ctx.lineWidth = 6;
+                [-0.6, -0.2, 0.2, 0.6].forEach(pos => {
+                    ctx.beginPath();
+                    ctx.moveTo(r * pos, -r * 0.85);
+                    ctx.quadraticCurveTo(r * pos + 8, 0, r * pos, r * 0.85);
+                    ctx.stroke();
+                });
+
+                // Cabinho enroladinho
+                ctx.strokeStyle = '#84cc16';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(0, -r * 0.95, 8, Math.PI, Math.PI * 2.3);
+                ctx.stroke();
+
+            } else if (type === 'banana') {
+                // Banana: Silhueta curva inconfundível
+                ctx.beginPath();
+                ctx.moveTo(-r * 1.05, -r * 0.2);
+                ctx.quadraticCurveTo(0, -r * 0.9, r * 0.95, -r * 0.35);
+                ctx.quadraticCurveTo(r * 1.2, -r * 0.25, r * 1.05, -r * 0.05);
+                ctx.quadraticCurveTo(0, r * 0.85, -r * 0.95, r * 0.15);
+                ctx.quadraticCurveTo(-r * 1.15, -r * 0.05, -r * 1.05, -r * 0.2);
+                ctx.closePath();
+                ctx.fillStyle = '#facc15';
+                ctx.fill();
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#ca8a04';
+                ctx.stroke();
+
+                // Ponta verde e caule marrom
+                ctx.fillStyle = '#65a30d';
+                ctx.beginPath();
+                ctx.arc(r * 1.0, -r * 0.2, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#78350f';
+                ctx.beginPath();
+                ctx.arc(-r * 0.95, -r * 0.1, 7, 0, Math.PI * 2);
+                ctx.fill();
+
+            } else if (type === 'pineapple') {
+                // Abacaxi: Corpo oval texturizado + coroa com folhas pontiagudas
+                // 1. Coroa de espinhos verdes no topo
+                ctx.fillStyle = '#16a34a';
+                ctx.strokeStyle = '#14532d';
+                ctx.lineWidth = 2;
+                [-25, -12, 0, 12, 25].forEach((offset, idx) => {
+                    ctx.beginPath();
+                    ctx.moveTo(offset * 0.5, -r * 0.7);
+                    ctx.lineTo(offset * 1.2, -r * 1.35 - (idx === 2 ? 14 : 0));
+                    ctx.lineTo(offset * 0.5 + 8, -r * 0.7);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                });
+
+                // 2. Casca dourada com padrão losangular
+                ctx.fillStyle = '#ca8a04';
+                ctx.beginPath();
+                ctx.ellipse(0, 6, r * 0.88, r * 1.02, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#78350f';
+                ctx.stroke();
+
+                // Linhas cruzadas de casca de abacaxi
+                ctx.strokeStyle = 'rgba(120, 53, 15, 0.45)';
+                ctx.lineWidth = 2.5;
+                [-20, 0, 20].forEach(lx => {
+                    ctx.beginPath();
+                    ctx.moveTo(lx - 25, -r * 0.5);
+                    ctx.lineTo(lx + 25, r * 0.6);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(lx + 25, -r * 0.5);
+                    ctx.lineTo(lx - 25, r * 0.6);
+                    ctx.stroke();
+                });
+
+            } else if (type === 'strawberry') {
+                // Morango: Formato cônico arredondado (coração de morango) com sementinhas douradas
+                ctx.beginPath();
+                ctx.moveTo(0, r * 0.95);
+                ctx.bezierCurveTo(-r * 1.1, r * 0.25, -r * 1.05, -r * 0.6, -r * 0.45, -r * 0.75);
+                ctx.bezierCurveTo(-r * 0.15, -r * 0.85, 0, -r * 0.68, 0, -r * 0.68);
+                ctx.bezierCurveTo(0, -r * 0.68, r * 0.15, -r * 0.85, r * 0.45, -r * 0.75);
+                ctx.bezierCurveTo(r * 1.05, -r * 0.6, r * 1.1, r * 0.25, 0, r * 0.95);
+                ctx.closePath();
+                ctx.fillStyle = '#e11d48';
+                ctx.fill();
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#9f1239';
+                ctx.stroke();
+
+                // Sementinhas amarelas
+                ctx.fillStyle = '#fef08a';
+                [-18, 0, 18].forEach(sx => {
+                    [-8, 12, 30].forEach(sy => {
+                        ctx.beginPath();
+                        ctx.ellipse(sx, sy, 2, 3.5, 0.2, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                });
+
+                // Folhas em estrela no topo
+                ctx.fillStyle = '#16a34a';
+                ctx.beginPath();
+                for (let k = 0; k < 5; k++) {
+                    const a = (k * 2 * Math.PI) / 5 - Math.PI / 2;
+                    const lx = Math.cos(a) * 22;
+                    const ly = -r * 0.75 + Math.sin(a) * 12;
+                    if (k === 0) ctx.moveTo(lx, ly); else ctx.lineTo(lx, ly);
+                }
+                ctx.closePath();
+                ctx.fill();
+
+            } else if (type === 'apple') {
+                // Maçã: Lados robustos com concavidade no topo e na base
+                ctx.beginPath();
+                ctx.arc(-r * 0.38, 0, r * 0.68, 0, Math.PI * 2);
+                ctx.arc(r * 0.38, 0, r * 0.68, 0, Math.PI * 2);
+                ctx.fillStyle = '#dc2626';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.ellipse(0, 0, r * 0.95, r * 0.92, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#991b1b';
+                ctx.stroke();
+
+                // Caule marrom
+                ctx.strokeStyle = '#78350f';
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                ctx.moveTo(0, -r * 0.75);
+                ctx.quadraticCurveTo(8, -r * 1.05, 12, -r * 1.15);
+                ctx.stroke();
+
+                // Folha verde reluzente
+                ctx.fillStyle = '#22c55e';
+                ctx.beginPath();
+                ctx.ellipse(14, -r * 0.95, 12, 6, Math.PI / 6, 0, Math.PI * 2);
+                ctx.fill();
+
+            } else if (type === 'orange') {
+                // Laranja: Esfera com textura de poros cítricos
+                ctx.fillStyle = '#ea580c';
+                ctx.beginPath();
+                ctx.arc(0, 0, r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#c2410c';
+                ctx.stroke();
+
+                // Folha verde
+                ctx.fillStyle = '#15803d';
+                ctx.beginPath();
+                ctx.ellipse(6, -r * 0.95, 10, 5, -Math.PI / 4, 0, Math.PI * 2);
+                ctx.fill();
+
+            } else if (type === 'grapes') {
+                // Uvas: Cacho de uvas em formato triangular
+                ctx.fillStyle = '#7c3aed';
+                ctx.strokeStyle = '#5b21b6';
+                ctx.lineWidth = 2;
+
+                const grapeDots = [
+                    [-22, -20], [-7, -20], [8, -20], [23, -20],
+                    [-15, 0], [0, 0], [15, 0],
+                    [-8, 20], [8, 20],
+                    [0, 36]
+                ];
+                grapeDots.forEach(([gx, gy]) => {
+                    ctx.beginPath();
+                    ctx.arc(gx, gy, 14, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.stroke();
+                });
+
+                // Gavinhas / Folha de parreira
+                ctx.fillStyle = '#15803d';
+                ctx.beginPath();
+                ctx.arc(0, -r * 0.85, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+            } else if (type === 'specialMulti') {
+                // Cristal Ninja da FISSÃO: Diamante estelar cósmico pulsante
+                ctx.shadowColor = '#38bdf8';
+                ctx.shadowBlur = 28;
+                ctx.fillStyle = '#0284c7';
+                ctx.beginPath();
+                for (let k = 0; k < 8; k++) {
+                    const a = (k * Math.PI) / 4;
+                    const dist = (k % 2 === 0) ? r * 1.15 : r * 0.7;
+                    const sx = Math.cos(a) * dist;
+                    const sy = Math.sin(a) * dist;
+                    if (k === 0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#fef08a';
+                ctx.stroke();
+
+                // Anel de órbita estelar
+                ctx.strokeStyle = 'rgba(254, 240, 138, 0.7)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, r * 1.25, r * 0.45, Date.now() / 300, 0, Math.PI * 2);
+                ctx.stroke();
+
+            } else {
+                // Fruta Padrão
+                ctx.fillStyle = f.template.color;
+                ctx.beginPath();
+                ctx.arc(0, 0, r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
         function updateAndDrawFruits() {
             for (let i = activeFruits.length - 1; i >= 0; i--) {
                 const f = activeFruits[i];
@@ -1557,7 +2064,6 @@
                 if (!f.isHalf && Math.abs(f.vy) < 0.9 && f.hangFramesLeft > 0) {
                     f.isHanging = true;
                     f.hangFramesLeft--;
-                    // Flutua suavemente para cima e para baixo
                     f.vy = Math.sin(Date.now() / 250) * 0.16;
                     f.vx *= 0.98;
                 } else {
@@ -1571,24 +2077,21 @@
 
                 // Remove se cair da tela
                 if (f.y > height + 90 && f.vy > 0) {
-                    // Se o jogador não cortou a fruta correta antes dela cair
                     if (!f.sliced && f.value === currentTarget?.answer && gameState === 'PLAYING') {
                         combo = 0;
                         document.getElementById('combo-pill').style.display = 'none';
                         spawnFloatingText(width / 2, height * 0.45, 'Tempo esgotado! Tente novamente!', '#f59e0b', 24);
-                        // Agenda nova onda com a mesma conta em 1.1s
                         waveTimer = Date.now() + 1100;
                     }
                     activeFruits.splice(i, 1);
                     continue;
                 }
 
-                // Render Fruit / Bomb
                 ctx.save();
                 ctx.translate(f.x, f.y);
 
                 if (f.isBomb) {
-                    // Draw Bomb
+                    // Bomba Ninja
                     ctx.fillStyle = '#1c1917';
                     ctx.beginPath();
                     ctx.arc(0, 0, f.radius, 0, Math.PI * 2);
@@ -1597,19 +2100,19 @@
                     ctx.strokeStyle = '#ef4444';
                     ctx.stroke();
 
-                    // Fuse & Spark
+                    // Pavio com faísca
                     ctx.fillStyle = '#f59e0b';
                     ctx.beginPath();
                     ctx.arc(0, -f.radius - 8, 8, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Bomb Skull / Icon
                     ctx.font = '36px sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText('💣', 0, 2);
+
                 } else if (f.isHalf) {
-                    // Draw Cut Half (gira com o impacto do corte)
+                    // Metade fatiada (gira no ar)
                     ctx.save();
                     ctx.rotate(f.angle);
                     ctx.fillStyle = f.template.innerColor;
@@ -1625,8 +2128,9 @@
                     ctx.strokeStyle = f.template.color;
                     ctx.stroke();
                     ctx.restore();
+
                 } else {
-                    // 1. Corpo da fruta (rotação suave para efeito 3D)
+                    // 1. Silhueta Visual Distinta da Fruta (Gira suavemente)
                     ctx.save();
                     ctx.rotate(f.angle);
                     if (f.isGolden) {
@@ -1641,20 +2145,7 @@
                         ctx.strokeStyle = '#eab308';
                         ctx.stroke();
                     } else {
-                        // Casca Suculenta
-                        ctx.fillStyle = f.template.color;
-                        ctx.beginPath();
-                        ctx.arc(0, 0, f.radius, 0, Math.PI * 2);
-                        ctx.fill();
-                        ctx.lineWidth = 4;
-                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-                        ctx.stroke();
-
-                        // Folhinha / Cabinho
-                        ctx.fillStyle = '#15803d';
-                        ctx.beginPath();
-                        ctx.ellipse(0, -f.radius, 6, 12, Math.PI / 4, 0, Math.PI * 2);
-                        ctx.fill();
+                        drawFruitSilhouette(ctx, f);
                     }
                     ctx.restore();
 
@@ -1664,29 +2155,32 @@
                     ctx.shadowBlur = 10;
                     ctx.shadowOffsetY = 4;
 
-                    const badgeRadius = f.radius * 0.72;
-                    ctx.fillStyle = f.isGolden ? '#fef08a' : '#ffffff';
+                    const isSpecial = f.isSpecialMulti;
+                    const isMini = f.isMini;
+                    const badgeRadius = isMini ? f.radius * 0.8 : (isSpecial ? f.radius * 0.65 : f.radius * 0.64);
+
+                    ctx.fillStyle = isSpecial ? '#0369a1' : (f.isGolden ? '#fef08a' : '#ffffff');
                     ctx.beginPath();
                     ctx.arc(0, 0, badgeRadius, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.shadowBlur = 0;
 
-                    // Borda Dourada / Laranja
+                    // Borda Dourada
                     ctx.lineWidth = 3.5;
-                    ctx.strokeStyle = f.isGolden ? '#ca8a04' : '#d97706';
+                    ctx.strokeStyle = isSpecial ? '#38bdf8' : (f.isGolden ? '#ca8a04' : '#d97706');
                     ctx.stroke();
 
-                    // Anel decorativo interno
+                    // Anel interno
                     ctx.lineWidth = 1.5;
-                    ctx.strokeStyle = '#fed7aa';
+                    ctx.strokeStyle = isSpecial ? '#bae6fd' : '#fed7aa';
                     ctx.beginPath();
                     ctx.arc(0, 0, badgeRadius - 4, 0, Math.PI * 2);
                     ctx.stroke();
 
-                    // Texto do Número (GIGANTE, PRETO/ESCURO, BOLDÍSSIMO)
-                    ctx.fillStyle = f.isGolden ? '#854d0e' : '#0f172a';
+                    // Texto do Número
+                    ctx.fillStyle = isSpecial ? '#fef08a' : (f.isGolden ? '#854d0e' : '#0f172a');
                     const numStr = String(f.value);
-                    const fontSize = f.isGolden ? 32 : (numStr.length > 2 ? 30 : 36);
+                    const fontSize = isMini ? 20 : (isSpecial ? 24 : (numStr.length > 2 ? 30 : 36));
                     ctx.font = `900 ${fontSize}px "Fredoka", "Outfit", sans-serif`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
@@ -1703,7 +2197,7 @@
                 const p = particles[i];
                 p.x += p.vx;
                 p.y += p.vy;
-                p.vy += 0.15; // light gravity
+                p.vy += 0.15;
                 p.life -= p.decay;
 
                 if (p.life <= 0) {
@@ -1721,9 +2215,9 @@
             }
         }
 
+        // --- Lâmina Ninja Autêntica (Sem Arco-íris) ---
         function drawSwipeTrail() {
             const now = Date.now();
-            // Retain points for 180ms
             swipeTrail = swipeTrail.filter(p => now - p.time < 180);
 
             if (swipeTrail.length < 2) return;
@@ -1736,9 +2230,7 @@
                 const ratio = i / swipeTrail.length;
 
                 ctx.save();
-                ctx.strokeStyle = blade.isRainbow 
-                    ? `hsl(${(now / 3 + i * 20) % 360}, 90%, 65%)` 
-                    : blade.color;
+                ctx.strokeStyle = blade.color;
                 ctx.shadowColor = blade.glow;
                 ctx.shadowBlur = 15;
                 ctx.lineWidth = blade.width * ratio;
