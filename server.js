@@ -813,6 +813,10 @@ app.get('/atividades/level-up', (req, res) => res.render('levelup_presentation')
 app.get('/atividades/segue-o-ritmo', (req, res) => res.render('segue_o_ritmo_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
 app.get(['/ritmo', '/percussao-corporal'], (req, res) => res.redirect(301, '/atividades/segue-o-ritmo'));
 app.get('/atividades/ninja-math', (req, res) => res.render('ninja_math_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
+app.get(['/games/ninja-math', '/games/ninja-math/', '/games/ninja-math/index.html'], (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.sendFile(path.join(__dirname, 'public', 'games', 'ninja-math', 'index.html'));
+});
 
 
 // SEO Routes: dynamic sitemap.xml canônico e limpo
