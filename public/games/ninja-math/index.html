@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4730100335805531" crossorigin="anonymous"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -75,6 +77,12 @@
             background: linear-gradient(135deg, #ef4444, #b91c1c);
             box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
             border-color: #f87171;
+        }
+
+        .btn-menu-nav {
+            background: rgba(234, 179, 8, 0.2);
+            border-color: #f59e0b;
+            color: #fde047;
         }
 
         .game-logo {
@@ -233,7 +241,100 @@
             z-index: 45;
         }
 
-        /* MODALS (Menu, Game Over, Achievements) */
+        /* Mascote Ninja Interativo em Alta Definição (Widget Flutuante) */
+        .mascot-widget {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            z-index: 55;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .mascot-avatar-frame {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            border: 3.5px solid #f59e0b;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 158, 11, 0.45);
+            background: #1e130c;
+            position: relative;
+            overflow: visible;
+            animation: mascotFloat 3s ease-in-out infinite alternate;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .mascot-avatar-frame.jump {
+            transform: translateY(-24px) scale(1.15);
+        }
+
+        .mascot-avatar-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .mascot-tag {
+            position: absolute;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            color: #fde047;
+            font-weight: 800;
+            font-size: 0.68rem;
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid #a5b4fc;
+            white-space: nowrap;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .mascot-speech-bubble {
+            background: #ffffff;
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 0.82rem;
+            padding: 6px 14px;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            position: relative;
+            max-width: 170px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: all 0.25s ease;
+        }
+
+        .mascot-speech-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mascot-speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+        }
+
+        @keyframes mascotFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-7px); }
+        }
+
+        /* MODALS (Menu, Game Over, Achievements, Belt Promotion) */
         .modal-screen {
             position: absolute;
             inset: 0;
@@ -619,6 +720,10 @@
             .chip-grid {
                 grid-template-columns: repeat(5, 1fr);
             }
+            .mascot-avatar-frame {
+                width: 68px;
+                height: 68px;
+            }
         }
     </style>
 </head>
@@ -633,6 +738,9 @@
             <a href="/" class="btn-top btn-portal" title="Voltar ao Portal Lab Kids">
                 ⬅️ PORTAL
             </a>
+            <button class="btn-top btn-menu-nav" onclick="returnToStartMenu()" title="Voltar ao Menu Inicial">
+                🏠 MENU
+            </button>
             <div class="game-logo">
                 <span>🥷 NINJA MATH</span>
             </div>
@@ -663,6 +771,17 @@
     <div id="game-container">
         <canvas id="canvas"></canvas>
         <div id="ice-overlay"></div>
+
+        <!-- Mascote Ninja Interativo em Alta Definição -->
+        <div class="mascot-widget" id="mascot-widget" style="display:none;">
+            <div class="mascot-speech-bubble" id="mascot-bubble">
+                <span id="mascot-bubble-text">Vamos treinar!</span>
+            </div>
+            <div class="mascot-avatar-frame" id="mascot-frame">
+                <img src="mascot-panda.jpg" id="mascot-img" alt="Mascote Ninja">
+                <div class="mascot-tag" id="mascot-tag">🐼 Panda Po</div>
+            </div>
+        </div>
 
         <!-- Top HUD Elements -->
         <div class="hud-overlay" id="hud" style="display:none;">
@@ -825,6 +944,34 @@
             </div>
         </div>
 
+        <!-- Belt Promotion Modal (Passada de Faixa + Anúncio AdSense) -->
+        <div class="modal-screen" id="belt-promo-modal" style="display:none; z-index: 250;">
+            <div class="modal-card" style="border-color: #facc15; box-shadow: 0 0 50px rgba(250, 204, 21, 0.45);">
+                <div style="font-size: 4rem; margin-bottom: 6px;" id="promo-belt-icon">🥋</div>
+                <h1 class="modal-title" style="color: #facc15;" id="promo-belt-title">GRADUAÇÃO NINJA!</h1>
+                <h2 style="font-size: 1.35rem; color: #fde047; margin-bottom: 12px;" id="promo-belt-name">Faixa Amarela Conquistada!</h2>
+                <p class="modal-subtitle" style="margin-bottom: 16px;" id="promo-belt-desc">
+                    Você atingiu uma nova graduação no Dojo! Seus reflexos e raciocínio matemático estão cada vez mais velozes.
+                </p>
+
+                <!-- Espaço para Anúncio AdSense durante a pausa da conquista -->
+                <div style="margin: 14px 0; padding: 10px; background: rgba(0,0,0,0.35); border-radius: 14px; border: 1px dashed rgba(255,255,255,0.2);">
+                    <div style="font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px;">Publicidade</div>
+                    <ins class="adsbygoogle"
+                         style="display:block; min-height:90px;"
+                         data-ad-client="ca-pub-4730100335805531"
+                         data-ad-slot="autorelaxed"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+
+                <button class="btn-play-big" onclick="resumeAfterBeltPromotion()">
+                    CONTINUAR JORNADA 🥋
+                </button>
+            </div>
+        </div>
+
         <!-- Game Over Screen with Pedagogical Review & Retry -->
         <div class="modal-screen" id="gameover-modal" style="display:none;">
             <div class="modal-card">
@@ -860,9 +1007,9 @@
                     <button class="btn-top" onclick="openAchievementsModal()" style="flex: 1; justify-content: center; font-size: 0.95rem; border-radius: 50px; background: rgba(234, 179, 8, 0.25); border-color: #eab308; color: #fde047;">
                         🏆 TROFÉUS
                     </button>
-                    <a href="/" class="btn-top" style="flex: 1; justify-content: center; font-size: 0.95rem; border-radius: 50px; background: rgba(255,255,255,0.15);">
-                        PORTAL 🏠
-                    </a>
+                    <button class="btn-top" onclick="returnToStartMenu()" style="flex: 1; justify-content: center; font-size: 0.95rem; border-radius: 50px; background: rgba(255,255,255,0.15);">
+                        🏠 MENU
+                    </button>
                 </div>
             </div>
         </div>
@@ -1300,7 +1447,7 @@
         let selectedLevel = '1-2';
         let selectedBlade = 'steel';
         let gameMode = 'classic'; // 'classic' (3 lives) or 'blitz' (60s)
-        let gameState = 'MENU'; // MENU, PLAYING, GAMEOVER
+        let gameState = 'MENU'; // MENU, PLAYING, PAUSED, BELT_PROMOTION, GAMEOVER
         let score = 0;
         let hearts = 3;
         let hitsCount = 0;
@@ -1313,6 +1460,7 @@
         let frenzyTimer = 0;
         let waveTimer = 0;
         let waveCount = 0;
+        let currentBeltIndex = 0;
         let blitzTimeRemaining = 60;
         let blitzInterval = null;
 
@@ -1332,7 +1480,7 @@
         let missedQuestions = [];
 
         // Mascots (Panda, Kitsune, Ryu Dragon)
-        let mascotMood = 'idle'; // 'idle', 'happy', 'worried', 'attack'
+        let mascotMood = 'idle';
         let mascotSpeech = '';
         let mascotSpeechTimer = 0;
 
@@ -1357,7 +1505,6 @@
         function generateQuestion() {
             let num1, num2, answer, text;
 
-            // Se for treino focado em tabuada personalizada
             if (selectedTab === 'custom') {
                 const tablesArray = Array.from(selectedTables);
                 const table = tablesArray.length > 0 
@@ -1369,7 +1516,6 @@
                 return { text, answer };
             }
 
-            // Se for Frações & Geometria (BNCC)
             if (selectedLevel === 'geometria') {
                 const geoBank = [
                     { text: "Metade de uma fruta", answer: "1/2", distractors: ["1/4", "3/4", "1/3"] },
@@ -1387,7 +1533,6 @@
                 return { text: item.text, answer: item.answer, distractors: item.distractors };
             }
 
-            // Níveis BNCC Tradicionais
             if (selectedLevel === '1-2') {
                 const isSub = Math.random() > 0.5;
                 if (isSub) {
@@ -1422,7 +1567,6 @@
                     text = `${num1} × ${num2} = ?`;
                 }
             } else {
-                // Mestre Ninja (Tudo junto)
                 const types = ['add', 'sub', 'mul', 'div'];
                 const t = types[Math.floor(Math.random() * types.length)];
                 if (t === 'mul') {
@@ -1517,7 +1661,7 @@
             const buttons = document.querySelectorAll('.chip-num');
             if (selectedTables.size === 10) {
                 selectedTables.clear();
-                selectedTables.add(7); // default 7
+                selectedTables.add(7);
                 buttons.forEach((b, idx) => {
                     b.classList.toggle('selected', idx + 1 === 7);
                 });
@@ -1605,6 +1749,53 @@
             document.getElementById('boss-hp-hearts').innerText = h;
         }
 
+        // --- Belt Promotion Logic (Pausa + Conquista + AdSense) ---
+        function triggerBeltPromotion(promotedBelt) {
+            gameState = 'BELT_PROMOTION';
+            sound.playAchievement();
+
+            document.getElementById('promo-belt-icon').innerText = promotedBelt.icon;
+            document.getElementById('promo-belt-name').innerText = `${promotedBelt.name} Conquistada!`;
+            document.getElementById('belt-promo-modal').style.display = 'flex';
+
+            updateMascotAppearance(currentBeltIndex);
+            setMascotMood('happy', 'Parabéns pela faixa!');
+        }
+
+        function resumeAfterBeltPromotion() {
+            document.getElementById('belt-promo-modal').style.display = 'none';
+            gameState = 'PLAYING';
+            waveTimer = Date.now() + 800;
+        }
+
+        // --- Voltar à Tela Inicial do Jogo (Menu) ---
+        function returnToStartMenu() {
+            gameState = 'MENU';
+            if (blitzInterval) clearInterval(blitzInterval);
+
+            // Hide HUD & sub-screens
+            document.getElementById('hud').style.display = 'none';
+            document.getElementById('boss-hud').style.display = 'none';
+            document.getElementById('frenzy-banner').classList.remove('show');
+            document.getElementById('arena-banner').classList.remove('show');
+            document.getElementById('boss-banner').classList.remove('show');
+            document.getElementById('gameover-modal').style.display = 'none';
+            document.getElementById('achievement-modal').style.display = 'none';
+            document.getElementById('belt-promo-modal').style.display = 'none';
+            document.getElementById('mascot-widget').style.display = 'none';
+
+            activeFruits = [];
+            particles = [];
+            juiceSplats = [];
+            floatingTexts = [];
+            frenzyMode = false;
+            slowMoUntil = 0;
+            bossActive = false;
+
+            // Show start modal
+            document.getElementById('start-modal').style.display = 'flex';
+        }
+
         function startGame() {
             sound.init();
             tryStartMusic();
@@ -1615,6 +1806,7 @@
             combo = 0;
             maxCombo = 0;
             waveCount = 0;
+            currentBeltIndex = 0;
             questionsInCurrentArena = 0;
             missedQuestions = [];
             activeFruits = [];
@@ -1628,9 +1820,12 @@
             document.getElementById('start-modal').style.display = 'none';
             document.getElementById('gameover-modal').style.display = 'none';
             document.getElementById('achievement-modal').style.display = 'none';
+            document.getElementById('belt-promo-modal').style.display = 'none';
             document.getElementById('boss-hud').style.display = 'none';
             document.getElementById('hud').style.display = 'flex';
+            document.getElementById('mascot-widget').style.display = 'flex';
 
+            updateMascotAppearance(0);
             updateHeartsHUD();
             updateScoreHUD();
             nextTarget();
@@ -1686,15 +1881,23 @@
             document.getElementById('live-hits').innerText = hitsCount;
             document.getElementById('live-misses').innerText = missesCount;
 
-            // Belt check
-            let curBelt = BELTS[0];
-            for (let b of BELTS) {
-                if (score >= b.minScore) curBelt = b;
+            // Check Belt Promotion
+            let newBeltIdx = 0;
+            for (let i = 0; i < BELTS.length; i++) {
+                if (score >= BELTS[i].minScore) newBeltIdx = i;
             }
+
+            const curBelt = BELTS[newBeltIdx];
             const beltPill = document.getElementById('belt-pill');
             document.getElementById('belt-icon').innerText = curBelt.icon;
             document.getElementById('belt-name').innerText = curBelt.name;
             beltPill.style.borderColor = curBelt.color;
+
+            // Se subiu de faixa durante o jogo: pausa e anuncia! (AdSense oportunidade)
+            if (newBeltIdx > currentBeltIndex && gameState === 'PLAYING') {
+                currentBeltIndex = newBeltIdx;
+                triggerBeltPromotion(BELTS[currentBeltIndex]);
+            }
 
             // Digital Achievement: Black Belt
             if (score >= 4000 && !unlockedAchievements.blackBelt) {
@@ -1747,243 +1950,41 @@
             document.getElementById('gameover-modal').style.display = 'flex';
         }
 
-        // --- Mascot Logic (Panda Po, Kitsune, Ryu Dragon) ---
-        function setMascotMood(mood, speech = '') {
-            mascotMood = mood;
-            if (speech) {
-                mascotSpeech = speech;
-                mascotSpeechTimer = Date.now() + 2500;
+        // --- High-Quality Mascot Logic ---
+        function updateMascotAppearance(beltIdx) {
+            const img = document.getElementById('mascot-img');
+            const tag = document.getElementById('mascot-tag');
+            if (beltIdx >= 4) { // Faixa Vermelha e Preta -> Dragão Ryu
+                img.src = 'mascot-dragon.jpg';
+                tag.innerText = '🐉 Dragão Ryu';
+            } else if (beltIdx >= 2) { // Faixa Verde e Azul -> Kitsune Ninja
+                img.src = 'mascot-fox.jpg';
+                tag.innerText = '🦊 Kitsune Ninja';
+            } else { // Faixa Branca e Amarela -> Panda Po
+                img.src = 'mascot-panda.jpg';
+                tag.innerText = '🐼 Panda Po';
             }
         }
 
-        function drawMascot(ctx) {
-            const mx = 65;
-            const my = height - 55;
+        function setMascotMood(mood, speech = '') {
+            mascotMood = mood;
+            const bubble = document.getElementById('mascot-bubble');
+            const bubbleText = document.getElementById('mascot-bubble-text');
+            const frame = document.getElementById('mascot-frame');
 
-            // Determine mascot tier based on score
-            const isDragon = score >= 2600;
-            const isFox = score >= 800 && score < 2600;
-            const isPanda = score < 800;
-
-            ctx.save();
-            ctx.translate(mx, my);
-
-            // Happy Jump
-            let jumpY = 0;
-            if (mascotMood === 'happy') {
-                jumpY = -Math.abs(Math.sin(Date.now() / 120)) * 14;
-            }
-            ctx.translate(0, jumpY);
-
-            if (isPanda) {
-                // 🐼 Panda Ninja Po
-                // Ears
-                ctx.fillStyle = '#18181b';
-                ctx.beginPath();
-                ctx.arc(-22, -26, 10, 0, Math.PI * 2);
-                ctx.arc(22, -26, 10, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Head
-                ctx.fillStyle = '#ffffff';
-                ctx.beginPath();
-                ctx.arc(0, -6, 26, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.lineWidth = 2.5;
-                ctx.strokeStyle = '#18181b';
-                ctx.stroke();
-
-                // Red Ninja Headband
-                ctx.fillStyle = '#dc2626';
-                ctx.fillRect(-26, -18, 52, 9);
-                // Headband knot ribbon
-                ctx.beginPath();
-                ctx.moveTo(26, -16);
-                ctx.lineTo(40, -10 + Math.sin(Date.now() / 200) * 3);
-                ctx.lineTo(38, -2);
-                ctx.closePath();
-                ctx.fill();
-
-                // Eye patches
-                ctx.fillStyle = '#18181b';
-                ctx.beginPath();
-                ctx.ellipse(-10, -5, 7, 9, Math.PI / 8, 0, Math.PI * 2);
-                ctx.ellipse(10, -5, 7, 9, -Math.PI / 8, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Eyes
-                const blink = Math.sin(Date.now() / 350) > 0.94;
-                ctx.fillStyle = '#ffffff';
-                if (blink) {
-                    ctx.fillRect(-12, -6, 4, 2);
-                    ctx.fillRect(8, -6, 4, 2);
-                } else {
-                    ctx.beginPath();
-                    ctx.arc(-10, -5, 3, 0, Math.PI * 2);
-                    ctx.arc(10, -5, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                // Nose & Mouth
-                ctx.fillStyle = '#000';
-                ctx.beginPath();
-                ctx.arc(0, 3, 3.5, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Mouth
-                ctx.strokeStyle = '#000';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                if (mascotMood === 'happy') {
-                    ctx.arc(0, 7, 6, 0, Math.PI);
-                } else if (mascotMood === 'worried') {
-                    ctx.arc(0, 11, 5, Math.PI, Math.PI * 2);
-                } else {
-                    ctx.moveTo(-4, 8);
-                    ctx.lineTo(4, 8);
-                }
-                ctx.stroke();
-
-            } else if (isFox) {
-                // 🦊 Raposa Kitsune Ninja
-                // Ears
-                ctx.fillStyle = '#ea580c';
-                ctx.beginPath();
-                ctx.moveTo(-22, -15);
-                ctx.lineTo(-24, -38);
-                ctx.lineTo(-6, -22);
-                ctx.closePath();
-                ctx.fill();
-                ctx.fillStyle = '#fef08a';
-                ctx.beginPath();
-                ctx.moveTo(-20, -17);
-                ctx.lineTo(-22, -32);
-                ctx.lineTo(-9, -21);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.fillStyle = '#ea580c';
-                ctx.beginPath();
-                ctx.moveTo(22, -15);
-                ctx.lineTo(24, -38);
-                ctx.lineTo(6, -22);
-                ctx.closePath();
-                ctx.fill();
-                ctx.fillStyle = '#fef08a';
-                ctx.beginPath();
-                ctx.moveTo(20, -17);
-                ctx.lineTo(22, -32);
-                ctx.lineTo(9, -21);
-                ctx.closePath();
-                ctx.fill();
-
-                // Head
-                ctx.fillStyle = '#ea580c';
-                ctx.beginPath();
-                ctx.arc(0, -6, 25, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Blue Ninja Bandana
-                ctx.fillStyle = '#2563eb';
-                ctx.fillRect(-25, -17, 50, 8);
-
-                // Cheeks
-                ctx.fillStyle = '#fff';
-                ctx.beginPath();
-                ctx.ellipse(-12, 4, 11, 9, 0, 0, Math.PI * 2);
-                ctx.ellipse(12, 4, 11, 9, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Eyes
-                ctx.fillStyle = '#1e1b4b';
-                ctx.beginPath();
-                ctx.arc(-9, -5, 3.5, 0, Math.PI * 2);
-                ctx.arc(9, -5, 3.5, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Snout
-                ctx.fillStyle = '#7c2d12';
-                ctx.beginPath();
-                ctx.arc(0, 4, 3.5, 0, Math.PI * 2);
-                ctx.fill();
-
-            } else {
-                // 🐉 Dragão Sagrado Ryu (Faixa Preta)
-                // Horns
-                ctx.fillStyle = '#ca8a04';
-                ctx.beginPath();
-                ctx.moveTo(-16, -18); ctx.lineTo(-24, -36); ctx.lineTo(-10, -26);
-                ctx.moveTo(16, -18); ctx.lineTo(24, -36); ctx.lineTo(10, -26);
-                ctx.fill();
-
-                // Dragon Head
-                ctx.fillStyle = '#eab308';
-                ctx.beginPath();
-                ctx.arc(0, -6, 26, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.lineWidth = 2.5;
-                ctx.strokeStyle = '#a16207';
-                ctx.stroke();
-
-                // Gold Headband with Dragon Gem
-                ctx.fillStyle = '#18181b';
-                ctx.fillRect(-26, -17, 52, 9);
-                ctx.fillStyle = '#22c55e'; // Jade gem
-                ctx.beginPath();
-                ctx.arc(0, -12, 5, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Whiskers
-                ctx.strokeStyle = '#ca8a04';
-                ctx.lineWidth = 2.5;
-                ctx.beginPath();
-                ctx.moveTo(-12, 5); ctx.quadraticCurveTo(-28, 12, -34, 4);
-                ctx.moveTo(12, 5); ctx.quadraticCurveTo(28, 12, 34, 4);
-                ctx.stroke();
-
-                // Eyes
-                ctx.fillStyle = '#15803d';
-                ctx.beginPath();
-                ctx.arc(-10, -5, 4, 0, Math.PI * 2);
-                ctx.arc(10, -5, 4, 0, Math.PI * 2);
-                ctx.fill();
+            if (speech && bubble && bubbleText) {
+                bubbleText.innerText = speech;
+                bubble.classList.add('show');
+                clearTimeout(mascotSpeechTimer);
+                mascotSpeechTimer = setTimeout(() => {
+                    bubble.classList.remove('show');
+                }, 2400);
             }
 
-            // Speech Bubble
-            if (mascotSpeech && Date.now() < mascotSpeechTimer) {
-                ctx.save();
-                ctx.font = 'bold 12px "Outfit", sans-serif';
-                const textWidth = ctx.measureText(mascotSpeech).width;
-                const bubbleW = textWidth + 18;
-                const bubbleH = 26;
-                const bx = 16;
-                const by = -65;
-
-                ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                ctx.shadowBlur = 8;
-                ctx.beginPath();
-                ctx.roundRect(bx, by, bubbleW, bubbleH, 8);
-                ctx.fill();
-                ctx.shadowBlur = 0;
-
-                // Speech pointer tail
-                ctx.beginPath();
-                ctx.moveTo(bx + 4, by + bubbleH);
-                ctx.lineTo(bx - 4, by + bubbleH + 7);
-                ctx.lineTo(bx + 12, by + bubbleH);
-                ctx.closePath();
-                ctx.fill();
-
-                // Text
-                ctx.fillStyle = '#0f172a';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(mascotSpeech, bx + bubbleW / 2, by + bubbleH / 2);
-                ctx.restore();
+            if (mood === 'happy' && frame) {
+                frame.classList.add('jump');
+                setTimeout(() => frame.classList.remove('jump'), 450);
             }
-
-            ctx.restore();
         }
 
         // --- Spawner Logic ---
@@ -1993,16 +1994,18 @@
 
             const now = Date.now();
 
-            // Modo Frenesi
+            // Modo Frenesi Controlado (Sem Moedas Infinitas!)
             if (frenzyMode) {
-                if (now - lastSpawnTime > 400) {
+                if (now - lastSpawnTime > 420) {
                     lastSpawnTime = now;
                     spawnFrenzyFruit();
                 }
                 if (now > frenzyTimer) {
                     frenzyMode = false;
                     document.getElementById('frenzy-banner').classList.remove('show');
-                    waveTimer = now + 800;
+                    // Remove frutas de frenesi restantes e retoma as contas normais
+                    activeFruits = activeFruits.filter(f => !f.isFrenzyBonus);
+                    waveTimer = now + 900;
                 }
                 return;
             }
@@ -2141,6 +2144,7 @@
                 isGolden: isGolden,
                 isSpecialMulti: false,
                 isPowerUp: null,
+                isFrenzyBonus: false,
                 isMini: false,
                 isBomb: false,
                 sliced: false
@@ -2180,6 +2184,7 @@
                 isGolden: false,
                 isSpecialMulti: false,
                 isPowerUp: powerType,
+                isFrenzyBonus: false,
                 isMini: false,
                 isBomb: false,
                 sliced: false
@@ -2212,12 +2217,14 @@
                 isGolden: false,
                 isSpecialMulti: true,
                 isPowerUp: null,
+                isFrenzyBonus: false,
                 isMini: false,
                 isBomb: false,
                 sliced: false
             });
         }
 
+        // --- Fruta de Frenesi (Corrigido: Não Reseta o Timer de Forma Infinita!) ---
         function spawnFrenzyFruit() {
             const template = FRUIT_TYPES[Math.floor(Math.random() * FRUIT_TYPES.length)];
             const startX = width * (Math.random() * 0.8 + 0.1);
@@ -2237,7 +2244,8 @@
                 radius: template.radius,
                 template: template,
                 value: '⭐',
-                isGolden: true,
+                isGolden: false,         // NÃO reseta o frenesi ao cortar!
+                isFrenzyBonus: true,     // Marca como fruta bônus de frenesi
                 isSpecialMulti: false,
                 isPowerUp: null,
                 isMini: false,
@@ -2271,6 +2279,7 @@
                 isGolden: false,
                 isSpecialMulti: false,
                 isPowerUp: null,
+                isFrenzyBonus: false,
                 isMini: false,
                 isBomb: true,
                 sliced: false
@@ -2379,7 +2388,6 @@
                 document.getElementById('combo-pill').style.display = 'flex';
                 spawnFloatingText(p2.x, p2.y - 30, `🔥 COMBO ×${combo}!`, '#fbbf24', 28);
 
-                // Digital Achievement: Combo Master
                 if (combo >= 5 && !unlockedAchievements.comboMaster) {
                     unlockedAchievements.comboMaster = true;
                     showAchievementNotification("🔥 Mestre do Combo!", "Você atingiu um combo devastador de x5!");
@@ -2442,7 +2450,6 @@
                 spawnFloatingText(fruit.x, fruit.y, '⚡ RAIO NINJA! ⚡', '#facc15', 32);
                 setMascotMood('attack', 'Raio exterminador!');
 
-                // Destrói instantaneamente todos os distratores errados!
                 activeFruits.forEach(other => {
                     if (!other.sliced && other.value !== currentTarget.answer && !other.isHalf && !other.isBomb) {
                         other.sliced = true;
@@ -2481,6 +2488,7 @@
                         isGolden: false,
                         isSpecialMulti: false,
                         isPowerUp: null,
+                        isFrenzyBonus: false,
                         isMini: true,
                         isBomb: false,
                         sliced: false
@@ -2500,11 +2508,22 @@
                 return;
             }
 
-            // 6. Fruta Dourada de Frenesi
+            // 6. Fruta Bônus de Frenesi (Corrigido: Pontua e corta normalmente sem estender o tempo para sempre!)
+            if (fruit.isFrenzyBonus) {
+                sound.playCorrect();
+                score += 50;
+                updateScoreHUD();
+                spawnFloatingText(fruit.x, fruit.y, '⭐ +50', '#facc15', 24);
+                createExplosion(fruit.x, fruit.y, '#facc15');
+                splitFruitHalves(fruit, p1, p2);
+                return;
+            }
+
+            // 7. Fruta Dourada Original de Frenesi (Inicia 5 segundos de frenesi estrito)
             if (fruit.isGolden) {
                 sound.playFrenzy();
                 frenzyMode = true;
-                frenzyTimer = Date.now() + 6000;
+                frenzyTimer = Date.now() + 5000; // Exatos 5 segundos de frenesi
                 score += 300;
                 updateScoreHUD();
                 document.getElementById('frenzy-banner').classList.add('show');
@@ -2514,11 +2533,10 @@
                 return;
             }
 
-            // 7. Fruta Pedagógica Normal
+            // 8. Fruta Pedagógica Normal
             const isAnswerMatch = String(fruit.value) === String(currentTarget.answer);
 
             if (isAnswerMatch) {
-                // CORTE CORRETO!
                 sound.playCorrect();
                 hitsCount++;
                 const points = 100 * (combo > 1 ? combo : 1);
@@ -2530,7 +2548,6 @@
                 splitFruitHalves(fruit, p1, p2);
                 setMascotMood('happy', ['Perfeito!', 'Boa!', 'Incrível!', 'Corte certeiro!'][Math.floor(Math.random() * 4)]);
 
-                // Se houver Boss ativo, dá dano nele!
                 if (bossActive) {
                     bossHp--;
                     sound.playBossDamage();
@@ -2549,7 +2566,6 @@
                         createExplosion(width / 2, height * 0.4, '#facc15');
                         setMascotMood('happy', 'Vencemos o Shogun!');
 
-                        // Digital Achievement: Shogun Slayer
                         if (!unlockedAchievements.shogunSlayer) {
                             unlockedAchievements.shogunSlayer = true;
                             showAchievementNotification("👹 Carrasco do Shogun!", "Você derrotou o terrível Shogun da Tabuada!");
@@ -2557,13 +2573,11 @@
                     }
                 }
 
-                // Troca de arena a cada 5 acertos
                 questionsInCurrentArena++;
                 if (questionsInCurrentArena >= 5) {
                     advanceArena();
                 }
 
-                // Limpa outras frutas da onda suavemente em pétalas
                 for (let other of activeFruits) {
                     if (!other.sliced && other !== fruit && !other.isHalf) {
                         other.sliced = true;
@@ -2572,7 +2586,6 @@
                 }
                 activeFruits = activeFruits.filter(f => f.isHalf);
 
-                // Intervalo confortável para respirar antes da próxima conta
                 waveTimer = Date.now() + 1100;
                 setTimeout(() => {
                     if (gameState === 'PLAYING') {
@@ -2582,7 +2595,6 @@
                 }, 1100);
 
             } else {
-                // CORTE INCORRETO!
                 sound.playWrong();
                 missesCount++;
                 if (gameMode === 'classic') {
@@ -2593,7 +2605,6 @@
                 document.getElementById('combo-pill').style.display = 'none';
                 updateScoreHUD();
 
-                // Registra erro no Caderno Pedagógico
                 missedQuestions.push({
                     text: currentTarget.text,
                     answer: currentTarget.answer,
@@ -2616,7 +2627,6 @@
             const normalX = -Math.sin(angle);
             const normalY = Math.cos(angle);
 
-            // Left piece
             activeFruits.push({
                 x: fruit.x - normalX * 10,
                 y: fruit.y - normalY * 10,
@@ -2632,7 +2642,6 @@
                 sliced: true
             });
 
-            // Right piece
             activeFruits.push({
                 x: fruit.x + normalX * 10,
                 y: fruit.y + normalY * 10,
@@ -2735,10 +2744,7 @@
             // 8. Draw Floating Texts
             drawFloatingTexts();
 
-            // 9. Draw Mascot (Panda, Kitsune or Dragon)
-            drawMascot(ctx);
-
-            // 10. Ice Slow-Mo Overlay update
+            // 9. Ice Slow-Mo Overlay update
             const iceOverlay = document.getElementById('ice-overlay');
             if (Date.now() < slowMoUntil) {
                 iceOverlay.style.opacity = '1';
@@ -2805,7 +2811,6 @@
                 ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.moveTo(b.x1, b.y1);
-                // Jagged line
                 const midX = (b.x1 + b.x2) / 2 + (Math.random() - 0.5) * 40;
                 const midY = (b.y1 + b.y2) / 2 + (Math.random() - 0.5) * 40;
                 ctx.lineTo(midX, midY);
@@ -3001,7 +3006,6 @@
                 ctx.fill();
 
             } else if (type === 'iceFruit') {
-                // ❄️ Fruta do Gelo Ninja
                 ctx.shadowColor = '#38bdf8';
                 ctx.shadowBlur = 25;
                 ctx.fillStyle = '#0284c7';
@@ -3013,7 +3017,6 @@
                 ctx.strokeStyle = '#e0f2fe';
                 ctx.stroke();
 
-                // Cristal central
                 ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 ctx.beginPath();
                 ctx.moveTo(0, -r * 0.6);
@@ -3024,7 +3027,6 @@
                 ctx.fill();
 
             } else if (type === 'lightningFruit') {
-                // ⚡ Fruta do Raio Ninja
                 ctx.shadowColor = '#eab308';
                 ctx.shadowBlur = 25;
                 ctx.fillStyle = '#ca8a04';
@@ -3036,7 +3038,6 @@
                 ctx.strokeStyle = '#fef08a';
                 ctx.stroke();
 
-                // Lightning Bolt icon
                 ctx.fillStyle = '#fef08a';
                 ctx.beginPath();
                 ctx.moveTo(3, -r * 0.65);
@@ -3049,7 +3050,6 @@
                 ctx.fill();
 
             } else if (type === 'specialMulti') {
-                // Cristal Ninja da Fissão
                 ctx.shadowColor = '#38bdf8';
                 ctx.shadowBlur = 28;
                 ctx.fillStyle = '#0284c7';
@@ -3086,7 +3086,6 @@
             for (let i = activeFruits.length - 1; i >= 0; i--) {
                 const f = activeFruits[i];
 
-                // Flutuação no Ápice
                 if (!f.isHalf && Math.abs(f.vy) < 0.9 && f.hangFramesLeft > 0) {
                     f.isHanging = true;
                     f.hangFramesLeft--;
@@ -3101,7 +3100,6 @@
                 f.y += f.vy;
                 f.angle += f.vAngle;
 
-                // Remove se cair da tela
                 if (f.y > height + 90 && f.vy > 0) {
                     if (!f.sliced && String(f.value) === String(currentTarget?.answer) && gameState === 'PLAYING') {
                         combo = 0;
@@ -3153,7 +3151,6 @@
                     ctx.restore();
 
                 } else {
-                    // 1. Silhueta Visual Distinta
                     ctx.save();
                     ctx.rotate(f.angle);
                     if (f.isGolden) {
@@ -3172,7 +3169,7 @@
                     }
                     ctx.restore();
 
-                    // 2. Medalhão do Número (100% Horizontal)
+                    // Medalhão do Número (Sempre Horizontal)
                     ctx.save();
                     ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
                     ctx.shadowBlur = 10;
@@ -3181,16 +3178,17 @@
                     const isSpecial = f.isSpecialMulti;
                     const isPower = !!f.isPowerUp;
                     const isMini = f.isMini;
-                    const badgeRadius = isMini ? f.radius * 0.8 : (isSpecial || isPower ? f.radius * 0.65 : f.radius * 0.64);
+                    const isFrenzy = f.isFrenzyBonus;
+                    const badgeRadius = (isMini || isFrenzy) ? f.radius * 0.8 : (isSpecial || isPower ? f.radius * 0.65 : f.radius * 0.64);
 
-                    ctx.fillStyle = isSpecial ? '#0369a1' : (isPower ? (f.isPowerUp === 'ice' ? '#0284c7' : '#854d0e') : (f.isGolden ? '#fef08a' : '#ffffff'));
+                    ctx.fillStyle = isSpecial ? '#0369a1' : (isPower ? (f.isPowerUp === 'ice' ? '#0284c7' : '#854d0e') : (f.isGolden || isFrenzy ? '#fef08a' : '#ffffff'));
                     ctx.beginPath();
                     ctx.arc(0, 0, badgeRadius, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.shadowBlur = 0;
 
                     ctx.lineWidth = 3.5;
-                    ctx.strokeStyle = isSpecial ? '#38bdf8' : (isPower ? '#fef08a' : (f.isGolden ? '#ca8a04' : '#d97706'));
+                    ctx.strokeStyle = isSpecial ? '#38bdf8' : (isPower ? '#fef08a' : (f.isGolden || isFrenzy ? '#ca8a04' : '#d97706'));
                     ctx.stroke();
 
                     ctx.lineWidth = 1.5;
@@ -3199,9 +3197,9 @@
                     ctx.arc(0, 0, badgeRadius - 4, 0, Math.PI * 2);
                     ctx.stroke();
 
-                    ctx.fillStyle = (isSpecial || isPower) ? '#fef08a' : (f.isGolden ? '#854d0e' : '#0f172a');
+                    ctx.fillStyle = (isSpecial || isPower) ? '#fef08a' : (f.isGolden || isFrenzy ? '#854d0e' : '#0f172a');
                     const numStr = String(f.value);
-                    const fontSize = isMini ? 19 : (isSpecial || isPower ? 20 : (numStr.length > 2 ? 26 : 34));
+                    const fontSize = (isMini || isFrenzy) ? 22 : (isSpecial || isPower ? 20 : (numStr.length > 2 ? 26 : 34));
                     ctx.font = `900 ${fontSize}px "Fredoka", "Outfit", sans-serif`;
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
