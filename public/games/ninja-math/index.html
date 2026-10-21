@@ -816,6 +816,406 @@
             transform: translateY(1px) scale(0.99);
         }
 
+        /* === Tux Math Arcade System Styles === */
+        .arcade-menu-card.tux-card {
+            max-width: 960px;
+            width: 95vw;
+            background: radial-gradient(circle at 50% 10%, #151d3b 0%, #0b0f24 100%);
+            border: 2.5px solid rgba(59, 130, 246, 0.45);
+            border-radius: 26px;
+            padding: 20px 24px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 40px rgba(37, 99, 235, 0.25), inset 0 0 30px rgba(37, 99, 235, 0.08);
+        }
+
+        .tux-arcade-wrapper {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .tux-left-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .tux-right-panel {
+            display: flex;
+            flex-direction: column;
+            background: rgba(5, 10, 28, 0.65);
+            border: 1.5px solid rgba(59, 130, 246, 0.28);
+            border-radius: 20px;
+            padding: 14px 16px;
+            min-height: 460px;
+            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Tux Mascot Box (Left Side) */
+        .tux-mascot-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 23, 52, 0.85);
+            border: 1.5px solid rgba(59, 130, 246, 0.35);
+            border-radius: 16px;
+            padding: 10px 12px;
+        }
+
+        .tux-mascot-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid #60a5fa;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: #000;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+        }
+
+        .tux-mascot-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tux-mascot-bubble {
+            flex: 1;
+            text-align: left;
+        }
+
+        .tux-mascot-name {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tux-mascot-quote {
+            font-size: 0.82rem;
+            color: #e2e8f0;
+            line-height: 1.25;
+            font-weight: 600;
+        }
+
+        /* Selected Mission Card */
+        .tux-selected-card {
+            background: linear-gradient(135deg, rgba(30, 41, 79, 0.8), rgba(15, 23, 42, 0.9));
+            border: 1.5px solid #3b82f6;
+            border-radius: 16px;
+            padding: 12px 14px;
+            text-align: left;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .tux-selected-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .tux-badge-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: #2563eb;
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+            flex-shrink: 0;
+        }
+
+        .tux-selected-tag {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #93c5fd;
+            text-transform: uppercase;
+        }
+
+        .tux-selected-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fde047;
+            line-height: 1.1;
+        }
+
+        .tux-selected-desc {
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            line-height: 1.3;
+            margin-bottom: 6px;
+        }
+
+        .tux-selected-example {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #86efac;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px dashed rgba(34, 197, 94, 0.4);
+            border-radius: 8px;
+            padding: 4px 8px;
+        }
+
+        /* Right Navigation Header */
+        .tux-nav-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .tux-back-btn {
+            background: rgba(30, 58, 138, 0.6);
+            border: 1.5px solid #60a5fa;
+            color: #93c5fd;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .tux-back-btn:hover {
+            background: #2563eb;
+            color: #fff;
+            transform: scale(1.04);
+        }
+
+        .tux-nav-title {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex: 1;
+            text-align: left;
+        }
+
+        /* Tux Scrollable Container */
+        .tux-menu-scroll {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .tux-menu-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .tux-menu-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 10px;
+        }
+        .tux-menu-scroll::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 10px;
+        }
+
+        /* Tux Math Pill Button */
+        .tux-menu-btn {
+            width: 100%;
+            background: linear-gradient(90deg, rgba(20, 32, 74, 0.94) 0%, rgba(13, 20, 52, 0.96) 100%);
+            border: 1.5px solid rgba(59, 130, 246, 0.35);
+            border-radius: 50px;
+            padding: 7px 18px 7px 8px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            text-align: left;
+        }
+
+        .tux-menu-btn:hover {
+            transform: translateX(4px);
+            border-color: #60a5fa;
+            background: linear-gradient(90deg, rgba(29, 78, 216, 0.85) 0%, rgba(30, 58, 138, 0.9) 100%);
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.55), 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .tux-menu-btn.active {
+            border-color: #93c5fa;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.95) 0%, rgba(30, 58, 138, 0.98) 100%);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.75), inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .tux-icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-right: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        }
+
+        .tux-btn-label {
+            flex: 1;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tux-btn-arrow {
+            font-size: 0.92rem;
+            font-weight: 900;
+            color: #93c5fd;
+            opacity: 0.8;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .tux-menu-btn.active .tux-btn-arrow {
+            color: #fde047;
+            opacity: 1;
+            font-size: 1.1rem;
+        }
+
+        /* Help Panel Cards */
+        .tux-help-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .tux-help-card {
+            background: rgba(15, 23, 52, 0.8);
+            border: 1.5px solid rgba(59, 130, 246, 0.25);
+            border-radius: 14px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tux-help-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .tux-help-text {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            line-height: 1.35;
+        }
+
+        .tux-help-text strong {
+            color: #fde047;
+        }
+
+        /* Mobile & Landscape Adjustments */
+        @media (max-width: 820px) {
+            .arcade-menu-card.tux-card {
+                padding: 16px;
+                max-width: 96vw;
+            }
+            .tux-arcade-wrapper {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .tux-right-panel {
+                min-height: auto;
+            }
+            .tux-menu-scroll {
+                max-height: 280px;
+            }
+        }
+
+        @media (max-height: 540px) {
+            .arcade-menu-card.tux-card {
+                padding: 8px 14px;
+                max-height: 98vh;
+            }
+            .tux-arcade-wrapper {
+                grid-template-columns: 260px 1fr;
+                gap: 10px;
+            }
+            .menu-arcade-header {
+                margin-bottom: 4px;
+            }
+            .arcade-brand-title {
+                font-size: 1.5rem;
+            }
+            .arcade-brand-sub {
+                font-size: 0.65rem;
+            }
+            .arcade-player-card {
+                padding: 4px 8px;
+                margin-bottom: 6px;
+            }
+            .tux-mascot-box {
+                padding: 4px 8px;
+                gap: 8px;
+            }
+            .tux-mascot-avatar {
+                width: 38px;
+                height: 38px;
+            }
+            .tux-selected-card {
+                padding: 6px 10px;
+            }
+            .tux-selected-title {
+                font-size: 0.95rem;
+            }
+            .tux-selected-desc {
+                display: none;
+            }
+            .arcade-btn-play {
+                padding: 8px;
+                font-size: 1.1rem;
+            }
+            .tux-right-panel {
+                min-height: auto;
+                padding: 8px 10px;
+            }
+            .tux-menu-scroll {
+                max-height: 60vh;
+                gap: 5px;
+            }
+            .tux-menu-btn {
+                padding: 4px 12px 4px 6px;
+            }
+            .tux-icon-box {
+                width: 28px;
+                height: 28px;
+                font-size: 1rem;
+                margin-right: 10px;
+            }
+            .tux-btn-label {
+                font-size: 0.88rem;
+            }
+        }
+
         /* Stickers Album Styles */
         .stickers-grid {
             display: grid;
@@ -1792,175 +2192,198 @@
             👹 O SHOGUN CHEGOU! DEFENDA O DOJO! ⚔️
         </div>
 
-        <!-- Start / Difficulty Screen (Novo Menu com Cara de Jogo Arcade) -->
+        <!-- Start / Difficulty Screen (Estilo Tux Math Arcade) -->
         <div class="modal-screen" id="start-modal">
-            <div class="modal-card arcade-menu-card">
-                <!-- Arcade Title Header -->
-                <div class="menu-arcade-header">
-                    <div class="arcade-brand-row">
-                        <span style="font-size: 2.2rem;">🥷</span>
-                        <h1 class="arcade-brand-title">NINJA MATH</h1>
-                        <span style="font-size: 2.2rem;">⚔️</span>
-                    </div>
-                    <div class="arcade-brand-sub">DOJO DA TABUADA • CORTE OS RESULTADOS • CONQUISTE AS FAIXAS</div>
-                </div>
+            <div class="modal-card arcade-menu-card tux-card">
+                <div class="tux-arcade-wrapper">
+                    <!-- Painel Esquerdo: Brand, Aluno, Mascote Tux, Briefing da Missão e Ação -->
+                    <div class="tux-left-panel">
+                        <!-- Brand Header -->
+                        <div class="menu-arcade-header">
+                            <div class="arcade-brand-row">
+                                <span style="font-size: 2rem;">🥷</span>
+                                <h1 class="arcade-brand-title">NINJA MATH</h1>
+                                <span style="font-size: 2rem;">⚔️</span>
+                            </div>
+                            <div class="arcade-brand-sub">DOJO DA TABUADA • ESTILO TUX MATH</div>
+                        </div>
 
-                <!-- Ninja Player & Classroom Pass -->
-                <div class="arcade-player-card">
-                    <div class="arcade-player-left" onclick="openNameEntryModal()" title="Toque para trocar o nome do aluno">
-                        <div class="player-ninja-avatar">🥷</div>
-                        <div>
-                            <div class="player-tag-title">GUERREIRO ATUAL</div>
-                            <div class="player-tag-name" id="menu-student-name">Ninja Aprendiz</div>
+                        <!-- Ninja Player & Classroom Pass -->
+                        <div class="arcade-player-card">
+                            <div class="arcade-player-left" onclick="openNameEntryModal()" title="Toque para trocar o nome do aluno">
+                                <div class="player-ninja-avatar">🥷</div>
+                                <div>
+                                    <div class="player-tag-title">GUERREIRO ATUAL</div>
+                                    <div class="player-tag-name" id="menu-student-name">Ninja Aprendiz</div>
+                                </div>
+                                <span class="player-btn-edit">✏️ Trocar</span>
+                            </div>
+                            <div class="arcade-player-right">
+                                <div class="arcade-room-pill" onclick="editRoomPinInline()" title="Toque para alterar a turma">
+                                    🏫 <span id="menu-room-display">TURMA: LIVRE</span>
+                                </div>
+                                <div class="arcade-coins-pill" onclick="openDojoShop()" title="Abrir Loja de Katanas">
+                                    💰 <span id="menu-coins-val">0</span>
+                                </div>
+                            </div>
                         </div>
-                        <span class="player-btn-edit">✏️ Trocar</span>
-                    </div>
-                    <div class="arcade-player-right">
-                        <div class="arcade-room-pill" onclick="editRoomPinInline()" title="Toque para alterar a turma">
-                            🏫 <span id="menu-room-display">TURMA: LIVRE</span>
-                        </div>
-                        <div class="arcade-coins-pill" onclick="openDojoShop()" title="Abrir Loja de Katanas">
-                            💰 <span id="menu-coins-val">0</span>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Category Tabs Switcher -->
-                <div class="arcade-tabs">
-                    <button class="arcade-tab-btn active" id="tab-bncc" onclick="switchCategoryTab('bncc')">
-                        🎒 Fases Escolares (1º ao 5º Ano)
-                    </button>
-                    <button class="arcade-tab-btn" id="tab-custom" onclick="switchCategoryTab('custom')">
-                        🎯 Treino de Tabuada Específica
-                    </button>
-                </div>
+                        <!-- Mascote Interativo Tux Style -->
+                        <div class="tux-mascot-box">
+                            <div class="tux-mascot-avatar" id="tux-mascot-img-wrap">
+                                <img src="mascot-panda.jpg" id="tux-mascot-img" alt="Mascote Ninja">
+                            </div>
+                            <div class="tux-mascot-bubble">
+                                <div class="tux-mascot-name" id="tux-mascot-name">🐼 Mestre Po diz:</div>
+                                <div class="tux-mascot-quote" id="tux-mascot-quote">
+                                    Escolha sua operação matemática à direita e venha treinar sua espada!
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- 1. BNCC Arcade Stages Grid -->
-                <div class="arcade-stages-grid" id="bncc-picker">
-                    <div class="arcade-stage-card stage-1 active" onclick="selectLevel('1', this)">
-                        <div class="stage-badge">1º ANO</div>
-                        <div class="stage-info">
-                            <div class="stage-name">🟢 Adição & Subtração</div>
-                            <div class="stage-desc">Continhas simples de 1 a 10 (+ e -)</div>
+                        <!-- Briefing da Missão Selecionada -->
+                        <div class="tux-selected-card">
+                            <div class="tux-selected-header">
+                                <span class="tux-badge-icon" id="tux-badge-icon">+</span>
+                                <div>
+                                    <div class="tux-selected-tag">TREINO SELECIONADO</div>
+                                    <div class="tux-selected-title" id="tux-title-display">Adição acima de 10</div>
+                                </div>
+                            </div>
+                            <div class="tux-selected-desc" id="tux-desc-display">
+                                Cálculo de adição com somas até 15 e 20. Padrão BNCC para o 1º/2º ano.
+                            </div>
+                            <div class="tux-selected-example" id="tux-example-display">
+                                Exemplo: 7 + 5 = ? ou 9 + 4 = ?
+                            </div>
                         </div>
-                        <div class="stage-check">✓</div>
-                    </div>
-                    <div class="arcade-stage-card stage-2" onclick="selectLevel('2', this)">
-                        <div class="stage-badge">2º ANO</div>
-                        <div class="stage-info">
-                            <div class="stage-name">🟢 Cálculo até 50</div>
-                            <div class="stage-desc">Adições e subtrações até 20 e até 50</div>
-                        </div>
-                        <div class="stage-check">✓</div>
-                    </div>
-                    <div class="arcade-stage-card stage-3" onclick="selectLevel('3', this)">
-                        <div class="stage-badge">3º ANO</div>
-                        <div class="stage-info">
-                            <div class="stage-name">🟡 Tabuadas Iniciais</div>
-                            <div class="stage-desc">Tabuadas do 2, 3, 4, 5 e 10</div>
-                        </div>
-                        <div class="stage-check">✓</div>
-                    </div>
-                    <div class="arcade-stage-card stage-4" onclick="selectLevel('4-5', this)">
-                        <div class="stage-badge">4º e 5º</div>
-                        <div class="stage-info">
-                            <div class="stage-name">🔴 Tabuadas Avançadas</div>
-                            <div class="stage-desc">Tabuadas do 6 ao 9 e Divisões</div>
-                        </div>
-                        <div class="stage-check">✓</div>
-                    </div>
-                    <div class="arcade-stage-card stage-geom" onclick="selectLevel('geometria', this)">
-                        <div class="stage-badge">📐 FORMAS</div>
-                        <div class="stage-info">
-                            <div class="stage-name">Frações & Geometria</div>
-                            <div class="stage-desc">Metades (1/2), quartos e polígonos</div>
-                        </div>
-                        <div class="stage-check">✓</div>
-                    </div>
-                    <div class="arcade-stage-card stage-master" onclick="selectLevel('mestre', this)">
-                        <div class="stage-badge">👑 MESTRE</div>
-                        <div class="stage-info">
-                            <div class="stage-name">Mestre Ninja Supremo</div>
-                            <div class="stage-desc">Todas as contas, tabuadas & incógnitas</div>
-                        </div>
-                        <div class="stage-check">✓</div>
-                    </div>
-                </div>
 
-                <!-- 2. Custom Tabuada Selector Grid -->
-                <div class="custom-tabuada-box" id="custom-picker">
-                    <div style="font-weight: 800; font-size: 0.88rem; color: #fbbf24; display: flex; justify-content: space-between; align-items: center;">
-                        <span>Escolha as tabuadas para o treino:</span>
-                        <button onclick="toggleAllChips()" style="background: none; border: 1px solid #fbbf24; color: #fbbf24; border-radius: 8px; padding: 2px 8px; font-size: 0.75rem; cursor: pointer;">
-                            Alternar Todas
+                        <!-- Botão Gigante de Iniciar o Dojo -->
+                        <button class="arcade-btn-play" onclick="startGame()">
+                            <span>⚔️ ENTRAR NO DOJO!</span> 🚀
                         </button>
-                    </div>
-                    <div class="chip-grid">
-                        <button type="button" class="chip-num selected" onclick="toggleChip(1, this)">×1</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(2, this)">×2</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(3, this)">×3</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(4, this)">×4</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(5, this)">×5</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(6, this)">×6</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(7, this)">×7</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(8, this)">×8</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(9, this)">×9</button>
-                        <button type="button" class="chip-num selected" onclick="toggleChip(10, this)">×10</button>
-                    </div>
-                </div>
 
-                <!-- Arcade Setup (Modo + Velocidade Lado a Lado) -->
-                <div class="arcade-setup-panel">
-                    <div>
-                        <div class="setup-col-title">🥋 MODO DE JOGO:</div>
-                        <div class="arcade-pill-group">
-                            <button type="button" class="setup-pill active" id="mode-classic" onclick="selectGameMode('classic')">
-                                🥋 5 Vidas
+                        <!-- Arcade Hub Bar (Loja, Top 5, Álbum, Diploma) -->
+                        <div class="arcade-hub-bar">
+                            <button type="button" class="hub-btn hub-shop" onclick="openDojoShop()">
+                                🗡️ LOJA
                             </button>
-                            <button type="button" class="setup-pill" id="mode-blitz" onclick="selectGameMode('blitz')">
-                                ⏱️ Blitz 60s
+                            <button type="button" class="hub-btn hub-ranking" onclick="openLeaderboardModal()">
+                                🏆 TOP 5
                             </button>
-                            <button type="button" class="setup-pill" id="mode-zen" onclick="selectGameMode('zen')">
-                                ☯️ Treino Zen
+                            <button type="button" class="hub-btn hub-album" onclick="openStickersAlbum()">
+                                🎴 ÁLBUM
+                            </button>
+                            <button type="button" class="hub-btn hub-diploma" onclick="openDiplomaModal()">
+                                📜 DIPLOMA
                             </button>
                         </div>
                     </div>
-                    <div class="speed-col">
-                        <div class="setup-col-title">⚡ VELOCIDADE:</div>
-                        <div class="arcade-pill-group">
-                            <button type="button" class="setup-pill active" id="spd-calmo" onclick="selectSpeed('calmo')">
-                                🐢 Calmo
+
+                    <!-- Painel Direito: Menu Estilo Tux Math (Pill Buttons Verticais com Ícones) -->
+                    <div class="tux-right-panel">
+                        <!-- Navigation Header -->
+                        <div class="tux-nav-header">
+                            <button type="button" class="tux-back-btn" id="tux-back-btn" onclick="tuxNavigate('main')" style="display:none;">
+                                ⬅️ Voltar
                             </button>
-                            <button type="button" class="setup-pill" id="spd-medio" onclick="selectSpeed('medio')">
-                                ⚡ Médio
-                            </button>
-                            <button type="button" class="setup-pill" id="spd-rapido" onclick="selectSpeed('rapido')">
-                                🥷 Rápido
-                            </button>
+                            <div class="tux-nav-title" id="tux-nav-title">
+                                🥋 ESCOLHA UMA OPERAÇÃO:
+                            </div>
+                        </div>
+
+                        <!-- Container de Botões Tux Math com Scroll Suave -->
+                        <div class="tux-menu-scroll" id="tux-menu-items">
+                            <!-- Inserido dinamicamente por renderTuxMenu() -->
+                        </div>
+
+                        <!-- Painel Custom Tabuadas (quando clicado em custom) -->
+                        <div class="custom-tabuada-box" id="custom-picker" style="display:none; margin-top: 10px;">
+                            <div style="font-weight: 800; font-size: 0.88rem; color: #fbbf24; display: flex; justify-content: space-between; align-items: center;">
+                                <span>Escolha as tabuadas para o treino:</span>
+                                <button type="button" onclick="toggleAllChips()" style="background: none; border: 1px solid #fbbf24; color: #fbbf24; border-radius: 8px; padding: 2px 8px; font-size: 0.75rem; cursor: pointer;">
+                                    Alternar Todas
+                                </button>
+                            </div>
+                            <div class="chip-grid">
+                                <button type="button" class="chip-num selected" onclick="toggleChip(1, this)">×1</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(2, this)">×2</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(3, this)">×3</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(4, this)">×4</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(5, this)">×5</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(6, this)">×6</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(7, this)">×7</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(8, this)">×8</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(9, this)">×9</button>
+                                <button type="button" class="chip-num selected" onclick="toggleChip(10, this)">×10</button>
+                            </div>
+                        </div>
+
+                        <!-- Painel Opções Embutido -->
+                        <div id="tux-options-panel" style="display:none; margin-top: 10px;">
+                            <div class="arcade-setup-panel" style="margin-bottom:0;">
+                                <div>
+                                    <div class="setup-col-title">🥋 MODO DE JOGO:</div>
+                                    <div class="arcade-pill-group">
+                                        <button type="button" class="setup-pill active" id="mode-classic" onclick="selectGameMode('classic')">
+                                            🥋 5 Vidas
+                                        </button>
+                                        <button type="button" class="setup-pill" id="mode-blitz" onclick="selectGameMode('blitz')">
+                                            ⏱️ Blitz 60s
+                                        </button>
+                                        <button type="button" class="setup-pill" id="mode-zen" onclick="selectGameMode('zen')">
+                                            ☯️ Treino Zen
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="speed-col">
+                                    <div class="setup-col-title">⚡ VELOCIDADE:</div>
+                                    <div class="arcade-pill-group">
+                                        <button type="button" class="setup-pill active" id="spd-calmo" onclick="selectSpeed('calmo')">
+                                            🐢 Calmo
+                                        </button>
+                                        <button type="button" class="setup-pill" id="spd-medio" onclick="selectSpeed('medio')">
+                                            ⚡ Médio
+                                        </button>
+                                        <button type="button" class="setup-pill" id="spd-rapido" onclick="selectSpeed('rapido')">
+                                            🥷 Rápido
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Painel Ajuda Embutido -->
+                        <div id="tux-help-panel" style="display:none; margin-top: 10px;">
+                            <div class="tux-help-grid">
+                                <div class="tux-help-card">
+                                    <div class="tux-help-icon">🍉</div>
+                                    <div class="tux-help-text">
+                                        <strong>Corte a Fruta Certa:</strong> Olhe o cálculo no topo da tela e passe o dedo ou mouse na fruta com o resultado exato!
+                                    </div>
+                                </div>
+                                <div class="tux-help-card">
+                                    <div class="tux-help-icon">💣</div>
+                                    <div class="tux-help-text">
+                                        <strong>Cuidado com as Bombas:</strong> O Shogun arremessa bombas para distrair. Não encoste nelas para não perder vidas!
+                                    </div>
+                                </div>
+                                <div class="tux-help-card">
+                                    <div class="tux-help-icon">❄️</div>
+                                    <div class="tux-help-text">
+                                        <strong>Frutas Especiais & Pergaminhos:</strong> Corte a Fruta de Gelo para desacelerar o tempo e pegue Pergaminhos para ativar o Escudo Ninja!
+                                    </div>
+                                </div>
+                                <div class="tux-help-card">
+                                    <div class="tux-help-icon">🏆</div>
+                                    <div class="tux-help-text">
+                                        <strong>Faixas & Ranking:</strong> Suba de faixa (Branca até Preta) e grave seu nome no Top 5 da sua turma!
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Arcade Hub Bar (Loja, Top 5, Álbum, Diploma) -->
-                <div class="arcade-hub-bar">
-                    <button type="button" class="hub-btn hub-shop" onclick="openDojoShop()">
-                        🗡️ LOJA
-                    </button>
-                    <button type="button" class="hub-btn hub-ranking" onclick="openLeaderboardModal()">
-                        🏆 TOP 5
-                    </button>
-                    <button type="button" class="hub-btn hub-album" onclick="openStickersAlbum()">
-                        🎴 ÁLBUM
-                    </button>
-                    <button type="button" class="hub-btn hub-diploma" onclick="openDiplomaModal()">
-                        📜 DIPLOMA
-                    </button>
-                </div>
-
-                <!-- Botão Grandioso de Iniciar o Dojo -->
-                <button class="arcade-btn-play" onclick="startGame()">
-                    <span>⚔️ ENTRAR NO DOJO!</span> 🚀
-                </button>
             </div>
         </div>
 
@@ -3183,11 +3606,15 @@
         let swipeTrail = [];
         let lightningBolts = [];
 
-        // --- Question Generators ---
+        // --- Question Generators (Motor Matemático Granular Estilo Tux Math & BNCC) ---
+        function isIntroductoryLevel() {
+            return ['1', '2', 'add_3', 'add_5', 'add_10', 'sub_5', 'sub_10'].includes(selectedLevel);
+        }
+
         function generateQuestion() {
             let num1, num2, answer, text;
 
-            if (selectedTab === 'custom') {
+            if (selectedTab === 'custom' || selectedLevel === 'custom') {
                 const tablesArray = Array.from(selectedTables);
                 const table = tablesArray.length > 0 
                     ? tablesArray[Math.floor(Math.random() * tablesArray.length)] 
@@ -3213,6 +3640,38 @@
                 return { text, answer };
             }
 
+            // === FRAÇÕES & GEOMETRIA ===
+            if (selectedLevel === 'geo_frac') {
+                const fracBank = [
+                    { text: "Metade de uma fruta", answer: "1/2", distractors: ["1/4", "3/4", "1/3"] },
+                    { text: "Fração de um quarto", answer: "1/4", distractors: ["1/2", "3/4", "2/3"] },
+                    { text: "Três quartos de fruta", answer: "3/4", distractors: ["1/4", "1/2", "2/3"] },
+                    { text: "Fração igual a 50%", answer: "1/2", distractors: ["1/5", "1/4", "3/4"] },
+                    { text: "Fração inteira (2/2)", answer: 1, distractors: ["1/2", 0, 2] },
+                    { text: "Metade de 10 melancias", answer: 5, distractors: [4, 6, 2] },
+                    { text: "Metade de 20 laranjas", answer: 10, distractors: [15, 5, 8] },
+                    { text: "Dobro de 6 morangos", answer: 12, distractors: [10, 14, 18] }
+                ];
+                const item = fracBank[Math.floor(Math.random() * fracBank.length)];
+                return { text: item.text, answer: item.answer, distractors: item.distractors };
+            }
+
+            if (selectedLevel === 'geo_poly') {
+                const polyBank = [
+                    { text: "Lados do Triângulo?", answer: 3, distractors: [4, 5, 2] },
+                    { text: "Lados do Quadrado?", answer: 4, distractors: [3, 5, 6] },
+                    { text: "Lados do Retângulo?", answer: 4, distractors: [3, 5, 6] },
+                    { text: "Lados do Pentágono?", answer: 5, distractors: [4, 6, 8] },
+                    { text: "Lados do Hexágono?", answer: 6, distractors: [5, 7, 8] },
+                    { text: "Lados do Heptágono?", answer: 7, distractors: [6, 8, 9] },
+                    { text: "Lados do Octógono?", answer: 8, distractors: [6, 7, 10] },
+                    { text: "Vértices de um Triângulo?", answer: 3, distractors: [4, 5, 6] },
+                    { text: "Vértices de um Quadrado?", answer: 4, distractors: [3, 5, 6] }
+                ];
+                const item = polyBank[Math.floor(Math.random() * polyBank.length)];
+                return { text: item.text, answer: item.answer, distractors: item.distractors };
+            }
+
             if (selectedLevel === 'geometria') {
                 const geoBank = [
                     { text: "Metade de uma fruta", answer: "1/2", distractors: ["1/4", "3/4", "1/3"] },
@@ -3230,122 +3689,367 @@
                 return { text: item.text, answer: item.answer, distractors: item.distractors };
             }
 
-            if (selectedLevel === '1') {
-                // 1º Ano (BNCC EF01MA06/08): Contas bem simples de 1 a 10 (adição e subtração direta)
-                const isSub = Math.random() > 0.5;
-                if (isSub) {
-                    num1 = Math.floor(Math.random() * 8) + 3; // 3 a 10
-                    num2 = Math.floor(Math.random() * (num1 - 1)) + 1; // 1 a num1 - 1 (garante resposta >= 1)
-                    answer = num1 - num2;
-                    text = `${num1} - ${num2} = ?`;
+            // === ADIÇÃO GRANULAR TUX MATH ===
+            if (selectedLevel === 'add_3') {
+                num1 = Math.floor(Math.random() * 3) + 1;
+                num2 = Math.floor(Math.random() * 3) + 1;
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_5') {
+                num1 = Math.floor(Math.random() * 5) + 1;
+                num2 = Math.floor(Math.random() * 5) + 1;
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_10' || selectedLevel === '1') {
+                num1 = Math.floor(Math.random() * 7) + 2; // 2 a 8
+                num2 = Math.floor(Math.random() * (10 - num1)) + 1; // 1 a (10-num1)
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_15') {
+                num1 = Math.floor(Math.random() * 7) + 6; // 6 a 12
+                num2 = Math.floor(Math.random() * 6) + 3; // 3 a 8
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_20') {
+                num1 = Math.floor(Math.random() * 10) + 9; // 9 a 18
+                num2 = Math.floor(Math.random() * 9) + 4;  // 4 a 12
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_3num') {
+                num1 = Math.floor(Math.random() * 4) + 1;
+                num2 = Math.floor(Math.random() * 4) + 1;
+                const num3 = Math.floor(Math.random() * 3) + 1;
+                answer = num1 + num2 + num3;
+                text = `${num1} + ${num2} + ${num3} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_3num_20') {
+                num1 = Math.floor(Math.random() * 6) + 3;
+                num2 = Math.floor(Math.random() * 6) + 3;
+                const num3 = Math.floor(Math.random() * 6) + 2;
+                answer = num1 + num2 + num3;
+                text = `${num1} + ${num2} + ${num3} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_2digits') {
+                num1 = Math.floor(Math.random() * 35) + 12;
+                num2 = Math.floor(Math.random() * 35) + 11;
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_missing') {
+                num1 = Math.floor(Math.random() * 8) + 3;
+                num2 = Math.floor(Math.random() * 8) + 2;
+                const sum = num1 + num2;
+                if (Math.random() < 0.5) {
+                    text = `? + ${num2} = ${sum}`;
+                    answer = num1;
                 } else {
-                    num1 = Math.floor(Math.random() * 5) + 1; // 1 a 5
-                    num2 = Math.floor(Math.random() * 5) + 1; // 1 a 5
+                    text = `${num1} + ? = ${sum}`;
+                    answer = num2;
+                }
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_100') {
+                num1 = Math.floor(Math.random() * 45) + 25;
+                num2 = Math.floor(Math.random() * 35) + 15;
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_1000') {
+                num1 = (Math.floor(Math.random() * 8) + 2) * 50;
+                num2 = (Math.floor(Math.random() * 8) + 2) * 50;
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+                return { text, answer };
+            }
+
+            // === SUBTRAÇÃO GRANULAR TUX MATH ===
+            if (selectedLevel === 'sub_5') {
+                num1 = Math.floor(Math.random() * 4) + 2; // 2 a 5
+                num2 = Math.floor(Math.random() * (num1 - 1)) + 1; // 1 a num1-1
+                answer = num1 - num2;
+                text = `${num1} - ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'sub_10') {
+                num1 = Math.floor(Math.random() * 6) + 5; // 5 a 10
+                num2 = Math.floor(Math.random() * (num1 - 2)) + 1;
+                answer = num1 - num2;
+                text = `${num1} - ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'sub_20_easy') {
+                num1 = Math.floor(Math.random() * 8) + 12; // 12 a 19
+                num2 = Math.floor(Math.random() * 4) + 1;  // 1 a 4
+                answer = num1 - num2;
+                text = `${num1} - ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'sub_20' || selectedLevel === '2' || selectedLevel === '1-2') {
+                num1 = Math.floor(Math.random() * 9) + 12; // 12 a 20
+                num2 = Math.floor(Math.random() * 8) + 3;  // 3 a 10
+                answer = num1 - num2;
+                text = `${num1} - ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'add_sub_mixed') {
+                if (Math.random() < 0.5) {
+                    num1 = Math.floor(Math.random() * 9) + 3;
+                    num2 = Math.floor(Math.random() * 8) + 2;
                     answer = num1 + num2;
                     text = `${num1} + ${num2} = ?`;
-                }
-                return { text, answer };
-            } else if (selectedLevel === '2' || selectedLevel === '1-2') {
-                // 2º Ano: Adições e Subtrações até 20 e até 50
-                const isSub = Math.random() > 0.5;
-                const isInverse = Math.random() < 0.2;
-                if (isSub) {
-                    num1 = Math.floor(Math.random() * 20) + 10;
-                    num2 = Math.floor(Math.random() * 8) + 2;
-                    if (isInverse) {
-                        text = `${num1} - ? = ${num1 - num2}`;
-                        answer = num2;
-                    } else {
-                        text = `${num1} - ${num2} = ?`;
-                        answer = num1 - num2;
-                    }
                 } else {
-                    num1 = Math.floor(Math.random() * 15) + 5;
-                    num2 = Math.floor(Math.random() * 12) + 2;
-                    if (isInverse) {
-                        text = `? + ${num2} = ${num1 + num2}`;
-                        answer = num1;
-                    } else {
-                        text = `${num1} + ${num2} = ?`;
-                        answer = num1 + num2;
-                    }
+                    num1 = Math.floor(Math.random() * 9) + 10;
+                    num2 = Math.floor(Math.random() * 7) + 2;
+                    answer = num1 - num2;
+                    text = `${num1} - ${num2} = ?`;
                 }
                 return { text, answer };
-            } else if (selectedLevel === '3') {
-                const tables = [2, 3, 4, 5, 10];
+            }
+
+            if (selectedLevel === 'sub_missing') {
+                num1 = Math.floor(Math.random() * 10) + 8;
+                num2 = Math.floor(Math.random() * (num1 - 3)) + 2;
+                const diff = num1 - num2;
+                if (Math.random() < 0.5) {
+                    text = `${num1} - ? = ${diff}`;
+                    answer = num2;
+                } else {
+                    text = `? - ${num2} = ${diff}`;
+                    answer = num1;
+                }
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'sub_3num') {
+                num1 = Math.floor(Math.random() * 8) + 12; // 12 a 19
+                num2 = Math.floor(Math.random() * 4) + 1;
+                const num3 = Math.floor(Math.random() * 3) + 1;
+                answer = num1 - num2 - num3;
+                text = `${num1} - ${num2} - ${num3} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'sub_100') {
+                num1 = Math.floor(Math.random() * 50) + 35;
+                num2 = Math.floor(Math.random() * 25) + 10;
+                answer = num1 - num2;
+                text = `${num1} - ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'sub_1000') {
+                num1 = (Math.floor(Math.random() * 7) + 4) * 100; // 400 a 1000
+                num2 = (Math.floor(Math.random() * 4) + 1) * 100; // 100 a 400
+                answer = num1 - num2;
+                text = `${num1} - ${num2} = ?`;
+                return { text, answer };
+            }
+
+            // === MULTIPLICAÇÃO GRANULAR TUX MATH ===
+            if (selectedLevel === 'mul_123' || selectedLevel === '3') {
+                const tables = [1, 2, 3];
                 num1 = tables[Math.floor(Math.random() * tables.length)];
                 num2 = Math.floor(Math.random() * 9) + 2;
+                answer = num1 * num2;
+                text = `${num1} × ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'mul_45') {
+                const tables = [4, 5];
+                num1 = tables[Math.floor(Math.random() * tables.length)];
+                num2 = Math.floor(Math.random() * 9) + 2;
+                answer = num1 * num2;
+                text = `${num1} × ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'mul_67') {
+                const tables = [6, 7];
+                num1 = tables[Math.floor(Math.random() * tables.length)];
+                num2 = Math.floor(Math.random() * 8) + 2;
+                answer = num1 * num2;
+                text = `${num1} × ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'mul_8910') {
+                const tables = [8, 9, 10];
+                num1 = tables[Math.floor(Math.random() * tables.length)];
+                num2 = Math.floor(Math.random() * 8) + 2;
+                answer = num1 * num2;
+                text = `${num1} × ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'mul_all') {
+                num1 = Math.floor(Math.random() * 9) + 2;
+                num2 = Math.floor(Math.random() * 9) + 2;
+                answer = num1 * num2;
+                text = `${num1} × ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'mul_missing') {
+                num1 = Math.floor(Math.random() * 8) + 2;
+                num2 = Math.floor(Math.random() * 8) + 2;
                 const prod = num1 * num2;
-                const inv = Math.random();
-                if (inv < 0.25) {
+                if (Math.random() < 0.5) {
+                    text = `? × ${num2} = ${prod}`;
+                    answer = num1;
+                } else {
                     text = `${num1} × ? = ${prod}`;
                     answer = num2;
-                } else if (inv < 0.45) {
-                    text = `${prod} ÷ ${num1} = ?`;
+                }
+                return { text, answer };
+            }
+
+            // === DIVISÃO GRANULAR TUX MATH ===
+            if (selectedLevel === 'div_20') {
+                num2 = Math.floor(Math.random() * 4) + 2; // 2 a 5
+                answer = Math.floor(Math.random() * 4) + 1; // 1 a 4
+                num1 = num2 * answer; // <= 20
+                text = `${num1} ÷ ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'div_50') {
+                num2 = Math.floor(Math.random() * 5) + 3; // 3 a 7
+                answer = Math.floor(Math.random() * 6) + 2; // 2 a 7
+                num1 = num2 * answer;
+                text = `${num1} ÷ ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'div_tab_25') {
+                num2 = Math.floor(Math.random() * 4) + 2; // 2, 3, 4, 5
+                answer = Math.floor(Math.random() * 8) + 2;
+                num1 = num2 * answer;
+                text = `${num1} ÷ ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'div_tab_69' || selectedLevel === '4-5') {
+                num2 = Math.floor(Math.random() * 4) + 6; // 6, 7, 8, 9
+                answer = Math.floor(Math.random() * 8) + 2;
+                num1 = num2 * answer;
+                text = `${num1} ÷ ${num2} = ?`;
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'div_missing') {
+                num2 = Math.floor(Math.random() * 6) + 3;
+                const quot = Math.floor(Math.random() * 7) + 2;
+                const dividend = num2 * quot;
+                if (Math.random() < 0.5) {
+                    text = `? ÷ ${num2} = ${quot}`;
+                    answer = dividend;
+                } else {
+                    text = `${dividend} ÷ ? = ${quot}`;
                     answer = num2;
-                } else {
-                    text = `${num1} × ${num2} = ?`;
-                    answer = prod;
                 }
-            } else if (selectedLevel === '4-5') {
-                const isDiv = Math.random() > 0.5;
-                if (isDiv) {
-                    const divisor = Math.floor(Math.random() * 6) + 3;
-                    const quot = Math.floor(Math.random() * 8) + 2;
-                    const dividend = divisor * quot;
-                    if (Math.random() < 0.35) {
-                        text = `${dividend} ÷ ? = ${quot}`;
-                        answer = divisor;
-                    } else {
-                        text = `${dividend} ÷ ${divisor} = ?`;
-                        answer = quot;
-                    }
-                } else {
-                    const tables = [6, 7, 8, 9];
-                    num1 = tables[Math.floor(Math.random() * tables.length)];
-                    num2 = Math.floor(Math.random() * 8) + 3;
-                    const prod = num1 * num2;
-                    const inv = Math.random();
-                    if (inv < 0.3) {
-                        text = `? × ${num2} = ${prod}`;
-                        answer = num1;
-                    } else if (inv < 0.55) {
-                        text = `${num1} × ? = ${prod}`;
-                        answer = num2;
-                    } else {
-                        text = `${num1} × ${num2} = ?`;
-                        answer = prod;
-                    }
-                }
-            } else {
-                // Mestre Ninja
-                const types = ['add', 'sub', 'mul', 'div', 'inv_mul'];
+                return { text, answer };
+            }
+
+            // === MESTRE NINJA GRANULAR ===
+            if (selectedLevel === 'master_enigma') {
+                const types = ['add', 'sub', 'mul', 'div'];
                 const t = types[Math.floor(Math.random() * types.length)];
-                if (t === 'inv_mul') {
-                    num1 = Math.floor(Math.random() * 8) + 3;
-                    num2 = Math.floor(Math.random() * 8) + 3;
-                    text = `${num1} × ? = ${num1 * num2}`;
-                    answer = num2;
-                } else if (t === 'mul') {
-                    num1 = Math.floor(Math.random() * 8) + 3;
-                    num2 = Math.floor(Math.random() * 8) + 3;
-                    answer = num1 * num2;
-                    text = `${num1} × ${num2} = ?`;
+                if (t === 'mul') {
+                    num1 = Math.floor(Math.random() * 7) + 3;
+                    num2 = Math.floor(Math.random() * 7) + 3;
+                    text = `? × ${num2} = ${num1 * num2}`;
+                    answer = num1;
                 } else if (t === 'div') {
-                    const divisor = Math.floor(Math.random() * 7) + 2;
-                    answer = Math.floor(Math.random() * 9) + 2;
-                    text = `${divisor * answer} ÷ ${divisor} = ?`;
+                    num2 = Math.floor(Math.random() * 6) + 3;
+                    answer = Math.floor(Math.random() * 7) + 2;
+                    num1 = num2 * answer;
+                    text = `? ÷ ${num2} = ${answer}`;
+                    answer = num1;
                 } else if (t === 'add') {
-                    num1 = Math.floor(Math.random() * 25) + 10;
-                    num2 = Math.floor(Math.random() * 25) + 10;
-                    answer = num1 + num2;
-                    text = `${num1} + ${num2} = ?`;
+                    num1 = Math.floor(Math.random() * 20) + 10;
+                    num2 = Math.floor(Math.random() * 20) + 10;
+                    text = `${num1} + ? = ${num1 + num2}`;
+                    answer = num2;
                 } else {
-                    num1 = Math.floor(Math.random() * 40) + 20;
-                    num2 = Math.floor(Math.random() * 18) + 5;
-                    answer = num1 - num2;
-                    text = `${num1} - ${num2} = ?`;
+                    num1 = Math.floor(Math.random() * 30) + 20;
+                    num2 = Math.floor(Math.random() * 15) + 5;
+                    text = `${num1} - ? = ${num1 - num2}`;
+                    answer = num2;
                 }
+                return { text, answer };
+            }
+
+            if (selectedLevel === 'master_3ops') {
+                const a = Math.floor(Math.random() * 5) + 2;
+                const b = Math.floor(Math.random() * 5) + 2;
+                const c = Math.floor(Math.random() * 6) + 2;
+                const isSub = Math.random() < 0.4;
+                if (isSub) {
+                    answer = (a * b) - c;
+                    text = `${a} × ${b} - ${c} = ?`;
+                } else {
+                    answer = (a * b) + c;
+                    text = `${a} × ${b} + ${c} = ?`;
+                }
+                return { text, answer };
+            }
+
+            // Fallback / Mestre Supremo
+            const types = ['add', 'sub', 'mul', 'div', 'inv_mul'];
+            const t = types[Math.floor(Math.random() * types.length)];
+            if (t === 'inv_mul') {
+                num1 = Math.floor(Math.random() * 8) + 3;
+                num2 = Math.floor(Math.random() * 8) + 3;
+                text = `${num1} × ? = ${num1 * num2}`;
+                answer = num2;
+            } else if (t === 'mul') {
+                num1 = Math.floor(Math.random() * 8) + 3;
+                num2 = Math.floor(Math.random() * 8) + 3;
+                answer = num1 * num2;
+                text = `${num1} × ${num2} = ?`;
+            } else if (t === 'div') {
+                const divisor = Math.floor(Math.random() * 7) + 2;
+                answer = Math.floor(Math.random() * 9) + 2;
+                text = `${divisor * answer} ÷ ${divisor} = ?`;
+            } else if (t === 'add') {
+                num1 = Math.floor(Math.random() * 25) + 10;
+                num2 = Math.floor(Math.random() * 25) + 10;
+                answer = num1 + num2;
+                text = `${num1} + ${num2} = ?`;
+            } else {
+                num1 = Math.floor(Math.random() * 40) + 20;
+                num2 = Math.floor(Math.random() * 18) + 5;
+                answer = num1 - num2;
+                text = `${num1} - ${num2} = ?`;
             }
 
             return { text, answer };
@@ -3389,18 +4093,628 @@
             }
         }
 
-        function switchCategoryTab(tab) {
-            selectedTab = tab;
-            document.getElementById('tab-bncc').classList.toggle('active', tab === 'bncc');
-            document.getElementById('tab-custom').classList.toggle('active', tab === 'custom');
-            document.getElementById('bncc-picker').style.display = tab === 'bncc' ? 'grid' : 'none';
-            document.getElementById('custom-picker').style.display = tab === 'custom' ? 'block' : 'none';
+        // ====================================================================
+        // SISTEMA DE MENUS HIERÁRQUICO ESTILO TUX MATH
+        // ====================================================================
+        const TUX_LEVELS_META = {
+            // === ADIÇÃO ===
+            add_3: {
+                category: 'add',
+                title: 'Adição de 1 a 3',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Contas bem fáceis somando de 1 a 3. Ideal para a fase de alfabetização e 1º ano!',
+                example: 'Exemplo: 2 + 1 = ? ou 3 + 2 = ?',
+                mascotQuote: 'Adição básica de 1 a 3! Perfeito para afiar a katana no início!'
+            },
+            add_5: {
+                category: 'add',
+                title: 'Adição de 1 a 5',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Somando números de 1 a 5 (resultados até 10). Ótimo para fixação da base.',
+                example: 'Exemplo: 3 + 4 = ? ou 5 + 2 = ?',
+                mascotQuote: 'De 1 a 5 é moleza! Corte todas as melancias certeiras!'
+            },
+            add_10: {
+                category: 'add',
+                title: 'Adição acima de 10',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Cálculo de adição com somas até 15 e 20. Padrão BNCC para o 1º/2º ano.',
+                example: 'Exemplo: 7 + 5 = ? ou 9 + 4 = ?',
+                mascotQuote: 'Passamos de 10! Mantenha a velocidade e o foco!'
+            },
+            add_15: {
+                category: 'add',
+                title: 'Adição acima de 15',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Adições com parcelas e somas maiores, exercitando raciocínio ágil.',
+                example: 'Exemplo: 12 + 6 = ? ou 15 + 8 = ?',
+                mascotQuote: 'Adições acima de 15! Mostre a precisão do seu golpe!'
+            },
+            add_20: {
+                category: 'add',
+                title: 'Adição acima de 20',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Somando dezenas e unidades com resultados de 20 a 50.',
+                example: 'Exemplo: 18 + 14 = ? ou 25 + 9 = ?',
+                mascotQuote: 'Mais de 20! O Shogun não terá chance diante de você!'
+            },
+            add_3num: {
+                category: 'add',
+                title: 'Adição 3 números, de 0 a 10',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Soma combinada com 3 parcelas pequenas de 0 a 10.',
+                example: 'Exemplo: 3 + 4 + 2 = ? (9)',
+                mascotQuote: 'Três parcelas de uma vez! Agilidade mental ninja!'
+            },
+            add_3num_20: {
+                category: 'add',
+                title: 'Adição 3 números, de 0 a 20',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Três parcelas com valores até 20. Excelente para cálculo mental avançado.',
+                example: 'Exemplo: 7 + 8 + 5 = ? (20)',
+                mascotQuote: 'Três números até 20! Concentração total no corte!'
+            },
+            add_2digits: {
+                category: 'add',
+                title: 'Quaisquer números de 2 dígitos',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Soma de dezenas completas: calcule rápido antes que a fruta caia!',
+                example: 'Exemplo: 24 + 15 = ? (39)',
+                mascotQuote: 'Dois dígitos em alta velocidade! Que golpe rápido!'
+            },
+            add_missing: {
+                category: 'add',
+                title: 'Adicionar com números ausentes',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Encontre o número que falta na conta: o poder da incógnita!',
+                example: 'Exemplo: 6 + ? = 14 ou ? + 8 = 15',
+                mascotQuote: 'Descubra a incógnita secreta com seus olhos de ninja!'
+            },
+            add_100: {
+                category: 'add',
+                title: 'Adição até 100',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Grandes somas até a centena cheia.',
+                example: 'Exemplo: 48 + 36 = ? (84)',
+                mascotQuote: 'Rumo aos 100 pontos! Ninja extraordinário!'
+            },
+            add_1000: {
+                category: 'add',
+                title: 'Adição acima de 1000',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Contas em escala de centenas e milhares (ex: 450 + 350 = 800).',
+                example: 'Exemplo: 600 + 400 = ? ou 350 + 250 = ?',
+                mascotQuote: 'Milhares no ar! O treinamento mais pesado do Dojo!'
+            },
+
+            // === SUBTRAÇÃO ===
+            sub_5: {
+                category: 'sub',
+                title: 'Subtração de 0 a 5',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Subtrações bem fáceis até 5. Primeiros passos da subtração.',
+                example: 'Exemplo: 4 - 2 = ? ou 5 - 3 = ?',
+                mascotQuote: 'Subtrair de 0 a 5! Corte fácil e certeiro!'
+            },
+            sub_10: {
+                category: 'sub',
+                title: 'Subtração de 0 a 10',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Subtrações de 0 a 10 sem passar da dezena. Padrão 1º ano.',
+                example: 'Exemplo: 8 - 3 = ? ou 10 - 4 = ?',
+                mascotQuote: 'Subtrações até 10! Não deixe nenhuma fruta cair inteira!'
+            },
+            sub_20_easy: {
+                category: 'sub',
+                title: 'Subtração de 0 a 20 fácil',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Subtrações de 0 a 20 sem empréstimo (ex: 18 - 5 = 13).',
+                example: 'Exemplo: 17 - 4 = ? ou 19 - 6 = ?',
+                mascotQuote: 'Fácil até 20! Corte suave como brisa matinal!'
+            },
+            sub_20: {
+                category: 'sub',
+                title: 'Subtração de 0 a 20',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Subtrações completas até 20, incluindo cálculos com transição de dezena.',
+                example: 'Exemplo: 14 - 8 = ? ou 16 - 9 = ?',
+                mascotQuote: 'Até 20 completo! Respire fundo e golpeie com firmeza!'
+            },
+            add_sub_mixed: {
+                category: 'sub',
+                title: 'Adições e subtrações 0 a 20',
+                icon: '±',
+                color: '#0284c7',
+                desc: 'Mistura rápida de adições e subtrações até 20. Olhos abertos no sinal!',
+                example: 'Exemplo: 12 - 7 = ? ou 9 + 8 = ?',
+                mascotQuote: 'Atenção aos sinais de + e -! Mente calma, espada rápida!'
+            },
+            sub_missing: {
+                category: 'sub',
+                title: 'Subtrair com números ausentes',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Descubra o valor escondido na subtração.',
+                example: 'Exemplo: 15 - ? = 9 ou ? - 4 = 8',
+                mascotQuote: 'Encontre o número desaparecido antes da explosão!'
+            },
+            sub_3num: {
+                category: 'sub',
+                title: 'Subtrair 3 números',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Subtração encadeada de 3 valores seguidos.',
+                example: 'Exemplo: 18 - 4 - 3 = ? (11)',
+                mascotQuote: 'Três números subtraindo! Dois cortes num piscar de olhos!'
+            },
+            sub_100: {
+                category: 'sub',
+                title: 'Subtração de 0 a 100',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Subtrações maiores com dezenas até 100.',
+                example: 'Exemplo: 75 - 23 = ? (52)',
+                mascotQuote: 'Subtrações até 100! Foco de guerreiro mestre!'
+            },
+            sub_1000: {
+                category: 'sub',
+                title: 'Subtração de 0 a 1000',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Subtrações com centenas e milhares (ex: 800 - 350 = 450).',
+                example: 'Exemplo: 500 - 150 = ? ou 900 - 300 = ?',
+                mascotQuote: 'Centenas e milhares! Uma verdadeira tempestade de números!'
+            },
+
+            // === MULTIPLICAÇÃO ===
+            mul_123: {
+                category: 'mul',
+                title: 'Tabuadas do 1, 2 e 3',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Dobros, triplos e tabuadas iniciais. 2º e 3º Ano.',
+                example: 'Exemplo: 2 × 6 = ? ou 3 × 7 = ?',
+                mascotQuote: 'Tabuadas do 1, 2 e 3! A base de todo grande ninja!'
+            },
+            mul_45: {
+                category: 'mul',
+                title: 'Tabuadas do 4 e 5',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Tabuadas do 4 e do 5 (contagem de 5 em 5). 3º Ano.',
+                example: 'Exemplo: 4 × 8 = ? ou 5 × 9 = ?',
+                mascotQuote: 'Tabuadas do 4 e 5! Contagem de mestre!'
+            },
+            mul_67: {
+                category: 'mul',
+                title: 'Tabuadas do 6 e 7',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Tabuadas desafiadoras do 6 e do 7. 4º Ano.',
+                example: 'Exemplo: 6 × 7 = ? (42) ou 7 × 8 = ? (56)',
+                mascotQuote: '6 e 7! O teste de ferro dos ninjas veteranos!'
+            },
+            mul_8910: {
+                category: 'mul',
+                title: 'Tabuadas do 8, 9 e 10',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Tabuadas do 8, 9 e 10. Macetes do 9 e agilidade!',
+                example: 'Exemplo: 9 × 7 = ? (63) ou 8 × 8 = ? (64)',
+                mascotQuote: 'Tabuadas do 8, 9 e 10! A lâmina mais afiada do Dojo!'
+            },
+            mul_all: {
+                category: 'mul',
+                title: 'Todas as Tabuadas (1 ao 10)',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Todas as multiplicações de 1 a 10 misturadas!',
+                example: 'Exemplo: 7 × 8 = ? ou 6 × 9 = ?',
+                mascotQuote: 'Todas as tabuadas juntas! O torneio definitivo!'
+            },
+            mul_missing: {
+                category: 'mul',
+                title: 'Multiplicar com número ausente',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Descubra o fator escondido: ? × 6 = 42 ou 7 × ? = 35.',
+                example: 'Exemplo: ? × 6 = 42 (7)',
+                mascotQuote: 'Qual é o fator oculto? Descubra e corte a fruta!'
+            },
+            custom: {
+                category: 'mul',
+                title: 'Treino Personalizado (Seletor)',
+                icon: '🎯',
+                color: '#4f46e5',
+                desc: 'Escolha manualmente quais tabuadas quer treinar (do ×1 ao ×10).',
+                example: 'Selecione as caixas de 1 a 10 no seletor!',
+                mascotQuote: 'Treino sob medida! Escolha exatamente o que precisa praticar!'
+            },
+
+            // === DIVISÃO ===
+            div_20: {
+                category: 'div',
+                title: 'Divisão exata de 0 a 20',
+                icon: '÷',
+                color: '#0ea5e9',
+                desc: 'Divisões exatas simples (ex: 12 ÷ 3 = 4, 15 ÷ 5 = 3).',
+                example: 'Exemplo: 16 ÷ 4 = ? ou 20 ÷ 5 = ?',
+                mascotQuote: 'Divisão exata inicial! Divida a fruta ao meio!'
+            },
+            div_50: {
+                category: 'div',
+                title: 'Divisão exata de 0 a 50',
+                icon: '÷',
+                color: '#0ea5e9',
+                desc: 'Divisões exatas com números até 50 (ex: 36 ÷ 6 = 6).',
+                example: 'Exemplo: 42 ÷ 7 = ? ou 48 ÷ 6 = ?',
+                mascotQuote: 'Divisões até 50! Golpe cirúrgico de katana!'
+            },
+            div_tab_25: {
+                category: 'div',
+                title: 'Divisões das Tabuadas (2 ao 5)',
+                icon: '÷',
+                color: '#0ea5e9',
+                desc: 'Operação inversa das tabuadas do 2, 3, 4 e 5.',
+                example: 'Exemplo: 24 ÷ 4 = ? ou 35 ÷ 5 = ?',
+                mascotQuote: 'Divisão é o oposto da multiplicação! Você já sabe!'
+            },
+            div_tab_69: {
+                category: 'div',
+                title: 'Divisões das Tabuadas (6 ao 9)',
+                icon: '÷',
+                color: '#0ea5e9',
+                desc: 'Divisões avançadas das tabuadas do 6, 7, 8 e 9.',
+                example: 'Exemplo: 56 ÷ 8 = ? ou 72 ÷ 9 = ?',
+                mascotQuote: 'Divisões do 6 ao 9! Só os ninjas de elite passam daqui!'
+            },
+            div_missing: {
+                category: 'div',
+                title: 'Divisão com número ausente',
+                icon: '÷',
+                color: '#0ea5e9',
+                desc: 'Encontre o dividendo ou divisor escondido.',
+                example: 'Exemplo: ? ÷ 6 = 7 ou 36 ÷ ? = 9',
+                mascotQuote: 'Incógnita na divisão! Pense rápido!'
+            },
+
+            // === FRAÇÕES & GEOMETRIA ===
+            geo_frac: {
+                category: 'geo',
+                title: 'Frações Visuais & Metades',
+                icon: '½',
+                color: '#8b5cf6',
+                desc: 'Metades (1/2), quartos (1/4), três quartos (3/4) e inteiros.',
+                example: 'Exemplo: Metade de uma fruta = 1/2',
+                mascotQuote: 'Corte a fruta na fração exata!'
+            },
+            geo_poly: {
+                category: 'geo',
+                title: 'Polígonos & Lados',
+                icon: '📐',
+                color: '#8b5cf6',
+                desc: 'Quantos lados têm triângulo, quadrado, pentágono, hexágono e octógono.',
+                example: 'Exemplo: Lados do Pentágono? = 5',
+                mascotQuote: 'Geometria Ninja! Identifique as formas e seus vértices!'
+            },
+            geometria: {
+                category: 'geo',
+                title: 'Geometria e Frações Completa',
+                icon: '📐',
+                color: '#8b5cf6',
+                desc: 'Mistura completa de frações e polígonos da BNCC.',
+                example: 'Exemplo: Frações + Formas Geométricas',
+                mascotQuote: 'Mestrado em Formas e Frações!'
+            },
+
+            // === MESTRE NINJA ===
+            mestre: {
+                category: 'master',
+                title: 'Desafio Mestre Supremo',
+                icon: '👑',
+                color: '#dc2626',
+                desc: 'Todas as operações matemáticas juntas em alta velocidade!',
+                example: 'Exemplo: Adição, Subtração, Multiplicação e Divisão',
+                mascotQuote: 'O Shogun treme diante do verdadeiro Mestre Ninja!'
+            },
+            master_enigma: {
+                category: 'master',
+                title: 'Incógnitas & Enigmas Ninja',
+                icon: '❓',
+                color: '#dc2626',
+                desc: 'Enigmas matemáticos onde você descobre o valor de "?".',
+                example: 'Exemplo: ? × 8 = 72 ou ? + 35 = 90',
+                mascotQuote: 'Desvende o enigma e acerte o golpe!'
+            },
+            master_3ops: {
+                category: 'master',
+                title: 'Desafio Relâmpago 3 Números',
+                icon: '⚡',
+                color: '#dc2626',
+                desc: 'Cálculos combinados para ninjas experientes.',
+                example: 'Exemplo: 4 × 3 + 6 = ? (18)',
+                mascotQuote: 'Cálculo combinado relâmpago! Velocidade máxima!'
+            },
+
+            // Compatibilidade retroativa
+            '1': {
+                category: 'add',
+                title: '1º Ano (BNCC)',
+                icon: '+',
+                color: '#2563eb',
+                desc: 'Adições e subtrações simples de 1 a 10.',
+                example: 'Exemplo: 4 + 3 = ? ou 7 - 2 = ?',
+                mascotQuote: 'Treino oficial do 1º Ano!'
+            },
+            '2': {
+                category: 'sub',
+                title: '2º Ano (BNCC)',
+                icon: '−',
+                color: '#0284c7',
+                desc: 'Cálculos de adição e subtração até 20 e até 50.',
+                example: 'Exemplo: 14 + 8 = ? ou 18 - 6 = ?',
+                mascotQuote: 'Treino oficial do 2º Ano!'
+            },
+            '3': {
+                category: 'mul',
+                title: '3º Ano (BNCC)',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Tabuadas do 2, 3, 4, 5 e 10.',
+                example: 'Exemplo: 4 × 6 = ? ou 5 × 7 = ?',
+                mascotQuote: 'Treino oficial do 3º Ano!'
+            },
+            '4-5': {
+                category: 'mul',
+                title: '4º e 5º Ano (BNCC)',
+                icon: '×',
+                color: '#4f46e5',
+                desc: 'Tabuadas avançadas (6 ao 9) e divisões exatas.',
+                example: 'Exemplo: 7 × 8 = ? ou 56 ÷ 8 = ?',
+                mascotQuote: 'Treino oficial do 4º e 5º Ano!'
+            }
+        };
+
+        const TUX_MENUS = {
+            main: [
+                { id: 'cat_add', category: 'add', label: 'Adição', icon: '+', color: '#2563eb', action: () => tuxNavigate('add') },
+                { id: 'cat_sub', category: 'sub', label: 'Subtração', icon: '−', color: '#0284c7', action: () => tuxNavigate('sub') },
+                { id: 'cat_mul', category: 'mul', label: 'Multiplicação', icon: '×', color: '#4f46e5', action: () => tuxNavigate('mul') },
+                { id: 'cat_div', category: 'div', label: 'Divisão', icon: '÷', color: '#0ea5e9', action: () => tuxNavigate('div') },
+                { id: 'cat_geo', category: 'geo', label: 'Frações & Geometria', icon: '📐', color: '#8b5cf6', action: () => tuxNavigate('geo') },
+                { id: 'cat_master', category: 'master', label: 'Mestre Ninja Supremo', icon: '👑', color: '#dc2626', action: () => tuxNavigate('master') },
+                { id: 'cat_options', category: 'options', label: 'Opções & Modos', icon: '⚙️', color: '#475569', action: () => tuxNavigate('options') },
+                { id: 'cat_help', category: 'help', label: 'Ajuda e Instruções', icon: '❓', color: '#1d4ed8', action: () => tuxNavigate('help') }
+            ],
+            add: [
+                'add_3',
+                'add_5',
+                'add_10',
+                'add_15',
+                'add_20',
+                'add_3num',
+                'add_3num_20',
+                'add_2digits',
+                'add_missing',
+                'add_100',
+                'add_1000'
+            ],
+            sub: [
+                'sub_5',
+                'sub_10',
+                'sub_20_easy',
+                'sub_20',
+                'add_sub_mixed',
+                'sub_missing',
+                'sub_3num',
+                'sub_100',
+                'sub_1000'
+            ],
+            mul: [
+                'mul_123',
+                'mul_45',
+                'mul_67',
+                'mul_8910',
+                'mul_all',
+                'mul_missing',
+                'custom'
+            ],
+            div: [
+                'div_20',
+                'div_50',
+                'div_tab_25',
+                'div_tab_69',
+                'div_missing'
+            ],
+            geo: [
+                'geo_frac',
+                'geo_poly',
+                'geometria'
+            ],
+            master: [
+                'mestre',
+                'master_enigma',
+                'master_3ops'
+            ]
+        };
+
+        let tuxCurrentCategory = 'main';
+
+        function updateTuxMascot() {
+            const img = document.getElementById('tux-mascot-img');
+            const name = document.getElementById('tux-mascot-name');
+            if (!img || !name) return;
+            if (currentBeltIndex >= 6) {
+                img.src = 'mascot-dragon.jpg';
+                name.innerText = '🐉 Dragão Ryu diz:';
+            } else if (currentBeltIndex >= 3) {
+                img.src = 'mascot-fox.jpg';
+                name.innerText = '🦊 Kitsune Ninja diz:';
+            } else {
+                img.src = 'mascot-panda.jpg';
+                name.innerText = '🐼 Mestre Po diz:';
+            }
         }
 
-        function selectLevel(lvl, el) {
+        function tuxNavigate(view) {
+            tuxCurrentCategory = view;
+            const backBtn = document.getElementById('tux-back-btn');
+            const titleEl = document.getElementById('tux-nav-title');
+            const itemsContainer = document.getElementById('tux-menu-items');
+            const customPicker = document.getElementById('custom-picker');
+            const optionsPanel = document.getElementById('tux-options-panel');
+            const helpPanel = document.getElementById('tux-help-panel');
+
+            if (backBtn) backBtn.style.display = (view === 'main') ? 'none' : 'flex';
+            if (customPicker) customPicker.style.display = (view === 'mul' && selectedLevel === 'custom') ? 'block' : 'none';
+            if (optionsPanel) optionsPanel.style.display = (view === 'options') ? 'block' : 'none';
+            if (helpPanel) helpPanel.style.display = (view === 'help') ? 'block' : 'none';
+            if (itemsContainer) itemsContainer.style.display = (view === 'options' || view === 'help') ? 'none' : 'flex';
+
+            const titlesMap = {
+                main: '🥋 ESCOLHA UMA OPERAÇÃO:',
+                add: '➕ MISSÕES DE ADIÇÃO:',
+                sub: '➖ MISSÕES DE SUBTRAÇÃO:',
+                mul: '✖️ MISSÕES DE MULTIPLICAÇÃO:',
+                div: '➗ MISSÕES DE DIVISÃO:',
+                geo: '📐 FRAÇÕES & GEOMETRIA:',
+                master: '👑 DESAFIOS SUPREMOS:',
+                options: '⚙️ OPÇÕES DE JOGO:',
+                help: '❓ COMO JOGAR:'
+            };
+
+            if (titleEl) titleEl.innerText = titlesMap[view] || '🥋 DOJO TUX MATH:';
+
+            // Auto-seleciona um nível representativo se o aluno entrar numa categoria nova
+            if (view === 'add' && (!TUX_MENUS.add.includes(selectedLevel))) {
+                selectLevel('add_10', false);
+            } else if (view === 'sub' && (!TUX_MENUS.sub.includes(selectedLevel))) {
+                selectLevel('sub_10', false);
+            } else if (view === 'mul' && (!TUX_MENUS.mul.includes(selectedLevel))) {
+                selectLevel('mul_123', false);
+            } else if (view === 'div' && (!TUX_MENUS.div.includes(selectedLevel))) {
+                selectLevel('div_20', false);
+            } else if (view === 'geo' && (!TUX_MENUS.geo.includes(selectedLevel))) {
+                selectLevel('geo_frac', false);
+            } else if (view === 'master' && (!TUX_MENUS.master.includes(selectedLevel))) {
+                selectLevel('mestre', false);
+            }
+
+            renderTuxMenu();
+            try { sound.playKeyPress(); } catch(e) {}
+        }
+
+        function renderTuxMenu() {
+            const container = document.getElementById('tux-menu-items');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (tuxCurrentCategory === 'main') {
+                TUX_MENUS.main.forEach(item => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'tux-menu-btn';
+                    btn.innerHTML = `
+                        <div class="tux-icon-box" style="background: ${item.color}">${item.icon}</div>
+                        <div class="tux-btn-label">${item.label}</div>
+                        <div class="tux-btn-arrow">➔</div>
+                    `;
+                    btn.onclick = item.action;
+                    container.appendChild(btn);
+                });
+            } else if (TUX_MENUS[tuxCurrentCategory]) {
+                const levels = TUX_MENUS[tuxCurrentCategory];
+                levels.forEach(lvlKey => {
+                    const meta = TUX_LEVELS_META[lvlKey];
+                    if (!meta) return;
+                    const isSelected = (selectedLevel === lvlKey);
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = `tux-menu-btn ${isSelected ? 'active' : ''}`;
+                    btn.innerHTML = `
+                        <div class="tux-icon-box" style="background: ${meta.color || '#2563eb'}">${meta.icon}</div>
+                        <div class="tux-btn-label">${meta.title}</div>
+                        <div class="tux-btn-arrow">${isSelected ? '✓' : '➔'}</div>
+                    `;
+                    btn.onclick = () => {
+                        if (selectedLevel === lvlKey) {
+                            startGame(); // Segundo clique no nível selecionado inicia direto
+                        } else {
+                            selectLevel(lvlKey, false);
+                        }
+                    };
+                    container.appendChild(btn);
+                });
+            }
+        }
+
+        function selectLevel(lvl, autoStart = false) {
             selectedLevel = lvl;
-            document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
+            selectedTab = (lvl === 'custom') ? 'custom' : 'bncc';
+
+            const customPicker = document.getElementById('custom-picker');
+            if (customPicker) {
+                customPicker.style.display = (lvl === 'custom' && tuxCurrentCategory === 'mul') ? 'block' : 'none';
+            }
+
+            const meta = TUX_LEVELS_META[lvl] || TUX_LEVELS_META['add_10'];
+            if (meta) {
+                const iconEl = document.getElementById('tux-badge-icon');
+                const titleEl = document.getElementById('tux-title-display');
+                const descEl = document.getElementById('tux-desc-display');
+                const exampleEl = document.getElementById('tux-example-display');
+                const quoteEl = document.getElementById('tux-mascot-quote');
+
+                if (iconEl) {
+                    iconEl.innerText = meta.icon;
+                    iconEl.style.background = meta.color || '#2563eb';
+                }
+                if (titleEl) titleEl.innerText = meta.title;
+                if (descEl) descEl.innerText = meta.desc;
+                if (exampleEl) exampleEl.innerText = meta.example;
+                if (quoteEl && meta.mascotQuote) quoteEl.innerText = meta.mascotQuote;
+            }
+
+            // Atualiza classe active nos botões renderizados
+            document.querySelectorAll('.tux-menu-btn').forEach(btn => {
+                const label = btn.querySelector('.tux-btn-label');
+                const arrow = btn.querySelector('.tux-btn-arrow');
+                if (label && meta && label.innerText === meta.title) {
+                    btn.classList.add('active');
+                    if (arrow) arrow.innerText = '✓';
+                } else if (arrow && arrow.innerText === '✓') {
+                    btn.classList.remove('active');
+                    arrow.innerText = '➔';
+                }
+            });
+
+            try { sound.playKeyPress(); } catch(e) {}
+            if (autoStart) startGame();
+        }
+
+        function switchCategoryTab(tab) {
+            selectedTab = tab;
+            if (tab === 'custom') {
+                tuxNavigate('mul');
+                selectLevel('custom', false);
+            } else {
+                tuxNavigate('main');
+            }
         }
 
         function toggleChip(num, el) {
@@ -3577,6 +4891,8 @@
             if (frenzyGlow) frenzyGlow.style.opacity = '0';
 
             // Show start modal
+            updateTuxMascot();
+            renderTuxMenu();
             document.getElementById('start-modal').style.display = 'flex';
         }
 
@@ -3865,7 +5181,7 @@
 
             waveCount++;
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
-            const count = (selectedLevel === '1' || (selectedLevel === '2' && Math.random() < 0.5)) ? 2 : 3;
+            const count = isIntroductoryLevel() ? 2 : 3;
 
             // Trigger Boss Fight every 12 waves in Classic mode if not yet active
             if (gameMode === 'classic' && waveCount % 12 === 0 && !bossActive && Math.random() < 0.7) {
@@ -3907,8 +5223,8 @@
                 spawnFruit(true, false, width * 0.5);
             }
 
-            // Bomba Ninja (apenas no modo clássico e do 3º ano em diante)
-            if (gameMode === 'classic' && !frenzyMode && selectedLevel !== '1' && selectedLevel !== '2' && Math.random() < 0.14 && !activeFruits.some(f => f.isBomb)) {
+            // Bomba Ninja (apenas no modo clássico e em níveis além dos introdutórios)
+            if (gameMode === 'classic' && !frenzyMode && !isIntroductoryLevel() && Math.random() < 0.14 && !activeFruits.some(f => f.isBomb)) {
                 spawnBomb();
             }
 
@@ -5517,6 +6833,10 @@
 
             window.removeEventListener('keydown', handlePhysicalKeyboard);
             window.addEventListener('keydown', handlePhysicalKeyboard);
+
+            tuxNavigate('main');
+            selectLevel('add_10', false);
+            updateTuxMascot();
         }
 
         function openNameEntryModal() {
