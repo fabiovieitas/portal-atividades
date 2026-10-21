@@ -700,6 +700,604 @@
             100% { transform: translateY(-8px) rotate(3deg); }
         }
 
+        /* Profile & Coins Bar in Start Screen */
+        .student-profile-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.45);
+            border: 2px solid #eab308;
+            border-radius: 18px;
+            padding: 10px 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(234, 179, 8, 0.2);
+        }
+
+        .student-badge-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .btn-change-name {
+            background: rgba(234, 179, 8, 0.2);
+            border: 1px solid #facc15;
+            color: #fef08a;
+            border-radius: 50px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-change-name:hover {
+            background: #facc15;
+            color: #000;
+        }
+
+        .student-coins-pill {
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+            border: 1.5px solid #fde047;
+        }
+
+        .classroom-pin-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1.5px solid #3b82f6;
+            border-radius: 14px;
+            padding: 8px 14px;
+            margin-bottom: 14px;
+        }
+
+        .classroom-pin-bar label {
+            font-size: 0.8rem;
+            color: #93c5fd;
+            font-weight: 700;
+        }
+
+        .classroom-pin-bar input {
+            background: #0f172a;
+            border: 1.5px solid #60a5fa;
+            color: #fff;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 8px;
+            width: 120px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        /* Enorme Teclado Virtual */
+        .name-card {
+            max-width: 620px;
+            padding: 24px;
+        }
+
+        .name-display-container {
+            background: #0b0705;
+            border: 3px solid #f59e0b;
+            border-radius: 16px;
+            padding: 14px 20px;
+            font-family: 'Fredoka', cursive;
+            font-size: 2rem;
+            color: #fde047;
+            letter-spacing: 2px;
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .blinking-cursor {
+            color: #f59e0b;
+            animation: blink 0.8s infinite;
+            font-weight: 900;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .virtual-keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            background: rgba(0,0,0,0.35);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .vk-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .vk-key {
+            flex: 1;
+            min-height: 44px;
+            background: linear-gradient(180deg, #374151, #1f2937);
+            border: 1.5px solid #4b5563;
+            border-bottom: 3.5px solid #111827;
+            border-radius: 10px;
+            color: #f9fafb;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.08s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 6px;
+        }
+
+        .vk-key:hover {
+            filter: brightness(1.2);
+            border-color: #fbbf24;
+        }
+
+        .vk-key:active {
+            transform: translateY(2px);
+            border-bottom-width: 1.5px;
+        }
+
+        .vk-key.num {
+            background: linear-gradient(180deg, #1e293b, #0f172a);
+            border-color: #334155;
+            color: #38bdf8;
+        }
+
+        .vk-key.vk-backspace {
+            flex: 1.8;
+            background: linear-gradient(180deg, #dc2626, #991b1b);
+            border-color: #f87171;
+            border-bottom-color: #7f1d1d;
+            font-size: 0.85rem;
+        }
+
+        .vk-key.vk-space {
+            flex: 3;
+            background: linear-gradient(180deg, #2563eb, #1d4ed8);
+            border-color: #60a5fa;
+            border-bottom-color: #1e3a8a;
+            font-size: 0.95rem;
+        }
+
+        .vk-key.vk-clear {
+            flex: 1.2;
+            background: linear-gradient(180deg, #475569, #334155);
+            font-size: 0.85rem;
+        }
+
+        /* Leaderboard Modal Tabs & Table */
+        .leaderboard-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+            justify-content: center;
+        }
+
+        .lb-tab {
+            padding: 7px 12px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            cursor: pointer;
+            border: 1.5px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+            color: #d1d5db;
+            transition: all 0.2s;
+        }
+
+        .lb-tab.active {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-color: #60a5fa;
+            color: #fff;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .lb-table-container {
+            max-height: 320px;
+            overflow-y: auto;
+            border-radius: 14px;
+            border: 1.5px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.3);
+        }
+
+        .lb-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.86rem;
+            text-align: center;
+        }
+
+        .lb-table th {
+            background: rgba(15, 23, 42, 0.9);
+            color: #facc15;
+            padding: 10px 8px;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            position: sticky;
+            top: 0;
+            border-bottom: 2px solid #eab308;
+        }
+
+        .lb-table td {
+            padding: 9px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            color: #e5e7eb;
+        }
+
+        .lb-table tr:nth-child(even) {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .lb-table tr:hover {
+            background: rgba(250, 204, 21, 0.1);
+        }
+
+        .lb-table .pos-1 { color: #facc15; font-weight: 900; font-size: 1.1rem; }
+        .lb-table .pos-2 { color: #e2e8f0; font-weight: 900; font-size: 1.05rem; }
+        .lb-table .pos-3 { color: #f97316; font-weight: 900; font-size: 1.02rem; }
+
+        /* Dojo Shop Modal */
+        .shop-coin-badge {
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+            border: 2px solid #fef08a;
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+        }
+
+        .blades-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 380px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .blade-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            padding: 12px 16px;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .blade-card:hover {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .blade-card.equipped-active {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.12);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .blade-icon-big {
+            font-size: 2.4rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .blade-info {
+            flex: 1;
+        }
+
+        .blade-info h4 {
+            color: #fde047;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .blade-info p {
+            font-size: 0.76rem;
+            color: #9ca3af;
+            line-height: 1.25;
+            margin-bottom: 4px;
+        }
+
+        .blade-trail-preview {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .trail-steel { background: rgba(255,255,255,0.15); color: #fff; }
+        .trail-fire { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid #ef4444; }
+        .trail-lightning { background: rgba(59, 130, 246, 0.25); color: #60a5fa; border: 1px solid #3b82f6; }
+        .trail-ice { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid #0284c7; }
+        .trail-dragon { background: linear-gradient(90deg, #f59e0b, #ec4899); color: #fff; }
+
+        .btn-blade-equip {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-blade-equip.equipped {
+            background: rgba(34, 197, 94, 0.25);
+            color: #4ade80;
+            border: 1.5px solid #22c55e;
+            cursor: default;
+        }
+
+        .btn-blade-buy {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 14px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+            white-space: nowrap;
+        }
+
+        /* Diploma Ninja Conquista Pessoal (Pergaminho Oriental) */
+        .diploma-parchment {
+            background: #fbf7ee;
+            color: #1e1b18;
+            border: 6px double #854d0e;
+            border-radius: 18px;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 0 50px rgba(180, 83, 9, 0.12);
+            text-align: center;
+        }
+
+        .diploma-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #b45309;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .diploma-seal {
+            font-size: 2.2rem;
+            width: 48px;
+            height: 48px;
+            background: #991b1b;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(153, 27, 27, 0.4);
+        }
+
+        .diploma-brand {
+            font-size: 0.72rem;
+            color: #854d0e;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .diploma-main-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.7rem;
+            color: #78350f;
+            margin: 2px 0;
+            letter-spacing: 1px;
+        }
+
+        .diploma-sub {
+            font-size: 0.72rem;
+            color: #a16207;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .diploma-intro {
+            font-size: 0.88rem;
+            color: #451a03;
+            margin-bottom: 6px;
+        }
+
+        .diploma-name {
+            font-family: 'Fredoka', cursive;
+            font-size: 2.1rem;
+            color: #9a3412;
+            text-decoration: underline;
+            text-decoration-color: #ea580c;
+            margin-bottom: 12px;
+        }
+
+        .diploma-belt-award {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(254, 243, 199, 0.8);
+            border: 2px dashed #b45309;
+            border-radius: 14px;
+            padding: 8px 18px;
+            margin-bottom: 14px;
+        }
+
+        .diploma-text {
+            font-size: 0.85rem;
+            color: #292524;
+            line-height: 1.45;
+            max-width: 500px;
+            margin: 0 auto 16px auto;
+            font-style: italic;
+        }
+
+        .diploma-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            background: #fef3c7;
+            border: 1.5px solid #d97706;
+            border-radius: 12px;
+            padding: 10px 6px;
+            margin-bottom: 16px;
+        }
+
+        .metric-item .m-val {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #9a3412;
+        }
+
+        .metric-item .m-lbl {
+            font-size: 0.68rem;
+            color: #78350f;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .diploma-footer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 8px;
+        }
+
+        .sig-box {
+            text-align: center;
+            width: 150px;
+        }
+
+        .sig-line {
+            height: 1.5px;
+            background: #78350f;
+            margin-bottom: 4px;
+        }
+
+        .sig-name {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #451a03;
+        }
+
+        .sig-title {
+            font-size: 0.65rem;
+            color: #a16207;
+        }
+
+        .diploma-stamp-box {
+            text-align: center;
+        }
+
+        .stamp-circle {
+            width: 65px;
+            height: 65px;
+            border: 2.5px solid #991b1b;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #991b1b;
+            font-size: 0.6rem;
+            font-weight: 900;
+            line-height: 1.1;
+            transform: rotate(-10deg);
+        }
+
+        /* Bullet Time Overlay */
+        #bullet-time-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(30,15,5,0.75) 100%);
+            box-shadow: inset 0 0 60px rgba(245, 158, 11, 0.4);
+            z-index: 60;
+            animation: slowMoPulse 1.2s infinite alternate;
+        }
+
+        @keyframes slowMoPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .bullet-time-banner {
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #0284c7, #1e3a8a);
+            color: #f0f9ff;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.25rem;
+            padding: 6px 20px;
+            border-radius: 50px;
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+            white-space: nowrap;
+        }
+
+        /* Print styles for Diploma */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #diploma-frame, #diploma-frame * {
+                visibility: visible;
+            }
+            #diploma-frame {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+                border-width: 4px;
+            }
+        }
+
         @media (max-width: 600px) {
             .target-scroll {
                 padding: 6px 16px;
@@ -747,13 +1345,25 @@
             <div class="arena-badge-top" id="top-arena-badge">
                 ⛩️ Dojo do Mestre
             </div>
+            <div class="student-coins-pill" style="padding: 4px 10px; font-size: 0.8rem;" title="Moedas Ninja Acumuladas">
+                💰 <span id="top-coins">0</span>
+            </div>
         </div>
         <div class="top-right">
+            <button class="btn-top" onclick="openDojoShop()" title="Loja de Katanas e Lâminas" style="background: rgba(245, 158, 11, 0.25); border-color: #f59e0b; color: #fbbf24;">
+                🗡️ LOJA
+            </button>
+            <button class="btn-top" onclick="openLeaderboardModal()" title="Ranking Geral do Dojo" style="background: rgba(59, 130, 246, 0.25); border-color: #3b82f6; color: #93c5fd;">
+                🏆 RANKING
+            </button>
+            <button class="btn-top" onclick="openDiplomaModal()" title="Diploma Ninja de Honra" style="background: rgba(168, 85, 247, 0.25); border-color: #a855f7; color: #e9d5ff;">
+                📜 DIPLOMA
+            </button>
             <button class="btn-top" onclick="cycleSpeed()" id="speed-btn" title="Velocidade das Frutas" style="background: rgba(34, 197, 94, 0.25); border-color: #22c55e; color: #4ade80;">
                 🐢 CALMO
             </button>
             <button class="btn-top" onclick="openAchievementsModal()" title="Ver Conquistas Digitais">
-                🏆 TROFÉUS
+                🎖️ TROFÉUS
             </button>
             <button class="btn-top" onclick="toggleMusic()" id="music-btn" title="Ligar/Desligar Música de Batalha">
                 🎵 MÚSICA
@@ -771,6 +1381,9 @@
     <div id="game-container">
         <canvas id="canvas"></canvas>
         <div id="ice-overlay"></div>
+        <div id="bullet-time-overlay" style="display:none;">
+            <div class="bullet-time-banner">⏳ CÂMERA LENTA NINJA! ⏱️</div>
+        </div>
 
         <!-- Mascote Ninja Interativo em Alta Definição -->
         <div class="mascot-widget" id="mascot-widget" style="display:none;">
@@ -838,7 +1451,31 @@
         <div class="modal-screen" id="start-modal">
             <div class="modal-card">
                 <h1 class="modal-title">🥷 NINJA MATH</h1>
-                <p class="modal-subtitle">Domine o corte da tabuada, colete power-ups de gelo e raio e enfrente o lendário Shogun Ninja!</p>
+                <p class="modal-subtitle">Domine o corte da tabuada, colete moedas, forje katanas e torne-se uma lenda no Dojo!</p>
+
+                <!-- Student Profile Bar -->
+                <div class="student-profile-bar">
+                    <div class="student-badge-left">
+                        <span style="font-size: 1.8rem;">🥷</span>
+                        <div>
+                            <div style="font-size:0.7rem; color:#9ca3af; text-transform:uppercase; font-weight:800;">Guerreiro(a) Atual</div>
+                            <div style="font-size:1.15rem; font-weight:900; color:#fde047;" id="menu-student-name">Ninja Aprendiz</div>
+                        </div>
+                        <button type="button" class="btn-change-name" onclick="openNameEntryModal()">✏️ Trocar</button>
+                    </div>
+                    <div class="student-coins-pill" onclick="openDojoShop()" style="cursor: pointer;" title="Abrir Loja de Katanas">
+                        💰 <span id="menu-coins-val">0</span>
+                    </div>
+                </div>
+
+                <!-- Classroom PIN Bar (Opcional para Modo Sala) -->
+                <div class="classroom-pin-bar">
+                    <label for="room-pin-input">🏫 Sala / Turma (PIN opcional):</label>
+                    <div style="display:flex; gap:6px;">
+                        <input type="text" id="room-pin-input" placeholder="Ex: SALA-4A" maxlength="15" onchange="updateRoomPin(this.value)">
+                        <button type="button" class="btn-top" onclick="updateRoomPin(document.getElementById('room-pin-input').value)" style="padding:4px 10px; font-size:0.75rem; background:#2563eb; border-color:#60a5fa;">Salvar</button>
+                    </div>
+                </div>
 
                 <!-- Navigation Tabs: BNCC vs Custom Tabuada -->
                 <div class="nav-tabs">
@@ -870,7 +1507,7 @@
                     </div>
                     <div class="level-btn" onclick="selectLevel('mestre', this)" style="grid-column: span 2;">
                         <h4>⚡ Mestre Ninja (Desafio Completo)</h4>
-                        <p>Todas as operações e tabuadas misturadas</p>
+                        <p>Todas as operações, tabuadas e operações inversas</p>
                     </div>
                 </div>
 
@@ -896,18 +1533,22 @@
                     </div>
                 </div>
 
-                <!-- Game Mode Picker (Classic 3 Lives vs 60s Blitz) -->
+                <!-- Game Mode Picker (Classic 3 Lives vs 60s Blitz vs Zen) -->
                 <div style="margin-bottom: 6px; font-weight: 700; font-size: 0.82rem; color: #fbbf24; text-transform: uppercase;">
-                    Modo de Treino:
+                    Modo de Jogo:
                 </div>
-                <div class="mode-selector">
+                <div class="mode-selector" style="grid-template-columns: 1fr 1fr 1fr;">
                     <div class="mode-btn active" id="mode-classic" onclick="selectGameMode('classic')">
-                        <div style="font-weight: 800; font-size: 0.95rem;">🥋 Modo Clássico</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af;">3 Vidas (Reinicie ao perder)</div>
+                        <div style="font-weight: 800; font-size: 0.95rem;">🥋 Clássico</div>
+                        <div style="font-size: 0.72rem; color: #9ca3af;">3 Vidas</div>
                     </div>
                     <div class="mode-btn" id="mode-blitz" onclick="selectGameMode('blitz')">
-                        <div style="font-weight: 800; font-size: 0.95rem;">⏱️ Desafio 60s</div>
-                        <div style="font-size: 0.75rem; color: #9ca3af;">Corrida contra o tempo</div>
+                        <div style="font-weight: 800; font-size: 0.95rem;">⏱️ Blitz 60s</div>
+                        <div style="font-size: 0.72rem; color: #9ca3af;">Contra o relógio</div>
+                    </div>
+                    <div class="mode-btn" id="mode-zen" onclick="selectGameMode('zen')">
+                        <div style="font-weight: 800; font-size: 0.95rem;">☯️ Treino Zen</div>
+                        <div style="font-size: 0.72rem; color: #9ca3af;">Sem bombas & sem vidas</div>
                     </div>
                 </div>
 
@@ -927,20 +1568,319 @@
                     </div>
                 </div>
 
-                <!-- Blade Skin Picker (Autêntico Ninja) -->
-                <div style="margin-bottom: 6px; font-weight: 700; font-size: 0.82rem; color: #fbbf24; text-transform: uppercase;">
-                    Escolha a sua Lâmina:
-                </div>
-                <div class="blade-selector">
-                    <div class="blade-item selected" onclick="selectBlade('steel', this)" title="Katana de Aço">⚔️</div>
-                    <div class="blade-item" onclick="selectBlade('lightning', this)" title="Lâmina de Trovão">⚡</div>
-                    <div class="blade-item" onclick="selectBlade('fire', this)" title="Espada de Fogo">🔥</div>
-                    <div class="blade-item" onclick="selectBlade('shadow', this)" title="Katana das Sombras">🥷</div>
+                <!-- Quick Hub Buttons -->
+                <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+                    <button type="button" class="btn-top" onclick="openDojoShop()" style="flex: 1; justify-content: center; background: rgba(245, 158, 11, 0.25); border-color: #f59e0b; color: #fbbf24;">
+                        🗡️ LOJA DO DOJO
+                    </button>
+                    <button type="button" class="btn-top" onclick="openLeaderboardModal()" style="flex: 1; justify-content: center; background: rgba(59, 130, 246, 0.25); border-color: #3b82f6; color: #93c5fd;">
+                        🏆 RANKING
+                    </button>
+                    <button type="button" class="btn-top" onclick="openDiplomaModal()" style="flex: 1; justify-content: center; background: rgba(168, 85, 247, 0.25); border-color: #a855f7; color: #e9d5ff;">
+                        📜 DIPLOMA
+                    </button>
                 </div>
 
                 <button class="btn-play-big" onclick="startGame()">
                     INICIAR DOJO 🚀
                 </button>
+            </div>
+        </div>
+
+        <!-- Modal 1: Identificação com Teclado Virtual Gigante -->
+        <div class="modal-screen" id="name-entry-modal" style="display:none; z-index: 500;">
+            <div class="modal-card name-card">
+                <div style="font-size: 3rem; margin-bottom: 4px;">🥷</div>
+                <h2 class="modal-title" style="font-size: 1.85rem;">IDENTIFICAÇÃO DO NINJA</h2>
+                <p class="modal-subtitle">Digite seu nome para disputar o ranking e gravar seu Diploma no Dojo!</p>
+
+                <!-- Display do Nome -->
+                <div class="name-display-container">
+                    <span id="name-display-text"></span><span class="blinking-cursor">|</span>
+                </div>
+
+                <!-- Teclado Virtual Enorme -->
+                <div class="virtual-keyboard">
+                    <div class="vk-row">
+                        <button type="button" class="vk-key num" onclick="vkPress('1')">1</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('2')">2</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('3')">3</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('4')">4</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('5')">5</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('6')">6</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('7')">7</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('8')">8</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('9')">9</button>
+                        <button type="button" class="vk-key num" onclick="vkPress('0')">0</button>
+                    </div>
+                    <div class="vk-row">
+                        <button type="button" class="vk-key" onclick="vkPress('Q')">Q</button>
+                        <button type="button" class="vk-key" onclick="vkPress('W')">W</button>
+                        <button type="button" class="vk-key" onclick="vkPress('E')">E</button>
+                        <button type="button" class="vk-key" onclick="vkPress('R')">R</button>
+                        <button type="button" class="vk-key" onclick="vkPress('T')">T</button>
+                        <button type="button" class="vk-key" onclick="vkPress('Y')">Y</button>
+                        <button type="button" class="vk-key" onclick="vkPress('U')">U</button>
+                        <button type="button" class="vk-key" onclick="vkPress('I')">I</button>
+                        <button type="button" class="vk-key" onclick="vkPress('O')">O</button>
+                        <button type="button" class="vk-key" onclick="vkPress('P')">P</button>
+                    </div>
+                    <div class="vk-row">
+                        <button type="button" class="vk-key" onclick="vkPress('A')">A</button>
+                        <button type="button" class="vk-key" onclick="vkPress('S')">S</button>
+                        <button type="button" class="vk-key" onclick="vkPress('D')">D</button>
+                        <button type="button" class="vk-key" onclick="vkPress('F')">F</button>
+                        <button type="button" class="vk-key" onclick="vkPress('G')">G</button>
+                        <button type="button" class="vk-key" onclick="vkPress('H')">H</button>
+                        <button type="button" class="vk-key" onclick="vkPress('J')">J</button>
+                        <button type="button" class="vk-key" onclick="vkPress('K')">K</button>
+                        <button type="button" class="vk-key" onclick="vkPress('L')">L</button>
+                        <button type="button" class="vk-key" onclick="vkPress('Ç')">Ç</button>
+                    </div>
+                    <div class="vk-row">
+                        <button type="button" class="vk-key" onclick="vkPress('Z')">Z</button>
+                        <button type="button" class="vk-key" onclick="vkPress('X')">X</button>
+                        <button type="button" class="vk-key" onclick="vkPress('C')">C</button>
+                        <button type="button" class="vk-key" onclick="vkPress('V')">V</button>
+                        <button type="button" class="vk-key" onclick="vkPress('B')">B</button>
+                        <button type="button" class="vk-key" onclick="vkPress('N')">N</button>
+                        <button type="button" class="vk-key" onclick="vkPress('M')">M</button>
+                        <button type="button" class="vk-key vk-backspace" onclick="vkBackspace()">⌫ APAGAR</button>
+                    </div>
+                    <div class="vk-row">
+                        <button type="button" class="vk-key vk-clear" onclick="vkClear()">🗑️ LIMPAR</button>
+                        <button type="button" class="vk-key vk-space" onclick="vkSpace()">␣ ESPAÇO</button>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:10px; margin-top: 14px;">
+                    <button type="button" class="btn-play-big" id="btn-confirm-name" onclick="vkConfirm()" style="flex:2;">
+                        CONFIRMAR & ENTRAR 🥋
+                    </button>
+                    <button type="button" class="btn-top" onclick="closeNameEntryModal()" style="flex:1; justify-content:center; border-radius:50px; background:rgba(255,255,255,0.15);">
+                        CANCELAR
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 2: Ranking Multi-Abas por Fase e Dificuldade -->
+        <div class="modal-screen" id="leaderboard-modal" style="display:none; z-index: 450;">
+            <div class="modal-card" style="max-width: 680px;">
+                <h2 class="modal-title" style="color: #60a5fa; font-size: 2rem;">🏆 RANKING DO DOJO</h2>
+                <p class="modal-subtitle">Veja os melhores ninjas da tabuada em cada fase e dificuldade!</p>
+
+                <!-- Leaderboard Tabs -->
+                <div class="leaderboard-tabs">
+                    <button class="lb-tab active" onclick="switchLbTab('1-2', this)">🟢 1º/2º Ano</button>
+                    <button class="lb-tab" onclick="switchLbTab('3', this)">🟡 3º Ano</button>
+                    <button class="lb-tab" onclick="switchLbTab('4-5', this)">🔴 4º/5º Ano</button>
+                    <button class="lb-tab" onclick="switchLbTab('geometria', this)">📐 Frações</button>
+                    <button class="lb-tab" onclick="switchLbTab('mestre', this)">⚡ Mestre</button>
+                    <button class="lb-tab" onclick="switchLbTab('blitz', this)">⏱️ Blitz</button>
+                    <button class="lb-tab" onclick="switchLbTab('zen', this)">☯️ Zen</button>
+                    <button class="lb-tab" onclick="switchLbTab('turma', this)">🏫 Minha Turma</button>
+                </div>
+
+                <!-- Room PIN Search (Shown on Turma Tab) -->
+                <div id="lb-pin-filter" style="display:none; margin-bottom: 12px; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 12px; border: 1px solid #3b82f6;">
+                    <div style="display:flex; gap:8px; align-items:center; justify-content:center;">
+                        <span style="font-size:0.85rem; color:#93c5fd; font-weight:700;">PIN da Turma:</span>
+                        <input type="text" id="lb-pin-input" style="padding:6px 10px; border-radius:8px; border:1px solid #3b82f6; background:#1e293b; color:#fff; font-weight:800; width:120px; text-transform:uppercase;" placeholder="SALA-4A">
+                        <button type="button" class="btn-top" onclick="searchTurmaRanking()" style="background:#2563eb; border-color:#60a5fa;">BUSCAR</button>
+                    </div>
+                </div>
+
+                <!-- Ranking Table -->
+                <div class="lb-table-container">
+                    <div id="lb-loading" style="padding: 20px; color: #9ca3af;">Carregando mestres ninjas...</div>
+                    <table class="lb-table" id="lb-table" style="display:none;">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">Pos</th>
+                                <th style="text-align: left;">Guerreiro(a)</th>
+                                <th>Faixa</th>
+                                <th>Pontos</th>
+                                <th>Precisão</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lb-table-body">
+                        </tbody>
+                    </table>
+                </div>
+
+                <button type="button" class="btn-top" onclick="closeLeaderboardModal()" style="margin-top: 14px; width: 100%; justify-content: center; padding: 12px; font-size: 1rem; border-radius: 50px; background: rgba(255,255,255,0.15);">
+                    FECHAR RANKING ✖️
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal 3: Loja do Dojo & Coleção de Katanas -->
+        <div class="modal-screen" id="dojo-shop-modal" style="display:none; z-index: 450;">
+            <div class="modal-card" style="max-width: 650px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                    <h2 class="modal-title" style="margin:0; font-size: 1.8rem; color:#f59e0b;">🗡️ LOJA DE KATANAS DO DOJO</h2>
+                    <div class="shop-coin-badge">
+                        💰 <span id="shop-coins-display">0</span> Moedas
+                    </div>
+                </div>
+                <p class="modal-subtitle">Gaste suas moedas ganhas fatiando frutas para forjar lâminas com rastros mágicos!</p>
+
+                <div class="blades-grid">
+                    <div class="blade-card" id="blade-card-steel">
+                        <div class="blade-icon-big">⚔️</div>
+                        <div class="blade-info">
+                            <h4>Katana de Bambu & Aço</h4>
+                            <p>Lâmina clássica tradicional com corte limpo e prateado.</p>
+                            <span class="blade-trail-preview trail-steel">Rastro Prateado Clássico</span>
+                        </div>
+                        <div class="blade-action" id="blade-action-steel">
+                            <button class="btn-blade-equip equipped">EQUIPADA</button>
+                        </div>
+                    </div>
+
+                    <div class="blade-card" id="blade-card-fire">
+                        <div class="blade-icon-big">🔥</div>
+                        <div class="blade-info">
+                            <h4>Katana Flamejante do Vulcão</h4>
+                            <p>Forjada em brasa viva com faíscas e rastro ardente de fogo!</p>
+                            <span class="blade-trail-preview trail-fire">Rastro de Chamas & Fogo</span>
+                        </div>
+                        <div class="blade-action" id="blade-action-fire">
+                            <button class="btn-blade-buy" onclick="buyBlade('fire', 150)">💰 150 Moedas</button>
+                        </div>
+                    </div>
+
+                    <div class="blade-card" id="blade-card-lightning">
+                        <div class="blade-icon-big">⚡</div>
+                        <div class="blade-info">
+                            <h4>Sabre do Trovão Elétrico</h4>
+                            <p>Conduz relâmpagos puros com choque estático e faíscas azuis!</p>
+                            <span class="blade-trail-preview trail-lightning">Rastro Neon Elétrico</span>
+                        </div>
+                        <div class="blade-action" id="blade-action-lightning">
+                            <button class="btn-blade-buy" onclick="buyBlade('lightning', 300)">💰 300 Moedas</button>
+                        </div>
+                    </div>
+
+                    <div class="blade-card" id="blade-card-ice">
+                        <div class="blade-icon-big">❄️</div>
+                        <div class="blade-info">
+                            <h4>Lâmina Glacial do Monte Fuji</h4>
+                            <p>Congela o ar ao redor soltando cristais de neve e geada brilhante!</p>
+                            <span class="blade-trail-preview trail-ice">Rastro Glacial de Gelo</span>
+                        </div>
+                        <div class="blade-action" id="blade-action-ice">
+                            <button class="btn-blade-buy" onclick="buyBlade('ice', 500)">💰 500 Moedas</button>
+                        </div>
+                    </div>
+
+                    <div class="blade-card" id="blade-card-dragon">
+                        <div class="blade-icon-big">🐉</div>
+                        <div class="blade-info">
+                            <h4>Espada Dourada do Dragão Celestial</h4>
+                            <p>A lâmina sagrada dos deuses ninjas com estrelas douradas e aura cósmica!</p>
+                            <span class="blade-trail-preview trail-dragon">Rastro Cósmico Dourado</span>
+                        </div>
+                        <div class="blade-action" id="blade-action-dragon">
+                            <button class="btn-blade-buy" onclick="buyBlade('dragon', 1000)">💰 1.000 Moedas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-top" onclick="closeDojoShop()" style="margin-top: 14px; width: 100%; justify-content: center; padding: 12px; font-size: 1rem; border-radius: 50px; background: rgba(255,255,255,0.15);">
+                    VOLTAR AO DOJO ✖️
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal 4: Diploma Ninja de Honra (Conquista Pessoal para Baixar em PNG ou Imprimir) -->
+        <div class="modal-screen" id="diploma-modal" style="display:none; z-index: 450;">
+            <div class="modal-card" style="max-width: 660px; padding: 20px;">
+                <!-- Parchment Diploma Container -->
+                <div class="diploma-parchment" id="diploma-frame">
+                    <div class="diploma-header">
+                        <div class="diploma-seal">忍</div>
+                        <div class="diploma-title-box">
+                            <div class="diploma-brand">PORTAL LAB KIDS • DOJO DA TABUADA</div>
+                            <div class="diploma-main-title">DIPLOMA NINJA DE HONRA</div>
+                            <div class="diploma-sub">CERTIFICADO OFICIAL DE CONQUISTA PESSOAL</div>
+                        </div>
+                        <div class="diploma-seal">道</div>
+                    </div>
+
+                    <div class="diploma-body">
+                        <p class="diploma-intro">Certificamos solenemente que o(a) dedicado(a) guerreiro(a):</p>
+                        <div class="diploma-name" id="diploma-student-name">GUERREIRO NINJA</div>
+                        
+                        <div class="diploma-belt-award">
+                            <span id="diploma-belt-icon" style="font-size:2.4rem;">🥋</span>
+                            <div>
+                                <div style="font-size:0.75rem; color:#78350f; text-transform:uppercase; font-weight:800;">Graduação Conquistada:</div>
+                                <div id="diploma-belt-name" style="font-size:1.3rem; font-weight:900; color:#b45309;">Faixa Branca - Aprendiz</div>
+                            </div>
+                        </div>
+
+                        <p class="diploma-text">
+                            Demonstrou rapidez mental com a katana matemática, reflexos apurados e domínio exemplar dos fatos fundamentais da tabuada, superando os desafios do Dojo com bravura!
+                        </p>
+
+                        <!-- Diploma Metrics -->
+                        <div class="diploma-metrics">
+                            <div class="metric-item">
+                                <div class="m-val" id="diploma-score">0</div>
+                                <div class="m-lbl">Pontuação Recorde</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="m-val" id="diploma-accuracy">100%</div>
+                                <div class="m-lbl">Aproveitamento</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="m-val" id="diploma-combo">x1</div>
+                                <div class="m-lbl">Maior Combo</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="m-val" id="diploma-shogun">0</div>
+                                <div class="m-lbl">Shoguns Vencidos</div>
+                            </div>
+                        </div>
+
+                        <!-- Footer with signatures and date -->
+                        <div class="diploma-footer">
+                            <div class="sig-box">
+                                <div class="sig-line"></div>
+                                <div class="sig-name">Mestre do Dojo Ninja</div>
+                                <div class="sig-title">Sensei da Matemática</div>
+                            </div>
+                            <div class="diploma-stamp-box">
+                                <div class="stamp-circle">
+                                    <span>LAB KIDS</span>
+                                    <strong>OFICIAL</strong>
+                                    <span id="diploma-date">2026</span>
+                                </div>
+                            </div>
+                            <div class="sig-box">
+                                <div class="sig-line"></div>
+                                <div class="sig-name" id="diploma-student-sig">Guerreiro Ninja</div>
+                                <div class="sig-title">Guerreiro Formado</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action buttons: Download PNG & Print -->
+                <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button type="button" class="btn-play-big" onclick="downloadDiplomaPNG()" style="flex:1; padding:12px; font-size:1rem; background:linear-gradient(135deg, #f59e0b, #d97706);">
+                        💾 BAIXAR DIPLOMA (PNG)
+                    </button>
+                    <button type="button" class="btn-play-big" onclick="printDiploma()" style="flex:1; padding:12px; font-size:1rem; background:linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                        🖨️ IMPRIMIR
+                    </button>
+                    <button type="button" class="btn-top" onclick="closeDiplomaModal()" style="padding:12px 18px; border-radius:50px; background:rgba(255,255,255,0.15);">
+                        FECHAR ✖️
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1000,14 +1940,17 @@
                     </ul>
                 </div>
 
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-play-big" onclick="restartGame()" style="flex: 2;">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn-play-big" onclick="restartGame()" style="flex: 2; min-width: 160px;">
                         TENTAR DE NOVO 🔄
                     </button>
-                    <button class="btn-top" onclick="openAchievementsModal()" style="flex: 1; justify-content: center; font-size: 0.95rem; border-radius: 50px; background: rgba(234, 179, 8, 0.25); border-color: #eab308; color: #fde047;">
-                        🏆 TROFÉUS
+                    <button class="btn-top" onclick="openDiplomaModal()" style="flex: 1; justify-content: center; font-size: 0.9rem; border-radius: 50px; background: rgba(168, 85, 247, 0.25); border-color: #a855f7; color: #e9d5ff;">
+                        📜 DIPLOMA
                     </button>
-                    <button class="btn-top" onclick="returnToStartMenu()" style="flex: 1; justify-content: center; font-size: 0.95rem; border-radius: 50px; background: rgba(255,255,255,0.15);">
+                    <button class="btn-top" onclick="openLeaderboardModal()" style="flex: 1; justify-content: center; font-size: 0.9rem; border-radius: 50px; background: rgba(59, 130, 246, 0.25); border-color: #3b82f6; color: #93c5fd;">
+                        🏆 RANKING
+                    </button>
+                    <button class="btn-top" onclick="returnToStartMenu()" style="flex: 1; justify-content: center; font-size: 0.9rem; border-radius: 50px; background: rgba(255,255,255,0.15);">
                         🏠 MENU
                     </button>
                 </div>
@@ -1331,6 +2274,59 @@
                     });
                 } catch(e) {}
             }
+
+            playKeyPress() {
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(480, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(240, this.ctx.currentTime + 0.05);
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.05);
+                } catch(e) {}
+            }
+
+            playCoin() {
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    [987.77, 1318.51].forEach((f, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = f;
+                        const st = this.ctx.currentTime + idx * 0.08;
+                        gain.gain.setValueAtTime(0.25, st);
+                        gain.gain.exponentialRampToValueAtTime(0.01, st + 0.25);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(st);
+                        osc.stop(st + 0.25);
+                    });
+                } catch(e) {}
+            }
+
+            playSlowMo() {
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(240, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(60, this.ctx.currentTime + 0.5);
+                    gain.gain.setValueAtTime(0.4, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.5);
+                } catch(e) {}
+            }
         }
 
         const sound = new SoundFX();
@@ -1378,12 +2374,13 @@
             { name: "Faixa Preta", minScore: 4000, color: "#18181b", icon: "👑" }
         ];
 
-        // --- Blade Config (Lâminas Autênticas de Ninja) ---
+        // --- Blade Config (5 Lâminas Mágicas do Dojo) ---
         const BLADE_STYLES = {
-            steel: { color: "#38bdf8", glow: "#bae6fd", width: 7, particleColor: "#e0f2fe" },
-            lightning: { color: "#eab308", glow: "#fef08a", width: 9, particleColor: "#fef9c3" },
-            fire: { color: "#f97316", glow: "#ef4444", width: 10, particleColor: "#fde047" },
-            shadow: { color: "#a855f7", glow: "#6b21a8", width: 9, particleColor: "#c084fc" }
+            steel: { id: 'steel', name: "Katana de Bambu & Aço", color: "#38bdf8", glow: "#bae6fd", width: 7, particleColor: "#e0f2fe", type: 'steel' },
+            fire: { id: 'fire', name: "Katana Flamejante do Vulcão", color: "#f97316", glow: "#ef4444", width: 11, particleColor: "#fde047", type: 'fire' },
+            lightning: { id: 'lightning', name: "Sabre do Trovão Elétrico", color: "#06b6d4", glow: "#3b82f6", width: 10, particleColor: "#93c5fd", type: 'lightning' },
+            ice: { id: 'ice', name: "Lâmina Glacial do Monte Fuji", color: "#38bdf8", glow: "#0284c7", width: 9, particleColor: "#e0f2fe", type: 'ice' },
+            dragon: { id: 'dragon', name: "Espada Dourada do Dragão Celestial", color: "#fbbf24", glow: "#f59e0b", width: 12, particleColor: "#fef08a", type: 'dragon' }
         };
 
         // --- Arenas Dinâmicas ---
@@ -1445,8 +2442,8 @@
         let width, height;
         let selectedTab = 'bncc'; // 'bncc' or 'custom'
         let selectedLevel = '1-2';
-        let selectedBlade = 'steel';
-        let gameMode = 'classic'; // 'classic' (3 lives) or 'blitz' (60s)
+        let selectedBlade = localStorage.getItem('ninja_equipped_blade') || 'steel';
+        let gameMode = 'classic'; // 'classic', 'blitz', 'zen'
         let gameState = 'MENU'; // MENU, PLAYING, PAUSED, BELT_PROMOTION, GAMEOVER
         let score = 0;
         let hearts = 3;
@@ -1464,6 +2461,20 @@
         let blitzTimeRemaining = 60;
         let blitzInterval = null;
 
+        // Student Profile & Currency & Blades
+        let studentName = localStorage.getItem('ninja_student_name') || '';
+        let roomPin = localStorage.getItem('ninja_room_pin') || '';
+        let playerCoins = parseInt(localStorage.getItem('ninja_coins') || '0', 10);
+        let unlockedBlades = JSON.parse(localStorage.getItem('ninja_blades') || '["steel"]');
+        let currentBlade = localStorage.getItem('ninja_equipped_blade') || 'steel';
+        let vkBuffer = '';
+        let currentLbTab = '1-2';
+
+        // Bullet Time (Câmera Lenta Ninja)
+        let timeScale = 1.0;
+        let bulletTimeUntil = 0;
+        let bulletTimeTriggeredForWave = false;
+
         // Slow-Motion (Ice Fruit Power-Up)
         let slowMoUntil = 0;
 
@@ -1472,6 +2483,8 @@
         let bossHp = 3;
         let bossMaxHp = 3;
         let shogunDefeatedCount = 0;
+        let pendingPromotionBeltIndex = null;
+        let bossFoughtForBelt = {};
 
         // Custom Tabuada Selection
         let selectedTables = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -1511,8 +2524,23 @@
                     ? tablesArray[Math.floor(Math.random() * tablesArray.length)] 
                     : 7;
                 const multiplier = Math.floor(Math.random() * 9) + 2;
-                answer = table * multiplier;
-                text = `${table} × ${multiplier} = ?`;
+                const product = table * multiplier;
+
+                // 35% chance de operação inversa / equação enigma
+                const mode = Math.random();
+                if (mode < 0.2) {
+                    text = `? × ${multiplier} = ${product}`;
+                    answer = table;
+                } else if (mode < 0.4) {
+                    text = `${table} × ? = ${product}`;
+                    answer = multiplier;
+                } else if (mode < 0.55) {
+                    text = `${product} ÷ ${table} = ?`;
+                    answer = multiplier;
+                } else {
+                    text = `${table} × ${multiplier} = ?`;
+                    answer = product;
+                }
                 return { text, answer };
             }
 
@@ -1535,41 +2563,84 @@
 
             if (selectedLevel === '1-2') {
                 const isSub = Math.random() > 0.5;
+                const isInverse = Math.random() < 0.3;
                 if (isSub) {
                     num1 = Math.floor(Math.random() * 15) + 6;
                     num2 = Math.floor(Math.random() * 5) + 1;
-                    answer = num1 - num2;
-                    text = `${num1} - ${num2} = ?`;
+                    if (isInverse) {
+                        text = `${num1} - ? = ${num1 - num2}`;
+                        answer = num2;
+                    } else {
+                        text = `${num1} - ${num2} = ?`;
+                        answer = num1 - num2;
+                    }
                 } else {
                     num1 = Math.floor(Math.random() * 12) + 2;
                     num2 = Math.floor(Math.random() * 9) + 1;
-                    answer = num1 + num2;
-                    text = `${num1} + ${num2} = ?`;
+                    if (isInverse) {
+                        text = `? + ${num2} = ${num1 + num2}`;
+                        answer = num1;
+                    } else {
+                        text = `${num1} + ${num2} = ?`;
+                        answer = num1 + num2;
+                    }
                 }
             } else if (selectedLevel === '3') {
                 const tables = [2, 3, 4, 5, 10];
                 num1 = tables[Math.floor(Math.random() * tables.length)];
                 num2 = Math.floor(Math.random() * 9) + 2;
-                answer = num1 * num2;
-                text = `${num1} × ${num2} = ?`;
+                const prod = num1 * num2;
+                const inv = Math.random();
+                if (inv < 0.25) {
+                    text = `${num1} × ? = ${prod}`;
+                    answer = num2;
+                } else if (inv < 0.45) {
+                    text = `${prod} ÷ ${num1} = ?`;
+                    answer = num2;
+                } else {
+                    text = `${num1} × ${num2} = ?`;
+                    answer = prod;
+                }
             } else if (selectedLevel === '4-5') {
-                const isDiv = Math.random() > 0.6;
+                const isDiv = Math.random() > 0.5;
                 if (isDiv) {
                     const divisor = Math.floor(Math.random() * 6) + 3;
-                    answer = Math.floor(Math.random() * 8) + 2;
-                    const dividend = divisor * answer;
-                    text = `${dividend} ÷ ${divisor} = ?`;
+                    const quot = Math.floor(Math.random() * 8) + 2;
+                    const dividend = divisor * quot;
+                    if (Math.random() < 0.35) {
+                        text = `${dividend} ÷ ? = ${quot}`;
+                        answer = divisor;
+                    } else {
+                        text = `${dividend} ÷ ${divisor} = ?`;
+                        answer = quot;
+                    }
                 } else {
                     const tables = [6, 7, 8, 9];
                     num1 = tables[Math.floor(Math.random() * tables.length)];
                     num2 = Math.floor(Math.random() * 8) + 3;
-                    answer = num1 * num2;
-                    text = `${num1} × ${num2} = ?`;
+                    const prod = num1 * num2;
+                    const inv = Math.random();
+                    if (inv < 0.3) {
+                        text = `? × ${num2} = ${prod}`;
+                        answer = num1;
+                    } else if (inv < 0.55) {
+                        text = `${num1} × ? = ${prod}`;
+                        answer = num2;
+                    } else {
+                        text = `${num1} × ${num2} = ?`;
+                        answer = prod;
+                    }
                 }
             } else {
-                const types = ['add', 'sub', 'mul', 'div'];
+                // Mestre Ninja
+                const types = ['add', 'sub', 'mul', 'div', 'inv_mul'];
                 const t = types[Math.floor(Math.random() * types.length)];
-                if (t === 'mul') {
+                if (t === 'inv_mul') {
+                    num1 = Math.floor(Math.random() * 8) + 3;
+                    num2 = Math.floor(Math.random() * 8) + 3;
+                    text = `${num1} × ? = ${num1 * num2}`;
+                    answer = num2;
+                } else if (t === 'mul') {
                     num1 = Math.floor(Math.random() * 8) + 3;
                     num2 = Math.floor(Math.random() * 8) + 3;
                     answer = num1 * num2;
@@ -1603,6 +2674,7 @@
             initEvents();
             initPetals();
             updateArenaTopBadge();
+            initStudentName();
             requestAnimationFrame(gameLoop);
         });
 
@@ -1675,6 +2747,8 @@
             gameMode = mode;
             document.getElementById('mode-classic').classList.toggle('active', mode === 'classic');
             document.getElementById('mode-blitz').classList.toggle('active', mode === 'blitz');
+            const zenEl = document.getElementById('mode-zen');
+            if (zenEl) zenEl.classList.toggle('active', mode === 'zen');
         }
 
         function selectBlade(blade, el) {
@@ -1830,8 +2904,11 @@
             updateScoreHUD();
             nextTarget();
 
-            // Handle 60s Blitz Mode timer
+            // Handle Game Mode HUD
             if (blitzInterval) clearInterval(blitzInterval);
+            bossFoughtForBelt = {};
+            pendingPromotionBeltIndex = null;
+
             if (gameMode === 'blitz') {
                 blitzTimeRemaining = 60;
                 document.getElementById('life-mode-display').innerHTML = `⏱️ <span id="blitz-timer">60s</span>`;
@@ -1846,6 +2923,8 @@
                         }
                     }
                 }, 1000);
+            } else if (gameMode === 'zen') {
+                document.getElementById('life-mode-display').innerHTML = `☯️ <span style="color:#38bdf8; font-weight:800;">TREINO ZEN</span>`;
             } else {
                 document.getElementById('life-mode-display').innerHTML = `<span id="hearts-display">❤️❤️❤️</span>`;
                 updateHeartsHUD();
@@ -1870,7 +2949,7 @@
         }
 
         function updateHeartsHUD() {
-            if (gameMode === 'blitz') return;
+            if (gameMode === 'blitz' || gameMode === 'zen') return;
             const h = '❤️'.repeat(Math.max(0, hearts)) + '🖤'.repeat(Math.max(0, 3 - hearts));
             const hEl = document.getElementById('hearts-display');
             if (hEl) hEl.innerText = h;
@@ -1893,10 +2972,18 @@
             document.getElementById('belt-name').innerText = curBelt.name;
             beltPill.style.borderColor = curBelt.color;
 
-            // Se subiu de faixa durante o jogo: pausa e anuncia! (AdSense oportunidade)
+            // Se subiu de faixa durante o jogo:
+            // Regra Item 7: Surge o Mini-Boss Sensei Shogun (3 golpes necessários)
             if (newBeltIdx > currentBeltIndex && gameState === 'PLAYING') {
-                currentBeltIndex = newBeltIdx;
-                triggerBeltPromotion(BELTS[currentBeltIndex]);
+                if (!bossFoughtForBelt[newBeltIdx] && !bossActive) {
+                    bossFoughtForBelt[newBeltIdx] = true;
+                    pendingPromotionBeltIndex = newBeltIdx;
+                    triggerBossFight();
+                    spawnFloatingText(width / 2, height * 0.35, "⚠️ O SHOGUN CHEGOU PARA O TESTE DE FAIXA!", "#ef4444", 28);
+                } else if (!bossActive) {
+                    currentBeltIndex = newBeltIdx;
+                    triggerBeltPromotion(BELTS[currentBeltIndex]);
+                }
             }
 
             // Digital Achievement: Black Belt
@@ -1929,6 +3016,9 @@
                 if (score >= b.minScore) curBelt = b;
             }
             document.getElementById('final-belt').innerText = curBelt.name;
+
+            // Salva placar no Ranking Geral do Banco de Dados
+            saveScoreToLeaderboard(score, accuracy, maxCombo, curBelt.name);
 
             // Populate Pedagogical Mistakes Review Box
             const reviewList = document.getElementById('review-list');
@@ -2359,7 +3449,8 @@
                     life: 1,
                     decay: 0.07,
                     size: Math.random() * 4 + 2,
-                    color: blade.particleColor
+                    color: blade.particleColor,
+                    bladeType: blade.type
                 });
             }
         }
@@ -2388,9 +3479,12 @@
                 document.getElementById('combo-pill').style.display = 'flex';
                 spawnFloatingText(p2.x, p2.y - 30, `🔥 COMBO ×${combo}!`, '#fbbf24', 28);
 
-                if (combo >= 5 && !unlockedAchievements.comboMaster) {
-                    unlockedAchievements.comboMaster = true;
-                    showAchievementNotification("🔥 Mestre do Combo!", "Você atingiu um combo devastador de x5!");
+                if (combo >= 5) {
+                    activateBulletTime(2000);
+                    if (!unlockedAchievements.comboMaster) {
+                        unlockedAchievements.comboMaster = true;
+                        showAchievementNotification("🔥 Mestre do Combo!", "Você atingiu um combo devastador de x5!");
+                    }
                 }
             }
         }
@@ -2410,6 +3504,11 @@
         function sliceFruit(fruit, p1, p2) {
             fruit.sliced = true;
             sound.playSlice();
+
+            // Clutch near-bottom catch activates Bullet Time!
+            if (fruit.y > height - 130 && !fruit.isBomb) {
+                activateBulletTime(1800);
+            }
 
             // 1. Bomba Ninja
             if (fruit.isBomb) {
@@ -2434,6 +3533,7 @@
                 sound.playIce();
                 slowMoUntil = Date.now() + 6000;
                 score += 150;
+                addCoins(10);
                 updateScoreHUD();
                 createExplosion(fruit.x, fruit.y, '#38bdf8');
                 spawnFloatingText(fruit.x, fruit.y, '❄️ TEMPO LENTO! ⏱️', '#38bdf8', 32);
@@ -2445,6 +3545,7 @@
             if (fruit.isPowerUp === 'lightning') {
                 sound.playThunder();
                 score += 150;
+                addCoins(10);
                 updateScoreHUD();
                 createExplosion(fruit.x, fruit.y, '#facc15');
                 spawnFloatingText(fruit.x, fruit.y, '⚡ RAIO NINJA! ⚡', '#facc15', 32);
@@ -2464,6 +3565,7 @@
             if (fruit.isSpecialMulti) {
                 sound.playFission();
                 score += 150;
+                addCoins(15);
                 updateScoreHUD();
                 createExplosion(fruit.x, fruit.y, '#38bdf8');
                 createExplosion(fruit.x, fruit.y, '#facc15');
@@ -2501,6 +3603,7 @@
             if (fruit.isMini) {
                 sound.playCorrect();
                 score += 100;
+                addCoins(5);
                 updateScoreHUD();
                 spawnFloatingText(fruit.x, fruit.y, '⭐ +100!', '#facc15', 28);
                 createJuiceSplash(fruit.x, fruit.y, fruit.template.innerColor);
@@ -2508,10 +3611,11 @@
                 return;
             }
 
-            // 6. Fruta Bônus de Frenesi (Corrigido: Pontua e corta normalmente sem estender o tempo para sempre!)
+            // 6. Fruta Bônus de Frenesi
             if (fruit.isFrenzyBonus) {
                 sound.playCorrect();
                 score += 50;
+                addCoins(3);
                 updateScoreHUD();
                 spawnFloatingText(fruit.x, fruit.y, '⭐ +50', '#facc15', 24);
                 createExplosion(fruit.x, fruit.y, '#facc15');
@@ -2519,12 +3623,13 @@
                 return;
             }
 
-            // 7. Fruta Dourada Original de Frenesi (Inicia 5 segundos de frenesi estrito)
+            // 7. Fruta Dourada Original de Frenesi
             if (fruit.isGolden) {
                 sound.playFrenzy();
                 frenzyMode = true;
-                frenzyTimer = Date.now() + 5000; // Exatos 5 segundos de frenesi
+                frenzyTimer = Date.now() + 5000;
                 score += 300;
+                addCoins(25);
                 updateScoreHUD();
                 document.getElementById('frenzy-banner').classList.add('show');
                 createExplosion(fruit.x, fruit.y, '#facc15');
@@ -2541,6 +3646,7 @@
                 hitsCount++;
                 const points = 100 * (combo > 1 ? combo : 1);
                 score += points;
+                addCoins(5);
                 updateScoreHUD();
 
                 spawnFloatingText(fruit.x, fruit.y, `✓ CORRETO! +${points}`, '#4ade80', 30);
@@ -2559,16 +3665,29 @@
                         bossActive = false;
                         shogunDefeatedCount++;
                         score += 500;
+                        addCoins(100); // 100 moedas ao vencer o Shogun!
                         updateScoreHUD();
                         document.getElementById('boss-hud').style.display = 'none';
                         sound.playAchievement();
-                        spawnFloatingText(width / 2, height * 0.4, '🏆 SHOGUN DERROTADO! +500 PTS!', '#facc15', 36);
+                        spawnFloatingText(width / 2, height * 0.4, '🏆 SHOGUN DERROTADO! +100 MOEDAS +500 PTS!', '#facc15', 34);
                         createExplosion(width / 2, height * 0.4, '#facc15');
                         setMascotMood('happy', 'Vencemos o Shogun!');
 
                         if (!unlockedAchievements.shogunSlayer) {
                             unlockedAchievements.shogunSlayer = true;
                             showAchievementNotification("👹 Carrasco do Shogun!", "Você derrotou o terrível Shogun da Tabuada!");
+                        }
+
+                        // Se estava pendente a cerimônia de graduação de faixa:
+                        if (pendingPromotionBeltIndex !== null) {
+                            const nextBeltIdx = pendingPromotionBeltIndex;
+                            pendingPromotionBeltIndex = null;
+                            currentBeltIndex = nextBeltIdx;
+                            setTimeout(() => {
+                                if (gameState === 'PLAYING') {
+                                    triggerBeltPromotion(BELTS[currentBeltIndex]);
+                                }
+                            }, 800);
                         }
                     }
                 }
@@ -2750,6 +3869,16 @@
                 iceOverlay.style.opacity = '1';
             } else {
                 iceOverlay.style.opacity = '0';
+            }
+
+            // 10. Bullet Time (Câmera Lenta Ninja Cinemática)
+            const btOverlay = document.getElementById('bullet-time-overlay');
+            if (Date.now() < bulletTimeUntil) {
+                timeScale = 0.35;
+                if (btOverlay) btOverlay.style.display = 'block';
+            } else {
+                timeScale = 1.0;
+                if (btOverlay) btOverlay.style.display = 'none';
             }
 
             // Reset Combo if expired
@@ -3089,16 +4218,16 @@
                 if (!f.isHalf && Math.abs(f.vy) < 0.9 && f.hangFramesLeft > 0) {
                     f.isHanging = true;
                     f.hangFramesLeft--;
-                    f.vy = Math.sin(Date.now() / 250) * 0.16;
-                    f.vx *= 0.98;
+                    f.vy = Math.sin(Date.now() / 250) * 0.16 * timeScale;
+                    f.vx *= Math.pow(0.98, timeScale);
                 } else {
                     f.isHanging = false;
-                    f.vy += f.gravity;
+                    f.vy += f.gravity * timeScale;
                 }
 
-                f.x += f.vx;
-                f.y += f.vy;
-                f.angle += f.vAngle;
+                f.x += f.vx * timeScale;
+                f.y += f.vy * timeScale;
+                f.angle += f.vAngle * timeScale;
 
                 if (f.y > height + 90 && f.vy > 0) {
                     if (!f.sliced && String(f.value) === String(currentTarget?.answer) && gameState === 'PLAYING') {
@@ -3227,9 +4356,43 @@
                 ctx.save();
                 ctx.globalAlpha = p.life;
                 ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
+
+                if (p.bladeType === 'dragon') {
+                    // Estrela dourada cósmica
+                    ctx.font = `${Math.round(p.size * 2.2)}px sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('⭐', p.x, p.y);
+                } else if (p.bladeType === 'fire') {
+                    // Brasa de fogo ardente
+                    ctx.shadowColor = '#f97316';
+                    ctx.shadowBlur = 10;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 1.3, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (p.bladeType === 'ice') {
+                    // Cristal de gelo / diamante
+                    ctx.shadowColor = '#38bdf8';
+                    ctx.shadowBlur = 8;
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y - p.size * 1.2);
+                    ctx.lineTo(p.x + p.size, p.y);
+                    ctx.lineTo(p.x, p.y + p.size * 1.2);
+                    ctx.lineTo(p.x - p.size, p.y);
+                    ctx.closePath();
+                    ctx.fill();
+                } else if (p.bladeType === 'lightning') {
+                    // Faísca elétrica neon
+                    ctx.shadowColor = '#06b6d4';
+                    ctx.shadowBlur = 12;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
                 ctx.restore();
             }
         }
@@ -3250,13 +4413,24 @@
                 ctx.save();
                 ctx.strokeStyle = blade.color;
                 ctx.shadowColor = blade.glow;
-                ctx.shadowBlur = 15;
+                ctx.shadowBlur = (blade.type === 'dragon' || blade.type === 'lightning') ? 22 : 15;
                 ctx.lineWidth = blade.width * ratio;
                 ctx.lineCap = 'round';
                 ctx.beginPath();
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
                 ctx.stroke();
+
+                // Núcleo brilhante interno para espadas do trovão e dragão
+                if (blade.type === 'lightning' || blade.type === 'dragon') {
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.shadowBlur = 0;
+                    ctx.lineWidth = Math.max(1, (blade.width * 0.35) * ratio);
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
                 ctx.restore();
             }
         }
@@ -3326,6 +4500,570 @@
                 if (document.exitFullscreen) document.exitFullscreen();
                 else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
             }
+        }
+
+        // ====================================================================
+        // 1. IDENTIFICAÇÃO DO ALUNO & TECLADO VIRTUAL GIGANTE
+        // ====================================================================
+        function initStudentName() {
+            studentName = localStorage.getItem('ninja_student_name') || '';
+            roomPin = localStorage.getItem('ninja_room_pin') || '';
+            playerCoins = parseInt(localStorage.getItem('ninja_coins') || '0', 10);
+            try {
+                unlockedBlades = JSON.parse(localStorage.getItem('ninja_blades') || '["steel"]');
+            } catch(e) {
+                unlockedBlades = ['steel'];
+            }
+            currentBlade = localStorage.getItem('ninja_equipped_blade') || 'steel';
+            selectedBlade = currentBlade;
+
+            updateCoinsDisplays();
+            updateShopUI();
+
+            const menuNameEl = document.getElementById('menu-student-name');
+            if (studentName) {
+                if (menuNameEl) menuNameEl.innerText = studentName;
+            } else {
+                if (menuNameEl) menuNameEl.innerText = "Clique para Digitar Nome";
+                // Abre o teclado virtual gigante automaticamente para o aluno se identificar
+                setTimeout(() => openNameEntryModal(), 450);
+            }
+
+            const pinInput = document.getElementById('room-pin-input');
+            if (pinInput && roomPin) pinInput.value = roomPin;
+
+            window.removeEventListener('keydown', handlePhysicalKeyboard);
+            window.addEventListener('keydown', handlePhysicalKeyboard);
+        }
+
+        function openNameEntryModal() {
+            vkBuffer = studentName || '';
+            updateVkDisplay();
+            document.getElementById('name-entry-modal').style.display = 'flex';
+        }
+
+        function closeNameEntryModal() {
+            document.getElementById('name-entry-modal').style.display = 'none';
+        }
+
+        function updateVkDisplay() {
+            const disp = document.getElementById('name-display-text');
+            if (disp) disp.innerText = vkBuffer;
+        }
+
+        function vkPress(char) {
+            if (vkBuffer.length < 22) {
+                vkBuffer += char;
+                updateVkDisplay();
+                sound.playKeyPress();
+            }
+        }
+
+        function vkBackspace() {
+            if (vkBuffer.length > 0) {
+                vkBuffer = vkBuffer.slice(0, -1);
+                updateVkDisplay();
+                sound.playKeyPress();
+            }
+        }
+
+        function vkSpace() {
+            if (vkBuffer.length > 0 && !vkBuffer.endsWith(' ') && vkBuffer.length < 22) {
+                vkBuffer += ' ';
+                updateVkDisplay();
+                sound.playKeyPress();
+            }
+        }
+
+        function vkClear() {
+            vkBuffer = '';
+            updateVkDisplay();
+            sound.playKeyPress();
+        }
+
+        function vkConfirm() {
+            const trimmed = vkBuffer.trim();
+            if (!trimmed) {
+                alert("Por favor, digite seu nome ou apelido ninja!");
+                return;
+            }
+            studentName = trimmed;
+            localStorage.setItem('ninja_student_name', studentName);
+            const menuNameEl = document.getElementById('menu-student-name');
+            if (menuNameEl) menuNameEl.innerText = studentName;
+            closeNameEntryModal();
+            sound.playAchievement();
+        }
+
+        function handlePhysicalKeyboard(e) {
+            const modal = document.getElementById('name-entry-modal');
+            if (!modal || modal.style.display !== 'flex') return;
+
+            if (e.key === 'Backspace') {
+                e.preventDefault();
+                vkBackspace();
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                vkConfirm();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                vkSpace();
+            } else if (e.key === 'Escape') {
+                closeNameEntryModal();
+            } else if (e.key.length === 1) {
+                const k = e.key.toUpperCase();
+                if (/^[A-Z0-9À-ÚÇ ]$/.test(k)) {
+                    vkPress(k);
+                }
+            }
+        }
+
+        function updateRoomPin(val) {
+            roomPin = String(val || '').trim().toUpperCase();
+            localStorage.setItem('ninja_room_pin', roomPin);
+            const pinInput = document.getElementById('room-pin-input');
+            if (pinInput) pinInput.value = roomPin;
+            const lbPinInput = document.getElementById('lb-pin-input');
+            if (lbPinInput) lbPinInput.value = roomPin;
+        }
+
+        // ====================================================================
+        // 2. ECONOMIA & LOJA DE KATANAS DO DOJO
+        // ====================================================================
+        const BLADE_PRICES = {
+            steel: 0,
+            fire: 150,
+            lightning: 300,
+            ice: 500,
+            dragon: 1000
+        };
+
+        function addCoins(amount) {
+            playerCoins += amount;
+            localStorage.setItem('ninja_coins', playerCoins);
+            updateCoinsDisplays();
+            sound.playCoin();
+        }
+
+        function updateCoinsDisplays() {
+            const topEl = document.getElementById('top-coins');
+            if (topEl) topEl.innerText = playerCoins;
+            const menuEl = document.getElementById('menu-coins-val');
+            if (menuEl) menuEl.innerText = playerCoins;
+            const shopEl = document.getElementById('shop-coins-display');
+            if (shopEl) shopEl.innerText = playerCoins;
+        }
+
+        function openDojoShop() {
+            updateCoinsDisplays();
+            updateShopUI();
+            document.getElementById('dojo-shop-modal').style.display = 'flex';
+        }
+
+        function closeDojoShop() {
+            document.getElementById('dojo-shop-modal').style.display = 'none';
+        }
+
+        function updateShopUI() {
+            Object.keys(BLADE_PRICES).forEach(bladeId => {
+                const card = document.getElementById('blade-card-' + bladeId);
+                const action = document.getElementById('blade-action-' + bladeId);
+                if (!card || !action) return;
+
+                const isUnlocked = unlockedBlades.includes(bladeId);
+                const isEquipped = (currentBlade === bladeId);
+
+                card.classList.toggle('unlocked', isUnlocked);
+                card.classList.toggle('equipped', isEquipped);
+
+                if (isEquipped) {
+                    action.innerHTML = `<button type="button" class="btn-blade-equip equipped">✓ EQUIPADA</button>`;
+                } else if (isUnlocked) {
+                    action.innerHTML = `<button type="button" class="btn-blade-equip" onclick="equipBlade('${bladeId}')">EQUIPAR</button>`;
+                } else {
+                    const cost = BLADE_PRICES[bladeId];
+                    action.innerHTML = `<button type="button" class="btn-blade-buy" onclick="buyBlade('${bladeId}', ${cost})">💰 ${cost} Moedas</button>`;
+                }
+            });
+        }
+
+        function buyBlade(bladeId, cost) {
+            if (playerCoins < cost) {
+                sound.playWrong();
+                alert(`Moedas insuficientes! Você tem ${playerCoins} moedas e esta lâmina custa ${cost}. Continue cortando frutas e derrotando o Shogun!`);
+                return;
+            }
+
+            playerCoins -= cost;
+            localStorage.setItem('ninja_coins', playerCoins);
+            if (!unlockedBlades.includes(bladeId)) {
+                unlockedBlades.push(bladeId);
+                localStorage.setItem('ninja_blades', JSON.stringify(unlockedBlades));
+            }
+            equipBlade(bladeId);
+            sound.playAchievement();
+            updateCoinsDisplays();
+            updateShopUI();
+        }
+
+        function equipBlade(bladeId) {
+            currentBlade = bladeId;
+            selectedBlade = bladeId;
+            localStorage.setItem('ninja_equipped_blade', bladeId);
+            updateShopUI();
+            sound.playSlice();
+        }
+
+        // ====================================================================
+        // 3. EFEITO BULLET TIME (CÂMERA LENTA NINJA)
+        // ====================================================================
+        function activateBulletTime(durationMs = 2000) {
+            bulletTimeUntil = Date.now() + durationMs;
+            timeScale = 0.35;
+            sound.playSlowMo();
+            const overlay = document.getElementById('bullet-time-overlay');
+            if (overlay) overlay.style.display = 'block';
+            spawnFloatingText(width / 2, height * 0.25, '⏳ CÂMERA LENTA NINJA! ⏱️', '#38bdf8', 34);
+        }
+
+        // ====================================================================
+        // 4. RANKING & LEADERBOARDS MULTI-ABAS
+        // ====================================================================
+        async function saveScoreToLeaderboard(finalScore, accuracy, maxC, beltName) {
+            try {
+                const payload = {
+                    student_name: studentName || 'Guerreiro Ninja',
+                    grade_level: selectedLevel || '3',
+                    difficulty: gameMode === 'blitz' ? 'Blitz 60s' : (gameMode === 'zen' ? 'Treino Zen' : 'Arcade'),
+                    score: Number(finalScore) || 0,
+                    accuracy: Number(accuracy) || 100,
+                    max_combo: Number(maxC) || 0,
+                    belt_name: beltName || 'Faixa Branca',
+                    room_pin: roomPin || ''
+                };
+                await fetch('/api/games/ninja-math/score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) {
+                console.warn('Erro ao salvar placar no ranking:', err);
+            }
+        }
+
+        function openLeaderboardModal() {
+            document.getElementById('leaderboard-modal').style.display = 'flex';
+            switchLbTab(currentLbTab || '1-2');
+        }
+
+        function closeLeaderboardModal() {
+            document.getElementById('leaderboard-modal').style.display = 'none';
+        }
+
+        function switchLbTab(tab, el) {
+            currentLbTab = tab;
+            document.querySelectorAll('.lb-tab').forEach(b => b.classList.remove('active'));
+            if (el) {
+                el.classList.add('active');
+            } else {
+                const btn = Array.from(document.querySelectorAll('.lb-tab')).find(b => b.getAttribute('onclick')?.includes(`'${tab}'`));
+                if (btn) btn.classList.add('active');
+            }
+
+            const pinFilter = document.getElementById('lb-pin-filter');
+            if (tab === 'turma') {
+                if (pinFilter) pinFilter.style.display = 'block';
+                const pinInput = document.getElementById('lb-pin-input');
+                if (pinInput && roomPin) pinInput.value = roomPin;
+            } else {
+                if (pinFilter) pinFilter.style.display = 'none';
+            }
+
+            loadLeaderboardData();
+        }
+
+        function searchTurmaRanking() {
+            const val = document.getElementById('lb-pin-input')?.value || '';
+            updateRoomPin(val);
+            loadLeaderboardData();
+        }
+
+        async function loadLeaderboardData() {
+            const loading = document.getElementById('lb-loading');
+            const table = document.getElementById('lb-table');
+            const tbody = document.getElementById('lb-table-body');
+            if (loading) loading.style.display = 'block';
+            if (table) table.style.display = 'none';
+            if (tbody) tbody.innerHTML = '';
+
+            let url = '/api/games/ninja-math/leaderboard?limit=15';
+
+            if (currentLbTab === 'turma') {
+                const pin = document.getElementById('lb-pin-input')?.value || roomPin;
+                if (!pin) {
+                    if (loading) loading.innerHTML = '⚠️ Digite o PIN da sua turma acima para ver os colegas da sala!';
+                    return;
+                }
+                url += `&room_pin=${encodeURIComponent(pin.trim())}`;
+            } else if (currentLbTab === 'blitz') {
+                url += `&difficulty=Blitz 60s`;
+            } else if (currentLbTab === 'zen') {
+                url += `&difficulty=Treino Zen`;
+            } else {
+                url += `&grade_level=${encodeURIComponent(currentLbTab)}`;
+            }
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                const rows = data?.data || [];
+
+                if (loading) loading.style.display = 'none';
+                if (table) table.style.display = 'table';
+
+                if (rows.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" style="padding:20px; color:#9ca3af; text-align:center;">Nenhum ninja registrado ainda nesta categoria. Seja o primeiro a gravar seu nome no Dojo!</td></tr>`;
+                    return;
+                }
+
+                const medals = ['🥇', '🥈', '🥉'];
+                rows.forEach((r, idx) => {
+                    const tr = document.createElement('tr');
+                    if (idx === 0) tr.classList.add('rank-1');
+                    else if (idx === 1) tr.classList.add('rank-2');
+                    else if (idx === 2) tr.classList.add('rank-3');
+
+                    const isMe = (studentName && r.student_name && r.student_name.toUpperCase() === studentName.toUpperCase());
+                    if (isMe) tr.style.background = 'rgba(234, 179, 8, 0.2)';
+
+                    const medal = medals[idx] || `#${idx + 1}`;
+                    const dateStr = r.created_at ? new Date(r.created_at).toLocaleDateString('pt-BR') : '';
+
+                    tr.innerHTML = `
+                        <td class="rank-pos">${medal}</td>
+                        <td style="text-align: left; font-weight: 800; color: ${isMe ? '#fde047' : '#fff'};">
+                            ${r.student_name} ${isMe ? '<span style="font-size:0.7rem; color:#fde047;">(VOCÊ)</span>' : ''}
+                        </td>
+                        <td><span style="font-size:0.8rem; background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:10px;">${r.belt_name || 'Faixa Branca'}</span></td>
+                        <td style="font-weight: 900; color: #fbbf24;">${r.score}</td>
+                        <td style="color: #38bdf8;">${r.accuracy || 100}%</td>
+                        <td style="font-size: 0.75rem; color: #9ca3af;">${dateStr}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                if (loading) loading.innerHTML = 'Erro ao carregar o ranking. Tente novamente.';
+            }
+        }
+
+        // ====================================================================
+        // 5. PASSAPORTE / DIPLOMA NINJA (EXPORTAÇÃO PNG & IMPRESSÃO)
+        // ====================================================================
+        function openDiplomaModal() {
+            const sName = studentName || 'Guerreiro Ninja';
+            document.getElementById('diploma-student-name').innerText = sName.toUpperCase();
+            document.getElementById('diploma-student-sig').innerText = sName;
+
+            let curBelt = BELTS[0];
+            for (let b of BELTS) {
+                if (score >= b.minScore) curBelt = b;
+            }
+            document.getElementById('diploma-belt-icon').innerText = curBelt.icon;
+            document.getElementById('diploma-belt-name').innerText = `${curBelt.name}`;
+            document.getElementById('diploma-score').innerText = Math.max(score, 500);
+            const total = hitsCount + missesCount;
+            const accuracy = total > 0 ? Math.round((hitsCount / total) * 100) : 100;
+            document.getElementById('diploma-accuracy').innerText = `${accuracy}%`;
+            document.getElementById('diploma-combo').innerText = `x${Math.max(maxCombo, 1)}`;
+            document.getElementById('diploma-shogun').innerText = shogunDefeatedCount;
+            document.getElementById('diploma-date').innerText = new Date().toLocaleDateString('pt-BR');
+
+            document.getElementById('diploma-modal').style.display = 'flex';
+        }
+
+        function closeDiplomaModal() {
+            document.getElementById('diploma-modal').style.display = 'none';
+        }
+
+        function printDiploma() {
+            window.print();
+        }
+
+        function downloadDiplomaPNG() {
+            const offCanvas = document.createElement('canvas');
+            offCanvas.width = 1200;
+            offCanvas.height = 800;
+            const octx = offCanvas.getContext('2d');
+
+            // Fundo pergaminho antigo
+            octx.fillStyle = '#fdf8ee';
+            octx.fillRect(0, 0, 1200, 800);
+
+            // Borda dupla tradicional
+            octx.strokeStyle = '#78350f';
+            octx.lineWidth = 14;
+            octx.strokeRect(30, 30, 1140, 740);
+
+            octx.strokeStyle = '#b45309';
+            octx.lineWidth = 3;
+            octx.strokeRect(48, 48, 1104, 704);
+
+            // Cantos decorativos japoneses
+            function drawCorner(x, y, flipX, flipY) {
+                octx.save();
+                octx.translate(x, y);
+                octx.scale(flipX, flipY);
+                octx.strokeStyle = '#92400e';
+                octx.lineWidth = 4;
+                octx.beginPath();
+                octx.moveTo(0, 0);
+                octx.lineTo(40, 0);
+                octx.lineTo(40, 40);
+                octx.stroke();
+                octx.restore();
+            }
+            drawCorner(55, 55, 1, 1);
+            drawCorner(1145, 55, -1, 1);
+            drawCorner(55, 745, 1, -1);
+            drawCorner(1145, 745, -1, -1);
+
+            // Selos kanji tradicionais
+            octx.fillStyle = 'rgba(180, 83, 9, 0.15)';
+            octx.font = '900 60px "Fredoka", sans-serif';
+            octx.textAlign = 'center';
+            octx.fillText('忍', 120, 140);
+            octx.fillText('道', 1080, 140);
+
+            // Cabeçalho
+            octx.fillStyle = '#b45309';
+            octx.font = '800 20px "Outfit", sans-serif';
+            octx.fillText('PORTAL LAB KIDS • DOJO DA TABUADA', 600, 105);
+
+            octx.fillStyle = '#78350f';
+            octx.font = '900 48px "Fredoka", cursive';
+            octx.fillText('DIPLOMA NINJA DE HONRA', 600, 160);
+
+            octx.fillStyle = '#92400e';
+            octx.font = '700 18px "Outfit", sans-serif';
+            octx.fillText('CERTIFICADO OFICIAL DE CONQUISTA PESSOAL EM MATEMÁTICA', 600, 195);
+
+            // Linha divisória ornamental
+            octx.strokeStyle = '#d97706';
+            octx.lineWidth = 2;
+            octx.beginPath();
+            octx.moveTo(350, 220);
+            octx.lineTo(850, 220);
+            octx.stroke();
+
+            // Texto de introdução
+            octx.fillStyle = '#451a03';
+            octx.font = '500 22px "Outfit", sans-serif';
+            octx.fillText('Certificamos solenemente com louvor e honra que:', 600, 275);
+
+            // Nome do Aluno
+            const sName = (studentName || 'Guerreiro Ninja').toUpperCase();
+            octx.fillStyle = '#78350f';
+            octx.font = '900 44px "Fredoka", cursive';
+            octx.fillText(sName, 600, 340);
+
+            // Linha sob o nome
+            octx.strokeStyle = '#b45309';
+            octx.lineWidth = 2;
+            octx.beginPath();
+            octx.moveTo(250, 360);
+            octx.lineTo(950, 360);
+            octx.stroke();
+
+            // Graduação da Faixa
+            let curBelt = BELTS[0];
+            for (let b of BELTS) {
+                if (score >= b.minScore) curBelt = b;
+            }
+            octx.fillStyle = '#b45309';
+            octx.font = '800 28px "Outfit", sans-serif';
+            octx.fillText(`🥋 ${curBelt.name.toUpperCase()} CONQUISTADA!`, 600, 420);
+
+            // Texto de descrição
+            octx.fillStyle = '#451a03';
+            octx.font = '500 18px "Outfit", sans-serif';
+            octx.fillText('Demonstrou raciocínio afiado, reflexos velozes e maestria com a katana dos números,', 600, 465);
+            octx.fillText('superando os desafios matemáticos do Dojo e vencendo os testes do Shogun!', 600, 495);
+
+            // Métricas em caixas
+            const metrics = [
+                { label: 'PONTUAÇÃO', val: String(Math.max(score, 500)) },
+                { label: 'APROVEITAMENTO', val: `${Math.round(((hitsCount || 1) / Math.max(1, hitsCount + missesCount)) * 100)}%` },
+                { label: 'MAIOR COMBO', val: `x${Math.max(maxCombo, 1)}` },
+                { label: 'SHOGUNS', val: String(shogunDefeatedCount) }
+            ];
+
+            metrics.forEach((m, idx) => {
+                const mx = 240 + idx * 190;
+                const my = 540;
+                octx.fillStyle = 'rgba(217, 119, 6, 0.1)';
+                octx.fillRect(mx - 75, my, 150, 75);
+                octx.strokeStyle = '#d97706';
+                octx.lineWidth = 1.5;
+                octx.strokeRect(mx - 75, my, 150, 75);
+
+                octx.fillStyle = '#b45309';
+                octx.font = '900 26px "Fredoka", sans-serif';
+                octx.fillText(m.val, mx, my + 38);
+
+                octx.fillStyle = '#78350f';
+                octx.font = '700 12px "Outfit", sans-serif';
+                octx.fillText(m.label, mx, my + 60);
+            });
+
+            // Rodapé / Assinaturas
+            const sigY = 690;
+            // Assinatura Mestre
+            octx.strokeStyle = '#78350f';
+            octx.lineWidth = 1.5;
+            octx.beginPath();
+            octx.moveTo(180, sigY);
+            octx.lineTo(380, sigY);
+            octx.stroke();
+
+            octx.fillStyle = '#78350f';
+            octx.font = '800 16px "Outfit", sans-serif';
+            octx.fillText('Mestre do Dojo Ninja', 280, sigY + 22);
+            octx.font = '500 13px "Outfit", sans-serif';
+            octx.fillText('Sensei da Matemática', 280, sigY + 38);
+
+            // Selo Oficial Central
+            octx.strokeStyle = '#dc2626';
+            octx.lineWidth = 3;
+            octx.beginPath();
+            octx.arc(600, sigY + 5, 42, 0, Math.PI * 2);
+            octx.stroke();
+            octx.fillStyle = '#dc2626';
+            octx.font = '900 12px "Outfit", sans-serif';
+            octx.fillText('LAB KIDS', 600, sigY - 10);
+            octx.font = '900 15px "Fredoka", sans-serif';
+            octx.fillText('OFICIAL', 600, sigY + 8);
+            octx.font = '700 11px "Outfit", sans-serif';
+            octx.fillText(String(new Date().getFullYear()), 600, sigY + 24);
+
+            // Assinatura Aluno
+            octx.strokeStyle = '#78350f';
+            octx.lineWidth = 1.5;
+            octx.beginPath();
+            octx.moveTo(820, sigY);
+            octx.lineTo(1020, sigY);
+            octx.stroke();
+
+            octx.fillStyle = '#78350f';
+            octx.font = '800 16px "Outfit", sans-serif';
+            octx.fillText(sName, 920, sigY + 22);
+            octx.font = '500 13px "Outfit", sans-serif';
+            octx.fillText('Guerreiro Formado', 920, sigY + 38);
+
+            // Baixar como PNG
+            const link = document.createElement('a');
+            link.download = `Diploma_Ninja_Matematica_${sName.replace(/[^a-zA-Z0-9]/g, '_')}.png`;
+            link.href = offCanvas.toDataURL('image/png');
+            link.click();
         }
     </script>
 </body>

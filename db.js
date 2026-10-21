@@ -1009,12 +1009,70 @@ const dbHelper = {
       console.error('[DB Engine] setSetting error:', e.message);
       return false;
     }
+  },
+
+  async saveGameScore({ game_id = 'ninja-math', student_name, grade_level = '3', difficulty = 'Arcade', score = 0, accuracy = 100, max_combo = 0, belt_name = 'Branca', room_pin = '' }) {
+    try {
+      const cleanName = String(student_name || 'Ninja Anônimo').trim().substring(0, 30);
+      const cleanPin = String(room_pin || '').trim().toUpperCase().substring(0, 15);
+      await queryRun(
+        `INSERT INTO game_leaderboard (game_id, student_name, grade_level, difficulty, score, accuracy, max_combo, belt_name, room_pin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [game_id, cleanName, String(grade_level), String(difficulty), Number(score) || 0, Number(accuracy) || 100, Number(max_combo) || 0, String(belt_name), cleanPin]
+      );
+      return { success: true };
+    } catch(e) {
+      console.error('[DB Engine] saveGameScore error:', e.message);
+      return { success: false, error: e.message };
+    }
+  },
+
+  async getGameLeaderboard({ game_id = 'ninja-math', difficulty = '', grade_level = '', room_pin = '', limit = 15 }) {
+    try {
+      let sql = `SELECT student_name, grade_level, difficulty, score, accuracy, max_combo, belt_name, room_pin, created_at FROM game_leaderboard WHERE game_id = ?`;
+      const args = [game_id];
+
+      if (room_pin && room_pin.trim() !== '') {
+        sql += ` AND UPPER(room_pin) = ?`;
+        args.push(room_pin.trim().toUpperCase());
+      } else {
+        if (difficulty && difficulty !== 'ALL') {
+          sql += ` AND difficulty = ?`;
+          args.push(difficulty);
+        }
+        if (grade_level && grade_level !== 'ALL') {
+          sql += ` AND grade_level = ?`;
+          args.push(grade_level);
+        }
+      }
+
+      sql += ` ORDER BY score DESC, accuracy DESC, max_combo DESC LIMIT ?`;
+      args.push(Number(limit) || 15);
+
+      const rows = await queryAll(sql, args);
+      return rows || [];
+    } catch(e) {
+      console.error('[DB Engine] getGameLeaderboard error:', e.message);
+      return [];
+    }
   }
 };
 
 // Initialize schema on load
 async function initTables() {
   const tables = [
+    `CREATE TABLE IF NOT EXISTS game_leaderboard (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      game_id TEXT NOT NULL DEFAULT 'ninja-math',
+      student_name TEXT NOT NULL,
+      grade_level TEXT NOT NULL,
+      difficulty TEXT NOT NULL,
+      score INTEGER NOT NULL DEFAULT 0,
+      accuracy INTEGER DEFAULT 100,
+      max_combo INTEGER DEFAULT 0,
+      belt_name TEXT DEFAULT 'Branca',
+      room_pin TEXT DEFAULT '',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );`,
     `CREATE TABLE IF NOT EXISTS schools (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,

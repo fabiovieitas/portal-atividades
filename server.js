@@ -11,7 +11,7 @@ const fs = require('fs');
 const dbHelper = require('./db');
 const mailService = require('./mailService');
 // Supabase fully decommissioned. All operations run via Turso Cloud (libsql).
-// Ninja Math v2.4 - Belt promotion pause with AdSense, high-def 3D chibi mascots, return to menu button, frenzy fix
+// Ninja Math v2.5 - Leaderboard API, Virtual Keyboard, Dojo Shop, Zen Mode, Bullet Time, Shogun Boss, Personal Diploma, Inverse Math
 const supabase = null;
 
 const app = express();
@@ -1775,6 +1775,50 @@ app.post('/api/students/:id/activity-complete', async (req, res) => {
     res.json({ success: true, result });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// ============================================================================
+// NINJA MATH: A ESPADA DA TABUADA - LEADERBOARD & RANKINGS
+// ============================================================================
+app.post('/api/games/ninja-math/score', async (req, res) => {
+  try {
+    const { student_name, grade_level, difficulty, score, accuracy, max_combo, belt_name, room_pin } = req.body;
+    if (!student_name || typeof student_name !== 'string') {
+      return res.status(400).json({ success: false, error: 'Nome do aluno obrigatório.' });
+    }
+    const result = await dbHelper.saveGameScore({
+      game_id: 'ninja-math',
+      student_name,
+      grade_level: grade_level || '3',
+      difficulty: difficulty || 'Arcade',
+      score: Number(score) || 0,
+      accuracy: Number(accuracy) || 100,
+      max_combo: Number(max_combo) || 0,
+      belt_name: belt_name || 'Faixa Branca',
+      room_pin: room_pin || ''
+    });
+    res.json(result);
+  } catch (err) {
+    console.error('[Ninja Math Score Error]:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/games/ninja-math/leaderboard', async (req, res) => {
+  try {
+    const { difficulty, grade_level, room_pin, limit } = req.query;
+    const rows = await dbHelper.getGameLeaderboard({
+      game_id: 'ninja-math',
+      difficulty: difficulty || '',
+      grade_level: grade_level || '',
+      room_pin: room_pin || '',
+      limit: limit || 15
+    });
+    res.json({ success: true, data: rows });
+  } catch (err) {
+    console.error('[Ninja Math Leaderboard Error]:', err.message);
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
