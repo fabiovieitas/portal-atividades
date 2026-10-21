@@ -812,6 +812,8 @@ app.get('/atividades/habitos-de-higiene', (req, res) => res.render('habitos_higi
 app.get('/atividades/level-up', (req, res) => res.render('levelup_presentation'));
 app.get('/atividades/segue-o-ritmo', (req, res) => res.render('segue_o_ritmo_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
 app.get(['/ritmo', '/percussao-corporal'], (req, res) => res.redirect(301, '/atividades/segue-o-ritmo'));
+app.get('/atividades/ninja-math', (req, res) => res.render('ninja_math_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
+
 
 // SEO Routes: dynamic sitemap.xml canônico e limpo
 app.get('/sitemap.xml', async (req, res) => {
