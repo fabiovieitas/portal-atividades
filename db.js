@@ -464,6 +464,14 @@ const dbHelper = {
           activity_url: "/atividades/segue-o-ritmo",
           icon_url: "/img/covers/segue-o-ritmo.jpg",
           level: "1-5", category: "Música & Movimento", subject: "Artes / Ed. Física", bncc_code: "EF15AR14, EF15AR15, EF15EF01, EF15EF02", status: "public", visits: 980
+        },
+        {
+          id: 52,
+          title: "⚔️ Ninja Math: A Espada da Tabuada [JOGO AUTORAL]",
+          description: "⚡ JOGO AUTORAL LAB KIDS! Treine agilidade e cálculo mental rápido fatiando frutas com a lâmina ninja! Modos de Adição, Subtração, Multiplicação e Divisão no estilo Fruit Ninja e TuxMath.",
+          activity_url: "/atividades/ninja-math",
+          icon_url: "/img/covers/ninja-math.jpg",
+          level: "1-5", category: "Matemática Divertida", subject: "Matemática", bncc_code: "EF01MA06, EF02MA05, EF03MA03, EF04MA04, EF05MA08", status: "public", visits: 1250
         }
       ];
     }
@@ -1544,12 +1552,19 @@ async function initTables() {
           activity_url: "/atividades/carta-enigmatica",
           icon_url: "/img/covers/carta-enigmatica.jpg",
           level: "1-5", category: "Alfabetização & Lógica", bncc_code: "EF03LP02, EF04LP01, EF05LP01, EF15LP01, EF35LP05", subject: "Português"
+        },
+        {
+          title: "⚔️ Ninja Math: A Espada da Tabuada [JOGO AUTORAL]",
+          description: "⚡ JOGO AUTORAL LAB KIDS! Treine agilidade e cálculo mental rápido fatiando frutas com a lâmina ninja! Modos de Adição, Subtração, Multiplicação e Divisão no estilo Fruit Ninja e TuxMath.",
+          activity_url: "/atividades/ninja-math",
+          icon_url: "/img/covers/ninja-math.jpg",
+          level: "1-5", category: "Matemática Divertida", bncc_code: "EF01MA06, EF02MA05, EF03MA03, EF04MA04, EF05MA08", subject: "Matemática"
         }
       ];
 
       for (const act of fullActivities) {
         try {
-          const searchTitle = act.title.replace('⭐ ', '').replace('🕵️ ', '').split('[')[0].trim();
+          const searchTitle = act.title.replace('⭐ ', '').replace('🕵️ ', '').replace('⚔️ ', '').split('[')[0].trim();
           const existing = await queryGet("SELECT id FROM activities WHERE title LIKE ? LIMIT 1", [`%${searchTitle}%`]);
           if (existing) {
             await queryRun(

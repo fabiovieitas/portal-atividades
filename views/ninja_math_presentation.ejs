@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Math: A Espada da Tabuada | Apresentação & Guia BNCC | Lab Kids</title>
+    <meta name="description" content="Guia didático oficial e plano de aula do Ninja Math: A Espada da Tabuada. Prática de cálculo mental rápido, cortes ninja, habilidades BNCC (EF01MA06, EF02MA05, EF03MA03, EF04MA04, EF05MA08) e texto para diário de classe.">
+    <link rel="canonical" href="https://labkids.online/atividades/ninja-math">
+    <meta property="og:title" content="Ninja Math: A Espada da Tabuada | Lab Kids">
+    <meta property="og:description" content="Jogo educativo arcade estilo Fruit Ninja com matemática, tabuadas, combos e faixas ninja.">
+    <meta property="og:image" content="https://labkids.online/img/covers/ninja-math.jpg">
+    <meta property="og:url" content="https://labkids.online/atividades/ninja-math">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="/css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800;900&family=Outfit:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Ninja Math: A Espada da Tabuada",
+      "operatingSystem": "Web Browser, iOS, Android, Chromebook",
+      "applicationCategory": "EducationalApplication",
+      "educationalLevel": "Ensino Fundamental (1º ao 5º Ano)",
+      "teaches": "Cálculo mental rápido, tabuadas de multiplicação, divisões, adição e subtração",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL"
+      },
+      "educationalAlignment": [
+        { "@type": "AlignmentObject", "alignmentType": "educationalSubject", "targetName": "EF01MA06" },
+        { "@type": "AlignmentObject", "alignmentType": "educationalSubject", "targetName": "EF02MA05" },
+        { "@type": "AlignmentObject", "alignmentType": "educationalSubject", "targetName": "EF03MA03" },
+        { "@type": "AlignmentObject", "alignmentType": "educationalSubject", "targetName": "EF04MA04" },
+        { "@type": "AlignmentObject", "alignmentType": "educationalSubject", "targetName": "EF05MA08" }
+      ],
+      "publisher": {
+        "@type": "EducationalOrganization",
+        "name": "Portal Lab Kids",
+        "url": "https://labkids.online"
+      }
+    }
+    </script>
+    <style>
+        :root {
+            --ninja-gold: #fbbf24;
+            --ninja-red: #ef4444;
+            --bg-dark: #0d0806;
+        }
+
+        body {
+            background: linear-gradient(135deg, #180d09 0%, #28140a 100%);
+            color: #f8fafc;
+            font-family: 'Fredoka', system-ui, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 10px 60px 10px;
+        }
+
+        .container-presentation {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn-return-portal {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-return-portal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+        }
+
+        .hero-card {
+            background: rgba(30, 18, 12, 0.9);
+            border: 3px solid #fbbf24;
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 35px rgba(245, 158, 11, 0.25);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cover-img {
+            max-width: 320px;
+            width: 90%;
+            height: auto;
+            border-radius: 20px;
+            border: 4px solid #fbbf24;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            margin: 15px 0 25px 0;
+            object-fit: cover;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: #fbbf24;
+            margin-bottom: 8px;
+            text-shadow: 0 3px 12px rgba(251, 191, 36, 0.4);
+        }
+
+        .badges-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge-pill {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1.5px solid #fbbf24;
+            color: #fbbf24;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .badge-pill.green {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: #22c55e;
+            color: #4ade80;
+        }
+
+        .badge-pill.blue {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: #3b82f6;
+            color: #60a5fa;
+        }
+
+        .btn-launch-game {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 900;
+            padding: 18px 42px;
+            border-radius: 24px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.5), inset 0 2px 0 rgba(255,255,255,0.4);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .btn-launch-game:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(34, 197, 94, 0.7);
+        }
+
+        .guide-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .guide-section h2 {
+            color: #fbbf24;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-box {
+            background: rgba(0, 0, 0, 0.45);
+            border: 2px dashed #fbbf24;
+            border-radius: 16px;
+            padding: 20px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: #fef08a;
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .btn-copy {
+            background: #f59e0b;
+            color: #1e130c;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.2s;
+        }
+
+        .btn-copy:hover {
+            background: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-presentation">
+        <header class="top-nav">
+            <a href="/" class="btn-return-portal">
+                ⬅️ VOLTAR AO PORTAL
+            </a>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="shareWhatsApp()" class="btn-return-portal" style="background: #25d366; box-shadow: 0 6px 20px rgba(37,211,102,0.4);">
+                    📲 COMPARTILHAR
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Card -->
+        <div class="hero-card">
+            <h1 class="hero-title">🥷 NINJA MATH: A ESPADA DA TABUADA</h1>
+            <p style="font-size: 1.15rem; color: #fef3c7; max-width: 650px; margin: 0 auto 15px;">
+                Deslize sua lâmina ninja no ar cortando apenas as frutas com as respostas certas! Ganhe combos, melancias douradas e conquiste as 6 Faixas Ninja de Matemática.
+            </p>
+
+            <div class="badges-row">
+                <span class="badge-pill green">✓ JOGO 100% AUTORAL LAB KIDS</span>
+                <span class="badge-pill">🎯 MATEMÁTICA & AGILIDADE</span>
+                <span class="badge-pill blue">📚 1º AO 5º ANO (BNCC)</span>
+                <span class="badge-pill">📱 TOUCH & MOUSE COMPATÍVEL</span>
+            </div>
+
+            <img src="/img/covers/ninja-math.jpg" alt="Ninja Math: A Espada da Tabuada" class="hero-cover-img">
+
+            <div>
+                <a href="/games/ninja-math/" class="btn-launch-game">
+                    ⚔️ JOGAR AGORA EM TELA CHEIA
+                </a>
+            </div>
+        </div>
+
+        <!-- Guia Pedagógico BNCC -->
+        <div class="guide-section">
+            <h2>📘 Habilidades da BNCC Desenvolvidas</h2>
+            <ul>
+                <li><strong>EF01MA06:</strong> Construir fatos básicos da adição e utilizá-los em procedimentos de cálculo mental.</li>
+                <li><strong>EF02MA05:</strong> Construir fatos básicos da adição e subtração para cálculo mental rápido.</li>
+                <li><strong>EF03MA03:</strong> Construir e utilizar fatos básicos da multiplicação e divisão (tabuadas do 2, 3, 4, 5 e 10).</li>
+                <li><strong>EF04MA04:</strong> Relações entre operações inversas e estratégias de cálculo mental com tabuadas completas.</li>
+                <li><strong>EF05MA08:</strong> Resolução de operações fundamentais com agilidade operacional e foco atencional.</li>
+            </ul>
+        </div>
+
+        <!-- Instruções para o Professor -->
+        <div class="guide-section">
+            <h2>👨‍🏫 Como Trabalhar em Sala de Aula</h2>
+            <ol style="padding-left: 20px;">
+                <li><strong>Projeção no Datashow / Lousa Digital:</strong> Projete o jogo na parede. Os alunos podem se revezar na lousa tocando com a mão/caneta stylus, ou a turma pode gritar o resultado antes do corte!</li>
+                <li><strong>Trabalho em Tablets ou Celulares:</strong> O jogo foi especialmente calibrado para telas touch com física de swipe suave a 60 FPS.</li>
+                <li><strong>Torneio de Faixas da Tabuada:</strong> Desafie os alunos a ver quem consegue conquistar a cobiçada <strong>Faixa Preta</strong> do Dojo!</li>
+            </ol>
+        </div>
+
+        <!-- Resumo para o Diário de Classe -->
+        <div class="guide-section">
+            <h2>📝 Texto Pronto para Registro no Diário de Classe</h2>
+            <p>Copie e cole diretamente no seu diário escolar (físico ou digital):</p>
+            <div class="copy-box" id="diario-text">
+                "Utilização do recurso pedagógico digital interativo 'Ninja Math: A Espada da Tabuada' (Portal Lab Kids) para desenvolvimento da automatização do cálculo mental, fluência nas operações fundamentais da tabuada, coordenação visomotora e foco atencional (Habilidades BNCC: EF01MA06, EF02MA05, EF03MA03, EF04MA04, EF05MA08)."
+            </div>
+            <button class="btn-copy" onclick="copyDiarioText()">📋 Copiar Texto do Diário</button>
+        </div>
+    </div>
+
+    <script>
+        function copyDiarioText() {
+            const text = document.getElementById('diario-text').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Texto do diário de classe copiado para a área de transferência com sucesso!');
+            });
+        }
+
+        function shareWhatsApp() {
+            const url = 'https://labkids.online/atividades/ninja-math';
+            const msg = encodeURIComponent('Recomendo este jogo educativo incrível de matemática estilo Fruit Ninja para as crianças treinarem a tabuada: ' + url);
+            window.open('https://api.whatsapp.com/send?text=' + msg, '_blank');
+        }
+    </script>
+</body>
+</html>

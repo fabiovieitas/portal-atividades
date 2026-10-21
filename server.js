@@ -1135,6 +1135,10 @@ app.get('/simulado/4-ano-agosto', (req, res) => res.redirect(301, '/atividades/s
 
 app.get('/simulado/5-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
 app.get('/simulado/5-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
+
+// Atalho direto para o jogo Ninja Math
+app.get(['/ninja-math', '/jogos/ninja-math'], (req, res) => res.redirect('/atividades/ninja-math'));
+
 // Handler dinâmico universal para qualquer apresentação de atividade (evita 404 em jogos atuais e futuros)
 app.get('/atividades/:slug', async (req, res, next) => {
   try {
