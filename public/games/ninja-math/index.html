@@ -241,6 +241,25 @@
             z-index: 45;
         }
 
+        /* Super Frenesi Dourado: Brilho Neon Radiante e Borda Pulsante */
+        #frenzy-glow-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.22) 0%, rgba(239, 68, 68, 0.35) 100%);
+            box-shadow: inset 0 0 100px 30px rgba(245, 158, 11, 0.85), inset 0 0 180px rgba(239, 68, 68, 0.6);
+            border: 4px solid #fde047;
+            animation: frenzyScreenPulse 0.35s infinite alternate;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 50;
+        }
+
+        @keyframes frenzyScreenPulse {
+            0% { opacity: 0.7; filter: brightness(1.1) saturate(1.2); }
+            100% { opacity: 1; filter: brightness(1.45) saturate(1.8) drop-shadow(0 0 35px #facc15); }
+        }
+
         /* Mascote Ninja Interativo em Alta Definição (Widget Flutuante) */
         .mascot-widget {
             position: absolute;
@@ -1381,6 +1400,7 @@
     <div id="game-container">
         <canvas id="canvas"></canvas>
         <div id="ice-overlay"></div>
+        <div id="frenzy-glow-overlay"></div>
         <div id="bullet-time-overlay" style="display:none;">
             <div class="bullet-time-banner">⏳ CÂMERA LENTA NINJA! ⏱️</div>
         </div>
@@ -1401,7 +1421,7 @@
             <!-- Left Stats: Hearts / Timer and Belt -->
             <div class="hud-stats">
                 <div class="stat-pill" id="life-mode-display">
-                    <span id="hearts-display">❤️❤️❤️</span>
+                    <span id="hearts-display">❤️❤️❤️❤️❤️</span>
                 </div>
                 <div class="stat-pill" id="belt-pill" style="border-color: #f8fafc;">
                     <span id="belt-icon">🥋</span>
@@ -1544,7 +1564,7 @@
                 <div class="mode-selector" style="grid-template-columns: 1fr 1fr 1fr;">
                     <div class="mode-btn active" id="mode-classic" onclick="selectGameMode('classic')">
                         <div style="font-weight: 800; font-size: 0.95rem;">🥋 Clássico</div>
-                        <div style="font-size: 0.72rem; color: #9ca3af;">3 Vidas</div>
+                        <div style="font-size: 0.72rem; color: #9ca3af;">5 Vidas</div>
                     </div>
                     <div class="mode-btn" id="mode-blitz" onclick="selectGameMode('blitz')">
                         <div style="font-weight: 800; font-size: 0.95rem;">⏱️ Blitz 60s</div>
@@ -1921,7 +1941,7 @@
         <div class="modal-screen" id="gameover-modal" style="display:none;">
             <div class="modal-card">
                 <h1 class="modal-title" style="color: #ef4444;" id="gameover-title">FIM DE TREINO!</h1>
-                <p class="modal-subtitle" id="gameover-reason">Você perdeu todas as 3 vidas no dojo.</p>
+                <p class="modal-subtitle" id="gameover-reason">Você perdeu todas as 5 vidas no dojo.</p>
 
                 <!-- Stats summary -->
                 <div style="background: rgba(0,0,0,0.4); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.1);">
@@ -2123,19 +2143,19 @@
             playFrenzy() {
                 if (this.isMuted || !this.ctx) return;
                 try {
-                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
                     notes.forEach((freq, idx) => {
                         const osc = this.ctx.createOscillator();
                         const gain = this.ctx.createGain();
-                        osc.type = 'sine';
+                        osc.type = 'triangle';
                         osc.frequency.value = freq;
-                        const start = this.ctx.currentTime + idx * 0.08;
-                        gain.gain.setValueAtTime(0.25, start);
-                        gain.gain.linearRampToValueAtTime(0.01, start + 0.3);
+                        const start = this.ctx.currentTime + idx * 0.055;
+                        gain.gain.setValueAtTime(0.3, start);
+                        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
                         osc.connect(gain);
                         gain.connect(this.ctx.destination);
                         osc.start(start);
-                        osc.stop(start + 0.3);
+                        osc.stop(start + 0.35);
                     });
                 } catch(e) {}
             }
@@ -2453,7 +2473,8 @@
         let gameMode = 'classic'; // 'classic', 'blitz', 'zen'
         let gameState = 'MENU'; // MENU, PLAYING, PAUSED, BELT_PROMOTION, GAMEOVER
         let score = 0;
-        let hearts = 3;
+        let hearts = 5;
+        const MAX_HEARTS = 5;
         let hitsCount = 0;
         let missesCount = 0;
         let currentTarget = null;
@@ -2890,6 +2911,13 @@
             slowMoUntil = 0;
             bossActive = false;
 
+            const bgm = document.getElementById('bgm');
+            if (bgm) {
+                try { bgm.playbackRate = 1.0; } catch(e) {}
+            }
+            const frenzyGlow = document.getElementById('frenzy-glow-overlay');
+            if (frenzyGlow) frenzyGlow.style.opacity = '0';
+
             // Show start modal
             document.getElementById('start-modal').style.display = 'flex';
         }
@@ -2898,7 +2926,7 @@
             sound.init();
             tryStartMusic();
             score = 0;
-            hearts = 3;
+            hearts = 5;
             hitsCount = 0;
             missesCount = 0;
             combo = 0;
@@ -2914,6 +2942,13 @@
             frenzyMode = false;
             slowMoUntil = 0;
             bossActive = false;
+
+            const bgm = document.getElementById('bgm');
+            if (bgm) {
+                try { bgm.playbackRate = 1.0; } catch(e) {}
+            }
+            const frenzyGlow = document.getElementById('frenzy-glow-overlay');
+            if (frenzyGlow) frenzyGlow.style.opacity = '0';
 
             document.getElementById('start-modal').style.display = 'none';
             document.getElementById('gameover-modal').style.display = 'none';
@@ -2950,7 +2985,7 @@
             } else if (gameMode === 'zen') {
                 document.getElementById('life-mode-display').innerHTML = `☯️ <span style="color:#38bdf8; font-weight:800;">TREINO ZEN</span>`;
             } else {
-                document.getElementById('life-mode-display').innerHTML = `<span id="hearts-display">❤️❤️❤️</span>`;
+                document.getElementById('life-mode-display').innerHTML = `<span id="hearts-display">❤️❤️❤️❤️❤️</span>`;
                 updateHeartsHUD();
             }
 
@@ -2974,7 +3009,7 @@
 
         function updateHeartsHUD() {
             if (gameMode === 'blitz' || gameMode === 'zen') return;
-            const h = '❤️'.repeat(Math.max(0, hearts)) + '🖤'.repeat(Math.max(0, 3 - hearts));
+            const h = '❤️'.repeat(Math.max(0, hearts)) + '🖤'.repeat(Math.max(0, 5 - hearts));
             const hEl = document.getElementById('hearts-display');
             if (hEl) hEl.innerText = h;
         }
@@ -3021,11 +3056,20 @@
         function gameOver(reason) {
             gameState = 'GAMEOVER';
             if (blitzInterval) clearInterval(blitzInterval);
+
+            const bgm = document.getElementById('bgm');
+            if (bgm) {
+                try { bgm.playbackRate = 1.0; } catch(e) {}
+            }
+            const frenzyGlow = document.getElementById('frenzy-glow-overlay');
+            if (frenzyGlow) frenzyGlow.style.opacity = '0';
+            document.getElementById('frenzy-banner').classList.remove('show');
+
             document.getElementById('hud').style.display = 'none';
             document.getElementById('boss-hud').style.display = 'none';
 
             document.getElementById('gameover-title').innerText = (gameMode === 'blitz') ? "TEMPO ESGOTADO!" : "FIM DE TREINO!";
-            document.getElementById('gameover-reason').innerText = reason || "Você perdeu todas as vidas no dojo.";
+            document.getElementById('gameover-reason').innerText = reason || "Você perdeu todas as 5 vidas no dojo.";
             document.getElementById('final-score').innerText = score;
             document.getElementById('final-hits').innerText = hitsCount;
             document.getElementById('final-misses').innerText = missesCount;
@@ -3051,7 +3095,7 @@
                 document.getElementById('review-title').innerText = `📚 Caderno de Revisão (${missedQuestions.length} contas para reforçar):`;
                 missedQuestions.forEach(m => {
                     const li = document.createElement('li');
-                    li.innerHTML = `⚔️ <strong>${m.text.replace(' = ?', '')}</strong> = <span style="color:#4ade80; font-weight:800;">${m.answer}</span> <span style="color:#f87171; font-size:0.8rem;">(você cortou ${m.chosen})</span>`;
+                    li.innerHTML = `⚔️ <strong>${m.text.replace(' = ?', '')}</strong> = <span style="color:#4ade80; font-weight:800;">${m.answer}</span> <span style="color:#f87171; font-size:0.8rem;">(${m.chosen === 'Deixou cair' ? 'você deixou cair' : 'você cortou ' + m.chosen})</span>`;
                     reviewList.appendChild(li);
                 });
             } else {
@@ -3108,14 +3152,20 @@
 
             const now = Date.now();
 
-            // Modo Frenesi Controlado (Sem Moedas Infinitas!)
+            // Modo Frenesi Controlado com Adrenalina e Frutas Douradas
             if (frenzyMode) {
-                if (now - lastSpawnTime > 420) {
+                if (now - lastSpawnTime > 280) {
                     lastSpawnTime = now;
                     spawnFrenzyFruit();
                 }
                 if (now > frenzyTimer) {
                     frenzyMode = false;
+                    const bgm = document.getElementById('bgm');
+                    if (bgm) {
+                        try { bgm.playbackRate = 1.0; } catch(e) {}
+                    }
+                    const frenzyGlow = document.getElementById('frenzy-glow-overlay');
+                    if (frenzyGlow) frenzyGlow.style.opacity = '0';
                     document.getElementById('frenzy-banner').classList.remove('show');
                     // Remove frutas de frenesi restantes e retoma as contas normais
                     activeFruits = activeFruits.filter(f => !f.isFrenzyBonus);
@@ -3172,8 +3222,9 @@
                 spawnSpecialMultiFruit(width * 0.5);
             }
 
-            // Fruta Dourada de Frenesi (8% chance)
-            if (!frenzyMode && Math.random() < 0.08 && !activeFruits.some(f => f.isGolden || f.isSpecialMulti || f.isPowerUp)) {
+            // Fruta Dourada de Frenesi (chance ampliada se o aluno estiver em sequência de combo!)
+            const goldenChance = (combo >= 4) ? 0.22 : 0.09;
+            if (!frenzyMode && Math.random() < goldenChance && !activeFruits.some(f => f.isGolden || f.isSpecialMulti || f.isPowerUp)) {
                 spawnFruit(true, false, width * 0.5);
             }
 
@@ -3548,7 +3599,7 @@
                 spawnFloatingText(fruit.x, fruit.y, '💥 BOOM! BOMBA!', '#ef4444', 32);
                 createExplosion(fruit.x, fruit.y, '#f97316');
                 if (gameMode === 'classic' && hearts <= 0) {
-                    gameOver("Você atingiu uma Bomba Ninja!");
+                    gameOver("Você atingiu uma Bomba Ninja e perdeu todas as 5 vidas!");
                 }
                 return;
             }
@@ -3652,14 +3703,29 @@
             if (fruit.isGolden) {
                 sound.playFrenzy();
                 frenzyMode = true;
-                frenzyTimer = Date.now() + 5000;
+                frenzyTimer = Date.now() + 6500;
                 score += 50;
-                addCoins(20);
+                addCoins(25);
                 updateScoreHUD();
+
+                // 1. Trilha sonora ninja acelera com alta adrenalina!
+                const bgm = document.getElementById('bgm');
+                if (bgm) {
+                    try { bgm.playbackRate = 1.35; } catch(e) {}
+                }
+
+                // 2. Tela super brilhante com neon dourado radiante
+                const frenzyGlow = document.getElementById('frenzy-glow-overlay');
+                if (frenzyGlow) frenzyGlow.style.opacity = '1';
+
+                // 3. Momento de Slow-Motion épico no impacto!
+                activateBulletTime(1300);
+
                 document.getElementById('frenzy-banner').classList.add('show');
                 createExplosion(fruit.x, fruit.y, '#facc15');
-                spawnFloatingText(fruit.x, fruit.y, '🍉 FRENESI ATIVADO!', '#facc15', 34);
-                setMascotMood('happy', 'Frenesi!');
+                triggerScreenShake(16);
+                spawnFloatingText(fruit.x, fruit.y, '⚡ SUPER FRENESI NINJA! 🔥', '#facc15', 36);
+                setMascotMood('happy', 'FRENESI ÉPICO!');
                 return;
             }
 
@@ -3762,7 +3828,7 @@
                 splitFruitHalves(fruit, p1, p2);
 
                 if (gameMode === 'classic' && hearts <= 0) {
-                    gameOver("Você perdeu todos os 3 corações!");
+                    gameOver("Você errou as contas e perdeu todas as 5 vidas!");
                 }
             }
         }
@@ -4256,11 +4322,41 @@
                 f.angle += f.vAngle * timeScale;
 
                 if (f.y > height + 90 && f.vy > 0) {
-                    if (!f.sliced && String(f.value) === String(currentTarget?.answer) && gameState === 'PLAYING') {
+                    if (!f.sliced && !f.isHalf && !f.isFrenzyBonus && !f.isPowerUp && !f.isSpecialMulti && !f.isBomb && String(f.value) === String(currentTarget?.answer) && gameState === 'PLAYING') {
                         combo = 0;
                         document.getElementById('combo-pill').style.display = 'none';
-                        spawnFloatingText(width / 2, height * 0.45, 'Tempo esgotado! Tente novamente!', '#f59e0b', 24);
-                        waveTimer = Date.now() + 1100;
+                        missesCount++;
+                        document.getElementById('live-misses').innerText = missesCount;
+                        missedQuestions.push({
+                            text: currentTarget.text,
+                            answer: currentTarget.answer,
+                            chosen: 'Deixou cair'
+                        });
+                        sound.playWrong();
+
+                        if (gameMode === 'classic') {
+                            hearts--;
+                            updateHeartsHUD();
+                            triggerScreenShake(12);
+                            spawnFloatingText(Math.max(90, Math.min(width - 90, f.x)), height - 90, '💔 DEIXOU CAIR! -1 VIDA', '#ef4444', 30);
+                            createJuiceSplash(f.x, height - 30, '#ef4444');
+                            setMascotMood('worried', 'A fruta certa caiu!');
+
+                            if (hearts <= 0) {
+                                gameOver("Você deixou as frutas caírem e perdeu todas as 5 vidas!");
+                                activeFruits.splice(i, 1);
+                                continue;
+                            }
+                        } else {
+                            spawnFloatingText(width / 2, height * 0.45, 'Tempo esgotado! Tente novamente!', '#f59e0b', 24);
+                        }
+
+                        waveTimer = Date.now() + 1000;
+                        setTimeout(() => {
+                            if (gameState === 'PLAYING' && (gameMode !== 'classic' || hearts > 0)) {
+                                nextTarget();
+                            }
+                        }, 900);
                     }
                     activeFruits.splice(i, 1);
                     continue;
