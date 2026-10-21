@@ -11,6 +11,7 @@ const fs = require('fs');
 const dbHelper = require('./db');
 const mailService = require('./mailService');
 // Supabase fully decommissioned. All operations run via Turso Cloud (libsql).
+// Ninja Math v2.2 - Dynamic arenas, distinct fruit silhouettes, fission mechanics & battle soundtrack
 const supabase = null;
 
 const app = express();
