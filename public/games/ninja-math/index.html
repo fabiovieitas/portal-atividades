@@ -3848,6 +3848,13 @@
         let blitzTimeRemaining = 60;
         let blitzInterval = null;
 
+        // Anti-Exploit / Wave State Tracking
+        let currentWaveMathFruits = [];
+        let waveCorrectSliced = false;
+        let waveDistractorSliced = false;
+        let waveLastAwardedPoints = 0;
+        let waveResolved = false;
+
         function setFrenzyGlow(active) {
             const el = document.getElementById('frenzy-glow-overlay');
             if (el) {
@@ -5435,6 +5442,11 @@
             }
 
             gameState = 'PLAYING';
+            waveCorrectSliced = false;
+            waveDistractorSliced = false;
+            waveLastAwardedPoints = 0;
+            waveResolved = false;
+            currentWaveMathFruits = [];
             waveTimer = Date.now() + 600;
             spawnWave();
             setMascotMood('happy', 'Vamos lá!');
@@ -5648,6 +5660,12 @@
         function spawnWave() {
             if (!currentTarget || gameState !== 'PLAYING') return;
 
+            waveCorrectSliced = false;
+            waveDistractorSliced = false;
+            waveLastAwardedPoints = 0;
+            waveResolved = false;
+            currentWaveMathFruits = [];
+
             waveCount++;
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
             const count = isIntroductoryLevel() ? 2 : 3;
@@ -5795,11 +5813,11 @@
 
                 const template = FRUIT_TYPES[i % FRUIT_TYPES.length];
                 const traj = trajectories[i] || { x: width * 0.5, vx: 0, apexY: height * 0.24 };
-                spawnFruit(false, isCorrect, traj.x, val, template, traj.vx, traj.apexY);
+                spawnFruit(false, isCorrect, traj.x, val, template, traj.vx, traj.apexY, true);
             }
         }
 
-        function spawnFruit(isGolden = false, isCorrect = false, customX = null, customVal = null, customTemplate = null, customVx = null, customApexY = null) {
+        function spawnFruit(isGolden = false, isCorrect = false, customX = null, customVal = null, customTemplate = null, customVx = null, customApexY = null, isMathAnswer = false) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
             const template = customTemplate || FRUIT_TYPES[Math.floor(Math.random() * FRUIT_TYPES.length)];
             
@@ -5835,7 +5853,7 @@
                 val = currentTarget.answer + 2;
             }
 
-            activeFruits.push({
+            const fruitObj = {
                 x: startX,
                 y: startY,
                 vx: vx,
@@ -5850,13 +5868,18 @@
                 value: val,
                 isGolden: isGolden,
                 isCorrect: isCorrect,
+                isMathAnswer: isMathAnswer,
                 isSpecialMulti: false,
                 isPowerUp: null,
                 isFrenzyBonus: false,
                 isMini: false,
                 isBomb: false,
                 sliced: false
-            });
+            };
+            if (isMathAnswer) {
+                currentWaveMathFruits.push(fruitObj);
+            }
+            activeFruits.push(fruitObj);
         }
 
         // --- Power-Up Fruits: Ice ❄️ and Lightning ⚡ com Lançamento Diagonal ---
@@ -6130,23 +6153,174 @@
             }
         }
 
+        function penalizeWrongOrAllCut(cutFruits, p1, p2, isAllCut = false) {
+            if (waveResolved) return;
+            waveResolved = true;
+            waveDistractorSliced = true;
+
+            // Se já havia marcado como correto tentativamente na mesma onda, reverte:
+            if (waveCorrectSliced && waveLastAwardedPoints > 0) {
+                score = Math.max(0, score - waveLastAwardedPoints);
+                hitsCount = Math.max(0, hitsCount - 1);
+                if (bossActive) {
+                    bossHp = Math.min(bossMaxHp, bossHp + 1);
+                    updateBossHUD();
+                }
+                waveLastAwardedPoints = 0;
+            }
+
+            const hitX = (p2 && p2.x !== undefined) ? p2.x : (cutFruits[0]?.x || width / 2);
+            const hitY = (p2 && p2.y !== undefined) ? p2.y : (cutFruits[0]?.y || height / 2);
+
+            if (hasShield) {
+                hasShield = false;
+                updateShieldHUD();
+                sound.playShieldBreak();
+                spawnFloatingText(hitX, hitY, '🛡️ ESCUDO NINJA ABSORVEU O ERRO!', '#38bdf8', 26);
+                createExplosion(hitX, hitY, '#38bdf8');
+                triggerScreenShake(10, 220);
+            } else {
+                sound.playWrong();
+                if (gameMode === 'classic') {
+                    hearts--;
+                    updateHeartsHUD();
+                }
+                missesCount++;
+                document.getElementById('live-misses').innerText = missesCount;
+                combo = 0;
+                deactivateFeverMode();
+                document.getElementById('combo-pill').style.display = 'none';
+                updateScoreHUD();
+
+                missedQuestions.push({
+                    text: currentTarget ? currentTarget.text : 'Conta',
+                    answer: currentTarget ? currentTarget.answer : '?',
+                    chosen: isAllCut ? 'Cortou todos (exploit)' : (cutFruits[0]?.value || 'Errado')
+                });
+
+                triggerScreenShake(16, 320);
+
+                if (isAllCut) {
+                    spawnFloatingText(hitX, hitY, '💔 NÃO PODE CORTAR TUDO! -1 VIDA', '#ef4444', 30);
+                    setMascotMood('worried', 'Corte apenas a fruta certa!');
+                } else {
+                    spawnFloatingText(hitX, hitY, `✕ ERA ${currentTarget?.answer}! -1 VIDA`, '#f87171', 28);
+                    setMascotMood('worried', 'Quase! Foco no resultado certo!');
+                }
+
+                if (gameMode === 'classic' && hearts <= 0) {
+                    // Corta as frutas visualmente antes do game over
+                    cutFruits.forEach(f => {
+                        if (!f.sliced) {
+                            f.sliced = true;
+                            createJuiceSplash(f.x, f.y, f.template?.innerColor || '#ef4444');
+                            splitFruitHalves(f, p1, p2);
+                        }
+                    });
+                    gameOver("Você errou as contas e perdeu todas as 5 vidas!");
+                    return;
+                }
+            }
+
+            // Corta visualmente todas as frutas atingidas (metades se separam e espirram suco)
+            cutFruits.forEach(f => {
+                if (!f.sliced) {
+                    f.sliced = true;
+                    createJuiceSplash(f.x, f.y, f.template?.innerColor || '#ef4444');
+                    splitFruitHalves(f, p1, p2);
+                }
+            });
+
+            // Remove as outras frutas restantes da rodada com confetes para não acumularem
+            for (let other of activeFruits) {
+                if (!other.sliced && !other.isHalf) {
+                    other.sliced = true;
+                    createConfettiPoof(other.x, other.y);
+                }
+            }
+            activeFruits = activeFruits.filter(f => f.isHalf);
+
+            waveTimer = Date.now() + 1100;
+            setTimeout(() => {
+                if (gameState === 'PLAYING' && (gameMode !== 'classic' || hearts > 0)) {
+                    nextTarget();
+                    spawnWave();
+                }
+            }, 1100);
+        }
+
         function checkSlices() {
             if (swipeTrail.length < 2) return;
             const p1 = swipeTrail[swipeTrail.length - 2];
             const p2 = swipeTrail[swipeTrail.length - 1];
 
-            let slicedThisFrame = 0;
-
-            activeFruits.forEach(fruit => {
-                if (fruit.sliced) return;
-
-                if (lineIntersectsCircle(p1.x, p1.y, p2.x, p2.y, fruit.x, fruit.y, fruit.radius)) {
-                    sliceFruit(fruit, p1, p2);
-                    slicedThisFrame++;
+            // 1. Coleta todas as frutas não-cortadas intersectadas pelo golpe atual
+            const intersected = [];
+            for (let f of activeFruits) {
+                if (f.sliced || f.isHalf) continue;
+                if (lineIntersectsCircle(p1.x, p1.y, p2.x, p2.y, f.x, f.y, f.radius)) {
+                    intersected.push(f);
                 }
-            });
+            }
 
-            if (slicedThisFrame > 1) {
+            if (intersected.length === 0) return;
+
+            // 2. Se cortou Bomba: processa a bomba imediatamente
+            const bombFruit = intersected.find(f => f.isBomb);
+            if (bombFruit) {
+                sliceFruit(bombFruit, p1, p2);
+                return;
+            }
+
+            // 3. Separa frutas de resposta matemática vs frutas especiais/boosters
+            const mathFruitsInSlice = intersected.filter(f => 
+                f.isMathAnswer || 
+                (!f.isBomb && !f.isPowerUp && !f.isSpecialMulti && !f.isSenseiScroll && !f.isGolden && !f.isFrenzyBonus && !f.isMini)
+            );
+
+            // Identifica se há resposta errada (distrator) entre as frutas cortadas neste golpe
+            const hasDistractor = mathFruitsInSlice.some(f => 
+                (f.isMathAnswer && !f.isCorrect) || 
+                (!f.isCorrect && String(f.value) !== String(currentTarget?.answer))
+            );
+
+            // Identifica se cortou o resultado correto
+            const hasCorrect = mathFruitsInSlice.some(f => 
+                (f.isMathAnswer && f.isCorrect) || 
+                (f.isCorrect || String(f.value) === String(currentTarget?.answer))
+            );
+
+            // CASO CRÍTICO: O jogador cortou distrator OU cortou múltiplos resultados (incluindo o certo e errados juntos)
+            // OU se a fruta certa já havia sido cortada e agora o jogador passou o dedo em distrator:
+            if (hasDistractor || (waveCorrectSliced && mathFruitsInSlice.length > 0)) {
+                // Alunos tentando burlar passando o dedo em todas as frutas ao mesmo tempo:
+                // Tira vida, cancela acerto, zera combo e penaliza!
+                penalizeWrongOrAllCut(mathFruitsInSlice, p1, p2, (hasCorrect || waveCorrectSliced || mathFruitsInSlice.length > 1));
+                return;
+            }
+
+            // Se a onda já falhou por corte de distrator anterior, não permite pontuar fruta certa
+            if (waveDistractorSliced && hasCorrect) {
+                const correctFruit = mathFruitsInSlice.find(f => f.isCorrect || String(f.value) === String(currentTarget?.answer));
+                if (correctFruit) {
+                    correctFruit.sliced = true;
+                    createJuiceSplash(correctFruit.x, correctFruit.y, correctFruit.template?.innerColor || '#ef4444');
+                    splitFruitHalves(correctFruit, p1, p2);
+                    spawnFloatingText(correctFruit.x, correctFruit.y, '✕ RODADA JÁ PERDIDA!', '#ef4444', 24);
+                }
+                return;
+            }
+
+            // 4. Se não há distratores: processa os cortes legítimos normalmente
+            let slicedThisFrame = 0;
+            for (let f of intersected) {
+                if (f.sliced) continue;
+                sliceFruit(f, p1, p2);
+                slicedThisFrame++;
+            }
+
+            // Bônus de golpes múltiplos apenas se não houve erro pedagógico
+            if (slicedThisFrame > 1 && !waveDistractorSliced) {
                 combo += slicedThisFrame;
                 if (combo > maxCombo) maxCombo = combo;
                 comboTimer = Date.now() + 2000;
@@ -6389,6 +6563,15 @@
             const isAnswerMatch = String(fruit.value) === String(currentTarget.answer);
 
             if (isAnswerMatch) {
+                if (waveDistractorSliced) {
+                    fruit.sliced = true;
+                    createJuiceSplash(fruit.x, fruit.y, fruit.template.innerColor);
+                    splitFruitHalves(fruit, p1, p2);
+                    spawnFloatingText(fruit.x, fruit.y, '✕ RODADA JÁ PERDIDA!', '#ef4444', 24);
+                    return;
+                }
+
+                waveCorrectSliced = true;
                 sound.playCorrect();
                 hitsCount++;
                 reportMissionEvent('hits', 1);
@@ -6396,6 +6579,7 @@
                 const pointsMultiplier = isFeverMode ? 3 : 1;
                 const points = (100 + comboBonus) * pointsMultiplier;
                 score += points;
+                waveLastAwardedPoints = points;
                 addCoins(5);
                 updateScoreHUD();
 
@@ -6443,83 +6627,35 @@
                     }
                 }
 
-                questionsInCurrentArena++;
-                if (questionsInCurrentArena >= 5) {
-                    advanceArena();
-                }
-
-                for (let other of activeFruits) {
-                    if (!other.sliced && other !== fruit && !other.isHalf) {
-                        other.sliced = true;
-                        createConfettiPoof(other.x, other.y);
-                    }
-                }
-                activeFruits = activeFruits.filter(f => f.isHalf);
-
-                waveTimer = Date.now() + 1000;
+                // IMPORTANTE: NÃO removemos os distratores imediatamente!
+                // Eles continuam na tela para penalizar quem passar o dedo em tudo!
+                // Apenas agendamos a limpeza e a próxima onda se a rodada terminar limpa:
+                waveTimer = Date.now() + 950;
                 setTimeout(() => {
                     if (gameState === 'PLAYING') {
-                        nextTarget();
-                        spawnWave();
+                        // Se a onda terminou limpa (sem o jogador ter cortado distrator em seguida):
+                        if (waveCorrectSliced && !waveDistractorSliced) {
+                            questionsInCurrentArena++;
+                            if (questionsInCurrentArena >= 5) {
+                                advanceArena();
+                            }
+
+                            for (let other of activeFruits) {
+                                if (!other.sliced && other !== fruit && !other.isHalf) {
+                                    other.sliced = true;
+                                    createConfettiPoof(other.x, other.y);
+                                }
+                            }
+                            activeFruits = activeFruits.filter(f => f.isHalf);
+
+                            nextTarget();
+                            spawnWave();
+                        }
                     }
-                }, 1000);
+                }, 950);
 
             } else {
-                if (hasShield) {
-                    hasShield = false;
-                    updateShieldHUD();
-                    sound.playShieldBreak();
-                    spawnFloatingText(fruit.x, fruit.y, '🛡️ ESCUDO NINJA DO SENSEI ABSORVEU O ERRO!', '#38bdf8', 26);
-                    createExplosion(fruit.x, fruit.y, '#38bdf8');
-                    triggerScreenShake(8, 200);
-                    createJuiceSplash(fruit.x, fruit.y, '#991b1b');
-                    splitFruitHalves(fruit, p1, p2);
-                    return;
-                }
-                sound.playWrong();
-                missesCount++;
-                document.getElementById('live-misses').innerText = missesCount;
-                if (gameMode === 'classic') {
-                    hearts--;
-                    updateHeartsHUD();
-                }
-                combo = 0;
-                deactivateFeverMode();
-                document.getElementById('combo-pill').style.display = 'none';
-                updateScoreHUD();
-
-                missedQuestions.push({
-                    text: currentTarget.text,
-                    answer: currentTarget.answer,
-                    chosen: fruit.value
-                });
-
-                setMascotMood('worried', 'Quase!');
-                spawnFloatingText(fruit.x, fruit.y, `✕ ERA ${currentTarget.answer}!`, '#f87171', 28);
-                createJuiceSplash(fruit.x, fruit.y, '#991b1b');
-                splitFruitHalves(fruit, p1, p2);
-
-                if (gameMode === 'classic' && hearts <= 0) {
-                    gameOver("Você errou as contas e perdeu todas as 5 vidas!");
-                    return;
-                }
-
-                // Finaliza a rodada em caso de erro para evitar que as outras frutas caiam e dupliquem a penalidade
-                for (let other of activeFruits) {
-                    if (!other.sliced && other !== fruit && !other.isHalf) {
-                        other.sliced = true;
-                        createConfettiPoof(other.x, other.y);
-                    }
-                }
-                activeFruits = activeFruits.filter(f => f.isHalf);
-
-                waveTimer = Date.now() + 1050;
-                setTimeout(() => {
-                    if (gameState === 'PLAYING' && (gameMode !== 'classic' || hearts > 0)) {
-                        nextTarget();
-                        spawnWave();
-                    }
-                }, 1050);
+                penalizeWrongOrAllCut([fruit], p1, p2, false);
             }
         }
 
@@ -7009,6 +7145,7 @@
         function updateAndDrawFruits() {
             for (let i = activeFruits.length - 1; i >= 0; i--) {
                 const f = activeFruits[i];
+                if (!f) continue;
 
                 if (!f.isHalf && Math.abs(f.vy) < 0.9 && f.hangFramesLeft > 0) {
                     f.isHanging = true;
@@ -7054,7 +7191,7 @@
                             if (hearts <= 0) {
                                 gameOver("Você deixou as frutas caírem e perdeu todas as 5 vidas!");
                                 activeFruits.splice(i, 1);
-                                continue;
+                                break;
                             }
                         } else {
                             spawnFloatingText(width / 2, height * 0.45, 'Tempo esgotado! Tente novamente!', '#f59e0b', 24);
@@ -7075,7 +7212,7 @@
                                 spawnWave();
                             }
                         }, 900);
-                        continue;
+                        break;
                     }
                     activeFruits.splice(i, 1);
                     continue;
