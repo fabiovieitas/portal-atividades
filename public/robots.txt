@@ -14,6 +14,7 @@ Disallow: /downloads/
 
 User-agent: Mediapartners-Google
 Allow: /
+Allow: /ads.txt
 Disallow: /admin/
 Disallow: /pesquisa/
 Disallow: /api/
@@ -21,6 +22,7 @@ Disallow: /games/
 
 User-agent: Googlebot
 Allow: /
+Allow: /ads.txt
 Disallow: /admin/
 Disallow: /pesquisa/
 Disallow: /api/
@@ -29,5 +31,11 @@ Disallow: /aluno
 Disallow: /qr/
 Disallow: /games/
 Disallow: /downloads/
+
+User-agent: Google-adstxt
+Allow: /ads.txt
+
+User-agent: AdsBot-Google
+Allow: /ads.txt
 
 Sitemap: https://labkids.online/sitemap.xml

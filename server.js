@@ -35,10 +35,12 @@ app.get('/sw.js', (req, res) => {
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.sendFile(path.join(__dirname, 'public', 'sw.js'));
 });
-app.get('/ads.txt', (req, res) => {
+app.get(['/ads.txt', '/ads.txt/'], (req, res) => {
   const rawPubId = process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531';
   const pubId = rawPubId.replace(/^ca-/, '');
-  res.type('text/plain');
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.send(`google.com, ${pubId}, DIRECT, f08c47fec0942fa0\n`);
 });
 app.get('/robots.txt', (req, res) => {
