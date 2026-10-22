@@ -5632,17 +5632,61 @@
                 triggerBossFight();
             }
 
-            // Posições horizontais espaçadas
-            const positions = [];
-            if (count === 2) {
-                positions.push(width * 0.35 + (Math.random() - 0.5) * 30);
-                positions.push(width * 0.65 + (Math.random() - 0.5) * 30);
+            // --- Padrões de Trajetória Diagonal Curvada (Estilo Fruit Ninja Original) ---
+            // 0: Curva Diagonal Esquerda -> Direita (Lança do canto esquerdo e varre a tela para a direita)
+            // 1: Curva Diagonal Direita -> Esquerda (Lança do canto direito e varre a tela para a esquerda)
+            // 2: Cruzamento Ninja em X (Frutas saem de lados opostos e se cruzam em diagonal no centro)
+            // 3: Dispersão em Leque Parabólico Aberto (Abertura suave em leque com arcos diagonais)
+            const patternRoll = Math.floor(Math.random() * 4);
+            const mult = spd.vxMultiplier || 1.0;
+            const trajectories = [];
+
+            if (patternRoll === 0) {
+                // Curva Diagonal Esquerda -> Direita
+                const baseVx = (2.2 + Math.random() * 1.0) * mult;
+                if (count === 2) {
+                    trajectories.push({ x: width * (0.12 + Math.random() * 0.05), vx: baseVx * 1.15, apexY: height * (0.24 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.26 + Math.random() * 0.05), vx: baseVx * 0.85, apexY: height * (0.21 + Math.random() * 0.08) });
+                } else {
+                    trajectories.push({ x: width * (0.10 + Math.random() * 0.05), vx: baseVx * 1.25, apexY: height * (0.26 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.22 + Math.random() * 0.05), vx: baseVx * 0.95, apexY: height * (0.21 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.34 + Math.random() * 0.05), vx: baseVx * 0.70, apexY: height * (0.24 + Math.random() * 0.08) });
+                }
+            } else if (patternRoll === 1) {
+                // Curva Diagonal Direita -> Esquerda
+                const baseVx = -(2.2 + Math.random() * 1.0) * mult;
+                if (count === 2) {
+                    trajectories.push({ x: width * (0.88 - Math.random() * 0.05), vx: baseVx * 1.15, apexY: height * (0.24 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.74 - Math.random() * 0.05), vx: baseVx * 0.85, apexY: height * (0.21 + Math.random() * 0.08) });
+                } else {
+                    trajectories.push({ x: width * (0.90 - Math.random() * 0.05), vx: baseVx * 1.25, apexY: height * (0.26 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.78 - Math.random() * 0.05), vx: baseVx * 0.95, apexY: height * (0.21 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.66 - Math.random() * 0.05), vx: baseVx * 0.70, apexY: height * (0.24 + Math.random() * 0.08) });
+                }
+            } else if (patternRoll === 2) {
+                // Cruzamento Ninja em X
+                const vxMag = (2.4 + Math.random() * 0.8) * mult;
+                if (count === 2) {
+                    trajectories.push({ x: width * (0.16 + Math.random() * 0.06), vx: vxMag, apexY: height * (0.23 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.84 - Math.random() * 0.06), vx: -vxMag, apexY: height * (0.23 + Math.random() * 0.08) });
+                } else {
+                    trajectories.push({ x: width * (0.15 + Math.random() * 0.05), vx: vxMag, apexY: height * (0.25 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * (0.85 - Math.random() * 0.05), vx: -vxMag, apexY: height * (0.25 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * 0.50 + (Math.random() - 0.5) * 40, vx: (Math.random() - 0.5) * 1.0 * mult, apexY: height * (0.20 + Math.random() * 0.08) });
+                }
             } else {
-                positions.push(width * 0.25 + (Math.random() - 0.5) * 20);
-                positions.push(width * 0.50 + (Math.random() - 0.5) * 20);
-                positions.push(width * 0.75 + (Math.random() - 0.5) * 20);
+                // Dispersão em Leque Parabólico Aberto
+                const spread = (2.2 + Math.random() * 0.8) * mult;
+                if (count === 2) {
+                    trajectories.push({ x: width * 0.40, vx: -spread, apexY: height * (0.24 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * 0.60, vx: spread, apexY: height * (0.24 + Math.random() * 0.08) });
+                } else {
+                    trajectories.push({ x: width * 0.35, vx: -spread, apexY: height * (0.25 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * 0.50, vx: (Math.random() - 0.5) * 0.8 * mult, apexY: height * (0.20 + Math.random() * 0.08) });
+                    trajectories.push({ x: width * 0.65, vx: spread, apexY: height * (0.25 + Math.random() * 0.08) });
+                }
             }
-            positions.sort(() => Math.random() - 0.5);
+            trajectories.sort(() => Math.random() - 0.5);
 
             const correctIndex = Math.floor(Math.random() * count);
 
@@ -5657,32 +5701,39 @@
             if (canSpawnBooster && Math.random() < 0.18) {
                 lastBoosterWave = waveCount;
                 const boosterRoll = Math.random();
+                const fromLeft = Math.random() < 0.5;
+                const bX = fromLeft ? width * (0.14 + Math.random() * 0.08) : width * (0.86 - Math.random() * 0.08);
+                const bVx = (fromLeft ? 1 : -1) * (2.2 + Math.random() * 1.0) * mult;
+
                 if (boosterRoll < 0.28) {
                     // ❄️ Fruta do Gelo (Câmera lenta refrescante)
-                    spawnPowerUpFruit('ice', width * 0.5);
+                    spawnPowerUpFruit('ice', bX, bVx);
                     spawnFloatingText(width / 2, height * 0.35, '❄️ BOOSTER DE GELO! ❄️', '#38bdf8', 22);
                 } else if (boosterRoll < 0.55) {
                     // ⚡ Fruta do Raio (Elimina distrações)
-                    spawnPowerUpFruit('lightning', width * 0.5);
+                    spawnPowerUpFruit('lightning', bX, bVx);
                     spawnFloatingText(width / 2, height * 0.35, '⚡ BOOSTER RELÂMPAGO! ⚡', '#fde047', 22);
                 } else if (boosterRoll < 0.75 && !hasShield) {
                     // 📜 Pergaminho Dourado do Sensei (Escudo protetor)
-                    spawnSenseiScroll(width * 0.5);
+                    spawnSenseiScroll(bX, bVx);
                     spawnFloatingText(width / 2, height * 0.35, '📜 PERGAMINHO NINJA! 📜', '#fbbf24', 22);
                 } else if (boosterRoll < 0.90) {
-                    // 🍉 Fruta Dourada de Frenesi (Rara e emocionante)
-                    spawnFruit(true, false, width * 0.5);
+                    // 🍉 Fruta Dourada de Frenesi (Rara e emocionante em arco diagonal)
+                    spawnFruit(true, false, bX, null, null, bVx, height * 0.22);
                     spawnFloatingText(width / 2, height * 0.35, '⭐ FRUTA DOURADA! ⭐', '#f59e0b', 24);
                 } else {
                     // 💥 Fruta da Fissão (Multiplica em 3)
-                    spawnSpecialMultiFruit(width * 0.5);
+                    spawnSpecialMultiFruit(bX, bVx);
                     spawnFloatingText(width / 2, height * 0.35, '💥 FRUTA DA FISSÃO! 💥', '#ec4899', 22);
                 }
             }
 
             // Bomba Ninja (Obstáculo/Armadilha apenas no modo clássico a partir da onda 4)
             if (gameMode === 'classic' && !frenzyMode && !isIntroductoryLevel() && waveCount >= 4 && Math.random() < 0.10 && !activeFruits.some(f => f.isBomb)) {
-                spawnBomb();
+                const bombFromLeft = Math.random() < 0.5;
+                const bombX = bombFromLeft ? width * 0.20 : width * 0.80;
+                const bombVx = (bombFromLeft ? 1 : -1) * (1.8 + Math.random() * 1.0) * mult;
+                spawnBomb(bombX, bombVx);
             }
 
             // Distratores protegidos contra loops infinitos e travamento do jogo
@@ -5718,22 +5769,35 @@
                 }
 
                 const template = FRUIT_TYPES[i % FRUIT_TYPES.length];
-                spawnFruit(false, isCorrect, positions[i], val, template);
+                const traj = trajectories[i] || { x: width * 0.5, vx: 0, apexY: height * 0.24 };
+                spawnFruit(false, isCorrect, traj.x, val, template, traj.vx, traj.apexY);
             }
         }
 
-        function spawnFruit(isGolden = false, isCorrect = false, customX = null, customVal = null, customTemplate = null) {
+        function spawnFruit(isGolden = false, isCorrect = false, customX = null, customVal = null, customTemplate = null, customVx = null, customApexY = null) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
             const template = customTemplate || FRUIT_TYPES[Math.floor(Math.random() * FRUIT_TYPES.length)];
             
             const startX = customX !== null ? customX : width * (Math.random() * 0.6 + 0.2);
             const startY = height + 50;
-            const apexY = height * (Math.random() * 0.15 + 0.22);
+            const apexY = customApexY !== null ? customApexY : height * (Math.random() * 0.15 + 0.22);
             const gravity = spd.gravity * (frenzyMode ? 0.7 : (Date.now() < slowMoUntil ? 0.45 : 1));
 
             const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
             const vy = -gravity * timeToApex;
-            const vx = (Math.random() - 0.5) * 1.0 * spd.vxMultiplier;
+            
+            // Define velocidade horizontal (vx) diagonal estilo Fruit Ninja
+            let vx;
+            if (customVx !== null) {
+                vx = customVx;
+            } else {
+                const sideBias = (startX < width * 0.5) ? 1 : -1;
+                vx = (sideBias * (1.8 + Math.random() * 1.4) + (Math.random() - 0.5) * 0.8) * (spd.vxMultiplier || 1.0);
+            }
+
+            // Rotação orgânica: gira de acordo com a direção do arco diagonal
+            const rotSign = vx >= 0 ? 1 : -1;
+            const vAngle = rotSign * (0.025 + Math.random() * 0.035);
 
             let val;
             if (isGolden) {
@@ -5754,8 +5818,8 @@
                 gravity: gravity,
                 hangFramesLeft: isGolden ? 35 : spd.hangFrames,
                 isHanging: false,
-                angle: 0,
-                vAngle: (Math.random() - 0.5) * 0.012,
+                angle: Math.random() * Math.PI * 2,
+                vAngle: vAngle,
                 radius: template.radius,
                 template: template,
                 value: val,
@@ -5769,16 +5833,18 @@
             });
         }
 
-        // --- Power-Up Fruits: Ice ❄️ and Lightning ⚡ ---
-        function spawnPowerUpFruit(powerType, customX) {
+        // --- Power-Up Fruits: Ice ❄️ and Lightning ⚡ com Lançamento Diagonal ---
+        function spawnPowerUpFruit(powerType, customX = null, customVx = null) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
-            const startX = customX !== null ? customX : width * 0.5;
+            const fromLeft = Math.random() < 0.5;
+            const startX = customX !== null ? customX : (fromLeft ? width * 0.18 : width * 0.82);
             const startY = height + 50;
-            const apexY = height * 0.26;
+            const apexY = height * 0.25;
             const gravity = spd.gravity;
             const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
             const vy = -gravity * timeToApex;
-            const vx = (Math.random() - 0.5) * 0.7;
+            const sideBias = (startX < width * 0.5) ? 1 : -1;
+            const vx = customVx !== null ? customVx : sideBias * (2.2 + Math.random() * 0.8) * (spd.vxMultiplier || 1.0);
 
             const isIce = powerType === 'ice';
             activeFruits.push({
@@ -5790,7 +5856,7 @@
                 hangFramesLeft: 45,
                 isHanging: false,
                 angle: 0,
-                vAngle: 0.03,
+                vAngle: (vx >= 0 ? 1 : -1) * 0.035,
                 radius: 54,
                 template: { 
                     type: isIce ? 'iceFruit' : 'lightningFruit', 
@@ -5809,15 +5875,17 @@
             });
         }
 
-        function spawnSpecialMultiFruit(customX) {
+        function spawnSpecialMultiFruit(customX = null, customVx = null) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
-            const startX = customX !== null ? customX : width * 0.5;
+            const fromLeft = Math.random() < 0.5;
+            const startX = customX !== null ? customX : (fromLeft ? width * 0.18 : width * 0.82);
             const startY = height + 50;
-            const apexY = height * 0.25;
+            const apexY = height * 0.24;
             const gravity = spd.gravity * 0.95;
             const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
             const vy = -gravity * timeToApex;
-            const vx = (Math.random() - 0.5) * 0.7;
+            const sideBias = (startX < width * 0.5) ? 1 : -1;
+            const vx = customVx !== null ? customVx : sideBias * (2.2 + Math.random() * 0.8) * (spd.vxMultiplier || 1.0);
 
             activeFruits.push({
                 x: startX,
@@ -5828,7 +5896,7 @@
                 hangFramesLeft: 55,
                 isHanging: false,
                 angle: 0,
-                vAngle: 0.025,
+                vAngle: (vx >= 0 ? 1 : -1) * 0.035,
                 radius: 60,
                 template: { type: 'specialMulti', name: 'Fruta Fissão', color: '#38bdf8', innerColor: '#facc15' },
                 value: '🌟 3×',
@@ -5843,15 +5911,17 @@
         }
 
         // --- Pergaminho do Sensei 📜 (Garante Escudo Ninja 🛡️) ---
-        function spawnSenseiScroll(customX) {
+        function spawnSenseiScroll(customX = null, customVx = null) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
-            const startX = customX !== null ? customX : width * 0.5;
+            const fromLeft = Math.random() < 0.5;
+            const startX = customX !== null ? customX : (fromLeft ? width * 0.20 : width * 0.80);
             const startY = height + 50;
-            const apexY = height * 0.28;
+            const apexY = height * 0.26;
             const gravity = spd.gravity * 0.92;
             const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
             const vy = -gravity * timeToApex;
-            const vx = (Math.random() - 0.5) * 0.8;
+            const sideBias = (startX < width * 0.5) ? 1 : -1;
+            const vx = customVx !== null ? customVx : sideBias * (2.0 + Math.random() * 0.8) * (spd.vxMultiplier || 1.0);
 
             activeFruits.push({
                 x: startX,
@@ -5862,7 +5932,7 @@
                 hangFramesLeft: 55,
                 isHanging: false,
                 angle: 0,
-                vAngle: 0.02,
+                vAngle: (vx >= 0 ? 1 : -1) * 0.03,
                 radius: 54,
                 template: { type: 'scroll', name: 'Pergaminho do Sensei', color: '#facc15', innerColor: '#fef08a' },
                 value: '📜',
@@ -5877,13 +5947,14 @@
             });
         }
 
-        // --- Fruta de Frenesi (Corrigido: Não Reseta o Timer de Forma Infinita!) ---
+        // --- Fruta de Frenesi (Cruza a tela em alta velocidade diagonal) ---
         function spawnFrenzyFruit() {
             const template = FRUIT_TYPES[Math.floor(Math.random() * FRUIT_TYPES.length)];
-            const startX = width * (Math.random() * 0.8 + 0.1);
+            const fromLeft = Math.random() < 0.5;
+            const startX = fromLeft ? width * (Math.random() * 0.25 + 0.05) : width * (0.95 - Math.random() * 0.25);
             const startY = height + 40;
             const vy = -(Math.random() * 4 + 7);
-            const vx = (Math.random() - 0.5) * 2;
+            const vx = (fromLeft ? 1 : -1) * (Math.random() * 3.0 + 1.8);
             activeFruits.push({
                 x: startX,
                 y: startY,
@@ -5892,13 +5963,13 @@
                 gravity: 0.12,
                 hangFramesLeft: 0,
                 isHanging: false,
-                angle: 0,
-                vAngle: (Math.random() - 0.5) * 0.04,
+                angle: Math.random() * Math.PI * 2,
+                vAngle: (vx >= 0 ? 1 : -1) * (Math.random() * 0.04 + 0.02),
                 radius: template.radius,
                 template: template,
                 value: '⭐',
-                isGolden: false,         // NÃO reseta o frenesi ao cortar!
-                isFrenzyBonus: true,     // Marca como fruta bônus de frenesi
+                isGolden: false,
+                isFrenzyBonus: true,
                 isSpecialMulti: false,
                 isPowerUp: null,
                 isMini: false,
@@ -5907,15 +5978,17 @@
             });
         }
 
-        function spawnBomb() {
+        function spawnBomb(customX = null, customVx = null) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
-            const startX = width * (Math.random() * 0.5 + 0.25);
+            const fromLeft = Math.random() < 0.5;
+            const startX = customX !== null ? customX : (fromLeft ? width * 0.22 : width * 0.78);
             const startY = height + 50;
             const apexY = height * (Math.random() * 0.15 + 0.25);
             const gravity = spd.gravity * 1.1;
             const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
             const vy = -gravity * timeToApex;
-            const vx = (Math.random() - 0.5) * 0.8;
+            const sideBias = (startX < width * 0.5) ? 1 : -1;
+            const vx = customVx !== null ? customVx : sideBias * (1.6 + Math.random() * 0.8) * (spd.vxMultiplier || 1.0);
 
             activeFruits.push({
                 x: startX,
@@ -5926,8 +5999,9 @@
                 hangFramesLeft: 30,
                 isHanging: false,
                 angle: 0,
-                vAngle: (Math.random() - 0.5) * 0.015,
+                vAngle: (vx >= 0 ? 1 : -1) * 0.02,
                 radius: 48,
+                template: { type: 'bomb', name: 'Bomba Ninja', color: '#1f2937', innerColor: '#ef4444' },
                 value: '💣',
                 isGolden: false,
                 isSpecialMulti: false,
