@@ -297,7 +297,7 @@ const dbHelper = {
       params.push(subject);
     }
 
-    sql += adminMode ? " ORDER BY created_at DESC" : " ORDER BY visits DESC";
+    sql += " ORDER BY visits DESC, id ASC";
     let rows = [];
     try {
       rows = await queryAll(sql, params);
@@ -308,22 +308,62 @@ const dbHelper = {
     // Always remove raw direct-link duplicate for Leitura Divertida
     if (rows && rows.length > 0) {
       rows = rows.filter(r => r.activity_url !== '/games/leitura-datashow/index.html');
+
+      // Deduplicação segura por activity_url (mantém a entrada com mais visitas)
+      const seenUrls = new Set();
+      rows = rows.filter(r => {
+        const u = (r.activity_url || '').toLowerCase().trim();
+        if (u && seenUrls.has(u)) return false;
+        if (u) seenUrls.add(u);
+        return true;
+      });
     }
 
-    if (!adminMode) {
+    if (!adminMode && rows && rows.length > 0) {
       let isSimuladosEnabled = false;
       try {
         const setting = await this.getSetting('simulados_enabled', 'false');
         isSimuladosEnabled = setting === 'true' || setting === true;
       } catch (e) {}
 
-      if (!isSimuladosEnabled && rows && rows.length > 0) {
+      if (!isSimuladosEnabled) {
         rows = rows.filter(r => {
           const t = (r.title || '').toLowerCase();
           const u = (r.activity_url || '').toLowerCase();
           return !t.includes('simulado') && !u.includes('simulado');
         });
       }
+
+      // REGRA DE OURO: Todo jogo novo (lançado nos últimos 21 dias) DEVE estar no TOPO absoluto!
+      const now = Date.now();
+      const NEW_WINDOW_MS = 21 * 24 * 60 * 60 * 1000; // 21 dias
+      rows.sort((a, b) => {
+        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        const isNewA = (now - timeA) <= NEW_WINDOW_MS;
+        const isNewB = (now - timeB) <= NEW_WINDOW_MS;
+
+        // 1. Jogos novos SEMPRE no topo dos jogos!
+        if (isNewA && !isNewB) return -1;
+        if (!isNewA && isNewB) return 1;
+
+        // Se ambos forem novos, o mais recente criado vem primeiro
+        if (isNewA && isNewB) {
+          return timeB - timeA;
+        }
+
+        // 2. Demais jogos por popularidade (visitas DESC), com desempate por data mais recente
+        const vA = Number(a.visits || 0);
+        const vB = Number(b.visits || 0);
+        if (vB !== vA) return vB - vA;
+        return timeB - timeA;
+      });
+    } else if (adminMode && rows && rows.length > 0) {
+      rows.sort((a, b) => {
+        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return timeB - timeA;
+      });
     }
 
     const isFiltered = Boolean(search || (category && category !== 'Todas') || bncc || (subject && subject !== 'Todas') || (month && month !== 'Todas'));

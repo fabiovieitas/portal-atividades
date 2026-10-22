@@ -661,7 +661,7 @@
                                         
                                         <!-- Badges -->
                                         <div class="card-badges">
-                                            <% const isNew = (Date.now() - new Date(activity.created_at).getTime()) < (7 * 24 * 60 * 60 * 1000); %>
+                                            <% const isNew = (Date.now() - new Date(activity.created_at).getTime()) < (21 * 24 * 60 * 60 * 1000); %>
                                             <% if (isNew) { %><span class="badge-new">NOVO 🔥</span><% } %>
                                             <% if (activity.visits > 50) { %><span class="badge-popular">POPULAR ⭐</span><% } %>
                                             <% if (Number(activity.id) === 11 || (activity.activity_url && activity.activity_url.includes('pou'))) { %>
