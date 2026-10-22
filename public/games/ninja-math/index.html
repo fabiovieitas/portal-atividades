@@ -816,21 +816,183 @@
             transform: translateY(1px) scale(0.99);
         }
 
-        /* === Tux Math Arcade System Styles === */
-        .arcade-menu-card.tux-card {
-            max-width: 960px;
-            width: 95vw;
-            background: radial-gradient(circle at 50% 10%, #151d3b 0%, #0b0f24 100%);
-            border: 2.5px solid rgba(59, 130, 246, 0.45);
-            border-radius: 26px;
-            padding: 20px 24px;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), 0 0 40px rgba(37, 99, 235, 0.25), inset 0 0 30px rgba(37, 99, 235, 0.08);
+        /* === TUX MATH AAA GAME ARCADE SCREEN STYLES === */
+        #start-modal {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(15, 23, 62, 0.45) 0%, rgba(6, 10, 28, 0.84) 75%, rgba(2, 4, 15, 0.96) 100%), url('dojo-bg.jpg') center/cover no-repeat;
+            backdrop-filter: blur(2px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 16px;
+            overflow-y: auto;
         }
 
+        .arcade-menu-card.tux-card {
+            max-width: 1120px;
+            width: 98vw;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            max-height: 96vh;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Top Brand Marquee (3D Game Title) */
+        .tux-brand-stage {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 4px;
+            margin-bottom: 2px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tux-title-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .tux-title-3d {
+            font-family: 'Fredoka', cursive;
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 0;
+            background: linear-gradient(180deg, #fffbeb 0%, #fde047 30%, #f59e0b 70%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 3px 0 #78350f) drop-shadow(0 6px 0 #451a03) drop-shadow(0 12px 25px rgba(245, 158, 11, 0.65));
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tux-title-katana {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 12px #38bdf8);
+            animation: katanaGlow 2.5s infinite ease-in-out;
+            -webkit-text-fill-color: initial;
+        }
+
+        @keyframes katanaGlow {
+            0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 10px #38bdf8); }
+            50% { transform: scale(1.08) rotate(5deg); filter: drop-shadow(0 0 20px #60a5fa); }
+        }
+
+        .tux-subtitle-ribbon {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(90deg, rgba(185, 28, 28, 0.95), rgba(153, 27, 27, 0.95));
+            border: 1.5px solid #fde047;
+            border-radius: 50px;
+            padding: 3px 14px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #fef08a;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            margin-top: 4px;
+        }
+
+        /* Ninja Pass Header Card */
+        .tux-player-pass {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(20, 15, 38, 0.88), rgba(10, 8, 22, 0.94));
+            border: 2px solid #eab308;
+            border-radius: 50px;
+            padding: 6px 14px 6px 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+        }
+
+        .tux-player-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .tux-player-avatar {
+            font-size: 1.5rem;
+            background: radial-gradient(circle, #f59e0b, #78350f);
+            border: 2px solid #fde047;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+
+        .tux-player-name-tag {
+            text-align: left;
+        }
+
+        .tux-player-role {
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .tux-player-name {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.05rem;
+            color: #fde047;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .tux-room-pill {
+            background: rgba(37, 99, 235, 0.35);
+            border: 1.5px solid #60a5fa;
+            color: #bfdbfe;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+
+        .tux-room-pill:hover {
+            background: rgba(37, 99, 235, 0.6);
+            transform: scale(1.04);
+        }
+
+        .tux-coins-pill {
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1.5px solid #fde047;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(245, 158, 11, 0.5);
+        }
+
+        /* Main 2-Column Game Stage Wrapper */
         .tux-arcade-wrapper {
             display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 20px;
+            grid-template-columns: 430px 1fr;
+            gap: 22px;
             width: 100%;
             align-items: stretch;
         }
@@ -839,311 +1001,489 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .tux-right-panel {
-            display: flex;
-            flex-direction: column;
-            background: rgba(5, 10, 28, 0.65);
-            border: 1.5px solid rgba(59, 130, 246, 0.28);
-            border-radius: 20px;
-            padding: 14px 16px;
-            min-height: 460px;
-            box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Tux Mascot Box (Left Side) */
-        .tux-mascot-box {
+        /* Mascot Showcase Stage (Big Mascot Tux Style) */
+        .tux-mascot-showcase {
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: rgba(15, 23, 52, 0.85);
-            border: 1.5px solid rgba(59, 130, 246, 0.35);
-            border-radius: 16px;
-            padding: 10px 12px;
+            gap: 14px;
+            position: relative;
         }
 
-        .tux-mascot-avatar {
-            width: 52px;
-            height: 52px;
+        .tux-mascot-badge {
+            width: 108px;
+            height: 108px;
             border-radius: 50%;
-            border: 2px solid #60a5fa;
+            border: 3.5px solid #f59e0b;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), 0 10px 25px rgba(0, 0, 0, 0.8);
             overflow: hidden;
             flex-shrink: 0;
-            background: #000;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+            background: radial-gradient(circle, #3b82f6, #0f172a);
+            animation: mascotFloat 3s infinite ease-in-out;
+            position: relative;
         }
 
-        .tux-mascot-avatar img {
+        @keyframes mascotFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .tux-mascot-badge img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .tux-mascot-bubble {
+        /* Manga Comic Speech Bubble */
+        .tux-manga-bubble {
             flex: 1;
+            background: linear-gradient(135deg, #fffef7 0%, #fef3c7 100%);
+            border: 2.5px solid #d97706;
+            border-radius: 20px;
+            padding: 10px 14px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.9);
+            position: relative;
             text-align: left;
         }
 
-        .tux-mascot-name {
-            font-size: 0.72rem;
+        .tux-manga-bubble::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 9px solid transparent;
+            border-bottom: 9px solid transparent;
+            border-right: 12px solid #d97706;
+        }
+
+        .tux-manga-bubble::after {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+            border-right: 9px solid #fffef7;
+        }
+
+        .tux-manga-author {
+            font-family: 'Fredoka', cursive;
+            font-size: 0.82rem;
             font-weight: 800;
-            color: #93c5fd;
+            color: #991b1b;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-
-        .tux-mascot-quote {
-            font-size: 0.82rem;
-            color: #e2e8f0;
-            line-height: 1.25;
-            font-weight: 600;
-        }
-
-        /* Selected Mission Card */
-        .tux-selected-card {
-            background: linear-gradient(135deg, rgba(30, 41, 79, 0.8), rgba(15, 23, 42, 0.9));
-            border: 1.5px solid #3b82f6;
-            border-radius: 16px;
-            padding: 12px 14px;
-            text-align: left;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-        }
-
-        .tux-selected-header {
+            margin-bottom: 2px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 4px;
+        }
+
+        .tux-manga-text {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #1e1b4b;
+            line-height: 1.3;
+        }
+
+        /* Pergaminho Mission Briefing Card */
+        .tux-scroll-card {
+            background: linear-gradient(135deg, rgba(28, 25, 70, 0.85) 0%, rgba(14, 20, 56, 0.94) 100%);
+            border: 2px solid #facc15;
+            border-radius: 20px;
+            padding: 12px 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(250, 204, 21, 0.12);
+            text-align: left;
+            position: relative;
+        }
+
+        .tux-scroll-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             margin-bottom: 6px;
         }
 
-        .tux-badge-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background: #2563eb;
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: 900;
+        .tux-scroll-gem {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            border: 2px solid #93c5fd;
+            box-shadow: 0 0 16px rgba(59, 130, 246, 0.7), inset 0 2px 3px rgba(255, 255, 255, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #fff;
             flex-shrink: 0;
         }
 
-        .tux-selected-tag {
-            font-size: 0.65rem;
-            font-weight: 800;
-            color: #93c5fd;
-            text-transform: uppercase;
-        }
-
-        .tux-selected-title {
-            font-family: 'Fredoka', cursive;
-            font-size: 1.15rem;
-            font-weight: 800;
+        .tux-scroll-tag {
+            font-size: 0.66rem;
+            font-weight: 900;
             color: #fde047;
-            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .tux-selected-desc {
-            font-size: 0.75rem;
-            color: #cbd5e1;
-            line-height: 1.3;
-            margin-bottom: 6px;
+        .tux-scroll-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
 
-        .tux-selected-example {
-            font-size: 0.75rem;
+        .tux-scroll-desc {
+            font-size: 0.8rem;
+            color: #e2e8f0;
+            line-height: 1.35;
+            margin-bottom: 8px;
+        }
+
+        .tux-scroll-formula {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1.5px dashed #4ade80;
+            border-radius: 12px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
             font-weight: 800;
             color: #86efac;
-            background: rgba(34, 197, 94, 0.12);
-            border: 1px dashed rgba(34, 197, 94, 0.4);
-            border-radius: 8px;
-            padding: 4px 8px;
         }
 
-        /* Right Navigation Header */
+        /* Grand Tactile 3D Play Button */
+        .tux-btn-play-grand {
+            width: 100%;
+            background: linear-gradient(180deg, #4ade80 0%, #22c55e 45%, #15803d 100%);
+            border: 2.5px solid #bbf7d0;
+            border-radius: 50px;
+            padding: 13px 20px;
+            color: #ffffff;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.45rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #14532d, 0 16px 35px rgba(34, 197, 94, 0.65), inset 0 2px 2px rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tux-btn-play-grand::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-25deg);
+            animation: buttonShimmer 3.5s infinite;
+        }
+
+        @keyframes buttonShimmer {
+            0% { left: -100%; }
+            30%, 100% { left: 180%; }
+        }
+
+        .tux-btn-play-grand:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 #14532d, 0 20px 45px rgba(34, 197, 94, 0.85);
+            filter: brightness(1.08);
+        }
+
+        .tux-btn-play-grand:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #14532d, 0 8px 20px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Arcade Hub Tokens Bar */
+        .tux-tokens-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .tux-token-btn {
+            background: linear-gradient(180deg, rgba(30, 41, 79, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 8px 4px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 6px 12px rgba(0, 0, 0, 0.4);
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .tux-token-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .tux-token-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        .token-shop { border-color: #f59e0b; color: #fde047; }
+        .token-ranking { border-color: #3b82f6; color: #93c5fd; }
+        .token-album { border-color: #ec4899; color: #fbcfe8; }
+        .token-diploma { border-color: #a855f7; color: #e9d5ff; }
+
+        /* Right Column: Glassmorphic Arcade HUD Cabinet */
+        .tux-arcade-cabinet {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: linear-gradient(180deg, rgba(15, 28, 72, 0.75) 0%, rgba(8, 14, 42, 0.9) 100%);
+            border: 2.5px solid rgba(96, 165, 250, 0.5);
+            border-radius: 32px;
+            padding: 16px 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(59, 130, 246, 0.3), inset 0 2px 2px rgba(255, 255, 255, 0.25);
+            display: flex;
+            flex-direction: column;
+            min-height: 480px;
+        }
+
+        /* Cabinet Top Navigation Header */
         .tux-nav-header {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            border-bottom: 1px solid rgba(96, 165, 250, 0.25);
         }
 
         .tux-back-btn {
-            background: rgba(30, 58, 138, 0.6);
-            border: 1.5px solid #60a5fa;
-            color: #93c5fd;
-            padding: 6px 14px;
+            background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+            border: 1.5px solid #93c5fd;
+            color: #ffffff;
+            padding: 6px 16px;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s;
+            box-shadow: 0 3px 0 #1e3a8a, 0 6px 14px rgba(0,0,0,0.5);
+            transition: all 0.18s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .tux-back-btn:hover {
-            background: #2563eb;
-            color: #fff;
-            transform: scale(1.04);
+            transform: translateY(-2px) scale(1.04);
+            filter: brightness(1.15);
+        }
+
+        .tux-back-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #1e3a8a;
         }
 
         .tux-nav-title {
-            font-size: 0.92rem;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.15rem;
             font-weight: 800;
-            color: #93c5fd;
+            color: #fde047;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             flex: 1;
             text-align: left;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
         }
 
         /* Tux Scrollable Container */
         .tux-menu-scroll {
             display: flex;
             flex-direction: column;
-            gap: 7px;
-            max-height: 420px;
+            gap: 8px;
+            max-height: 430px;
             overflow-y: auto;
             padding-right: 6px;
         }
 
         .tux-menu-scroll::-webkit-scrollbar {
-            width: 6px;
+            width: 7px;
         }
         .tux-menu-scroll::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.4);
             border-radius: 10px;
         }
         .tux-menu-scroll::-webkit-scrollbar-thumb {
-            background: rgba(59, 130, 246, 0.5);
+            background: linear-gradient(180deg, #3b82f6, #1d4ed8);
             border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Tux Math Pill Button */
+        /* Tux Math Chunky 3D Pill Button */
         .tux-menu-btn {
             width: 100%;
-            background: linear-gradient(90deg, rgba(20, 32, 74, 0.94) 0%, rgba(13, 20, 52, 0.96) 100%);
-            border: 1.5px solid rgba(59, 130, 246, 0.35);
+            height: 56px;
+            background: linear-gradient(180deg, rgba(45, 110, 250, 0.45) 0%, rgba(18, 32, 85, 0.95) 45%, rgba(10, 18, 55, 0.98) 100%);
+            border: 2px solid rgba(96, 165, 250, 0.45);
             border-radius: 50px;
-            padding: 7px 18px 7px 8px;
+            padding: 4px 18px 4px 6px;
             color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
             transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 5px 0 rgba(4, 8, 25, 0.95), 0 8px 18px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.35);
             text-align: left;
+            position: relative;
+            overflow: hidden;
         }
 
         .tux-menu-btn:hover {
-            transform: translateX(4px);
+            transform: translateX(8px) scale(1.02);
             border-color: #60a5fa;
-            background: linear-gradient(90deg, rgba(29, 78, 216, 0.85) 0%, rgba(30, 58, 138, 0.9) 100%);
-            box-shadow: 0 0 16px rgba(59, 130, 246, 0.55), 0 4px 15px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.65) 0%, rgba(30, 58, 138, 0.98) 50%, rgba(15, 26, 75, 1) 100%);
+            box-shadow: 0 5px 0 rgba(4, 8, 25, 0.95), 0 0 28px rgba(96, 165, 250, 0.8), 0 8px 24px rgba(0, 0, 0, 0.6);
         }
 
         .tux-menu-btn.active {
-            border-color: #93c5fa;
-            background: linear-gradient(90deg, rgba(37, 99, 235, 0.95) 0%, rgba(30, 58, 138, 0.98) 100%);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.75), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            border-color: #fde047;
+            background: linear-gradient(180deg, rgba(234, 179, 8, 0.5) 0%, rgba(37, 99, 235, 0.98) 45%, rgba(15, 23, 62, 1) 100%);
+            box-shadow: 0 5px 0 rgba(4, 8, 25, 0.95), 0 0 30px rgba(250, 204, 21, 0.75), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+        }
+
+        .tux-menu-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 rgba(4, 8, 25, 0.95), 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         .tux-icon-box {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: 900;
             color: #fff;
             margin-right: 14px;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 2px 3px rgba(255, 255, 255, 0.7);
         }
 
         .tux-btn-label {
             flex: 1;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
+            font-family: 'Fredoka', 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
             color: #ffffff;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
         }
 
         .tux-btn-arrow {
-            font-size: 0.92rem;
+            font-size: 1rem;
             font-weight: 900;
             color: #93c5fd;
-            opacity: 0.8;
+            opacity: 0.85;
             margin-left: 10px;
             flex-shrink: 0;
+            background: rgba(0, 0, 0, 0.35);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.15);
         }
 
         .tux-menu-btn.active .tux-btn-arrow {
             color: #fde047;
+            background: rgba(234, 179, 8, 0.25);
+            border: 1px solid #fde047;
             opacity: 1;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
         }
 
-        /* Help Panel Cards */
+        /* Help Panel Cards (Comic Style) */
         .tux-help-grid {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             text-align: left;
         }
 
         .tux-help-card {
-            background: rgba(15, 23, 52, 0.8);
-            border: 1.5px solid rgba(59, 130, 246, 0.25);
-            border-radius: 14px;
-            padding: 10px 12px;
+            background: linear-gradient(135deg, rgba(20, 30, 70, 0.85), rgba(10, 16, 45, 0.95));
+            border: 2px solid rgba(96, 165, 250, 0.35);
+            border-radius: 18px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         .tux-help-icon {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             flex-shrink: 0;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
         }
 
         .tux-help-text {
-            font-size: 0.82rem;
-            color: #cbd5e1;
+            font-size: 0.85rem;
+            color: #e2e8f0;
             line-height: 1.35;
         }
 
         .tux-help-text strong {
             color: #fde047;
+            font-size: 0.95rem;
         }
 
-        /* Mobile & Landscape Adjustments */
-        @media (max-width: 820px) {
+        /* Responsive Media Queries */
+        @media (max-width: 860px) {
             .arcade-menu-card.tux-card {
-                padding: 16px;
-                max-width: 96vw;
+                max-width: 98vw;
             }
             .tux-arcade-wrapper {
                 grid-template-columns: 1fr;
-                gap: 14px;
+                gap: 16px;
             }
-            .tux-right-panel {
+            .tux-title-3d {
+                font-size: 2.2rem;
+            }
+            .tux-arcade-cabinet {
                 min-height: auto;
             }
             .tux-menu-scroll {
@@ -1151,68 +1491,76 @@
             }
         }
 
-        @media (max-height: 540px) {
+        @media (max-height: 560px) {
+            #start-modal {
+                padding: 8px 12px;
+            }
             .arcade-menu-card.tux-card {
-                padding: 8px 14px;
                 max-height: 98vh;
+                gap: 6px;
             }
-            .tux-arcade-wrapper {
-                grid-template-columns: 260px 1fr;
-                gap: 10px;
+            .tux-brand-stage {
+                margin-bottom: 2px;
             }
-            .menu-arcade-header {
-                margin-bottom: 4px;
+            .tux-title-3d {
+                font-size: 1.8rem;
             }
-            .arcade-brand-title {
-                font-size: 1.5rem;
+            .tux-title-katana {
+                font-size: 1.4rem;
             }
-            .arcade-brand-sub {
-                font-size: 0.65rem;
-            }
-            .arcade-player-card {
-                padding: 4px 8px;
-                margin-bottom: 6px;
-            }
-            .tux-mascot-box {
-                padding: 4px 8px;
-                gap: 8px;
-            }
-            .tux-mascot-avatar {
-                width: 38px;
-                height: 38px;
-            }
-            .tux-selected-card {
-                padding: 6px 10px;
-            }
-            .tux-selected-title {
-                font-size: 0.95rem;
-            }
-            .tux-selected-desc {
+            .tux-subtitle-ribbon {
                 display: none;
             }
-            .arcade-btn-play {
-                padding: 8px;
-                font-size: 1.1rem;
+            .tux-arcade-wrapper {
+                grid-template-columns: 320px 1fr;
+                gap: 12px;
             }
-            .tux-right-panel {
+            .tux-mascot-badge {
+                width: 70px;
+                height: 70px;
+            }
+            .tux-manga-text {
+                font-size: 0.75rem;
+            }
+            .tux-scroll-card {
+                padding: 6px 10px;
+                margin-bottom: 6px;
+            }
+            .tux-scroll-desc {
+                display: none;
+            }
+            .tux-scroll-title {
+                font-size: 1.05rem;
+            }
+            .tux-btn-play-grand {
+                padding: 8px 14px;
+                font-size: 1.15rem;
+                margin-bottom: 6px;
+            }
+            .tux-token-btn {
+                padding: 4px;
+                font-size: 0.72rem;
+            }
+            .tux-arcade-cabinet {
                 min-height: auto;
-                padding: 8px 10px;
+                padding: 8px 12px;
             }
             .tux-menu-scroll {
-                max-height: 60vh;
-                gap: 5px;
+                max-height: 62vh;
+                gap: 4px;
             }
             .tux-menu-btn {
-                padding: 4px 12px 4px 6px;
+                height: 42px;
+                padding: 2px 12px 2px 4px;
             }
             .tux-icon-box {
-                width: 28px;
-                height: 28px;
-                font-size: 1rem;
-                margin-right: 10px;
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
+                margin-right: 8px;
             }
             .tux-btn-label {
-                font-size: 0.88rem;
+                font-size: 0.95rem;
             }
         }
 
@@ -2195,94 +2543,97 @@
         <!-- Start / Difficulty Screen (Estilo Tux Math Arcade) -->
         <div class="modal-screen" id="start-modal">
             <div class="modal-card arcade-menu-card tux-card">
+                <!-- Top Brand Stage & Ninja Pass -->
+                <div class="tux-brand-stage">
+                    <div class="tux-title-wrap">
+                        <h1 class="tux-title-3d">
+                            <span>🥷 NINJA MATH</span>
+                            <span class="tux-title-katana">⚔️</span>
+                        </h1>
+                        <div class="tux-subtitle-ribbon">
+                            🏮 DOJO DA TABUADA • MODO TUX ARCADE 🏮
+                        </div>
+                    </div>
+
+                    <!-- Ninja Player Pass -->
+                    <div class="tux-player-pass">
+                        <div class="tux-player-left" onclick="openNameEntryModal()" title="Toque para trocar o nome do ninja guerreiro">
+                            <div class="tux-player-avatar">🥷</div>
+                            <div class="tux-player-name-tag">
+                                <div class="tux-player-role">GUERREIRO ATUAL</div>
+                                <div class="tux-player-name" id="menu-student-name">Ninja Aprendiz</div>
+                            </div>
+                            <span class="player-btn-edit">✏️</span>
+                        </div>
+                        <div class="tux-room-pill" onclick="editRoomPinInline()" title="Toque para alterar a turma">
+                            🏫 <span id="menu-room-display">TURMA: LIVRE</span>
+                        </div>
+                        <div class="tux-coins-pill" onclick="openDojoShop()" title="Abrir Loja de Katanas e Lâminas">
+                            💰 <span id="menu-coins-val">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main 2-Column Game Stage Wrapper -->
                 <div class="tux-arcade-wrapper">
-                    <!-- Painel Esquerdo: Brand, Aluno, Mascote Tux, Briefing da Missão e Ação -->
+                    <!-- Coluna Esquerda: Mascote Showcase, Pergaminho de Briefing, Botão Gigante 3D e Tokens Hub -->
                     <div class="tux-left-panel">
-                        <!-- Brand Header -->
-                        <div class="menu-arcade-header">
-                            <div class="arcade-brand-row">
-                                <span style="font-size: 2rem;">🥷</span>
-                                <h1 class="arcade-brand-title">NINJA MATH</h1>
-                                <span style="font-size: 2rem;">⚔️</span>
-                            </div>
-                            <div class="arcade-brand-sub">DOJO DA TABUADA • ESTILO TUX MATH</div>
-                        </div>
-
-                        <!-- Ninja Player & Classroom Pass -->
-                        <div class="arcade-player-card">
-                            <div class="arcade-player-left" onclick="openNameEntryModal()" title="Toque para trocar o nome do aluno">
-                                <div class="player-ninja-avatar">🥷</div>
-                                <div>
-                                    <div class="player-tag-title">GUERREIRO ATUAL</div>
-                                    <div class="player-tag-name" id="menu-student-name">Ninja Aprendiz</div>
-                                </div>
-                                <span class="player-btn-edit">✏️ Trocar</span>
-                            </div>
-                            <div class="arcade-player-right">
-                                <div class="arcade-room-pill" onclick="editRoomPinInline()" title="Toque para alterar a turma">
-                                    🏫 <span id="menu-room-display">TURMA: LIVRE</span>
-                                </div>
-                                <div class="arcade-coins-pill" onclick="openDojoShop()" title="Abrir Loja de Katanas">
-                                    💰 <span id="menu-coins-val">0</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Mascote Interativo Tux Style -->
-                        <div class="tux-mascot-box">
-                            <div class="tux-mascot-avatar" id="tux-mascot-img-wrap">
+                        <!-- Mascote Interativo Showcase com Balão Estilo Mangá -->
+                        <div class="tux-mascot-showcase">
+                            <div class="tux-mascot-badge" id="tux-mascot-img-wrap">
                                 <img src="mascot-panda.jpg" id="tux-mascot-img" alt="Mascote Ninja">
                             </div>
-                            <div class="tux-mascot-bubble">
-                                <div class="tux-mascot-name" id="tux-mascot-name">🐼 Mestre Po diz:</div>
-                                <div class="tux-mascot-quote" id="tux-mascot-quote">
+                            <div class="tux-manga-bubble">
+                                <div class="tux-manga-author" id="tux-mascot-name">🐼 Mestre Po diz:</div>
+                                <div class="tux-manga-text" id="tux-mascot-quote">
                                     Escolha sua operação matemática à direita e venha treinar sua espada!
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Briefing da Missão Selecionada -->
-                        <div class="tux-selected-card">
-                            <div class="tux-selected-header">
-                                <span class="tux-badge-icon" id="tux-badge-icon">+</span>
+                        <!-- Briefing da Missão / Pergaminho Japonês -->
+                        <div class="tux-scroll-card">
+                            <div class="tux-scroll-header">
+                                <div class="tux-scroll-gem" id="tux-badge-icon">+</div>
                                 <div>
-                                    <div class="tux-selected-tag">TREINO SELECIONADO</div>
-                                    <div class="tux-selected-title" id="tux-title-display">Adição acima de 10</div>
+                                    <div class="tux-scroll-tag">MISSÃO SELECIONADA</div>
+                                    <div class="tux-scroll-title" id="tux-title-display">Adição acima de 10</div>
                                 </div>
                             </div>
-                            <div class="tux-selected-desc" id="tux-desc-display">
-                                Cálculo de adição com somas até 15 e 20. Padrão BNCC para o 1º/2º ano.
+                            <div class="tux-scroll-desc" id="tux-desc-display">
+                                Treine cálculo de adição com somas até 15 e 20. Padrão BNCC para o 1º/2º ano.
                             </div>
-                            <div class="tux-selected-example" id="tux-example-display">
-                                Exemplo: 7 + 5 = ? ou 9 + 4 = ?
+                            <div class="tux-scroll-formula">
+                                <span>🎯 Exemplo:</span>
+                                <span id="tux-example-display" style="font-family: 'Fredoka', cursive; font-size: 0.95rem; color: #fde047;">7 + 5 = 12</span>
                             </div>
                         </div>
 
-                        <!-- Botão Gigante de Iniciar o Dojo -->
-                        <button class="arcade-btn-play" onclick="startGame()">
+                        <!-- Botão Gigante 3D de Iniciar a Batalha -->
+                        <button type="button" class="tux-btn-play-grand" onclick="startGame()">
                             <span>⚔️ ENTRAR NO DOJO!</span> 🚀
                         </button>
 
-                        <!-- Arcade Hub Bar (Loja, Top 5, Álbum, Diploma) -->
-                        <div class="arcade-hub-bar">
-                            <button type="button" class="hub-btn hub-shop" onclick="openDojoShop()">
+                        <!-- Arcade Hub Bar (Tokens estilo ficha arcade) -->
+                        <div class="tux-tokens-bar">
+                            <button type="button" class="tux-token-btn token-shop" onclick="openDojoShop()" title="Loja de Katanas">
                                 🗡️ LOJA
                             </button>
-                            <button type="button" class="hub-btn hub-ranking" onclick="openLeaderboardModal()">
+                            <button type="button" class="tux-token-btn token-ranking" onclick="openLeaderboardModal()" title="Top 5 Ranking">
                                 🏆 TOP 5
                             </button>
-                            <button type="button" class="hub-btn hub-album" onclick="openStickersAlbum()">
+                            <button type="button" class="tux-token-btn token-album" onclick="openStickersAlbum()" title="Álbum de Conquistas">
                                 🎴 ÁLBUM
                             </button>
-                            <button type="button" class="hub-btn hub-diploma" onclick="openDiplomaModal()">
+                            <button type="button" class="tux-token-btn token-diploma" onclick="openDiplomaModal()" title="Diploma de Honra">
                                 📜 DIPLOMA
                             </button>
                         </div>
                     </div>
 
-                    <!-- Painel Direito: Menu Estilo Tux Math (Pill Buttons Verticais com Ícones) -->
-                    <div class="tux-right-panel">
-                        <!-- Navigation Header -->
+                    <!-- Coluna Direita: Cabine Arcade com Lista Tux Math, Custom Selector e Painéis -->
+                    <div class="tux-arcade-cabinet">
+                        <!-- Navigation Header com botão voltar e título -->
                         <div class="tux-nav-header">
                             <button type="button" class="tux-back-btn" id="tux-back-btn" onclick="tuxNavigate('main')" style="display:none;">
                                 ⬅️ Voltar
@@ -4897,6 +5248,10 @@
         }
 
         function startGame() {
+            if (!studentName || studentName.trim() === '') {
+                openNameEntryModal();
+                return;
+            }
             sound.init();
             tryStartMusic();
             score = 0;
@@ -6823,9 +7178,7 @@
             if (studentName) {
                 if (menuNameEl) menuNameEl.innerText = studentName;
             } else {
-                if (menuNameEl) menuNameEl.innerText = "Clique para Digitar Nome";
-                // Abre o teclado virtual gigante automaticamente para o aluno se identificar
-                setTimeout(() => openNameEntryModal(), 450);
+                if (menuNameEl) menuNameEl.innerText = "Toque para Digitar Nome";
             }
 
             const menuRoom = document.getElementById('menu-room-display');
