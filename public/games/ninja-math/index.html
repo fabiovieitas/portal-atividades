@@ -247,7 +247,7 @@
             z-index: 45;
         }
 
-        /* Super Frenesi Dourado: Brilho Neon Radiante e Borda Pulsante */
+        /* Super Frenesi Dourado: Ativado SOMENTE durante o Frenesi Real */
         #frenzy-glow-overlay {
             position: absolute;
             inset: 0;
@@ -255,10 +255,16 @@
             background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.22) 0%, rgba(239, 68, 68, 0.35) 100%);
             box-shadow: inset 0 0 100px 30px rgba(245, 158, 11, 0.85), inset 0 0 180px rgba(239, 68, 68, 0.6);
             border: 4px solid #fde047;
-            animation: frenzyScreenPulse 0.35s infinite alternate;
             opacity: 0;
+            display: none;
             transition: opacity 0.3s ease;
             z-index: 50;
+        }
+
+        #frenzy-glow-overlay.active {
+            display: block;
+            opacity: 1;
+            animation: frenzyScreenPulse 0.35s infinite alternate;
         }
 
         @keyframes frenzyScreenPulse {
@@ -284,18 +290,25 @@
             background: #fde047;
         }
 
-        /* Modo Fever Ninja (Combos x10+) */
+        /* Modo Fever Ninja (Combos x10+) - Ativado SOMENTE com .active */
         #fever-overlay {
             position: absolute;
             inset: 0;
             pointer-events: none;
             background: radial-gradient(ellipse at bottom, rgba(239, 68, 68, 0.45) 0%, rgba(245, 158, 11, 0.25) 50%, rgba(0,0,0,0) 80%);
             box-shadow: inset 0 -80px 120px rgba(239, 68, 68, 0.9), inset 0 0 80px rgba(245, 158, 11, 0.6);
-            animation: feverFlamePulse 0.4s infinite alternate;
             opacity: 0;
+            display: none;
             transition: opacity 0.3s ease;
             z-index: 52;
         }
+
+        #fever-overlay.active {
+            display: block;
+            opacity: 1;
+            animation: feverFlamePulse 0.4s infinite alternate;
+        }
+
         @keyframes feverFlamePulse {
             0% { opacity: 0.75; filter: brightness(1.2) contrast(1.2); }
             100% { opacity: 1; filter: brightness(1.55) contrast(1.4) drop-shadow(0 0 35px #ef4444); }
@@ -1915,6 +1928,64 @@
             font-size: 0.85rem;
         }
 
+        /* Botão Confirmar & Entrar - Super Animado Estilo Arcade AAA */
+        #btn-confirm-name, .btn-play-big {
+            background: linear-gradient(180deg, #4ade80 0%, #22c55e 45%, #15803d 100%);
+            border: 2.5px solid #bbf7d0;
+            border-radius: 50px;
+            padding: 14px 28px;
+            color: #ffffff;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            cursor: pointer;
+            box-shadow: 0 7px 0 #14532d, 0 14px 30px rgba(34, 197, 94, 0.65), inset 0 2px 2px rgba(255, 255, 255, 0.75);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+            animation: confirmButtonPulse 2.2s infinite ease-in-out;
+        }
+
+        #btn-confirm-name::before, .btn-play-big::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: skewX(-25deg);
+            animation: buttonShimmer 2.8s infinite;
+        }
+
+        #btn-confirm-name:hover, .btn-play-big:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 0 #14532d, 0 18px 40px rgba(34, 197, 94, 0.85), inset 0 2px 2px rgba(255, 255, 255, 0.9);
+            filter: brightness(1.1);
+        }
+
+        #btn-confirm-name:active, .btn-play-big:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #14532d, 0 6px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        @keyframes confirmButtonPulse {
+            0%, 100% {
+                box-shadow: 0 7px 0 #14532d, 0 14px 30px rgba(34, 197, 94, 0.65), 0 0 0 rgba(74, 222, 128, 0);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 7px 0 #14532d, 0 16px 35px rgba(34, 197, 94, 0.85), 0 0 25px rgba(74, 222, 128, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
         /* Leaderboard Modal Tabs & Table */
         .leaderboard-tabs {
             display: flex;
@@ -2464,8 +2535,8 @@
     <div id="game-container">
         <canvas id="canvas"></canvas>
         <div id="ice-overlay"></div>
-        <div id="frenzy-glow-overlay"></div>
-        <div id="fever-overlay"></div>
+        <div id="frenzy-glow-overlay" style="display:none;"></div>
+        <div id="fever-overlay" style="display:none;"></div>
         <div id="bullet-time-overlay" style="display:none;">
             <div class="bullet-time-banner">⏳ CÂMERA LENTA NINJA! ⏱️</div>
         </div>
@@ -2804,12 +2875,12 @@
                     </div>
                 </div>
 
-                <div style="display:flex; gap:10px; margin-top: 14px;">
+                <div style="display:flex; gap:12px; margin-top: 16px;">
                     <button type="button" class="btn-play-big" id="btn-confirm-name" onclick="vkConfirm()" style="flex:2;">
-                        CONFIRMAR & ENTRAR 🥋
+                        <span>⚔️ CONFIRMAR & ENTRAR</span> 🥋
                     </button>
-                    <button type="button" class="btn-top" onclick="closeNameEntryModal()" style="flex:1; justify-content:center; border-radius:50px; background:rgba(255,255,255,0.15);">
-                        CANCELAR
+                    <button type="button" class="btn-top" onclick="closeNameEntryModal()" style="flex:1; justify-content:center; border-radius:50px; background:rgba(255,255,255,0.12); border:1.5px solid rgba(255,255,255,0.25); font-weight:800; font-size:0.95rem; color:#e2e8f0; cursor:pointer;">
+                        ✕ CANCELAR
                     </button>
                 </div>
             </div>
@@ -3772,9 +3843,23 @@
         let frenzyTimer = 0;
         let waveTimer = 0;
         let waveCount = 0;
+        let lastBoosterWave = -10;
         let currentBeltIndex = 0;
         let blitzTimeRemaining = 60;
         let blitzInterval = null;
+
+        function setFrenzyGlow(active) {
+            const el = document.getElementById('frenzy-glow-overlay');
+            if (el) {
+                if (active) {
+                    el.classList.add('active');
+                    el.style.display = 'block';
+                } else {
+                    el.classList.remove('active');
+                    el.style.display = 'none';
+                }
+            }
+        }
 
         // Student Profile & Currency & Blades
         let studentName = localStorage.getItem('ninja_student_name') || '';
@@ -3874,7 +3959,10 @@
             isFeverMode = true;
             sound.playFever();
             const ov = document.getElementById('fever-overlay');
-            if (ov) ov.classList.add('active');
+            if (ov) {
+                ov.classList.add('active');
+                ov.style.display = 'block';
+            }
             triggerScreenShake(18, 500);
             spawnFloatingText(width / 2, height * 0.4, '🔥 MODO FEVER ATIVADO! (3× PONTOS) 🔥', '#ef4444', 36);
             setMascotMood('attack', 'FEVER MODE! 3X PONTOS!');
@@ -3884,7 +3972,10 @@
             if (!isFeverMode) return;
             isFeverMode = false;
             const ov = document.getElementById('fever-overlay');
-            if (ov) ov.classList.remove('active');
+            if (ov) {
+                ov.classList.remove('active');
+                ov.style.display = 'none';
+            }
         }
 
         function rollMatchMissions() {
@@ -5238,8 +5329,7 @@
             if (bgm) {
                 try { bgm.playbackRate = 1.0; } catch(e) {}
             }
-            const frenzyGlow = document.getElementById('frenzy-glow-overlay');
-            if (frenzyGlow) frenzyGlow.style.opacity = '0';
+            setFrenzyGlow(false);
 
             // Show start modal
             updateTuxMascot();
@@ -5261,6 +5351,7 @@
             combo = 0;
             maxCombo = 0;
             waveCount = 0;
+            lastBoosterWave = -10;
             currentBeltIndex = 0;
             questionsInCurrentArena = 0;
             missedQuestions = [];
@@ -5276,8 +5367,7 @@
             if (bgm) {
                 try { bgm.playbackRate = 1.0; } catch(e) {}
             }
-            const frenzyGlow = document.getElementById('frenzy-glow-overlay');
-            if (frenzyGlow) frenzyGlow.style.opacity = '0';
+            setFrenzyGlow(false);
 
             document.getElementById('start-modal').style.display = 'none';
             document.getElementById('gameover-modal').style.display = 'none';
@@ -5394,8 +5484,8 @@
             if (bgm) {
                 try { bgm.playbackRate = 1.0; } catch(e) {}
             }
-            const frenzyGlow = document.getElementById('frenzy-glow-overlay');
-            if (frenzyGlow) frenzyGlow.style.opacity = '0';
+            setFrenzyGlow(false);
+            deactivateFeverMode();
             document.getElementById('frenzy-banner').classList.remove('show');
 
             document.getElementById('hud').style.display = 'none';
@@ -5498,8 +5588,7 @@
                     if (bgm) {
                         try { bgm.playbackRate = 1.0; } catch(e) {}
                     }
-                    const frenzyGlow = document.getElementById('frenzy-glow-overlay');
-                    if (frenzyGlow) frenzyGlow.style.opacity = '0';
+                    setFrenzyGlow(false);
                     document.getElementById('frenzy-banner').classList.remove('show');
                     // Remove frutas de frenesi restantes e retoma as contas normais
                     activeFruits = activeFruits.filter(f => !f.isFrenzyBonus);
@@ -5557,35 +5646,43 @@
 
             const correctIndex = Math.floor(Math.random() * count);
 
-            // Power-Up: Fruta do Gelo ❄️ (11% chance)
-            if (!frenzyMode && Math.random() < 0.11 && !activeFruits.some(f => f.isPowerUp)) {
-                spawnPowerUpFruit('ice', width * 0.45);
+            // --- Sistema de Boosters & Power-Ups Raros ---
+            // Boosters agora são prêmios raros e especiais (não aparecem a todo momento)!
+            // Exige no mínimo 8 waves de intervalo entre boosters e chance equilibrada de 18%.
+            const BOOSTER_COOLDOWN_WAVES = 8;
+            const canSpawnBooster = !frenzyMode && 
+                                    (waveCount - lastBoosterWave >= BOOSTER_COOLDOWN_WAVES) &&
+                                    !activeFruits.some(f => f.isPowerUp || f.isSpecialMulti || f.isGolden || f.isSenseiScroll);
+
+            if (canSpawnBooster && Math.random() < 0.18) {
+                lastBoosterWave = waveCount;
+                const boosterRoll = Math.random();
+                if (boosterRoll < 0.28) {
+                    // ❄️ Fruta do Gelo (Câmera lenta refrescante)
+                    spawnPowerUpFruit('ice', width * 0.5);
+                    spawnFloatingText(width / 2, height * 0.35, '❄️ BOOSTER DE GELO! ❄️', '#38bdf8', 22);
+                } else if (boosterRoll < 0.55) {
+                    // ⚡ Fruta do Raio (Elimina distrações)
+                    spawnPowerUpFruit('lightning', width * 0.5);
+                    spawnFloatingText(width / 2, height * 0.35, '⚡ BOOSTER RELÂMPAGO! ⚡', '#fde047', 22);
+                } else if (boosterRoll < 0.75 && !hasShield) {
+                    // 📜 Pergaminho Dourado do Sensei (Escudo protetor)
+                    spawnSenseiScroll(width * 0.5);
+                    spawnFloatingText(width / 2, height * 0.35, '📜 PERGAMINHO NINJA! 📜', '#fbbf24', 22);
+                } else if (boosterRoll < 0.90) {
+                    // 🍉 Fruta Dourada de Frenesi (Rara e emocionante)
+                    spawnFruit(true, false, width * 0.5);
+                    spawnFloatingText(width / 2, height * 0.35, '⭐ FRUTA DOURADA! ⭐', '#f59e0b', 24);
+                } else {
+                    // 💥 Fruta da Fissão (Multiplica em 3)
+                    spawnSpecialMultiFruit(width * 0.5);
+                    spawnFloatingText(width / 2, height * 0.35, '💥 FRUTA DA FISSÃO! 💥', '#ec4899', 22);
+                }
             }
 
-            // Power-Up: Fruta do Raio ⚡ (11% chance)
-            if (!frenzyMode && Math.random() < 0.11 && !activeFruits.some(f => f.isPowerUp)) {
-                spawnPowerUpFruit('lightning', width * 0.55);
-            }
-
-            // Fruta da Fissão (multiplica em 3) (16% chance)
-            if (!frenzyMode && (waveCount % 6 === 0 || Math.random() < 0.16) && !activeFruits.some(f => f.isSpecialMulti || f.isPowerUp)) {
-                spawnSpecialMultiFruit(width * 0.5);
-            }
-
-            // Fruta Dourada de Frenesi (chance ampliada se o aluno estiver em sequência de combo!)
-            const goldenChance = (combo >= 4) ? 0.22 : 0.09;
-            if (!frenzyMode && Math.random() < goldenChance && !activeFruits.some(f => f.isGolden || f.isSpecialMulti || f.isPowerUp)) {
-                spawnFruit(true, false, width * 0.5);
-            }
-
-            // Bomba Ninja (apenas no modo clássico e em níveis além dos introdutórios)
-            if (gameMode === 'classic' && !frenzyMode && !isIntroductoryLevel() && Math.random() < 0.14 && !activeFruits.some(f => f.isBomb)) {
+            // Bomba Ninja (Obstáculo/Armadilha apenas no modo clássico a partir da onda 4)
+            if (gameMode === 'classic' && !frenzyMode && !isIntroductoryLevel() && waveCount >= 4 && Math.random() < 0.10 && !activeFruits.some(f => f.isBomb)) {
                 spawnBomb();
-            }
-
-            // Item 5: Pergaminho Dourado do Sensei (14% chance quando não tem escudo)
-            if (!frenzyMode && !hasShield && Math.random() < 0.14 && !activeFruits.some(f => f.isSenseiScroll)) {
-                spawnSenseiScroll(width * 0.5);
             }
 
             // Distratores protegidos contra loops infinitos e travamento do jogo
@@ -6175,8 +6272,7 @@
                 }
 
                 // 2. Tela super brilhante com neon dourado radiante
-                const frenzyGlow = document.getElementById('frenzy-glow-overlay');
-                if (frenzyGlow) frenzyGlow.style.opacity = '1';
+                setFrenzyGlow(true);
 
                 // 3. Momento de Slow-Motion épico no impacto!
                 activateBulletTime(1300);
