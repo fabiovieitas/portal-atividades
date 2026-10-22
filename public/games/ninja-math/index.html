@@ -3954,6 +3954,28 @@
             if (pill) pill.style.display = hasShield ? 'flex' : 'none';
         }
 
+        // --- Screen Shake Cinemático ---
+        let screenShakeMagnitude = 0;
+        let screenShakeDuration = 280;
+        let screenShakeEndTime = 0;
+
+        function triggerScreenShake(magnitude = 12, duration = 280) {
+            screenShakeMagnitude = Math.min(25, magnitude);
+            screenShakeDuration = duration;
+            screenShakeEndTime = Date.now() + duration;
+
+            const canvas = document.getElementById('game-canvas');
+            if (canvas) {
+                const mag = Math.min(8, magnitude * 0.35);
+                canvas.style.transform = `translate(${(Math.random() - 0.5) * 2 * mag}px, ${(Math.random() - 0.5) * 2 * mag}px)`;
+                setTimeout(() => {
+                    if (Date.now() >= screenShakeEndTime && canvas) {
+                        canvas.style.transform = 'none';
+                    }
+                }, duration);
+            }
+        }
+
         function activateFeverMode() {
             if (isFeverMode) return;
             isFeverMode = true;
@@ -5604,14 +5626,17 @@
             if (activeUncutFruits.length === 0 && now > waveTimer) {
                 activeFruits = activeFruits.filter(f => f.isHalf);
                 spawnerWatchdogTime = 0;
+                waveTimer = now + 900;
+                nextTarget();
                 spawnWave();
             } else if (activeUncutFruits.length === 0) {
-                // Watchdog de Segurança: se não há nenhuma fruta ativa por mais de 2 segundos, destrava e gera nova onda
+                // Watchdog de Segurança: se não há nenhuma fruta ativa por mais de 1.8 segundos, destrava e gera nova onda
                 if (!spawnerWatchdogTime) {
                     spawnerWatchdogTime = now;
-                } else if (now - spawnerWatchdogTime > 2000) {
+                } else if (now - spawnerWatchdogTime > 1800) {
                     spawnerWatchdogTime = 0;
                     activeFruits = activeFruits.filter(f => f.isHalf);
+                    waveTimer = now + 900;
                     nextTarget();
                     spawnWave();
                 }
@@ -5824,6 +5849,7 @@
                 template: template,
                 value: val,
                 isGolden: isGolden,
+                isCorrect: isCorrect,
                 isSpecialMulti: false,
                 isPowerUp: null,
                 isFrenzyBonus: false,
@@ -6587,6 +6613,15 @@
         function gameLoop() {
             ctx.clearRect(0, 0, width, height);
 
+            ctx.save();
+            if (Date.now() < screenShakeEndTime) {
+                const decay = Math.max(0, (screenShakeEndTime - Date.now()) / (screenShakeDuration || 280));
+                const mag = screenShakeMagnitude * decay;
+                const offsetX = (Math.random() - 0.5) * 2 * mag;
+                const offsetY = (Math.random() - 0.5) * 2 * mag;
+                ctx.translate(offsetX, offsetY);
+            }
+
             // 1. Draw Dynamic Arena Background
             const curBg = arenaImages[currentArenaIndex];
             if (curBg && curBg.complete && curBg.naturalWidth > 0) {
@@ -6644,6 +6679,8 @@
                 combo = 0;
                 document.getElementById('combo-pill').style.display = 'none';
             }
+
+            ctx.restore();
 
             requestAnimationFrame(gameLoop);
         }
@@ -6988,7 +7025,7 @@
                 f.angle += f.vAngle * timeScale;
 
                 if ((f.y > height + 90 && f.vy > 0) || f.x < -180 || f.x > width + 180) {
-                    if (!f.sliced && !f.isHalf && !f.isFrenzyBonus && !f.isPowerUp && !f.isSpecialMulti && !f.isBomb && !f.isSenseiScroll && String(f.value) === String(currentTarget?.answer) && gameState === 'PLAYING') {
+                    if (!f.sliced && !f.isHalf && !f.isFrenzyBonus && !f.isPowerUp && !f.isSpecialMulti && !f.isBomb && !f.isSenseiScroll && (f.isCorrect || String(f.value) === String(currentTarget?.answer)) && gameState === 'PLAYING') {
                         combo = 0;
                         deactivateFeverMode();
                         document.getElementById('combo-pill').style.display = 'none';
