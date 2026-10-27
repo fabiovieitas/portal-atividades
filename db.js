@@ -1667,12 +1667,11 @@ async function initTables() {
 
       for (const act of fullActivities) {
         try {
-          const searchTitle = act.title.replace('⭐ ', '').replace('🕵️ ', '').replace('⚔️ ', '').split('[')[0].trim();
-          const existing = await queryGet("SELECT id FROM activities WHERE title LIKE ? LIMIT 1", [`%${searchTitle}%`]);
+          const existing = await queryGet("SELECT id FROM activities WHERE activity_url = ? LIMIT 1", [act.activity_url]);
           if (existing) {
             await queryRun(
-              "UPDATE activities SET title = ?, description = ?, activity_url = ?, icon_url = ?, level = ?, category = ?, bncc_code = ?, subject = ? WHERE id = ?",
-              [act.title, act.description, act.activity_url, act.icon_url, act.level, act.category, act.bncc_code, act.subject, existing.id]
+              "UPDATE activities SET title = ?, description = ?, icon_url = ?, level = ?, category = ?, bncc_code = ?, subject = ? WHERE id = ?",
+              [act.title, act.description, act.icon_url, act.level, act.category, act.bncc_code, act.subject, existing.id]
             );
           } else {
             await queryRun(
@@ -1683,225 +1682,15 @@ async function initTables() {
         } catch(e) {}
       }
 
-      // Limpeza de duplicatas conhecidas
+      // Limpeza de duplicatas conhecidas e garantia de integridade
       try {
         await queryRun("DELETE FROM activities WHERE activity_url = '/games/leitura-datashow/index.html'");
         await queryRun("DELETE FROM activities WHERE id = 44 AND title LIKE '%Tux Math%'");
         await queryRun("DELETE FROM activities WHERE id = 45 AND title LIKE '%Ariê Colorir%'");
+        await queryRun("DELETE FROM activities WHERE id IN (57, 58, 59, 60, 61, 63, 64, 65, 66, 67, 68, 69, 70)");
+        // Proteção permanente contra artigos rasos (< 1500 caracteres) que violam as políticas do Google AdSense
+        await queryRun("DELETE FROM news WHERE length(content) < 1500");
       } catch(e) {}
-
-      // Ensure all 15 blog articles exist and have valid activity_url
-      const fullArticles = [
-        {
-          title: "⭐ Leitura Divertida no Datashow: Como Usar o Jogo Autoral de Alfabetização",
-          summary: "Conheça a ferramenta autoral exclusiva do Lab Kids desenvolvida para projeção em datashow na sala de aula, estimulando a leitura e a hipótese silábica.",
-          category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/leitura-datashow",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3429/3429433.png",
-          content: `<h2>⭐ Apresentação do Jogo Autoral Lab Kids</h2><p>O <strong>Leitura Divertida no Datashow</strong> é um recurso digital <strong>autoral e exclusivo</strong> desenvolvido para projeção coletiva de palavras, sílabas e frases.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP01</strong></li><li><strong>EF01LP08</strong></li><li><strong>EF02LP04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Utilização do recurso digital autoral Leitura Divertida no Datashow para projeção coletiva de cards de alfabetização e fluência leitora (BNCC: EF01LP01, EF01LP08, EF02LP04)."</em></div>`
-        },
-        {
-          title: "Brincando com Ariê 1: Alfabetização e Números na Educação Infantil",
-          summary: "Descubra como o jogo Brincando com Ariê 1 desenvolve a consciência fonológica, contagem inicial e formas geométricas de maneira lúdica.",
-          category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/brincando-com-arie-1",
-          image_url: "/img/covers/brincando-com-arie-1.jpg",
-          content: `<h2>🦁 Importância do Brincando com Ariê 1</h2><p>O jogo <strong>Brincando com Ariê 1</strong> desenvolve o reconhecimento de vogais, alfabeto e números iniciais.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EI02ET06</strong></li><li><strong>EF01LP10</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Uso do jogo digital Brincando com Ariê 1 para reconhecimento do alfabeto e contagem numérica inicial (BNCC: EI02ET06, EF01LP10)."</em></div>`
-        },
-        {
-          title: "Brincando com Ariê 2: Formação de Sílabas e Memória",
-          summary: "Saiba como utilizar o segundo volume da série Ariê para consolidar a separação silábica, vocabulário e memória auditiva na alfabetização.",
-          category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/brincando-com-arie-2",
-          image_url: "/img/covers/brincando-com-arie-2.jpg",
-          content: `<h2>🧩 Consolidação Silábica com o Ariê 2</h2><p>Trabalha a junção de sílabas simples e memória visual.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP10</strong></li><li><strong>EF01MA01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Prática pedagógica interativa focada na segmentação silábica no Brincando com Ariê 2 (BNCC: EF01LP10, EF01MA01)."</em></div>`
-        },
-        {
-          title: "Brincando com Ariê 3: Leitura Avançada e Raciocínio Lógico",
-          summary: "Guia pedagógico para trabalhar leitura de palavras complexas, pequenas frases e desafios de adição com a turma do Ariê 3.",
-          category: "Alfabetização Avançada", author: "Prof. Fábio Vieitas", activity_url: "/atividades/brincando-com-arie-3",
-          image_url: "/img/covers/brincando-com-arie-3.jpg",
-          content: `<h2>🚀 Avançando na Leitura com o Ariê 3</h2><p>Leitura de frases e operações de adição.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP12</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Aplicação do jogo digital Brincando com Ariê 3 para leitura de frases e fatos básicos da adição (BNCC: EF01LP12, EF02MA05)."</em></div>`
-        },
-        {
-          title: "Chapeuzinho e o Enigma: Ortografia e Raciocínio no Conto de Fadas",
-          summary: "Veja como trabalhar a história da Chapeuzinho Vermelho articulando quebra-cabeças ortográficos e raciocínio visual.",
-          category: "Alfabetização & Literatura", author: "Prof. Fábio Vieitas", activity_url: "/atividades/chapeuzinho-enigma",
-          image_url: "/img/covers/chapeuzinho-enigma.jpg",
-          content: `<h2>🌲 Raciocínio e Literatura Infantil</h2><p>Desafios lúdicos articulados com literatura infantil.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP02</strong></li><li><strong>EF15AR04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Desafios digitais de ortografia e raciocínio no jogo Chapeuzinho e o Enigma (BNCC: EF01LP02, EF15AR04)."</em></div>`
-        },
-        {
-          title: "Capitão Alberto e o Faraó: Viagem Histórica ao Egito Antigo",
-          summary: "Descubra como abordar a civilização egípcia, hieróglifos e mapas históricos com turmas do Ensino Fundamental.",
-          category: "História & Geografia", author: "Prof. Fábio Vieitas", activity_url: "/atividades/capitao-alberto-farao",
-          image_url: "/img/covers/capitao-alberto-farao.jpg",
-          content: `<h2>🏛️ Explorando o Egito Antigo</h2><p>Estudo gamificado sobre hieróglifos e monumentos históricos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02HI02</strong></li><li><strong>EF03HI01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Estudo gamificado sobre o Egito Antigo no Capitão Alberto e o Faraó (BNCC: EF02HI02, EF03HI01)."</em></div>`
-        },
-        {
-          title: "Ariê Colorir: Artes Visuais, Paleta de Cores e Coordenação Visomotora",
-          summary: "Explore a sensibilidade estética e a coordenação motora fina no ambiente digital através da pintura no Ariê Colorir.",
-          category: "Artes Visuais", author: "Prof. Fábio Vieitas", activity_url: "/atividades/arie-colorir",
-          image_url: "/img/covers/arie-colorir.jpg",
-          content: `<h2>🎨 Expressão Artística Digital</h2><p>Pintura e exploração visomotora digital.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF15AR04</strong></li><li><strong>EI02CG05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Expressão artística digital e exploração de cores no Ariê Colorir (BNCC: EF15AR04, EI02CG05)."</em></div>`
-        },
-        {
-          title: "Tabuada - O Chão é Lava!: Cálculo Mental Rápido e Multiplicação",
-          summary: "Como transformar a prática da tabuada de multiplicação em um jogo de agilidade e ação sem memorização mecânica.",
-          category: "Matemática Divertida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/tabuada-chao-e-lava",
-          image_url: "/img/covers/tabuada-chao-e-lava.jpg",
-          content: `<h2>🔥 Agilidade com a Tabuada</h2><p>Treino interativo de fatos básicos da multiplicação.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF03MA03</strong></li><li><strong>EF04MA04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Treino de cálculo mental nos fatos básicos da multiplicação no jogo Tabuada O Chão é Lava (BNCC: EF03MA03, EF04MA04)."</em></div>`
-        },
-        {
-          title: "Caça-Palavras Temático: Varredura Visual e Ortografia Divertida",
-          summary: "Saiba como o caça-palavras por categorias aprimora o reconhecimento ortográfico e a atenção seletiva das crianças.",
-          category: "Vocabulário & Ortografia", author: "Prof. Fábio Vieitas", activity_url: "/atividades/caca-palavras-temas",
-          image_url: "/img/covers/caca-palavras-temas.jpg",
-          content: `<h2>🔍 Atenção e Ortografia</h2><p>Varredura visual e vocabulário ortográfico.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP02</strong></li><li><strong>EF02LP04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Varredura visual e fixação de vocabulário ortográfico no Caça-Palavras Temático (BNCC: EF01LP02, EF02LP04)."</em></div>`
-        },
-        {
-          title: "Tux Math: Cálculo Mental Divertido e Guia BNCC para Sala de Aula",
-          summary: "Descubra como o jogo digital Tux Math estimula o cálculo mental rápido, reduz a ansiedade matemática e confira o texto pronto para o diário.",
-          category: "Práticas Pedagógicas", author: "Prof. Fábio Vieitas", activity_url: "/atividades/tux-math",
-          image_url: "https://tuxmath.org/images/favicon.png",
-          content: `<h2>🎮 O que é o Tux Math?</h2><p>Jogo arcade para defesa da cidade com equações matemáticas.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA06</strong></li><li><strong>EF02MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Desenvolvimento de cálculo mental rápido no Tux Math (BNCC: EF01MA06, EF02MA05)."</em></div>`
-        },
-        {
-          title: "Pou Online na Escola: Hábitos de Saúde, Nutrição e Gestão do Tempo",
-          summary: "Como utilizar a empatia com o mascote virtual para ensinar higiene, rotina e cuidados com a saúde física e mental.",
-          category: "Ciências & Hábitos", author: "Prof. Fábio Vieitas", activity_url: "/atividades/pou-online",
-          image_url: "/games/pou-online/assets/icon.jpeg",
-          content: `<h2>🛁 Autocuidado e Rotina com o Pou</h2><p>Hábitos de higiene e responsabilidade pessoal.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EI03CG04</strong></li><li><strong>EF01CI01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Hábitos de higiene e nutrição saudável no jogo Pou Online (BNCC: EI03CG04, EF01CI01)."</em></div>`
-        },
-        {
-          title: "Gartic.io na Sala de Aula: Expressão Artística e Vocabulário Coletivo",
-          summary: "Veja como a dinâmica de desenho e adivinhação em tempo real estimula a hipótese de escrita e cooperação em grupo.",
-          category: "Artes & Vocabulário", author: "Prof. Fábio Vieitas", activity_url: "/atividades/gartic",
-          image_url: "https://gartic.io/static/images/avatar/1.png",
-          content: `<h2>🎨 Desenho e Adivinhação Coletiva</h2><p>Expressão artística e vocabulário colaborativo.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF15AR04</strong></li><li><strong>EF01LP01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Artes e vocabulário colaborativo no Gartic.io (BNCC: EF15AR04, EF01LP01)."</em></div>`
-        },
-        {
-          title: "Akinator no Ensino de Lógica: Dedução e Pensamento Computacional",
-          summary: "Como o jogo das 20 perguntas desenvolve raciocínio categórico, ordenação de atributos e estruturas lógicas de decisão.",
-          category: "Lógica & Pensamento Computacional", author: "Prof. Fábio Vieitas", activity_url: "/atividades/akinator",
-          image_url: "https://pt.akinator.com/assets/img/akinator.png",
-          content: `<h2>🧞‍♂️ Lógica e Árvores de Decisão</h2><p>Classificação por atributos e dedução lógica.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01MA09</strong></li><li><strong>EF35LP05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Pensamento computacional e dedução lógica com o Akinator (BNCC: EF01MA09, EF35LP05)."</em></div>`
-        },
-        {
-          title: "Laboratório de Circuitos Tinkercad: Simulação Virtual de Eletrônica",
-          summary: "Como utilizar simulações virtuais seguras para ensinar componentes elétricos, leds e corrente no Ensino Fundamental II.",
-          category: "Ciências & Robótica", author: "Prof. Fábio Vieitas", activity_url: "https://www.tinkercad.com/circuits",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2853/2853173.png",
-          content: `<h2>⚡ Simulação Elétrica Segura</h2><p>Simulação virtual de componentes elétricos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF08CI02</strong></li><li><strong>EF08CI05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Simulação virtual de circuitos elétricos no Tinkercad (BNCC: EF08CI02, EF08CI05)."</em></div>`
-        },
-        {
-          title: "LEVEL UP: O Jogo da Vida não tem Botão de Reset — Prevenção ao Bullying & Lei 14.811/2024",
-          summary: "Guia pedagógico de simulação RPG para turmas do 6º ao 9º Ano sobre conscientização contra cyberbullying, saúde mental e responsabilidade jurídica.",
-          category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/level-up",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-          content: `<h2>🛡️ Prevenção ao Bullying & Cyberbullying na Estética RPG</h2>
-<p>O jogo autoral LEVEL UP simula situações reais do cotidiano escolar e digital em formato RPG. Através de dilemas éticos, os alunos experimentam o impacto das suas escolhas na saúde mental dos colegas e conhecem os limites legais da intimidação sistemática sob a Lei 14.811/2024.</p>
-
-<h2>📘 Habilidades BNCC</h2>
-<ul>
-  <li><strong>EF69LP55</strong> - Análise crítica dos impactos de publicações na cultura digital e redes sociais.</li>
-  <li><strong>EF07LP14</strong> - Práticas éticas de linguagem e convivência cidadã no ambiente escolar e virtual.</li>
-  <li><strong>EF08LP14</strong> - Construção de posicionamento empático e combate aos discursos de ódio e intimidação.</li>
-</ul>
-
-<h2>📝 Registro para o Diário de Classe</h2>
-<div style="background: #f1f5f9; padding: 20px; border-radius: 16px; border-left: 4px solid #8b5cf6;">
-<em>"Realização da atividade temática e simulação em formato RPG 'LEVEL UP: O Jogo da Vida não tem Botão de Reset', promovendo a conscientização sobre prevenção ao bullying, cyberbullying, saúde mental e a Lei 14.811/2024 (BNCC: EF69LP55, EF07LP14, EF08LP14)."</em>
-</div>`
-        },
-        {
-          title: "Hábitos de Higiene e Saúde: Prevenção e Autocuidado na Escola",
-          summary: "Como trabalhar cuidados pessoais, banho, lavagem de mãos e escovação de dentes de forma lúdica nos anos iniciais.",
-          category: "Ciências & Saúde", author: "Prof. Fábio Vieitas", activity_url: "/atividades/habitos-de-higiene",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
-          content: `<h2>🧼 Saúde e Autocuidado Infantil</h2><p>Reforço diário de hábitos saudáveis e prevenção de enfermidades.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01CI01</strong></li><li><strong>EF02CI04</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Exploração de práticas de higiene corporal, escovação e cuidados com a saúde (BNCC: EF01CI01, EF02CI04)."</em></div>`
-        },
-        {
-          title: "Labirinto da Tabuada: Missão dos Campeões no Ensino Fundamental",
-          summary: "Como utilizar o arcade Labirinto da Tabuada para desenvolver agilidade no cálculo mental da multiplicação sem ansiedade.",
-          category: "Matemática Divertida", author: "Prof. Fábio Vieitas", activity_url: "/atividades/labirinto-tabuada",
-          image_url: "/img/covers/tabuada-chao-e-lava.jpg",
-          content: `<h2>⚽ Arcade Matemático: Fatos Fundamentais</h2><p>Agilidade e cálculo mental com desafios lúdicos de tabuada.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02MA07</strong></li><li><strong>EF03MA07</strong></li><li><strong>EF04MA05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Treino de cálculo mental e agilidade nos fatos da multiplicação com o jogo Labirinto da Tabuada (BNCC: EF02MA07, EF03MA07)."</em></div>`
-        },
-        {
-          title: "🕵️ Carta Enigmática & Escape Room: Decifrando Enigmas Rebus e Leitura Inferencial",
-          summary: "Resgate das clássicas cartas enigmáticas somando e subtraindo letras em uma narrativa imersiva de escape room.",
-          category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/carta-enigmatica",
-          image_url: "/img/covers/carta-enigmatica.jpg",
-          content: `<h2>🕵️ Enigmas Rebus e Consciência Fonológica</h2><p>Síntese morfológica, hipóteses de escrita e dedução de pistas em salas secretas.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF03LP02</strong></li><li><strong>EF04LP01</strong></li><li><strong>EF35LP05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Aplicação do jogo educativo autoral Carta Enigmática & Escape Room para leitura inferencial e resolução de problemas (BNCC: EF03LP02, EF35LP05)."</em></div>`
-        },
-        {
-          title: "Fábrica de Sílabas & Palavras: Consciência Fonológica e Síntese Silábica",
-          summary: "Guia completo para trabalhar montagem de palavras, famílias silábicas e hipóteses de escrita com a Fábrica de Sílabas.",
-          category: "Alfabetização", author: "Prof. Fábio Vieitas", activity_url: "/atividades/fabrica-de-silabas",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3898/3898082.png",
-          content: `<h2>🏭 Consciência Silábica Concreta</h2><p>Manipulação de blocos silábicos e transição para a hipótese alfabética.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF01LP08</strong></li><li><strong>EF01LP10</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Síntese silábica e consciência fonológica na Fábrica de Sílabas (BNCC: EF01LP08, EF01LP10)."</em></div>`
-        },
-        {
-          title: "Detetive da Ortografia: Investigando Regularidades e Irregularidades da Escrita",
-          summary: "Coloque os alunos no papel de peritos da escrita, caçando pistas e corrigindo desvios ortográficos comuns.",
-          category: "Língua Portuguesa", author: "Prof. Fábio Vieitas", activity_url: "/atividades/detetive-ortografia",
-          image_url: "https://cdn-icons-png.flaticon.com/512/3662/3662817.png",
-          content: `<h2>🔎 Perícia da Escrita</h2><p>Identificação e autocorreção de regularidades e irregularidades da escrita.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF02LP01</strong></li><li><strong>EF03LP01</strong></li><li><strong>EF04LP01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Oficina de ortografia contextual e correção de pistas no Detetive da Ortografia (BNCC: EF02LP01, EF03LP01)."</em></div>`
-        },
-        {
-          title: "O Enigma do Laboratório: Escape Room Educativo e Raciocínio Multidisciplinar",
-          summary: "Salas de fuga virtuais integrando acentuação gráfica, frações, leitura e cooperação em equipe.",
-          category: "Jogo Autoral Lab Kids", author: "Prof. Fábio Vieitas", activity_url: "/atividades/escape-room-lab",
-          image_url: "/img/covers/carta-enigmatica.jpg",
-          content: `<h2>🚪 Escape Room Multidisciplinar</h2><p>Acentuação, frações e leitura inferencial para destravar os terminais científicos.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF04LP04</strong></li><li><strong>EF05MA08</strong></li><li><strong>EF35LP05</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Atividade de investigação imersiva com o Escape Room do Laboratório (BNCC: EF04LP04, EF05MA08)."</em></div>`
-        },
-        {
-          title: "Code.org & Minecraft na Educação: Introdução ao Pensamento Computacional",
-          summary: "A Jornada do Herói do Minecraft para ensinar lógica de blocos, loops, condições e algoritmos na escola.",
-          category: "Cultura Digital & Programação", author: "Prof. Fábio Vieitas", activity_url: "/atividade/1",
-          image_url: "https://cdn-icons-png.flaticon.com/512/616/616430.png",
-          content: `<h2>⛏️ Pensamento Computacional na Prática</h2><p>Decomposição, padrões, abstração e algoritmos com o Minecraft na Code.org.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>Competência Geral 5</strong></li><li><strong>EF01MA09</strong></li><li><strong>EF05MA15</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Introdução ao pensamento computacional e programação em blocos com Minecraft Code.org (BNCC: Comp. Geral 5, EF05MA15)."</em></div>`
-        },
-        {
-          title: "Programação Criativa e Robôs com Scratch: Da Imaginação ao Algoritmo",
-          summary: "Criação de animações e jogos com a linguagem de blocos do MIT, estimulando autoria e criatividade estudantil.",
-          category: "Cultura Digital & Programação", author: "Prof. Fábio Vieitas", activity_url: "/atividade/2",
-          image_url: "https://scratch.mit.edu/favicon.ico",
-          content: `<h2>🐱 Autoria Digital com Scratch</h2><p>Expressão criativa, programação em blocos e animação de personagens.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>Competência Geral 4</strong></li><li><strong>Competência Geral 5</strong></li><li><strong>EF15AR26</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Criação e animação de projetos com linguagem de blocos no Scratch (BNCC: Comp. Geral 4 e 5, EF15AR26)."</em></div>`
-        },
-        {
-          title: "Simulados Diagnósticos Digitais no Portal Lab Kids: Avaliação Formativa Pró-SAEB",
-          summary: "Metodologia das avaliações diagnósticas digitais com relatórios pedagógicos em tempo real para os professores.",
-          category: "Avaliação & Gestão Pedagógica", author: "Prof. Fábio Vieitas", activity_url: "/atividades/simulado-campos-4ano-setembro",
-          image_url: "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-          content: `<h2>📊 Diagnóstico Formativo Instantâneo</h2><p>Avaliações diagnósticas alinhadas às matrizes SAEB e BNCC com relatórios por turma e escola.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF15LP01</strong></li><li><strong>EF15LP03</strong></li><li><strong>EF35LP01</strong></li><li><strong>EF04MA01</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Aplicação do Simulado Diagnóstico Digital Oficial com foco nas matrizes de Língua Portuguesa e Matemática Pró-SAEB (BNCC: EF15LP03, EF35LP01)."</em></div>`
-        },
-        {
-          title: "🥁 Segue o Ritmo!: Percussão Corporal, Ritmo e Psicomotricidade na Escola",
-          summary: "Descubra como o desafio rítmico no Datashow atua como pausa ativa estimulante, desenvolvendo musicalidade, foco e psicomotricidade nas turmas do Ensino Fundamental.",
-          category: "Música & Movimento", author: "Prof. Fábio Vieitas", activity_url: "/atividades/segue-o-ritmo",
-          image_url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=1200",
-          content: `<h2>🥁 A Potência Pedagógica da Percussão Corporal na Escola</h2><p>O corpo humano é o primeiro e mais intuitivo instrumento musical. Desenvolve psicomotricidade, foco atencional e expressão lúdica coletiva.</p><h2>📘 Habilidades BNCC</h2><ul><li><strong>EF15AR14</strong></li><li><strong>EF15AR15</strong></li><li><strong>EF15EF01</strong></li><li><strong>EF15EF02</strong></li></ul><h2>📝 Registro para o Diário de Classe</h2><div style="background: #f1f5f9; padding: 20px; border-radius: 16px;"><em>"Prática interdisciplinar de percussão corporal com o recurso digital Segue o Ritmo! no Datashow (BNCC: EF15AR14, EF15AR15, EF15EF01, EF15EF02)."</em></div>`
-        }
-      ];
-
-      for (const art of fullArticles) {
-        try {
-          const searchTitle = art.title.replace('⭐ ', '').split(':')[0].trim();
-          const existing = await queryGet("SELECT id, content FROM news WHERE title LIKE ? LIMIT 1", [`%${searchTitle}%`]);
-          if (existing) {
-            // Se já tem conteúdo enriquecido e longo (> 600 chars), não regride para texto curto
-            if (!existing.content || existing.content.length < 600) {
-              await queryRun(
-                "UPDATE news SET title = ?, summary = ?, content = ?, image_url = ?, category = ?, author = ?, activity_url = ?, created_at = CURRENT_TIMESTAMP, published_at = CURRENT_TIMESTAMP WHERE id = ?",
-                [art.title, art.summary, art.content, art.image_url, art.category, art.author, art.activity_url, existing.id]
-              );
-            }
-          } else {
-            await queryRun(
-              "INSERT INTO news (title, summary, content, image_url, category, author, activity_url, created_at, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
-              [art.title, art.summary, art.content, art.image_url, art.category, art.author, art.activity_url]
-            );
-          }
-        } catch(e) {}
-      }
 
       // Cleanup retired activities and enforce authentic cover images across all tables
       try {
