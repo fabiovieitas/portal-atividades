@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta Enigmática & Escape Room: Agência de Investigadores | Lab Kids</title>
+    <link rel="canonical" href="https://labkids.online/atividades/carta-enigmatica">
     <meta name="description" content="Jogo educativo e interativo de Carta Enigmática e Escape Room em estilo vintage para 3º, 4º e 5º anos do Ensino Fundamental. Decifre enigmas rebus, destranque salas secretas e abra o cofre mestre. Alinhado à BNCC.">
     <link rel="stylesheet" href="/css/style.css?v=7">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&family=Cinzel:wght@600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
+    <meta name="google-adsense-account" content="<%= adsensePubId %>">
+
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <style>
@@ -162,6 +165,21 @@
         .institutional-footer a { color: #f59e0b; text-decoration: none; margin: 0 8px; }
         .institutional-footer a:hover { text-decoration: underline; }
     </style>
+
+    <!-- Schema.org JSON-LD para Google Search & AdSense -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication", "LearningResource"],
+      "name": "Carta Enigmática & Escape Room: Agência de Investigadores",
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "url": "https://labkids.online/atividades/carta-enigmatica",
+      "description": "Jogo educativo e interativo de Carta Enigmática e Escape Room em estilo vintage para 3º, 4º e 5º anos do Ensino Fundamental. Decifre enigmas rebus, destranque salas secretas e abra o cofre mestre. Alinhado à BNCC.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+      "publisher": { "@type": "EducationalOrganization", "name": "Portal Lab Kids", "url": "https://labkids.online" }
+    }
+    </script>
 </head>
 <body>
     <%- include('partials/portal_header') %>

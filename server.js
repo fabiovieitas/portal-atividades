@@ -840,9 +840,7 @@ app.get('/sitemap.xml', async (req, res) => {
       { path: '/termos', priority: '0.7', changefreq: 'monthly' },
       { path: '/privacidade', priority: '0.7', changefreq: 'monthly' },
       { path: '/cookies', priority: '0.7', changefreq: 'monthly' },
-      { path: '/contato', priority: '0.7', changefreq: 'monthly' },
-      { path: '/aluno', priority: '0.8', changefreq: 'weekly' },
-      { path: '/professor/login', priority: '0.8', changefreq: 'weekly' }
+      { path: '/contato', priority: '0.7', changefreq: 'monthly' }
     ];
 
     mainPages.forEach(p => {

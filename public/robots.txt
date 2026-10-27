@@ -36,6 +36,19 @@ User-agent: Google-adstxt
 Allow: /ads.txt
 
 User-agent: AdsBot-Google
+Allow: /
 Allow: /ads.txt
+Disallow: /admin/
+Disallow: /pesquisa/
+Disallow: /api/
+Disallow: /games/
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+Allow: /ads.txt
+Disallow: /admin/
+Disallow: /pesquisa/
+Disallow: /api/
+Disallow: /games/
 
 Sitemap: https://labkids.online/sitemap.xml
