@@ -2732,47 +2732,14 @@ app.post('/api/teacher/classes/:id/students/batch-add', requireTeacher, async (r
   }
 });
 
-// Scanner Mobile de Lista de Chamada via QR Code
+// Scanner Mobile de Lista de Chamada via QR Code (DESABILITADO TEMPORARIAMENTE)
 app.get('/professor/scanner', async (req, res) => {
-  try {
-    const { turmaId, code } = req.query;
-    if (!turmaId) {
-      return res.status(400).send('Turma não especificada. Por favor, escaneie o QR Code novamente pelo painel do professor.');
-    }
-    const classInfo = await dbHelper.queryGet("SELECT * FROM teacher_classes WHERE id = ?", [turmaId]);
-    if (!classInfo) {
-      return res.status(404).send('Turma não encontrada.');
-    }
-    res.render('mobile_roster_scanner', { classInfo });
-  } catch(e) {
-    res.status(500).send('Erro ao abrir scanner: ' + e.message);
-  }
+  res.status(503).send('<html><body style="font-family:sans-serif; text-align:center; padding:40px; background:#f8fafc; color:#334155;"><h2>⚙️ Recurso em Manutenção</h2><p>O leitor OCR mobile via foto está temporariamente desativado.<br>Por favor, adicione os nomes diretamente pelo Painel do Professor utilizando a opção <b>"Colar Alunos"</b> ou <b>"Carregar Arquivo do PC"</b>.</p><a href="/professor/dashboard" style="color:#0284c7; font-weight:bold;">Voltar ao Painel do Professor</a></body></html>');
 });
 
-// Importação de Alunos via Scanner Mobile (QR Code)
+// Importação de Alunos via Scanner Mobile (QR Code - DESABILITADO)
 app.post('/api/teacher/classes/:id/scanner-import', async (req, res) => {
-  try {
-    const classId = req.params.id;
-    const { student_names, generate_pins, access_code } = req.body;
-    const tc = await dbHelper.queryGet("SELECT * FROM teacher_classes WHERE id = ?", [classId]);
-    if (!tc) {
-      return res.status(404).json({ success: false, error: 'Turma não encontrada.' });
-    }
-    // Validação de segurança: precisa ter o código da turma (do QR Code) ou sessão de professor/admin
-    const isCodeValid = access_code && tc.access_code && (String(access_code).trim() === String(tc.access_code).trim());
-    const isTeacherAuth = Boolean(req.cookies && req.cookies.teacher_session);
-    if (!isCodeValid && !isTeacherAuth && !(await isAdmin(req))) {
-      return res.status(403).json({ success: false, error: 'Acesso não autorizado ao scanner desta turma.' });
-    }
-
-    const className = tc.class_name;
-    const schoolName = tc.school_name || '';
-    const added = await dbHelper.addStudentsBatch(classId, schoolName, className, student_names, generate_pins);
-    res.json({ success: true, count: added.length, students: added });
-  } catch(err) {
-    console.error('[Scanner Import Error]:', err);
-    res.status(500).json({ success: false, error: err.message });
-  }
+  res.status(503).json({ success: false, error: 'O scanner mobile via foto está temporariamente desativado.' });
 });
 
 // Listar Alunos de uma Turma para o Professor

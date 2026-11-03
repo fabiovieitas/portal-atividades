@@ -1,33 +1,25 @@
 const ejs = require('ejs');
-const path = require('path');
-const dbHelper = require('../db');
+const fs = require('fs');
 
-async function testEjs() {
-  try {
-    console.log('Testing EJS compilation of views/index.ejs...');
-    const activities = await dbHelper.getActivities({});
-    const comments = await dbHelper.getApprovedComments(15);
-    const { categories, subjects } = await dbHelper.getCategoriesAndSubjects();
-    const projects = await dbHelper.getProjects(12);
+const tpl = fs.readFileSync('views/teacher_dashboard.ejs', 'utf8');
+const html = ejs.render(tpl, {
+  teacher: { id: 1, name: 'Fabio Marques', email: 'fabio@test.com', level: { title: 'Mestre', color: '#2563eb' } },
+  classes: [{ id: 1, class_name: '3º Ano A', school_name: 'E. M. Teste', student_count: 0, access_code: 'LKTEST', active_simulados: [] }],
+  teacherSchools: ['E. M. Teste'],
+  collections: [],
+  exams: [],
+  examSubmissions: [],
+  planning: [],
+  activities: [],
+  topActivities: [],
+  studentsActivity: [],
+  simuladoSubmissions: [],
+  favorites: [],
+  globalExams: [],
+  query: {}
+});
 
-    const html = await ejs.renderFile(path.join(__dirname, '../views/index.ejs'), {
-      activities,
-      selectedLevel: undefined,
-      comments: comments || [],
-      categories,
-      subjects,
-      search: undefined,
-      selectedCategory: undefined,
-      selectedSubject: undefined,
-      bncc: undefined,
-      projects: projects || [],
-      teacher: null
-    });
-
-    console.log('✅ SUCCESS! HTML rendered length:', html.length);
-  } catch (err) {
-    console.error('❌ EJS COMPILATION ERROR:', err.stack || err);
-  }
-}
-
-testEjs().catch(console.error);
+const scriptMatches = [...html.matchAll(/<script[\s\S]*?>([\s\S]*?)<\/script>/gi)];
+console.log('Script count:', scriptMatches.length);
+fs.writeFileSync('scratch/dashboard_script.js', scriptMatches[2][1]);
+console.log('Saved scratch/dashboard_script.js! Size of rendered html:', html.length);

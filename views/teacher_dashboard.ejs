@@ -572,11 +572,6 @@
                                             </button>
                                         </div>
 
-                                        <button onclick="openMobileScannerModal('<%= c.id %>', '<%= c.class_name.replace(/'/g, "\'") %>', '<%= c.school_name.replace(/'/g, "\'") %>', '<%= code %>')" 
-                                                class="btn-submit" style="background: linear-gradient(135deg, #7c3aed, #6366f1); font-size: 0.82rem; padding: 8px 6px; font-weight: 800; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 3px 10px rgba(124, 58, 237, 0.25);" title="Tirar foto da lista de chamada usando o celular via QR Code">
-                                            📷 Escanear Chamada (Foto Celular) 📱
-                                        </button>
-
                                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                                             <button onclick="copyClassCode('<%= code %>')" class="btn-submit" style="background: #3b82f6; font-size: 0.82rem; padding: 8px 6px; font-weight: 700; border-radius: 10px;">
                                                 📋 Copiar Código
@@ -1834,58 +1829,6 @@
             document.getElementById('modal-batch-students').style.display = 'none';
         }
 
-        // --- SCANNER MOBILE DE LISTA DE CHAMADA (QR CODE) ---
-        let currentScannerUrl = '';
-        let currentScannerClassId = '';
-
-        function openMobileScannerModal(classId, className, schoolName, accessCode) {
-            currentScannerClassId = classId;
-            document.getElementById('scannerModalSubtitle').innerText = 'Turma: ' + className + ' (' + schoolName + ')';
-            const fullUrl = window.location.origin + '/professor/scanner?turmaId=' + classId + '&code=' + encodeURIComponent(accessCode || '');
-            currentScannerUrl = fullUrl;
-
-            const qrContainer = document.getElementById('scanner-qrcode-container');
-            qrContainer.innerHTML = '';
-            new QRCode(qrContainer, {
-                text: fullUrl,
-                width: 220,
-                height: 220,
-                colorDark: '#1e1b4b',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.M
-            });
-
-            document.getElementById('modal-mobile-scanner').style.display = 'flex';
-        }
-
-        function closeMobileScannerModal() {
-            document.getElementById('modal-mobile-scanner').style.display = 'none';
-        }
-
-        function copyScannerLink() {
-            if (!currentScannerUrl) return;
-            navigator.clipboard.writeText(currentScannerUrl).then(() => {
-                alert('🔗 Link do Scanner copiado! Você pode abrir no navegador do celular ou enviar pelo WhatsApp:\n' + currentScannerUrl);
-            }).catch(() => {
-                prompt('Copie o link do Scanner:', currentScannerUrl);
-            });
-        }
-
-        function switchToMobileScannerFromBatch() {
-            const classSelect = document.getElementById('batchStudentClassSelect');
-            const classId = classSelect ? classSelect.value : '';
-            if (!classId) {
-                alert('Por favor, selecione primeiro uma turma de destino acima!');
-                return;
-            }
-            const selectedOpt = classSelect.options[classSelect.selectedIndex];
-            const text = selectedOpt ? selectedOpt.text : 'Turma';
-            closeBatchStudentModal();
-            const tc = (typeof teacherClasses !== 'undefined' ? teacherClasses : []).find(c => String(c.id) === String(classId));
-            const code = tc ? (tc.access_code || 'LK' + tc.id) : '';
-            openMobileScannerModal(classId, text, '', code);
-        }
-
         function handlePCFileLoaded(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -2370,21 +2313,6 @@
                 <span class="close" onclick="closeBatchStudentModal()" style="font-size: 2rem; cursor: pointer;">&times;</span>
             </div>
 
-            <!-- Banner Atalho Scanner de Foto pelo Celular -->
-            <div style="background: linear-gradient(135deg, #f5f3ff, #ede9fe); border: 1.5px solid #c4b5fd; border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);">
-                <div>
-                    <strong style="color: #6d28d9; font-size: 0.92rem; display: flex; align-items: center; gap: 6px;">
-                        📸 Prefere fotografar a folha de chamada com o celular?
-                    </strong>
-                    <p style="margin: 3px 0 0; color: #5b21b6; font-size: 0.8rem; line-height: 1.35;">
-                        Aponte a câmera do smartphone para o QR Code e nossa IA lê todos os nomes automaticamente!
-                    </p>
-                </div>
-                <button type="button" onclick="switchToMobileScannerFromBatch()" class="btn-submit" style="background: linear-gradient(135deg, #7c3aed, #6366f1); font-size: 0.8rem; padding: 8px 14px; border-radius: 10px; font-weight: 800; white-space: nowrap; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);">
-                    Abrir QR Code 📱
-                </button>
-            </div>
-
             <form onsubmit="submitBatchStudents(event)">
                 <div style="margin-bottom: 16px;">
                     <label style="display: block; font-weight: 800; font-size: 0.9rem; color: #065f46; margin-bottom: 6px;">Turma de Destino:</label>
@@ -2454,41 +2382,6 @@
 
             <div style="text-align: right; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
                 <button onclick="closeManageStudentsModal()" class="btn-submit" style="background: #64748b; border-radius: 10px; padding: 10px 20px;">Fechar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL 4: SCANNER DE CHAMADA VIA QR CODE (CELULAR) -->
-    <div id="modal-mobile-scanner" class="modal" style="display:none; z-index: 99999;">
-        <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 24px; text-align: center; max-width: 500px; width: 92%; max-height: 90vh; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h2 style="color: #7c3aed; margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.4rem;">
-                    📸 Escanear Lista pelo Celular
-                </h2>
-                <span class="close" onclick="closeMobileScannerModal()" style="font-size: 2rem; cursor: pointer;">&times;</span>
-            </div>
-            <p id="scannerModalSubtitle" style="color: #64748b; font-size: 0.9rem; margin: 0 0 16px 0;">
-                Aponte a câmera do seu smartphone para o QR Code abaixo para fotografar a lista de presença.
-            </p>
-
-            <div style="background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 16px; padding: 20px; display: inline-block; margin-bottom: 16px;">
-                <div id="scanner-qrcode-container" style="display: inline-block;"></div>
-            </div>
-
-            <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 12px; margin-bottom: 16px; text-align: left; font-size: 0.85rem; color: #1e40af; line-height: 1.4;">
-                <strong>✨ Como funciona:</strong><br>
-                1. Abra a câmera do seu celular e aponte para o QR Code acima.<br>
-                2. Tire uma foto nítida da folha de presença em papel.<br>
-                3. Nossa inteligência visual lê os nomes e cadastra os alunos diretamente nesta turma!
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <button onclick="copyScannerLink()" class="btn-submit" style="background: #6366f1; padding: 10px; font-size: 0.88rem; font-weight: 700; border-radius: 10px;">
-                    🔗 Copiar Link do Scanner (WhatsApp)
-                </button>
-                <button onclick="location.reload()" class="btn-submit" style="background: #10b981; padding: 12px; font-size: 0.95rem; font-weight: 800; border-radius: 12px;">
-                    🔄 Já enviei do celular! Atualizar Turma
-                </button>
             </div>
         </div>
     </div>
