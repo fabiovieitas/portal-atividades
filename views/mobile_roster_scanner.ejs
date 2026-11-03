@@ -23,7 +23,7 @@
     .header {
       background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
       color: white;
-      padding: 20px 16px;
+      padding: 18px 16px;
       text-align: center;
       position: sticky;
       top: 0;
@@ -33,7 +33,7 @@
     .header h1 {
       margin: 0;
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -41,11 +41,11 @@
     }
     .class-badge {
       display: inline-block;
-      margin-top: 8px;
+      margin-top: 6px;
       background: rgba(255,255,255,0.18);
       padding: 4px 12px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 700;
       border: 1px solid rgba(255,255,255,0.3);
     }
@@ -55,6 +55,31 @@
       max-width: 600px;
       margin: 0 auto;
       width: 100%;
+    }
+    .tab-bar {
+      display: flex;
+      background: #e2e8f0;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 16px;
+      gap: 4px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 10px 6px;
+      border-radius: 9px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: white;
+      color: #4f46e5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     .card {
       background: white;
@@ -72,14 +97,14 @@
       width: 100%;
       background: linear-gradient(135deg, #6366f1, #4f46e5);
       color: white;
-      padding: 18px;
+      padding: 16px;
       border-radius: 16px;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
       border: none;
       cursor: pointer;
       box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-      transition: transform 0.1s, box-shadow 0.1s;
+      transition: transform 0.1s;
     }
     .btn-camera:active { transform: scale(0.98); }
     .btn-gallery {
@@ -92,11 +117,21 @@
       color: #475569;
       padding: 12px;
       border-radius: 12px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       border: 1.5px dashed #cbd5e1;
       margin-top: 10px;
       cursor: pointer;
+    }
+    .tip-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: #1e40af;
+      line-height: 1.4;
+      margin-top: 14px;
     }
     .progress-box {
       display: none;
@@ -118,7 +153,7 @@
     .progress-bar-fill {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #3b82f6, #10b981);
+      background: linear-gradient(90deg, #6366f1, #10b981);
       transition: width 0.3s;
     }
     .preview-img {
@@ -127,8 +162,9 @@
       object-fit: contain;
       border-radius: 12px;
       border: 1px solid #cbd5e1;
-      margin-top: 12px;
+      margin-top: 14px;
       display: none;
+      background: #000;
     }
     .student-item {
       display: flex;
@@ -144,7 +180,7 @@
       flex: 1;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
-      padding: 6px 10px;
+      padding: 8px 10px;
       font-size: 0.95rem;
       font-weight: 600;
       color: #0f172a;
@@ -153,7 +189,7 @@
       background: #fee2e2;
       color: #ef4444;
       border: none;
-      padding: 6px 10px;
+      padding: 8px 10px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
@@ -163,19 +199,16 @@
       width: 100%;
       background: linear-gradient(135deg, #10b981, #059669);
       color: white;
-      padding: 18px;
+      padding: 16px;
       border-radius: 16px;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
       border: none;
       cursor: pointer;
       box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
       margin-top: 16px;
     }
-    .btn-submit-final:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    .btn-submit-final:disabled { opacity: 0.6; cursor: not-allowed; }
     .badge-count {
       background: #dcfce7;
       color: #15803d;
@@ -183,6 +216,14 @@
       padding: 4px 10px;
       border-radius: 20px;
       font-size: 0.85rem;
+    }
+    details summary {
+      cursor: pointer;
+      color: #4f46e5;
+      font-weight: 700;
+      font-size: 0.85rem;
+      outline: none;
+      padding: 6px 0;
     }
   </style>
 </head>
@@ -197,40 +238,75 @@
 
   <main class="container">
 
-    <!-- Card de Captura -->
-    <div class="card" id="step-capture">
-      <h2 style="font-size: 1.15rem; margin: 0 0 8px 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif;">
-        1. Fotografar Folha de Chamada
-      </h2>
-      <p style="color: #64748b; font-size: 0.88rem; margin: 0 0 16px 0; line-height: 1.4;">
-        Aponte a câmera para a lista de presença impressa ou manuscrita. Garanta boa iluminação e que os nomes fiquem nítidos!
-      </p>
-
-      <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;" onchange="handleImageSelected(event)">
-      <input type="file" id="galleryInput" accept="image/*" style="display: none;" onchange="handleImageSelected(event)">
-
-      <button class="btn-camera" onclick="document.getElementById('cameraInput').click()">
-        📷 Abrir Câmera do Celular
+    <!-- Seletor de Modo (Câmera ou Colar Texto no Celular) -->
+    <div class="tab-bar">
+      <button class="tab-btn active" id="btnTabCamera" onclick="switchMode('camera')">
+        📷 Fotografar com Celular
       </button>
-
-      <button class="btn-gallery" onclick="document.getElementById('galleryInput').click()">
-        🖼️ Escolher Foto da Galeria
+      <button class="tab-btn" id="btnTabPaste" onclick="switchMode('paste')">
+        ✍️ Colar Texto / WhatsApp
       </button>
+    </div>
 
-      <img id="imgPreview" class="preview-img" alt="Preview da Chamada">
+    <!-- MODO 1: FOTOGRAFAR COM O CELULAR -->
+    <div id="mode-camera">
+      <div class="card" id="step-capture">
+        <h2 style="font-size: 1.15rem; margin: 0 0 6px 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif;">
+          1. Fotografar Folha de Chamada
+        </h2>
+        <p style="color: #64748b; font-size: 0.85rem; margin: 0 0 14px 0; line-height: 1.4;">
+          Tire uma foto bem focada da folha de presença (impressa ou digitada).
+        </p>
 
-      <div class="progress-box" id="progressBox">
-        <div id="progressStatus" style="font-weight: 800; color: #1e40af; font-size: 0.95rem;">
-          ⏳ Carregando motor de inteligência visual...
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;" onchange="handleImageSelected(event)">
+        <input type="file" id="galleryInput" accept="image/*" style="display: none;" onchange="handleImageSelected(event)">
+
+        <button class="btn-camera" onclick="document.getElementById('cameraInput').click()">
+          📷 Tirar Foto da Folha de Chamada
+        </button>
+
+        <button class="btn-gallery" onclick="document.getElementById('galleryInput').click()">
+          🖼️ Escolher Foto da Galeria do Celular
+        </button>
+
+        <div class="tip-box">
+          💡 <strong>Dicas para 100% de precisão:</strong><br>
+          • Mantenha o celular reto sobre a folha.<br>
+          • Evite sombras das mãos ou reflexos de lâmpadas.<br>
+          • Se a folha tiver muitas colunas vazias, aproxime focando nos nomes!
         </div>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar-fill" id="progressBar"></div>
+
+        <img id="imgPreview" class="preview-img" alt="Preview da Chamada Otimizada">
+
+        <div class="progress-box" id="progressBox">
+          <div id="progressStatus" style="font-weight: 800; color: #1e40af; font-size: 0.95rem;">
+            🔍 Otimizando imagem e lendo texto...
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBar"></div>
+          </div>
+          <div id="progressPercent" style="font-size: 0.82rem; color: #64748b; font-weight: 700;">0%</div>
         </div>
-        <div id="progressPercent" style="font-size: 0.82rem; color: #64748b; font-weight: 700;">0%</div>
       </div>
     </div>
 
-    <!-- Card de Revisão e Confirmação -->
+    <!-- MODO 2: COLAR TEXTO NO CELULAR (WHATSAPP/PDF) -->
+    <div id="mode-paste" style="display: none;">
+      <div class="card">
+        <h2 style="font-size: 1.15rem; margin: 0 0 6px 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif;">
+          Cole os Nomes Aqui:
+        </h2>
+        <p style="color: #64748b; font-size: 0.85rem; margin: 0 0 12px 0;">
+          Tem a lista no WhatsApp, Word ou PDF do celular? Cole abaixo:
+        </p>
+        <textarea id="pastedText" rows="10" placeholder="01 - Ana Clara&#10;02 - Bernardo Lima&#10;03 - Carlos Eduardo..." style="width: 100%; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem;"></textarea>
+        <button class="btn-camera" onclick="processPastedText()" style="margin-top: 12px; background: linear-gradient(135deg, #10b981, #059669);">
+          ✨ Processar Lista de Nomes
+        </button>
+      </div>
+    </div>
+
+    <!-- CARD DE REVISÃO E CONFIRMAÇÃO DOS NOMES EXTRAÍDOS -->
     <div class="card" id="step-review" style="display: none;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
         <h2 style="font-size: 1.15rem; margin: 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif;">
@@ -240,7 +316,7 @@
       </div>
 
       <p style="color: #64748b; font-size: 0.85rem; margin: 0 0 12px 0;">
-        Revise a lista abaixo. Você pode corrigir a grafia ou remover linhas desnecessárias antes de salvar:
+        Confira a lista abaixo. Você pode editar qualquer nome ou clicar no ❌ para excluir linhas indesejadas:
       </p>
 
       <div id="studentsListContainer" style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
@@ -248,15 +324,24 @@
       </div>
 
       <div style="margin-top: 10px;">
-        <button type="button" onclick="addNewStudentRow()" style="background: none; border: 1.5px dashed #6366f1; color: #4f46e5; width: 100%; padding: 8px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+        <button type="button" onclick="addNewStudentRow()" style="background: none; border: 1.5px dashed #6366f1; color: #4f46e5; width: 100%; padding: 10px; border-radius: 10px; font-weight: 700; cursor: pointer;">
           + Adicionar Outro Aluno Manualmente
         </button>
       </div>
 
+      <!-- Caixa Expansível com Texto Bruto do Scanner (Segurança Máxima) -->
+      <details style="margin-top: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 12px;">
+        <summary>👁️ Ver texto bruto lido pela foto (OCR)</summary>
+        <textarea id="rawOcrTextarea" rows="6" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 0.8rem; font-family: monospace; margin-top: 8px;"></textarea>
+        <button type="button" onclick="reparseFromRawText()" style="background: #e0e7ff; color: #3730a3; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; margin-top: 6px; cursor: pointer;">
+          🔄 Re-extrair a partir do texto editado
+        </button>
+      </details>
+
       <div style="margin-top: 14px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0;">
         <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 700; color: #334155; cursor: pointer;">
           <input type="checkbox" id="chkGeneratePins" style="width: 18px; height: 18px;" checked>
-          Gerar Senhas (PIN de 4 dígitos) para cada aluno
+          Gerar senhas (PIN de 4 dígitos) para cada aluno
         </label>
       </div>
 
@@ -269,7 +354,7 @@
       </button>
     </div>
 
-    <!-- Card de Sucesso -->
+    <!-- CARD DE SUCESSO -->
     <div class="card" id="step-success" style="display: none; text-align: center; padding: 30px 20px;">
       <div style="font-size: 3.5rem; margin-bottom: 12px;">🎉</div>
       <h2 style="font-family: 'Fredoka', sans-serif; color: #059669; margin: 0 0 8px 0; font-size: 1.5rem;">
@@ -298,99 +383,230 @@
     const schoolName = "<%= (classInfo.school_name || '').replace(/"/g, '\\"') %>";
 
     let recognizedStudents = [];
+    let currentRawOcrText = '';
+
+    function switchMode(mode) {
+      document.getElementById('mode-camera').style.display = mode === 'camera' ? 'block' : 'none';
+      document.getElementById('mode-paste').style.display = mode === 'paste' ? 'block' : 'none';
+      document.getElementById('btnTabCamera').classList.toggle('active', mode === 'camera');
+      document.getElementById('btnTabPaste').classList.toggle('active', mode === 'paste');
+    }
+
+    function processPastedText() {
+      const text = document.getElementById('pastedText').value;
+      if (!text.trim()) {
+        alert('Por favor, cole ao menos um nome de aluno!');
+        return;
+      }
+      parseExtractedNames(text);
+    }
+
+    // Pré-processamento profissional de imagem com HTML5 Canvas (Resize + Grayscale + High Contrast)
+    function preprocessImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            // Redimensiona para dimensão ótima do Tesseract (max 1600px - evita estouro de RAM em 12MP/48MP)
+            const maxDim = 1600;
+            let w = img.width;
+            let h = img.height;
+            if (w > maxDim || h > maxDim) {
+              if (w > h) {
+                h = Math.round((h * maxDim) / w);
+                w = maxDim;
+              } else {
+                w = Math.round((w * maxDim) / h);
+                h = maxDim;
+              }
+            }
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, w, h);
+            ctx.drawImage(img, 0, 0, w, h);
+
+            // Binarização e aumento de contraste de preto/branco
+            try {
+              const imgData = ctx.getImageData(0, 0, w, h);
+              const d = imgData.data;
+              for (let i = 0; i < d.length; i += 4) {
+                const gray = (d[i] * 0.299 + d[i+1] * 0.587 + d[i+2] * 0.114);
+                // Realça texto escuro e clareia fundo claro
+                const v = gray < 130 ? Math.max(0, gray - 40) : Math.min(255, gray + 40);
+                d[i] = v;
+                d[i+1] = v;
+                d[i+2] = v;
+              }
+              ctx.putImageData(imgData, 0, 0);
+            } catch(e) {
+              console.warn('Canvas pixel processing skipped:', e);
+            }
+
+            resolve(canvas);
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
 
     async function handleImageSelected(event) {
       const file = event.target.files[0];
       if (!file) return;
 
-      const imgPreview = document.getElementById('imgPreview');
-      imgPreview.src = URL.createObjectURL(file);
-      imgPreview.style.display = 'block';
-
       const progressBox = document.getElementById('progressBox');
       const progressBar = document.getElementById('progressBar');
       const progressStatus = document.getElementById('progressStatus');
       const progressPercent = document.getElementById('progressPercent');
+      const imgPreview = document.getElementById('imgPreview');
 
       progressBox.style.display = 'block';
-      progressBar.style.width = '5%';
-      progressPercent.innerText = '5%';
-      progressStatus.innerText = '🔍 Preparando imagem para leitura...';
+      progressBar.style.width = '10%';
+      progressPercent.innerText = '10%';
+      progressStatus.innerText = '📐 Otimizando resolução e contraste da foto...';
 
       try {
-        const worker = await Tesseract.createWorker('por', 1, {
-          logger: m => {
-            if (m.status === 'recognizing text') {
-              const p = Math.round(m.progress * 100);
-              progressBar.style.width = p + '%';
-              progressPercent.innerText = p + '%';
-              progressStatus.innerText = `🔍 Lendo texto da folha (${p}%)...`;
-            } else if (m.status === 'loading language traineddata') {
-              progressStatus.innerText = '📚 Carregando dicionário da língua portuguesa...';
+        const processedCanvas = await preprocessImage(file);
+        imgPreview.src = processedCanvas.toDataURL('image/jpeg', 0.85);
+        imgPreview.style.display = 'block';
+
+        progressBar.style.width = '25%';
+        progressPercent.innerText = '25%';
+        progressStatus.innerText = '🔍 Iniciando inteligência OCR...';
+
+        // Executa reconhecimento via Tesseract com fallback robusto
+        let ret;
+        try {
+          ret = await Tesseract.recognize(processedCanvas, 'por+eng', {
+            logger: m => {
+              if (m.status === 'recognizing text') {
+                const p = Math.round(25 + m.progress * 70);
+                progressBar.style.width = p + '%';
+                progressPercent.innerText = p + '%';
+                progressStatus.innerText = `🔍 Lendo texto da folha (${p}%)...`;
+              }
             }
-          }
-        });
+          });
+        } catch(errPor) {
+          console.warn('Fallback para eng:', errPor);
+          progressStatus.innerText = '🔍 Utilizando motor rápido...';
+          ret = await Tesseract.recognize(processedCanvas, 'eng', {
+            logger: m => {
+              if (m.status === 'recognizing text') {
+                const p = Math.round(30 + m.progress * 65);
+                progressBar.style.width = p + '%';
+                progressPercent.innerText = p + '%';
+              }
+            }
+          });
+        }
 
-        const ret = await worker.recognize(file);
-        await worker.terminate();
+        const rawText = (ret && ret.data && ret.data.text) ? ret.data.text : '';
+        currentRawOcrText = rawText;
+        document.getElementById('rawOcrTextarea').value = rawText;
 
-        const rawText = ret.data.text || '';
         parseExtractedNames(rawText);
 
       } catch (err) {
         console.error('OCR Error:', err);
-        alert('Erro ao processar imagem: ' + err.message + '\nVocê pode tentar uma foto mais clara ou colar a lista manualmente.');
+        alert('Erro ao processar imagem: ' + err.message + '\nVocê pode colar o texto diretamente na aba "Colar Texto / WhatsApp".');
         progressBox.style.display = 'none';
       }
     }
 
+    function reparseFromRawText() {
+      const edited = document.getElementById('rawOcrTextarea').value;
+      parseExtractedNames(edited);
+    }
+
+    // Parser robusto com suporte a tabelas escolares, diários de classe e numerações
     function parseExtractedNames(text) {
-      const lines = text.split('\n');
+      if (!text || typeof text !== 'string') {
+        alert('Nenhum texto foi detectado na foto.');
+        document.getElementById('progressBox').style.display = 'none';
+        return;
+      }
+
+      const lines = text.split(/\r?\n/);
       const names = [];
 
-      // Palavras comuns de cabeçalho escolar para ignorar
       const ignoreWords = [
         'ESCOLA', 'MUNICIPAL', 'ESTADUAL', 'COLÉGIO', 'COLEGIO', 'PROFESSOR', 'PROFESSORA',
         'CHAMADA', 'LISTA', 'PRESENÇA', 'PRESENCA', 'TURMA', 'ANO', 'TURNO', 'DATA',
         'ASSINATURA', 'ALUNO', 'ALUNOS', 'SECRETARIA', 'MATRÍCULA', 'MATRICULA', 'NOTAS',
-        'LAB KIDS', 'CAMPOS', 'GOVERNO', 'EDUCAÇÃO', 'EDUCACAO', 'OBSERVAÇÃO', 'TOTAL'
+        'LAB KIDS', 'CAMPOS', 'GOVERNO', 'EDUCAÇÃO', 'EDUCACAO', 'OBSERVAÇÃO', 'TOTAL',
+        'DIÁRIO', 'DIARIO', 'CLASSE', 'BIMESTRE', 'DISCIPLINA', 'MÊS', 'MES', 'HORÁRIO',
+        'HORARIO', 'ENSINO', 'FUNDAMENTAL', 'SITUAÇÃO', 'SITUACAO', 'FREQ', 'FREQUENCIA'
       ];
 
       for (let rawLine of lines) {
         let line = rawLine.trim();
         if (line.length < 3) continue;
 
-        // Limpa numerações no início: "01 - ", "1. ", "1)", "1 - ", "№ 1"
-        line = line.replace(/^(№|Nº|N|n)?\s*\d+[\.\-\)\s]+/, '').trim();
-        // Remove símbolos extras e caracteres não textuais estranhos
-        line = line.replace(/[|_~*#$@\[\]{}<>=]/g, '').trim();
+        // Se for linha de tabela com colunas '|', extrai a coluna que tem o nome do aluno
+        if (line.includes('|')) {
+          const parts = line.split('|').map(p => p.trim()).filter(p => p.length >= 2);
+          const namePart = parts.find(p => p.length >= 4 && /[a-zA-ZáéíóúÁÉÍÓÚãõÃÕâêîôûÂÊÎÔÛçÇ]/.test(p) && !p.match(/^\d+$/) && !p.match(/^\d{1,2}[\/\-\.]\d{1,2}/));
+          if (namePart) line = namePart;
+        }
 
-        // Checa se sobrou um nome válido
+        // Limpa numerações no início: "01 - ", "1. ", "1)", "1 - ", "№ 1", "01."
+        line = line.replace(/^[\s\.\-_]*(\d{1,3}|[a-zA-Z]\d{1,2})[\s\.\-_:\)\/]+/, '').trim();
+        
+        // Remove datas (ex: 12/03/2016 ou 05-08-15)
+        line = line.replace(/\b\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4}\b/g, '').trim();
+
+        // Remove marcadores de frequência no final da linha (ex: P, F, FJ, C)
+        line = line.replace(/\s+[PFpfJjCc]{1,2}$/, '').trim();
+
+        // Remove caracteres especiais de bordas de tabela
+        line = line.replace(/[|_~*#$@\[\]{}<>=]/g, ' ').trim();
+
+        // Remove dígitos soltos
+        line = line.replace(/\b\d+\b/g, '').trim();
+
+        // Normaliza espaços
+        line = line.replace(/\s+/g, ' ').trim();
+
         if (line.length < 3) continue;
 
-        // Testa se é cabeçalho
+        // Verifica se é cabeçalho ou metadado
         const upper = line.toUpperCase();
-        const isHeader = ignoreWords.some(w => upper.includes(w)) && !line.includes(' ');
+        const isHeader = ignoreWords.some(w => upper === w || upper.startsWith(w + ' ') || upper.endsWith(' ' + w));
         if (isHeader) continue;
 
-        // Se tem números isolados no meio ou final, remove
-        line = line.replace(/\d+/g, '').trim();
-
-        // Se após a limpeza ainda tem pelo menos 2 caracteres e parece um nome
-        if (line.length >= 3 && /[a-zA-ZáéíóúÁÉÍÓÚãõÃÕâêîôûÂÊÎÔÛçÇ]/.test(line)) {
-          // Normaliza espaços múltiplos
-          line = line.replace(/\s+/g, ' ');
+        // Requer ao menos uma letra
+        if (/[a-zA-ZáéíóúÁÉÍÓÚãõÃÕâêîôûÂÊÎÔÛçÇ]/.test(line)) {
+          // Se estiver em caixa alta, formata em Title Case para visual limpo
+          if (line === line.toUpperCase()) {
+            line = line.toLowerCase().replace(/(?:^|\s)\S/g, a => a.toUpperCase())
+                       .replace(/\b(Da|De|Do|Dos|Das)\b/g, a => a.toLowerCase());
+          }
           names.push(line);
         }
       }
 
-      // Elimina duplicatas consecutivas
       recognizedStudents = Array.from(new Set(names));
 
       if (recognizedStudents.length === 0) {
-        alert('Nenhum nome de aluno foi reconhecido claramente. Tente aproximar mais a câmera ou tirar uma foto com mais foco.');
-        document.getElementById('progressBox').style.display = 'none';
-        return;
+        // Se o parser automático foi rigoroso demais, usa todas as linhas que têm letras
+        const fallbackLines = lines.map(l => l.replace(/^\d+[\.\-\)]\s*/, '').trim())
+                                   .filter(l => l.length >= 3 && /[a-zA-Z]/.test(l));
+        if (fallbackLines.length > 0) {
+          recognizedStudents = Array.from(new Set(fallbackLines));
+        } else {
+          alert('Não foi possível identificar nomes automaticamente nesta foto.\n\nVocê pode ver o que a câmera leu na caixa de texto abaixo ou usar a aba "Colar Texto / WhatsApp".');
+          document.getElementById('step-capture').style.display = 'none';
+          document.getElementById('step-review').style.display = 'block';
+          renderStudentsReviewList();
+          return;
+        }
       }
 
       renderStudentsReviewList();
@@ -413,6 +629,7 @@
 
       document.getElementById('studentCountBadge').innerText = recognizedStudents.length + ' Alunos';
       document.getElementById('step-capture').style.display = 'none';
+      document.getElementById('mode-paste').style.display = 'none';
       document.getElementById('step-review').style.display = 'block';
     }
 
@@ -441,6 +658,7 @@
       document.getElementById('step-review').style.display = 'none';
       document.getElementById('step-success').style.display = 'none';
       document.getElementById('step-capture').style.display = 'block';
+      switchMode('camera');
     }
 
     async function submitScannedRoster() {
