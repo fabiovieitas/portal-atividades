@@ -141,6 +141,8 @@ try {
   try { sqlite.exec("ALTER TABLE students ADD COLUMN student_pin TEXT DEFAULT '';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN current_streak INTEGER DEFAULT 1;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN last_login_date TEXT DEFAULT '';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN active_minutes INTEGER DEFAULT 0;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN last_active_at DATETIME DEFAULT CURRENT_TIMESTAMP;"); } catch(e){}
 
   try { sqlite.exec("ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN avatar_config TEXT DEFAULT '{}';"); } catch(e){}
@@ -1087,6 +1089,23 @@ const dbHelper = {
       claimedToday: !!existing,
       claim: existing || null
     };
+  },
+
+  async recordStudentHeartbeat(studentId, minutes = 2) {
+    if (!studentId) return;
+    try {
+      await queryRun(
+        "UPDATE students SET active_minutes = COALESCE(active_minutes, 0) + ?, last_active_at = CURRENT_TIMESTAMP WHERE id = ?",
+        [minutes, studentId]
+      );
+    } catch(e) {
+      console.warn('[Heartbeat Error]:', e.message);
+    }
+  },
+
+  async resetStudentPin(studentId) {
+    if (!studentId) return;
+    await queryRun("UPDATE students SET student_pin = '' WHERE id = ?", [studentId]);
   },
 
   async getSetting(key, defaultValue = null) {

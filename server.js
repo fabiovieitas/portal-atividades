@@ -2312,6 +2312,33 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
       [req.teacher.id]
     );
     
+    // Top 10 atividades mais utilizadas de modo geral
+    const topActivities = await dbHelper.queryAll(
+      "SELECT id, title, category, level, visits, qr_scans, activity_url, subject, bncc_code FROM activities ORDER BY visits DESC LIMIT 10"
+    );
+
+    // Controle Interno: Alunos conectados, pontos, tempo de estudo e último acesso
+    const classIds = (classes || []).map(c => c.id);
+    let studentsActivity = [];
+    if (classIds.length > 0) {
+      const placeholders = classIds.map(() => '?').join(',');
+      studentsActivity = await dbHelper.queryAll(
+        `SELECT s.id, s.name, s.school, s.class, s.points, s.avatar_config, s.current_streak, s.active_minutes, s.last_active_at, s.last_login_date, s.student_pin, tc.name as turma_nome
+         FROM students s
+         LEFT JOIN teacher_classes tc ON s.class_id = tc.id
+         WHERE s.class_id IN (${placeholders})
+         ORDER BY s.last_active_at DESC, s.points DESC`,
+        classIds
+      );
+    } else {
+      studentsActivity = await dbHelper.queryAll(
+        `SELECT s.id, s.name, s.school, s.class, s.points, s.avatar_config, s.current_streak, s.active_minutes, s.last_active_at, s.last_login_date, s.student_pin, s.class as turma_nome
+         FROM students s
+         ORDER BY s.last_active_at DESC, s.points DESC
+         LIMIT 50`
+      );
+    }
+
     res.render('teacher_dashboard', { 
       teacher: { ...req.teacher, level: await getTeacherLevel(req.teacher.id) },
       activities: activities || [],
@@ -2321,7 +2348,9 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
       globalExams: globalExams || [],
       collections: collections || [],
       planning: planning || [],
-      examSubmissions: examSubmissions || []
+      examSubmissions: examSubmissions || [],
+      studentsActivity: studentsActivity || [],
+      topActivities: topActivities || []
     });
   } catch (err) {
     console.error('Teacher dashboard error:', err);
@@ -3251,3 +3280,60 @@ if (!process.env.VERCEL) {
 }
 
 module.exports = app;
+
+
+// ============================================================================
+// CONTROLE INTERNO: HEARTBEAT DE TEMPO ONLINE & GESTÃO DE TABLETS DA TURMA
+// ============================================================================
+app.post('/api/gamification/heartbeat', async (req, res) => {
+  try {
+    const { student_id, minutes } = req.body;
+    if (student_id) {
+      await dbHelper.recordStudentHeartbeat(student_id, minutes || 2);
+    }
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/teacher/students/:id/reset-pin', requireTeacher, async (req, res) => {
+  try {
+    await dbHelper.resetStudentPin(req.params.id);
+    res.json({ success: true, message: 'Senha do aluno resetada com sucesso!' });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/teacher/classes/:id/end-session', requireTeacher, async (req, res) => {
+  try {
+    const classId = req.params.id;
+    await dbHelper.queryRun(
+      "UPDATE teacher_classes SET access_code = access_code WHERE id = ?",
+      [classId]
+    );
+    // Registra timestamp do reset para deslogar tablets
+    await dbHelper.queryRun(
+      "INSERT OR REPLACE INTO system_settings (key, value) VALUES (?, ?)",
+      [`class_reset_${classId}`, new Date().toISOString()]
+    );
+    res.json({ success: true, message: 'Sessão da turma encerrada. Todos os tablets serão deslogados!' });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/classes/:id/check-session', async (req, res) => {
+  try {
+    const classId = req.params.id;
+    const since = req.query.since || '';
+    const resetTime = await dbHelper.getSetting(`class_reset_${classId}`);
+    if (resetTime && since && new Date(resetTime) > new Date(since)) {
+      return res.json({ shouldLogout: true, message: 'A aula foi encerrada pelo professor.' });
+    }
+    res.json({ shouldLogout: false });
+  } catch(err) {
+    res.json({ shouldLogout: false });
+  }
+});

@@ -259,6 +259,13 @@
       if (accumulatedActiveSeconds >= 120) { // 2 minutos
         accumulatedActiveSeconds = 0;
         addXP(10, '⏱️ Tempo de Estudo no Lab');
+        if (student && student.id) {
+          fetch('/api/gamification/heartbeat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ student_id: student.id, minutes: 2 })
+          }).catch(function(){});
+        }
       }
     }
   }, 10000);

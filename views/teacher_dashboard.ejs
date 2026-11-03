@@ -604,6 +604,176 @@
                 </div>
             </div>
 
+            <!-- ============================================================================
+                 CONTROLE INTERNO: GESTÃO DE TABLETS DA SALA (ENCERRAR AULA)
+                 ============================================================================ -->
+            <div class="glass-panel" style="margin-bottom: 25px; padding: 20px 24px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px solid #3b82f6;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <h3 style="margin: 0 0 4px 0; color: #1e3a8a; font-size: 1.25rem; font-weight: 900; display: flex; align-items: center; gap: 8px;">
+                            <span>🚪</span> Gestão de Tablets da Sala (Fim da Aula)
+                        </h3>
+                        <p style="margin: 0; color: #475569; font-size: 0.95rem; font-weight: 600;">Ao soar o sinal do recreio ou fim da aula, encerre a sessão para deslogar todos os tablets da sala em 1 clique.</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <select id="select-class-end-session" style="padding: 10px 14px; border-radius: 12px; border: 1.5px solid #3b82f6; font-weight: 700; background: #ffffff; color: #1e3a8a;">
+                            <% classes.forEach(c => { %>
+                                <option value="<%= c.id %>"><%= c.name %> (<%= c.access_code %>)</option>
+                            <% }); %>
+                        </select>
+                        <button onclick="endClassSession()" class="btn-submit" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none; font-weight: 900; padding: 12px 22px; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">
+                            🚪 Deslogar Todos os Tablets
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================================
+                 CONTROLE INTERNO: ALUNOS LOGADOS, PONTOS E TEMPO DE ESTUDO
+                 ============================================================================ -->
+            <div class="glass-panel" style="margin-bottom: 30px; padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h2 style="margin: 0 0 4px 0; color: var(--accent); display: flex; align-items: center; gap: 10px; font-size: 1.35rem;">
+                            👥 Alunos Conectados, Pontuação & Tempo de Estudo
+                        </h2>
+                        <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Relatório em tempo real de presença, foco nos estudos e pontuação acumulada.</p>
+                    </div>
+                    <span style="font-size: 0.85rem; background: #e0f2fe; color: #0284c7; padding: 6px 14px; border-radius: 50px; font-weight: 800;">
+                        <%= (typeof studentsActivity !== 'undefined' ? studentsActivity.length : 0) %> Alunos Monitorados
+                    </span>
+                </div>
+
+                <% if (typeof studentsActivity === 'undefined' || studentsActivity.length === 0) { %>
+                    <p style="color: var(--text-muted); padding: 20px 0; text-align: center;">Nenhum aluno registrou acesso recente nesta turma ainda. Os dados aparecerão assim que os alunos entrarem com o código.</p>
+                <% } else { %>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border); text-align: left; color: var(--text-muted);">
+                                    <th style="padding: 12px;">Aluno</th>
+                                    <th style="padding: 12px;">Turma</th>
+                                    <th style="padding: 12px; text-align: center;">Status</th>
+                                    <th style="padding: 12px; text-align: center;">Pontos (XP)</th>
+                                    <th style="padding: 12px; text-align: center;">Tempo Ativo</th>
+                                    <th style="padding: 12px;">Última Atividade</th>
+                                    <th style="padding: 12px; text-align: center;">PIN / Segurança</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% studentsActivity.forEach(st => { 
+                                    const mins = Number(st.active_minutes || 0);
+                                    let tempoFormatado = mins < 60 ? (mins + ' min') : (Math.floor(mins/60) + 'h ' + (mins%60) + 'min');
+                                    if (mins === 0) tempoFormatado = 'Iniciando';
+
+                                    // Determina se esteve ativo nas últimas 2 horas
+                                    let isRecent = false;
+                                    if (st.last_active_at) {
+                                        const diffMs = Date.now() - new Date(st.last_active_at).getTime();
+                                        isRecent = diffMs < (2 * 60 * 60 * 1000);
+                                    }
+                                %>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 12px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                                            <span style="font-size: 1.4rem;">👤</span>
+                                            <span><%= st.name %></span>
+                                        </td>
+                                        <td style="padding: 12px; color: var(--text-muted);">
+                                            <%= st.turma_nome || st.class || 'Livre' %>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center;">
+                                            <% if (isRecent) { %>
+                                                <span style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 4px;">
+                                                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #16a34a; display: inline-block;"></span> Ativo Hoje
+                                                </span>
+                                            <% } else { %>
+                                                <span style="background: #f1f5f9; color: #64748b; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.75rem;">
+                                                    Offline
+                                                </span>
+                                            <% } %>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center; font-weight: 900; color: #2563eb;">
+                                            ⭐ <%= st.points || 0 %> XP
+                                        </td>
+                                        <td style="padding: 12px; text-align: center; font-weight: 800; color: #059669;">
+                                            ⏱️ <%= tempoFormatado %>
+                                        </td>
+                                        <td style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">
+                                            <%= st.last_active_at ? new Date(st.last_active_at).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : (st.last_login_date || '—') %>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center;">
+                                            <% if (st.student_pin) { %>
+                                                <button onclick="resetStudentPin('<%= st.id %>', '<%= st.name.replace(/'/g, "\\'") %>')" 
+                                                        style="background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626; padding: 4px 10px; border-radius: 12px; font-weight: 800; font-size: 0.75rem; cursor: pointer;">
+                                                    🔑 Resetar PIN
+                                                </button>
+                                            <% } else { %>
+                                                <span style="color: #94a3b8; font-size: 0.8rem;">Sem PIN</span>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- ============================================================================
+                 CONTROLE INTERNO: TOP 10 ATIVIDADES MAIS UTILIZADAS
+                 ============================================================================ -->
+            <div class="glass-panel" style="margin-bottom: 30px; padding: 24px;">
+                <h2 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px; font-size: 1.35rem;">
+                    🔥 Atividades & Jogos Mais Utilizados de Modo Geral
+                </h2>
+                <p style="margin: 0 0 16px 0; color: var(--text-muted); font-size: 0.9rem;">Ranking dos desafios pedagógicos com maior engajamento dos estudantes na plataforma.</p>
+
+                <% if (typeof topActivities !== 'undefined' && topActivities.length > 0) { %>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border); text-align: left; color: var(--text-muted);">
+                                    <th style="padding: 12px; width: 50px;">#</th>
+                                    <th style="padding: 12px;">Atividade / Jogo</th>
+                                    <th style="padding: 12px;">Disciplina / BNCC</th>
+                                    <th style="padding: 12px; text-align: center;">Ano Escolar</th>
+                                    <th style="padding: 12px; text-align: center;">Acessos / Visitas</th>
+                                    <th style="padding: 12px; text-align: center;">Projeção</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% topActivities.forEach((act, idx) => { %>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 12px; font-weight: 900; color: #b45309;">
+                                            <% if (idx === 0) { %>🥇 1º<% } else if (idx === 1) { %>🥈 2º<% } else if (idx === 2) { %>🥉 3º<% } else { %><%= idx + 1 %>º<% } %>
+                                        </td>
+                                        <td style="padding: 12px; font-weight: 800; color: var(--text-main);">
+                                            🎮 <%= act.title %>
+                                        </td>
+                                        <td style="padding: 12px; color: var(--text-muted);">
+                                            <%= act.subject || 'Geral' %> • <span style="font-family: monospace; font-size: 0.8rem; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;"><%= act.bncc_code || 'Cultura Digital' %></span>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center; color: var(--text-muted);">
+                                            <%= act.level || '1º ao 5º' %>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center; font-weight: 900; color: #0284c7;">
+                                            👁️ <%= act.visits || 0 %>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center;">
+                                            <a href="<%= act.activity_url %>" target="_blank" class="btn-submit" style="font-size: 0.8rem; padding: 6px 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                                                🚀 Abrir / Projetar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } else { %>
+                    <p style="color: var(--text-muted);">Nenhum registro de atividades no ranking ainda.</p>
+                <% } %>
+            </div>
+
             <!-- Diagnóstico de Provas Digitais -->
             <div class="glass-panel" style="margin-bottom: 30px; padding: 24px;">
                 <h2 style="margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px;">

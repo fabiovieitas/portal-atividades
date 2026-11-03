@@ -749,6 +749,22 @@
             const elapsed = Date.now() - lastUserActionTime;
             const modal = document.getElementById('idle-warning-modal');
 
+            // Verificação periódica de encerramento coletivo da aula (Item 20)
+            const sessionStartTime = sessionStorage.getItem('lab_session_start_time') || new Date().toISOString();
+            if (!sessionStorage.getItem('lab_session_start_time')) {
+                sessionStorage.setItem('lab_session_start_time', sessionStartTime);
+            }
+            if (selectedClass && selectedClass.id && Math.random() < 0.3) {
+                fetch('/api/classes/' + selectedClass.id + '/check-session?since=' + encodeURIComponent(sessionStartTime))
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data && data.shouldLogout) {
+                            alert('🚪 ' + (data.message || 'A aula foi encerrada pelo seu professor. Até a próxima!'));
+                            logoutStudent();
+                        }
+                    }).catch(function(){});
+            }
+
             if (elapsed >= IDLE_LOGOUT_MS) {
                 dismissIdleWarning();
                 forceIdleLogout();
