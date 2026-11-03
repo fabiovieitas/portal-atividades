@@ -1925,22 +1925,31 @@
                     return;
                 }
 
+                // Ordenar por pontuação para identificar e destacar o Top 1 da Sala
+                students.sort((a, b) => (Number(b.points) || 0) - (Number(a.points) || 0));
+
                 let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
                 students.forEach((st, idx) => {
+                    const isTop1 = idx === 0 && (Number(st.points) || 0) > 0;
                     html += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: ${isTop1 ? '#fffbeb' : '#ffffff'}; border: 1.5px solid ${isTop1 ? '#f59e0b' : '#e2e8f0'}; padding: 10px 14px; border-radius: 12px;">
                             <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-weight: 800; font-size: 0.85rem; color: #94a3b8; width: 22px;">${idx + 1}.</span>
+                                <span style="font-weight: 800; font-size: 0.85rem; color: ${isTop1 ? '#d97706' : '#94a3b8'}; width: 22px;">${isTop1 ? '👑' : (idx + 1) + '.'}</span>
                                 <div>
-                                    <div style="font-weight: 800; color: #0f172a; font-size: 0.95rem;">${st.name}</div>
+                                    <div style="font-weight: 800; color: #0f172a; font-size: 0.95rem;">
+                                        ${st.name} ${isTop1 ? '<span style="background:#f59e0b; color:white; font-size:0.65rem; padding:2px 6px; border-radius:50px; font-weight:900; margin-left:6px;">TOP 1 DA SALA</span>' : ''}
+                                    </div>
                                     <div style="font-size: 0.78rem; color: #64748b;">
                                         ⭐ ${st.points || 0} XP ${st.student_pin ? '• 🔑 PIN: <strong>' + st.student_pin + '</strong>' : ''}
                                     </div>
                                 </div>
                             </div>
-                            <button onclick="deleteStudentItem('${st.id}', '${st.name.replace(/'/g, "\\'")}')" style="background: #fee2e2; color: #dc2626; border: none; padding: 6px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
-                                🗑️ Excluir
-                            </button>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                ${isTop1 ? `<a href="/certificado/campeao/${st.id}" target="_blank" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.78rem; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(245,158,11,0.3);">🖨️ Certificado Oficial</a>` : ''}
+                                <button onclick="deleteStudentItem('${st.id}', '${st.name.replace(/'/g, "\\'")}')" style="background: #fee2e2; color: #dc2626; border: none; padding: 6px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+                                    🗑️ Excluir
+                                </button>
+                            </div>
                         </div>
                     `;
                 });

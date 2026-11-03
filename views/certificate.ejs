@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Campeão - <%= student.name %> | Lab Kids</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Fredoka:wght@600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0f172a;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .no-print-toolbar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-action {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            background: #1d4ed8;
+        }
+
+        .btn-print {
+            background: #10b981;
+        }
+
+        .btn-print:hover {
+            background: #059669;
+        }
+
+        /* Moldura Oficial do Certificado */
+        .cert-container {
+            width: 297mm;
+            height: 210mm;
+            background: #ffffff;
+            position: relative;
+            padding: 16mm 18mm;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        /* Bordas Douradas de Gala */
+        .cert-outer-border {
+            position: absolute;
+            inset: 8mm;
+            border: 4px solid #b45309;
+            pointer-events: none;
+        }
+
+        .cert-inner-border {
+            position: absolute;
+            inset: 11mm;
+            border: 1.5px dashed #d97706;
+            pointer-events: none;
+        }
+
+        /* Brasões nos Cantos */
+        .corner-ornament {
+            position: absolute;
+            width: 32mm;
+            height: 32mm;
+            border: 3px solid #b45309;
+            pointer-events: none;
+        }
+        .top-left { top: 8mm; left: 8mm; border-right: none; border-bottom: none; }
+        .top-right { top: 8mm; right: 8mm; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 8mm; left: 8mm; border-right: none; border-top: none; }
+        .bottom-right { bottom: 8mm; right: 8mm; border-left: none; border-top: none; }
+
+        .cert-header {
+            text-align: center;
+            margin-top: 4mm;
+        }
+
+        .cert-logo {
+            font-size: 2.2rem;
+            margin-bottom: 2mm;
+        }
+
+        .cert-title-small {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            letter-spacing: 5px;
+            color: #b45309;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .cert-title-big {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem;
+            color: #1e3a8a;
+            font-weight: 900;
+            margin: 2mm 0 0 0;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .cert-badge-ribbon {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #78350f;
+            display: inline-block;
+            padding: 4px 22px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 0.92rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 3mm;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);
+        }
+
+        .cert-body {
+            text-align: center;
+            margin: 3mm 0;
+            padding: 0 14mm;
+            line-height: 1.7;
+        }
+
+        .cert-text-intro {
+            font-size: 1.12rem;
+            color: #475569;
+            margin: 0;
+        }
+
+        .cert-student-name {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 3mm 0;
+            border-bottom: 2px solid #cbd5e1;
+            display: inline-block;
+            padding: 0 20mm 1mm 20mm;
+        }
+
+        .cert-text-description {
+            font-size: 1.15rem;
+            color: #334155;
+            margin: 2mm 0;
+        }
+
+        .cert-highlight {
+            font-weight: 900;
+            color: #1e40af;
+        }
+
+        .cert-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 16mm 4mm 16mm;
+        }
+
+        .sig-block {
+            text-align: center;
+            width: 70mm;
+        }
+
+        .sig-line {
+            border-top: 1.5px solid #64748b;
+            margin-bottom: 2mm;
+        }
+
+        .sig-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .sig-role {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 700;
+        }
+
+        .cert-seal {
+            width: 32mm;
+            height: 32mm;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fde68a 0%, #f59e0b 60%, #b45309 100%);
+            border: 3px solid #78350f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            color: #451a03;
+            text-align: center;
+        }
+
+        .cert-seal-star {
+            font-size: 1.3rem;
+            margin-bottom: -2px;
+        }
+
+        .cert-seal-text {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        @media print {
+            body {
+                background: none;
+            }
+            .no-print-toolbar {
+                display: none !important;
+            }
+            .cert-container {
+                box-shadow: none;
+                margin: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print-toolbar">
+        <button onclick="window.print()" class="btn-action btn-print">
+            🖨️ Imprimir Certificado Oficial (A4)
+        </button>
+        <button onclick="window.history.back()" class="btn-action">
+            ↩️ Voltar
+        </button>
+    </div>
+
+    <div class="cert-container">
+        <!-- Moldura Clássica -->
+        <div class="cert-outer-border"></div>
+        <div class="cert-inner-border"></div>
+        <div class="corner-ornament top-left"></div>
+        <div class="corner-ornament top-right"></div>
+        <div class="corner-ornament bottom-left"></div>
+        <div class="corner-ornament bottom-right"></div>
+
+        <!-- Cabeçalho -->
+        <div class="cert-header">
+            <div class="cert-logo">🏆 🚀 🌟</div>
+            <p class="cert-title-small">Portal Educativo Lab Kids</p>
+            <h1 class="cert-title-big">Certificado de Honra ao Mérito</h1>
+            <div class="cert-badge-ribbon">
+                👑 GRANDE CAMPEÃO • TOP 1 DA SALA
+            </div>
+        </div>
+
+        <!-- Corpo do Certificado -->
+        <div class="cert-body">
+            <p class="cert-text-intro">Certificamos com louvor e orgulho que o(a) dedicado(a) estudante</p>
+            
+            <div class="cert-student-name">
+                <%= student.name %>
+            </div>
+
+            <p class="cert-text-description">
+                Conquistou o <strong>1º LUGAR (TOP 1)</strong> da turma <span class="cert-highlight"><%= className %></span> 
+                na instituição <span class="cert-highlight"><%= schoolName %></span>, acumulando a incrível marca de 
+                <span class="cert-highlight" style="color: #b45309; font-size: 1.25rem;"><%= student.points %> XP</span>
+                ao longo da <strong><%= season %></strong>, demonstrando excelência, curiosidade, superação e amor pelo conhecimento.
+            </p>
+        </div>
+
+        <!-- Rodapé e Assinaturas -->
+        <div class="cert-footer">
+            <div class="sig-block">
+                <div class="sig-line"></div>
+                <div class="sig-name">Professor(a) / Orientador(a)</div>
+                <div class="sig-role">Laboratório de Informática & Sala de Aula</div>
+            </div>
+
+            <div class="cert-seal">
+                <div class="cert-seal-star">★ ★ ★</div>
+                <div class="cert-seal-text">TOP 1<br>OFICIAL</div>
+            </div>
+
+            <div class="sig-block">
+                <div class="sig-line"></div>
+                <div class="sig-name">Direção Pedagógica Lab Kids</div>
+                <div class="sig-role">Emitido em <%= date %></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

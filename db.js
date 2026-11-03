@@ -147,6 +147,15 @@ try {
   try { sqlite.exec("ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN avatar_config TEXT DEFAULT '{}';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN medals_json TEXT DEFAULT '[]';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN monthly_points INTEGER DEFAULT 0;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN month_period TEXT DEFAULT '';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN referral_code TEXT;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN referred_by_code TEXT;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN active_days_count INTEGER DEFAULT 1;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN last_active_day TEXT DEFAULT '';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN referral_validated INTEGER DEFAULT 0;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN validated_referrals_count INTEGER DEFAULT 0;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN triple_xp_until DATETIME;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE activities ADD COLUMN month TEXT DEFAULT 'Agosto';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE teachers ADD COLUMN school TEXT DEFAULT '';"); } catch(e){}
   try { sqlite.exec("ALTER TABLE teachers ADD COLUMN status TEXT DEFAULT 'approved';"); } catch(e){}
@@ -1312,18 +1321,114 @@ const dbHelper = {
     return false;
   },
 
-  async recordStudentActivity(studentId, activityId, score = 10) {
+  async recordStudentActivity(studentId, activityId, rawScore = 10) {
+    const student = await queryGet("SELECT * FROM students WHERE id = ?", [studentId]);
+    if (!student) {
+      return { count: 0, pointsAdded: rawScore, medals: [] };
+    }
+
+    // 1. CÁLCULO INTELIGENTE DO MULTIPLICADOR XP TURBO
+    const now = new Date();
+    // Horário oficial de Brasília (UTC-3)
+    const brTime = new Date(now.getTime() + (now.getTimezoneOffset() - 180) * 60000);
+    const hour = brTime.getHours();
+    const dayOfWeek = brTime.getDay(); // 0 = Domingo, 6 = Sábado
+
+    let multiplier = 1;
+    let turboType = 'normal';
+    let turboLabel = 'XP Padrão';
+
+    const hasTripleXP = student.triple_xp_until && new Date(student.triple_xp_until) > now;
+    if (hasTripleXP) {
+      multiplier = 3;
+      turboType = 'triple_referral';
+      turboLabel = '🔥 XP TRIPLO ATIVADO (Bônus 10 Amigos)';
+    } else if (dayOfWeek === 0 || dayOfWeek === 6) {
+      multiplier = 2;
+      turboType = 'weekend';
+      turboLabel = '⚡ FIM DE SEMANA TURBO (2X XP)';
+    } else if (hour >= 18 && hour <= 23) {
+      multiplier = 2;
+      turboType = 'night';
+      turboLabel = '🌙 NOITE TURBO (2X XP)';
+    }
+
+    const calculatedScore = Math.max(1, Math.round(Number(rawScore || 10) * multiplier));
+
+    // 2. LOG DA ATIVIDADE
     await queryRun(
       "INSERT INTO student_activity_logs (student_id, activity_id, score) VALUES (?, ?, ?)",
-      [studentId, activityId, score]
+      [studentId, activityId, calculatedScore]
     );
-    await queryRun("UPDATE students SET points = points + ? WHERE id = ?", [score, studentId]);
 
-    // Check completed activities count and update medals
+    // 3. ATUALIZAÇÃO DE DIAS ATIVOS E SISTEMA ANTIFRAUDE DE INDICAÇÃO (5 DIAS)
+    const today = brTime.toISOString().split('T')[0];
+    const currentMonthPeriod = today.substring(0, 7); // Ex: '2026-11'
+
+    let activeDays = Number(student.active_days_count || 1);
+    let referralBonusAwarded = 0;
+    let referralValidated = Number(student.referral_validated || 0);
+
+    if (student.last_active_day !== today) {
+      activeDays += 1;
+      // Validação de indicação após 5 dias distintos de atividade
+      if (student.referred_by_code && referralValidated === 0 && activeDays >= 5) {
+        referralValidated = 1;
+        referralBonusAwarded = 250; // Bônus de 250 XP para o aluno
+
+        // Bônus para o colega que indicou
+        try {
+          const referrer = await queryGet("SELECT * FROM students WHERE referral_code = ?", [student.referred_by_code]);
+          if (referrer) {
+            const newCount = (Number(referrer.validated_referrals_count) || 0) + 1;
+            let refSql = "UPDATE students SET points = points + 250, monthly_points = monthly_points + 250, validated_referrals_count = ?";
+            const refParams = [newCount];
+
+            // Aluno que conseguir 10 pessoas validadas ganha XP Triplo por 1 semana
+            if (newCount === 10 || (newCount > 10 && newCount % 10 === 0)) {
+              const sevenDaysLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+              refSql += ", triple_xp_until = ?";
+              refParams.push(sevenDaysLater);
+            }
+            refSql += " WHERE id = ?";
+            refParams.push(referrer.id);
+            await queryRun(refSql, refParams);
+          }
+        } catch(e) {
+          console.warn('[Referral Validation Warning]:', e.message);
+        }
+      }
+    }
+
+    // 4. ATUALIZAÇÃO DA PONTUAÇÃO MENSAL E ANUAL (RESET MENSAL INTELIGENTE)
+    const isNewMonth = student.month_period !== currentMonthPeriod;
+    const currentMonthlyPoints = isNewMonth ? 0 : Number(student.monthly_points || 0);
+    const newMonthlyPoints = currentMonthlyPoints + calculatedScore + referralBonusAwarded;
+    const totalAdded = calculatedScore + referralBonusAwarded;
+
+    // Garante que o aluno tenha um código de indicação único se não tiver
+    let refCode = student.referral_code;
+    if (!refCode) {
+      refCode = 'LK' + student.id + Math.random().toString(36).substring(2, 6).toUpperCase();
+    }
+
+    await queryRun(
+      `UPDATE students 
+       SET points = points + ?, 
+           monthly_points = ?, 
+           month_period = ?, 
+           active_days_count = ?, 
+           last_active_day = ?, 
+           referral_validated = ?, 
+           referral_code = ?,
+           last_active_at = CURRENT_TIMESTAMP
+       WHERE id = ?`,
+      [totalAdded, newMonthlyPoints, currentMonthPeriod, activeDays, today, referralValidated, refCode, studentId]
+    );
+
+    // 5. MEDALHAS E CONQUISTAS
     const logs = await queryAll("SELECT id FROM student_activity_logs WHERE student_id = ?", [studentId]);
     const count = logs.length;
-    
-    const student = await queryGet("SELECT medals_json FROM students WHERE id = ?", [studentId]);
     let medals = [];
     try { medals = JSON.parse(student.medals_json || '[]'); } catch(e){}
 
@@ -1336,7 +1441,74 @@ const dbHelper = {
       await queryRun("UPDATE students SET medals_json = ? WHERE id = ?", [JSON.stringify(newMedals), studentId]);
     }
 
-    return { count, pointsAdded: score, medals: newMedals };
+    return {
+      count,
+      pointsAdded: totalAdded,
+      baseScore: rawScore,
+      multiplier,
+      turboType,
+      turboLabel,
+      referralBonusAwarded,
+      activeDays,
+      referralValidated,
+      medals: newMedals
+    };
+  },
+
+  async getHallOfFame() {
+    // 1. Top 10 Anual (Temporada 1)
+    const annualTop = await queryAll(`
+      SELECT s.id, s.name, s.avatar_config, s.points, s.monthly_points, s.class_id,
+             COALESCE(tc.class_name, s.class_name, 'Turma') as class_name,
+             COALESCE(tc.school_name, s.school_name, 'Escola') as school_name
+      FROM students s
+      LEFT JOIN teacher_classes tc ON s.class_id = tc.id
+      WHERE s.points > 0
+      ORDER BY s.points DESC
+      LIMIT 10
+    `);
+
+    // 2. Top 10 Mensal
+    const today = new Date().toISOString().split('T')[0];
+    const currentMonthPeriod = today.substring(0, 7);
+    const monthlyTop = await queryAll(`
+      SELECT s.id, s.name, s.avatar_config, s.points, s.monthly_points, s.class_id,
+             COALESCE(tc.class_name, s.class_name, 'Turma') as class_name,
+             COALESCE(tc.school_name, s.school_name, 'Escola') as school_name
+      FROM students s
+      LEFT JOIN teacher_classes tc ON s.class_id = tc.id
+      WHERE s.monthly_points > 0 AND s.month_period = ?
+      ORDER BY s.monthly_points DESC
+      LIMIT 10
+    `, [currentMonthPeriod]);
+
+    // 3. Campeões Top 1 de cada Turma
+    const classChampions = await queryAll(`
+      SELECT s.id, s.name, s.avatar_config, s.points, s.monthly_points, s.class_id,
+             COALESCE(tc.class_name, s.class_name, 'Turma') as class_name,
+             COALESCE(tc.school_name, s.school_name, 'Escola') as school_name
+      FROM students s
+      INNER JOIN (
+        SELECT class_id, MAX(points) as max_pts
+        FROM students
+        WHERE class_id IS NOT NULL AND points > 0
+        GROUP BY class_id
+      ) m ON s.class_id = m.class_id AND s.points = m.max_pts
+      LEFT JOIN teacher_classes tc ON s.class_id = tc.id
+      ORDER BY s.points DESC
+    `);
+
+    return {
+      season: {
+        id: 'temporada_1',
+        title: 'Temporada 1 - Rumo às Férias de Ouro ☀️',
+        description: 'Os melhores alunos de cada turma receberão o Certificado Oficial de Campeão antes das férias!',
+        status: 'active'
+      },
+      annualTop: annualTop || [],
+      monthlyTop: monthlyTop || [],
+      classChampions: classChampions || []
+    };
   },
 
   async claimDailyChest(studentId, currentStreak = 1) {
@@ -1613,7 +1785,16 @@ async function initTables() {
     "ALTER TABLE school_classes ADD COLUMN active_simulados TEXT DEFAULT '[]';",
     "ALTER TABLE school_classes ADD COLUMN teacher_id INTEGER;",
     "ALTER TABLE schools ADD COLUMN city TEXT DEFAULT 'Brasil';",
-    "ALTER TABLE schools ADD COLUMN active INTEGER DEFAULT 1;"
+    "ALTER TABLE schools ADD COLUMN active INTEGER DEFAULT 1;",
+    "ALTER TABLE students ADD COLUMN monthly_points INTEGER DEFAULT 0;",
+    "ALTER TABLE students ADD COLUMN month_period TEXT DEFAULT '';",
+    "ALTER TABLE students ADD COLUMN referral_code TEXT;",
+    "ALTER TABLE students ADD COLUMN referred_by_code TEXT;",
+    "ALTER TABLE students ADD COLUMN active_days_count INTEGER DEFAULT 1;",
+    "ALTER TABLE students ADD COLUMN last_active_day TEXT DEFAULT '';",
+    "ALTER TABLE students ADD COLUMN referral_validated INTEGER DEFAULT 0;",
+    "ALTER TABLE students ADD COLUMN validated_referrals_count INTEGER DEFAULT 0;",
+    "ALTER TABLE students ADD COLUMN triple_xp_until DATETIME;"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}

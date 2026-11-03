@@ -694,6 +694,84 @@
             </div>
         </div>
 
+        <!-- ================================================================= -->
+        <!-- ⚡ BANNER DINÂMICO DE XP TURBO (NOITES & FINS DE SEMANA) -->
+        <!-- ================================================================= -->
+        <div id="turboXpBanner" style="display: none; background: linear-gradient(135deg, #7c2d12 0%, #b45309 50%, #f59e0b 100%); border: 2.5px solid #fbbf24; border-radius: 20px; padding: 16px 20px; margin-bottom: 25px; color: white; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.35); text-align: center;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));">⚡ 🔥</span>
+                <div>
+                    <h3 id="turboTitle" style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.35rem; color: #fffbeb;">
+                        MODO TURBO 2X ATIVADO!
+                    </h3>
+                    <p id="turboSubtitle" style="margin: 3px 0 0; font-size: 0.95rem; font-weight: 700; color: #fef3c7;">
+                        Jogue agora e ganhe o DOBRO de XP para subir no Hall da Fama da Temporada 1!
+                    </p>
+                </div>
+                <a href="/aluno" style="background: #ffffff; color: #78350f; font-weight: 900; padding: 10px 22px; border-radius: 50px; text-decoration: none; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+                    🚀 Jogar Agora
+                </a>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- 🏆 HALL DA FAMA - TEMPORADA 1 (ANUAL) & CAMPEÕES DO MÊS -->
+        <!-- ================================================================= -->
+        <section id="hall-of-fame-section" style="margin-bottom: 35px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 2.5px solid #e2e8f0; border-radius: 28px; padding: 28px 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 20px;">
+                <div>
+                    <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: inline-block; padding: 4px 14px; border-radius: 50px; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">
+                        👑 Temporada 1 • Rumo às Férias
+                    </div>
+                    <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: #0f172a;">
+                        🏆 Hall da Fama dos Campeões
+                    </h2>
+                    <p style="margin: 4px 0 0; color: #64748b; font-size: 0.95rem; font-weight: 600;">
+                        O aluno <strong>TOP 1 de cada sala</strong> receberá o <strong>Certificado Oficial Impresso</strong> pelo professor antes das férias!
+                    </p>
+                </div>
+
+                <!-- Tabs de Alternância: Temporada vs Mensal -->
+                <div style="display: flex; gap: 8px; background: #e2e8f0; padding: 5px; border-radius: 50px;">
+                    <button type="button" id="tabHofAnnual" onclick="switchHofTab('annual')" style="background: #ffffff; color: #0f172a; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 900; font-size: 0.88rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        👑 Temporada 1 (Anual)
+                    </button>
+                    <button type="button" id="tabHofMonthly" onclick="switchHofTab('monthly')" style="background: transparent; color: #64748b; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 900; font-size: 0.88rem; cursor: pointer;">
+                        🔥 Campeões do Mês
+                    </button>
+                    <button type="button" id="tabHofClasses" onclick="switchHofTab('classes')" style="background: transparent; color: #64748b; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 900; font-size: 0.88rem; cursor: pointer;">
+                        🏫 Top 1 por Turma
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pódio dos 3 Primeiros -->
+            <div id="hofPodiumContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                <!-- Preenchido via Javascript -->
+            </div>
+
+            <!-- Tabela dos demais colocados -->
+            <div id="hofListContainer" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; overflow: hidden;">
+                <!-- Preenchido via Javascript -->
+            </div>
+
+            <!-- Banner Convide Amigos Antifraude -->
+            <div style="margin-top: 22px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px dashed #60a5fa; border-radius: 18px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 2.2rem;">🤝</span>
+                    <div>
+                        <strong style="color: #1e40af; font-size: 1rem;">Convide Amigos de Fora da Escola!</strong>
+                        <p style="margin: 2px 0 0; color: #3b82f6; font-size: 0.88rem; font-weight: 700;">
+                            Indique um amigo: quando ele completar <strong>5 dias de atividades</strong>, vocês dois ganham <strong>+250 XP</strong>! Com 10 amigos, você ganha <strong>1 SEMANA DE XP TRIPLO!</strong>
+                        </p>
+                    </div>
+                </div>
+                <a href="/aluno" class="btn-submit" style="margin: 0; background: #2563eb; color: #ffffff; font-weight: 900; padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; text-decoration: none;">
+                    📢 Pegar Meu Link de Indicação
+                </a>
+            </div>
+        </section>
+
         <section class="challenges" id="atividades">
             <div class="section-header">
                 <div class="header-content">
@@ -1075,6 +1153,9 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadHallOfFame();
+            checkTurboStatus();
+
             const saved = localStorage.getItem('lab_student_profile');
             if (saved) {
                 try {
@@ -1089,6 +1170,119 @@
                 } catch(e){}
             }
         });
+
+        let hofData = null;
+        let currentHofTab = 'annual';
+
+        async function loadHallOfFame() {
+            try {
+                const res = await fetch('/api/hall-of-fame');
+                const data = await res.json();
+                if (data.success) {
+                    hofData = data;
+                    renderHallOfFame();
+                }
+            } catch(e) {
+                console.warn('Erro ao carregar Hall da Fama:', e);
+            }
+        }
+
+        async function checkTurboStatus() {
+            try {
+                const res = await fetch('/api/gamification/status');
+                const data = await res.json();
+                if (data.success && data.isTurbo) {
+                    const b = document.getElementById('turboXpBanner');
+                    if (b) {
+                        b.style.display = 'block';
+                        document.getElementById('turboTitle').innerText = data.label;
+                    }
+                }
+            } catch(e){}
+        }
+
+        function switchHofTab(tab) {
+            currentHofTab = tab;
+            ['annual', 'monthly', 'classes'].forEach(t => {
+                const btn = document.getElementById('tabHof' + t.charAt(0).toUpperCase() + t.slice(1));
+                if (btn) {
+                    if (t === tab) {
+                        btn.style.background = '#ffffff';
+                        btn.style.color = '#0f172a';
+                        btn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+                    } else {
+                        btn.style.background = 'transparent';
+                        btn.style.color = '#64748b';
+                        btn.style.boxShadow = 'none';
+                    }
+                }
+            });
+            renderHallOfFame();
+        }
+
+        function renderHallOfFame() {
+            if (!hofData) return;
+            const podiumEl = document.getElementById('hofPodiumContainer');
+            const listEl = document.getElementById('hofListContainer');
+            if (!podiumEl || !listEl) return;
+
+            let items = [];
+            let ptsField = 'points';
+            if (currentHofTab === 'annual') {
+                items = hofData.annualTop || [];
+                ptsField = 'points';
+            } else if (currentHofTab === 'monthly') {
+                items = hofData.monthlyTop || [];
+                ptsField = 'monthly_points';
+            } else {
+                items = hofData.classChampions || [];
+                ptsField = 'points';
+            }
+
+            if (items.length === 0) {
+                podiumEl.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 25px; color: #94a3b8; font-weight: 700;">Ainda não há pontuações registradas nesta categoria. Seja o primeiro a jogar e conquistar o topo!</div>';
+                listEl.innerHTML = '';
+                return;
+            }
+
+            const top3 = items.slice(0, 3);
+            const others = items.slice(3, 10);
+
+            const medals = ['👑 1º LUGAR', '🥈 2º LUGAR', '🥉 3º LUGAR'];
+            const colors = ['#f59e0b', '#94a3b8', '#b45309'];
+            const bgs = ['linear-gradient(135deg, #fffbeb, #fef3c7)', 'linear-gradient(135deg, #f8fafc, #f1f5f9)', 'linear-gradient(135deg, #fff7ed, #ffedd5)'];
+
+            podiumEl.innerHTML = top3.map((st, idx) => {
+                let cfg = {};
+                try { cfg = typeof st.avatar_config === 'string' ? JSON.parse(st.avatar_config) : (st.avatar_config || {}); } catch(e){}
+                const svg = typeof generateAvatarSVG === 'function' ? generateAvatarSVG(cfg, 80) : '👤';
+                return '<div style="background: ' + bgs[idx] + '; border: 2.5px solid ' + colors[idx] + '; border-radius: 20px; padding: 18px 14px; text-align: center; position: relative; box-shadow: 0 6px 20px rgba(0,0,0,0.06);">' +
+                    '<div style="background: ' + colors[idx] + '; color: white; display: inline-block; padding: 3px 12px; border-radius: 50px; font-weight: 900; font-size: 0.72rem; margin-bottom: 10px;">' + medals[idx] + '</div>' +
+                    '<div style="margin-bottom: 8px;">' + svg + '</div>' +
+                    '<h4 style="margin: 0; font-size: 1.1rem; color: #0f172a; font-weight: 900;">' + st.name + '</h4>' +
+                    '<p style="margin: 2px 0 8px 0; font-size: 0.8rem; color: #64748b; font-weight: 700;">' + (st.class_name || 'Turma') + ' • ' + (st.school_name || 'Escola') + '</p>' +
+                    '<div style="background: white; border: 1.5px solid ' + colors[idx] + '; color: ' + colors[idx] + '; border-radius: 50px; padding: 4px 14px; font-weight: 900; font-size: 0.95rem; display: inline-block;">⭐ ' + (st[ptsField] || 0) + ' XP</div>' +
+                '</div>';
+            }).join('');
+
+            if (others.length > 0) {
+                listEl.innerHTML = others.map((st, i) => {
+                    const pos = i + 4;
+                    return '<div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #f1f5f9;">' +
+                        '<div style="display: flex; align-items: center; gap: 12px;">' +
+                            '<span style="font-weight: 900; color: #94a3b8; font-size: 0.95rem; width: 24px;">#' + pos + '</span>' +
+                            '<div>' +
+                                '<strong style="color: #1e293b; font-size: 0.95rem;">' + st.name + '</strong>' +
+                                '<div style="font-size: 0.78rem; color: #64748b;">' + (st.class_name || 'Turma') + ' • ' + (st.school_name || 'Escola') + '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<span style="font-weight: 900; color: #0284c7; font-size: 0.95rem;">⭐ ' + (st[ptsField] || 0) + ' XP</span>' +
+                    '</div>';
+                }).join('');
+            } else {
+                listEl.innerHTML = '';
+            }
+        }
     </script>
 
     <!-- ==================== SEÇÃO PEDAGÓGICA INSTITUCIONAL (E-E-A-T & BNCC) ==================== -->

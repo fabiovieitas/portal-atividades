@@ -1915,6 +1915,108 @@ app.post('/api/students/:id/activity-complete', async (req, res) => {
   }
 });
 
+// Hall da Fama da Temporada 1 & Mensal
+app.get('/api/hall-of-fame', async (req, res) => {
+  try {
+    const hallOfFame = await dbHelper.getHallOfFame();
+    res.json({ success: true, ...hallOfFame });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Status em Tempo Real de Gamificação & XP Turbo
+app.get('/api/gamification/status', (req, res) => {
+  const now = new Date();
+  const brTime = new Date(now.getTime() + (now.getTimezoneOffset() - 180) * 60000);
+  const hour = brTime.getHours();
+  const dayOfWeek = brTime.getDay(); // 0 = Dom, 6 = Sab
+
+  let isTurbo = false;
+  let multiplier = 1;
+  let label = 'XP Padrão';
+
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    isTurbo = true;
+    multiplier = 2;
+    label = '⚡ FIM DE SEMANA TURBO (2X XP)';
+  } else if (hour >= 18 && hour <= 23) {
+    isTurbo = true;
+    multiplier = 2;
+    label = '🌙 NOITE TURBO (2X XP)';
+  }
+
+  res.json({
+    success: true,
+    isTurbo,
+    multiplier,
+    label,
+    serverTime: brTime.toISOString(),
+    season: {
+      id: 'temporada_1',
+      name: 'Temporada 1',
+      title: 'Rumo às Férias de Ouro ☀️',
+      target: 'Certificado de Campeão Top 1 de cada sala'
+    }
+  });
+});
+
+// Sistema de Indicação com Código de Amigo (Antifraude 5 dias)
+app.post('/api/students/apply-referral', async (req, res) => {
+  try {
+    const { student_id, referral_code } = req.body;
+    if (!student_id || !referral_code) {
+      return res.status(400).json({ success: false, error: 'Código de indicação não fornecido' });
+    }
+    const cleanRef = String(referral_code).trim().toUpperCase();
+    const student = await dbHelper.getStudentById(student_id);
+    if (!student) return res.status(404).json({ success: false, error: 'Aluno não encontrado' });
+    
+    if (student.referral_code && student.referral_code.toUpperCase() === cleanRef) {
+      return res.status(400).json({ success: false, error: 'Você não pode usar seu próprio código!' });
+    }
+    
+    const referrer = await dbHelper.queryGet("SELECT id, name FROM students WHERE UPPER(referral_code) = ?", [cleanRef]);
+    if (!referrer) {
+      return res.status(404).json({ success: false, error: 'Código de indicação inválido ou não encontrado' });
+    }
+
+    await dbHelper.queryRun("UPDATE students SET referred_by_code = ? WHERE id = ?", [cleanRef, student_id]);
+    res.json({ 
+      success: true, 
+      message: `🎉 Código ativado com sucesso! Você e ${referrer.name} receberão +250 XP de bônus após seus primeiros 5 dias de atividades no Lab Kids!` 
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Emissão e Impressão do Certificado Oficial de Campeão (Top 1 da Turma)
+app.get('/certificado/campeao/:studentId', async (req, res) => {
+  try {
+    const student = await dbHelper.getStudentById(req.params.studentId);
+    if (!student) {
+      return res.status(404).send('Aluno não encontrado para emissão do certificado.');
+    }
+    let tc = null;
+    if (student.class_id) {
+      tc = await dbHelper.queryGet("SELECT * FROM teacher_classes WHERE id = ?", [student.class_id]);
+    }
+    const className = tc ? tc.class_name : (student.class_name || 'Turma Oficial');
+    const schoolName = tc ? tc.school_name : (student.school_name || 'Escola Polo Lab Kids');
+    
+    res.render('certificate', {
+      student,
+      className,
+      schoolName,
+      season: 'Temporada 1 - 2026',
+      date: new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
+    });
+  } catch (err) {
+    res.status(500).send('Erro ao gerar certificado: ' + err.message);
+  }
+});
+
 // ============================================================================
 // GAMIFICAÇÃO: BAÚ DIÁRIO DO ROBÔ LÉO
 // ============================================================================
