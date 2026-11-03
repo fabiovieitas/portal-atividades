@@ -2,8 +2,14 @@
  * ============================================================================
  * PORTAL LAB KIDS - STUDIO DE AVATARES ÉPICOS (DICEBEAR ENGINE v3)
  * ============================================================================
- * Sistema interativo de personalização de avatares infantis (1º ao 5º Ano)
- * com sistema de Avatares Bloqueados por Conquista e Nível de XP!
+ * Sistema completo de personalização estilo Duolingo:
+ * - Acessórios e Óculos (Grau, Sol, Gamer, Pirata, Redondos)
+ * - Expressões Faciais (Olhos felizes, piscadinha, corações, foco) e Bocas/Sorrisos
+ * - Estilos e Cores de Cabelo (Cachos, Black Power, Dreads, Liso, Rosa Gamer, etc.)
+ * - Tons de Pele Inclusivos para crianças
+ * - Roupas e Cores (Moletom, Camiseta Gamer, Uniforme, Macacão)
+ * - Cenários de Fundo Vibrantes
+ * - Desbloqueio de Heróis Raros por XP e Conquistas
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
@@ -34,19 +40,120 @@ const DUOLINGO_AVATAR_PRESETS = {
     { name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Heroína Lendária', requiredXP: 1000, reqDesc: 'Alcance Nível 5 (Lenda do Lab)' }
   ],
 
+  // 1. ÓCULOS E ACESSÓRIOS (Estilo Duolingo)
+  accessories: [
+    { id: 'none', label: 'Sem Óculos', icon: '🚫' },
+    { id: 'round', label: 'Redondos 🤓', icon: '👓' },
+    { id: 'prescription01', label: 'Grau Moderno 👓', icon: '👓' },
+    { id: 'prescription02', label: 'Grau Retrô 👓', icon: '👓' },
+    { id: 'sunglasses', label: 'De Sol Estiloso 😎', icon: '🕶️' },
+    { id: 'wayfarers', label: 'Gamer Wayfarer 🕶️', icon: '🕶️' },
+    { id: 'eyepatch', label: 'Tapa-Olho Pirata 🏴‍☠️', icon: '🏴‍☠️' }
+  ],
+
+  // 2. OLHOS E EXPRESSÕES (Estilo Duolingo)
+  eyes: [
+    { id: 'default', label: 'Padrão 🙂', icon: '👀' },
+    { id: 'happy', label: 'Super Feliz 😄', icon: '😄' },
+    { id: 'wink', label: 'Piscadinha 😉', icon: '😉' },
+    { id: 'hearts', label: 'Apaixonado 😍', icon: '😍' },
+    { id: 'surprised', label: 'Surpreso 😲', icon: '😲' },
+    { id: 'squint', label: 'Focado / Detetive 🧐', icon: '🧐' },
+    { id: 'winkWacky', label: 'Brincalhão 😜', icon: '😜' },
+    { id: 'closed', label: 'Descansando 😌', icon: '😌' }
+  ],
+
+  // 3. BOCAS E SORRISOS
+  mouth: [
+    { id: 'smile', label: 'Sorridente 😊', icon: '😊' },
+    { id: 'twinkle', label: 'Radiante 🌟', icon: '🌟' },
+    { id: 'tongue', label: 'Língua de Fora 😋', icon: '😋' },
+    { id: 'default', label: 'Tranquilo 🙂', icon: '🙂' },
+    { id: 'serious', label: 'Concentrado 😐', icon: '😐' },
+    { id: 'eating', label: 'Lanche Gostoso 🍪', icon: '🍪' }
+  ],
+
+  // 4. CABELOS & PENTEADOS
+  hairStyles: [
+    { id: 'shortFlat', label: 'Curto Clássico 👦', icon: '👦' },
+    { id: 'shortCurly', label: 'Cachos Curtos 🧑‍🦱', icon: '🧑‍🦱' },
+    { id: 'curly', label: 'Cachos Volumosos 🌀', icon: '🌀' },
+    { id: 'fro', label: 'Black Power ✊', icon: '✊' },
+    { id: 'dreads', label: 'Dreads Estilosos 🧑‍🦱', icon: '🧑‍🦱' },
+    { id: 'bun', label: 'Coque Estudante 👧', icon: '👧' },
+    { id: 'bob', label: 'Chanel Moderno 💇', icon: '💇' },
+    { id: 'straight01', label: 'Liso Longo 👩', icon: '👩' },
+    { id: 'curvy', label: 'Ondulado 🌊', icon: '🌊' },
+    { id: 'hat', label: 'Boné Radical 🧢', icon: '🧢' },
+    { id: 'winterHat1', label: 'Gorro de Inverno ❄️', icon: '❄️' }
+  ],
+
+  // 5. CORES DE CABELO
+  hairColors: [
+    { id: '2c1b18', label: 'Preto Ônix', hex: '#2c1b18' },
+    { id: '4a312c', label: 'Castanho Escuro', hex: '#4a312c' },
+    { id: '724133', label: 'Castanho Chocolate', hex: '#724133' },
+    { id: 'b58143', label: 'Castanho Dourado', hex: '#b58143' },
+    { id: 'd6b370', label: 'Loiro Solar', hex: '#d6b370' },
+    { id: 'f59797', label: 'Rosa Anime 🌸', hex: '#f59797' },
+    { id: 'c93305', label: 'Ruivo Fogo 🔥', hex: '#c93305' },
+    { id: 'e8e1e1', label: 'Platinado / Branco ⚡', hex: '#e8e1e1' }
+  ],
+
+  // 6. TONS DE PELE INCLUSIVOS
+  skinColors: [
+    { id: 'ffdbb4', label: 'Claro Neutro', hex: '#ffdbb4' },
+    { id: 'edb98a', label: 'Claro Dourado', hex: '#edb98a' },
+    { id: 'f8d25c', label: 'Dourado Quente', hex: '#f8d25c' },
+    { id: 'fd9841', label: 'Canela Suave', hex: '#fd9841' },
+    { id: 'd08b5b', label: 'Moreno Natural', hex: '#d08b5b' },
+    { id: 'ae5d29', label: 'Moreno Médio', hex: '#ae5d29' },
+    { id: '614335', label: 'Negro / Ébano', hex: '#614335' }
+  ],
+
+  // 7. ROUPAS E TRAJES
+  clothing: [
+    { id: 'hoodie', label: 'Moletom com Capuz 🧥', icon: '🧥' },
+    { id: 'graphicShirt', label: 'Camiseta Gamer 🎮', icon: '🎮' },
+    { id: 'shirtCrewNeck', label: 'Camiseta Básica 👕', icon: '👕' },
+    { id: 'collarAndSweater', label: 'Uniforme Escolar 👔', icon: '👔' },
+    { id: 'overall', label: 'Macacão Divertido 👖', icon: '👖' },
+    { id: 'blazerAndShirt', label: 'Traje de Gala 🎓', icon: '🎓' }
+  ],
+
+  // 8. CORES DE ROUPAS
+  clothesColors: [
+    { id: '5199e4', label: 'Azul Lab Kids', hex: '#5199e4' },
+    { id: '65c9ff', label: 'Azul Celeste', hex: '#65c9ff' },
+    { id: 'ff5c5c', label: 'Vermelho Rubi', hex: '#ff5c5c' },
+    { id: 'a7ffc4', label: 'Verde Menta', hex: '#a7ffc4' },
+    { id: 'ffffb1', label: 'Amarelo Sol', hex: '#ffffb1' },
+    { id: 'ff488e', label: 'Rosa Pink', hex: '#ff488e' },
+    { id: '262e33', label: 'Preto Grafite', hex: '#262e33' },
+    { id: 'ffffff', label: 'Branco Puro', hex: '#ffffff' }
+  ],
+
   // Tribos / Estilos artísticos do DiceBear
   styles: [
+    { id: 'avataaars', label: 'Colegas da Escola 🧑', icon: '🧑', desc: 'Personalização completa' },
     { id: 'bottts', label: 'Robôs 3D 🤖', icon: '🤖', desc: 'Tecnológicos e velozes' },
     { id: 'adventurer', label: 'Aventureiros RPG ⚔️', icon: '⚔️', desc: 'Heróis de capa e espada' },
     { id: 'pixel-art', label: 'Pixel Art 8-Bit 👾', icon: '👾', desc: 'Retrô estilo arcade' },
     { id: 'lorelei', label: 'Desenho Animado 🎨', icon: '🎨', desc: 'Estilo anime moderno' },
     { id: 'big-smile', label: 'Big Smile 😄', icon: '😄', desc: 'Expressões ultra felizes' },
-    { id: 'fun-emoji', label: 'Mascotes Divertidos 🌟', icon: '🌟', desc: 'Criaturas engraçadas' },
-    { id: 'avataaars', label: 'Colegas da Escola 🧑', icon: '🧑', desc: 'Estudantes reais' }
+    { id: 'fun-emoji', label: 'Mascotes Divertidos 🌟', icon: '🌟', desc: 'Criaturas engraçadas' }
   ],
 
   // Personagens pré-configurados por Tribo
   styleSeeds: {
+    'avataaars': [
+      { id: 'CapitaoLucas', label: 'Lucas 👦' },
+      { id: 'MariaClara', label: 'Maria Clara 👧' },
+      { id: 'GabrielPro', label: 'Gabriel 🧢' },
+      { id: 'JuliaStar', label: 'Júlia 🌸' },
+      { id: 'PedroGamer', label: 'Pedro 🎮' },
+      { id: 'AnaLuz', label: 'Ana ✨' }
+    ],
     'bottts': [
       { id: 'LeoRobot', label: 'Robô Léo 🤖' },
       { id: 'Sparky', label: 'Spark ⚡' },
@@ -97,14 +204,6 @@ const DUOLINGO_AVATAR_PRESETS = {
       { id: 'CoolCat', label: 'Gatinho Cool 😎' },
       { id: 'FireDragon', label: 'Dragão Fogo 🔥' },
       { id: 'CosmicPanda', label: 'Panda Po 🐼' }
-    ],
-    'avataaars': [
-      { id: 'CapitaoLucas', label: 'Lucas 👦' },
-      { id: 'MariaClara', label: 'Maria Clara 👧' },
-      { id: 'GabrielPro', label: 'Gabriel 🧢' },
-      { id: 'JuliaStar', label: 'Júlia 🌸' },
-      { id: 'PedroGamer', label: 'Pedro 🎮' },
-      { id: 'AnaLuz', label: 'Ana ✨' }
     ]
   },
 
@@ -131,13 +230,39 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
     try { config = JSON.parse(config); } catch (e) { config = {}; }
   }
 
-  const style = config.style || 'bottts';
-  const seed = config.seed || 'LeoRobot';
+  const style = config.style || 'avataaars';
+  const seed = config.seed || 'CapitaoLucas';
   const bg = (config.bg || '38bdf8').replace('#', '');
 
   let url = `/api/avatar-proxy?style=${encodeURIComponent(style)}&seed=${encodeURIComponent(seed)}`;
   if (bg && bg !== 'transparent') {
     url += `&backgroundColor=${bg}`;
+  }
+
+  // Parâmetros de customização avançada Duolingo
+  if (config.accessories) {
+    url += `&accessories=${encodeURIComponent(config.accessories)}`;
+  }
+  if (config.eyes) {
+    url += `&eyes=${encodeURIComponent(config.eyes)}`;
+  }
+  if (config.mouth) {
+    url += `&mouth=${encodeURIComponent(config.mouth)}`;
+  }
+  if (config.top) {
+    url += `&top=${encodeURIComponent(config.top)}`;
+  }
+  if (config.hairColor) {
+    url += `&hairColor=${encodeURIComponent(config.hairColor.replace('#', ''))}`;
+  }
+  if (config.skinColor) {
+    url += `&skinColor=${encodeURIComponent(config.skinColor.replace('#', ''))}`;
+  }
+  if (config.clothing) {
+    url += `&clothing=${encodeURIComponent(config.clothing)}`;
+  }
+  if (config.clothesColor) {
+    url += `&clothesColor=${encodeURIComponent(config.clothesColor.replace('#', ''))}`;
   }
 
   return url;

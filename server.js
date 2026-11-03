@@ -601,6 +601,39 @@ const handleAvatarRequest = async (req, res) => {
       options.backgroundColor = [bg];
     }
 
+    // Suporte a customização avançada estilo Duolingo (Cabelo, Olhos, Óculos, Roupas, Pele)
+    if (req.query.top) {
+      options.top = [req.query.top];
+      options.topProbability = 100;
+    }
+    if (req.query.hairColor) {
+      options.hairColor = [req.query.hairColor.replace('#', '')];
+    }
+    if (req.query.skinColor) {
+      options.skinColor = [req.query.skinColor.replace('#', '')];
+    }
+    if (req.query.clothing) {
+      options.clothing = [req.query.clothing];
+    }
+    if (req.query.clothesColor) {
+      options.clothesColor = [req.query.clothesColor.replace('#', '')];
+    }
+    if (req.query.eyes) {
+      options.eyes = [req.query.eyes];
+    }
+    if (req.query.mouth) {
+      options.mouth = [req.query.mouth];
+    }
+    if (req.query.accessories && req.query.accessories !== 'none') {
+      options.accessories = [req.query.accessories];
+      options.accessoriesProbability = 100;
+    } else if (req.query.accessories === 'none') {
+      options.accessoriesProbability = 0;
+    }
+    if (req.query.accessoriesColor) {
+      options.accessoriesColor = [req.query.accessoriesColor.replace('#', '')];
+    }
+
     const avatar = createAvatar(style, options);
 
     res.setHeader('Content-Type', 'image/svg+xml');

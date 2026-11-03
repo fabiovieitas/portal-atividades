@@ -657,40 +657,39 @@
     </header>
 
     <main class="container">
-        <!-- BANNER DE CONVITE PARA PROFESSORES DE TODO O BRASIL -->
-        <div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border: 2px solid #818cf8; border-radius: 20px; padding: 20px 25px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; box-shadow: 0 10px 30px rgba(49, 46, 129, 0.3); color: white;">
-            <div style="display: flex; align-items: center; gap: 15px; flex: 1; min-width: 280px;">
-                <span style="font-size: 2.8rem;">👩‍🏫</span>
-                <div>
-                    <div style="background: rgba(251, 191, 36, 0.2); border: 1px solid #fbbf24; color: #fbbf24; display: inline-block; padding: 3px 10px; border-radius: 50px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px;">
-                        ✨ 100% Gratuito para Educadores de Todo o Brasil
+        <!-- HUB LAB KIDS: ACESSO ALUNOS & EDUCADORES (COMPACTO, ELEGANTE E SEM REDUNDÂNCIA) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 25px;">
+            <!-- Card Aluno: Studio de Avatares Duolingo & Conquistas -->
+            <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid #38bdf8; border-radius: 20px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2); color: white;">
+                <div style="display: flex; align-items: center; gap: 14px; flex: 1;">
+                    <div style="font-size: 2.6rem; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));">🎨</div>
+                    <div>
+                        <div style="background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; color: #38bdf8; display: inline-block; padding: 2px 8px; border-radius: 50px; font-weight: 800; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">
+                            ✨ Studio Duolingo
+                        </div>
+                        <h3 style="margin: 0 0 2px 0; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #ffffff;">Crie seu Avatar do Lab</h3>
+                        <p style="margin: 0; color: #cbd5e1; font-size: 0.88rem;">Personalize óculos, olhos e roupas e ganhe medalhas!</p>
                     </div>
-                    <h3 style="margin: 0 0 4px 0; font-family: 'Fredoka', sans-serif; font-size: 1.35rem; color: #ffffff;">Leve o Lab Kids para a sua Escola!</h3>
-                    <p style="margin: 0; color: #cbd5e1; font-size: 0.95rem;">Cadastre suas turmas em 10 segundos, gere Códigos de Acesso para seus alunos e projete jogos e simulados na lousa digital.</p>
                 </div>
-            </div>
-            <div>
-                <a href="/professor/login?cadastro=1" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; font-weight: 900; padding: 14px 28px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); font-size: 1.05rem;">
-                    🚀 Cadastrar Minha Turma Grátis
+                <a href="/aluno?action=avatar" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #38bdf8, #0284c7); color: #ffffff; font-weight: 900; padding: 10px 18px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35); font-size: 0.92rem; white-space: nowrap;">
+                    🎨 Criar Avatar
                 </a>
             </div>
-        </div>
 
-        <!-- BANNER GAMIFICADO DO ALUNO: STUDIO DE AVATARES 3D -->
-        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border: 2.5px solid #38bdf8; border-radius: 20px; padding: 18px 24px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25); color: white;">
-            <div style="display: flex; align-items: center; gap: 16px; flex: 1; min-width: 270px;">
-                <div style="font-size: 2.8rem; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));">🎨</div>
-                <div>
-                    <div style="background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; color: #38bdf8; display: inline-block; padding: 3px 10px; border-radius: 50px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px;">
-                        ✨ Área do Aluno & Conquistas
+            <!-- Card Educadores: Leve para sua Turma -->
+            <div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border: 2px solid #818cf8; border-radius: 20px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2); color: white;">
+                <div style="display: flex; align-items: center; gap: 14px; flex: 1;">
+                    <span style="font-size: 2.6rem;">👩‍🏫</span>
+                    <div>
+                        <div style="background: rgba(251, 191, 36, 0.2); border: 1px solid #fbbf24; color: #fbbf24; display: inline-block; padding: 2px 8px; border-radius: 50px; font-weight: 800; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">
+                            ✨ 100% Gratuito
+                        </div>
+                        <h3 style="margin: 0 0 2px 0; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #ffffff;">Leve o Lab para sua Turma</h3>
+                        <p style="margin: 0; color: #cbd5e1; font-size: 0.88rem;">Cadastre suas turmas e use jogos na lousa digital.</p>
                     </div>
-                    <h3 style="margin: 0 0 4px 0; font-family: 'Fredoka', sans-serif; font-size: 1.35rem; color: #ffffff;">Studio de Avatares 3D Lab Kids</h3>
-                    <p style="margin: 0; color: #cbd5e1; font-size: 0.95rem;">Crie seu herói personalizado, ganhe XP nos jogos e desbloqueie personagens lendários!</p>
                 </div>
-            </div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="/aluno?action=avatar" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #38bdf8, #0284c7); color: #ffffff; font-weight: 900; padding: 12px 24px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4); font-size: 1rem;">
-                    🎨 Criar Meu Avatar 3D
+                <a href="/professor/login?cadastro=1" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; font-weight: 900; padding: 10px 18px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35); font-size: 0.92rem; white-space: nowrap;">
+                    🚀 Cadastrar Turma
                 </a>
             </div>
         </div>

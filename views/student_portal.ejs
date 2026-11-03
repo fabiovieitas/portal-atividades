@@ -559,11 +559,15 @@
                 <!-- Right Side: Style Tabs & Customization Grid -->
                 <div class="duo-panel-side">
                     <!-- Top Icon Tabs -->
-                    <div class="duo-tabs-nav" style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
-                        <div class="duo-tab-icon active" onclick="switchDuoTab('heroes')" title="Heróis Prontos" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">🦸‍♂️ Heróis</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('style')" title="Estilo da Coleção" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">🎨 Tribo</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('seed')" title="Personagens & Rosto" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">👤 Personagem</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cenários de Fundo" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">🌈 Fundo</div>
+                    <div class="duo-tabs-nav" style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; gap: 6px; padding: 10px 8px 0 8px;">
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('heroes')" title="Heróis & Mascotes" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🦸‍♂️ Heróis</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('accessories')" title="Óculos & Acessórios" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">👓 Óculos</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('eyes')" title="Olhos & Expressão" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">👀 Expressão</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo & Penteado" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">💇 Cabelo</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('skin')" title="Tom de Pele" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🎨 Pele</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('clothing')" title="Roupas & Trajes" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">👕 Roupas</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cenários de Fundo" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🌈 Fundo</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('style')" title="Outras Tribos" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🤖 Tribos</div>
                     </div>
 
                     <!-- Active Tab Content Area -->
@@ -1212,9 +1216,17 @@
                 document.getElementById('student-pin-input').value = '';
             }
             avatarConfig = {
-                style: 'bottts',
-                seed: 'Spark',
-                bg: 'b6e3f4'
+                style: 'avataaars',
+                seed: 'CapitaoLucas',
+                bg: '38bdf8',
+                top: 'shortCurly',
+                hairColor: '2c1b18',
+                skinColor: 'edb98a',
+                clothing: 'hoodie',
+                clothesColor: '5199e4',
+                eyes: 'happy',
+                mouth: 'smile',
+                accessories: 'none'
             };
             showStep(4);
             switchDuoTab('heroes');
@@ -1240,7 +1252,7 @@
                 window.LabKidsGamification.confetti();
             }
 
-            if (Math.random() > 0.4 && P.heroes && P.heroes.length > 0) {
+            if (Math.random() > 0.5 && P.heroes && P.heroes.length > 0) {
                 const h = P.heroes[Math.floor(Math.random() * P.heroes.length)];
                 avatarConfig.style = h.style;
                 avatarConfig.seed = h.seed;
@@ -1250,13 +1262,17 @@
                     nameInp.value = h.name;
                 }
             } else {
-                const styleObj = P.styles[Math.floor(Math.random() * P.styles.length)];
-                avatarConfig.style = styleObj.id;
-                const seedsList = P.styleSeeds[styleObj.id] || P.styleSeeds['bottts'];
-                const seedObj = seedsList[Math.floor(Math.random() * seedsList.length)];
-                avatarConfig.seed = seedObj.id;
-                const bgObj = P.bgColors[Math.floor(Math.random() * P.bgColors.length)];
-                avatarConfig.bg = bgObj.hex;
+                avatarConfig.style = 'avataaars';
+                avatarConfig.seed = 'Kid' + Math.floor(Math.random() * 1000);
+                avatarConfig.top = P.hairStyles[Math.floor(Math.random() * P.hairStyles.length)].id;
+                avatarConfig.hairColor = P.hairColors[Math.floor(Math.random() * P.hairColors.length)].hex;
+                avatarConfig.skinColor = P.skinColors[Math.floor(Math.random() * P.skinColors.length)].hex;
+                avatarConfig.clothing = P.clothing[Math.floor(Math.random() * P.clothing.length)].id;
+                avatarConfig.clothesColor = P.clothesColors[Math.floor(Math.random() * P.clothesColors.length)].hex;
+                avatarConfig.eyes = P.eyes[Math.floor(Math.random() * P.eyes.length)].id;
+                avatarConfig.mouth = P.mouth[Math.floor(Math.random() * P.mouth.length)].id;
+                avatarConfig.accessories = P.accessories[Math.floor(Math.random() * P.accessories.length)].id;
+                avatarConfig.bg = P.bgColors[Math.floor(Math.random() * P.bgColors.length)].hex;
             }
 
             updateDuoPreview();
@@ -1270,12 +1286,19 @@
             if (!container || !titleEl) return;
             container.innerHTML = '';
 
-            if (activeTab === 'heroes') {
-                titleEl.innerHTML = '🌟 Heróis & Mascotes do Lab <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Desbloqueie novos heróis jogando e acumulando XP!)</span>';
-                
-                // Obtém XP do aluno atual
-                const currentXP = Number((selectedStudent && selectedStudent.points) || (JSON.parse(localStorage.getItem('lab_student_profile') || '{}').points) || 0);
+            function ensureAvataaarsStyle() {
+                if (avatarConfig.style !== 'avataaars') {
+                    avatarConfig.style = 'avataaars';
+                    if (!avatarConfig.seed || avatarConfig.seed === 'LeoRobot' || avatarConfig.seed === 'Ninja') {
+                        avatarConfig.seed = 'CapitaoLucas';
+                    }
+                }
+            }
 
+            if (activeTab === 'heroes') {
+                titleEl.innerHTML = '🌟 Heróis & Mascotes do Lab <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Desbloqueie novos heróis com XP!)</span>';
+                
+                const currentXP = Number((selectedStudent && selectedStudent.points) || (JSON.parse(localStorage.getItem('lab_student_profile') || '{}').points) || 0);
                 const heroes = DUOLINGO_AVATAR_PRESETS.heroes || [];
                 heroes.forEach(h => {
                     const isSel = (avatarConfig.style === h.style && avatarConfig.seed === h.seed);
@@ -1329,7 +1352,6 @@
                     }
 
                     const sampleUrl = buildDiceBearUrl({ style: h.style, seed: h.seed, bg: h.bg });
-                    
                     let statusBadge = '';
                     if (isLocked) {
                         statusBadge = `
@@ -1356,6 +1378,215 @@
                     `;
                     container.appendChild(tile);
                 });
+
+            } else if (activeTab === 'accessories') {
+                titleEl.innerHTML = '👓 Óculos & Acessórios de Rosto <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Estilo Duolingo)</span>';
+                
+                P.accessories.forEach(acc => {
+                    const isSel = (avatarConfig.accessories || 'none') === acc.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 8px; font-weight:800; border-radius:18px; min-height:105px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.accessories = acc.id;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+
+                    tile.innerHTML = `
+                        <div style="font-size:2.2rem; margin-bottom:6px;">${acc.icon}</div>
+                        <div style="font-size:0.85rem; font-weight:900; color:#1e293b; text-align:center;">${acc.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+            } else if (activeTab === 'eyes') {
+                titleEl.innerHTML = '👀 Olhos, Expressões & Sorrisos';
+                
+                const eyesHeading = document.createElement('div');
+                eyesHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 4px 0 2px 0; display:flex; align-items:center; gap:6px;';
+                eyesHeading.innerHTML = '<span>👁️</span> <span>Expressão dos Olhos:</span>';
+                container.appendChild(eyesHeading);
+
+                P.eyes.forEach(eye => {
+                    const isSel = (avatarConfig.eyes || 'default') === eye.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.eyes = eye.id;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div style="font-size:1.8rem; margin-bottom:2px;">${eye.icon}</div>
+                        <div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">${eye.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+                const mouthHeading = document.createElement('div');
+                mouthHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 16px 0 2px 0; border-top: 1px dashed #cbd5e1; padding-top: 14px; display:flex; align-items:center; gap:6px;';
+                mouthHeading.innerHTML = '<span>👄</span> <span>Boca e Sorriso:</span>';
+                container.appendChild(mouthHeading);
+
+                P.mouth.forEach(m => {
+                    const isSel = (avatarConfig.mouth || 'smile') === m.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.mouth = m.id;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div style="font-size:1.8rem; margin-bottom:2px;">${m.icon}</div>
+                        <div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">${m.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+            } else if (activeTab === 'hair') {
+                titleEl.innerHTML = '💇 Cabelo, Penteado & Cores';
+
+                const colorHeading = document.createElement('div');
+                colorHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin-bottom: 2px;';
+                colorHeading.innerHTML = '🎨 Escolha a Cor do Cabelo:';
+                container.appendChild(colorHeading);
+
+                P.hairColors.forEach(hc => {
+                    const isSel = (avatarConfig.hairColor || '2c1b18').replace('#', '') === hc.hex.replace('#', '');
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 4px; border-radius:14px; min-height:75px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.hairColor = hc.hex;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div style="background:${hc.hex}; border-radius:50%; width:34px; height:34px; border:2px solid #ffffff; box-shadow:0 2px 8px rgba(0,0,0,0.25); margin-bottom:4px;"></div>
+                        <div style="font-size:0.72rem; font-weight:800; color:#475569; text-align:center;">${hc.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+                const styleHeading = document.createElement('div');
+                styleHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 16px 0 2px 0; border-top: 1px dashed #cbd5e1; padding-top: 14px;';
+                styleHeading.innerHTML = '✂️ Escolha o Penteado ou Boné:';
+                container.appendChild(styleHeading);
+
+                P.hairStyles.forEach(hs => {
+                    const isSel = (avatarConfig.top || 'shortCurly') === hs.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.top = hs.id;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div style="font-size:1.8rem; margin-bottom:2px;">${hs.icon || '💇'}</div>
+                        <div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">${hs.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+            } else if (activeTab === 'skin') {
+                titleEl.innerHTML = '🎨 Tons de Pele Inclusivos';
+
+                P.skinColors.forEach(sc => {
+                    const isSel = (avatarConfig.skinColor || 'edb98a').replace('#', '') === sc.hex.replace('#', '');
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px; border-radius:18px; min-height:90px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.skinColor = sc.hex;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div style="background:${sc.hex}; border-radius:14px; width:100%; height:45px; border:2px solid rgba(0,0,0,0.1); margin-bottom:6px; box-shadow:0 3px 8px rgba(0,0,0,0.12);"></div>
+                        <div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">${sc.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+            } else if (activeTab === 'clothing') {
+                titleEl.innerHTML = '👕 Roupas, Uniformes & Cores';
+
+                const colorHeading = document.createElement('div');
+                colorHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin-bottom: 2px;';
+                colorHeading.innerHTML = '🎨 Escolha a Cor do Traje:';
+                container.appendChild(colorHeading);
+
+                P.clothesColors.forEach(cc => {
+                    const isSel = (avatarConfig.clothesColor || '5199e4').replace('#', '') === cc.hex.replace('#', '');
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 4px; border-radius:14px; min-height:75px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.clothesColor = cc.hex;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div style="background:${cc.hex}; border-radius:50%; width:34px; height:34px; border:2px solid #ffffff; box-shadow:0 2px 8px rgba(0,0,0,0.25); margin-bottom:4px;"></div>
+                        <div style="font-size:0.72rem; font-weight:800; color:#475569; text-align:center;">${cc.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+                const styleHeading = document.createElement('div');
+                styleHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 16px 0 2px 0; border-top: 1px dashed #cbd5e1; padding-top: 14px;';
+                styleHeading.innerHTML = '👔 Escolha o Modelo de Roupa:';
+                container.appendChild(styleHeading);
+
+                P.clothing.forEach(cl => {
+                    const isSel = (avatarConfig.clothing || 'hoodie') === cl.id;
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
+                    tile.onclick = () => {
+                        ensureAvataaarsStyle();
+                        avatarConfig.clothing = cl.id;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div style="font-size:1.8rem; margin-bottom:2px;">${cl.icon}</div>
+                        <div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">${cl.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+            } else if (activeTab === 'bg') {
+                titleEl.innerText = 'Cor do Cenário de Fundo 🌈';
+                P.bgColors.forEach(theme => {
+                    const isSel = (avatarConfig.bg || '').replace('#','') === theme.hex.replace('#','');
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.onclick = () => {
+                        avatarConfig.bg = theme.hex;
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    tile.innerHTML = `
+                        <div class="duo-color-swatch" style="background:${theme.hex}; border-radius:12px; width:100%; height:55px;" title="${theme.label}"></div>
+                        <div style="font-size:0.75rem; font-weight:800; text-align:center; margin-top:4px; color:#4b5563;">${theme.label}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+
             } else if (activeTab === 'style') {
                 titleEl.innerText = 'Escolha a Coleção do Avatar 🎨';
                 P.styles.forEach(s => {
@@ -1380,54 +1611,6 @@
                     `;
                     container.appendChild(tile);
                 });
-            } else if (activeTab === 'seed') {
-                const currentStyleName = (P.styles.find(st => st.id === avatarConfig.style) || {}).label || 'ESTILO';
-                titleEl.innerText = `Personagens de ${currentStyleName} 👤`;
-                
-                // Random seed button
-                const randBtn = document.createElement('div');
-                randBtn.style.cssText = 'grid-column: 1 / -1; margin-bottom: 10px;';
-                randBtn.innerHTML = `
-                    <button onclick="randomizeAvatar()" class="btn-back" style="width:100%; background: #58cc02; color: white; border: none; font-weight: 900; box-shadow: 0 4px 0 #46a302; padding: 12px; font-size: 1rem;">
-                        🎲 Sorteio Surpresa 🚀
-                    </button>
-                `;
-                container.appendChild(randBtn);
-
-                const seedList = P.styleSeeds[avatarConfig.style] || P.styleSeeds['bottts'];
-                seedList.forEach(sd => {
-                    const isSel = avatarConfig.seed === sd.id;
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => {
-                        avatarConfig.seed = sd.id;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    const tileUrl = buildDiceBearUrl({ style: avatarConfig.style, seed: sd.id, bg: avatarConfig.bg || 'b6e3f4' });
-                    tile.innerHTML = `
-                        <img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto; border-radius:10px;" alt="${sd.label}" />
-                        <div style="font-size:0.75rem; font-weight:800; text-align:center; margin-top:4px; color:#4b5563;">${sd.label}</div>
-                    `;
-                    container.appendChild(tile);
-                });
-            } else if (activeTab === 'bg') {
-                titleEl.innerText = 'Cor de Fundo 🌈';
-                P.bgColors.forEach(theme => {
-                    const isSel = (avatarConfig.bg || '').replace('#','') === theme.hex.replace('#','');
-                    const tile = document.createElement('div');
-                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
-                    tile.onclick = () => {
-                        avatarConfig.bg = theme.hex;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = `
-                        <div class="duo-color-swatch" style="background:${theme.hex}; border-radius:12px; width:100%; height:55px;" title="${theme.label}"></div>
-                        <div style="font-size:0.75rem; font-weight:800; text-align:center; margin-top:4px; color:#4b5563;">${theme.label}</div>
-                    `;
-                    container.appendChild(tile);
-                });
             }
         }
 
@@ -1438,7 +1621,7 @@
             
             const bgEl = document.getElementById('duo-canvas-bg');
             if (bgEl) {
-                const hexColor = (avatarConfig.bg || 'b6e3f4').startsWith('#') ? avatarConfig.bg : '#' + avatarConfig.bg;
+                const hexColor = (avatarConfig.bg || '38bdf8').startsWith('#') ? avatarConfig.bg : '#' + avatarConfig.bg;
                 bgEl.style.background = hexColor;
             }
         }
