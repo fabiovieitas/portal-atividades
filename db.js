@@ -235,11 +235,15 @@ async function queryGet(sql, args = []) {
 }
 
 async function queryRun(sql, args = []) {
+  let ok = false;
+  let lastErr = null;
   if (tursoClient) {
     try {
       await tursoClient.execute({ sql, args });
+      ok = true;
     } catch (err) {
-      if (!err.message.includes('duplicate column name')) {
+      lastErr = err;
+      if (!err.message.includes('duplicate column name') && !err.message.includes('already exists')) {
         console.error('[Turso Run Error]:', err.message);
       }
     }
@@ -247,11 +251,19 @@ async function queryRun(sql, args = []) {
   if (sqlite) {
     try {
       sqlite.prepare(sql).run(...args);
+      ok = true;
     } catch (err) {
-      if (!err.message.includes('duplicate column name')) {
+      if (!lastErr) lastErr = err;
+      if (!err.message.includes('duplicate column name') && !err.message.includes('already exists')) {
         console.error('[SQLite Run Error]:', err.message);
       }
     }
+  }
+  if (!ok && (tursoClient || sqlite)) {
+    if (lastErr && (lastErr.message.includes('duplicate column name') || lastErr.message.includes('already exists'))) {
+      return;
+    }
+    throw lastErr || new Error('Falha ao persistir no banco de dados');
   }
 }
 
@@ -719,29 +731,67 @@ const dbHelper = {
     await queryRun("DELETE FROM school_classes WHERE id = ?", [id]);
   },
 
-  // Simulado Digital Submissions & Backup Management
+  // Simulado Digital Submissions & Backup Management (Ultra-Resiliente)
   async saveSimuladoSubmission({ simulado_id = 'campos-4ano-agosto-2026', student_name, school_name, class_name, shift = 'Manhã', answers_json, score, max_score = 9, essay_text }) {
-    const jsonStr = typeof answers_json === 'object' ? JSON.stringify(answers_json || {}) : String(answers_json || '{}');
-    await queryRun(
-      "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
-      [simulado_id, student_name, school_name || '', class_name || '', shift || 'Manhã', jsonStr, score || 0, max_score || 9, essay_text || '']
-    );
-    if (supabase) {
-      try {
-        await supabase.from('simulado_submissions').insert([{
-          simulado_id: simulado_id || 'campos-4ano-agosto-2026',
-          student_name,
-          school_name: school_name || '',
-          class_name: class_name || '',
-          shift: shift || 'Manhã',
-          answers_json: jsonStr,
-          score: score || 0,
-          max_score: max_score || 9,
-          essay_text: essay_text || ''
-        }]);
-      } catch(e) { console.warn('[Supabase Sync Warn]:', e.message); }
+    if (!student_name || !String(student_name).trim()) {
+      throw new Error('Nome do estudante é obrigatório para registrar a avaliação.');
     }
-    await syncAutoBackupJSON();
+    const cleanStudentName = String(student_name).trim();
+    const cleanSchoolName = String(school_name || '').trim();
+    const cleanClassName = String(class_name || '').trim();
+    const cleanShift = String(shift || 'Manhã').trim();
+    const jsonStr = typeof answers_json === 'object' ? JSON.stringify(answers_json || {}) : String(answers_json || '{}');
+    const numScore = Number(score) || 0;
+    const numMax = Number(max_score) || 9;
+    const cleanEssay = String(essay_text || '').trim();
+
+    let saved = false;
+    let lastErr = null;
+    let savedRowId = null;
+
+    if (tursoClient) {
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          const res = await tursoClient.execute({
+            sql: "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
+            args: [simulado_id, cleanStudentName, cleanSchoolName, cleanClassName, cleanShift, jsonStr, numScore, numMax, cleanEssay]
+          });
+          saved = true;
+          savedRowId = res.lastInsertRowid ? String(res.lastInsertRowid) : Date.now();
+          break;
+        } catch (tErr) {
+          lastErr = tErr;
+          console.error(`[Turso Save Simulado Attempt ${attempt} Failed]:`, tErr.message);
+          if (attempt === 1) await new Promise(r => setTimeout(r, 400));
+        }
+      }
+    }
+
+    if (sqlite) {
+      try {
+        const info = sqlite.prepare(
+          "INSERT INTO simulado_submissions (simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
+        ).run(simulado_id, cleanStudentName, cleanSchoolName, cleanClassName, cleanShift, jsonStr, numScore, numMax, cleanEssay);
+        saved = true;
+        if (!savedRowId) savedRowId = info.lastInsertRowid;
+      } catch (sqErr) {
+        if (!lastErr) lastErr = sqErr;
+        console.error('[SQLite Save Simulado Error]:', sqErr.message);
+      }
+    }
+
+    if (!saved) {
+      console.error('[Critical Simulado Save Failure]: Nem Turso nem SQLite conseguiram gravar o envio!');
+      throw lastErr || new Error('Não foi possível persistir a submissão no banco de dados na nuvem.');
+    }
+
+    try {
+      await syncAutoBackupJSON();
+    } catch(bErr) {
+      console.warn('[Sync Backup JSON Warning]:', bErr.message);
+    }
+
+    return { success: true, id: savedRowId };
   },
 
   async restoreSimuladoBackup(submissionsArray) {
@@ -860,33 +910,34 @@ const dbHelper = {
         [simulado_id]
       );
     }
-    // Fallback to Supabase Cloud if primary returns empty
-    if ((!rows || rows.length === 0) && supabase) {
+
+    // Fail-Safe: Se o Turso falhar ou retornar vazio por instabilidade de rede, resgatar do Master Backup em disco
+    if (!rows || rows.length === 0) {
       try {
-        let query = supabase.from('simulado_submissions').select('*').order('created_at', { ascending: false });
-        if (simulado_id && simulado_id !== 'ALL') {
-          query = query.eq('simulado_id', simulado_id);
+        if (fs.existsSync(MASTER_BACKUP_FILE)) {
+          const fileData = JSON.parse(fs.readFileSync(MASTER_BACKUP_FILE, 'utf8'));
+          if (Array.isArray(fileData) && fileData.length > 0) {
+            console.log(`[Fail-Safe Simulado] Recuperando ${fileData.length} registros do simulado_backup_master.json`);
+            if (!simulado_id || simulado_id === 'ALL') {
+              rows = fileData.sort((a,b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+            } else {
+              rows = fileData.filter(r => r.simulado_id === simulado_id).sort((a,b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+            }
+          }
         }
-        const { data } = await query;
-        if (data && data.length > 0) return data;
-      } catch(e) {}
+      } catch (fErr) {
+        console.warn('[Fail-Safe Master File Warning]:', fErr.message);
+      }
     }
-    return rows;
+
+    return rows || [];
   },
 
   async getSimuladoStats(simulado_id = 'ALL') {
-    let rows = [];
-    if (!simulado_id || simulado_id === 'ALL') {
-      rows = await queryAll("SELECT score, max_score FROM simulado_submissions");
-    } else {
-      rows = await queryAll(
-        "SELECT score, max_score FROM simulado_submissions WHERE simulado_id = ?",
-        [simulado_id]
-      );
-    }
+    const rows = await this.getSimuladoSubmissions(simulado_id);
     const total = rows.length;
     if (total === 0) return { total: 0, avgScore: 0 };
-    const sum = rows.reduce((acc, r) => acc + (r.score || 0), 0);
+    const sum = rows.reduce((acc, r) => acc + (Number(r.score) || 0), 0);
     return {
       total,
       avgScore: (sum / total).toFixed(1)

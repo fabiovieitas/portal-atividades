@@ -872,6 +872,69 @@
                     </div>
                 <% } %>
             </div>
+
+            <!-- SIMULADOS DA REDE MUNICIPAL (PROJETO CAMPOS DE TODOS NÓS) -->
+            <div class="glass-panel" style="margin-top: 30px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                    <div>
+                        <h2 style="margin: 0; color: #1e3a8a; display: flex; align-items: center; gap: 10px; font-size: 1.25rem;">
+                            📝 Avaliações & Simulados da Rede (Campos de Todos Nós)
+                        </h2>
+                        <p style="margin: 4px 0 0 0; color: var(--text-muted); font-size: 0.88rem;">Resultados e submissões registradas com segurança para os alunos da sua escola/turma.</p>
+                    </div>
+                    <a href="/atividades/simulado-campos-3ano-outubro" target="_blank" class="btn-submit" style="text-decoration: none; padding: 8px 16px; font-size: 0.85rem; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+                        ⭐ Abrir Novo Simulado 3º Ano (Outubro)
+                    </a>
+                </div>
+
+                <% if (typeof simuladoSubmissions === 'undefined' || !simuladoSubmissions || simuladoSubmissions.length === 0) { %>
+                    <p style="color: var(--text-muted); padding: 15px 0;">Nenhuma resposta de simulado registrada ainda para a sua escola. Conforme os alunos realizarem os simulados digitais, eles aparecerão aqui com nota automática.</p>
+                <% } else { %>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border); text-align: left; color: var(--text-muted);">
+                                    <th style="padding: 10px;">Estudante</th>
+                                    <th style="padding: 10px;">Turma / Turno</th>
+                                    <th style="padding: 10px;">Simulado</th>
+                                    <th style="padding: 10px; text-align: center;">Acertos</th>
+                                    <th style="padding: 10px; text-align: center;">Nota (0 a 10)</th>
+                                    <th style="padding: 10px;">Data & Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% simuladoSubmissions.slice(0, 15).forEach(sub => { 
+                                    const maxScore = Number(sub.max_score) || 10;
+                                    const nota10 = ((Number(sub.score || 0) / maxScore) * 10).toFixed(1);
+                                %>
+                                    <tr style="border-bottom: 1px solid var(--border);">
+                                        <td style="padding: 10px; font-weight: 700; color: var(--text-main);">
+                                            👧👦 <%= sub.student_name %>
+                                        </td>
+                                        <td style="padding: 10px; color: var(--text-main); font-size: 0.88rem;">
+                                            <strong><%= sub.class_name %></strong> (<%= sub.shift || 'Manhã' %>)
+                                        </td>
+                                        <td style="padding: 10px; font-size: 0.85rem; color: #0369a1; font-weight: 700;">
+                                            <%= sub.simulado_id %>
+                                        </td>
+                                        <td style="padding: 10px; text-align: center; font-weight: 800; color: #10b981;">
+                                            <%= sub.score %> / <%= sub.max_score %>
+                                        </td>
+                                        <td style="padding: 10px; text-align: center;">
+                                            <span style="background: <%= Number(nota10) >= 6 ? '#dcfce7' : '#fee2e2' %>; color: <%= Number(nota10) >= 6 ? '#15803d' : '#b91c1c' %>; padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 0.85rem;">
+                                                <%= nota10 %>
+                                            </span>
+                                        </td>
+                                        <td style="padding: 10px; color: var(--text-muted); font-size: 0.82rem;">
+                                            <%= sub.created_at ? new Date(sub.created_at).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) : '-' %>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
         </div>
 
         <!-- LIVROS E MATERIAIS PARCEIROS (ITEM 13 - EXCLUSIVO PARA O PROFESSOR) -->

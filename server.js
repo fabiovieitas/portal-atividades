@@ -1103,6 +1103,15 @@ app.get('/atividades/simulado-campos-2ano', async (req, res) => {
 });
 
 // --- 3º ANO ---
+app.get(['/atividades/simulado-campos-3ano-outubro', '/simulado/campos-3ano-outubro-2026', '/simulados/3ano-outubro', '/simulado-3ano-outubro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_3ano_outubro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_3ano_outubro', { schools: [] });
+  }
+});
+
 app.get('/atividades/simulado-campos-3ano-setembro', async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
@@ -1127,9 +1136,13 @@ app.get('/atividades/simulado-campos-3ano', async (req, res) => {
     if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
       return res.render('simulado_campos_3ano', { schools });
     }
-    res.render('simulado_campos_3ano_setembro', { schools });
+    if (req.query.mes === 'setembro' || req.query.month === 'Setembro') {
+      return res.render('simulado_campos_3ano_setembro', { schools });
+    }
+    // Padrão atual: Outubro/2026 (Oficial Blocos 1 e 2)
+    res.render('simulado_campos_3ano_outubro', { schools });
   } catch(e) {
-    res.render('simulado_campos_3ano_setembro', { schools: [] });
+    res.render('simulado_campos_3ano_outubro', { schools: [] });
   }
 });
 
@@ -1251,18 +1264,32 @@ app.get('/atividades/:slug', async (req, res, next) => {
 app.post('/api/simulado/submit', async (req, res) => {
   try {
     const { simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text } = req.body;
-    await dbHelper.saveSimuladoSubmission({
-      simulado_id: simulado_id || 'campos-4ano-agosto-2026',
+    if (!student_name || !String(student_name).trim()) {
+      return res.status(400).json({ success: false, error: 'O nome completo do estudante é obrigatório.' });
+    }
+    const resolvedMaxScore = Number(max_score) || (
+      simulado_id === 'campos-3ano-outubro-2026' ? 11 :
+      simulado_id === 'campos-1ano-setembro-2026' ? 11 :
+      simulado_id === 'campos-2ano-setembro-2026' ? 10 :
+      simulado_id === 'campos-4ano-setembro-2026' ? 10 :
+      simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9
+    );
+    const result = await dbHelper.saveSimuladoSubmission({
+      simulado_id: simulado_id || 'campos-3ano-outubro-2026',
       student_name,
       school_name,
       class_name,
       shift: shift || 'Manhã',
       answers_json,
       score,
-      max_score,
+      max_score: resolvedMaxScore,
       essay_text
     });
-    res.json({ success: true, message: 'Simulado enviado e salvo no servidor com sucesso!' });
+    res.json({ 
+      success: true, 
+      message: 'Simulado enviado e gravado com sucesso no servidor e na nuvem!', 
+      result: { id: result.id, timestamp: new Date().toISOString() } 
+    });
   } catch (err) {
     console.error('[Simulado API Error]:', err);
     res.status(500).json({ success: false, error: err.message });
@@ -1458,6 +1485,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
         s.simulado_id === 'campos-2ano-setembro-2026' ? 10 :
         s.simulado_id === 'campos-3ano-setembro-2026' ? 9 :
@@ -1529,6 +1557,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
         s.simulado_id === 'campos-2ano-setembro-2026' ? 10 :
         s.simulado_id === 'campos-3ano-setembro-2026' ? 9 :
@@ -2394,6 +2423,21 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
       );
     }
 
+    // Submissões dos simulados para a escola/turma do professor
+    let simuladoSubmissions = [];
+    try {
+      const allSims = await dbHelper.getSimuladoSubmissions('ALL');
+      const teacherSchoolNorm = (req.teacher.school || '').toLowerCase().trim();
+      if (teacherSchoolNorm) {
+        simuladoSubmissions = allSims.filter(s => (s.school_name || '').toLowerCase().trim() === teacherSchoolNorm);
+      }
+      if (simuladoSubmissions.length === 0) {
+        simuladoSubmissions = allSims.slice(0, 50);
+      }
+    } catch(simErr) {
+      console.warn('[Teacher Simulado Dashboard Warning]:', simErr.message);
+    }
+
     res.render('teacher_dashboard', { 
       teacher: { ...req.teacher, level: await getTeacherLevel(req.teacher.id) },
       activities: activities || [],
@@ -2405,7 +2449,8 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
       planning: planning || [],
       examSubmissions: examSubmissions || [],
       studentsActivity: studentsActivity || [],
-      topActivities: topActivities || []
+      topActivities: topActivities || [],
+      simuladoSubmissions: simuladoSubmissions || []
     });
   } catch (err) {
     console.error('Teacher dashboard error:', err);

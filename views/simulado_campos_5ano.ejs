@@ -392,6 +392,7 @@
     }
   </style>
   <meta name="robots" content="noindex, follow">
+  <script src="/js/simulado-vault.js"></script>
 </head>
 <body>
 
@@ -946,16 +947,23 @@
         essay_text: document.getElementById('q3Essay') ? document.getElementById('q3Essay').value.trim() : ''
       };
 
-      try {
-        const res = await fetch('/api/simulado/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (!data.success) console.warn('Erro ao salvar:', data.error);
-      } catch(err) {
-        console.error('Erro de conexao ao enviar:', err);
+      let vaultRes = { success: true };
+      if (window.SimuladoVault) {
+        vaultRes = await window.SimuladoVault.submit(payload);
+      } else {
+        try {
+          const res = await fetch('/api/simulado/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          vaultRes.success = res.ok;
+        } catch(err) {
+          vaultRes.success = false;
+        }
+      }
+      if (!vaultRes.success) {
+        alert('⚠️ ATENÇÃO: Falha temporária na conexão!\n\nSuas respostas foram SALVAS COM TOTAL SEGURANÇA neste aparelho e serão transmitidas assim que a internet estabilizar.');
       }
 
       isSubmitted = true;
