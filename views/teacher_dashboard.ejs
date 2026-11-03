@@ -1886,6 +1886,19 @@
             openMobileScannerModal(classId, text, '', code);
         }
 
+        function handlePCFileLoaded(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const text = e.target.result;
+                const textarea = document.getElementById('batchStudentNamesText');
+                if (textarea) textarea.value = text;
+                alert('📄 Arquivo carregado com sucesso (' + file.name + ')! Revise os nomes e clique em Cadastrar.');
+            };
+            reader.readAsText(file, 'utf-8');
+        }
+
         async function submitBatchStudents(event) {
             event.preventDefault();
             const classId = document.getElementById('batchStudentClassSelect').value;
@@ -2384,9 +2397,15 @@
                 </div>
 
                 <div style="margin-bottom: 16px;">
-                    <label style="display: block; font-weight: 800; font-size: 0.9rem; color: #065f46; margin-bottom: 6px;">
-                        Cole a lista de nomes dos alunos (um nome por linha):
-                    </label>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <label style="font-weight: 800; font-size: 0.9rem; color: #065f46; margin: 0;">
+                            Cole a lista de nomes dos alunos (um nome por linha):
+                        </label>
+                        <button type="button" onclick="document.getElementById('pcRosterFileInput').click()" style="background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; border-radius: 8px; font-size: 0.8rem; font-weight: 700; padding: 4px 10px; cursor: pointer;">
+                            📁 Carregar Arquivo do PC (TXT / CSV)
+                        </button>
+                    </div>
+                    <input type="file" id="pcRosterFileInput" accept=".txt,.csv,.log,.text" style="display: none;" onchange="handlePCFileLoaded(event)">
                     <textarea id="batchStudentNamesText" rows="10" placeholder="Ana Clara Souza&#10;Bernardo Silva Santos&#10;Carlos Eduardo Lima&#10;Davi Lucca Ribeiro&#10;Enzo Gabriel Moreira&#10;Gabriela Oliveira" style="width: 100%; box-sizing: border-box; padding: 12px; border: 2px solid #cbd5e1; border-radius: 12px; font-family: inherit; font-size: 0.95rem; line-height: 1.5;" required></textarea>
                     <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Dica: Você pode copiar direto do Excel, Word, Google Sala de Aula ou lista da coordenação!</div>
                 </div>
