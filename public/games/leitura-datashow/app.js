@@ -733,6 +733,17 @@ document.addEventListener('DOMContentLoaded', () => {
       audioMgr.speak(item.text, 0.82, 1.0);
       setMascotSpeech(`PARABÉNS TURMA! Descobriram a palavra "${item.text}"! 🏆`, "happy");
       triggerConfettiBurst(true);
+      if (window.LabKidsGamification && !window._leituraGamified) {
+        window._leituraGamified = true;
+        window.LabKidsGamification.recordCompletion({
+          activityId: 17,
+          slug: 'leitura-datashow',
+          title: 'Leitura Divertida no Datashow',
+          subject: 'Português',
+          score: 50
+        });
+        setTimeout(() => { window._leituraGamified = false; }, 10000);
+      }
     }
   }
 

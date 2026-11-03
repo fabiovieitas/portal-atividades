@@ -241,6 +241,7 @@
     }
     .btn-action:hover { transform: scale(1.05); }
   </style>
+  <script src="/js/labkids-gamification.js"></script>
 </head>
 <body>
 
@@ -456,6 +457,15 @@
 
     function showGameOver() {
       document.getElementById('final-score').textContent = `Pontuação Final: ${score} pontos!`;
+      if (window.LabKidsGamification) {
+        window.LabKidsGamification.recordCompletion({
+          activityId: 10,
+          slug: 'fabrica-de-silabas',
+          title: 'Fábrica de Sílabas & Palavras',
+          subject: 'Português',
+          score: score
+        });
+      }
       document.getElementById('end-modal').classList.add('active');
     }
 

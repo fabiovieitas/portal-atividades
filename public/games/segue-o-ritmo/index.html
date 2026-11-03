@@ -468,6 +468,7 @@
       margin-top: 15px;
     }
   </style>
+  <script src="/js/labkids-gamification.js"></script>
 </head>
 <body oncontextmenu="return false;">
 
@@ -768,6 +769,15 @@
       } else if (event.data === YT.PlayerState.ENDED) {
         isPlaying = false;
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        if (window.LabKidsGamification) {
+          window.LabKidsGamification.recordCompletion({
+            activityId: 16,
+            slug: 'segue-o-ritmo',
+            title: 'Segue o Ritmo! Percussão Corporal',
+            subject: 'Música',
+            score: 50
+          });
+        }
         // Se houver próximo vídeo na lista, avança automaticamente
         if (currentVideoIndex < RHYTHM_PLAYLIST.length - 1) {
           setTimeout(() => loadVideoByIndex(currentVideoIndex + 1), 1500);

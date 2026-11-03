@@ -68,6 +68,9 @@ window.triggerGameInterlude = function(targetUrl, isExternal = false) {
     if (isExternal) {
       window.open(targetUrl, '_blank');
       modal.style.display = 'none';
+      if (window.startExternalMission) {
+        window.startExternalMission();
+      }
     } else {
       window.location.href = targetUrl;
     }

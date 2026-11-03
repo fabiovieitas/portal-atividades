@@ -535,6 +535,15 @@ class EscapeMathKidsQuest {
   /* ==================== VITÓRIA & VOTAÇÃO DO ROBÔ ==================== */
   triggerVictory() {
     clearInterval(this.timerInterval);
+    if (window.LabKidsGamification) {
+      window.LabKidsGamification.recordCompletion({
+        activityId: 14,
+        slug: 'escape-room-lab',
+        title: 'O Mistério do Laboratório Secreto - Escape Room',
+        subject: 'Matemática',
+        score: this.totalScore || 100
+      });
+    }
     const modal = document.getElementById('victory-modal');
     if (modal) modal.classList.add('active');
 

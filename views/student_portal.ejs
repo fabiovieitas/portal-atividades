@@ -22,6 +22,7 @@
     <% } %>
     <meta name="robots" content="noindex, follow">
     <script src="/js/avatar_system.js"></script>
+    <script src="/js/labkids-gamification.js"></script>
     <script src="/js/app-enhancements.js" defer></script>
     <style>
         :root {
@@ -1188,15 +1189,29 @@
 
         function randomizeAvatar() {
             const P = DUOLINGO_AVATAR_PRESETS;
-            const styleObj = P.styles[Math.floor(Math.random() * P.styles.length)];
-            avatarConfig.style = styleObj.id;
-            
-            const seedsList = P.styleSeeds[styleObj.id] || P.styleSeeds['bottts'];
-            const seedObj = seedsList[Math.floor(Math.random() * seedsList.length)];
-            avatarConfig.seed = seedObj.id + Math.floor(Math.random() * 100);
+            if (window.LabKidsGamification) {
+                window.LabKidsGamification.playChime();
+                window.LabKidsGamification.confetti();
+            }
 
-            const bgObj = P.bgColors[Math.floor(Math.random() * P.bgColors.length)];
-            avatarConfig.bg = bgObj.hex;
+            if (Math.random() > 0.4 && P.heroes && P.heroes.length > 0) {
+                const h = P.heroes[Math.floor(Math.random() * P.heroes.length)];
+                avatarConfig.style = h.style;
+                avatarConfig.seed = h.seed;
+                avatarConfig.bg = h.bg;
+                const nameInp = document.getElementById('student-name-input');
+                if (nameInp && (!nameInp.value || nameInp.value === 'Aluno Lab Kids')) {
+                    nameInp.value = h.name;
+                }
+            } else {
+                const styleObj = P.styles[Math.floor(Math.random() * P.styles.length)];
+                avatarConfig.style = styleObj.id;
+                const seedsList = P.styleSeeds[styleObj.id] || P.styleSeeds['bottts'];
+                const seedObj = seedsList[Math.floor(Math.random() * seedsList.length)];
+                avatarConfig.seed = seedObj.id;
+                const bgObj = P.bgColors[Math.floor(Math.random() * P.bgColors.length)];
+                avatarConfig.bg = bgObj.hex;
+            }
 
             updateDuoPreview();
             renderTabContent();
@@ -1254,7 +1269,8 @@
                         renderTabContent();
                         updateDuoPreview();
                     };
-                    const sampleUrl = buildDiceBearUrl({ style: s.id, seed: 'Sample', bg: 'b6e3f4' });
+                    const seedMap = { bottts: 'LeoRobot', adventurer: 'Ninja', 'pixel-art': 'RetroKnight', lorelei: 'Sofia', 'big-smile': 'SuperSmile', 'fun-emoji': 'DinoRex', avataaars: 'CapitaoLucas' };
+                    const sampleUrl = buildDiceBearUrl({ style: s.id, seed: seedMap[s.id] || 'LeoRobot', bg: '38bdf8' });
                     tile.innerHTML = `
                         <img src="${sampleUrl}" width="55" height="55" style="border-radius:10px; margin-bottom:6px;" alt="${s.label}" />
                         <div>${s.label}</div>

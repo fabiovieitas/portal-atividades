@@ -1,160 +1,123 @@
 /**
- * Multi-Style DiceBear & Animated Avatar Engine
- * Supports:
- * - 🤖 Robôs & Androids (bottts)
- * - 🧙‍♂️ Aventureiros RPG (adventurer)
- * - 👾 Pixel Art Arcade (pixel-art)
- * - 🎨 Desenho Animado Persona (lorelei)
- * - 😀 Expressões Big Smile (big-smile)
- * - 🤪 Mascotes Fun Emoji (fun-emoji)
- * - 🧊 Voxel Art 3D (voxel-art)
+ * ============================================================================
+ * PORTAL LAB KIDS - STUDIO DE AVATARES ÉPICOS (DICEBEAR ENGINE v3)
+ * ============================================================================
+ * Sistema interativo de personalização de avatares infantis (1º ao 5º Ano)
+ * Inspirado nas melhores experiências gamificadas (Duolingo / Roblox Kids).
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
+  // 16 Heróis e Mascotes pré-calibrados para crianças
   heroes: [
-    { name: 'RoboTron 3000', style: 'bottts', seed: 'RoboTron', bg: '38bdf8', icon: '🤖', title: 'Guardião Digital' },
-    { name: 'AstroBoy', style: 'bottts', seed: 'Alpha', bg: '818cf8', icon: '🚀', title: 'Explorador Espacial' },
-    { name: 'Mago Supremo', style: 'adventurer', seed: 'MagoSupremo', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Mestre dos Arcanos' },
-    { name: 'Ninja das Sombras', style: 'adventurer', seed: 'Ninjago', bg: '111827', icon: '🥷', title: 'Guerreiro das Sombras' },
-    { name: 'Cientista Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🌸', title: 'Gênio do Lab' },
-    { name: 'Gamer Lucas', style: 'lorelei', seed: 'Lucas', bg: 'b6e3f4', icon: '🎧', title: 'Pro Player' },
-    { name: 'Pixel Knight', style: 'pixel-art', seed: 'RetroKing', bg: 'fbbf24', icon: '👾', title: 'Cavaleiro 8-Bit' },
-    { name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fff0b3', icon: '😁', title: 'Mestre da Alegria' },
-    { name: 'Monstrinho Fun', style: 'fun-emoji', seed: 'PartyMonster', bg: 'c1f2c7', icon: '🤪', title: 'Folião Cósmico' },
-    { name: 'Cyber Rex', style: 'bottts', seed: 'Titan', bg: '364156', icon: '🦖', title: 'Defensor Blindado' },
-    { name: 'Valente Guerreira', style: 'adventurer', seed: 'Zelda', bg: 'ffd5dc', icon: '👑', title: 'Heroína Lendária' },
-    { name: 'Detetive Neo', style: 'pixel-art', seed: 'Neo', bg: '111827', icon: '🕶️', title: 'Investigador Cyber' }
+    { name: 'Robô Léo', style: 'bottts', seed: 'LeoRobot', bg: '38bdf8', icon: '🤖', title: 'Mascote do Lab' },
+    { name: 'Ninja da Tabuada', style: 'adventurer', seed: 'Ninja', bg: '0f172a', icon: '⚔️', title: 'Mestre do Cálculo' },
+    { name: 'Astro Kid', style: 'bottts', seed: 'AstroKid', bg: '818cf8', icon: '🚀', title: 'Explorador Cósmico' },
+    { name: 'Dra. Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🔬', title: 'Cientista Mirim' },
+    { name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: 'c1f2c7', icon: '🦖', title: 'Fera Pré-Histórica' },
+    { name: 'Mago dos Números', style: 'adventurer', seed: 'MagoArcano', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Arcano da Lógica' },
+    { name: 'Pixel Gamer', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Campeão 8-Bit' },
+    { name: 'Princesa Sofia', style: 'lorelei', seed: 'PrincesaSofia', bg: 'ffdfbf', icon: '👑', title: 'Guardiã dos Livros' },
+    { name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado' },
+    { name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Aventureira Real' },
+    { name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fff0b3', icon: '😄', title: 'Mestre da Alegria' },
+    { name: 'Detetive Neo', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Mestre do Mistério' },
+    { name: 'Kitsune Ninja', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'fed7aa', icon: '🦊', title: 'Velocidade Pura' },
+    { name: 'Capitão Lucas', style: 'avataaars', seed: 'CapitaoLucas', bg: '60a5fa', icon: '⚡', title: 'Líder da Turma' },
+    { name: 'Estrela Beatriz', style: 'lorelei', seed: 'BiaEstrela', bg: 'e879f9', icon: '🎨', title: 'Criatividade Máxima' },
+    { name: 'Monstrinho Pop', style: 'fun-emoji', seed: 'PartyMonster', bg: '4ade80', icon: '🎉', title: 'Folião do Lab' }
   ],
 
+  // Tribos / Estilos artísticos do DiceBear
   styles: [
-    { id: 'bottts', label: 'Robôs 3D 🤖', icon: '🤖' },
-    { id: 'adventurer', label: 'Aventureiros RPG 🧙‍♂️', icon: '🧙‍♂️' },
-    { id: 'pixel-art', label: 'Pixel Art 8-Bit 👾', icon: '👾' },
-    { id: 'lorelei', label: 'Desenho Animado 🎨', icon: '🎨' },
-    { id: 'big-smile', label: 'Big Smile 😀', icon: '😀' },
-    { id: 'fun-emoji', label: 'Mascotes Fun 🤪', icon: '🤪' },
-    { id: 'voxel-art', label: 'Voxel 3D 🧊', icon: '🧊' }
+    { id: 'bottts', label: 'Robôs 3D 🤖', icon: '🤖', desc: 'Tecnológicos e velozes' },
+    { id: 'adventurer', label: 'Aventureiros RPG ⚔️', icon: '⚔️', desc: 'Heróis de capa e espada' },
+    { id: 'pixel-art', label: 'Pixel Art 8-Bit 👾', icon: '👾', desc: 'Retrô estilo arcade' },
+    { id: 'lorelei', label: 'Desenho Animado 🎨', icon: '🎨', desc: 'Estilo anime moderno' },
+    { id: 'big-smile', label: 'Big Smile 😄', icon: '😄', desc: 'Expressões ultra felizes' },
+    { id: 'fun-emoji', label: 'Mascotes Divertidos 🌟', icon: '🌟', desc: 'Criaturas engraçadas' },
+    { id: 'avataaars', label: 'Colegas da Escola 🧑', icon: '🧑', desc: 'Estudantes reais' }
   ],
 
-  // Random seed presets per style to inspire students
+  // Personagens pré-configurados por Tribo
   styleSeeds: {
     'bottts': [
-      { id: 'Spark', label: 'Spark ⚡' },
-      { id: 'RoboTron', label: 'RoboTron 🤖' },
-      { id: 'Byte', label: 'Byte 💻' },
-      { id: 'Cyber', label: 'Cyber 👓' },
-      { id: 'Alpha', label: 'Alpha 🚀' },
-      { id: 'Volt', label: 'Volt ⚡' },
+      { id: 'LeoRobot', label: 'Robô Léo 🤖' },
+      { id: 'Sparky', label: 'Spark ⚡' },
+      { id: 'AstroBot', label: 'AstroBot 🚀' },
+      { id: 'CyberRex', label: 'CyberRex 🦖' },
+      { id: 'Volt', label: 'Volt 💡' },
       { id: 'Gizmo', label: 'Gizmo ⚙️' },
-      { id: 'NEXUS', label: 'Nexus 🔮' },
-      { id: 'Titan', label: 'Titan 🛡️' },
-      { id: 'PixelBot', label: 'PixelBot 🎮' }
+      { id: 'Nexus', label: 'Nexus 🔮' },
+      { id: 'TitanBot', label: 'Titan 🛡️' }
     ],
     'adventurer': [
-      { id: 'Felix', label: 'Felix 🗡️' },
-      { id: 'Luna', label: 'Luna 🌙' },
-      { id: 'MagoSupremo', label: 'Mago Supremo 🔮' },
-      { id: 'Ninjago', label: 'Ninja 🥷' },
-      { id: 'Valente', label: 'Guardião 🛡️' },
-      { id: 'Aura', label: 'Aura ✨' },
-      { id: 'Kael', label: 'Kael 🏹' },
-      { id: 'Zelda', label: 'Zelda 👑' },
-      { id: 'Thor', label: 'Thor 🔨' },
-      { id: 'Aventureira', label: 'Aventureira 🏕️' }
+      { id: 'Ninja', label: 'Ninja das Sombras ⚔️' },
+      { id: 'MagoArcano', label: 'Mago dos Números 🧙‍♂️' },
+      { id: 'LunaValente', label: 'Valente Guerreira 🗡️' },
+      { id: 'Capitao', label: 'Capitão Aventura 🛡️' },
+      { id: 'Arqueiro', label: 'Arqueiro Veloz 🏹' },
+      { id: 'Paladina', label: 'Paladina da Luz ✨' },
+      { id: 'Explorador', label: 'Explorador da Selva 🌿' },
+      { id: 'Cavaleiro', label: 'Cavaleiro de Ouro 👑' }
     ],
     'pixel-art': [
-      { id: 'ArcadeMaster', label: 'Arcade 🕹️' },
-      { id: 'Gamer8Bit', label: '8-Bit 👾' },
-      { id: 'MarioFan', label: 'Encanador 🍄' },
-      { id: 'SonicSpeed', label: 'Speedster 🦔' },
-      { id: 'RetroKing', label: 'Retro 👑' },
-      { id: 'PixelGirl', label: 'Pixel Girl 🎨' },
-      { id: 'BlockBoy', label: 'BlockBoy 🧱' },
-      { id: 'Neo', label: 'Neo 🕶️' }
+      { id: 'RetroKnight', label: 'Gamer 8-Bit 👾' },
+      { id: 'NeoDetetive', label: 'Detetive Neo 🕵️' },
+      { id: 'Speedy', label: 'Speedster 🏃' },
+      { id: 'ArcadePro', label: 'Arcade Pro 🕹️' },
+      { id: 'BlockBoy', label: 'Block Hero 🧱' },
+      { id: 'PixelGirl', label: 'Pixel Girl 🎀' }
     ],
     'lorelei': [
-      { id: 'Sofia', label: 'Sofia 🌸' },
-      { id: 'Lucas', label: 'Lucas 🎧' },
-      { id: 'Maria', label: 'Maria 🌺' },
-      { id: 'Gabriel', label: 'Gabriel ⚡' },
-      { id: 'Julia', label: 'Julia 🌟' },
-      { id: 'Pedro', label: 'Pedro 🎮' },
-      { id: 'Beatriz', label: 'Beatriz 🎨' },
-      { id: 'Arthur', label: 'Arthur 👑' },
-      { id: 'Manuela', label: 'Manuela 💖' },
-      { id: 'Bernardo', label: 'Bernardo 🚀' }
+      { id: 'Sofia', label: 'Sofia Cientista 🔬' },
+      { id: 'PrincesaSofia', label: 'Princesa Sofia 👑' },
+      { id: 'LucasGamer', label: 'Lucas Gamer 🎧' },
+      { id: 'BiaEstrela', label: 'Bia Criativa 🎨' },
+      { id: 'ArthurFoco', label: 'Arthur Estudioso 📚' },
+      { id: 'ManuelaArte', label: 'Manu Artista 🌈' }
     ],
     'big-smile': [
-      { id: 'HappyKid', label: 'Happy 😃' },
-      { id: 'SmileStar', label: 'Sorridente ⭐' },
-      { id: 'Joy', label: 'Joy 💖' },
-      { id: 'Sun', label: 'Sunshine ☀️' },
-      { id: 'Cheery', label: 'Cheery 🎈' },
-      { id: 'SuperSmile', label: 'Super Riso 😁' }
+      { id: 'SuperSmile', label: 'Super Sorriso 😄' },
+      { id: 'HappyKid', label: 'Alegria Pura 🌟' },
+      { id: 'SmileStar', label: 'Estrela Sorridente ⭐' },
+      { id: 'GiggleBoy', label: 'Risadinha 🎉' },
+      { id: 'CheeryGirl', label: 'Super Animada 🎈' }
     ],
     'fun-emoji': [
-      { id: 'CoolCat', label: 'Cool 🕶️' },
-      { id: 'PartyMonster', label: 'Festa 🎉' },
-      { id: 'StarBrain', label: 'Gênio 🧠' },
-      { id: 'FireBall', label: 'Fogo 🔥' },
-      { id: 'RocketIcon', label: 'Foguete 🚀' },
-      { id: 'MagicWand', label: 'Magia 🪄' }
+      { id: 'DinoRex', label: 'Dino Rex 🦖' },
+      { id: 'KitsuneFox', label: 'Kitsune Ninja 🦊' },
+      { id: 'PartyMonster', label: 'Monstrinho Pop 👾' },
+      { id: 'CoolCat', label: 'Gatinho Cool 😎' },
+      { id: 'FireDragon', label: 'Dragão Fogo 🔥' },
+      { id: 'CosmicPanda', label: 'Panda Po 🐼' }
     ],
-    'voxel-art': [
-      { id: 'Alex', label: 'Alex 🧊' },
-      { id: 'Steve', label: 'Steve 🧊' },
-      { id: 'VoxelLucas', label: 'Lucas Voxel 🎮' },
-      { id: 'VoxelSofia', label: 'Sofia Voxel 🌸' }
+    'avataaars': [
+      { id: 'CapitaoLucas', label: 'Lucas 👦' },
+      { id: 'MariaClara', label: 'Maria Clara 👧' },
+      { id: 'GabrielPro', label: 'Gabriel 🧢' },
+      { id: 'JuliaStar', label: 'Júlia 🌸' },
+      { id: 'PedroGamer', label: 'Pedro 🎮' },
+      { id: 'AnaLuz', label: 'Ana ✨' }
     ]
   },
 
+  // Cenários de fundo temáticos com cores vibrantes
   bgColors: [
-    { id: 'b6e3f4', label: 'Azul Céu', hex: '#b6e3f4' },
-    { id: 'c0aedd', label: 'Roxo Lavanda', hex: '#c0aedd' },
-    { id: 'd1d4f9', label: 'Azul Pastel', hex: '#d1d4f9' },
-    { id: 'ffd5dc', label: 'Rosa Bebê', hex: '#ffd5dc' },
-    { id: 'ffdfbf', label: 'Pêssego Warm', hex: '#ffdfbf' },
-    { id: 'c1f2c7', label: 'Verde Menta', hex: '#c1f2c7' },
-    { id: 'fff0b3', label: 'Amarelo Sol', hex: '#fff0b3' },
-    { id: '364156', label: 'Dark Slate', hex: '#364156' },
-    { id: '111827', label: 'Preto Cyber', hex: '#111827' }
-  ],
-
-  animationSpeeds: [
-    { id: 'fastest', label: '💥 Turbo' },
-    { id: 'medium', label: '⚡ Média' },
-    { id: 'none', label: '🛑 Estático' }
-  ],
-
-  hairStyles: [
-    { id: 'spiky', label: 'Espetado' },
-    { id: 'cap', label: 'Boné' },
-    { id: 'beanie', label: 'Gorro' },
-    { id: 'afro', label: 'Afro' },
-    { id: 'curly', label: 'Cachos' },
-    { id: 'mohawk', label: 'Moicano' },
-    { id: 'bunnyEars', label: 'Orelhas Coelho 🐰' },
-    { id: 'short', label: 'Curto' }
-  ],
-
-  hairColors: [
-    { id: '2c1b18', label: 'Preto', hex: '#2c1b18' },
-    { id: '724133', label: 'Castanho', hex: '#724133' },
-    { id: 'b58143', label: 'Loiro', hex: '#b58143' },
-    { id: 'c93305', label: 'Ruivo', hex: '#c93305' },
-    { id: '25557c', label: 'Azul', hex: '#25557c' }
-  ],
-
-  skinColors: [
-    { id: 'ffdbb4', label: 'Claro', hex: '#ffdbb4' },
-    { id: 'fd9841', label: 'Moreno', hex: '#fd9841' },
-    { id: 'ae5d29', label: 'Canela', hex: '#ae5d29' },
-    { id: '614335', label: 'Escuro', hex: '#614335' }
+    { id: '38bdf8', label: 'Céu Azul ☁️', hex: '#38bdf8' },
+    { id: '818cf8', label: 'Galáxia Espacial 🚀', hex: '#818cf8' },
+    { id: 'fbbf24', label: 'Ouro Campeão 🏆', hex: '#fbbf24' },
+    { id: '10b981', label: 'Floresta Mágica 🌿', hex: '#10b981' },
+    { id: 'f43f5e', label: 'Rubi Fogo 🔥', hex: '#f43f5e' },
+    { id: 'c0aedd', label: 'Roxo Arcano 🔮', hex: '#c0aedd' },
+    { id: 'ffd5dc', label: 'Doce Algodão 🌸', hex: '#ffd5dc' },
+    { id: '0f172a', label: 'Dojo Ninja 🥋', hex: '#0f172a' },
+    { id: 'ffdfbf', label: 'Pêssego Solar ☀️', hex: '#ffdfbf' },
+    { id: '1e3a8a', label: 'Azul Cósmico 🌌', hex: '#1e3a8a' }
   ]
 };
 
 /**
- * Builds the DiceBear Avatar Proxy URL with parameters
+ * Constrói a URL do avatar com DiceBear
  */
 function buildDiceBearUrl(config = {}, isTilePreview = false) {
   if (typeof config === 'string') {
@@ -162,58 +125,35 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
   }
 
   const style = config.style || 'bottts';
-  const seed = config.seed || 'Student';
-  const bg = (config.bg || 'b6e3f4').replace('#', '');
+  const seed = config.seed || 'LeoRobot';
+  const bg = (config.bg || '38bdf8').replace('#', '');
 
   let url = `/api/avatar-proxy?style=${encodeURIComponent(style)}&seed=${encodeURIComponent(seed)}`;
-
-  if (bg && bg !== 'transparent' && !bg.includes('gradient')) {
+  if (bg && bg !== 'transparent') {
     url += `&backgroundColor=${bg}`;
-  }
-
-  if (style === 'voxel-art') {
-    const anim = config.animationSpeed || 'fastest';
-    if (anim && anim !== 'none') url += `&animationVariant=${anim}`;
-    if (config.hairStyle) url += `&topVariant=${config.hairStyle}`;
-    if (config.hairColor) url += `&hairColor=${(config.hairColor).replace('#', '')}`;
-    if (config.skinColor) url += `&skinColor=${(config.skinColor).replace('#', '')}`;
-    if (config.outfit) url += `&outfitVariant=${config.outfit}`;
-    if (config.glasses && config.glasses !== 'none') url += `&glassesVariant=${config.glasses}&glassesProbability=100`;
-    if (config.beard && config.beard !== 'none') url += `&beardVariant=${config.beard}&beardProbability=100`;
-    if (config.eyes) url += `&eyesVariant=${config.eyes}`;
   }
 
   return url;
 }
 
 /**
- * Renders an <img> tag with the Avatar SVG
+ * Gera a tag <img> com o Avatar SVG
  */
 function generateAvatarSVG(config = {}, size = 220, isTilePreview = false) {
   const url = buildDiceBearUrl(config, isTilePreview);
-  const borderRadius = isTilePreview ? '12px' : '20px';
+  const borderRadius = isTilePreview ? '14px' : '24px';
+  const dropShadow = isTilePreview ? 'none' : 'drop-shadow(0 15px 25px rgba(0,0,0,0.35))';
 
-  return `<img src="${url}" width="${size}" height="${size}" style="border-radius: ${borderRadius}; display: block; margin: 0 auto; object-fit: contain;" alt="Student Avatar" />`;
+  return `<img src="${url}" width="${size}" height="${size}" style="border-radius: ${borderRadius}; display: block; margin: 0 auto; object-fit: contain; filter: ${dropShadow}; transition: transform 0.2s;" alt="Avatar do Aluno" />`;
 }
 
-/**
- * Renders individual item previews for option tiles
- */
-function generateItemTileSVG(category, itemId, extraParam = '') {
-  if (category === 'style') {
-    const tileUrl = `/api/avatar-proxy?style=${encodeURIComponent(itemId)}&seed=Sample&backgroundColor=b6e3f4`;
-    return `<img src="${tileUrl}" width="65" height="65" style="display:block; margin:0 auto; border-radius:10px;" alt="${itemId}" />`;
-  }
-  return '';
-}
-
+// Exportações globais
 if (typeof window !== 'undefined') {
   window.DUOLINGO_AVATAR_PRESETS = DUOLINGO_AVATAR_PRESETS;
   window.generateAvatarSVG = generateAvatarSVG;
-  window.generateItemTileSVG = generateItemTileSVG;
   window.buildDiceBearUrl = buildDiceBearUrl;
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { DUOLINGO_AVATAR_PRESETS, generateAvatarSVG, generateItemTileSVG, buildDiceBearUrl };
+  module.exports = { DUOLINGO_AVATAR_PRESETS, generateAvatarSVG, buildDiceBearUrl };
 }

@@ -256,6 +256,7 @@
     }
     .btn-play-again:hover { transform: scale(1.05); }
   </style>
+  <script src="/js/labkids-gamification.js"></script>
 </head>
 <body>
 
@@ -554,6 +555,15 @@
 
     function showGameOver() {
       document.getElementById('final-score').textContent = `Pontuação Final: ${score} pontos!`;
+      if (window.LabKidsGamification) {
+        window.LabKidsGamification.recordCompletion({
+          activityId: 11,
+          slug: 'detetive-ortografia',
+          title: 'Detetive da Ortografia',
+          subject: 'Português',
+          score: score
+        });
+      }
       document.getElementById('modal-title').textContent = score >= 900 ? 'Distintivo de Ouro Conquistado! 🌟' : 'Missão Finalizada! 🕵️';
       document.getElementById('modal-desc').textContent = `Você completou os 12 casos ortográficos com Combo Máximo de ${maxCombo}x. Seu distintivo: ${getBadgeName(score)}.`;
       document.getElementById('end-modal').classList.add('active');

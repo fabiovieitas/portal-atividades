@@ -301,6 +301,7 @@
         }
         .back-link:hover { color: #38bdf8; }
     </style>
+  <script src="/js/labkids-gamification.js"></script>
 </head>
 <body>
     <!-- INTERACTIVE 60FPS CANVAS BACKGROUND -->
@@ -684,6 +685,15 @@
 
         function finishGame() {
             playSound('win');
+            if (window.LabKidsGamification) {
+              window.LabKidsGamification.recordCompletion({
+                activityId: 12,
+                slug: 'habitos-de-higiene',
+                title: 'Missão Hábitos de Higiene',
+                subject: 'Ciências',
+                score: score
+              });
+            }
             
             // Add to Leaderboard
             leaderboard.push({ name: playerName, score: score, avatar: "🏆" });
