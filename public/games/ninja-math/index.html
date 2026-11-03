@@ -2394,6 +2394,22 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 0 8px;
+            }
+            .top-bar .game-logo span {
+                font-size: 0.92rem;
+            }
+            .top-bar .arena-badge-top,
+            .top-bar #speed-btn,
+            .top-bar button[title="Ranking Geral do Dojo"],
+            .top-bar button[title="Diploma Ninja de Honra"],
+            .top-bar button[title="Ver Conquistas Digitais"] {
+                display: none !important;
+            }
+        }
+
         @media (max-width: 600px) {
             .target-scroll {
                 padding: 6px 16px;
@@ -2622,7 +2638,7 @@
                             <span class="tux-title-katana">⚔️</span>
                         </h1>
                         <div class="tux-subtitle-ribbon">
-                            🏮 DOJO DA TABUADA • MODO TUX ARCADE 🏮
+                            🏮 DOJO DA TABUADA • LAB KIDS ARCADE 🏮
                         </div>
                     </div>
 
@@ -3193,6 +3209,7 @@
         <div class="modal-screen" id="gameover-modal" style="display:none;">
             <div class="modal-card">
                 <h1 class="modal-title" style="color: #ef4444;" id="gameover-title">FIM DE TREINO!</h1>
+                <div id="portal-xp-notice" style="display:none; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2)); border: 1.5px solid #10b981; border-radius: 14px; padding: 10px 16px; margin: 12px 0 16px 0; color: #a7f3d0; font-size: 0.95rem; font-weight: 700; text-align: center; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);"></div>
                 <p class="modal-subtitle" id="gameover-reason">Você perdeu todas as 5 vidas no dojo.</p>
 
                 <!-- Stats summary -->
@@ -5069,7 +5086,7 @@
                 help: '❓ COMO JOGAR:'
             };
 
-            if (titleEl) titleEl.innerText = titlesMap[view] || '🥋 DOJO TUX MATH:';
+            if (titleEl) titleEl.innerText = titlesMap[view] || '🥋 DOJO LAB KIDS:';
 
             // Auto-seleciona um nível representativo se o aluno entrar numa categoria nova
             if (view === 'add' && (!TUX_MENUS.add.includes(selectedLevel))) {
@@ -5544,6 +5561,48 @@
 
             // Salva placar no Ranking Geral do Banco de Dados
             saveScoreToLeaderboard(score, accuracy, maxCombo, curBelt.name);
+
+            // Sincronização Automática com Gamificação e Mochila de Carimbos BNCC do Portal Lab Kids
+            try {
+                const earnedXP = Math.min(100, Math.max(10, Math.round(score / 15)));
+                
+                // 1. Mochila de Carimbos BNCC (Matemática)
+                const completed = JSON.parse(localStorage.getItem('lab_completed_activities') || '[]');
+                completed.push({
+                    id: 62,
+                    title: 'Ninja Math: A Espada da Tabuada',
+                    subject: 'Matemática',
+                    score: score,
+                    completed_at: new Date().toISOString()
+                });
+                if (completed.length > 80) completed.shift();
+                localStorage.setItem('lab_completed_activities', JSON.stringify(completed));
+
+                // 2. Perfil do Aluno (XP e sincronização no servidor)
+                const rawProfile = localStorage.getItem('lab_student_profile');
+                if (rawProfile) {
+                    const profile = JSON.parse(rawProfile);
+                    profile.points = (Number(profile.points) || 0) + earnedXP;
+                    localStorage.setItem('lab_student_profile', JSON.stringify(profile));
+
+                    if (profile.id) {
+                        fetch('/api/students/' + profile.id + '/activity-complete', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ activity_id: 62, score: earnedXP })
+                        }).catch(() => {});
+                    }
+                }
+
+                // 3. Exibir banner de XP e Carimbo no Game Over
+                const xpNotice = document.getElementById('portal-xp-notice');
+                if (xpNotice) {
+                    xpNotice.innerHTML = '✨ <strong>+' + earnedXP + ' Pontos de XP</strong> adicionados ao seu Avatar! 🎒 Carimbo BNCC de Matemática registrado na Mochila!';
+                    xpNotice.style.display = 'block';
+                }
+            } catch(e) {
+                console.error('Erro ao sincronizar gamificação do portal:', e);
+            }
 
             // Populate Pedagogical Mistakes Review Box
             const reviewList = document.getElementById('review-list');
@@ -7506,6 +7565,24 @@
         function initStudentName() {
             studentName = localStorage.getItem('ninja_student_name') || '';
             roomPin = localStorage.getItem('ninja_room_pin') || '';
+
+            // Auto-integração com o Perfil do Aluno logado no Portal Lab Kids
+            if (!studentName) {
+                try {
+                    const rawProfile = localStorage.getItem('lab_student_profile');
+                    if (rawProfile) {
+                        const profile = JSON.parse(rawProfile);
+                        if (profile && profile.name) {
+                            studentName = profile.name;
+                            localStorage.setItem('ninja_student_name', studentName);
+                            if (profile.class_code) {
+                                roomPin = profile.class_code;
+                                localStorage.setItem('ninja_room_pin', roomPin);
+                            }
+                        }
+                    }
+                } catch(e) {}
+            }
             playerCoins = parseInt(localStorage.getItem('ninja_coins') || '0', 10);
             try {
                 unlockedBlades = JSON.parse(localStorage.getItem('ninja_blades') || '["steel"]');
