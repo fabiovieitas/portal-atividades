@@ -21,7 +21,7 @@
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <% } %>
     <meta name="robots" content="noindex, follow">
-    <script src="/js/avatar_system.js"></script>
+    <script src="/js/avatar_system.js?v=20261103_4_1"></script>
     <script src="/js/labkids-gamification.js"></script>
     <script src="/js/app-enhancements.js" defer></script>
     <style>
@@ -296,11 +296,12 @@
             margin: 0 0 15px 0;
         }
 
-        /* 3-Column Grid Tiles */
+        /* Dynamic Responsive Grid Tiles */
         .duo-tiles-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 12px;
+            width: 100%;
         }
 
         .duo-tile-card {
@@ -308,14 +309,16 @@
             border: 2px solid var(--duo-border);
             border-bottom: 4px solid var(--duo-border);
             border-radius: 16px;
-            aspect-ratio: 1;
+            min-height: 105px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: 0.15s;
+            transition: all 0.15s ease;
             position: relative;
-            padding: 6px;
+            padding: 10px 6px;
+            box-sizing: border-box;
         }
 
         .duo-tile-card:hover {
@@ -926,26 +929,24 @@
         }
 
         let currentStep = 1;
-        let activeTab = 'voxelSeeds';
+        let activeTab = 'heroes';
         let selectedSchool = null;
         let selectedClass = null;
         let selectedStudent = null;
 
-        // Customizer state (100% Editable Animated Voxel Art 3D Engine)
+        // Customizer state (Studio de Avatares Duolingo / DiceBear 4.0)
         let avatarConfig = {
-            style: 'voxel-art',
-            seed: 'Voxel' + Math.floor(Math.random() * 10000),
-            animationSpeed: 'fastest',
-            hairStyle: 'spiky',
+            style: 'bottts',
+            seed: 'LeoRobot',
+            bg: '38bdf8',
+            top: 'shortCurly',
             hairColor: '2c1b18',
-            skinColor: 'ffdbb4',
-            outfit: 'hoodie',
-            glasses: 'none',
-            beard: 'none',
-            eyes: 'open',
-            bg: 'e55b5b',
-            bgPattern: '',
-            customBg: ''
+            skinColor: 'edb98a',
+            clothing: 'hoodie',
+            clothesColor: '0284c7',
+            eyes: 'happy',
+            mouth: 'smile',
+            accessories: 'none'
         };
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -1245,8 +1246,167 @@
             renderTabContent();
         }
 
+        // Presets resilientes e integrados para garantir carregamento 100% à prova de cache
+        const FALLBACK_AVATAR_PRESETS = {
+            heroes: [
+                { id: 'leo_robot', name: 'Robô Léo', style: 'bottts', seed: 'LeoRobot', bg: '38bdf8', icon: '🤖', title: 'Mascote Oficial do Lab', requiredXP: 0, badge: 'Inicial' },
+                { id: 'astro_kid', name: 'Astro Kid', style: 'bottts', seed: 'AstroKid', bg: '818cf8', icon: '🚀', title: 'Explorador Espacial', requiredXP: 0, badge: 'Inicial' },
+                { id: 'dra_sofia', name: 'Dra. Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🔬', title: 'Cientista Mirim', requiredXP: 0, badge: 'Inicial' },
+                { id: 'super_sorriso', name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fbbf24', icon: '😄', title: 'Mestre da Alegria', requiredXP: 0, badge: 'Inicial' },
+                { id: 'lucas_lider', name: 'Capitão Lucas', style: 'avataaars', seed: 'CapitaoLucas', bg: '60a5fa', icon: '⚡', title: 'Líder da Turma', requiredXP: 0, badge: 'Inicial' },
+                { id: 'pixel_gamer', name: 'Pixel Gamer', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Campeão 8-Bit', requiredXP: 50, reqDesc: 'Alcance 50 XP' },
+                { id: 'dino_rex', name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: '10b981', icon: '🦖', title: 'Fera Pré-Histórica', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
+                { id: 'ninja_tabuada', name: 'Ninja da Tabuada', style: 'adventurer', seed: 'Ninja', bg: '0f172a', icon: '⚔️', title: 'Mestre do Cálculo', requiredXP: 150, reqDesc: 'Conquiste 150 XP' },
+                { id: 'mago_numeros', name: 'Mago dos Números', style: 'adventurer', seed: 'MagoArcano', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Arcano da Lógica', requiredXP: 250, reqDesc: 'Conquiste 250 XP' },
+                { id: 'princesa_sofia', name: 'Princesa Sofia', style: 'lorelei', seed: 'PrincesaSofia', bg: 'ffdfbf', icon: '👑', title: 'Guardiã da Leitura', requiredXP: 300, reqDesc: 'Conquiste 300 XP' },
+                { id: 'detetive_neo', name: 'Detetive Neo', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Investigador Cyber', requiredXP: 450, reqDesc: 'Conquiste 450 XP' },
+                { id: 'cyber_titan', name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado', requiredXP: 600, reqDesc: 'Conquiste 600 XP' },
+                { id: 'kitsune_ninja', name: 'Raposa Kitsune', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'f97316', icon: '🦊', title: 'Raposa Veloz', requiredXP: 750, reqDesc: 'Conquiste 750 XP' },
+                { id: 'guerreira_luna', name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Heroína Lendária', requiredXP: 1000, reqDesc: 'Lenda do Lab (1000 XP)' }
+            ],
+            studentPresets: [
+                { name: 'Lucas Gamer', seed: 'CapitaoLucas', top: 'hat', clothing: 'hoodie', hairColor: '2c1b18', skinColor: 'edb98a', icon: '👦' },
+                { name: 'Maria Clara', seed: 'MariaClara', top: 'bun', clothing: 'graphicShirt', hairColor: '4a312c', skinColor: 'ffdbb4', icon: '👧' },
+                { name: 'Gabriel Afro', seed: 'GabrielAfro', top: 'fro', clothing: 'hoodie', hairColor: '2c1b18', skinColor: '614335', icon: '🧑‍🦱' },
+                { name: 'Bia Estrela', seed: 'BiaEstrela', top: 'curly', clothing: 'collarAndSweater', hairColor: 'c93305', skinColor: 'ffdbb4', icon: '✨' },
+                { name: 'Pedro Radical', seed: 'PedroGamer', top: 'shortCurly', clothing: 'graphicShirt', hairColor: 'b58143', skinColor: 'd08b5b', icon: '🧢' },
+                { name: 'Ana Luz', seed: 'AnaLuz', top: 'straight01', clothing: 'hoodie', hairColor: 'f59797', skinColor: 'edb98a', icon: '🌸' }
+            ],
+            hairStyles: [
+                { id: 'shortFlat', label: 'Curto Clássico 👦', icon: '👦' },
+                { id: 'shortCurly', label: 'Cachos Curtinhos 🧑‍🦱', icon: '🧑‍🦱' },
+                { id: 'curly', label: 'Cachos com Volume 🌀', icon: '🌀' },
+                { id: 'fro', label: 'Black Power Poderoso ✊', icon: '✊' },
+                { id: 'dreads', label: 'Dreads Estilosos 🧑‍🦱', icon: '🧑‍🦱' },
+                { id: 'bun', label: 'Coque Estudante 👧', icon: '👧' },
+                { id: 'bob', label: 'Chanel Moderno 💇', icon: '💇' },
+                { id: 'straight01', label: 'Liso Longo 👩', icon: '👩' },
+                { id: 'curvy', label: 'Ondulado Divertido 🌊', icon: '🌊' },
+                { id: 'hat', label: 'Boné Gamer Virado 🧢', icon: '🧢' },
+                { id: 'winterHat1', label: 'Gorro Quentinho ❄️', icon: '❄️' }
+            ],
+            hairColors: [
+                { id: '2c1b18', label: 'Preto Ônix', hex: '#2c1b18' },
+                { id: '4a312c', label: 'Castanho Escuro', hex: '#4a312c' },
+                { id: '724133', label: 'Castanho Chocolate', hex: '#724133' },
+                { id: 'b58143', label: 'Castanho Dourado', hex: '#b58143' },
+                { id: 'd6b370', label: 'Loiro Solar', hex: '#d6b370' },
+                { id: 'f59797', label: 'Rosa Anime 🌸', hex: '#f59797' },
+                { id: 'c93305', label: 'Ruivo Fogo 🔥', hex: '#c93305' },
+                { id: 'e8e1e1', label: 'Platinado / Prata ⚡', hex: '#e8e1e1' }
+            ],
+            eyes: [
+                { id: 'happy', label: 'Super Feliz 😄', icon: '😄' },
+                { id: 'wink', label: 'Piscadinha Gamer 😉', icon: '😉' },
+                { id: 'hearts', label: 'Olhos de Coração 😍', icon: '😍' },
+                { id: 'squint', label: 'Focado / Detetive 🧐', icon: '🧐' },
+                { id: 'winkWacky', label: 'Careta Brincalhona 😜', icon: '😜' },
+                { id: 'default', label: 'Curioso / Tranquilo 🙂', icon: '👀' },
+                { id: 'surprised', label: 'Surpreso / Uau! 😲', icon: '😲' },
+                { id: 'closed', label: 'Zen / Descansando 😌', icon: '😌' }
+            ],
+            mouth: [
+                { id: 'smile', label: 'Sorrisão Amigo 😊', icon: '😊' },
+                { id: 'twinkle', label: 'Radiante / Estrela 🌟', icon: '🌟' },
+                { id: 'tongue', label: 'Língua de Fora 😋', icon: '😋' },
+                { id: 'eating', label: 'Comendo Cookies 🍪', icon: '🍪' },
+                { id: 'default', label: 'Sorriso Suave 🙂', icon: '🙂' },
+                { id: 'serious', label: 'Concentrado 😐', icon: '😐' }
+            ],
+            accessories: [
+                { id: 'none', label: 'Sem Óculos 🚫', icon: '🚫' },
+                { id: 'round', label: 'Redondos / Harry Potter 🤓', icon: '👓' },
+                { id: 'wayfarers', label: 'Óculos Gamer Estiloso 😎', icon: '🕶️' },
+                { id: 'prescription01', label: 'Óculos de Grau Moderno 👓', icon: '👓' },
+                { id: 'prescription02', label: 'Óculos Retrô 👓', icon: '👓' },
+                { id: 'sunglasses', label: 'Óculos de Sol Praia 🏖️', icon: '🕶️' },
+                { id: 'eyepatch', label: 'Tapa-Olho Pirata 🏴‍☠️', icon: '🏴‍☠️' }
+            ],
+            clothing: [
+                { id: 'hoodie', label: 'Moletom Gamer com Capuz 🧥', icon: '🧥' },
+                { id: 'graphicShirt', label: 'Camiseta Estampada 🎮', icon: '🎮' },
+                { id: 'shirtCrewNeck', label: 'Camiseta Básica 👕', icon: '👕' },
+                { id: 'overall', label: 'Macacão de Aventura 👖', icon: '👖' },
+                { id: 'collarAndSweater', label: 'Uniforme Escolar 👔', icon: '👔' },
+                { id: 'blazerAndShirt', label: 'Formatura / Gala 🎓', icon: '🎓' }
+            ],
+            clothesColors: [
+                { id: '0284c7', label: 'Azul Lab Kids', hex: '#0284c7' },
+                { id: '7c3aed', label: 'Roxo Gamer', hex: '#7c3aed' },
+                { id: 'ef4444', label: 'Vermelho Rubi', hex: '#ef4444' },
+                { id: '10b981', label: 'Verde Esmeralda', hex: '#10b981' },
+                { id: 'f59e0b', label: 'Amarelo Ouro', hex: '#f59e0b' },
+                { id: 'ec4899', label: 'Rosa Pink', hex: '#ec4899' },
+                { id: '1e293b', label: 'Preto Grafite', hex: '#1e293b' },
+                { id: 'ffffff', label: 'Branco Puro', hex: '#ffffff' }
+            ],
+            skinColors: [
+                { id: 'ffdbb4', label: 'Claro Neutro', hex: '#ffdbb4' },
+                { id: 'edb98a', label: 'Claro Dourado', hex: '#edb98a' },
+                { id: 'f8d25c', label: 'Dourado Quente', hex: '#f8d25c' },
+                { id: 'fd9841', label: 'Canela Suave', hex: '#fd9841' },
+                { id: 'd08b5b', label: 'Moreno Natural', hex: '#d08b5b' },
+                { id: 'ae5d29', label: 'Moreno Médio', hex: '#ae5d29' },
+                { id: '614335', label: 'Negro / Ébano', hex: '#614335' }
+            ],
+            bgColors: [
+                { id: '38bdf8', label: 'Céu Azul ☁️', hex: '#38bdf8' },
+                { id: '818cf8', label: 'Galáxia Espacial 🚀', hex: '#818cf8' },
+                { id: 'fbbf24', label: 'Ouro Campeão 🏆', hex: '#fbbf24' },
+                { id: '10b981', label: 'Floresta Mágica 🌿', hex: '#10b981' },
+                { id: 'f43f5e', label: 'Rubi de Fogo 🔥', hex: '#f43f5e' },
+                { id: 'c0aedd', label: 'Roxo Arcano 🔮', hex: '#c0aedd' },
+                { id: 'ffd5dc', label: 'Doce Algodão 🌸', hex: '#ffd5dc' },
+                { id: '0f172a', label: 'Dojo Ninja 🥋', hex: '#0f172a' },
+                { id: 'ffdfbf', label: 'Pêssego Solar ☀️', hex: '#ffdfbf' },
+                { id: '1e3a8a', label: 'Azul Cósmico 🌌', hex: '#1e3a8a' }
+            ]
+        };
+
+        function getAvatarPresets() {
+            const ext = (typeof window !== 'undefined' && window.DUOLINGO_AVATAR_PRESETS)
+                ? window.DUOLINGO_AVATAR_PRESETS
+                : (typeof DUOLINGO_AVATAR_PRESETS !== 'undefined' ? DUOLINGO_AVATAR_PRESETS : {});
+            return {
+                heroes: (ext.heroes && ext.heroes.length) ? ext.heroes : FALLBACK_AVATAR_PRESETS.heroes,
+                studentPresets: (ext.studentPresets && ext.studentPresets.length) ? ext.studentPresets : FALLBACK_AVATAR_PRESETS.studentPresets,
+                hairStyles: (ext.hairStyles && ext.hairStyles.length) ? ext.hairStyles : FALLBACK_AVATAR_PRESETS.hairStyles,
+                hairColors: (ext.hairColors && ext.hairColors.length) ? ext.hairColors : FALLBACK_AVATAR_PRESETS.hairColors,
+                eyes: (ext.eyes && ext.eyes.length) ? ext.eyes : FALLBACK_AVATAR_PRESETS.eyes,
+                mouth: (ext.mouth && ext.mouth.length) ? ext.mouth : FALLBACK_AVATAR_PRESETS.mouth,
+                accessories: (ext.accessories && ext.accessories.length) ? ext.accessories : FALLBACK_AVATAR_PRESETS.accessories,
+                clothing: (ext.clothing && ext.clothing.length) ? ext.clothing : FALLBACK_AVATAR_PRESETS.clothing,
+                clothesColors: (ext.clothesColors && ext.clothesColors.length) ? ext.clothesColors : FALLBACK_AVATAR_PRESETS.clothesColors,
+                skinColors: (ext.skinColors && ext.skinColors.length) ? ext.skinColors : FALLBACK_AVATAR_PRESETS.skinColors,
+                bgColors: (ext.bgColors && ext.bgColors.length) ? ext.bgColors : FALLBACK_AVATAR_PRESETS.bgColors
+            };
+        }
+
+        function safeBuildDiceBearUrl(config) {
+            if (typeof window.buildDiceBearUrl === 'function') {
+                try { return window.buildDiceBearUrl(config); } catch (e) {}
+            }
+            const cfg = config || {};
+            const style = cfg.style || 'bottts';
+            const seed = cfg.seed || 'LeoRobot';
+            const bg = (cfg.bg || '38bdf8').replace('#', '');
+            let url = '/api/avatar-proxy?style=' + encodeURIComponent(style) + '&seed=' + encodeURIComponent(seed);
+            if (bg && bg !== 'transparent') url += '&backgroundColor=' + bg;
+            if (style === 'avataaars') {
+                if (cfg.top) url += '&top=' + encodeURIComponent(cfg.top);
+                if (cfg.hairColor) url += '&hairColor=' + encodeURIComponent(cfg.hairColor.replace('#', ''));
+                if (cfg.skinColor) url += '&skinColor=' + encodeURIComponent(cfg.skinColor.replace('#', ''));
+                if (cfg.clothing) url += '&clothing=' + encodeURIComponent(cfg.clothing);
+                if (cfg.clothesColor) url += '&clothesColor=' + encodeURIComponent(cfg.clothesColor.replace('#', ''));
+                if (cfg.eyes) url += '&eyes=' + encodeURIComponent(cfg.eyes);
+                if (cfg.mouth) url += '&mouth=' + encodeURIComponent(cfg.mouth);
+                if (cfg.accessories) url += '&accessories=' + encodeURIComponent(cfg.accessories);
+            }
+            return url;
+        }
+
         function randomizeAvatar() {
-            const P = DUOLINGO_AVATAR_PRESETS;
+            const P = getAvatarPresets();
             if (window.LabKidsGamification) {
                 window.LabKidsGamification.playChime();
                 window.LabKidsGamification.confetti();
@@ -1280,7 +1440,7 @@
         }
 
         function renderTabContent() {
-            const P = DUOLINGO_AVATAR_PRESETS;
+            const P = getAvatarPresets();
             const container = document.getElementById('duo-tiles-container');
             const titleEl = document.getElementById('duo-tab-title');
             if (!container || !titleEl) return;
@@ -1300,7 +1460,7 @@
                 titleEl.innerHTML = '🌟 Heróis & Mascotes do Lab <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Desbloqueie novos personagens com seu XP!)</span>';
                 
                 const currentXP = Number((selectedStudent && selectedStudent.points) || (JSON.parse(localStorage.getItem('lab_student_profile') || '{}').points) || 0);
-                const heroes = DUOLINGO_AVATAR_PRESETS.heroes || [];
+                const heroes = P.heroes || [];
                 heroes.forEach(h => {
                     const isSel = (avatarConfig.style === h.style && avatarConfig.seed === h.seed);
                     const isLocked = (Number(h.requiredXP || 0) > currentXP);
@@ -1335,7 +1495,7 @@
                         };
                     }
 
-                    const sampleUrl = buildDiceBearUrl({ style: h.style, seed: h.seed, bg: h.bg });
+                    const sampleUrl = safeBuildDiceBearUrl({ style: h.style, seed: h.seed, bg: h.bg });
                     let statusBadge = '';
                     if (isLocked) {
                         statusBadge = '<div style="position:absolute; top:6px; right:6px; background:rgba(15,23,42,0.85); color:#fbbf24; border-radius:50px; padding:2px 8px; font-size:0.68rem; font-weight:800; display:flex; align-items:center; gap:3px;"><span>🔒</span> <span>' + h.requiredXP + ' XP</span></div>';
@@ -1377,7 +1537,7 @@
                         updateDuoPreview();
                     };
 
-                    const sampleUrl = buildDiceBearUrl({ 
+                    const sampleUrl = safeBuildDiceBearUrl({ 
                         style: 'avataaars', 
                         seed: sp.seed, 
                         top: sp.top, 
@@ -1397,7 +1557,7 @@
                 enableHumanModeIfNeeded();
                 titleEl.innerHTML = '👓 Óculos & Acessórios Gamers';
                 
-                P.accessories.forEach(acc => {
+                (P.accessories || []).forEach(acc => {
                     const isSel = (avatarConfig.accessories || 'none') === acc.id;
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1423,7 +1583,7 @@
                 eyesHeading.innerHTML = '<span>👁️</span> <span>Expressão dos Olhos:</span>';
                 container.appendChild(eyesHeading);
 
-                P.eyes.forEach(eye => {
+                (P.eyes || []).forEach(eye => {
                     const isSel = (avatarConfig.eyes || 'happy') === eye.id;
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1444,7 +1604,7 @@
                 mouthHeading.innerHTML = '<span>👄</span> <span>Sorriso e Boca:</span>';
                 container.appendChild(mouthHeading);
 
-                P.mouth.forEach(m => {
+                (P.mouth || []).forEach(m => {
                     const isSel = (avatarConfig.mouth || 'smile') === m.id;
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1469,7 +1629,7 @@
                 colorHeading.innerHTML = '🎨 Cor do Cabelo:';
                 container.appendChild(colorHeading);
 
-                P.hairColors.forEach(hc => {
+                (P.hairColors || []).forEach(hc => {
                     const isSel = (avatarConfig.hairColor || '2c1b18').replace('#', '') === hc.hex.replace('#', '');
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1490,7 +1650,7 @@
                 styleHeading.innerHTML = '✂️ Estilo do Penteado:';
                 container.appendChild(styleHeading);
 
-                P.hairStyles.forEach(hs => {
+                (P.hairStyles || []).forEach(hs => {
                     const isSel = (avatarConfig.top || 'shortCurly') === hs.id;
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1509,7 +1669,7 @@
             } else if (activeTab === 'skin') {
                 enableHumanModeIfNeeded();
                 titleEl.innerHTML = '🎨 Tom de Pele Natural & Inclusivo';
-                P.skinColors.forEach(sc => {
+                (P.skinColors || []).forEach(sc => {
                     const isSel = (avatarConfig.skinColor || 'edb98a').replace('#', '') === sc.hex.replace('#', '');
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1534,7 +1694,7 @@
                 colorHeading.innerHTML = '🎨 Cor da Roupa:';
                 container.appendChild(colorHeading);
 
-                P.clothesColors.forEach(cc => {
+                (P.clothesColors || []).forEach(cc => {
                     const isSel = (avatarConfig.clothesColor || '0284c7').replace('#', '') === cc.hex.replace('#', '');
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1555,7 +1715,7 @@
                 clothesHeading.innerHTML = '🎽 Modelo da Roupa:';
                 container.appendChild(clothesHeading);
 
-                P.clothing.forEach(cl => {
+                (P.clothing || []).forEach(cl => {
                     const isSel = (avatarConfig.clothing || 'hoodie') === cl.id;
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1573,7 +1733,7 @@
 
             } else if (activeTab === 'bg') {
                 titleEl.innerHTML = '🌈 Cenários de Fundo & Auras de Poder <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Funciona em TODOS os avatares e heróis!)</span>';
-                P.bgColors.forEach(theme => {
+                (P.bgColors || []).forEach(theme => {
                     const isSel = (avatarConfig.bg || '').replace('#','') === theme.hex.replace('#','');
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
@@ -1591,7 +1751,14 @@
         }
 
         function updateDuoPreview() {
-            const svg = generateAvatarSVG(avatarConfig, 220);
+            let svg = '';
+            if (typeof generateAvatarSVG === 'function') {
+                try { svg = generateAvatarSVG(avatarConfig, 220); } catch (e) {}
+            }
+            if (!svg) {
+                const url = safeBuildDiceBearUrl(avatarConfig);
+                svg = '<img src="' + url + '" width="220" height="220" style="border-radius:26px; display:block; object-fit:contain; filter:drop-shadow(0 0 2px #fff) drop-shadow(0 0 5px #fff) drop-shadow(0 14px 28px rgba(0,0,0,0.32));" alt="Avatar Lab Kids" />';
+            }
             const previewEl = document.getElementById('duo-avatar-preview');
             if (previewEl) previewEl.innerHTML = svg;
             
