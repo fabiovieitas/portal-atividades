@@ -16,8 +16,15 @@ const supabase = null;
 
 const app = express();
 
-// Enable Gzip/Brotli compression
-app.use(compression());
+// Enable Gzip/Brotli compression (Item 2 - Level 6 otimizado para tablets)
+app.use(compression({
+  level: 6,
+  threshold: 1024,
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  }
+}));
 
 // Redirecionamento canônico 301 para domínio raiz (elimina duplicação www vs non-www no AdSense)
 app.use((req, res, next) => {
@@ -58,6 +65,21 @@ app.get('/sw.js', (req, res) => {
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
   res.sendFile(path.join(__dirname, 'public', 'sw.js'));
+});
+
+// Pipeline de Imagens WebP automático com content-negotiation (Item 1)
+app.use((req, res, next) => {
+  const accept = req.headers.accept || '';
+  if (accept.includes('image/webp') && req.path.match(/\.(jpe?g|png)$/i)) {
+    const webpPath = path.join(__dirname, 'public', req.path.replace(/\.(jpe?g|png)$/i, '.webp'));
+    if (fs.existsSync(webpPath)) {
+      res.setHeader('Content-Type', 'image/webp');
+      res.setHeader('Vary', 'Accept');
+      res.setHeader('Cache-Control', 'public, max-age=2592000, immutable');
+      return res.sendFile(webpPath);
+    }
+  }
+  next();
 });
 
 app.use(express.static(path.join(__dirname, 'public'), {

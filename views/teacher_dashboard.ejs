@@ -123,6 +123,9 @@
             <button class="nav-item" onclick="switchTab('analytics', this)">
                 <span class="nav-icon">📊</span> <span class="nav-text">Monitor & Controle</span>
             </button>
+            <button class="nav-item" onclick="switchTab('livros-parceiros', this)">
+                <span class="nav-icon">📚</span> <span class="nav-text">Livros & Materiais</span>
+            </button>
             <button class="nav-item" onclick="switchTab('config', this)">
                 <span class="nav-icon">⚙️</span> <span class="nav-text">Ajustes</span>
             </button>
@@ -868,6 +871,81 @@
                         </table>
                     </div>
                 <% } %>
+            </div>
+        </div>
+
+        <!-- LIVROS E MATERIAIS PARCEIROS (ITEM 13 - EXCLUSIVO PARA O PROFESSOR) -->
+        <div id="livros-parceiros" class="tab-pane">
+            <header class="workspace-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h1>📚 Livros Pedagógicos & Materiais Parceiros (BNCC)</h1>
+                    <p>Materiais de apoio, sequências didáticas e guias recomendados exclusivamente para educadores.</p>
+                </div>
+                <span style="background: #f0fdf4; color: #16a34a; border: 1.5px solid #bbf7d0; padding: 6px 16px; border-radius: 50px; font-weight: 800; font-size: 0.85rem;">
+                    ✨ Espaço Exclusivo do Educador
+                </span>
+            </header>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 20px;">
+                <!-- Livro 1 -->
+                <div class="glass-panel" style="background: #ffffff; border: 1.5px solid var(--border); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                    <div>
+                        <div style="font-size: 2.8rem; margin-bottom: 10px;">📖</div>
+                        <span style="font-size: 0.72rem; font-weight: 800; background: #e0f2fe; color: #0284c7; padding: 3px 10px; border-radius: 50px; text-transform: uppercase;">Alfabetização & BNCC</span>
+                        <h3 style="margin: 10px 0 6px 0; color: #1e3a8a; font-size: 1.2rem;">Guia da Alfabetização Lúdica & Consciência Fonológica</h3>
+                        <p style="margin: 0; color: #64748b; font-size: 0.9rem; line-height: 1.45;">Metodologias práticas baseadas em neurociência para desenvolver rimas, aliterações e apropriação do sistema alfabético.</p>
+                    </div>
+                    <div style="margin-top: 18px; pt-2; border-top: 1px solid #f1f5f9;">
+                        <a href="/guia-bncc" class="btn-submit" style="display: block; text-align: center; text-decoration: none; padding: 10px; font-size: 0.9rem; background: #0284c7; border-radius: 12px; font-weight: 800;">
+                            📘 Consultar Habilidades BNCC
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Livro 2 -->
+                <div class="glass-panel" style="background: #ffffff; border: 1.5px solid var(--border); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                    <div>
+                        <div style="font-size: 2.8rem; margin-bottom: 10px;">🧮</div>
+                        <span style="font-size: 0.72rem; font-weight: 800; background: #fef3c7; color: #b45309; padding: 3px 10px; border-radius: 50px; text-transform: uppercase;">Matemática Fundamental</span>
+                        <h3 style="margin: 10px 0 6px 0; color: #1e3a8a; font-size: 1.2rem;">Caderno de Desafios & Jogos de Cálculo Mental</h3>
+                        <p style="margin: 0; color: #64748b; font-size: 0.9rem; line-height: 1.45;">Atividades práticas com tabuada sem decoreba, raciocínio lógico e resolução de situações-problema do 1º ao 5º ano.</p>
+                    </div>
+                    <div style="margin-top: 18px; pt-2; border-top: 1px solid #f1f5f9;">
+                        <a href="/#atividades" class="btn-submit" style="display: block; text-align: center; text-decoration: none; padding: 10px; font-size: 0.9rem; background: #d97706; border-radius: 12px; font-weight: 800;">
+                            🎮 Projetar Jogos de Matemática
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Livro 3 -->
+                <div class="glass-panel" style="background: #ffffff; border: 1.5px solid var(--border); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                    <div>
+                        <div style="font-size: 2.8rem; margin-bottom: 10px;">🤖</div>
+                        <span style="font-size: 0.72rem; font-weight: 800; background: #f3e8ff; color: #7e22ce; padding: 3px 10px; border-radius: 50px; text-transform: uppercase;">Robótica & Sucata</span>
+                        <h3 style="margin: 10px 0 6px 0; color: #1e3a8a; font-size: 1.2rem;">Robótica Pedagógica & Cultura Maker Escolar</h3>
+                        <p style="margin: 0; color: #64748b; font-size: 0.9rem; line-height: 1.45;">Projetos com materiais recicláveis, circuitos simples e pensamento computacional sem exigir investimento em kits caros.</p>
+                    </div>
+                    <div style="margin-top: 18px; pt-2; border-top: 1px solid #f1f5f9;">
+                        <a href="/noticias" class="btn-submit" style="display: block; text-align: center; text-decoration: none; padding: 10px; font-size: 0.9rem; background: #7e22ce; border-radius: 12px; font-weight: 800;">
+                            📰 Ver Artigos & Práticas Maker
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Livro 4 -->
+                <div class="glass-panel" style="background: #ffffff; border: 1.5px solid var(--border); border-radius: 20px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                    <div>
+                        <div style="font-size: 2.8rem; margin-bottom: 10px;">📝</div>
+                        <span style="font-size: 0.72rem; font-weight: 800; background: #fee2e2; color: #dc2626; padding: 3px 10px; border-radius: 50px; text-transform: uppercase;">Avaliação & SAEB</span>
+                        <h3 style="margin: 10px 0 6px 0; color: #1e3a8a; font-size: 1.2rem;">Banco de Questões & Descritores SAEB / Prova Brasil</h3>
+                        <p style="margin: 0; color: #64748b; font-size: 0.9rem; line-height: 1.45;">Acompanhe os descritores de Língua Portuguesa e Matemática para diagnóstico e preparação das turmas.</p>
+                    </div>
+                    <div style="margin-top: 18px; pt-2; border-top: 1px solid #f1f5f9;">
+                        <button onclick="switchTab('provas', document.querySelector('[onclick*=\'provas\']'))" class="btn-submit" style="width: 100%; border: none; cursor: pointer; text-align: center; padding: 10px; font-size: 0.9rem; background: #dc2626; border-radius: 12px; font-weight: 800; color: white;">
+                            📝 Gerenciar Provas Digitais
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 

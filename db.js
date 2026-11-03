@@ -191,6 +191,10 @@ let cachedMeta = null;
 let cachedMetaTime = 0;
 const META_CACHE_TTL = 10 * 60 * 1000;
 
+// Memory Cache RAM para Atividades (Item 3 - Concorrência Ultra Rápida para Tablets)
+const activitiesCache = new Map();
+const ACTIVITIES_CACHE_TTL = 30 * 1000; // 30s
+
 // Universal SQL executor
 async function queryAll(sql, args = []) {
   if (tursoClient) {
@@ -263,8 +267,16 @@ const dbHelper = {
     return true;
   },
 
-  // 1. Get Activities
+  // 1. Get Activities (com Cache em Memória RAM - Item 3)
   async getActivities({ level, search, category, bncc, subject, month, status = 'public', adminMode = false } = {}) {
+    const cacheKey = JSON.stringify({ level, search, category, bncc, subject, month, status, adminMode });
+    const nowTs = Date.now();
+    if (activitiesCache.has(cacheKey)) {
+      const entry = activitiesCache.get(cacheKey);
+      if (nowTs - entry.time < ACTIVITIES_CACHE_TTL) {
+        return entry.data;
+      }
+    }
     let sql = "SELECT * FROM activities WHERE title NOT LIKE '%Code.org%' AND title NOT LIKE '%Desenho com Robôs%'";
     const params = [];
 
@@ -535,6 +547,9 @@ const dbHelper = {
       ];
     }
 
+    if (rows && rows.length > 0) {
+      activitiesCache.set(cacheKey, { time: nowTs, data: rows });
+    }
     return rows;
   },
 
@@ -575,6 +590,7 @@ const dbHelper = {
 
   clearCache() {
     cachedMeta = null;
+    activitiesCache.clear();
   },
 
   // 4. Get Projects
