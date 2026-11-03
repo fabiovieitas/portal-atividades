@@ -526,6 +526,27 @@
 
     <!-- Student Registration Card -->
     <div class="student-card">
+      <!-- Banner de Aluno Identificado com Cabeçalho Automático -->
+      <div id="verifiedStudentBanner" style="display: none; background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px 18px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 2rem;">🎓</span>
+            <div>
+              <div style="font-weight: 800; color: #166534; font-size: 1.1rem;" id="bannerStudentName">Nome do Aluno</div>
+              <div style="font-size: 0.88rem; color: #15803d; font-weight: 600;" id="bannerStudentInfo">Turma • Escola</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: #dcfce7; color: #15803d; padding: 5px 12px; border-radius: 20px; font-weight: 800; font-size: 0.8rem;">
+              ✓ Cabeçalho Preenchido Automaticamente
+            </span>
+            <button onclick="logoutStudentAndSwitch()" style="background: transparent; border: 1px solid #86efac; color: #15803d; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+              Trocar Aluno
+            </button>
+          </div>
+        </div>
+      </div>
+
       <h3><span>👤</span> Identificação do(a) Estudante</h3>
       <div class="student-form-grid">
         <div class="form-group">
@@ -1231,5 +1252,248 @@ ESCOLHA UM LUGAR ONDE VOCÊ GOSTA DE BRINCAR E ESCREVA UM PEQUENO TEXTO CONTANDO
       updateProgress();
     });
   </script>
+  <!-- OVERLAY 1: AGUARDANDO LIBERAÇÃO DO PROFESSOR -->
+  <div id="waitingForTeacherOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 24px; max-width: 540px; width: 100%; padding: 40px 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
+      <div style="font-size: 4.5rem; margin-bottom: 15px;">⏳</div>
+      <h2 style="color: #1e3a8a; font-family: 'Fredoka', sans-serif; font-size: 1.9rem; margin: 0 0 10px 0;">Aguardando o Professor Liberar</h2>
+      <p style="color: #475569; font-size: 1.05rem; line-height: 1.5; margin-bottom: 20px;">
+        Olá, <strong id="waitStudentName" style="color: #0284c7;">Estudante</strong>!<br>
+        Você está conectado na turma <strong id="waitClassName">3º Ano</strong>.<br>
+        O professor ainda não autorizou o início desta avaliação oficial. Aguarde as instruções em sala de aula!
+      </p>
+      <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 14px; margin-bottom: 25px; font-size: 0.88rem; color: #1e40af; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span>🔄</span> <span>O sistema verifica automaticamente a cada 4 segundos...</span>
+      </div>
+      <button onclick="checkTeacherReleaseNow()" class="btn-submit-exam" style="width: 100%; padding: 14px; font-size: 1.1rem; font-weight: 800; border-radius: 12px; justify-content: center; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);">
+        🔄 Verificar se o Professor Liberou
+      </button>
+    </div>
+  </div>
+
+  <!-- OVERLAY 2: LOGIN OU IDENTIFICAÇÃO DO ALUNO OBRIGATÓRIA -->
+  <div id="loginRequiredOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99998; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 24px; max-width: 520px; width: 100%; padding: 35px 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
+      <div style="font-size: 3.5rem; margin-bottom: 12px;">🔒</div>
+      <h2 style="color: #1e3a8a; font-family: 'Fredoka', sans-serif; font-size: 1.8rem; margin: 0 0 8px 0;">Avaliação Oficial da Turma</h2>
+      <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 20px;">
+        Para realizar este simulado, você precisa estar conectado à sua turma para que seu cabeçalho e nota sejam registrados com segurança.
+      </p>
+      
+      <div style="background: #f8fafc; border: 2px dashed #93c5fd; border-radius: 16px; padding: 20px; margin-bottom: 16px; text-align: left;">
+        <label style="display: block; font-weight: 800; color: #1e3a8a; font-size: 0.9rem; margin-bottom: 6px;">🔑 Digite o Código da sua Turma (ex: LK1234):</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="quickClassCodeInput" placeholder="Ex: LK4829" maxlength="8" style="flex: 1; padding: 12px; font-size: 1.25rem; font-family: monospace; font-weight: 900; text-transform: uppercase; border: 2px solid #cbd5e1; border-radius: 10px; text-align: center;">
+          <button onclick="lookupQuickClassCode()" style="background: #0284c7; color: white; border: none; padding: 0 20px; border-radius: 10px; font-weight: 800; cursor: pointer;">Buscar</button>
+        </div>
+        <div id="quickClassStatus" style="font-size: 0.85rem; margin-top: 8px;"></div>
+      </div>
+
+      <div id="quickStudentSelector" style="display: none; text-align: left; margin-bottom: 18px;">
+        <label style="display: block; font-weight: 800; color: #1e3a8a; font-size: 0.9rem; margin-bottom: 6px;">👧👦 Quem é você na lista da turma?</label>
+        <select id="quickStudentSelect" style="width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #0284c7; font-size: 1rem; font-weight: 700; background: white;" onchange="confirmQuickStudent(this.value)">
+          <option value="">-- Selecione seu Nome --</option>
+        </select>
+      </div>
+
+      <div style="border-top: 1px solid #f1f5f9; padding-top: 15px; margin-top: 15px;">
+        <a href="/aluno" class="btn-submit-exam" style="text-decoration: none; background: #10b981; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; justify-content: center;">
+          👤 Entrar pelo Portal do Aluno Completo
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // CONTROLE DE ACESSO DO PROFESSOR E PREENCHIMENTO AUTOMÁTICO DO CABEÇALHO
+    // ============================================================================
+    let activePollTimer = null;
+    let cachedFoundStudents = [];
+    let currentStudentProfile = null;
+
+    async function checkAndEnforceStudentAuth() {
+      // 1. Checa se o aluno está logado
+      let profileRaw = localStorage.getItem('lab_student_profile');
+      if (!profileRaw) {
+        // Se não tiver perfil, abre a tela de login obrigatório
+        document.getElementById('loginRequiredOverlay').style.display = 'flex';
+        return;
+      }
+
+      try {
+        currentStudentProfile = JSON.parse(profileRaw);
+      } catch(e) {
+        localStorage.removeItem('lab_student_profile');
+        document.getElementById('loginRequiredOverlay').style.display = 'flex';
+        return;
+      }
+
+      if (!currentStudentProfile || !currentStudentProfile.name) {
+        document.getElementById('loginRequiredOverlay').style.display = 'flex';
+        return;
+      }
+
+      // 2. Aluno autenticado: PREENCHE AUTOMATICAMENTE O CABEÇALHO
+      document.getElementById('loginRequiredOverlay').style.display = 'none';
+
+      const sName = currentStudentProfile.name;
+      const sSchool = currentStudentProfile.school_name || currentStudentProfile.school || 'E.M. Profª Eleonora da Silva Pinto';
+      const sClass = currentStudentProfile.class_name || currentStudentProfile.class || '3º Ano B';
+      const sShift = currentStudentProfile.shift || 'Manhã';
+
+      const stNameEl = document.getElementById('studentName');
+      const scNameEl = document.getElementById('schoolName');
+      const clNameEl = document.getElementById('className');
+      const shNameEl = document.getElementById('shiftName');
+
+      stNameEl.value = sName;
+      stNameEl.readOnly = true;
+      stNameEl.style.backgroundColor = '#f1f5f9';
+      stNameEl.style.cursor = 'not-allowed';
+
+      scNameEl.value = sSchool;
+      scNameEl.readOnly = true;
+      scNameEl.style.backgroundColor = '#f1f5f9';
+      scNameEl.style.cursor = 'not-allowed';
+
+      // Set class dropdown if options exist, or set value
+      let optFound = Array.from(clNameEl.options).some(o => o.value === sClass);
+      if (!optFound) {
+        const newOpt = document.createElement('option');
+        newOpt.value = sClass;
+        newOpt.innerText = sClass;
+        clNameEl.appendChild(newOpt);
+      }
+      clNameEl.value = sClass;
+      clNameEl.disabled = true;
+      clNameEl.style.backgroundColor = '#f1f5f9';
+
+      shNameEl.value = sShift;
+      shNameEl.disabled = true;
+      shNameEl.style.backgroundColor = '#f1f5f9';
+
+      // Mostra o banner de estudante identificado
+      document.getElementById('verifiedStudentBanner').style.display = 'block';
+      document.getElementById('bannerStudentName').innerText = sName;
+      document.getElementById('bannerStudentInfo').innerText = sClass + ' • ' + sSchool;
+
+      // 3. Checa se o simulado está LIBERADO pelo professor para a turma
+      await verifySimuladoRelease(currentStudentProfile);
+    }
+
+    async function verifySimuladoRelease(st) {
+      const waitOverlay = document.getElementById('waitingForTeacherOverlay');
+      try {
+        const query = new URLSearchParams({
+          simulado_id: SIMULADO_ID,
+          class_id: st.class_id || '',
+          class_name: st.class_name || st.class || '',
+          school_name: st.school_name || st.school || '',
+          student_id: st.id || ''
+        });
+
+        const res = await fetch('/api/simulado/check-access?' + query.toString());
+        const data = await res.json();
+
+        if (data.allowed) {
+          // PROVA LIBERADA!
+          waitOverlay.style.display = 'none';
+          if (activePollTimer) {
+            clearInterval(activePollTimer);
+            activePollTimer = null;
+          }
+        } else {
+          // PROVA BLOQUEADA / AGUARDANDO PROFESSOR
+          document.getElementById('waitStudentName').innerText = st.name;
+          document.getElementById('waitClassName').innerText = st.class_name || '3º Ano';
+          waitOverlay.style.display = 'flex';
+
+          // Inicia verificação periódica a cada 4 segundos
+          if (!activePollTimer) {
+            activePollTimer = setInterval(() => {
+              if (currentStudentProfile) verifySimuladoRelease(currentStudentProfile);
+            }, 4000);
+          }
+        }
+      } catch (err) {
+        console.warn('Erro ao verificar liberação:', err);
+      }
+    }
+
+    async function checkTeacherReleaseNow() {
+      if (currentStudentProfile) {
+        await verifySimuladoRelease(currentStudentProfile);
+      } else {
+        await checkAndEnforceStudentAuth();
+      }
+    }
+
+    // Busca rápida da turma pelo código de 6 dígitos
+    async function lookupQuickClassCode() {
+      const codeInput = document.getElementById('quickClassCodeInput');
+      const statusEl = document.getElementById('quickClassStatus');
+      const rawCode = codeInput.value.trim().toUpperCase();
+      if (!rawCode || rawCode.length < 3) {
+        statusEl.innerHTML = '<span style="color:#ef4444; font-weight:700;">Digite o código da turma!</span>';
+        return;
+      }
+
+      statusEl.innerHTML = '<span style="color:#0284c7; font-weight:700;">⏳ Localizando turma...</span>';
+
+      try {
+        const res = await fetch('/api/classes/by-code/' + rawCode);
+        const data = await res.json();
+        if (!data.success || !data.class) {
+          statusEl.innerHTML = '<span style="color:#ef4444; font-weight:700;">❌ ' + (data.error || 'Código não encontrado!') + '</span>';
+          return;
+        }
+
+        const cls = data.class;
+        statusEl.innerHTML = '<span style="color:#15803d; font-weight:800;">✓ Turma encontrada: ' + cls.class_name + ' (' + cls.school_name + ')</span>';
+
+        // Busca alunos da turma
+        const stRes = await fetch('/api/classes/' + (cls.teacher_class_id || cls.id) + '/students');
+        const stData = await stRes.json();
+        const students = Array.isArray(stData) ? stData : (stData.students || []);
+        cachedFoundStudents = students;
+
+        const selectEl = document.getElementById('quickStudentSelect');
+        selectEl.innerHTML = '<option value="">-- Clique e selecione seu Nome --</option>';
+
+        students.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.innerText = s.name;
+          selectEl.appendChild(opt);
+        });
+
+        document.getElementById('quickStudentSelector').style.display = 'block';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#ef4444; font-weight:700;">Erro ao buscar turma: ' + e.message + '</span>';
+      }
+    }
+
+    function confirmQuickStudent(studentId) {
+      if (!studentId) return;
+      const found = cachedFoundStudents.find(s => String(s.id) === String(studentId));
+      if (!found) return;
+
+      localStorage.setItem('lab_student_profile', JSON.stringify(found));
+      checkAndEnforceStudentAuth();
+    }
+
+    function logoutStudentAndSwitch() {
+      if (!confirm('Deseja trocar de aluno neste aparelho?')) return;
+      localStorage.removeItem('lab_student_profile');
+      location.reload();
+    }
+
+    // Inicialização ao carregar a página
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAndEnforceStudentAuth();
+    });
+  </script>
 </body>
 </html>
+

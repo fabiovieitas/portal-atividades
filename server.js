@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt');
 const QRCode = require('qrcode');
 const fs = require('fs');
+const crypto = require('crypto');
 
 const dbHelper = require('./db');
 const mailService = require('./mailService');
@@ -475,21 +476,49 @@ app.use((req, res, next) => {
 });
 
 
-// In-memory store para sessões de administrador com expiração de 24 horas
+// In-memory store para sessões de administrador com expiração de 24 horas (fallback local)
 const adminSessions = new Map(); // token -> expiresAt
+const ADMIN_HMAC_SECRET = process.env.ADMIN_SESSION_SECRET || 'labkids_admin_hmac_secret_2026_super_secure';
 
-// Admin check helper seguro com tokens criptográficos
+function generateAdminToken() {
+  const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+  const sig = crypto.createHmac('sha256', ADMIN_HMAC_SECRET).update(String(expiresAt)).digest('hex');
+  return `${expiresAt}.${sig}`;
+}
+
+function verifyAdminToken(token) {
+  if (!token || typeof token !== 'string') return false;
+  const parts = token.split('.');
+  if (parts.length !== 2) return false;
+  const [expiresAtStr, sig] = parts;
+  const expiresAt = Number(expiresAtStr);
+  if (isNaN(expiresAt) || Date.now() > expiresAt) return false;
+  const expectedSig = crypto.createHmac('sha256', ADMIN_HMAC_SECRET).update(expiresAtStr).digest('hex');
+  if (sig.length !== expectedSig.length) return false;
+  try {
+    return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig));
+  } catch(e) {
+    return false;
+  }
+}
+
+// Admin check helper seguro com tokens criptográficos (compatível com Vercel Serverless)
 async function isAdmin(req) {
   const token = (req.cookies && req.cookies.admin_session) || (req.body && req.body.sessionId);
   if (!token) return false;
 
-  // 1. Verificar token ativo em memória
+  // 1. Verificação stateless via HMAC (funciona 100% no Vercel Serverless multi-lambda)
+  if (verifyAdminToken(token)) {
+    return true;
+  }
+
+  // 2. Verificar token ativo em memória (fallback local)
   const expiresAt = adminSessions.get(token);
   if (expiresAt && expiresAt > Date.now()) {
     return true;
   }
 
-  // 2. Fallback seguro para ADMIN_SESSION_SECRET se configurado no .env
+  // 3. Fallback seguro para ADMIN_SESSION_SECRET se configurado no .env
   if (process.env.ADMIN_SESSION_SECRET && token === process.env.ADMIN_SESSION_SECRET) {
     return true;
   }
@@ -1719,15 +1748,13 @@ app.get('/admin', async (req, res) => {
   }
 });
 
-const crypto = require('crypto');
 
 app.post('/admin/login', async (req, res) => {
   const { password } = req.body;
   const validPassword = process.env.ADMIN_PASSWORD || ADMIN_PASSWORD;
-  if (password === validPassword) {
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
-    adminSessions.set(token, expiresAt);
+  if (password && password.trim() === validPassword.trim()) {
+    const token = generateAdminToken();
+    adminSessions.set(token, Date.now() + 24 * 60 * 60 * 1000);
     res.cookie('admin_session', token, { maxAge: 24 * 60 * 60 * 1000, path: '/', httpOnly: true, sameSite: 'lax' });
     res.redirect('/admin');
   } else {
@@ -2360,7 +2387,8 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
     const favorites = (favoritesData || []).map(f => f.activity_id);
     
     const exams = await dbHelper.queryAll("SELECT * FROM exams WHERE teacher_id = ? ORDER BY created_at DESC", [req.teacher.id]);
-    const classes = await dbHelper.queryAll("SELECT * FROM teacher_classes WHERE teacher_id = ? ORDER BY created_at DESC", [req.teacher.id]);
+    const classes = await dbHelper.getTeacherClassesWithStats(req.teacher.id);
+    const teacherSchools = await dbHelper.getTeacherSchools(req.teacher.id);
     const globalExams = await dbHelper.queryAll("SELECT * FROM global_exams ORDER BY created_at DESC");
     
     const examIds = (exams || []).map(e => e.id);
@@ -2450,7 +2478,8 @@ app.get('/professor/dashboard', requireTeacher, async (req, res) => {
       examSubmissions: examSubmissions || [],
       studentsActivity: studentsActivity || [],
       topActivities: topActivities || [],
-      simuladoSubmissions: simuladoSubmissions || []
+      simuladoSubmissions: simuladoSubmissions || [],
+      teacherSchools: teacherSchools || []
     });
   } catch (err) {
     console.error('Teacher dashboard error:', err);
@@ -2648,6 +2677,132 @@ app.post('/api/teacher/activities/request-public/:id', requireTeacher, async (re
     res.json({ success: true });
   } catch(err) {
     res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// -------------------------------------------------------------
+// GESTÃO AVANÇADA DE TURMAS, ALUNOS EM MASSA E LIBERAÇÃO DE SIMULADOS
+// -------------------------------------------------------------
+
+// Criação de Múltiplas Turmas em Lote (Super Rápido)
+app.post('/api/teacher/classes/batch-add', requireTeacher, async (req, res) => {
+  try {
+    const { school_name, class_names } = req.body;
+    if (!school_name || !class_names || !Array.isArray(class_names) || class_names.length === 0) {
+      return res.status(400).json({ success: false, error: 'Escola e lista de turmas são obrigatórios.' });
+    }
+    const created = await dbHelper.addMultipleClasses(req.teacher.id, school_name, class_names);
+    res.json({ success: true, count: created.length, classes: created });
+  } catch(err) {
+    console.error('[Batch Add Classes Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Importação / Cadastro de Alunos em Massa (Colar Lista de Chamada)
+app.post('/api/teacher/classes/:id/students/batch-add', requireTeacher, async (req, res) => {
+  try {
+    const classId = req.params.id;
+    const { student_names, generate_pins } = req.body;
+    const tc = await dbHelper.queryGet("SELECT * FROM teacher_classes WHERE id = ? AND teacher_id = ?", [classId, req.teacher.id]);
+    if (!tc && !(await isAdmin(req))) {
+      return res.status(403).json({ success: false, error: 'Acesso negado a esta turma.' });
+    }
+    const className = tc ? tc.class_name : 'Turma';
+    const schoolName = tc ? tc.school_name : '';
+    const added = await dbHelper.addStudentsBatch(classId, schoolName, className, student_names, generate_pins);
+    res.json({ success: true, count: added.length, students: added });
+  } catch(err) {
+    console.error('[Batch Add Students Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Listar Alunos de uma Turma para o Professor
+app.get('/api/teacher/classes/:id/students', requireTeacher, async (req, res) => {
+  try {
+    const classId = req.params.id;
+    const tc = await dbHelper.queryGet("SELECT * FROM teacher_classes WHERE id = ? AND teacher_id = ?", [classId, req.teacher.id]);
+    if (!tc && !(await isAdmin(req))) {
+      return res.status(403).json({ success: false, error: 'Acesso negado.' });
+    }
+    const students = await dbHelper.getStudentsByClass(classId);
+    res.json({ success: true, class: tc, students: students || [] });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Excluir Aluno de uma Turma
+app.post('/api/teacher/students/delete/:id', requireTeacher, async (req, res) => {
+  try {
+    const studentId = req.params.id;
+    await dbHelper.deleteStudent(studentId);
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Liberar / Bloquear Simulado para uma Turma Específica
+app.post('/api/teacher/classes/:id/toggle-simulado', requireTeacher, async (req, res) => {
+  try {
+    const classId = req.params.id;
+    const { simulado_id, active } = req.body;
+    if (!simulado_id) return res.status(400).json({ success: false, error: 'ID do simulado não informado.' });
+    const result = await dbHelper.toggleClassSimulado(classId, simulado_id, active === true || active === 'true');
+    res.json(result);
+  } catch(err) {
+    console.error('[Toggle Simulado Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Liberar / Bloquear Simulado em Massa para Todas as Turmas
+app.post('/api/teacher/simulado/batch-toggle', requireTeacher, async (req, res) => {
+  try {
+    const { simulado_id, active, class_ids } = req.body;
+    if (!simulado_id) return res.status(400).json({ success: false, error: 'ID do simulado não informado.' });
+    const teacherClasses = await dbHelper.queryAll("SELECT id FROM teacher_classes WHERE teacher_id = ?", [req.teacher.id]);
+    const validIds = new Set((teacherClasses || []).map(c => c.id));
+    let targets = [];
+    if (Array.isArray(class_ids) && class_ids.length > 0) {
+      targets = class_ids.filter(id => validIds.has(Number(id)));
+    } else {
+      targets = Array.from(validIds);
+    }
+    const isAct = active === true || active === 'true';
+    for (const cid of targets) {
+      await dbHelper.toggleClassSimulado(cid, simulado_id, isAct);
+    }
+    res.json({ success: true, count: targets.length, active: isAct });
+  } catch(err) {
+    console.error('[Batch Toggle Simulado Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Checagem de Liberação pelo Aluno no Início da Prova
+app.get('/api/simulado/check-access', async (req, res) => {
+  try {
+    const { simulado_id, class_id, class_name, school_name, student_id } = req.query;
+    if (!simulado_id) return res.status(400).json({ allowed: false, reason: 'ID do simulado não informado.' });
+
+    // Administrador tem acesso irrestrito
+    if (await isAdmin(req)) {
+      return res.json({ allowed: true, isAdmin: true, message: 'Acesso liberado para Administrador.' });
+    }
+
+    const check = await dbHelper.checkSimuladoAccess(simulado_id, {
+      classId: class_id,
+      className: class_name,
+      schoolName: school_name,
+      studentId: student_id
+    });
+    res.json(check);
+  } catch(err) {
+    console.error('[Check Access Error]:', err);
+    res.status(500).json({ allowed: false, error: err.message });
   }
 });
 

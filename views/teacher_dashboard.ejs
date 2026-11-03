@@ -415,74 +415,182 @@
             </div>
         </div>
 
-        <!-- MINHAS TURMAS -->
+        <!-- MINHAS TURMAS (GESTÃO FÁCIL DE ESCOLAS, TURMAS E ALUNOS) -->
         <div id="turmas" class="tab-pane">
-            <header class="workspace-header">
-                <h1>🏫 Minhas Turmas</h1>
-                <button class="btn-add-main" onclick="toggleForm('add-class-form')">+ Nova Turma</button>
+            <header class="workspace-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h1>🏫 Gestão de Escolas & Turmas</h1>
+                    <p>Cadastre turmas e alunos rapidamente para suas escolas e controle a liberação dos simulados.</p>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn-submit" onclick="openBatchClassModal()" style="background: linear-gradient(135deg, #6366f1, #4f46e5); font-weight: 800; padding: 10px 18px; border-radius: 50px; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);">
+                        ⚡ Criar Turmas em Lote
+                    </button>
+                    <button class="btn-submit" onclick="openBatchStudentModal()" style="background: linear-gradient(135deg, #10b981, #059669); font-weight: 800; padding: 10px 18px; border-radius: 50px; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">
+                        👥 Importar Alunos (Colar Lista)
+                    </button>
+                    <button class="btn-add-main" onclick="toggleForm('add-class-form')" style="margin: 0; padding: 10px 18px; border-radius: 50px; font-size: 0.9rem;">
+                        + Nova Turma Individual
+                    </button>
+                </div>
             </header>
 
-            <div id="add-class-form" class="admin-card-new glass-panel" style="display:none; margin-bottom: 20px;">
-                <h2>Cadastrar Turma</h2>
+            <!-- Painel de Liberação Rápida de Simulados para Todas as Turmas -->
+            <div class="glass-panel" style="background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border: 2px solid #93c5fd; border-radius: 18px; padding: 18px 22px; margin-bottom: 25px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <div style="font-weight: 900; color: #1e3a8a; font-size: 1.15rem; display: flex; align-items: center; gap: 8px;">
+                            <span>🎯</span> Controle Geral de Liberação dos Simulados
+                        </div>
+                        <div style="font-size: 0.88rem; color: #475569; margin-top: 3px;">
+                            Os alunos só conseguem iniciar a prova quando a turma estiver liberada. Você pode ligar/desligar aqui ou em cada turma.
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                        <button onclick="toggleAll3AnoSimulado(true)" class="btn-submit" style="background: #15803d; font-size: 0.85rem; padding: 9px 16px; border-radius: 12px; font-weight: 800;">
+                            🔓 Liberar Simulado 3º Ano (Outubro) em TODAS as Turmas
+                        </button>
+                        <button onclick="toggleAll3AnoSimulado(false)" class="btn-submit" style="background: #b91c1c; font-size: 0.85rem; padding: 9px 16px; border-radius: 12px; font-weight: 800;">
+                            🔒 Bloquear em TODAS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulário Individual de Nova Turma -->
+            <div id="add-class-form" class="admin-card-new glass-panel" style="display:none; margin-bottom: 25px;">
+                <h2>Cadastrar Nova Turma Individual</h2>
                 <form onsubmit="addClass(event)" class="form-grid">
                     <div class="input-group">
                         <label>Nome da Escola</label>
-                        <input type="text" id="schoolName" required>
+                        <input type="text" id="schoolName" list="teacherSchoolSuggestions" placeholder="Ex: E.M. Profª Eleonora da Silva Pinto" required>
+                        <datalist id="teacherSchoolSuggestions">
+                            <% (typeof teacherSchools !== 'undefined' ? teacherSchools : []).forEach(sc => { %>
+                                <option value="<%= sc %>"></option>
+                            <% }); %>
+                        </datalist>
                     </div>
                     <div class="input-group">
-                        <label>Turma (Ex: 9º Ano A)</label>
-                        <input type="text" id="className" required>
+                        <label>Turma (Ex: 3º Ano B)</label>
+                        <input type="text" id="className" placeholder="Ex: 3º Ano B" required>
                     </div>
                     <button type="submit" class="btn-submit">Salvar Turma</button>
                 </form>
             </div>
 
-            <div class="classes-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
-                <% if(classes.length === 0) { %>
-                    <div class="glass-panel" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; border-radius: 16px;">
-                        <span style="font-size: 3rem;">🏫</span>
-                        <h3 style="color: var(--text-main); margin: 10px 0;">Nenhuma turma cadastrada ainda</h3>
-                        <p style="color: var(--text-muted); max-width: 480px; margin: 0 auto 15px auto;">Clique no botão "+ Nova Turma" acima para cadastrar sua primeira turma e gerar o código de acesso dos seus alunos!</p>
-                    </div>
-                <% } else { classes.forEach(c => { 
-                    const code = c.access_code || ('LK' + c.id);
-                    const inviteUrl = 'https://labkids.online/aluno?turma=' + code;
+            <!-- Listagem de Turmas Agrupadas por Escola -->
+            <% if(!classes || classes.length === 0) { %>
+                <div class="glass-panel" style="text-align: center; padding: 50px 20px; border-radius: 20px; margin-bottom: 30px;">
+                    <span style="font-size: 3.5rem;">🏫</span>
+                    <h3 style="color: var(--text-main); margin: 15px 0 8px 0; font-size: 1.4rem;">Nenhuma turma cadastrada ainda</h3>
+                    <p style="color: var(--text-muted); max-width: 520px; margin: 0 auto 20px auto; font-size: 1rem;">
+                        Use o botão <strong>"⚡ Criar Turmas em Lote"</strong> para adicionar todas as turmas de 1º a 5º ano das suas escolas de uma vez só com códigos de acesso automáticos!
+                    </p>
+                    <button onclick="openBatchClassModal()" class="btn-submit" style="background: linear-gradient(135deg, #6366f1, #4f46e5); padding: 12px 28px; font-weight: 800; border-radius: 50px;">
+                        ⚡ Criar Turmas em Lote Agora
+                    </button>
+                </div>
+            <% } else { 
+                // Agrupar turmas por escola para facilitar a vida do professor com 2 ou mais escolas
+                const schoolGroups = {};
+                classes.forEach(c => {
+                    const scName = (c.school_name || 'Escola Não Identificada').trim();
+                    if (!schoolGroups[scName]) schoolGroups[scName] = [];
+                    schoolGroups[scName].push(c);
+                });
+                const schoolNames = Object.keys(schoolGroups);
+            %>
+                <% schoolNames.forEach((schoolName, idx) => { 
+                    const turmasDaEscola = schoolGroups[schoolName];
                 %>
-                    <div class="class-card glass-panel" style="padding: 22px; border: 1.5px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.04);">
-                        <div>
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                <div>
-                                    <h3 style="color: var(--text-main); margin: 0 0 4px 0; font-size: 1.25rem;"><%= c.class_name %></h3>
-                                    <p style="color: var(--text-muted); margin: 0; font-size: 0.92rem;">🏫 <%= c.school_name %></p>
-                                </div>
-                                <button onclick="deleteClass('<%= c.id %>')" class="btn-delete-small" style="background: rgba(255,107,107,0.1); color: #ff6b6b; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;" title="Remover Turma">🗑️</button>
-                            </div>
-
-                            <!-- Badge Destaque Código de Acesso -->
-                            <div style="background: #eff6ff; border: 2px dashed #3b82f6; border-radius: 14px; padding: 12px; margin: 15px 0 10px 0; text-align: center;">
-                                <div style="font-size: 0.75rem; font-weight: 800; color: #1e40af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px;">🔑 Código da Turma (Alunos)</div>
-                                <div style="font-size: 2rem; font-weight: 900; color: #1d4ed8; letter-spacing: 3px; font-family: monospace;"><%= code %></div>
-                                <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Alunos entram em: <strong style="color: #2563eb;">labkids.online/aluno</strong></div>
-                            </div>
-                        </div>
-
-                        <!-- Botões de Ação para o Professor -->
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                                <button onclick="copyClassCode('<%= code %>')" class="btn-submit" style="background: #3b82f6; font-size: 0.82rem; padding: 9px 8px; margin: 0; font-weight: 700; border-radius: 10px;" title="Copiar código para enviar aos alunos ou pais">
-                                    📋 Copiar Código
-                                </button>
-                                <button onclick="copyClassLink('<%= inviteUrl %>')" class="btn-submit" style="background: #10b981; font-size: 0.82rem; padding: 9px 8px; margin: 0; font-weight: 700; border-radius: 10px;" title="Copiar link direto para os alunos entrarem sem digitar código">
-                                    🔗 Link Direto
-                                </button>
-                            </div>
-                            <button onclick="openClassProjector('<%= code %>', '<%= c.class_name.replace(/'/g, "\\'") %>', '<%= c.school_name.replace(/'/g, "\\'") %>', '<%= inviteUrl %>')" class="btn-submit" style="background: linear-gradient(135deg, #6366f1, #4f46e5); font-size: 0.88rem; padding: 11px; margin: 0; font-weight: 800; border-radius: 10px;" title="Projetar na lousa digital / Datashow com QR Code gigante para toda a turma conectar">
-                                📽️ Projetar para Alunos (Datashow / QR) 🚀
+                    <div style="margin-bottom: 35px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">
+                            <h2 style="margin: 0; color: #1e3a8a; font-size: 1.35rem; display: flex; align-items: center; gap: 10px;">
+                                <span>🏫</span> <%= schoolName %>
+                                <span style="background: #e0f2fe; color: #0369a1; font-size: 0.8rem; font-weight: 800; padding: 4px 12px; border-radius: 20px;">
+                                    <%= turmasDaEscola.length %> Turma(s)
+                                </span>
+                            </h2>
+                            <button onclick="openBatchStudentModalForSchool('<%= schoolName.replace(/'/g, "\'") %>')" class="btn-submit" style="background: #0284c7; padding: 6px 14px; font-size: 0.8rem; font-weight: 700; border-radius: 8px;">
+                                👥 Importar Alunos nesta Escola
                             </button>
                         </div>
+
+                        <div class="classes-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 20px;">
+                            <% turmasDaEscola.forEach(c => { 
+                                const code = c.access_code || ('LK' + c.id);
+                                const inviteUrl = 'https://labkids.online/aluno?turma=' + code;
+                                const activeSims = Array.isArray(c.active_simulados) ? c.active_simulados : [];
+                                const is3AnoOutubroActive = activeSims.includes('campos-3ano-outubro-2026') || activeSims.includes('ALL');
+                            %>
+                                <div class="class-card glass-panel" style="padding: 22px; border: 1.5px solid var(--border); border-radius: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); background: #ffffff;">
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                            <div>
+                                                <h3 style="color: var(--text-main); margin: 0 0 4px 0; font-size: 1.3rem; font-family: 'Fredoka', sans-serif;"><%= c.class_name %></h3>
+                                                <p style="color: var(--text-muted); margin: 0; font-size: 0.88rem;">🏫 <%= c.school_name %></p>
+                                            </div>
+                                            <button onclick="deleteClass('<%= c.id %>')" class="btn-delete-small" style="background: rgba(255,107,107,0.1); color: #ff6b6b; border: none; padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;" title="Remover Turma">🗑️</button>
+                                        </div>
+
+                                        <!-- Badge Destaque Código de Acesso & Alunos -->
+                                        <div style="background: #eff6ff; border: 2px dashed #3b82f6; border-radius: 14px; padding: 12px; margin: 14px 0 10px 0; text-align: center;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                                <span style="font-size: 0.72rem; font-weight: 800; color: #1e40af; text-transform: uppercase;">🔑 Código de Acesso</span>
+                                                <span style="font-size: 0.75rem; font-weight: 800; background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 12px;">
+                                                    👥 <%= c.student_count || 0 %> Aluno(s)
+                                                </span>
+                                            </div>
+                                            <div style="font-size: 2.2rem; font-weight: 900; color: #1d4ed8; letter-spacing: 3px; font-family: monospace;"><%= code %></div>
+                                            <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">Alunos entram em: <strong style="color: #2563eb;">labkids.online/aluno</strong></div>
+                                        </div>
+
+                                        <!-- Status de Liberação do Simulado Oficial 3º Ano -->
+                                        <div style="background: <%= is3AnoOutubroActive ? '#f0fdf4' : '#f8fafc' %>; border: 1.5px solid <%= is3AnoOutubroActive ? '#86efac' : '#cbd5e1' %>; border-radius: 12px; padding: 10px; margin-bottom: 6px;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div style="font-size: 0.82rem; font-weight: 800; color: <%= is3AnoOutubroActive ? '#15803d' : '#475569' %>;">
+                                                    ⭐ Simulado 3º Ano (Outubro)
+                                                </div>
+                                                <button onclick="toggleSimuladoSingle('<%= c.id %>', 'campos-3ano-outubro-2026', <%= is3AnoOutubroActive %>, this)" 
+                                                        style="background: <%= is3AnoOutubroActive ? '#16a34a' : '#94a3b8' %>; color: white; border: none; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; cursor: pointer;">
+                                                    <%= is3AnoOutubroActive ? '🔓 LIBERADO' : '🔒 BLOQUEADO' %>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Botões de Ação para o Professor -->
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                            <button onclick="openManageStudentsModal('<%= c.id %>', '<%= c.class_name.replace(/'/g, "\'") %>', '<%= c.school_name.replace(/'/g, "\'") %>')" 
+                                                    class="btn-submit" style="background: #0284c7; font-size: 0.82rem; padding: 9px 6px; font-weight: 700; border-radius: 10px;">
+                                                👥 Alunos (<%= c.student_count || 0 %>)
+                                            </button>
+                                            <button onclick="openBatchStudentModalForClass('<%= c.id %>', '<%= c.class_name.replace(/'/g, "\'") %>', '<%= c.school_name.replace(/'/g, "\'") %>')" 
+                                                    class="btn-submit" style="background: #10b981; font-size: 0.82rem; padding: 9px 6px; font-weight: 700; border-radius: 10px;" title="Colar lista de nomes de alunos de uma vez">
+                                                ➕ Colar Alunos
+                                            </button>
+                                        </div>
+
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                            <button onclick="copyClassCode('<%= code %>')" class="btn-submit" style="background: #3b82f6; font-size: 0.82rem; padding: 8px 6px; font-weight: 700; border-radius: 10px;">
+                                                📋 Copiar Código
+                                            </button>
+                                            <button onclick="copyClassLink('<%= inviteUrl %>')" class="btn-submit" style="background: #6366f1; font-size: 0.82rem; padding: 8px 6px; font-weight: 700; border-radius: 10px;">
+                                                🔗 Link Direto
+                                            </button>
+                                        </div>
+
+                                        <button onclick="openClassProjector('<%= code %>', '<%= c.class_name.replace(/'/g, "\'") %>', '<%= c.school_name.replace(/'/g, "\'") %>', '<%= inviteUrl %>')" class="btn-submit" style="background: linear-gradient(135deg, #1e293b, #0f172a); border: 1.5px solid #38bdf8; color: #38bdf8; font-size: 0.85rem; padding: 9px; font-weight: 800; border-radius: 10px;">
+                                            📽️ Projetar para Alunos (Datashow / QR) 🚀
+                                        </button>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
                     </div>
-                <% }); } %>
-            </div>
+                <% }); %>
+            <% } %>
         </div>
 
         <!-- PROVAS E AVALIAÇÕES -->
@@ -1629,6 +1737,301 @@
                 alert('Erro ao excluir: ' + (data.error || 'Erro desconhecido'));
             }
         }
+
+        // ============================================================================
+        // FUNÇÕES DE TURMAS EM LOTE, IMPORTAÇÃO DE ALUNOS E LIBERAÇÃO DE SIMULADOS
+        // ============================================================================
+
+        // --- 1. CRIAÇÃO DE TURMAS EM LOTE ---
+        function openBatchClassModal() {
+            document.getElementById('modal-batch-classes').style.display = 'flex';
+        }
+        function closeBatchClassModal() {
+            document.getElementById('modal-batch-classes').style.display = 'none';
+        }
+
+        function selectAllGradeCheckboxes(gradePrefix) {
+            const boxes = document.querySelectorAll('.batch-class-chk');
+            boxes.forEach(b => {
+                if (!gradePrefix || b.value.startsWith(gradePrefix)) b.checked = true;
+            });
+        }
+        function clearAllGradeCheckboxes() {
+            document.querySelectorAll('.batch-class-chk').forEach(b => b.checked = false);
+        }
+
+        async function submitBatchClasses(event) {
+            event.preventDefault();
+            const schoolName = document.getElementById('batchSchoolInput').value.trim();
+            if (!schoolName) {
+                alert('Por favor, informe o nome da escola!');
+                return;
+            }
+
+            const selectedBoxes = Array.from(document.querySelectorAll('.batch-class-chk:checked')).map(b => b.value);
+            const extraLines = document.getElementById('batchExtraClasses').value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const allClasses = Array.from(new Set([...selectedBoxes, ...extraLines]));
+
+            if (allClasses.length === 0) {
+                alert('Por favor, selecione ao menos uma turma ou digite turmas extras!');
+                return;
+            }
+
+            const btn = document.getElementById('btnSubmitBatchClasses');
+            btn.disabled = true;
+            btn.innerText = '⏳ Criando ' + allClasses.length + ' Turmas...';
+
+            try {
+                const res = await fetch('/api/teacher/classes/batch-add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ school_name: schoolName, class_names: allClasses })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 Sucesso! ' + data.count + ' turmas cadastradas com sucesso para ' + schoolName + '!');
+                    location.reload();
+                } else {
+                    alert('Erro ao cadastrar turmas: ' + (data.error || 'Erro desconhecido'));
+                }
+            } catch(e) {
+                alert('Falha na conexão: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = '🚀 Criar Todas as Turmas Selecionadas';
+            }
+        }
+
+        // --- 2. IMPORTAÇÃO DE ALUNOS EM MASSA ---
+        function openBatchStudentModal(preselectClassId) {
+            if (preselectClassId) {
+                const sel = document.getElementById('batchStudentClassSelect');
+                if (sel) sel.value = preselectClassId;
+            }
+            document.getElementById('modal-batch-students').style.display = 'flex';
+        }
+        function openBatchStudentModalForClass(classId, className, schoolName) {
+            const sel = document.getElementById('batchStudentClassSelect');
+            if (sel) sel.value = classId;
+            const subtitle = document.getElementById('batchStudentModalSubtitle');
+            if (subtitle) subtitle.innerText = 'Turma: ' + className + ' (' + schoolName + ')';
+            document.getElementById('modal-batch-students').style.display = 'flex';
+        }
+        function openBatchStudentModalForSchool(schoolName) {
+            const sel = document.getElementById('batchStudentClassSelect');
+            if (sel) {
+                const opts = Array.from(sel.options);
+                const match = opts.find(o => o.text.includes(schoolName));
+                if (match) sel.value = match.value;
+            }
+            document.getElementById('modal-batch-students').style.display = 'flex';
+        }
+        function closeBatchStudentModal() {
+            document.getElementById('modal-batch-students').style.display = 'none';
+        }
+
+        async function submitBatchStudents(event) {
+            event.preventDefault();
+            const classId = document.getElementById('batchStudentClassSelect').value;
+            if (!classId) {
+                alert('Por favor, selecione a turma!');
+                return;
+            }
+            const rawText = document.getElementById('batchStudentNamesText').value;
+            const names = rawText.split('\n').map(n => n.trim()).filter(n => n.length >= 2);
+            if (names.length === 0) {
+                alert('Por favor, cole ao menos um nome de aluno!');
+                return;
+            }
+
+            const generatePins = document.getElementById('batchGeneratePins').checked;
+            const btn = document.getElementById('btnSubmitBatchStudents');
+            btn.disabled = true;
+            btn.innerText = '⏳ Cadastrando ' + names.length + ' Alunos...';
+
+            try {
+                const res = await fetch('/api/teacher/classes/' + classId + '/students/batch-add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_names: names, generate_pins: generatePins })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('🎉 Sucesso! ' + data.count + ' alunos cadastrados na turma!');
+                    location.reload();
+                } else {
+                    alert('Erro ao cadastrar alunos: ' + (data.error || 'Erro desconhecido'));
+                }
+            } catch(e) {
+                alert('Falha na conexão: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = '🚀 Cadastrar Todos os Alunos na Turma';
+            }
+        }
+
+        // --- 3. GESTÃO / VISUALIZAÇÃO DE ALUNOS DA TURMA ---
+        let currentManageClassId = null;
+        let currentManageClassName = '';
+        let currentManageSchoolName = '';
+
+        async function openManageStudentsModal(classId, className, schoolName) {
+            currentManageClassId = classId;
+            currentManageClassName = className;
+            currentManageSchoolName = schoolName;
+
+            document.getElementById('manageStudentsClassTitle').innerText = className;
+            document.getElementById('manageStudentsSchoolSubtitle').innerText = '🏫 ' + schoolName;
+            document.getElementById('manageStudentsList').innerHTML = '<p style="text-align:center; padding:20px; color:#64748b;">⏳ Carregando alunos...</p>';
+            document.getElementById('modal-manage-students').style.display = 'flex';
+
+            await loadClassStudentsList(classId);
+        }
+
+        function closeManageStudentsModal() {
+            document.getElementById('modal-manage-students').style.display = 'none';
+            currentManageClassId = null;
+        }
+
+        async function loadClassStudentsList(classId) {
+            try {
+                const res = await fetch('/api/teacher/classes/' + classId + '/students');
+                const data = await res.json();
+                const listContainer = document.getElementById('manageStudentsList');
+                const students = data.students || [];
+
+                document.getElementById('manageStudentsCountBadge').innerText = students.length + ' Alunos';
+
+                if (students.length === 0) {
+                    listContainer.innerHTML = `
+                        <div style="text-align:center; padding: 30px; background: #f8fafc; border-radius: 14px; border: 1px dashed #cbd5e1;">
+                            <span style="font-size: 2.5rem;">👤</span>
+                            <p style="color: #64748b; font-weight: 700; margin: 10px 0 6px;">Nenhum aluno cadastrado nesta turma ainda.</p>
+                            <p style="color: #94a3b8; font-size: 0.85rem; margin: 0;">Você pode adicionar alunos um a um abaixo ou colar a lista completa de uma só vez!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '<div style="display: flex; flex-direction: column; gap: 8px;">';
+                students.forEach((st, idx) => {
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 12px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="font-weight: 800; font-size: 0.85rem; color: #94a3b8; width: 22px;">${idx + 1}.</span>
+                                <div>
+                                    <div style="font-weight: 800; color: #0f172a; font-size: 0.95rem;">${st.name}</div>
+                                    <div style="font-size: 0.78rem; color: #64748b;">
+                                        ⭐ ${st.points || 0} XP ${st.student_pin ? '• 🔑 PIN: <strong>' + st.student_pin + '</strong>' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="deleteStudentItem('${st.id}', '${st.name.replace(/'/g, "\\'")}')" style="background: #fee2e2; color: #dc2626; border: none; padding: 6px 10px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+                                🗑️ Excluir
+                            </button>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                listContainer.innerHTML = html;
+            } catch(e) {
+                document.getElementById('manageStudentsList').innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar alunos: ' + e.message + '</p>';
+            }
+        }
+
+        async function addSingleStudent(event) {
+            event.preventDefault();
+            if (!currentManageClassId) return;
+            const input = document.getElementById('singleStudentNameInput');
+            const name = input.value.trim();
+            if (!name) return;
+
+            try {
+                const res = await fetch('/api/students', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        class_id: currentManageClassId,
+                        name: name,
+                        school_name: currentManageSchoolName,
+                        class_name: currentManageClassName
+                    })
+                });
+                const data = await res.json();
+                input.value = '';
+                await loadClassStudentsList(currentManageClassId);
+            } catch(e) {
+                alert('Erro ao adicionar aluno: ' + e.message);
+            }
+        }
+
+        async function deleteStudentItem(studentId, studentName) {
+            if (!confirm('Deseja realmente remover o aluno "' + studentName + '" desta turma?')) return;
+            try {
+                const res = await fetch('/api/teacher/students/delete/' + studentId, { method: 'POST' });
+                const data = await res.json();
+                if (data.success) {
+                    await loadClassStudentsList(currentManageClassId);
+                } else {
+                    alert('Erro ao excluir aluno: ' + (data.error || 'Erro'));
+                }
+            } catch(e) {
+                alert('Falha na exclusão: ' + e.message);
+            }
+        }
+
+        // --- 4. TOGGLE DE LIBERAÇÃO DE SIMULADO ---
+        async function toggleSimuladoSingle(classId, simuladoId, currentlyActive, btnElement) {
+            const nextState = !currentlyActive;
+            btnElement.disabled = true;
+            btnElement.innerText = '⏳...';
+
+            try {
+                const res = await fetch('/api/teacher/classes/' + classId + '/toggle-simulado', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ simulado_id: simuladoId, active: nextState })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    btnElement.innerText = nextState ? '🔓 LIBERADO' : '🔒 BLOQUEADO';
+                    btnElement.style.background = nextState ? '#16a34a' : '#94a3b8';
+                    btnElement.onclick = () => toggleSimuladoSingle(classId, simuladoId, nextState, btnElement);
+                    btnElement.closest('div').style.background = nextState ? '#f0fdf4' : '#f8fafc';
+                    btnElement.closest('div').style.borderColor = nextState ? '#86efac' : '#cbd5e1';
+                } else {
+                    alert('Erro ao alternar status do simulado: ' + (data.error || 'Erro'));
+                }
+            } catch(e) {
+                alert('Falha na conexão: ' + e.message);
+            } finally {
+                btnElement.disabled = false;
+            }
+        }
+
+        async function toggleAll3AnoSimulado(active) {
+            const confirmMsg = active 
+                ? 'Deseja LIBERAR o Simulado 3º Ano (Outubro) para TODAS as suas turmas?'
+                : 'Deseja BLOQUEAR o Simulado 3º Ano (Outubro) em TODAS as suas turmas?';
+            if (!confirm(confirmMsg)) return;
+
+            try {
+                const res = await fetch('/api/teacher/simulado/batch-toggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ simulado_id: 'campos-3ano-outubro-2026', active: active })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(active ? '🔓 Simulado Liberado com sucesso para todas as suas turmas!' : '🔒 Simulado Bloqueado para todas as suas turmas.');
+                    location.reload();
+                } else {
+                    alert('Erro ao atualizar: ' + (data.error || 'Erro'));
+                }
+            } catch(e) {
+                alert('Falha na conexão: ' + e.message);
+            }
+        }
     </script>
     
     <!-- Submissions Modal -->
@@ -1817,6 +2220,150 @@
                 <button onclick="copyProjectorLink()" class="btn-submit" style="background: #10b981; padding: 12px 24px; font-weight: 800;">📋 Copiar Link da Turma</button>
                 <button onclick="toggleProjectorFullscreen()" class="btn-submit" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); padding: 12px 24px; font-weight: 800;">⛶ Tela Cheia</button>
                 <button onclick="closeClassProjector()" class="btn-submit" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: #cbd5e1; padding: 12px 24px;">Fechar Projeção</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 1: CRIAÇÃO DE MÚLTIPLAS TURMAS EM LOTE -->
+    <div id="modal-batch-classes" class="modal" style="display:none; z-index: 99999;">
+        <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 24px; text-align: left; max-width: 650px; width: 92%; max-height: 88vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <div>
+                    <h2 style="color: #1e3a8a; margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.5rem;">⚡ Criar Turmas em Lote</h2>
+                    <p style="color: #64748b; font-size: 0.9rem; margin: 4px 0 0 0;">Crie várias turmas para sua escola de uma vez com códigos LK automáticos.</p>
+                </div>
+                <span class="close" onclick="closeBatchClassModal()" style="font-size: 2rem; cursor: pointer;">&times;</span>
+            </div>
+
+            <form onsubmit="submitBatchClasses(event)">
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-weight: 800; font-size: 0.9rem; color: #1e3a8a; margin-bottom: 6px;">Nome da Escola:</label>
+                    <input type="text" id="batchSchoolInput" list="teacherSchoolSuggestionsModal" placeholder="Ex: E.M. Profª Eleonora da Silva Pinto" style="width: 100%; box-sizing: border-box; padding: 12px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 1rem; font-weight: 700;" required>
+                    <datalist id="teacherSchoolSuggestionsModal">
+                        <% (typeof teacherSchools !== 'undefined' ? teacherSchools : []).forEach(sc => { %>
+                            <option value="<%= sc %>"></option>
+                        <% }); %>
+                    </datalist>
+                    <div style="font-size: 0.78rem; color: #64748b; margin-top: 4px;">Dica: Como você é responsável por 2 escolas, basta digitar ou escolher o nome da escola aqui.</div>
+                </div>
+
+                <div style="margin-bottom: 18px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="font-weight: 800; font-size: 0.9rem; color: #1e3a8a;">Selecione as Turmas que deseja criar:</label>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" onclick="selectAllGradeCheckboxes()" style="background: #e0f2fe; color: #0284c7; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Marcar Todas</button>
+                            <button type="button" onclick="clearAllGradeCheckboxes()" style="background: #f1f5f9; color: #64748b; border: none; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">Limpar</button>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0;">
+                        <!-- 1º Ano -->
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="1º Ano A"> 1º Ano A</label>
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="1º Ano B"> 1º Ano B</label>
+                        <!-- 2º Ano -->
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="2º Ano A"> 2º Ano A</label>
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="2º Ano B"> 2º Ano B</label>
+                        <!-- 3º Ano -->
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="3º Ano A"> 3º Ano A</label>
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="3º Ano B"> 3º Ano B</label>
+                        <!-- 4º Ano -->
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="4º Ano A"> 4º Ano A</label>
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="4º Ano B"> 4º Ano B</label>
+                        <!-- 5º Ano -->
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="5º Ano A"> 5º Ano A</label>
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer;"><input type="checkbox" class="batch-class-chk" value="5º Ano B"> 5º Ano B</label>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-weight: 800; font-size: 0.88rem; color: #1e3a8a; margin-bottom: 6px;">Ou digite turmas extras (uma por linha):</label>
+                    <textarea id="batchExtraClasses" rows="3" placeholder="Ex:&#10;3º Ano C&#10;Turma Especial Manhã" style="width: 100%; box-sizing: border-box; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-family: inherit; font-size: 0.9rem;"></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" onclick="closeBatchClassModal()" style="background: #f1f5f9; color: #64748b; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer;">Cancelar</button>
+                    <button type="submit" id="btnSubmitBatchClasses" class="btn-submit" style="background: linear-gradient(135deg, #6366f1, #4f46e5); padding: 12px 24px; font-weight: 800; border-radius: 12px;">
+                        🚀 Criar Todas as Turmas Selecionadas
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: IMPORTAÇÃO DE ALUNOS EM MASSA (COLAR LISTA) -->
+    <div id="modal-batch-students" class="modal" style="display:none; z-index: 99999;">
+        <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 24px; text-align: left; max-width: 620px; width: 92%; max-height: 88vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                    <h2 style="color: #059669; margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.5rem;">👥 Importar Lista de Alunos</h2>
+                    <p id="batchStudentModalSubtitle" style="color: #64748b; font-size: 0.9rem; margin: 4px 0 0 0;">Cole a lista de chamada da turma e cadastre todos os alunos em 1 segundo.</p>
+                </div>
+                <span class="close" onclick="closeBatchStudentModal()" style="font-size: 2rem; cursor: pointer;">&times;</span>
+            </div>
+
+            <form onsubmit="submitBatchStudents(event)">
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 800; font-size: 0.9rem; color: #065f46; margin-bottom: 6px;">Turma de Destino:</label>
+                    <select id="batchStudentClassSelect" style="width: 100%; box-sizing: border-box; padding: 12px; border: 2px solid #a7f3d0; border-radius: 12px; font-size: 1rem; font-weight: 700; background: white;" required>
+                        <option value="">-- Selecione a Turma --</option>
+                        <% (typeof classes !== 'undefined' ? classes : []).forEach(c => { %>
+                            <option value="<%= c.id %>"><%= c.class_name %> • <%= c.school_name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 800; font-size: 0.9rem; color: #065f46; margin-bottom: 6px;">
+                        Cole a lista de nomes dos alunos (um nome por linha):
+                    </label>
+                    <textarea id="batchStudentNamesText" rows="10" placeholder="Ana Clara Souza&#10;Bernardo Silva Santos&#10;Carlos Eduardo Lima&#10;Davi Lucca Ribeiro&#10;Enzo Gabriel Moreira&#10;Gabriela Oliveira" style="width: 100%; box-sizing: border-box; padding: 12px; border: 2px solid #cbd5e1; border-radius: 12px; font-family: inherit; font-size: 0.95rem; line-height: 1.5;" required></textarea>
+                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">Dica: Você pode copiar direto do Excel, Word, Google Sala de Aula ou lista da coordenação!</div>
+                </div>
+
+                <div style="margin-bottom: 22px;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; color: #1e293b; cursor: pointer;">
+                        <input type="checkbox" id="batchGeneratePins" checked style="width: 18px; height: 18px;">
+                        Gerar senhas (PIN de 4 dígitos) para cada aluno
+                    </label>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" onclick="closeBatchStudentModal()" style="background: #f1f5f9; color: #64748b; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer;">Cancelar</button>
+                    <button type="submit" id="btnSubmitBatchStudents" class="btn-submit" style="background: linear-gradient(135deg, #10b981, #059669); padding: 12px 24px; font-weight: 800; border-radius: 12px;">
+                        🚀 Cadastrar Todos os Alunos na Turma
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: GESTÃO E VISUALIZAÇÃO DE ALUNOS DA TURMA -->
+    <div id="modal-manage-students" class="modal" style="display:none; z-index: 99999;">
+        <div class="modal-content glass-panel" style="background: white; padding: 30px; border-radius: 24px; text-align: left; max-width: 680px; width: 92%; max-height: 88vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                    <h2 id="manageStudentsClassTitle" style="color: #0284c7; margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.5rem;">Alunos da Turma</h2>
+                    <p id="manageStudentsSchoolSubtitle" style="color: #64748b; font-size: 0.88rem; margin: 4px 0 0 0;">Escola</p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span id="manageStudentsCountBadge" style="background: #e0f2fe; color: #0284c7; font-weight: 800; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;">0 Alunos</span>
+                    <span class="close" onclick="closeManageStudentsModal()" style="font-size: 2rem; cursor: pointer;">&times;</span>
+                </div>
+            </div>
+
+            <!-- Adicionar Aluno Individual Rápido -->
+            <form onsubmit="addSingleStudent(event)" style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <input type="text" id="singleStudentNameInput" placeholder="+ Adicionar nome de aluno individual..." style="flex: 1; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; font-weight: 600;" required>
+                <button type="submit" class="btn-submit" style="background: #0284c7; padding: 10px 18px; border-radius: 10px; font-weight: 800; white-space: nowrap;">+ Adicionar</button>
+            </form>
+
+            <!-- Lista de Alunos -->
+            <div id="manageStudentsList" style="max-height: 48vh; overflow-y: auto; padding-right: 4px;">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <div style="text-align: right; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                <button onclick="closeManageStudentsModal()" class="btn-submit" style="background: #64748b; border-radius: 10px; padding: 10px 20px;">Fechar</button>
             </div>
         </div>
     </div>

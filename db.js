@@ -1044,6 +1044,236 @@ const dbHelper = {
     await queryRun("DELETE FROM students WHERE id = ?", [id]);
   },
 
+  async getTeacherClassesWithStats(teacherId) {
+    const rows = await queryAll(
+      `SELECT tc.*, COUNT(s.id) as student_count 
+       FROM teacher_classes tc 
+       LEFT JOIN students s ON s.class_id = tc.id 
+       WHERE tc.teacher_id = ? 
+       GROUP BY tc.id 
+       ORDER BY tc.school_name ASC, tc.class_name ASC`,
+      [teacherId]
+    );
+    return (rows || []).map(r => {
+      let activeSims = [];
+      try {
+        activeSims = typeof r.active_simulados === 'string' ? JSON.parse(r.active_simulados || '[]') : (r.active_simulados || []);
+      } catch(e) { activeSims = []; }
+      return {
+        ...r,
+        student_count: Number(r.student_count || 0),
+        active_simulados: activeSims
+      };
+    });
+  },
+
+  async getTeacherSchools(teacherId) {
+    const rows = await queryAll(
+      "SELECT DISTINCT school_name FROM teacher_classes WHERE teacher_id = ? AND school_name IS NOT NULL AND school_name != ''",
+      [teacherId]
+    );
+    const schools = (rows || []).map(r => String(r.school_name).trim());
+    const teacher = await queryGet("SELECT school FROM teachers WHERE id = ?", [teacherId]);
+    if (teacher && teacher.school && teacher.school.trim() && !schools.includes(teacher.school.trim())) {
+      schools.unshift(teacher.school.trim());
+    }
+    return schools;
+  },
+
+  async addMultipleClasses(teacherId, schoolName, classNames) {
+    const cleanSchool = String(schoolName || '').trim();
+    if (!cleanSchool) throw new Error('Nome da escola é obrigatório');
+    if (!Array.isArray(classNames) || classNames.length === 0) throw new Error('Lista de turmas vazia');
+
+    // Auto-sync school
+    let school = await queryGet("SELECT id, name FROM schools WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", [cleanSchool]);
+    if (!school) {
+      await queryRun("INSERT INTO schools (name, city, active) VALUES (?, 'Brasil', 1)", [cleanSchool]);
+      school = await queryGet("SELECT id, name FROM schools WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", [cleanSchool]);
+    }
+    const schoolId = school ? school.id : 1;
+
+    const created = [];
+    for (const rawName of classNames) {
+      const cleanClass = String(rawName || '').trim();
+      if (!cleanClass) continue;
+
+      // Check if already exists for this teacher and school
+      const existTc = await queryGet(
+        "SELECT id, access_code FROM teacher_classes WHERE teacher_id = ? AND LOWER(TRIM(school_name)) = LOWER(TRIM(?)) AND LOWER(TRIM(class_name)) = LOWER(TRIM(?))",
+        [teacherId, cleanSchool, cleanClass]
+      );
+      if (existTc) {
+        created.push({ id: existTc.id, school_name: cleanSchool, class_name: cleanClass, access_code: existTc.access_code, alreadyExisted: true });
+        continue;
+      }
+
+      // Generate unique access code
+      let accessCode = '';
+      let isUnique = false;
+      let attempts = 0;
+      while (!isUnique && attempts < 15) {
+        attempts++;
+        const num = Math.floor(1000 + Math.random() * 9000);
+        accessCode = 'LK' + num;
+        const exist = await queryGet("SELECT id FROM teacher_classes WHERE access_code = ?", [accessCode]);
+        if (!exist) isUnique = true;
+      }
+
+      // Sync school_classes
+      let existingSchoolClass = await queryGet(
+        "SELECT id FROM school_classes WHERE school_id = ? AND LOWER(TRIM(name)) = LOWER(TRIM(?))",
+        [schoolId, cleanClass]
+      );
+      if (!existingSchoolClass) {
+        await queryRun(
+          "INSERT INTO school_classes (school_id, name, grade_level, class_pin, access_code, teacher_id) VALUES (?, ?, ?, '', ?, ?)",
+          [schoolId, cleanClass, cleanClass, accessCode, teacherId]
+        );
+      }
+
+      // Insert teacher_classes
+      await queryRun(
+        "INSERT INTO teacher_classes (teacher_id, school_name, class_name, access_code, active_simulados) VALUES (?, ?, ?, ?, '[]')",
+        [teacherId, cleanSchool, cleanClass, accessCode]
+      );
+
+      const ins = await queryGet(
+        "SELECT * FROM teacher_classes WHERE teacher_id = ? AND access_code = ?",
+        [teacherId, accessCode]
+      );
+      created.push(ins || { school_name: cleanSchool, class_name: cleanClass, access_code: accessCode });
+    }
+    return created;
+  },
+
+  async addStudentsBatch(classId, schoolName, className, studentNames, generatePins = false) {
+    if (!classId) throw new Error('ID da turma é obrigatório');
+    if (!Array.isArray(studentNames) || studentNames.length === 0) throw new Error('Nenhum nome de aluno fornecido');
+
+    const added = [];
+    for (const rawName of studentNames) {
+      const cleanName = String(rawName || '').trim();
+      if (!cleanName || cleanName.length < 2) continue;
+
+      const pin = generatePins ? Math.floor(1000 + Math.random() * 9000).toString() : '';
+      const avatarConfig = {
+        skinColor: ['#f8d9b5', '#f3b684', '#d08b5b', '#ae5b37'][Math.floor(Math.random() * 4)],
+        top: ['shortFlat', 'curvy', 'bob', 'afro', 'curly', 'dreads'][Math.floor(Math.random() * 6)],
+        hairColor: ['#2c1b18', '#4a312c', '#724133', '#92593a', '#b78b43'][Math.floor(Math.random() * 5)],
+        eyes: 'happy',
+        eyebrows: 'default',
+        mouth: 'smile',
+        clothing: 'graphicShirt',
+        clothingColor: ['#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'][Math.floor(Math.random() * 5)]
+      };
+
+      await this.addStudent({
+        class_id: classId,
+        name: cleanName,
+        avatar_config: avatarConfig,
+        school_name: schoolName || '',
+        class_name: className || '',
+        student_pin: pin
+      });
+
+      added.push({ name: cleanName, pin });
+    }
+    return added;
+  },
+
+  async toggleClassSimulado(classId, simuladoId, active) {
+    const tc = await queryGet("SELECT id, class_name, school_name, access_code, active_simulados FROM teacher_classes WHERE id = ?", [classId]);
+    if (!tc) throw new Error('Turma não encontrada');
+
+    let list = [];
+    try {
+      list = typeof tc.active_simulados === 'string' ? JSON.parse(tc.active_simulados || '[]') : (tc.active_simulados || []);
+    } catch(e) { list = []; }
+
+    if (active) {
+      if (!list.includes(simuladoId)) list.push(simuladoId);
+    } else {
+      list = list.filter(id => id !== simuladoId);
+    }
+
+    const jsonStr = JSON.stringify(list);
+    await queryRun("UPDATE teacher_classes SET active_simulados = ? WHERE id = ?", [jsonStr, classId]);
+    if (tc.access_code) {
+      try {
+        await queryRun("UPDATE school_classes SET active_simulados = ? WHERE access_code = ?", [jsonStr, tc.access_code]);
+      } catch(e){}
+    }
+
+    return { success: true, active_simulados: list, is_active: active };
+  },
+
+  async checkSimuladoAccess(simuladoId, { classId, className, schoolName, studentId }) {
+    // 1. Busca da turma
+    let tc = null;
+    if (classId) {
+      tc = await queryGet("SELECT * FROM teacher_classes WHERE id = ?", [classId]);
+    }
+    if (!tc && studentId) {
+      const st = await this.getStudentById(studentId);
+      if (st && st.class_id) {
+        tc = await queryGet("SELECT * FROM teacher_classes WHERE id = ?", [st.class_id]);
+      }
+    }
+    if (!tc && className && schoolName) {
+      tc = await queryGet(
+        "SELECT * FROM teacher_classes WHERE LOWER(TRIM(school_name)) = LOWER(TRIM(?)) AND LOWER(TRIM(class_name)) = LOWER(TRIM(?))",
+        [schoolName, className]
+      );
+    }
+    if (!tc && className) {
+      tc = await queryGet(
+        "SELECT * FROM teacher_classes WHERE LOWER(TRIM(class_name)) = LOWER(TRIM(?))",
+        [className]
+      );
+    }
+
+    if (!tc) {
+      let sc = null;
+      if (className && schoolName) {
+        sc = await queryGet(
+          `SELECT sc.* FROM school_classes sc 
+           JOIN schools s ON sc.school_id = s.id 
+           WHERE LOWER(TRIM(s.name)) = LOWER(TRIM(?)) AND LOWER(TRIM(sc.name)) = LOWER(TRIM(?))`,
+          [schoolName, className]
+        );
+      }
+      if (sc && sc.active_simulados) {
+        let list = [];
+        try { list = JSON.parse(sc.active_simulados || '[]'); } catch(e){}
+        const ok = list.includes(simuladoId) || list.includes('ALL');
+        return {
+          allowed: ok,
+          simulado_id: simuladoId,
+          class_name: sc.name,
+          reason: ok ? 'Liberado pelo professor' : 'O professor ainda não liberou este simulado para a sua turma.'
+        };
+      }
+      return { allowed: false, reason: 'Turma não identificada. Por favor, conecte-se com o código da turma.' };
+    }
+
+    let activeList = [];
+    try {
+      activeList = typeof tc.active_simulados === 'string' ? JSON.parse(tc.active_simulados || '[]') : (tc.active_simulados || []);
+    } catch(e) { activeList = []; }
+
+    const isAllowed = activeList.includes(simuladoId) || activeList.includes('ALL');
+    return {
+      allowed: isAllowed,
+      simulado_id: simuladoId,
+      class_name: tc.class_name,
+      school_name: tc.school_name,
+      reason: isAllowed 
+        ? 'Avaliação liberada pelo professor!' 
+        : `O professor ainda não liberou o Simulado para a turma "${tc.class_name}". Aguarde o início em sala de aula.`
+    };
+  },
+
   async updateStudentAvatar(studentId, avatar_config) {
     const avatarStr = typeof avatar_config === 'object' ? JSON.stringify(avatar_config) : avatar_config;
     await queryRun("UPDATE students SET avatar_config = ? WHERE id = ?", [avatarStr, studentId]);
@@ -1379,6 +1609,8 @@ async function initTables() {
     "ALTER TABLE teachers ADD COLUMN verification_expires DATETIME;",
     "ALTER TABLE teacher_classes ADD COLUMN access_code TEXT;",
     "ALTER TABLE school_classes ADD COLUMN access_code TEXT;",
+    "ALTER TABLE teacher_classes ADD COLUMN active_simulados TEXT DEFAULT '[]';",
+    "ALTER TABLE school_classes ADD COLUMN active_simulados TEXT DEFAULT '[]';",
     "ALTER TABLE school_classes ADD COLUMN teacher_id INTEGER;",
     "ALTER TABLE schools ADD COLUMN city TEXT DEFAULT 'Brasil';",
     "ALTER TABLE schools ADD COLUMN active INTEGER DEFAULT 1;"
