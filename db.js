@@ -220,14 +220,18 @@ async function queryRun(sql, args = []) {
     try {
       await tursoClient.execute({ sql, args });
     } catch (err) {
-      console.error('[Turso Run Error]:', err.message);
+      if (!err.message.includes('duplicate column name')) {
+        console.error('[Turso Run Error]:', err.message);
+      }
     }
   }
   if (sqlite) {
     try {
       sqlite.prepare(sql).run(...args);
     } catch (err) {
-      console.error('[SQLite Run Error]:', err.message);
+      if (!err.message.includes('duplicate column name')) {
+        console.error('[SQLite Run Error]:', err.message);
+      }
     }
   }
 }
@@ -1464,6 +1468,40 @@ async function initTables() {
           level: "1-5", category: "Simulados & Avaliações", bncc_code: "EF35LP05, EF04GE11, EF04MA01, EF04CI04", subject: "Geral"
         }
       ];
+
+      
+      // Seed Detetive da Ortografia e Fábrica de Sílabas
+      const customNewGames = [
+        {
+          title: "🕵️ Detetive da Ortografia: A Caça aos Dígrafos [JOGO AUTORAL]",
+          description: "Jogo investigativo para desmascarar erros ortográficos e fixar regras de dígrafos (CH, LH, NH, RR, SS, C/Ç).",
+          activity_url: "/atividades/detetive-ortografia",
+          icon_url: "/favicon.svg",
+          level: "1-5", category: "Língua Portuguesa", bncc_code: "EF02LP01, EF03LP01, EF35LP05", subject: "Português"
+        },
+        {
+          title: "🏭 Fábrica de Sílabas & Palavras [JOGO AUTORAL]",
+          description: "Ambiente lúdico de engenharia linguística! Combine sílabas na esteira rolante para produzir palavras completas.",
+          activity_url: "/atividades/fabrica-de-silabas",
+          icon_url: "/favicon.svg",
+          level: "1-5", category: "Alfabetização", bncc_code: "EF01LP08, EF01LP09, EF02LP04", subject: "Português"
+        }
+      ];
+
+      for (const cg of customNewGames) {
+        try {
+          const ex = await queryGet("SELECT id FROM activities WHERE activity_url = ? OR title LIKE ? LIMIT 1", [cg.activity_url, '%Detetive da Ortografia%']);
+          if (!ex) {
+            console.log(`[DB Engine] Inserindo atividade autoral "${cg.title}"...`);
+            await queryRun(
+              "INSERT INTO activities (title, description, activity_url, icon_url, level, category, status, bncc_code, subject) VALUES (?, ?, ?, ?, ?, ?, 'public', ?, ?)",
+              [cg.title, cg.description, cg.activity_url, cg.icon_url, cg.level, cg.category, cg.bncc_code, cg.subject]
+            );
+          }
+        } catch(e) {
+          console.error('[DB Engine New Games Seed Error]:', e.message);
+        }
+      }
 
       for (const game of arieGames) {
         try {

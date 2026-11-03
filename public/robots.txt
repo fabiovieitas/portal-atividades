@@ -1,35 +1,32 @@
 User-agent: *
 Allow: /
 Allow: /ads.txt
+Allow: /sitemap.xml
+Allow: /games/
 Disallow: /admin/
 Disallow: /admin
-Disallow: /pesquisa/
-Disallow: /pesquisa
+Disallow: /pesquisa/admin
 Disallow: /api/
-Disallow: /professor/
-Disallow: /aluno
 Disallow: /qr/
-Disallow: /games/
 Disallow: /downloads/
 
 User-agent: Mediapartners-Google
 Allow: /
 Allow: /ads.txt
+Allow: /games/
 Disallow: /admin/
-Disallow: /pesquisa/
+Disallow: /pesquisa/admin
 Disallow: /api/
-Disallow: /games/
 
 User-agent: Googlebot
 Allow: /
 Allow: /ads.txt
+Allow: /sitemap.xml
+Allow: /games/
 Disallow: /admin/
-Disallow: /pesquisa/
+Disallow: /pesquisa/admin
 Disallow: /api/
-Disallow: /professor/
-Disallow: /aluno
 Disallow: /qr/
-Disallow: /games/
 Disallow: /downloads/
 
 User-agent: Google-adstxt
@@ -38,17 +35,17 @@ Allow: /ads.txt
 User-agent: AdsBot-Google
 Allow: /
 Allow: /ads.txt
+Allow: /games/
 Disallow: /admin/
-Disallow: /pesquisa/
+Disallow: /pesquisa/admin
 Disallow: /api/
-Disallow: /games/
 
 User-agent: AdsBot-Google-Mobile
 Allow: /
 Allow: /ads.txt
+Allow: /games/
 Disallow: /admin/
-Disallow: /pesquisa/
+Disallow: /pesquisa/admin
 Disallow: /api/
-Disallow: /games/
 
 Sitemap: https://labkids.online/sitemap.xml

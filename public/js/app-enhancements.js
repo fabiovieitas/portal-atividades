@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDiceBearAvatarPicker();
   initTabNavigation();
   initTabletPreloader();
+  initCookieConsentBanner();
 });
 
 /* ----------------------------------------------------
@@ -137,5 +138,36 @@ function initTabletPreloader() {
     } catch(err) {
       console.log('[Tablet Preloader] Erro silencioso:', err);
     }
+  });
+}
+
+/* ----------------------------------------------------
+ * BANNER DE CONSENTIMENTO DE COOKIES (LGPD / GOOGLE ADSENSE)
+ * ---------------------------------------------------- */
+function initCookieConsentBanner() {
+  if (localStorage.getItem('labkids_cookie_consent') === 'accepted') return;
+
+  const banner = document.createElement('div');
+  banner.id = 'labkids-cookie-banner';
+  banner.innerHTML = `
+    <div style="position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15, 23, 42, 0.98); border-top: 2px solid #38bdf8; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); z-index: 9999999; padding: 16px 20px; font-family: 'Fredoka', 'Outfit', system-ui, sans-serif; backdrop-filter: blur(12px);">
+      <div style="max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 280px; color: #f8fafc; font-size: 0.95rem; line-height: 1.5;">
+          🍪 <strong>Privacidade & Cookies:</strong> Utilizamos cookies essenciais e tecnologias de medição para otimizar sua navegação, personalizar conteúdos pedagógicos e exibir anúncios qualificados do Google de acordo com a LGPD. Ao continuar navegando, você concorda com nossa <a href="/privacidade" style="color: #38bdf8; text-decoration: underline; font-weight: 700;">Política de Privacidade</a> e <a href="/cookies" style="color: #38bdf8; text-decoration: underline; font-weight: 700;">Política de Cookies</a>.
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <a href="/cookies" style="color: #cbd5e1; font-size: 0.88rem; text-decoration: none; padding: 10px 16px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);">Preferências</a>
+          <button id="btn-accept-cookies" type="button" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 24px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); font-family: inherit;">
+            ✓ Concordar e Continuar
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  document.getElementById('btn-accept-cookies').addEventListener('click', () => {
+    localStorage.setItem('labkids_cookie_consent', 'accepted');
+    banner.remove();
   });
 }

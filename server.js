@@ -31,10 +31,6 @@ app.use((req, res, next) => {
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true, limit: '15mb' }));
 app.use(express.json({ limit: '15mb' }));
-app.get('/sw.js', (req, res) => {
-  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.sendFile(path.join(__dirname, 'public', 'sw.js'));
-});
 app.get(['/ads.txt', '/ads.txt/'], (req, res) => {
   const rawPubId = process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531';
   const pubId = rawPubId.replace(/^ca-/, '');
@@ -455,10 +451,25 @@ app.use((req, res, next) => {
 });
 
 
-// Admin check helper
+// In-memory store para sessões de administrador com expiração de 24 horas
+const adminSessions = new Map(); // token -> expiresAt
+
+// Admin check helper seguro com tokens criptográficos
 async function isAdmin(req) {
-  const session = req.cookies.admin_session || (req.body && req.body.sessionId);
-  return session === 'super_secret_admin_session';
+  const token = (req.cookies && req.cookies.admin_session) || (req.body && req.body.sessionId);
+  if (!token) return false;
+
+  // 1. Verificar token ativo em memória
+  const expiresAt = adminSessions.get(token);
+  if (expiresAt && expiresAt > Date.now()) {
+    return true;
+  }
+
+  // 2. Fallback seguro para ADMIN_SESSION_SECRET se configurado no .env
+  if (process.env.ADMIN_SESSION_SECRET && token === process.env.ADMIN_SESSION_SECRET) {
+    return true;
+  }
+  return false;
 }
 
 // Admin Password (Forced for troubleshooting)
@@ -467,10 +478,12 @@ const ADMIN_PASSWORD = 'Fabio@369258!';
 // Auth Middleware
 async function requireAdmin(req, res, next) {
   if (await isAdmin(req)) {
-    next();
-  } else {
-    res.redirect('/admin');
+    return next();
   }
+  if (req.path.startsWith('/api/')) {
+    return res.status(401).json({ success: false, error: 'Acesso não autorizado. Faça login como administrador.' });
+  }
+  res.redirect('/admin');
 }
 
 // In-memory Cache for categories and subjects
@@ -674,7 +687,7 @@ app.get('/', async (req, res) => {
 
   res.render('index', { 
     activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories: categories || [], subjects: subjects || [], search, 
-    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher, simuladosEnabled, news: featuredNews
+    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher, simuladosEnabled, news: featuredNews, adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
   });
 });
 
@@ -1200,7 +1213,7 @@ app.post('/api/simulado/submit', async (req, res) => {
 });
 
 // Export Backup JSON (Geral ou por Turma)
-app.get('/api/admin/simulado/backup/export', async (req, res) => {
+app.get('/api/admin/simulado/backup/export', requireAdmin, async (req, res) => {
   try {
     const { class_name, simulado_id } = req.query;
     let submissions = await dbHelper.getSimuladoSubmissions(simulado_id || 'ALL');
@@ -1232,7 +1245,7 @@ app.get('/api/admin/simulado/backup/export', async (req, res) => {
 });
 
 // Export Backup ZIP (Todas as Turmas Separadas)
-app.get('/api/admin/simulado/backup/export-zip', async (req, res) => {
+app.get('/api/admin/simulado/backup/export-zip', requireAdmin, async (req, res) => {
   try {
     const submissions = await dbHelper.getSimuladoSubmissions('ALL');
     const byClass = {};
@@ -1275,7 +1288,7 @@ app.get('/api/admin/simulado/backup/export-zip', async (req, res) => {
 });
 
 // Import Backup JSON com detecção de duplicatas
-app.post('/api/admin/simulado/backup/import', async (req, res) => {
+app.post('/api/admin/simulado/backup/import', requireAdmin, async (req, res) => {
   try {
     const { backup_data } = req.body;
     let submissionsToRestore = [];
@@ -1303,7 +1316,7 @@ app.post('/api/admin/simulado/backup/import', async (req, res) => {
 });
 
 // Editar registro de aluno no simulado
-app.put('/api/admin/simulado/submission/:id', async (req, res) => {
+app.put('/api/admin/simulado/submission/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { student_name, school_name, class_name, shift } = req.body;
@@ -1315,7 +1328,7 @@ app.put('/api/admin/simulado/submission/:id', async (req, res) => {
 });
 
 // Apagar registro de aluno no simulado (Individual)
-app.delete('/api/admin/simulado/submission/:id', async (req, res) => {
+app.delete('/api/admin/simulado/submission/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     await dbHelper.deleteSimuladoSubmission(id);
@@ -1326,7 +1339,7 @@ app.delete('/api/admin/simulado/submission/:id', async (req, res) => {
 });
 
 // Ação em Lote: Apagar múltiplos alunos
-app.post('/api/admin/simulado/submissions/bulk-delete', async (req, res) => {
+app.post('/api/admin/simulado/submissions/bulk-delete', requireAdmin, async (req, res) => {
   try {
     const { ids } = req.body;
     if (!Array.isArray(ids) || ids.length === 0) {
@@ -1340,7 +1353,7 @@ app.post('/api/admin/simulado/submissions/bulk-delete', async (req, res) => {
 });
 
 // Ação em Lote: Mover/Alterar múltiplos alunos (Turma / Turno / Simulado)
-app.post('/api/admin/simulado/submissions/bulk-move', async (req, res) => {
+app.post('/api/admin/simulado/submissions/bulk-move', requireAdmin, async (req, res) => {
   try {
     const { ids, class_name, shift, simulado_id } = req.body;
     if (!Array.isArray(ids) || ids.length === 0) {
@@ -1353,7 +1366,7 @@ app.post('/api/admin/simulado/submissions/bulk-move', async (req, res) => {
   }
 });
 
-app.get('/admin/simulado/resultados', async (req, res) => {
+app.get('/admin/simulado/resultados', requireAdmin, async (req, res) => {
   try {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     const simuladoId = req.query.simulado_id || 'ALL';
@@ -1370,7 +1383,7 @@ app.get('/admin/simulado/resultados', async (req, res) => {
   }
 });
 
-app.get('/admin/simulado/relatorio-op', async (req, res) => {
+app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
   try {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     const simuladoId = req.query.simulado_id || 'ALL';
@@ -1624,8 +1637,12 @@ const crypto = require('crypto');
 
 app.post('/admin/login', async (req, res) => {
   const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
-    res.cookie('admin_session', 'super_secret_admin_session', { maxAge: 24 * 60 * 60 * 1000, path: '/', httpOnly: true });
+  const validPassword = process.env.ADMIN_PASSWORD || ADMIN_PASSWORD;
+  if (password === validPassword) {
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+    adminSessions.set(token, expiresAt);
+    res.cookie('admin_session', token, { maxAge: 24 * 60 * 60 * 1000, path: '/', httpOnly: true, sameSite: 'lax' });
     res.redirect('/admin');
   } else {
     res.render('admin', { error: 'Senha incorreta!' });
@@ -1633,6 +1650,8 @@ app.post('/admin/login', async (req, res) => {
 });
 
 app.get('/admin/logout', async (req, res) => {
+  const token = req.cookies && req.cookies.admin_session;
+  if (token) adminSessions.delete(token);
   res.clearCookie('admin_session');
   res.redirect('/admin');
 });
