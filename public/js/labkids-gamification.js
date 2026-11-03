@@ -245,3 +245,4 @@
   window.LabKidsGamification = LabKidsGamification;
 
 })(window);
+

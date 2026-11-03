@@ -3,28 +3,35 @@
  * PORTAL LAB KIDS - STUDIO DE AVATARES ÉPICOS (DICEBEAR ENGINE v3)
  * ============================================================================
  * Sistema interativo de personalização de avatares infantis (1º ao 5º Ano)
- * Inspirado nas melhores experiências gamificadas (Duolingo / Roblox Kids).
+ * com sistema de Avatares Bloqueados por Conquista e Nível de XP!
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
-  // 16 Heróis e Mascotes pré-calibrados para crianças
+  // Heróis e Mascotes com mecânica de Desbloqueio por Conquista (XP)
   heroes: [
-    { name: 'Robô Léo', style: 'bottts', seed: 'LeoRobot', bg: '38bdf8', icon: '🤖', title: 'Mascote do Lab' },
-    { name: 'Ninja da Tabuada', style: 'adventurer', seed: 'Ninja', bg: '0f172a', icon: '⚔️', title: 'Mestre do Cálculo' },
-    { name: 'Astro Kid', style: 'bottts', seed: 'AstroKid', bg: '818cf8', icon: '🚀', title: 'Explorador Cósmico' },
-    { name: 'Dra. Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🔬', title: 'Cientista Mirim' },
-    { name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: 'c1f2c7', icon: '🦖', title: 'Fera Pré-Histórica' },
-    { name: 'Mago dos Números', style: 'adventurer', seed: 'MagoArcano', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Arcano da Lógica' },
-    { name: 'Pixel Gamer', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Campeão 8-Bit' },
-    { name: 'Princesa Sofia', style: 'lorelei', seed: 'PrincesaSofia', bg: 'ffdfbf', icon: '👑', title: 'Guardiã dos Livros' },
-    { name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado' },
-    { name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Aventureira Real' },
-    { name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fff0b3', icon: '😄', title: 'Mestre da Alegria' },
-    { name: 'Detetive Neo', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Mestre do Mistério' },
-    { name: 'Kitsune Ninja', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'fed7aa', icon: '🦊', title: 'Velocidade Pura' },
-    { name: 'Capitão Lucas', style: 'avataaars', seed: 'CapitaoLucas', bg: '60a5fa', icon: '⚡', title: 'Líder da Turma' },
-    { name: 'Estrela Beatriz', style: 'lorelei', seed: 'BiaEstrela', bg: 'e879f9', icon: '🎨', title: 'Criatividade Máxima' },
-    { name: 'Monstrinho Pop', style: 'fun-emoji', seed: 'PartyMonster', bg: '4ade80', icon: '🎉', title: 'Folião do Lab' }
+    // --- NÍVEL 1: AVATARES INICIAIS (DESBLOQUEADOS PARA TODOS) ---
+    { name: 'Robô Léo', style: 'bottts', seed: 'LeoRobot', bg: '38bdf8', icon: '🤖', title: 'Mascote Oficial', requiredXP: 0, badge: 'Inicial' },
+    { name: 'Astro Kid', style: 'bottts', seed: 'AstroKid', bg: '818cf8', icon: '🚀', title: 'Explorador Espacial', requiredXP: 0, badge: 'Inicial' },
+    { name: 'Dra. Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🔬', title: 'Cientista Mirim', requiredXP: 0, badge: 'Inicial' },
+    { name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fff0b3', icon: '😄', title: 'Mestre da Alegria', requiredXP: 0, badge: 'Inicial' },
+    { name: 'Capitão Lucas', style: 'avataaars', seed: 'CapitaoLucas', bg: '60a5fa', icon: '⚡', title: 'Líder da Turma', requiredXP: 0, badge: 'Inicial' },
+
+    // --- NÍVEL 2: EXPLORADORES (REQUER 50 A 100 XP) ---
+    { name: 'Pixel Gamer', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Campeão 8-Bit', requiredXP: 50, reqDesc: 'Alcance 50 XP' },
+    { name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: 'c1f2c7', icon: '🦖', title: 'Fera Pré-Histórica', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
+
+    // --- NÍVEL 3: MESTRES DO SABER (REQUER 150 A 300 XP) ---
+    { name: 'Ninja da Tabuada', style: 'adventurer', seed: 'Ninja', bg: '0f172a', icon: '⚔️', title: 'Mestre do Cálculo', requiredXP: 150, reqDesc: 'Conquiste 150 XP' },
+    { name: 'Mago dos Números', style: 'adventurer', seed: 'MagoArcano', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Arcano da Lógica', requiredXP: 250, reqDesc: 'Conquiste 250 XP (Nível 3)' },
+    { name: 'Princesa Sofia', style: 'lorelei', seed: 'PrincesaSofia', bg: 'ffdfbf', icon: '👑', title: 'Guardiã da Leitura', requiredXP: 300, reqDesc: 'Conquiste 300 XP' },
+
+    // --- NÍVEL 4: GUARDIÕES SUPREMOS (REQUER 450 A 650 XP) ---
+    { name: 'Detetive Neo', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Investigador Cyber', requiredXP: 450, reqDesc: 'Conquiste 450 XP' },
+    { name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado', requiredXP: 600, reqDesc: 'Conquiste 600 XP (Nível 4)' },
+    { name: 'Kitsune Ninja', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'fed7aa', icon: '🦊', title: 'Raposa Veloz', requiredXP: 750, reqDesc: 'Conquiste 750 XP' },
+
+    // --- NÍVEL 5: LENDA DO LAB KIDS (REQUER 1000 XP) ---
+    { name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Heroína Lendária', requiredXP: 1000, reqDesc: 'Alcance Nível 5 (Lenda do Lab)' }
   ],
 
   // Tribos / Estilos artísticos do DiceBear
