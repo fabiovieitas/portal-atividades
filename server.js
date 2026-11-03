@@ -1802,6 +1802,30 @@ app.post('/api/students/:id/activity-complete', async (req, res) => {
 });
 
 // ============================================================================
+// GAMIFICAÇÃO: BAÚ DIÁRIO DO ROBÔ LÉO
+// ============================================================================
+app.post('/api/gamification/claim-chest', async (req, res) => {
+  try {
+    const { student_id, streak } = req.body;
+    const result = await dbHelper.claimDailyChest(student_id, streak);
+    res.json(result);
+  } catch (err) {
+    console.error('[Claim Chest Error]:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/gamification/chest-status', async (req, res) => {
+  try {
+    const studentId = req.query.student_id ? Number(req.query.student_id) : null;
+    const status = await dbHelper.getChestStatus(studentId);
+    res.json({ success: true, ...status });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ============================================================================
 // NINJA MATH: A ESPADA DA TABUADA - LEADERBOARD & RANKINGS
 // ============================================================================
 app.post('/api/games/ninja-math/score', async (req, res) => {

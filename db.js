@@ -127,7 +127,20 @@ try {
       access_code TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+    CREATE TABLE IF NOT EXISTS daily_chest_claims (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      student_id INTEGER NOT NULL,
+      claim_date TEXT NOT NULL,
+      streak INTEGER DEFAULT 1,
+      xp_reward INTEGER DEFAULT 75,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(student_id, claim_date)
+    );
   `);
+
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN student_pin TEXT DEFAULT '';"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN current_streak INTEGER DEFAULT 1;"); } catch(e){}
+  try { sqlite.exec("ALTER TABLE students ADD COLUMN last_login_date TEXT DEFAULT '';"); } catch(e){}
 
   try { sqlite.exec("ALTER TABLE students ADD COLUMN class_id INTEGER DEFAULT 1;"); } catch(e){}
   try { sqlite.exec("ALTER TABLE students ADD COLUMN avatar_config TEXT DEFAULT '{}';"); } catch(e){}
@@ -1025,6 +1038,55 @@ const dbHelper = {
     }
 
     return { count, pointsAdded: score, medals: newMedals };
+  },
+
+  async claimDailyChest(studentId, currentStreak = 1) {
+    const today = new Date().toISOString().split('T')[0];
+    if (studentId) {
+      const existing = await queryGet(
+        "SELECT id FROM daily_chest_claims WHERE student_id = ? AND claim_date = ?",
+        [studentId, today]
+      );
+      if (existing) {
+        return { success: false, alreadyClaimed: true, message: 'Você já abriu seu Baú Diário hoje! Volte amanhã para novos tesouros!' };
+      }
+    }
+
+    const safeStreak = Math.max(1, Number(currentStreak) || 1);
+    const xpReward = 50 + Math.min(safeStreak * 15, 150);
+
+    if (studentId) {
+      await queryRun(
+        "INSERT INTO daily_chest_claims (student_id, claim_date, streak, xp_reward) VALUES (?, ?, ?, ?)",
+        [studentId, today, safeStreak, xpReward]
+      );
+      await queryRun(
+        "UPDATE students SET points = points + ?, current_streak = ?, last_login_date = ? WHERE id = ?",
+        [xpReward, safeStreak, today, studentId]
+      );
+    }
+
+    return {
+      success: true,
+      alreadyClaimed: false,
+      xp_reward: xpReward,
+      streak: safeStreak,
+      message: `🎉 Baú Diário Aberto! Você conquistou +${xpReward} XP!`
+    };
+  },
+
+  async getChestStatus(studentId) {
+    const today = new Date().toISOString().split('T')[0];
+    if (!studentId) return { available: true, claimedToday: false };
+    const existing = await queryGet(
+      "SELECT id, streak, xp_reward FROM daily_chest_claims WHERE student_id = ? AND claim_date = ?",
+      [studentId, today]
+    );
+    return {
+      available: !existing,
+      claimedToday: !!existing,
+      claim: existing || null
+    };
   },
 
   async getSetting(key, defaultValue = null) {

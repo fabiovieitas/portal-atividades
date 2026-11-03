@@ -356,10 +356,7 @@
                  onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
 
             <div>
-                <a href="<%= activity.activity_url %>" 
-                   class="btn-launch-game" 
-                   target="<%= isExternal ? '_blank' : '_self' %>" 
-                   rel="noopener">
+                <a href="<%= activity.activity_url %>" class="btn-launch-game" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener" onclick="event.preventDefault(); triggerGameInterlude(this.href, <%= isExternal %>);">
                     🎮 INICIAR O JOGO AGORA 🚀
                 </a>
             </div>
@@ -473,10 +470,7 @@
 
         <!-- Bottom CTA -->
         <div style="text-align: center; margin-top: 25px;">
-            <a href="<%= activity.activity_url %>" 
-               class="btn-launch-game" 
-               target="<%= isExternal ? '_blank' : '_self' %>" 
-               rel="noopener">
+            <a href="<%= activity.activity_url %>" class="btn-launch-game" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener" onclick="event.preventDefault(); triggerGameInterlude(this.href, <%= isExternal %>);">
                 🎮 JOGAR <%= activity.title.toUpperCase() %> AGORA 🚀
             </a>
         </div>
@@ -498,5 +492,6 @@
         </footer>
 
     </div>
+    <%- include('partials/interlude_modal') %>
 </body>
 </html>

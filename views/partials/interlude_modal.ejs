@@ -1,0 +1,100 @@
+<!-- ============================================================================
+     TELA DE INTERLÚDIO COM ANÚNCIO (3 SEGUNDOS DE PREPARAÇÃO PEDAGÓGICA)
+     ============================================================================ -->
+<div id="interlude-ad-modal" style="display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 15px; font-family: 'Fredoka', 'Nunito', sans-serif;">
+  <div style="background: linear-gradient(135deg, #1e293b, #0f172a); border: 3px solid #fbbf24; border-radius: 28px; max-width: 520px; width: 100%; padding: 25px 20px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6); position: relative; color: #ffffff; animation: interludePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    
+    <!-- Top Robot Badge -->
+    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(251, 191, 36, 0.15); border: 1.5px solid #fbbf24; padding: 6px 18px; border-radius: 50px; color: #fbbf24; font-weight: 800; font-size: 0.9rem; margin-bottom: 12px;">
+      <span>🤖 Robô Léo</span> • <span>Missão Educativa</span>
+    </div>
+
+    <h2 id="interlude-title" style="margin: 0 0 6px 0; font-size: 1.45rem; font-weight: 900; color: #ffffff;">Preparando seu Jogo...</h2>
+    <p style="margin: 0 0 16px 0; color: #94a3b8; font-size: 0.95rem;">Respire fundo e concentre-se no aprendizado!</p>
+
+    <!-- Countdown Circle -->
+    <div style="margin: 0 auto 16px auto; width: 68px; height: 68px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); display: flex; align-items: center; justify-content: center; border: 3px solid #ffffff; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);">
+      <span id="interlude-counter" style="font-size: 2rem; font-weight: 900; color: #ffffff;">3</span>
+    </div>
+
+    <!-- Official AdSense Slot -->
+    <div style="background: #ffffff; border-radius: 16px; padding: 10px; margin-bottom: 18px; border: 1.5px solid #cbd5e1; min-height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden;">
+      <span style="font-size: 0.68rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block;">Publicidade / Apoio Educacional</span>
+      <% if (typeof adsensePubId !== 'undefined' && adsensePubId) { %>
+        <ins class="adsbygoogle"
+             style="display:block; width:100%; min-height:90px;"
+             data-ad-client="<%= adsensePubId %>"
+             data-ad-slot="default"
+             data-ad-format="rectangle,horizontal"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      <% } else { %>
+        <div style="color: #0f172a; font-weight: 800; font-size: 0.95rem; padding: 10px;">
+          ⭐ Portal Lab Kids — Aprendizado Gratuito & Seguro para Crianças ⭐
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Action Button -->
+    <button id="interlude-proceed-btn" disabled
+            style="width: 100%; padding: 15px; border-radius: 18px; font-size: 1.15rem; font-weight: 900; border: none; background: #475569; color: #94a3b8; cursor: not-allowed; transition: all 0.2s ease; text-transform: uppercase; letter-spacing: 0.5px;">
+      ⏳ Aguarde 3s...
+    </button>
+  </div>
+</div>
+
+<style>
+@keyframes interludePop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+</style>
+
+<script>
+window.triggerGameInterlude = function(targetUrl, isExternal = false) {
+  const modal = document.getElementById('interlude-ad-modal');
+  if (!modal) {
+    if (isExternal) window.open(targetUrl, '_blank');
+    else window.location.href = targetUrl;
+    return false;
+  }
+
+  modal.style.display = 'flex';
+  let timeLeft = 3;
+  const counter = document.getElementById('interlude-counter');
+  const btn = document.getElementById('interlude-proceed-btn');
+
+  function proceed() {
+    if (isExternal) {
+      window.open(targetUrl, '_blank');
+      modal.style.display = 'none';
+    } else {
+      window.location.href = targetUrl;
+    }
+  }
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    if (timeLeft > 0) {
+      if (counter) counter.innerText = timeLeft;
+      if (btn) btn.innerText = `⏳ Aguarde ${timeLeft}s...`;
+    } else {
+      clearInterval(timer);
+      if (counter) counter.innerText = '🚀';
+      if (btn) {
+        btn.disabled = false;
+        btn.innerText = '🎮 ENTRAR NO JOGO AGORA 🚀';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        btn.style.color = '#ffffff';
+        btn.style.cursor = 'pointer';
+        btn.style.boxShadow = '0 6px 20px rgba(16, 185, 129, 0.5)';
+        btn.onclick = proceed;
+      }
+      // Auto redireciona suavemente após 0.4s
+      setTimeout(proceed, 500);
+    }
+  }, 1000);
+
+  return false;
+};
+</script>

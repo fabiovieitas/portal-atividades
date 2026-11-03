@@ -624,9 +624,14 @@
           <p>Secretaria Municipal de Educação • Projeto Campos de Todos Nós (Blocos 1 e 2 - Agosto/2026)</p>
         </div>
       </div>
-      <a href="/" class="nav-back-btn">
-        <span>← Voltar ao Portal</span>
-      </a>
+      <div style="display:flex; align-items:center; gap: 10px;">
+        <button type="button" onclick="toggleFocusMode()" id="btn-focus-toggle" style="background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.4); color: white; padding: 8px 16px; border-radius: 50px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: 0.2s;">
+          🛡️ Modo Foco Total
+        </button>
+        <a href="/" class="nav-back-btn" id="simulado-back-btn">
+          <span>← Voltar ao Portal</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -1186,6 +1191,15 @@
 
       <!-- Ações de Navegação Contínua -->
       <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+        <!-- BOTÕES: ROLETA DA SORTE & CERTIFICADO OFICIAL -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 0.4rem;">
+          <button type="button" onclick="openLuckyWheelModal()" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0.85rem; border-radius: 50px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(245,158,11,0.35);">
+            🎡 Girar Roleta (+XP)
+          </button>
+          <button type="button" onclick="triggerDownloadCertificate()" style="display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0.85rem; border-radius: 50px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border: none; font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(37,99,235,0.35);">
+            📜 Baixar Certificado
+          </button>
+        </div>
         <a href="/atividades/tabuada-chao-e-lava" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0.85rem; border-radius: 50px; background: linear-gradient(135deg, #10b981, #059669); color: white; font-family: 'Outfit', sans-serif; font-size: 1.05rem; text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(16,185,129,0.35);">
           🚀 Próximo Desafio: Tabuada Chão é Lava!
         </a>
@@ -1459,6 +1473,53 @@
       try { localStorage.removeItem(SIMULADO_STORAGE_KEY); } catch(e){}
       window.location.reload();
     }
+  </script>
+
+  <%- include('partials/lucky_wheel_modal') %>
+  <%- include('partials/certificate_modal') %>
+
+  <script>
+  let isFocusModeActive = false;
+  function toggleFocusMode() {
+    isFocusModeActive = !isFocusModeActive;
+    const btn = document.getElementById('btn-focus-toggle');
+    const backBtn = document.getElementById('simulado-back-btn');
+    if (isFocusModeActive) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      if (btn) {
+        btn.innerText = '🛡️ Foco Ativo (Esc para sair)';
+        btn.style.background = '#10b981';
+      }
+      if (backBtn) backBtn.style.display = 'none';
+      window.addEventListener('beforeunload', warnBeforeLeave);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+      if (btn) {
+        btn.innerText = '🛡️ Modo Foco Total';
+        btn.style.background = 'rgba(255,255,255,0.18)';
+      }
+      if (backBtn) backBtn.style.display = 'inline-flex';
+      window.removeEventListener('beforeunload', warnBeforeLeave);
+    }
+  }
+
+  function warnBeforeLeave(e) {
+    if (!isSubmitted) {
+      e.preventDefault();
+      e.returnValue = 'Você está no meio de um simulado oficial. Tem certeza que deseja sair?';
+    }
+  }
+
+  function triggerDownloadCertificate() {
+    const name = document.getElementById('studentName') ? document.getElementById('studentName').value.trim() : 'Estudante Dedicado';
+    const school = document.getElementById('schoolName') ? document.getElementById('schoolName').value.trim() : 'E.M. Profª Eleonora da Silva Pinto';
+    const grade = document.getElementById('className') ? document.getElementById('className').value.trim() : '4º Ano';
+    openCertificateModal(name, grade, school);
+  }
   </script>
 </body>
 </html>

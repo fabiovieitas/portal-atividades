@@ -1,0 +1,242 @@
+<!-- ============================================================================
+     TECLADO LÚDICO DE PIN INFANTIL (ESPECIAL PARA 1º AO 5º ANO EM TABLETS)
+     ============================================================================ -->
+<div id="kid-pin-modal" style="display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 15px; font-family: 'Fredoka', 'Nunito', sans-serif;">
+  <div style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 3.5px solid #38bdf8; border-radius: 32px; max-width: 380px; width: 100%; padding: 25px 20px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.5); position: relative; animation: pinModalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    
+    <!-- Botão Fechar -->
+    <button onclick="closeKidPinModal()" style="position: absolute; right: 16px; top: 16px; background: #f1f5f9; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; color: #64748b; font-weight: 800;">✕</button>
+
+    <!-- Avatar do Aluno Selecionado -->
+    <div id="kid-pin-avatar-wrap" style="width: 72px; height: 72px; margin: 0 auto 10px auto; border-radius: 50%; background: #e0f2fe; border: 3px solid #38bdf8; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 6px 15px rgba(56, 189, 248, 0.3);">
+      <span id="kid-pin-avatar-icon" style="font-size: 2.2rem;">👤</span>
+    </div>
+
+    <h3 id="kid-pin-student-name" style="margin: 0 0 4px 0; font-size: 1.35rem; font-weight: 900; color: #0f172a;">Nome do Aluno</h3>
+    <p style="margin: 0 0 15px 0; color: #64748b; font-size: 0.9rem; font-weight: 700;">Toque na sua senha de 4 números:</p>
+
+    <!-- 4 Indicadores Visuais de Dígitos -->
+    <div id="kid-pin-dots" style="display: flex; justify-content: center; gap: 14px; margin-bottom: 20px;">
+      <div class="pin-circle" id="pdot-0" style="width: 22px; height: 22px; border-radius: 50%; border: 3px solid #cbd5e1; background: #ffffff; transition: all 0.2s ease;"></div>
+      <div class="pin-circle" id="pdot-1" style="width: 22px; height: 22px; border-radius: 50%; border: 3px solid #cbd5e1; background: #ffffff; transition: all 0.2s ease;"></div>
+      <div class="pin-circle" id="pdot-2" style="width: 22px; height: 22px; border-radius: 50%; border: 3px solid #cbd5e1; background: #ffffff; transition: all 0.2s ease;"></div>
+      <div class="pin-circle" id="pdot-3" style="width: 22px; height: 22px; border-radius: 50%; border: 3px solid #cbd5e1; background: #ffffff; transition: all 0.2s ease;"></div>
+    </div>
+
+    <div id="kid-pin-error" style="display: none; color: #ef4444; font-weight: 800; font-size: 0.95rem; margin-bottom: 12px; animation: pinShake 0.4s ease;">
+      ❌ Senha incorreta! Tente novamente.
+    </div>
+
+    <!-- Teclado Numérico Gigante para Tablets -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 310px; margin: 0 auto;">
+      <button type="button" class="kid-key" onclick="pressKidPin('1')">1</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('2')">2</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('3')">3</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('4')">4</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('5')">5</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('6')">6</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('7')">7</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('8')">8</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('9')">9</button>
+      <button type="button" class="kid-key special" onclick="clearKidPin()" style="font-size: 0.85rem; color: #dc2626;">Limpar</button>
+      <button type="button" class="kid-key" onclick="pressKidPin('0')">0</button>
+      <button type="button" class="kid-key special" onclick="backspaceKidPin()" style="font-size: 1.3rem; color: #475569;">⌫</button>
+    </div>
+
+    <!-- Ajuda para o Aluno -->
+    <p style="margin: 16px 0 0 0; font-size: 0.8rem; color: #94a3b8; font-weight: 700;">
+      Esqueceu sua senha? Peça ajuda ao seu professor! 👩‍🏫
+    </p>
+  </div>
+</div>
+
+<style>
+@keyframes pinModalPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes pinShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+.kid-key {
+  height: 58px;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-bottom: 4px solid #cbd5e1;
+  border-radius: 18px;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #1e293b;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.kid-key:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+  background: #f1f5f9;
+}
+.kid-key.special {
+  background: #f8fafc;
+  font-weight: 800;
+}
+.pin-circle.filled {
+  background: #0284c7 !important;
+  border-color: #0369a1 !important;
+  transform: scale(1.15);
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.5);
+}
+.pin-circle.error {
+  background: #ef4444 !important;
+  border-color: #b91c1c !important;
+}
+.pin-circle.success {
+  background: #10b981 !important;
+  border-color: #047857 !important;
+}
+</style>
+
+<script>
+let currentKidPinTarget = null;
+let currentKidPinBuffer = "";
+let isVerifyingKidPin = false;
+
+function openKidPinModal(student) {
+  currentKidPinTarget = student;
+  currentKidPinBuffer = "";
+  isVerifyingKidPin = false;
+
+  const modal = document.getElementById('kid-pin-modal');
+  const nameEl = document.getElementById('kid-pin-student-name');
+  const avatarWrap = document.getElementById('kid-pin-avatar-wrap');
+  const errEl = document.getElementById('kid-pin-error');
+
+  if (nameEl) nameEl.innerText = student.name || 'Aluno';
+  if (errEl) errEl.style.display = 'none';
+
+  if (avatarWrap && window.AvatarSystem) {
+    let cfg = {};
+    try {
+      cfg = typeof student.avatar_config === 'string' ? JSON.parse(student.avatar_config) : (student.avatar_config || {});
+    } catch(e){}
+    avatarWrap.innerHTML = window.AvatarSystem.generateHTML(cfg, 60);
+  }
+
+  updateKidPinDots();
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeKidPinModal() {
+  const modal = document.getElementById('kid-pin-modal');
+  if (modal) modal.style.display = 'none';
+  currentKidPinTarget = null;
+  currentKidPinBuffer = "";
+  isVerifyingKidPin = false;
+}
+
+function updateKidPinDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById(`pdot-${i}`);
+    if (dot) {
+      dot.className = 'pin-circle' + (i < currentKidPinBuffer.length ? ' filled' : '');
+    }
+  }
+}
+
+function pressKidPin(digit) {
+  if (isVerifyingKidPin || currentKidPinBuffer.length >= 4) return;
+  currentKidPinBuffer += digit;
+  updateKidPinDots();
+
+  if (currentKidPinBuffer.length === 4) {
+    submitKidPin();
+  }
+}
+
+function clearKidPin() {
+  if (isVerifyingKidPin) return;
+  currentKidPinBuffer = "";
+  updateKidPinDots();
+  const errEl = document.getElementById('kid-pin-error');
+  if (errEl) errEl.style.display = 'none';
+}
+
+function backspaceKidPin() {
+  if (isVerifyingKidPin || currentKidPinBuffer.length === 0) return;
+  currentKidPinBuffer = currentKidPinBuffer.slice(0, -1);
+  updateKidPinDots();
+  const errEl = document.getElementById('kid-pin-error');
+  if (errEl) errEl.style.display = 'none';
+}
+
+// Suporte a teclado físico também (para desktops/notebooks)
+window.addEventListener('keydown', (e) => {
+  const modal = document.getElementById('kid-pin-modal');
+  if (!modal || modal.style.display !== 'flex') return;
+
+  if (e.key >= '0' && e.key <= '9') {
+    pressKidPin(e.key);
+  } else if (e.key === 'Backspace') {
+    backspaceKidPin();
+  } else if (e.key === 'Escape') {
+    closeKidPinModal();
+  }
+});
+
+async function submitKidPin() {
+  if (!currentKidPinTarget || isVerifyingKidPin) return;
+  isVerifyingKidPin = true;
+
+  const errEl = document.getElementById('kid-pin-error');
+  if (errEl) errEl.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/students/verify-pin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        student_id: currentKidPinTarget.id,
+        pin: currentKidPinBuffer
+      })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Efeito visual de sucesso
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`pdot-${i}`);
+        if (dot) dot.className = 'pin-circle success';
+      }
+      setTimeout(() => {
+        const studentToActivate = currentKidPinTarget;
+        closeKidPinModal();
+        if (typeof activateStudent === 'function') {
+          activateStudent(studentToActivate);
+        }
+      }, 350);
+    } else {
+      // Efeito visual de erro
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`pdot-${i}`);
+        if (dot) dot.className = 'pin-circle error';
+      }
+      if (errEl) errEl.style.display = 'block';
+
+      setTimeout(() => {
+        clearKidPin();
+        isVerifyingKidPin = false;
+      }, 700);
+    }
+  } catch(err) {
+    if (errEl) {
+      errEl.innerText = 'Erro ao verificar senha. Tente novamente.';
+      errEl.style.display = 'block';
+    }
+    clearKidPin();
+    isVerifyingKidPin = false;
+  }
+}
+</script>

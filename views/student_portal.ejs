@@ -572,6 +572,48 @@
                     </div>
                 </div>
 
+                <!-- CARD DO BAÚ DIÁRIO DO ROBÔ LÉO -->
+                <div id="daily-chest-card" style="background: linear-gradient(135deg, #fefce8 0%, #fffbeb 100%); border: 2.5px solid #f59e0b; border-radius: 20px; padding: 18px 16px; margin: 18px 0; text-align: center; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15); cursor: pointer; transition: transform 0.2s ease;" onclick="openDailyChestModal()">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 14px;">
+                        <div id="chest-box-icon" style="font-size: 3rem;">🎁</div>
+                        <div style="text-align: left;">
+                            <div style="font-size: 0.8rem; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.5px;">Recompensa Diária</div>
+                            <div id="chest-card-status-title" style="font-size: 1.25rem; font-weight: 900; color: #78350f;">Baú do Robô Léo</div>
+                            <div id="chest-card-status-desc" style="font-size: 0.88rem; font-weight: 700; color: #92400e;">Toque para abrir seu tesouro de hoje! ✨</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MURAL DE MÉRITO PEDAGÓGICO DA TURMA (SEM BARULHO, COM FOCO EM ESFORÇO) -->
+                <div style="background: #ffffff; border: 2px solid #e2e8f0; border-radius: 20px; padding: 18px 16px; margin: 18px 0; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                        <h4 style="margin: 0; font-size: 1.05rem; font-weight: 900; color: #1e3a8a; display: flex; align-items: center; gap: 6px;">
+                            <span>🌟</span> Mural de Mérito da Turma
+                        </h4>
+                        <span style="font-size: 0.75rem; background: #eff6ff; color: #2563eb; padding: 3px 10px; border-radius: 50px; font-weight: 800;">Destaques</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center;">
+                        <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 6px;">
+                            <span style="font-size: 1.5rem;">📚</span>
+                            <div style="font-size: 0.72rem; font-weight: 800; color: #475569; text-transform: uppercase; margin-top: 2px;">Leitura</div>
+                            <div style="font-size: 0.82rem; font-weight: 800; color: #0284c7; margin-top: 2px;">Guardião</div>
+                        </div>
+                        <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 6px;">
+                            <span style="font-size: 1.5rem;">🔥</span>
+                            <div style="font-size: 0.72rem; font-weight: 800; color: #475569; text-transform: uppercase; margin-top: 2px;">Constância</div>
+                            <div style="font-size: 0.82rem; font-weight: 800; color: #dc2626; margin-top: 2px;">Campeão</div>
+                        </div>
+                        <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 6px;">
+                            <span style="font-size: 1.5rem;">⏱️</span>
+                            <div style="font-size: 0.72rem; font-weight: 800; color: #475569; text-transform: uppercase; margin-top: 2px;">Foco</div>
+                            <div style="font-size: 0.82rem; font-weight: 800; color: #16a34a; margin-top: 2px;">Ouro</div>
+                        </div>
+                    </div>
+                    <p style="margin: 10px 0 0 0; font-size: 0.78rem; color: #94a3b8; font-weight: 700; text-align: center;">
+                        🌱 Cada atividade concluída desenvolve o seu potencial!
+                    </p>
+                </div>
+
                 <!-- Publicidade Educativa no Dashboard do Aluno -->
                 <div class="adsense-portal-slot" style="margin: 15px auto; max-width: 440px; text-align: center; background: #f8fafc; padding: 8px; border-radius: 14px; border: 1px dashed #cbd5e1;">
                     <span style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Publicidade / Apoio</span>
@@ -1007,19 +1049,7 @@
 
             const hasPin = st.student_pin && String(st.student_pin).trim() !== '';
             if (hasPin) {
-                const pinInput = prompt(`🔑 Digite a sua SENHA INDIVIDUAL (4 dígitos) para acessar o perfil de ${st.name}:`);
-                if (pinInput === null) return;
-                const res = await fetch('/api/students/verify-pin', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ student_id: st.id, pin: pinInput })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    activateStudent(st);
-                } else {
-                    alert('❌ Senha incorreta do aluno!');
-                }
+                openKidPinModal(st);
             } else {
                 activateStudent(st);
             }
@@ -1381,5 +1411,7 @@
         </div>
     </div>
 
+    <%- include('partials/daily_chest_modal') %>
+    <%- include('partials/kid_pin_modal') %>
 </body>
 </html>

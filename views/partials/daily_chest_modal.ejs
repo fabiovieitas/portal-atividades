@@ -1,0 +1,224 @@
+<!-- ============================================================================
+     MODAL DO BAÚ DIÁRIO DO ROBÔ LÉO (GAMIFICAÇÃO & ENGAJAMENTO DIÁRIO)
+     ============================================================================ -->
+<div id="daily-chest-modal" style="display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 15px; font-family: 'Fredoka', 'Nunito', sans-serif;">
+  <div style="background: linear-gradient(135deg, #ffffff 0%, #fefce8 100%); border: 3.5px solid #f59e0b; border-radius: 32px; max-width: 440px; width: 100%; padding: 30px 22px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.5); position: relative; animation: chestModalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    
+    <!-- Botão Fechar -->
+    <button onclick="closeDailyChestModal()" style="position: absolute; right: 16px; top: 16px; background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; color: #64748b; font-weight: 800;">✕</button>
+
+    <!-- Header Mascot -->
+    <div style="display: inline-flex; align-items: center; gap: 8px; background: #fef3c7; border: 1.5px solid #fcd34d; padding: 6px 18px; border-radius: 50px; color: #b45309; font-weight: 800; font-size: 0.88rem; margin-bottom: 12px;">
+      <span>🤖 Robô Léo</span> • <span>Tesouro do Conhecimento</span>
+    </div>
+
+    <h2 id="modal-chest-title" style="margin: 0 0 6px 0; font-size: 1.6rem; font-weight: 900; color: #78350f;">Baú Diário de Estudos!</h2>
+    <p id="modal-chest-subtitle" style="margin: 0 0 16px 0; color: #92400e; font-size: 0.95rem; font-weight: 700;">Toque no baú para descobrir suas recompensas de hoje:</p>
+
+    <!-- 3D Chest Interactive Box -->
+    <div id="interactive-chest-box" onclick="triggerChestOpen()" style="cursor: pointer; margin: 15px auto 20px auto; width: 150px; height: 150px; background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, rgba(251, 191, 36, 0) 70%); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+      <span id="chest-emoji-visual" style="font-size: 5.5rem; display: inline-block; filter: drop-shadow(0 12px 20px rgba(245, 158, 11, 0.4)); transition: transform 0.2s ease;">🎁</span>
+    </div>
+
+    <!-- Reward Result Area (Hidden initially) -->
+    <div id="chest-reward-display" style="display: none; background: #ecfdf5; border: 2px solid #a7f3d0; border-radius: 20px; padding: 14px; margin-bottom: 20px;">
+      <div style="font-size: 1.8rem; margin-bottom: 2px;">⭐ 🎉 🏆</div>
+      <div id="chest-reward-xp" style="font-size: 1.35rem; font-weight: 900; color: #065f46;">+75 XP Conquistados!</div>
+      <div id="chest-reward-streak" style="font-size: 0.95rem; font-weight: 800; color: #047857; margin-top: 4px;">🔥 Sequência mantida!</div>
+    </div>
+
+    <!-- Action Button -->
+    <button id="btn-open-chest" onclick="triggerChestOpen()"
+            style="width: 100%; padding: 16px; border-radius: 20px; font-size: 1.25rem; font-weight: 900; border: none; border-bottom: 5px solid #d97706; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35);">
+      ✨ ABRIR MEU BAÚ MÁGICO 🚀
+    </button>
+  </div>
+</div>
+
+<style>
+@keyframes chestModalPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes chestShake {
+  0% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-12deg) scale(1.1); }
+  40% { transform: rotate(12deg) scale(1.15); }
+  60% { transform: rotate(-12deg) scale(1.2); }
+  80% { transform: rotate(8deg) scale(1.25); }
+  100% { transform: rotate(0deg) scale(1.1); }
+}
+.chest-shaking {
+  animation: chestShake 0.6s ease-in-out !important;
+}
+</style>
+
+<script>
+let isChestOpening = false;
+
+function openDailyChestModal() {
+  const modal = document.getElementById('daily-chest-modal');
+  if (!modal) return;
+
+  const todayStr = new Date().toISOString().split('T')[0];
+  const lastClaimed = localStorage.getItem('lab_daily_chest_claimed_date');
+  const alreadyClaimed = (lastClaimed === todayStr);
+
+  const titleEl = document.getElementById('modal-chest-title');
+  const subEl = document.getElementById('modal-chest-subtitle');
+  const emojiEl = document.getElementById('chest-emoji-visual');
+  const rewardEl = document.getElementById('chest-reward-display');
+  const btnEl = document.getElementById('btn-open-chest');
+
+  if (alreadyClaimed) {
+    if (titleEl) titleEl.innerText = 'Baú de Hoje Já Aberto!';
+    if (subEl) subEl.innerText = 'Você já garantiu suas recompensas do dia. Volte amanhã para novos tesouros do Robô Léo!';
+    if (emojiEl) emojiEl.innerText = '✨📦';
+    if (rewardEl) {
+      rewardEl.style.display = 'block';
+      const xpEl = document.getElementById('chest-reward-xp');
+      const stEl = document.getElementById('chest-reward-streak');
+      if (xpEl) xpEl.innerText = 'Recompensa do dia resgatada!';
+      if (stEl) stEl.innerText = '🔥 Continue estudando amanhã para multiplicar seu XP!';
+    }
+    if (btnEl) {
+      btnEl.innerText = '🎉 FECHAR E ESTUDAR 🚀';
+      btnEl.onclick = closeDailyChestModal;
+    }
+  } else {
+    if (titleEl) titleEl.innerText = 'Baú Diário de Estudos!';
+    if (subEl) subEl.innerText = 'Toque no baú para descobrir suas recompensas de hoje:';
+    if (emojiEl) emojiEl.innerText = '🎁';
+    if (rewardEl) rewardEl.style.display = 'none';
+    if (btnEl) {
+      btnEl.innerText = '✨ ABRIR MEU BAÚ MÁGICO 🚀';
+      btnEl.onclick = triggerChestOpen;
+    }
+  }
+
+  modal.style.display = 'flex';
+}
+
+function closeDailyChestModal() {
+  const modal = document.getElementById('daily-chest-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function triggerChestOpen() {
+  if (isChestOpening) return;
+  const todayStr = new Date().toISOString().split('T')[0];
+  const lastClaimed = localStorage.getItem('lab_daily_chest_claimed_date');
+  if (lastClaimed === todayStr) {
+    closeDailyChestModal();
+    return;
+  }
+
+  isChestOpening = true;
+  const emojiEl = document.getElementById('chest-emoji-visual');
+  const btnEl = document.getElementById('btn-open-chest');
+  const rewardEl = document.getElementById('chest-reward-display');
+
+  if (emojiEl) emojiEl.classList.add('chest-shaking');
+  if (btnEl) {
+    btnEl.disabled = true;
+    btnEl.innerText = '✨ ABRINDO O TESOURO...';
+  }
+
+  // Obter perfil do aluno
+  let student = null;
+  try {
+    const raw = localStorage.getItem('lab_student_profile');
+    if (raw) student = JSON.parse(raw);
+  } catch(e){}
+
+  const studentId = student ? student.id : null;
+  const streak = student ? Number(student.daily_streak || 1) : 1;
+
+  setTimeout(async () => {
+    let xpAwarded = 75;
+    let newStreak = streak;
+
+    try {
+      const res = await fetch('/api/gamification/claim-chest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ student_id: studentId, streak: streak })
+      });
+      const data = await res.json();
+      if (data.success) {
+        xpAwarded = data.xp_reward;
+        newStreak = data.streak;
+      }
+    } catch(err) {
+      console.warn('Fallback offline para baú diário:', err);
+    }
+
+    // Salvar data no localStorage
+    localStorage.setItem('lab_daily_chest_claimed_date', todayStr);
+
+    // Efeito visual de abertura
+    if (emojiEl) {
+      emojiEl.classList.remove('chest-shaking');
+      emojiEl.innerText = '✨🏆🎉';
+      emojiEl.style.transform = 'scale(1.25)';
+    }
+
+    // Confetes na tela
+    if (window.LabGamification && typeof window.LabGamification.addXP === 'function') {
+      window.LabGamification.addXP(xpAwarded, '🎁 Baú Diário do Robô Léo!');
+    }
+
+    // Atualiza modal
+    if (rewardEl) {
+      rewardEl.style.display = 'block';
+      const xpEl = document.getElementById('chest-reward-xp');
+      const stEl = document.getElementById('chest-reward-streak');
+      if (xpEl) xpEl.innerText = `+${xpAwarded} XP Conquistados!`;
+      if (stEl) stEl.innerText = `🔥 Sequência de ${newStreak} dias consecutivos!`;
+    }
+
+    if (btnEl) {
+      btnEl.disabled = false;
+      btnEl.innerText = '🎉 FECHAR E JOGAR 🚀';
+      btnEl.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+      btnEl.style.color = '#ffffff';
+      btnEl.style.borderBottomColor = '#047857';
+      btnEl.onclick = closeDailyChestModal;
+    }
+
+    // Atualiza status do card na tela principal
+    updateChestCardVisual();
+    isChestOpening = false;
+  }, 700);
+}
+
+function updateChestCardVisual() {
+  const card = document.getElementById('daily-chest-card');
+  if (!card) return;
+
+  const todayStr = new Date().toISOString().split('T')[0];
+  const lastClaimed = localStorage.getItem('lab_daily_chest_claimed_date');
+  const alreadyClaimed = (lastClaimed === todayStr);
+
+  const iconEl = document.getElementById('chest-box-icon');
+  const titleEl = document.getElementById('chest-card-status-title');
+  const descEl = document.getElementById('chest-card-status-desc');
+
+  if (alreadyClaimed) {
+    if (iconEl) iconEl.innerText = '✨📦';
+    if (titleEl) titleEl.innerText = 'Baú Diário Coletado! ✅';
+    if (descEl) descEl.innerText = 'Você já garantiu seu bônus de hoje. Volte amanhã!';
+    card.style.background = '#f0fdf4';
+    card.style.borderColor = '#86efac';
+  } else {
+    if (iconEl) iconEl.innerText = '🎁';
+    if (titleEl) titleEl.innerText = 'Baú do Robô Léo Disponível!';
+    if (descEl) descEl.innerText = 'Toque aqui para abrir e ganhar seu XP de hoje! ✨';
+    card.style.background = 'linear-gradient(135deg, #fefce8 0%, #fffbeb 100%)';
+    card.style.borderColor = '#f59e0b';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', updateChestCardVisual);
+window.addEventListener('lab_student_updated', updateChestCardVisual);
+</script>

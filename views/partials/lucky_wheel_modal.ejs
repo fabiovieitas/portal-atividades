@@ -1,0 +1,179 @@
+<!-- ============================================================================
+     ROLETA DA SORTE EDUCATIVA (RECOMPENSA PÓS-DESAFIO & SIMULADO)
+     ============================================================================ -->
+<div id="lucky-wheel-modal" style="display: none; position: fixed; inset: 0; z-index: 9999999; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 15px; font-family: 'Fredoka', 'Nunito', sans-serif;">
+  <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 3.5px solid #fbbf24; border-radius: 32px; max-width: 440px; width: 100%; padding: 25px 20px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6); position: relative; color: #ffffff; animation: wheelModalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+    
+    <!-- Botão Fechar -->
+    <button onclick="closeLuckyWheelModal()" style="position: absolute; right: 16px; top: 16px; background: rgba(255,255,255,0.1); border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; color: #94a3b8; font-weight: 800;">✕</button>
+
+    <!-- Header Mascot -->
+    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(251, 191, 36, 0.15); border: 1.5px solid #fbbf24; padding: 6px 18px; border-radius: 50px; color: #fbbf24; font-weight: 800; font-size: 0.88rem; margin-bottom: 10px;">
+      <span>🎡 Roleta da Sorte</span> • <span>Bônus Educativo</span>
+    </div>
+
+    <h2 style="margin: 0 0 4px 0; font-size: 1.5rem; font-weight: 900; color: #ffffff;">Gire e Ganhe XP!</h2>
+    <p style="margin: 0 0 16px 0; color: #cbd5e1; font-size: 0.9rem;">Você concluiu o desafio! Gire a roleta para sua recompensa:</p>
+
+    <!-- Canvas da Roleta com Ponteiro -->
+    <div style="position: relative; width: 280px; height: 280px; margin: 0 auto 18px auto;">
+      <!-- Seta indicadora no topo -->
+      <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 24px solid #ef4444; z-index: 10; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));"></div>
+      
+      <canvas id="lucky-wheel-canvas" width="280" height="280" style="border-radius: 50%; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"></canvas>
+      
+      <!-- Pino central dourado -->
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #d97706); border: 3px solid #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+        ⭐
+      </div>
+    </div>
+
+    <!-- Resultado do Giro -->
+    <div id="wheel-result-banner" style="display: none; background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; border-radius: 18px; padding: 12px; margin-bottom: 16px; animation: wheelModalPop 0.3s ease;">
+      <div id="wheel-result-text" style="font-size: 1.25rem; font-weight: 900; color: #34d399;">+100 XP Conquistados!</div>
+    </div>
+
+    <!-- Botão Girar -->
+    <button id="btn-spin-wheel" onclick="spinLuckyWheel()"
+            style="width: 100%; padding: 16px; border-radius: 20px; font-size: 1.25rem; font-weight: 900; border: none; border-bottom: 5px solid #d97706; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);">
+      🎡 GIRAR A ROLETA AGORA! 🚀
+    </button>
+  </div>
+</div>
+
+<style>
+@keyframes wheelModalPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+</style>
+
+<script>
+const WHEEL_SLICES = [
+  { label: '+50 XP', xp: 50, color: '#3b82f6', textColor: '#ffffff' },
+  { label: '+100 XP', xp: 100, color: '#10b981', textColor: '#ffffff' },
+  { label: '⭐ +150 XP', xp: 150, color: '#f59e0b', textColor: '#ffffff' },
+  { label: '+75 XP', xp: 75, color: '#8b5cf6', textColor: '#ffffff' },
+  { label: '💎 +200 XP', xp: 200, color: '#ec4899', textColor: '#ffffff' },
+  { label: '🔥 +120 XP', xp: 120, color: '#ef4444', textColor: '#ffffff' }
+];
+
+let wheelCurrentAngle = 0;
+let isWheelSpinning = false;
+
+function drawLuckyWheel() {
+  const canvas = document.getElementById('lucky-wheel-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const numSlices = WHEEL_SLICES.length;
+  const arc = (2 * Math.PI) / numSlices;
+  const radius = canvas.width / 2;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.save();
+  ctx.translate(radius, radius);
+  ctx.rotate(wheelCurrentAngle);
+
+  for (let i = 0; i < numSlices; i++) {
+    const angle = i * arc;
+    ctx.beginPath();
+    ctx.fillStyle = WHEEL_SLICES[i].color;
+    ctx.moveTo(0, 0);
+    ctx.arc(0, 0, radius, angle, angle + arc);
+    ctx.lineTo(0, 0);
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#ffffff';
+    ctx.stroke();
+
+    // Rótulo
+    ctx.save();
+    ctx.rotate(angle + arc / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = WHEEL_SLICES[i].textColor;
+    ctx.font = 'bold 15px Fredoka, Nunito, sans-serif';
+    ctx.fillText(WHEEL_SLICES[i].label, radius - 20, 6);
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+function openLuckyWheelModal() {
+  const modal = document.getElementById('lucky-wheel-modal');
+  if (modal) modal.style.display = 'flex';
+  const resultBanner = document.getElementById('wheel-result-banner');
+  if (resultBanner) resultBanner.style.display = 'none';
+  const btn = document.getElementById('btn-spin-wheel');
+  if (btn) {
+    btn.disabled = false;
+    btn.innerText = '🎡 GIRAR A ROLETA AGORA! 🚀';
+    btn.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+    btn.style.color = '#78350f';
+  }
+  setTimeout(drawLuckyWheel, 50);
+}
+
+function closeLuckyWheelModal() {
+  const modal = document.getElementById('lucky-wheel-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function spinLuckyWheel() {
+  if (isWheelSpinning) return;
+  isWheelSpinning = true;
+
+  const btn = document.getElementById('btn-spin-wheel');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = '⏳ GIRANDO... BOA SORTE!';
+  }
+
+  const numSlices = WHEEL_SLICES.length;
+  const arc = (2 * Math.PI) / numSlices;
+  const winningIndex = Math.floor(Math.random() * numSlices);
+  const selectedSlice = WHEEL_SLICES[winningIndex];
+
+  // Calcula o ângulo final para que o ponteiro (no topo = -Math.PI / 2) aponte para winningIndex
+  const targetSliceAngle = (3 * Math.PI / 2) - (winningIndex * arc + arc / 2);
+  const extraRotations = (5 + Math.floor(Math.random() * 3)) * 2 * Math.PI;
+  const finalAngle = extraRotations + targetSliceAngle;
+
+  const duration = 3500; // 3.5 segundos
+  const startTime = performance.now();
+  const startAngle = wheelCurrentAngle % (2 * Math.PI);
+
+  function animate(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Easing decelerate (cubic-out)
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+    wheelCurrentAngle = startAngle + (finalAngle - startAngle) * easeOut;
+    drawLuckyWheel();
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      isWheelSpinning = false;
+      const resBanner = document.getElementById('wheel-result-banner');
+      const resText = document.getElementById('wheel-result-text');
+      if (resText) resText.innerText = `🎉 Parabéns! Você ganhou ${selectedSlice.label}!`;
+      if (resBanner) resBanner.style.display = 'block';
+
+      if (window.LabGamification && typeof window.LabGamification.addXP === 'function') {
+        window.LabGamification.addXP(selectedSlice.xp, '🎡 Roleta da Sorte!');
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerText = '✨ CONCLUÍDO! FECHAR 🚀';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        btn.style.color = '#ffffff';
+        btn.onclick = closeLuckyWheelModal;
+      }
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+</script>
