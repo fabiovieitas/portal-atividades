@@ -1786,7 +1786,9 @@ app.post('/api/students/verify-pin', async (req, res) => {
 });
 
 app.get('/aluno', async (req, res) => {
-  res.render('student_portal');
+  res.render('student_portal', {
+    adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+  });
 });
 
 app.post('/api/students/:id/activity-complete', async (req, res) => {
@@ -1868,81 +1870,53 @@ app.post('/professor/register', async (req, res) => {
     const existing = await dbHelper.queryGet("SELECT id, status FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
     if (existing) {
       if (existing.status === 'pending_verification') {
-        // Teacher registered previously but didn't finish email confirmation: resend code
-        const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-        const verificationToken = crypto.randomBytes(24).toString('hex');
-        const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+        // Teacher registered previously: auto-approve immediately and log them in
         const hash = await bcrypt.hash(password, 10);
-
         await dbHelper.queryRun(
-          "UPDATE teachers SET name = ?, school = ?, password_hash = ?, verification_code = ?, verification_token = ?, verification_expires = ? WHERE id = ?",
-          [name.trim(), cleanSchool, hash, verificationCode, verificationToken, verificationExpires, existing.id]
+          "UPDATE teachers SET name = ?, school = ?, password_hash = ?, status = 'approved' WHERE id = ?",
+          [name.trim(), cleanSchool, hash, existing.id]
         );
 
-        await mailService.sendTeacherActivationEmail({
-          name: name.trim(),
-          email: cleanEmail,
-          code: verificationCode,
-          token: verificationToken
-        });
+        const sessionId = crypto.randomBytes(32).toString('hex');
+        const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+        const nowIso = new Date().toISOString();
+        await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, existing.id, expires]);
+        await dbHelper.queryRun("UPDATE teachers SET login_count = COALESCE(login_count, 0) + 1, last_login = ? WHERE id = ?", [nowIso, existing.id]);
+        await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [existing.id]);
 
-        return res.redirect(`/professor/verificar?email=${encodeURIComponent(cleanEmail)}`);
+        res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
+        return res.redirect('/professor/dashboard?welcome=1');
       }
       return res.render('teacher_login', { error: 'Este e-mail já está cadastrado. Por favor, faça login com sua senha.' });
     }
 
-    // Check institutional email domain for Campos dos Goytacazes
-    const isInstitutional = cleanEmail.endsWith('@edu.campos.rj.gov.br') || 
-                            cleanEmail.endsWith('@campos.rj.gov.br') || 
-                            cleanEmail.endsWith('@prof.campos.rj.gov.br') || 
-                            cleanEmail.endsWith('@educacao.campos.rj.gov.br') ||
-                            cleanEmail.endsWith('.campos.rj.gov.br');
-
     const hash = await bcrypt.hash(password, 10);
 
-    if (isInstitutional) {
-      // Institutional accounts from Campos Municipal network are auto-approved with immediate login
-      await dbHelper.queryRun(
-        "INSERT INTO teachers (name, email, school, status, password_hash) VALUES (?, ?, ?, 'approved', ?)",
-        [name.trim(), cleanEmail, cleanSchool, hash]
-      );
-      const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
-      if (!newTeacher) throw new Error("Falha ao salvar conta institucional.");
+    // Auto-approve ALL educators across Brazil immediately (public, private, municipal, state)
+    await dbHelper.queryRun(
+      "INSERT INTO teachers (name, email, school, status, password_hash) VALUES (?, ?, ?, 'approved', ?)",
+      [name.trim(), cleanEmail, cleanSchool, hash]
+    );
+    const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
+    if (!newTeacher) throw new Error("Falha ao salvar conta de professor.");
 
-      const sessionId = crypto.randomBytes(32).toString('hex');
-      const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-      const nowIso = new Date().toISOString();
-      await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, newTeacher.id, expires]);
-      await dbHelper.queryRun("UPDATE teachers SET login_count = 1, last_login = ? WHERE id = ?", [nowIso, newTeacher.id]);
-      await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [newTeacher.id]);
+    const sessionId = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+    const nowIso = new Date().toISOString();
+    await dbHelper.queryRun("INSERT INTO teacher_sessions (id, teacher_id, expires) VALUES (?, ?, ?)", [sessionId, newTeacher.id, expires]);
+    await dbHelper.queryRun("UPDATE teachers SET login_count = 1, last_login = ? WHERE id = ?", [nowIso, newTeacher.id]);
+    await dbHelper.queryRun("INSERT INTO teacher_logins (teacher_id) VALUES (?)", [newTeacher.id]);
 
-      res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
-      return res.redirect('/professor/dashboard?welcome=1');
-    } else {
-      // General / external email accounts: Generate 6-digit verification code & token via Resend
-      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-      const verificationToken = crypto.randomBytes(24).toString('hex');
-      const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    // Send welcome email asynchronously without blocking registration flow
+    mailService.sendTeacherActivationEmail({
+      name: name.trim(),
+      email: cleanEmail,
+      code: 'ACESSO-LIBERADO',
+      token: sessionId
+    }).catch(e => console.warn('[Mail Welcome Warning]:', e.message));
 
-      await dbHelper.queryRun(
-        "INSERT INTO teachers (name, email, school, status, password_hash, verification_code, verification_token, verification_expires) VALUES (?, ?, ?, 'pending_verification', ?, ?, ?, ?)",
-        [name.trim(), cleanEmail, cleanSchool, hash, verificationCode, verificationToken, verificationExpires]
-      );
-
-      // Verify immediate persistence
-      const newTeacher = await dbHelper.queryGet("SELECT * FROM teachers WHERE LOWER(email) = LOWER(?)", [cleanEmail]);
-      if (!newTeacher) throw new Error("Não foi possível confirmar o salvamento da conta no banco de dados.");
-
-      // Dispatch activation email via Resend
-      await mailService.sendTeacherActivationEmail({
-        name: name.trim(),
-        email: cleanEmail,
-        code: verificationCode,
-        token: verificationToken
-      });
-
-      return res.redirect(`/professor/verificar?email=${encodeURIComponent(cleanEmail)}`);
-    }
+    res.cookie('teacher_session', sessionId, { maxAge: 30 * 24 * 60 * 60 * 1000, path: '/' });
+    return res.redirect('/professor/dashboard?welcome=1');
   } catch (err) {
     console.error('Registration error:', err);
     res.render('teacher_login', { error: `Erro ao cadastrar: ${err.message || err}` });
@@ -2362,12 +2336,149 @@ app.post('/api/teacher/activities/add', requireTeacher, async (req, res) => {
 app.post('/api/teacher/classes/add', requireTeacher, async (req, res) => {
   try {
     const { school_name, class_name } = req.body;
-    if (!school_name || !class_name) return res.json({ success: false });
-    await dbHelper.queryRun(
-      "INSERT INTO teacher_classes (teacher_id, school_name, class_name) VALUES (?, ?, ?)",
-      [req.teacher.id, school_name, class_name]
+    if (!school_name || !class_name) return res.status(400).json({ success: false, error: 'Escola e turma são obrigatórios' });
+
+    const cleanSchool = String(school_name).trim();
+    const cleanClass = String(class_name).trim();
+
+    // Generate unique 6-character access code (e.g., LK4829)
+    let accessCode = '';
+    let isUnique = false;
+    let attempts = 0;
+    while (!isUnique && attempts < 15) {
+      attempts++;
+      const num = Math.floor(1000 + Math.random() * 9000);
+      accessCode = 'LK' + num;
+      const exist = await dbHelper.queryGet("SELECT id FROM teacher_classes WHERE access_code = ?", [accessCode]);
+      if (!exist) isUnique = true;
+    }
+
+    // Auto-sync with schools table
+    let school = await dbHelper.queryGet("SELECT id, name FROM schools WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", [cleanSchool]);
+    if (!school) {
+      await dbHelper.queryRun("INSERT INTO schools (name, city, active) VALUES (?, 'Brasil', 1)", [cleanSchool]);
+      school = await dbHelper.queryGet("SELECT id, name FROM schools WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", [cleanSchool]);
+    }
+
+    // Auto-sync with school_classes table
+    const schoolId = school ? school.id : 1;
+    let existingSchoolClass = await dbHelper.queryGet(
+      "SELECT id FROM school_classes WHERE school_id = ? AND LOWER(TRIM(name)) = LOWER(TRIM(?))",
+      [schoolId, cleanClass]
     );
-    res.json({ success: true });
+    if (!existingSchoolClass) {
+      await dbHelper.queryRun(
+        "INSERT INTO school_classes (school_id, name, grade_level, class_pin, access_code, teacher_id) VALUES (?, ?, ?, '', ?, ?)",
+        [schoolId, cleanClass, cleanClass, accessCode, req.teacher.id]
+      );
+    } else {
+      await dbHelper.queryRun(
+        "UPDATE school_classes SET access_code = ?, teacher_id = ? WHERE id = ?",
+        [accessCode, req.teacher.id, existingSchoolClass.id]
+      );
+    }
+
+    // Insert into teacher_classes
+    await dbHelper.queryRun(
+      "INSERT INTO teacher_classes (teacher_id, school_name, class_name, access_code) VALUES (?, ?, ?, ?)",
+      [req.teacher.id, cleanSchool, cleanClass, accessCode]
+    );
+
+    const inserted = await dbHelper.queryGet(
+      "SELECT * FROM teacher_classes WHERE teacher_id = ? AND access_code = ?",
+      [req.teacher.id, accessCode]
+    );
+
+    res.json({
+      success: true,
+      class: {
+        id: inserted ? inserted.id : Date.now(),
+        school_name: cleanSchool,
+        class_name: cleanClass,
+        access_code: accessCode,
+        invite_url: `https://labkids.online/aluno?turma=${accessCode}`
+      }
+    });
+  } catch(err) {
+    console.error('[Add Class Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Lookup Class by Access Code (Direct Link or PIN Entry by Student)
+app.get('/api/classes/lookup/:code', async (req, res) => {
+  try {
+    const rawCode = String(req.params.code || '').trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+    if (!rawCode) return res.status(400).json({ success: false, error: 'Código de turma inválido.' });
+
+    // Look in teacher_classes first
+    let tc = await dbHelper.queryGet(
+      `SELECT tc.id as teacher_class_id, tc.school_name, tc.class_name, tc.access_code, t.name as teacher_name
+       FROM teacher_classes tc
+       LEFT JOIN teachers t ON tc.teacher_id = t.id
+       WHERE UPPER(REPLACE(tc.access_code, '-', '')) = ?`,
+      [rawCode]
+    );
+
+    if (!tc) {
+      // Check school_classes
+      let sc = await dbHelper.queryGet(
+        `SELECT sc.id, sc.name as class_name, s.name as school_name, sc.access_code, t.name as teacher_name
+         FROM school_classes sc
+         LEFT JOIN schools s ON sc.school_id = s.id
+         LEFT JOIN teachers t ON sc.teacher_id = t.id
+         WHERE UPPER(REPLACE(sc.access_code, '-', '')) = ?`,
+        [rawCode]
+      );
+      if (sc) {
+        return res.json({
+          success: true,
+          class: {
+            id: sc.id,
+            class_id: sc.id,
+            name: sc.class_name,
+            school_name: sc.school_name,
+            teacher_name: sc.teacher_name || 'Professor(a)',
+            access_code: sc.access_code
+          }
+        });
+      }
+      return res.status(404).json({ success: false, error: 'Código de turma não encontrado. Verifique com seu professor!' });
+    }
+
+    // Ensure matching school & school_classes exist
+    let school = await dbHelper.queryGet("SELECT id, name FROM schools WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", [tc.school_name]);
+    if (!school) {
+      await dbHelper.queryRun("INSERT INTO schools (name, city, active) VALUES (?, 'Brasil', 1)", [tc.school_name]);
+      school = await dbHelper.queryGet("SELECT id, name FROM schools WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", [tc.school_name]);
+    }
+
+    let sc = await dbHelper.queryGet(
+      "SELECT id, name FROM school_classes WHERE school_id = ? AND LOWER(TRIM(name)) = LOWER(TRIM(?))",
+      [school.id, tc.class_name]
+    );
+    if (!sc) {
+      await dbHelper.queryRun(
+        "INSERT INTO school_classes (school_id, name, grade_level, class_pin, access_code, teacher_id) VALUES (?, ?, ?, '', ?, ?)",
+        [school.id, tc.class_name, tc.class_name, tc.access_code, tc.teacher_id || null]
+      );
+      sc = await dbHelper.queryGet(
+        "SELECT id, name FROM school_classes WHERE school_id = ? AND LOWER(TRIM(name)) = LOWER(TRIM(?))",
+        [school.id, tc.class_name]
+      );
+    }
+
+    res.json({
+      success: true,
+      class: {
+        id: sc ? sc.id : tc.teacher_class_id,
+        class_id: sc ? sc.id : tc.teacher_class_id,
+        name: tc.class_name,
+        school_name: tc.school_name,
+        teacher_name: tc.teacher_name || 'Professor(a)',
+        access_code: tc.access_code
+      }
+    });
   } catch(err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -2958,7 +3069,10 @@ app.get('/qr/:id', async (req, res) => {
       await dbHelper.queryRun("INSERT INTO activity_scans (activity_id, teacher_id) VALUES (?, ?)", [req.params.id, teacherId]);
     }
     
-    res.render('qr_redirect', { activity });
+    res.render('qr_redirect', { 
+      activity, 
+      adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' 
+    });
   } catch(e) {
     res.status(500).send('Erro ao redirecionar QR Code');
   }

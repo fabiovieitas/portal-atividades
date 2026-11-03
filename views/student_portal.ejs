@@ -15,7 +15,12 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
-    <meta name="robots" content="noindex, nofollow">
+    <!-- Google AdSense Oficial -->
+    <% if (typeof adsensePubId !== 'undefined' && adsensePubId) { %>
+      <meta name="google-adsense-account" content="<%= adsensePubId %>">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
+    <% } %>
+    <meta name="robots" content="noindex, follow">
     <script src="/js/avatar_system.js"></script>
     <script src="/js/app-enhancements.js" defer></script>
     <style>
@@ -375,10 +380,13 @@
     <div class="container" style="max-width: 1080px; margin: 20px auto 0 auto; padding-bottom: 50px;">
 
         <div class="portal-header" style="position: relative;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
                 <a href="/" class="btn-back" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 1rem; padding: 10px 18px;">
                     🏠 Início do Portal
                 </a>
+                <button onclick="logoutStudent()" style="background: #ef4444; border: none; border-bottom: 4px solid #b91c1c; color: white; padding: 10px 20px; border-radius: 16px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; transition: 0.15s;" title="Desconecta este aluno para que o próximo colega possa usar o tablet">
+                    🚪 Trocar Aluno / Finalizar Aula
+                </button>
             </div>
             <h1>Área do Aluno - Avatar & Desafios</h1>
             <p>Monte seu perfil interativo no estilo oficial do Duolingo!</p>
@@ -396,9 +404,63 @@
         <button id="btn-global-back" class="btn-back" onclick="goBackStep()" style="display:inline-block; font-size: 1.1rem; padding: 12px 24px; margin-bottom: 15px;">⬅️ Voltar</button>
 
 
-        <!-- VIEW 1: SELECT SCHOOL -->
+        <!-- BANNER PUBLICIDADE / APOIO EDUCACIONAL (TOPO) -->
+        <div class="adsense-portal-slot" style="margin: 0 auto 25px auto; max-width: 728px; text-align: center; background: #ffffff; padding: 10px; border-radius: 16px; border: 1.5px solid var(--duo-border);">
+            <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Publicidade / Apoio Educacional</span>
+            <% if (typeof adsensePubId !== 'undefined' && adsensePubId) { %>
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="<%= adsensePubId %>"
+                   data-ad-slot="default"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>
+              <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <% } else { %>
+              <div style="color: #64748b; font-size: 0.85rem; padding: 6px;">Portal Lab Kids - Atividades Educativas & Cultura Digital</div>
+            <% } %>
+        </div>
+
+        <!-- VIEW 1: SELECT SCHOOL / CODE / FREE EXPLORER -->
         <div id="view-school" class="step-view">
-            <h2 style="text-align: center; color: var(--duo-text-dark); margin-bottom: 20px;">Selecione a sua Escola:</h2>
+
+            <!-- 1. CÓDIGO DA TURMA (ENTRADA ULTRA-RÁPIDA) -->
+            <div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2.5px solid #3b82f6; border-radius: 24px; padding: 25px 20px; margin-bottom: 25px; box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15); text-align: center;">
+                <div style="font-size: 2.4rem; margin-bottom: 4px;">🔑</div>
+                <h2 style="margin: 0 0 6px 0; color: #1e40af; font-size: 1.5rem; font-weight: 900;">Tem o Código da sua Turma?</h2>
+                <p style="color: #475569; margin: 0 0 16px 0; font-size: 1.05rem; font-weight: 700;">Se o seu professor passou o código da sala (ex: <strong>LK4078</strong>), digite abaixo para entrar direto:</p>
+                
+                <div style="display: flex; gap: 10px; justify-content: center; max-width: 480px; margin: 0 auto; flex-wrap: wrap;">
+                    <input type="text" id="class-code-input" placeholder="Ex: LK4078" maxlength="10" 
+                           style="flex: 1; min-width: 170px; padding: 14px 18px; border-radius: 16px; border: 2.5px solid #3b82f6; font-size: 1.35rem; font-weight: 900; text-align: center; text-transform: uppercase; letter-spacing: 2px; outline: none; background: #ffffff; color: #1e3a8a;"
+                           onkeydown="if(event.key==='Enter') lookupClassCode()">
+                    <button onclick="lookupClassCode()" class="btn-duo-save" style="margin: 0; width: auto; padding: 14px 28px; font-size: 1.1rem; background: #2563eb; border-color: #1d4ed8;">
+                        ENTRAR NA TURMA 🚀
+                    </button>
+                </div>
+                <div id="code-lookup-status" style="margin-top: 12px; font-weight: 800; font-size: 1rem; display: none;"></div>
+            </div>
+
+            <!-- 2. MODO EXPLORADOR LIVRE (ESTUDANTE EM CASA / QUALQUER ESCOLA) -->
+            <div style="background: linear-gradient(135deg, #fefce8 0%, #fef08a 100%); border: 2.5px solid #eab308; border-radius: 24px; padding: 22px 20px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; box-shadow: 0 8px 30px rgba(234, 179, 8, 0.15);">
+                <div style="display: flex; align-items: center; gap: 15px; text-align: left; flex: 1; min-width: 260px;">
+                    <span style="font-size: 2.6rem;">🎒</span>
+                    <div>
+                        <h3 style="margin: 0 0 4px 0; color: #854d0e; font-size: 1.3rem; font-weight: 900;">Jogando de Casa ou Outra Escola?</h3>
+                        <p style="margin: 0; color: #713f12; font-size: 0.95rem; font-weight: 700;">Você não precisa de código de turma! Jogue como <strong>Explorador Livre</strong>, crie seu avatar 3D e colecione medalhas.</p>
+                    </div>
+                </div>
+                <button onclick="startFreeExplorerMode()" class="btn-duo-save" style="margin: 0; width: auto; padding: 14px 28px; background: #eab308; border-color: #ca8a04; color: #422006; font-size: 1.1rem; box-shadow: 0 4px 0 #ca8a04;">
+                    ⭐ JOGAR NO MODO LIVRE
+                </button>
+            </div>
+
+            <!-- 3. LISTA TRADICIONAL DE ESCOLAS COM CAMPO DE BUSCA -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h3 style="color: var(--duo-text-dark); margin: 0; font-size: 1.3rem; font-weight: 800;">Ou selecione sua Escola na Rede:</h3>
+                <input type="text" id="school-search-filter" placeholder="🔍 Buscar escola por nome..." oninput="filterSchools(this.value)" 
+                       style="padding: 10px 16px; border-radius: 14px; border: 2px solid var(--duo-border); outline: none; font-weight: 700; width: 100%; max-width: 320px;">
+            </div>
+
             <div class="grid-selection" id="schools-container">
                 <p style="text-align: center; width: 100%;">Carregando escolas...</p>
             </div>
@@ -487,6 +549,20 @@
                     </div>
                 </div>
 
+                <!-- Publicidade Educativa no Dashboard do Aluno -->
+                <div class="adsense-portal-slot" style="margin: 15px auto; max-width: 440px; text-align: center; background: #f8fafc; padding: 8px; border-radius: 14px; border: 1px dashed #cbd5e1;">
+                    <span style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Publicidade / Apoio</span>
+                    <% if (typeof adsensePubId !== 'undefined' && adsensePubId) { %>
+                      <ins class="adsbygoogle"
+                           style="display:block"
+                           data-ad-client="<%= adsensePubId %>"
+                           data-ad-slot="default"
+                           data-ad-format="auto"
+                           data-full-width-responsive="true"></ins>
+                      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    <% } %>
+                </div>
+
                 <div style="margin-top: 25px; display: flex; gap: 10px; flex-wrap: wrap;">
                     <a href="/" class="btn-duo-save" style="flex:1; text-decoration: none; text-align: center; margin: 0;">🚀 JOGAR AGORA</a>
                     <button onclick="editCurrentAvatar()" class="btn-back" style="margin: 0; padding: 12px 18px;">✏️ Editar Avatar</button>
@@ -497,6 +573,161 @@
     </div>
 
     <script>
+        
+        // ============================================================================
+        // BUSCA DE TURMA POR CÓDIGO (EX: LK4078)
+        // ============================================================================
+        async function lookupClassCode(codeToSearch) {
+            const input = document.getElementById('class-code-input');
+            const code = (codeToSearch || (input ? input.value : '')).trim().toUpperCase();
+            const statusDiv = document.getElementById('code-lookup-status');
+
+            if (!code) {
+                if (statusDiv) {
+                    statusDiv.style.color = '#ef4444';
+                    statusDiv.innerText = 'Por favor, digite o código da turma (ex: LK4078).';
+                    statusDiv.style.display = 'block';
+                }
+                return;
+            }
+
+            if (statusDiv) {
+                statusDiv.style.color = '#2563eb';
+                statusDiv.innerText = '🔍 Localizando sua turma...';
+                statusDiv.style.display = 'block';
+            }
+
+            try {
+                const res = await fetch('/api/classes/lookup/' + encodeURIComponent(code));
+                const data = await res.json();
+                if (data.success && data.class) {
+                    selectedSchool = { id: data.class.id, name: data.class.school_name };
+                    selectedClass = { id: data.class.id, name: data.class.name, grade_level: data.class.name };
+                    
+                    try {
+                        sessionStorage.setItem('lab_selected_school', JSON.stringify(selectedSchool));
+                        sessionStorage.setItem('lab_selected_class', JSON.stringify(selectedClass));
+                    } catch(e){}
+
+                    if (statusDiv) {
+                        statusDiv.style.color = '#10b981';
+                        statusDiv.innerText = '🎉 Turma encontrada: ' + data.class.name + ' - ' + data.class.school_name + ' (' + data.class.teacher_name + ')';
+                    }
+
+                    document.getElementById('school-title').innerText = data.class.name + ' - ' + data.class.school_name;
+                    setTimeout(() => {
+                        loadStudentsByClass();
+                    }, 500);
+                } else {
+                    if (statusDiv) {
+                        statusDiv.style.color = '#ef4444';
+                        statusDiv.innerText = data.error || 'Código não encontrado. Peça o código correto ao seu professor!';
+                    }
+                }
+            } catch(err) {
+                if (statusDiv) {
+                    statusDiv.style.color = '#ef4444';
+                    statusDiv.innerText = 'Erro ao conectar. Verifique sua internet.';
+                }
+            }
+        }
+
+        // ============================================================================
+        // MODO EXPLORADOR LIVRE (ESTUDANTE EM CASA / SEM ESCOLA)
+        // ============================================================================
+        function startFreeExplorerMode() {
+            selectedSchool = { id: 0, name: 'Lab Kids Brasil' };
+            selectedClass = { id: 0, name: 'Exploradores Livres' };
+            try {
+                sessionStorage.setItem('lab_selected_school', JSON.stringify(selectedSchool));
+                sessionStorage.setItem('lab_selected_class', JSON.stringify(selectedClass));
+            } catch(e){}
+
+            openAvatarBuilderForNew();
+        }
+
+        // ============================================================================
+        // FILTRO DE BUSCA DE ESCOLAS
+        // ============================================================================
+        let allSchoolsList = [];
+        function filterSchools(query) {
+            const q = (query || '').toLowerCase().trim();
+            if (!allSchoolsList || allSchoolsList.length === 0) return;
+            const filtered = allSchoolsList.filter(s => (s.name || '').toLowerCase().includes(q) || (s.city || '').toLowerCase().includes(q));
+            renderSchools(filtered);
+        }
+
+        // ============================================================================
+        // CONTROLE DE INATIVIDADE (10 MINUTOS COM AVISO AOS 9 MINUTOS - TABLET COLETIVO)
+        // ============================================================================
+        const IDLE_WARN_MS = 9 * 60 * 1000;    // 9 minutos
+        const IDLE_LOGOUT_MS = 10 * 60 * 1000; // 10 minutos
+        let lastUserActionTime = Date.now();
+        let idleIntervalCountdown = null;
+
+        function recordUserActivity() {
+            lastUserActionTime = Date.now();
+            const modal = document.getElementById('idle-warning-modal');
+            if (modal && modal.style.display === 'flex') {
+                dismissIdleWarning();
+            }
+        }
+
+        ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach(evt => {
+            window.addEventListener(evt, recordUserActivity, { passive: true });
+        });
+
+        setInterval(() => {
+            const hasProfile = !!localStorage.getItem('lab_student_profile');
+            if (!hasProfile) return;
+
+            const elapsed = Date.now() - lastUserActionTime;
+            const modal = document.getElementById('idle-warning-modal');
+
+            if (elapsed >= IDLE_LOGOUT_MS) {
+                dismissIdleWarning();
+                forceIdleLogout();
+            } else if (elapsed >= IDLE_WARN_MS) {
+                if (modal && modal.style.display !== 'flex') {
+                    modal.style.display = 'flex';
+                    let remaining = Math.max(1, Math.round((IDLE_LOGOUT_MS - elapsed) / 1000));
+                    const cd = document.getElementById('idle-countdown');
+                    if (cd) cd.innerText = remaining;
+
+                    clearInterval(idleIntervalCountdown);
+                    idleIntervalCountdown = setInterval(() => {
+                        remaining--;
+                        if (cd) cd.innerText = remaining;
+                        if (remaining <= 0) {
+                            clearInterval(idleIntervalCountdown);
+                            dismissIdleWarning();
+                            forceIdleLogout();
+                        }
+                    }, 1000);
+                }
+            }
+        }, 4000);
+
+        function dismissIdleWarning() {
+            clearInterval(idleIntervalCountdown);
+            const modal = document.getElementById('idle-warning-modal');
+            if (modal) modal.style.display = 'none';
+            lastUserActionTime = Date.now();
+        }
+
+        function forceIdleLogout() {
+            localStorage.removeItem('lab_student_profile');
+            sessionStorage.removeItem('lab_wizard_step');
+            sessionStorage.removeItem('lab_selected_school');
+            sessionStorage.removeItem('lab_selected_class');
+            selectedStudent = null;
+            selectedSchool = null;
+            selectedClass = null;
+            alert('⏳ Sessão finalizada por 10 minutos de inatividade!\n\nO tablet foi liberado para o próximo colega.');
+            loadSchools();
+            showStep(1);
+        }
+
         let currentStep = 1;
         let activeTab = 'voxelSeeds';
         let selectedSchool = null;
@@ -616,12 +847,23 @@
             try {
                 const res = await fetch('/api/schools');
                 const schools = await res.json();
+                allSchoolsList = schools;
                 renderSchools(schools);
             } catch(e) {
-                renderSchools([
+                allSchoolsList = [
                     { id: 1, name: 'E.M. José Giró Faísca', city: 'Angra dos Reis' },
                     { id: 2, name: 'C.E. Cornélis Verolme', city: 'Angra dos Reis' }
-                ]);
+                ];
+                renderSchools(allSchoolsList);
+            }
+
+            // Auto-check URL query params (?turma=LK4078 or ?codigo=LK4078)
+            const urlParams = new URLSearchParams(window.location.search);
+            const tCode = urlParams.get('turma') || urlParams.get('codigo') || urlParams.get('code');
+            if (tCode) {
+                const inp = document.getElementById('class-code-input');
+                if (inp) inp.value = tCode.toUpperCase();
+                lookupClassCode(tCode);
             }
         }
 
@@ -1060,5 +1302,23 @@
             showStep(1);
         }
     </script>
+
+    <!-- MODAL DE AVISO DE INATIVIDADE (TABLET COLETIVO - 10 MINUTOS) -->
+    <div id="idle-warning-modal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(8px); z-index: 999999; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: #ffffff; border: 4px solid #f59e0b; border-radius: 28px; max-width: 450px; width: 100%; padding: 35px 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.5);">
+            <div style="font-size: 3.5rem; margin-bottom: 6px;">⏳</div>
+            <h2 style="color: #d97706; margin: 0 0 10px 0; font-size: 1.8rem; font-weight: 900;">Você ainda está aí?</h2>
+            <p style="color: #4b5563; font-weight: 700; font-size: 1.05rem; line-height: 1.5; margin: 0 0 15px 0;">
+                Por segurança neste tablet compartilhado, seu perfil será <strong>desconectado</strong> para liberar o aparelho para o próximo colega em:
+            </p>
+            <div style="font-size: 3.8rem; font-weight: 900; color: #ef4444; font-family: monospace; letter-spacing: 2px; margin-bottom: 20px;">
+                <span id="idle-countdown">60</span>s
+            </div>
+            <button onclick="dismissIdleWarning()" class="btn-duo-save" style="width: 100%; background: #10b981; border-color: #059669; font-size: 1.2rem; margin: 0;">
+                🟢 CONTINUAR JOGANDO
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>

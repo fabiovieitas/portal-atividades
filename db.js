@@ -1228,11 +1228,42 @@ async function initTables() {
     "ALTER TABLE teachers ADD COLUMN status TEXT DEFAULT 'approved';",
     "ALTER TABLE teachers ADD COLUMN verification_code TEXT;",
     "ALTER TABLE teachers ADD COLUMN verification_token TEXT;",
-    "ALTER TABLE teachers ADD COLUMN verification_expires DATETIME;"
+    "ALTER TABLE teachers ADD COLUMN verification_expires DATETIME;",
+    "ALTER TABLE teacher_classes ADD COLUMN access_code TEXT;",
+    "ALTER TABLE school_classes ADD COLUMN access_code TEXT;",
+    "ALTER TABLE school_classes ADD COLUMN teacher_id INTEGER;",
+    "ALTER TABLE schools ADD COLUMN city TEXT DEFAULT 'Brasil';",
+    "ALTER TABLE schools ADD COLUMN active INTEGER DEFAULT 1;"
   ];
   for (const sql of migrations) {
     try { await queryRun(sql); } catch(e){}
   }
+
+  // Backfill unique access codes for existing teacher_classes
+  try {
+    const unassignedTC = await queryAll("SELECT id FROM teacher_classes WHERE access_code IS NULL OR access_code = ''");
+    for (const tc of (unassignedTC || [])) {
+      const code = 'LK' + Math.floor(1000 + Math.random() * 9000);
+      await queryRun("UPDATE teacher_classes SET access_code = ? WHERE id = ?", [code, tc.id]);
+    }
+  } catch(e){}
+
+  // Ensure default school 'Lab Kids Brasil' and class 'Exploradores Livres' exist for Modo Livre
+  try {
+    const freeSchool = await queryGet("SELECT id FROM schools WHERE name = 'Lab Kids Brasil' LIMIT 1");
+    let freeSchoolId;
+    if (!freeSchool) {
+      await queryRun("INSERT INTO schools (name, city, active) VALUES ('Lab Kids Brasil', 'Brasil', 1)");
+      const created = await queryGet("SELECT id FROM schools WHERE name = 'Lab Kids Brasil' LIMIT 1");
+      freeSchoolId = created ? created.id : 999;
+    } else {
+      freeSchoolId = freeSchool.id;
+    }
+    const freeClass = await queryGet("SELECT id FROM school_classes WHERE school_id = ? AND name = 'Exploradores Livres' LIMIT 1", [freeSchoolId]);
+    if (!freeClass) {
+      await queryRun("INSERT INTO school_classes (school_id, name, grade_level, class_pin, access_code) VALUES (?, 'Exploradores Livres', 'Multisseriado', '', 'LIVRE')", [freeSchoolId]);
+    }
+  } catch(e){}
 
   // Deletar atividades removidas a pedido do usuário
   try {
