@@ -121,7 +121,7 @@
                 <span class="nav-icon">📝</span> <span class="nav-text">Provas</span>
             </button>
             <button class="nav-item" onclick="switchTab('analytics', this)">
-                <span class="nav-icon">📊</span> <span class="nav-text">Relatórios</span>
+                <span class="nav-icon">📊</span> <span class="nav-text">Monitor & Controle</span>
             </button>
             <button class="nav-item" onclick="switchTab('config', this)">
                 <span class="nav-icon">⚙️</span> <span class="nav-text">Ajustes</span>
@@ -143,6 +143,9 @@
                     <p>Projete na lousa digital, compartilhe no WhatsApp ou organize suas aulas.</p>
                 </div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button type="button" onclick="switchTab('analytics', document.querySelector('[onclick*=\'analytics\']'))" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; padding: 12px 22px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(37,99,235,0.35);">
+                        📊 MONITOR DE ALUNOS & TABLETS
+                    </button>
                     <a href="/professor/certificado" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 12px 22px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 15px rgba(245,158,11,0.3); border: 2px solid rgba(255,255,255,0.3);">
                         🏆 GERAR CERTIFICADO DE ALUNO
                     </a>

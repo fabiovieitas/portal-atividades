@@ -104,6 +104,47 @@
             border-radius: 50px;
         }
 
+        /* Grade Level Filter Pills (Instant, Zero Reload) */
+        .grade-filter-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            align-items: center;
+            justify-content: center;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .grade-pill-btn {
+            background: rgba(30, 41, 59, 0.75);
+            color: #cbd5e1;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            padding: 7px 15px;
+            border-radius: 50px;
+            font-size: 0.86rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Outfit', sans-serif;
+            text-decoration: none;
+        }
+        .grade-pill-btn:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+        .grade-pill-btn.active {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.45);
+            transform: scale(1.04);
+        }
+
         /* Top Main Navigation Bar */
         .portal-top-navbar {
             background: rgba(15, 23, 42, 0.95);
@@ -666,6 +707,17 @@
                                     </select>
                                 </div>
                             </form>
+                            <!-- Filtro Rápido por Ano Escolar (1º ao 5º Ano) - Zero Reload -->
+                            <div class="grade-filter-bar">
+                                <span style="font-size: 0.82rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">🎯 Filtrar por Ano:</span>
+                                <button type="button" class="grade-pill-btn active" data-grade="all" onclick="filterByGrade('all', this)">🌟 Todos os Anos</button>
+                                <button type="button" class="grade-pill-btn" data-grade="1" onclick="filterByGrade('1', this)">🎒 1º Ano</button>
+                                <button type="button" class="grade-pill-btn" data-grade="2" onclick="filterByGrade('2', this)">✏️ 2º Ano</button>
+                                <button type="button" class="grade-pill-btn" data-grade="3" onclick="filterByGrade('3', this)">📖 3º Ano</button>
+                                <button type="button" class="grade-pill-btn" data-grade="4" onclick="filterByGrade('4', this)">📐 4º Ano</button>
+                                <button type="button" class="grade-pill-btn" data-grade="5" onclick="filterByGrade('5', this)">🚀 5º Ano</button>
+                                <span id="grade-filter-count" style="font-size: 0.82rem; font-weight: 700; color: #38bdf8; margin-left: 8px; display: none;"></span>
+                            </div>
                         </div>
                     </div>
 
@@ -679,7 +731,12 @@
                                 <% activities.forEach((activity, index) => { %>
                                     <div class="activity-card <%= selectedLevel === '6-9' ? 'tech-theme' : '' %> animate-up"
                                         style="animation-delay: <%= 0.1 * (index + 1) %>s; opacity: 0;"
-                                        data-id="<%= activity.id %>">
+                                        data-id="<%= activity.id %>"
+                                        data-bncc="<%= (activity.bncc_code || '').toUpperCase() %>"
+                                        data-subject="<%= activity.subject || '' %>"
+                                        data-category="<%= activity.category || '' %>"
+                                        data-level="<%= activity.level || '1-5' %>"
+                                        data-searchtext="<%= (activity.title + ' ' + (activity.description || '') + ' ' + (activity.bncc_code || '')).toLowerCase() %>">
                                         
                                         <!-- Badges -->
                                         <div class="card-badges">
@@ -1336,6 +1393,52 @@
                         suggDropdown.style.display = 'none';
                     }
                 });
+
+        // Filtro Instantâneo por Ano Escolar (1º ao 5º Ano) - Sem recarregar
+        function filterByGrade(grade, btn) {
+            document.querySelectorAll('.grade-pill-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            
+            const cards = document.querySelectorAll('.activity-card');
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const bncc = (card.getAttribute('data-bncc') || '').toUpperCase();
+                const text = (card.getAttribute('data-searchtext') || '').toLowerCase();
+                let match = false;
+                
+                if (grade === 'all') {
+                    match = true;
+                } else if (grade === '1') {
+                    match = bncc.includes('EF01') || bncc.includes('EF15') || bncc.includes('EI') || text.includes('1º ano') || text.includes('1o ano') || text.includes('alfabetização');
+                } else if (grade === '2') {
+                    match = bncc.includes('EF02') || bncc.includes('EF15') || text.includes('2º ano') || text.includes('2o ano');
+                } else if (grade === '3') {
+                    match = bncc.includes('EF03') || bncc.includes('EF15') || bncc.includes('EF35') || text.includes('3º ano') || text.includes('3o ano');
+                } else if (grade === '4') {
+                    match = bncc.includes('EF04') || bncc.includes('EF15') || bncc.includes('EF35') || text.includes('4º ano') || text.includes('4o ano');
+                } else if (grade === '5') {
+                    match = bncc.includes('EF05') || bncc.includes('EF15') || bncc.includes('EF35') || text.includes('5º ano') || text.includes('5o ano');
+                }
+                
+                if (match) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            const countEl = document.getElementById('grade-filter-count');
+            if (countEl) {
+                if (grade !== 'all') {
+                    countEl.textContent = `(${visibleCount} missões)`;
+                    countEl.style.display = 'inline-block';
+                } else {
+                    countEl.style.display = 'none';
+                }
+            }
+        }
             }
         });
     </script>

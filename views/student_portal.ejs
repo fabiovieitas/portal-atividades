@@ -614,6 +614,91 @@
                     </p>
                 </div>
 
+                <!-- MOCHILA DE CARIMBOS BNCC (CONQUISTAS REAIS E RIGOROSAS) -->
+                <div style="background: #ffffff; border: 2px solid #e2e8f0; border-radius: 20px; padding: 18px 16px; margin: 18px 0; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                        <h4 style="margin: 0; font-size: 1.05rem; font-weight: 900; color: #1e3a8a; display: flex; align-items: center; gap: 6px;">
+                            <span>🎒</span> Mochila de Carimbos BNCC
+                        </h4>
+                        <span id="stamps-unlocked-badge" style="font-size: 0.75rem; background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 3px 10px; border-radius: 50px; font-weight: 800;">0/5 Carimbos</span>
+                    </div>
+                    <p style="margin: 0 0 12px 0; font-size: 0.82rem; color: #64748b; font-weight: 600;">
+                        Batalhe para carimbar sua mochila: estude, faça missões e mantenha sua frequência diária!
+                    </p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 10px;" id="stamps-container">
+                        <!-- Carimbo 1: Leitor Voraz -->
+                        <div class="stamp-item" id="stamp-leitor" style="display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 12px; transition: all 0.3s ease;">
+                            <div style="font-size: 2rem; line-height: 1; filter: grayscale(1); opacity: 0.4; transition: all 0.3s;" id="stamp-icon-leitor">📖</div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong style="font-size: 0.88rem; color: #1e293b;">Leitor Voraz (Português)</strong>
+                                    <span id="stamp-leitor-progress" style="font-size: 0.75rem; font-weight: 800; color: #64748b;">0/3 Missões</span>
+                                </div>
+                                <div style="background: #e2e8f0; height: 6px; border-radius: 50px; overflow: hidden; margin-top: 6px;">
+                                    <div id="stamp-leitor-bar" style="background: #3b82f6; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carimbo 2: Mestre dos Números -->
+                        <div class="stamp-item" id="stamp-math" style="display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 12px; transition: all 0.3s ease;">
+                            <div style="font-size: 2rem; line-height: 1; filter: grayscale(1); opacity: 0.4; transition: all 0.3s;" id="stamp-icon-math">🧮</div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong style="font-size: 0.88rem; color: #1e293b;">Mestre dos Números (Matemática)</strong>
+                                    <span id="stamp-math-progress" style="font-size: 0.75rem; font-weight: 800; color: #64748b;">0/3 Missões</span>
+                                </div>
+                                <div style="background: #e2e8f0; height: 6px; border-radius: 50px; overflow: hidden; margin-top: 6px;">
+                                    <div id="stamp-math-bar" style="background: #10b981; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carimbo 3: Guardião do Foco -->
+                        <div class="stamp-item" id="stamp-foco" style="display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 12px; transition: all 0.3s ease;">
+                            <div style="font-size: 2rem; line-height: 1; filter: grayscale(1); opacity: 0.4; transition: all 0.3s;" id="stamp-icon-foco">⏱️</div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong style="font-size: 0.88rem; color: #1e293b;">Guardião do Foco (30 min no Lab)</strong>
+                                    <span id="stamp-foco-progress" style="font-size: 0.75rem; font-weight: 800; color: #64748b;">0/30 min</span>
+                                </div>
+                                <div style="background: #e2e8f0; height: 6px; border-radius: 50px; overflow: hidden; margin-top: 6px;">
+                                    <div id="stamp-foco-bar" style="background: #f59e0b; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carimbo 4: Determinação de Ferro -->
+                        <div class="stamp-item" id="stamp-streak" style="display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 12px; transition: all 0.3s ease;">
+                            <div style="font-size: 2rem; line-height: 1; filter: grayscale(1); opacity: 0.4; transition: all 0.3s;" id="stamp-icon-streak">🔥</div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong style="font-size: 0.88rem; color: #1e293b;">Determinação de Ferro (5 Dias Ativo)</strong>
+                                    <span id="stamp-streak-progress" style="font-size: 0.75rem; font-weight: 800; color: #64748b;">1/5 dias</span>
+                                </div>
+                                <div style="background: #e2e8f0; height: 6px; border-radius: 50px; overflow: hidden; margin-top: 6px;">
+                                    <div id="stamp-streak-bar" style="background: #ef4444; height: 100%; width: 20%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Carimbo 5: Explorador Criativo -->
+                        <div class="stamp-item" id="stamp-criativo" style="display: flex; align-items: center; gap: 12px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 10px 12px; transition: all 0.3s ease;">
+                            <div style="font-size: 2rem; line-height: 1; filter: grayscale(1); opacity: 0.4; transition: all 0.3s;" id="stamp-icon-criativo">🎨</div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong style="font-size: 0.88rem; color: #1e293b;">Explorador Criativo (Artes / Ciências)</strong>
+                                    <span id="stamp-criativo-progress" style="font-size: 0.75rem; font-weight: 800; color: #64748b;">0/1 Missão</span>
+                                </div>
+                                <div style="background: #e2e8f0; height: 6px; border-radius: 50px; overflow: hidden; margin-top: 6px;">
+                                    <div id="stamp-criativo-bar" style="background: #8b5cf6; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Publicidade Educativa no Dashboard do Aluno -->
                 <div class="adsense-portal-slot" style="margin: 15px auto; max-width: 440px; text-align: center; background: #f8fafc; padding: 8px; border-radius: 14px; border: 1px dashed #cbd5e1;">
                     <span style="font-size: 0.68rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Publicidade / Apoio</span>
@@ -1357,8 +1442,103 @@
             renderProfileView();
         }
 
+        function updateBackpackStamps(st) {
+            if (!st) return;
+            const completed = JSON.parse(localStorage.getItem('lab_completed_activities') || '[]');
+            const activeMins = Number(st.active_minutes || 0);
+            const streak = Number(st.daily_streak || 1);
+            let unlocked = 0;
+
+            // 1. Português (3 missões)
+            const portCount = completed.filter(c => c.subject === 'Português' || (c.title && c.title.toLowerCase().includes('leitura'))).length;
+            const portEl = document.getElementById('stamp-leitor');
+            const portProg = document.getElementById('stamp-leitor-progress');
+            const portBar = document.getElementById('stamp-leitor-bar');
+            const portIcon = document.getElementById('stamp-icon-leitor');
+            if (portProg) {
+                const p = Math.min(portCount, 3);
+                portProg.textContent = p >= 3 ? '✅ Conquistado! (+100 XP)' : (p + '/3 Missões');
+                if (portBar) portBar.style.width = Math.round((p / 3) * 100) + '%';
+                if (p >= 3) {
+                    unlocked++;
+                    if (portEl) { portEl.style.background = '#eff6ff'; portEl.style.borderColor = '#3b82f6'; }
+                    if (portIcon) { portIcon.style.filter = 'none'; portIcon.style.opacity = '1'; }
+                }
+            }
+
+            // 2. Matemática (3 missões)
+            const mathCount = completed.filter(c => c.subject === 'Matemática' || (c.title && c.title.toLowerCase().includes('tabuada'))).length;
+            const mathEl = document.getElementById('stamp-math');
+            const mathProg = document.getElementById('stamp-math-progress');
+            const mathBar = document.getElementById('stamp-math-bar');
+            const mathIcon = document.getElementById('stamp-icon-math');
+            if (mathProg) {
+                const m = Math.min(mathCount, 3);
+                mathProg.textContent = m >= 3 ? '✅ Conquistado! (+100 XP)' : (m + '/3 Missões');
+                if (mathBar) mathBar.style.width = Math.round((m / 3) * 100) + '%';
+                if (m >= 3) {
+                    unlocked++;
+                    if (mathEl) { mathEl.style.background = '#f0fdf4'; mathEl.style.borderColor = '#10b981'; }
+                    if (mathIcon) { mathIcon.style.filter = 'none'; mathIcon.style.opacity = '1'; }
+                }
+            }
+
+            // 3. Foco (30 min)
+            const focoEl = document.getElementById('stamp-foco');
+            const focoProg = document.getElementById('stamp-foco-progress');
+            const focoBar = document.getElementById('stamp-foco-bar');
+            const focoIcon = document.getElementById('stamp-icon-foco');
+            if (focoProg) {
+                const f = Math.min(activeMins, 30);
+                focoProg.textContent = f >= 30 ? '✅ Conquistado! (+150 XP)' : (f + '/30 min');
+                if (focoBar) focoBar.style.width = Math.round((f / 30) * 100) + '%';
+                if (f >= 30) {
+                    unlocked++;
+                    if (focoEl) { focoEl.style.background = '#fffbeb'; focoEl.style.borderColor = '#f59e0b'; }
+                    if (focoIcon) { focoIcon.style.filter = 'none'; focoIcon.style.opacity = '1'; }
+                }
+            }
+
+            // 4. Streak (5 dias)
+            const strEl = document.getElementById('stamp-streak');
+            const strProg = document.getElementById('stamp-streak-progress');
+            const strBar = document.getElementById('stamp-streak-bar');
+            const strIcon = document.getElementById('stamp-icon-streak');
+            if (strProg) {
+                const s = Math.min(streak, 5);
+                strProg.textContent = s >= 5 ? '✅ Conquistado! (+200 XP)' : (s + '/5 dias');
+                if (strBar) strBar.style.width = Math.round((s / 5) * 100) + '%';
+                if (s >= 5) {
+                    unlocked++;
+                    if (strEl) { strEl.style.background = '#fef2f2'; strEl.style.borderColor = '#ef4444'; }
+                    if (strIcon) { strIcon.style.filter = 'none'; strIcon.style.opacity = '1'; }
+                }
+            }
+
+            // 5. Criativo (1 missão)
+            const criatCount = completed.filter(c => c.subject === 'Artes' || c.subject === 'Ciências').length;
+            const criatEl = document.getElementById('stamp-criativo');
+            const criatProg = document.getElementById('stamp-criativo-progress');
+            const criatBar = document.getElementById('stamp-criativo-bar');
+            const criatIcon = document.getElementById('stamp-icon-criativo');
+            if (criatProg) {
+                const cr = Math.min(criatCount, 1);
+                criatProg.textContent = cr >= 1 ? '✅ Conquistado! (+80 XP)' : (cr + '/1 Missão');
+                if (criatBar) criatBar.style.width = cr >= 1 ? '100%' : '0%';
+                if (cr >= 1) {
+                    unlocked++;
+                    if (criatEl) { criatEl.style.background = '#faf5ff'; criatEl.style.borderColor = '#8b5cf6'; }
+                    if (criatIcon) { criatIcon.style.filter = 'none'; criatIcon.style.opacity = '1'; }
+                }
+            }
+
+            const badge = document.getElementById('stamps-unlocked-badge');
+            if (badge) badge.textContent = unlocked + '/5 Carimbos';
+        }
+
         function renderProfileView() {
             if (!selectedStudent) return;
+            updateBackpackStamps(selectedStudent);
             document.getElementById('active-student-name').innerText = selectedStudent.name;
             const scText = (selectedStudent.school_name || selectedStudent.class_name) 
                 ? `${selectedStudent.school_name || 'Escola'} | ${selectedStudent.class_name || 'Turma'}`
