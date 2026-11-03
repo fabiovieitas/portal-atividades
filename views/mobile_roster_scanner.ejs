@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Scanner de Chamada | Lab Kids</title>
+  <link rel="icon" type="image/png" href="/img/robot-icon-512.png">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tesseract.js OCR v5 via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      color: white;
+      padding: 20px 16px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .header h1 {
+      margin: 0;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .class-badge {
+      display: inline-block;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.18);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .container {
+      flex: 1;
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      margin-bottom: 16px;
+    }
+    .btn-camera {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      padding: 18px;
+      border-radius: 16px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .btn-camera:active { transform: scale(0.98); }
+    .btn-gallery {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      background: #f8fafc;
+      color: #475569;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: 1.5px dashed #cbd5e1;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .progress-box {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 16px;
+      margin-top: 16px;
+    }
+    .progress-bar-wrap {
+      width: 100%;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 12px 0 8px;
+    }
+    .progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      transition: width 0.3s;
+    }
+    .preview-img {
+      max-width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      margin-top: 12px;
+      display: none;
+    }
+    .student-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+    .student-item input {
+      flex: 1;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .student-item button {
+      background: #fee2e2;
+      color: #ef4444;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-submit-final {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 18px;
+      border-radius: 16px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+      margin-top: 16px;
+    }
+    .btn-submit-final:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .badge-count {
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1>📸 Scanner de Lista de Chamada</h1>
+    <div class="class-badge">
+      🏫 <%= classInfo.school_name || 'Escola' %> • Turma: <%= classInfo.class_name %>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Card de Captura -->
+    <div class="card" id="step-capture">
+      <h2 style="font-size: 1.15rem; margin: 0 0 8px 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif;">
+        1. Fotografar Folha de Chamada
+      </h2>
+      <p style="color: #64748b; font-size: 0.88rem; margin: 0 0 16px 0; line-height: 1.4;">
+        Aponte a câmera para a lista de presença impressa ou manuscrita. Garanta boa iluminação e que os nomes fiquem nítidos!
+      </p>
+
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;" onchange="handleImageSelected(event)">
+      <input type="file" id="galleryInput" accept="image/*" style="display: none;" onchange="handleImageSelected(event)">
+
+      <button class="btn-camera" onclick="document.getElementById('cameraInput').click()">
+        📷 Abrir Câmera do Celular
+      </button>
+
+      <button class="btn-gallery" onclick="document.getElementById('galleryInput').click()">
+        🖼️ Escolher Foto da Galeria
+      </button>
+
+      <img id="imgPreview" class="preview-img" alt="Preview da Chamada">
+
+      <div class="progress-box" id="progressBox">
+        <div id="progressStatus" style="font-weight: 800; color: #1e40af; font-size: 0.95rem;">
+          ⏳ Carregando motor de inteligência visual...
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div id="progressPercent" style="font-size: 0.82rem; color: #64748b; font-weight: 700;">0%</div>
+      </div>
+    </div>
+
+    <!-- Card de Revisão e Confirmação -->
+    <div class="card" id="step-review" style="display: none;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h2 style="font-size: 1.15rem; margin: 0; color: #1e1b4b; font-family: 'Fredoka', sans-serif;">
+          2. Nomes Identificados
+        </h2>
+        <span class="badge-count" id="studentCountBadge">0 Alunos</span>
+      </div>
+
+      <p style="color: #64748b; font-size: 0.85rem; margin: 0 0 12px 0;">
+        Revise a lista abaixo. Você pode corrigir a grafia ou remover linhas desnecessárias antes de salvar:
+      </p>
+
+      <div id="studentsListContainer" style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
+        <!-- Lista de inputs injetados via JS -->
+      </div>
+
+      <div style="margin-top: 10px;">
+        <button type="button" onclick="addNewStudentRow()" style="background: none; border: 1.5px dashed #6366f1; color: #4f46e5; width: 100%; padding: 8px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+          + Adicionar Outro Aluno Manualmente
+        </button>
+      </div>
+
+      <div style="margin-top: 14px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 700; color: #334155; cursor: pointer;">
+          <input type="checkbox" id="chkGeneratePins" style="width: 18px; height: 18px;" checked>
+          Gerar Senhas (PIN de 4 dígitos) para cada aluno
+        </label>
+      </div>
+
+      <button id="btnSubmitRoster" class="btn-submit-final" onclick="submitScannedRoster()">
+        🚀 Salvar Todos os Alunos na Turma
+      </button>
+
+      <button type="button" onclick="resetScanner()" style="background: none; border: none; color: #64748b; width: 100%; padding: 12px; font-weight: 700; margin-top: 6px; cursor: pointer;">
+        🔄 Tirar Outra Foto
+      </button>
+    </div>
+
+    <!-- Card de Sucesso -->
+    <div class="card" id="step-success" style="display: none; text-align: center; padding: 30px 20px;">
+      <div style="font-size: 3.5rem; margin-bottom: 12px;">🎉</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; color: #059669; margin: 0 0 8px 0; font-size: 1.5rem;">
+        Alunos Cadastrados com Sucesso!
+      </h2>
+      <p id="successSummary" style="color: #475569; font-size: 0.95rem; margin: 0 0 20px 0; line-height: 1.4;">
+        Todos os alunos já estão salvos e vinculados à turma!
+      </p>
+
+      <button class="btn-camera" onclick="resetScanner()" style="background: linear-gradient(135deg, #10b981, #059669);">
+        📸 Escanear Outra Folha
+      </button>
+      <div style="margin-top: 15px;">
+        <a href="/" style="color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 700;">
+          ← Voltar para o Portal Lab Kids
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const classId = "<%= classInfo.id %>";
+    const classCode = "<%= classInfo.access_code %>";
+    const className = "<%= classInfo.class_name %>";
+    const schoolName = "<%= (classInfo.school_name || '').replace(/"/g, '\\"') %>";
+
+    let recognizedStudents = [];
+
+    async function handleImageSelected(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const imgPreview = document.getElementById('imgPreview');
+      imgPreview.src = URL.createObjectURL(file);
+      imgPreview.style.display = 'block';
+
+      const progressBox = document.getElementById('progressBox');
+      const progressBar = document.getElementById('progressBar');
+      const progressStatus = document.getElementById('progressStatus');
+      const progressPercent = document.getElementById('progressPercent');
+
+      progressBox.style.display = 'block';
+      progressBar.style.width = '5%';
+      progressPercent.innerText = '5%';
+      progressStatus.innerText = '🔍 Preparando imagem para leitura...';
+
+      try {
+        const worker = await Tesseract.createWorker('por', 1, {
+          logger: m => {
+            if (m.status === 'recognizing text') {
+              const p = Math.round(m.progress * 100);
+              progressBar.style.width = p + '%';
+              progressPercent.innerText = p + '%';
+              progressStatus.innerText = `🔍 Lendo texto da folha (${p}%)...`;
+            } else if (m.status === 'loading language traineddata') {
+              progressStatus.innerText = '📚 Carregando dicionário da língua portuguesa...';
+            }
+          }
+        });
+
+        const ret = await worker.recognize(file);
+        await worker.terminate();
+
+        const rawText = ret.data.text || '';
+        parseExtractedNames(rawText);
+
+      } catch (err) {
+        console.error('OCR Error:', err);
+        alert('Erro ao processar imagem: ' + err.message + '\nVocê pode tentar uma foto mais clara ou colar a lista manualmente.');
+        progressBox.style.display = 'none';
+      }
+    }
+
+    function parseExtractedNames(text) {
+      const lines = text.split('\n');
+      const names = [];
+
+      // Palavras comuns de cabeçalho escolar para ignorar
+      const ignoreWords = [
+        'ESCOLA', 'MUNICIPAL', 'ESTADUAL', 'COLÉGIO', 'COLEGIO', 'PROFESSOR', 'PROFESSORA',
+        'CHAMADA', 'LISTA', 'PRESENÇA', 'PRESENCA', 'TURMA', 'ANO', 'TURNO', 'DATA',
+        'ASSINATURA', 'ALUNO', 'ALUNOS', 'SECRETARIA', 'MATRÍCULA', 'MATRICULA', 'NOTAS',
+        'LAB KIDS', 'CAMPOS', 'GOVERNO', 'EDUCAÇÃO', 'EDUCACAO', 'OBSERVAÇÃO', 'TOTAL'
+      ];
+
+      for (let rawLine of lines) {
+        let line = rawLine.trim();
+        if (line.length < 3) continue;
+
+        // Limpa numerações no início: "01 - ", "1. ", "1)", "1 - ", "№ 1"
+        line = line.replace(/^(№|Nº|N|n)?\s*\d+[\.\-\)\s]+/, '').trim();
+        // Remove símbolos extras e caracteres não textuais estranhos
+        line = line.replace(/[|_~*#$@\[\]{}<>=]/g, '').trim();
+
+        // Checa se sobrou um nome válido
+        if (line.length < 3) continue;
+
+        // Testa se é cabeçalho
+        const upper = line.toUpperCase();
+        const isHeader = ignoreWords.some(w => upper.includes(w)) && !line.includes(' ');
+        if (isHeader) continue;
+
+        // Se tem números isolados no meio ou final, remove
+        line = line.replace(/\d+/g, '').trim();
+
+        // Se após a limpeza ainda tem pelo menos 2 caracteres e parece um nome
+        if (line.length >= 3 && /[a-zA-ZáéíóúÁÉÍÓÚãõÃÕâêîôûÂÊÎÔÛçÇ]/.test(line)) {
+          // Normaliza espaços múltiplos
+          line = line.replace(/\s+/g, ' ');
+          names.push(line);
+        }
+      }
+
+      // Elimina duplicatas consecutivas
+      recognizedStudents = Array.from(new Set(names));
+
+      if (recognizedStudents.length === 0) {
+        alert('Nenhum nome de aluno foi reconhecido claramente. Tente aproximar mais a câmera ou tirar uma foto com mais foco.');
+        document.getElementById('progressBox').style.display = 'none';
+        return;
+      }
+
+      renderStudentsReviewList();
+    }
+
+    function renderStudentsReviewList() {
+      const container = document.getElementById('studentsListContainer');
+      container.innerHTML = '';
+
+      recognizedStudents.forEach((name, idx) => {
+        const div = document.createElement('div');
+        div.className = 'student-item';
+        div.innerHTML = `
+          <span style="font-weight: 800; color: #94a3b8; width: 22px; font-size: 0.85rem;">${idx + 1}.</span>
+          <input type="text" value="${name}" onchange="updateStudentName(${idx}, this.value)">
+          <button type="button" onclick="removeStudentRow(${idx})" title="Remover">❌</button>
+        `;
+        container.appendChild(div);
+      });
+
+      document.getElementById('studentCountBadge').innerText = recognizedStudents.length + ' Alunos';
+      document.getElementById('step-capture').style.display = 'none';
+      document.getElementById('step-review').style.display = 'block';
+    }
+
+    function updateStudentName(index, val) {
+      recognizedStudents[index] = val.trim();
+    }
+
+    function removeStudentRow(index) {
+      recognizedStudents.splice(index, 1);
+      renderStudentsReviewList();
+    }
+
+    function addNewStudentRow() {
+      recognizedStudents.push('');
+      renderStudentsReviewList();
+      const inputs = document.querySelectorAll('#studentsListContainer input');
+      if (inputs.length > 0) inputs[inputs.length - 1].focus();
+    }
+
+    function resetScanner() {
+      recognizedStudents = [];
+      document.getElementById('cameraInput').value = '';
+      document.getElementById('galleryInput').value = '';
+      document.getElementById('imgPreview').style.display = 'none';
+      document.getElementById('progressBox').style.display = 'none';
+      document.getElementById('step-review').style.display = 'none';
+      document.getElementById('step-success').style.display = 'none';
+      document.getElementById('step-capture').style.display = 'block';
+    }
+
+    async function submitScannedRoster() {
+      const validNames = recognizedStudents.map(n => n.trim()).filter(n => n.length >= 2);
+      if (validNames.length === 0) {
+        alert('Nenhum aluno válido para cadastrar!');
+        return;
+      }
+
+      const generatePins = document.getElementById('chkGeneratePins').checked;
+      const btn = document.getElementById('btnSubmitRoster');
+      btn.disabled = true;
+      btn.innerText = `⏳ Cadastrando ${validNames.length} Alunos...`;
+
+      try {
+        const res = await fetch(`/api/teacher/classes/${classId}/scanner-import`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            student_names: validNames,
+            generate_pins: generatePins,
+            access_code: classCode
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById('step-review').style.display = 'none';
+          document.getElementById('successSummary').innerHTML = `
+            <strong>${data.count} alunos</strong> foram salvos com sucesso na turma <strong>${className}</strong>!<br>
+            Você já pode ver todos os alunos no painel do professor no computador.
+          `;
+          document.getElementById('step-success').style.display = 'block';
+        } else {
+          alert('Erro ao salvar alunos: ' + (data.error || 'Erro desconhecido'));
+          btn.disabled = false;
+          btn.innerText = '🚀 Salvar Todos os Alunos na Turma';
+        }
+      } catch (err) {
+        alert('Falha na comunicação: ' + err.message);
+        btn.disabled = false;
+        btn.innerText = '🚀 Salvar Todos os Alunos na Turma';
+      }
+    }
+  </script>
+</body>
+</html>

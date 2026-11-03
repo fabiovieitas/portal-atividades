@@ -2732,6 +2732,49 @@ app.post('/api/teacher/classes/:id/students/batch-add', requireTeacher, async (r
   }
 });
 
+// Scanner Mobile de Lista de Chamada via QR Code
+app.get('/professor/scanner', async (req, res) => {
+  try {
+    const { turmaId, code } = req.query;
+    if (!turmaId) {
+      return res.status(400).send('Turma não especificada. Por favor, escaneie o QR Code novamente pelo painel do professor.');
+    }
+    const classInfo = await dbHelper.queryGet("SELECT * FROM teacher_classes WHERE id = ?", [turmaId]);
+    if (!classInfo) {
+      return res.status(404).send('Turma não encontrada.');
+    }
+    res.render('mobile_roster_scanner', { classInfo });
+  } catch(e) {
+    res.status(500).send('Erro ao abrir scanner: ' + e.message);
+  }
+});
+
+// Importação de Alunos via Scanner Mobile (QR Code)
+app.post('/api/teacher/classes/:id/scanner-import', async (req, res) => {
+  try {
+    const classId = req.params.id;
+    const { student_names, generate_pins, access_code } = req.body;
+    const tc = await dbHelper.queryGet("SELECT * FROM teacher_classes WHERE id = ?", [classId]);
+    if (!tc) {
+      return res.status(404).json({ success: false, error: 'Turma não encontrada.' });
+    }
+    // Validação de segurança: precisa ter o código da turma (do QR Code) ou sessão de professor/admin
+    const isCodeValid = access_code && tc.access_code && (String(access_code).trim() === String(tc.access_code).trim());
+    const isTeacherAuth = Boolean(req.cookies && req.cookies.teacher_session);
+    if (!isCodeValid && !isTeacherAuth && !(await isAdmin(req))) {
+      return res.status(403).json({ success: false, error: 'Acesso não autorizado ao scanner desta turma.' });
+    }
+
+    const className = tc.class_name;
+    const schoolName = tc.school_name || '';
+    const added = await dbHelper.addStudentsBatch(classId, schoolName, className, student_names, generate_pins);
+    res.json({ success: true, count: added.length, students: added });
+  } catch(err) {
+    console.error('[Scanner Import Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Listar Alunos de uma Turma para o Professor
 app.get('/api/teacher/classes/:id/students', requireTeacher, async (req, res) => {
   try {
