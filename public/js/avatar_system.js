@@ -11,6 +11,21 @@
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
+  heroes: [
+    { name: 'RoboTron 3000', style: 'bottts', seed: 'RoboTron', bg: '38bdf8', icon: '🤖', title: 'Guardião Digital' },
+    { name: 'AstroBoy', style: 'bottts', seed: 'Alpha', bg: '818cf8', icon: '🚀', title: 'Explorador Espacial' },
+    { name: 'Mago Supremo', style: 'adventurer', seed: 'MagoSupremo', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Mestre dos Arcanos' },
+    { name: 'Ninja das Sombras', style: 'adventurer', seed: 'Ninjago', bg: '111827', icon: '🥷', title: 'Guerreiro das Sombras' },
+    { name: 'Cientista Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🌸', title: 'Gênio do Lab' },
+    { name: 'Gamer Lucas', style: 'lorelei', seed: 'Lucas', bg: 'b6e3f4', icon: '🎧', title: 'Pro Player' },
+    { name: 'Pixel Knight', style: 'pixel-art', seed: 'RetroKing', bg: 'fbbf24', icon: '👾', title: 'Cavaleiro 8-Bit' },
+    { name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fff0b3', icon: '😁', title: 'Mestre da Alegria' },
+    { name: 'Monstrinho Fun', style: 'fun-emoji', seed: 'PartyMonster', bg: 'c1f2c7', icon: '🤪', title: 'Folião Cósmico' },
+    { name: 'Cyber Rex', style: 'bottts', seed: 'Titan', bg: '364156', icon: '🦖', title: 'Defensor Blindado' },
+    { name: 'Valente Guerreira', style: 'adventurer', seed: 'Zelda', bg: 'ffd5dc', icon: '👑', title: 'Heroína Lendária' },
+    { name: 'Detetive Neo', style: 'pixel-art', seed: 'Neo', bg: '111827', icon: '🕶️', title: 'Investigador Cyber' }
+  ],
+
   styles: [
     { id: 'bottts', label: 'Robôs 3D 🤖', icon: '🤖' },
     { id: 'adventurer', label: 'Aventureiros RPG 🧙‍♂️', icon: '🧙‍♂️' },

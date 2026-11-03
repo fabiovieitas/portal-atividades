@@ -497,33 +497,52 @@
             </div>
         </div>
 
-        <!-- VIEW 4: MULTI-COLLECTION AVATAR EDITOR -->
+        <!-- VIEW 4: STUDIO DE AVATARES ÉPICO LAB KIDS -->
         <div id="view-avatar-builder" class="step-view" style="display:none;">
-            <div class="duo-editor-window">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="font-family: 'Fredoka', cursive; font-size: 2.2rem; color: #1e3a8a; margin: 0 0 6px 0;">🎨 Studio de Avatares Lab Kids</h2>
+                <p style="color: #64748b; font-weight: 700; margin: 0; font-size: 1.05rem;">Monte o personagem que vai representar suas conquistas e medalhas na plataforma!</p>
+            </div>
+
+            <div class="duo-editor-window" style="box-shadow: 0 20px 50px rgba(0,0,0,0.12); border-radius: 28px; border: 2.5px solid var(--duo-border);">
                 <!-- Left Side: Canvas Preview & Inputs -->
-                <div class="duo-canvas-side" id="duo-canvas-bg" style="background: #b6e3f4;">
-                    <div class="duo-canvas-avatar-wrapper" id="duo-avatar-preview"></div>
-                    <button onclick="randomizeAvatar()" class="btn-back" style="margin-bottom: 10px; background: rgba(255,255,255,0.95); border: none; font-weight: 900; box-shadow: 0 4px 0 rgba(0,0,0,0.15); color: #1cb0f6;">
+                <div class="duo-canvas-side" id="duo-canvas-bg" style="background: #38bdf8; padding: 30px 20px; transition: background 0.4s ease; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    
+                    <!-- Crachá do Jogador -->
+                    <div style="background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); padding: 5px 16px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.3); color: #ffffff; font-size: 0.85rem; font-weight: 800; margin-bottom: 12px; letter-spacing: 0.5px;">
+                        ⭐ Nível 1 • Recruta Digital
+                    </div>
+
+                    <!-- Preview do Avatar em Tamanho Gigante -->
+                    <div class="duo-canvas-avatar-wrapper" id="duo-avatar-preview" style="filter: drop-shadow(0 15px 25px rgba(0,0,0,0.3)); transform: scale(1.15); margin-bottom: 15px;"></div>
+
+                    <button onclick="randomizeAvatar()" class="btn-back" style="margin-bottom: 15px; background: rgba(255,255,255,0.95); border: none; font-weight: 900; box-shadow: 0 4px 0 rgba(0,0,0,0.15); color: #0284c7; padding: 10px 22px; border-radius: 50px; font-size: 1rem; cursor: pointer; transition: transform 0.15s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         🎲 Sorteio Surpresa 🚀
                     </button>
-                    <input type="text" id="student-name-input" class="duo-name-input" placeholder="Digite seu nome...">
-                    <input type="password" id="student-pin-input" class="duo-name-input" maxlength="4" placeholder="🔑 Senha de 4 dígitos (Opcional)" style="margin-top: 8px; font-size: 1rem; padding: 10px 14px;">
-                    <button class="btn-duo-save" onclick="saveAvatarProfile()">PRONTO ✨</button>
+
+                    <div style="width: 88%; max-width: 320px; display: flex; flex-direction: column; gap: 8px;">
+                        <input type="text" id="student-name-input" class="duo-name-input" placeholder="Digite seu Nome de Aluno..." style="width: 100%; box-sizing: border-box; font-size: 1.15rem; background: rgba(255,255,255,0.95) !important; color: #0f172a !important; border: 2px solid #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <input type="password" id="student-pin-input" class="duo-name-input" maxlength="4" placeholder="🔑 Senha de 4 dígitos (Opcional)" style="width: 100%; box-sizing: border-box; font-size: 0.95rem; padding: 10px 14px; background: rgba(255,255,255,0.9) !important; color: #0f172a !important; border: 2px solid #ffffff;">
+                        <button class="btn-duo-save" onclick="saveAvatarProfile()" style="width: 100%; margin-top: 8px; font-size: 1.2rem; padding: 16px; background: #10b981; border-color: #059669; box-shadow: 0 6px 0 #059669;">
+                            ✨ SALVAR MEU AVATAR 🚀
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Right Side: Style Tabs & Customization Grid -->
                 <div class="duo-panel-side">
                     <!-- Top Icon Tabs -->
-                    <div class="duo-tabs-nav">
-                        <div class="duo-tab-icon active" onclick="switchDuoTab('style')" title="Estilo da Coleção">🎨</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('seed')" title="Personagens & Sementes">👤</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cor de Fundo">🌈</div>
+                    <div class="duo-tabs-nav" style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('heroes')" title="Heróis Prontos" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">🦸‍♂️ Heróis</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('style')" title="Estilo da Coleção" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">🎨 Tribo</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('seed')" title="Personagens & Rosto" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">👤 Personagem</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cenários de Fundo" style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.92rem;">🌈 Fundo</div>
                     </div>
 
                     <!-- Active Tab Content Area -->
-                    <div class="duo-tab-content">
-                        <div class="duo-category-title" id="duo-tab-title">Escolha o Estilo do Avatar</div>
-                        <div class="duo-tiles-grid" id="duo-tiles-container">
+                    <div class="duo-tab-content" style="padding: 22px;">
+                        <div class="duo-category-title" id="duo-tab-title" style="font-size: 1.2rem; font-weight: 900; color: #1e3a8a; margin-bottom: 16px;">Escolha o Herói do Lab</div>
+                        <div class="duo-tiles-grid" id="duo-tiles-container" style="gap: 14px;">
                             <!-- Dynamically loaded -->
                         </div>
                     </div>
@@ -538,14 +557,18 @@
                 <h2 id="active-student-name" style="margin: 0; font-size: 2rem; color: var(--duo-text-dark);">Nome do Aluno</h2>
                 <p id="active-student-school" style="color: #777; font-size: 1rem; margin-top: 4px; font-weight: 700;"></p>
 
-                <div style="display: flex; justify-content: center; gap: 15px; margin: 20px 0;">
-                    <div style="background: #f7f7f7; border: 2px solid var(--duo-border); padding: 10px 18px; border-radius: 16px;">
-                        <span style="font-size: 1.6rem; font-weight: 900; color: var(--duo-blue);" id="active-points">0</span>
-                        <div style="font-size: 0.85rem; color: #777; font-weight: 800;">Pontos</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0;">
+                    <div style="background: #eff6ff; border: 2px solid #bfdbfe; padding: 10px 6px; border-radius: 18px; text-align: center;">
+                        <span style="font-size: 1.5rem; font-weight: 900; color: #2563eb;" id="active-points">0</span>
+                        <div style="font-size: 0.75rem; color: #1e40af; font-weight: 800; text-transform: uppercase;">XP Total</div>
                     </div>
-                    <div style="background: #f7f7f7; border: 2px solid var(--duo-border); padding: 10px 18px; border-radius: 16px;">
-                        <span style="font-size: 1.6rem; font-weight: 900; color: var(--duo-green);" id="active-medals-count">0</span>
-                        <div style="font-size: 0.85rem; color: #777; font-weight: 800;">Medalhas</div>
+                    <div style="background: #fef2f2; border: 2px solid #fecaca; padding: 10px 6px; border-radius: 18px; text-align: center;">
+                        <span style="font-size: 1.5rem; font-weight: 900; color: #dc2626;" id="active-streak-display">🔥 1d</span>
+                        <div style="font-size: 0.75rem; color: #991b1b; font-weight: 800; text-transform: uppercase;">Sequência</div>
+                    </div>
+                    <div style="background: #f0fdf4; border: 2px solid #bbf7d0; padding: 10px 6px; border-radius: 18px; text-align: center;">
+                        <span style="font-size: 1.4rem; font-weight: 900; color: #16a34a;" id="active-level-display">Nvl 1</span>
+                        <div style="font-size: 0.75rem; color: #166534; font-weight: 800; text-transform: uppercase;">Patente</div>
                     </div>
                 </div>
 
@@ -660,8 +683,8 @@
         // ============================================================================
         // CONTROLE DE INATIVIDADE (10 MINUTOS COM AVISO AOS 9 MINUTOS - TABLET COLETIVO)
         // ============================================================================
-        const IDLE_WARN_MS = 9 * 60 * 1000;    // 9 minutos
-        const IDLE_LOGOUT_MS = 10 * 60 * 1000; // 10 minutos
+        const IDLE_WARN_MS = 4 * 60 * 1000;    // 9 minutos
+        const IDLE_LOGOUT_MS = 5 * 60 * 1000; // 10 minutos
         let lastUserActionTime = Date.now();
         let idleIntervalCountdown = null;
 
@@ -723,7 +746,7 @@
             selectedStudent = null;
             selectedSchool = null;
             selectedClass = null;
-            alert('⏳ Sessão finalizada por 10 minutos de inatividade!\n\nO tablet foi liberado para o próximo colega.');
+            alert('⏳ Sessão finalizada por 5 minutos de inatividade!\n\nO tablet foi liberado para o próximo colega.');
             loadSchools();
             showStep(1);
         }
@@ -1016,7 +1039,7 @@
                 bg: 'b6e3f4'
             };
             showStep(4);
-            switchDuoTab('style');
+            switchDuoTab('heroes');
             updateDuoPreview();
         }
 
@@ -1055,7 +1078,36 @@
             if (!container || !titleEl) return;
             container.innerHTML = '';
 
-            if (activeTab === 'style') {
+            if (activeTab === 'heroes') {
+                titleEl.innerText = '🦸‍♂️ Escolha um Herói Pronto ou Mascote:';
+                const heroes = DUOLINGO_AVATAR_PRESETS.heroes || [];
+                heroes.forEach(h => {
+                    const isSel = (avatarConfig.style === h.style && avatarConfig.seed === h.seed);
+                    const tile = document.createElement('div');
+                    tile.className = `duo-tile-card ${isSel ? 'selected' : ''}`;
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px; font-weight:800; border-radius:18px; min-height:115px; cursor:pointer; background: #ffffff; border: 2px solid #e2e8f0; border-bottom: 4px solid #cbd5e1; transition: 0.2s;';
+                    tile.onmouseover = () => tile.style.transform = 'translateY(-3px)';
+                    tile.onmouseout = () => tile.style.transform = 'translateY(0)';
+                    tile.onclick = () => {
+                        avatarConfig.style = h.style;
+                        avatarConfig.seed = h.seed;
+                        avatarConfig.bg = h.bg;
+                        const nameInp = document.getElementById('student-name-input');
+                        if (nameInp && (!nameInp.value || nameInp.value === 'Aluno Lab Kids')) {
+                            nameInp.value = h.name;
+                        }
+                        renderTabContent();
+                        updateDuoPreview();
+                    };
+                    const sampleUrl = buildDiceBearUrl({ style: h.style, seed: h.seed, bg: h.bg });
+                    tile.innerHTML = `
+                        <img src="${sampleUrl}" width="65" height="65" style="border-radius:14px; margin-bottom:6px; box-shadow:0 4px 10px rgba(0,0,0,0.1);" alt="${h.name}" />
+                        <div style="font-size:0.88rem; font-weight:900; color:#1e293b;">${h.name}</div>
+                        <div style="font-size:0.7rem; color:#64748b; font-weight:700;">${h.title}</div>
+                    `;
+                    container.appendChild(tile);
+                });
+            } else if (activeTab === 'style') {
                 titleEl.innerText = 'Escolha a Coleção do Avatar 🎨';
                 P.styles.forEach(s => {
                     const isSel = avatarConfig.style === s.id;
@@ -1266,7 +1318,16 @@
                 ? `${selectedStudent.school_name || 'Escola'} | ${selectedStudent.class_name || 'Turma'}`
                 : 'Lab Kids Digital';
             document.getElementById('active-student-school').innerText = scText;
-            document.getElementById('active-points').innerText = selectedStudent.points || 0;
+            const pts = Number(selectedStudent.points || 0);
+            document.getElementById('active-points').innerText = pts;
+            const streak = Number(selectedStudent.daily_streak || 1);
+            const strEl = document.getElementById('active-streak-display');
+            if (strEl) strEl.innerText = '🔥 ' + streak + 'd';
+            const lvlObj = (window.LabGamification && window.LabGamification.calculateLevel)
+                ? window.LabGamification.calculateLevel(pts)
+                : { level: 1, title: 'Recruta' };
+            const lvlEl = document.getElementById('active-level-display');
+            if (lvlEl) lvlEl.innerText = 'Nvl ' + lvlObj.level;
 
             const svg = generateAvatarSVG(selectedStudent.avatar_config || {}, 160);
             document.getElementById('active-avatar-display').innerHTML = svg;
