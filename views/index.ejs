@@ -45,6 +45,9 @@
     }
     </script>
 
+    <!-- Preconnect Google Fonts para carregamento ultra-rápido -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="/css/style.css?v=3">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -625,12 +628,9 @@
                     <p style="margin: 0; color: #cbd5e1; font-size: 0.95rem;">Cadastre suas turmas em 10 segundos, gere Códigos de Acesso para seus alunos e projete jogos e simulados na lousa digital.</p>
                 </div>
             </div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="/professor/login?cadastro=1" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; font-weight: 900; padding: 12px 24px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);">
-                    🚀 Cadastrar Minha Escola Grátis
-                </a>
-                <a href="/professor/login" class="btn-submit" style="margin: 0; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; padding: 12px 20px; border-radius: 50px; text-decoration: none;">
-                    Área do Professor
+            <div>
+                <a href="/professor/login?cadastro=1" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; font-weight: 900; padding: 14px 28px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); font-size: 1.05rem;">
+                    🚀 Cadastrar Minha Turma Grátis
                 </a>
             </div>
         </div>
@@ -699,9 +699,7 @@
                                         <a href="<%= targetActUrl %>" class="card-link"
                                             onclick="handleActivityLaunch(event, <%= activity.id %>, '<%= activity.activity_url || '' %>')">
                                             <div class="card-icon">
-                                                <img src="<%= activity.icon_url || '/img/default-icon.png' %>"
-                                                    alt="<%= activity.title %>"
-                                                    onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
+                                                <img src="<%= activity.icon_url || '/img/default-icon.png' %>" alt="<%= activity.title %>" loading="lazy" decoding="async" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
                                             </div>
                                             <div class="card-content">
                                                 <h3>

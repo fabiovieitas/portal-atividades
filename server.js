@@ -67,10 +67,12 @@ app.use(express.static(path.join(__dirname, 'public'), {
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
     } else {
-      res.setHeader('Cache-Control', 'public, max-age=604800');
+      // Cache imutável de 30 dias com ETag para carregamento instantâneo em tablets
+      res.setHeader('Cache-Control', 'public, max-age=2592000, immutable');
     }
   },
-  etag: false
+  etag: true,
+  maxAge: '30d'
 }));
 
 // ============================================================================
