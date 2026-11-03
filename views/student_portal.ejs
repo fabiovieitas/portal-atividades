@@ -21,7 +21,7 @@
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<%= adsensePubId %>" crossorigin="anonymous"></script>
     <% } %>
     <meta name="robots" content="noindex, follow">
-    <script src="/js/avatar_system.js?v=20261103_4_1"></script>
+    <script src="/js/avatar_system.js?v=20261103_5_0"></script>
     <script src="/js/labkids-gamification.js"></script>
     <script src="/js/app-enhancements.js" defer></script>
     <style>
@@ -561,21 +561,16 @@
 
                 <!-- Right Side: Style Tabs & Customization Grid -->
                 <div class="duo-panel-side">
-                    <!-- Top Icon Tabs -->
-                    <div class="duo-tabs-nav" style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; gap: 6px; padding: 10px 8px 0 8px; overflow-x: auto; white-space: nowrap;">
-                        <div class="duo-tab-icon active" onclick="switchDuoTab('heroes')" title="Heróis & Mascotes" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🦸‍♂️ Heróis do Lab</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('students')" title="Criar Meu Boneco" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🧑 Meu Boneco(a)</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('hair')" title="Cabelo & Penteado" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">💇 Cabelo</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('eyes')" title="Olhos & Expressão" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">👀 Expressão</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('accessories')" title="Óculos & Acessórios" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">👓 Óculos</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('clothing')" title="Roupas & Camisetas" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">👕 Roupas</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('skin')" title="Tom de Pele" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🎨 Pele</div>
-                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Cenários de Fundo" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; padding: 8px 12px;">🌈 Fundo</div>
+                    <!-- Top Icon Tabs (Apenas Heróis, Molduras Gamers e Cenários Temáticos) -->
+                    <div class="duo-tabs-nav" style="background: #f8fafc; border-bottom: 2px solid #e2e8f0; gap: 8px; padding: 10px 12px 0 12px; overflow-x: auto; white-space: nowrap;">
+                        <div class="duo-tab-icon active" onclick="switchDuoTab('heroes')" title="Heróis & Mascotes do Lab" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 0.95rem; padding: 10px 18px;">🦸‍♂️ Heróis do Lab</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('frames')" title="Molduras Gamers Colecionáveis" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 0.95rem; padding: 10px 18px;">🖼️ Molduras Gamers</div>
+                        <div class="duo-tab-icon" onclick="switchDuoTab('bg')" title="Arenas & Cenários Temáticos" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 900; font-size: 0.95rem; padding: 10px 18px;">🏟️ Arenas & Cenários</div>
                     </div>
 
                     <!-- Active Tab Content Area -->
                     <div class="duo-tab-content" style="padding: 22px;">
-                        <div class="duo-category-title" id="duo-tab-title" style="font-size: 1.2rem; font-weight: 900; color: #1e3a8a; margin-bottom: 16px;">Escolha o Herói do Lab</div>
+                        <div class="duo-category-title" id="duo-tab-title" style="font-size: 1.25rem; font-weight: 900; color: #1e3a8a; margin-bottom: 16px;">Escolha o Herói do Lab</div>
                         <div class="duo-tiles-grid" id="duo-tiles-container" style="gap: 14px;">
                             <!-- Dynamically loaded -->
                         </div>
@@ -934,19 +929,13 @@
         let selectedClass = null;
         let selectedStudent = null;
 
-        // Customizer state (Studio de Avatares Duolingo / DiceBear 4.0)
+        // Customizer state (Studio de Heróis Lab Kids 5.0)
         let avatarConfig = {
             style: 'bottts',
             seed: 'LeoRobot',
-            bg: '38bdf8',
-            top: 'shortCurly',
-            hairColor: '2c1b18',
-            skinColor: 'edb98a',
-            clothing: 'hoodie',
-            clothesColor: '0284c7',
-            eyes: 'happy',
-            mouth: 'smile',
-            accessories: 'none'
+            bg: 'freefire',
+            frame: 'frame_none',
+            heroName: 'Robô Léo'
         };
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -1217,17 +1206,11 @@
                 document.getElementById('student-pin-input').value = '';
             }
             avatarConfig = {
-                style: 'avataaars',
-                seed: 'CapitaoLucas',
-                bg: '38bdf8',
-                top: 'shortCurly',
-                hairColor: '2c1b18',
-                skinColor: 'edb98a',
-                clothing: 'hoodie',
-                clothesColor: '5199e4',
-                eyes: 'happy',
-                mouth: 'smile',
-                accessories: 'none'
+                style: 'bottts',
+                seed: 'LeoRobot',
+                bg: 'freefire',
+                frame: 'frame_none',
+                heroName: 'Robô Léo'
             };
             showStep(4);
             switchDuoTab('heroes');
@@ -1249,117 +1232,64 @@
         // Presets resilientes e integrados para garantir carregamento 100% à prova de cache
         const FALLBACK_AVATAR_PRESETS = {
             heroes: [
+                // --- NÍVEL 1: RECRUTAS INICIAIS (0 XP - Liberados para todos) ---
                 { id: 'leo_robot', name: 'Robô Léo', style: 'bottts', seed: 'LeoRobot', bg: '38bdf8', icon: '🤖', title: 'Mascote Oficial do Lab', requiredXP: 0, badge: 'Inicial' },
                 { id: 'astro_kid', name: 'Astro Kid', style: 'bottts', seed: 'AstroKid', bg: '818cf8', icon: '🚀', title: 'Explorador Espacial', requiredXP: 0, badge: 'Inicial' },
+                { id: 'sparky_volt', name: 'Sparky Elétrico', style: 'bottts', seed: 'SparkyVolt', bg: 'facc15', icon: '⚡', title: 'Energia Pura', requiredXP: 0, badge: 'Inicial' },
                 { id: 'dra_sofia', name: 'Dra. Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🔬', title: 'Cientista Mirim', requiredXP: 0, badge: 'Inicial' },
                 { id: 'super_sorriso', name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fbbf24', icon: '😄', title: 'Mestre da Alegria', requiredXP: 0, badge: 'Inicial' },
-                { id: 'lucas_lider', name: 'Capitão Lucas', style: 'avataaars', seed: 'CapitaoLucas', bg: '60a5fa', icon: '⚡', title: 'Líder da Turma', requiredXP: 0, badge: 'Inicial' },
-                { id: 'pixel_gamer', name: 'Pixel Gamer', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Campeão 8-Bit', requiredXP: 50, reqDesc: 'Alcance 50 XP' },
-                { id: 'dino_rex', name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: '10b981', icon: '🦖', title: 'Fera Pré-Histórica', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
+                { id: 'solzinho_pop', name: 'Solzinho Pop', style: 'fun-emoji', seed: 'SunnyPop', bg: 'fde047', icon: '🌟', title: 'Energia Solar', requiredXP: 0, badge: 'Inicial' },
+                { id: 'capitao_estudo', name: 'Capitão Estudo', style: 'adventurer', seed: 'CapitaoAventura', bg: '60a5fa', icon: '🛡️', title: 'Líder da Turma', requiredXP: 0, badge: 'Inicial' },
+                { id: 'pixel_boy', name: 'Pixel Boy', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Gamer 8-Bit', requiredXP: 0, badge: 'Inicial' },
+
+                // --- NÍVEL 2: AVENTUREIROS GAMERS (50 a 100 XP) ---
+                { id: 'arcade_pro', name: 'Arcade Pro', style: 'pixel-art', seed: 'ArcadeMaster', bg: 'a855f7', icon: '🕹️', title: 'Campeão dos Jogos', requiredXP: 50, reqDesc: 'Conquiste 50 XP' },
+                { id: 'dino_rex', name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: '10b981', icon: '🦖', title: 'Fera Pré-Histórica', requiredXP: 75, reqDesc: 'Conquiste 75 XP' },
+                { id: 'gizmo_maker', name: 'Gizmo Maker', style: 'bottts', seed: 'GizmoMaker', bg: '38bdf8', icon: '⚙️', title: 'Engenheiro Robótico', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
+                { id: 'arqueira_luz', name: 'Arqueira da Luz', style: 'adventurer', seed: 'ArqueiraLuz', bg: 'ec4899', icon: '🏹', title: 'Precisão Máxima', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
+
+                // --- NÍVEL 3: MESTRES DO CONHECIMENTO (150 a 300 XP) ---
                 { id: 'ninja_tabuada', name: 'Ninja da Tabuada', style: 'adventurer', seed: 'Ninja', bg: '0f172a', icon: '⚔️', title: 'Mestre do Cálculo', requiredXP: 150, reqDesc: 'Conquiste 150 XP' },
+                { id: 'kitsune_ninja', name: 'Raposa Kitsune', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'f97316', icon: '🦊', title: 'Raposa Veloz', requiredXP: 200, reqDesc: 'Conquiste 200 XP' },
                 { id: 'mago_numeros', name: 'Mago dos Números', style: 'adventurer', seed: 'MagoArcano', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Arcano da Lógica', requiredXP: 250, reqDesc: 'Conquiste 250 XP' },
                 { id: 'princesa_sofia', name: 'Princesa Sofia', style: 'lorelei', seed: 'PrincesaSofia', bg: 'ffdfbf', icon: '👑', title: 'Guardiã da Leitura', requiredXP: 300, reqDesc: 'Conquiste 300 XP' },
-                { id: 'detetive_neo', name: 'Detetive Neo', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Investigador Cyber', requiredXP: 450, reqDesc: 'Conquiste 450 XP' },
-                { id: 'cyber_titan', name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado', requiredXP: 600, reqDesc: 'Conquiste 600 XP' },
-                { id: 'kitsune_ninja', name: 'Raposa Kitsune', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'f97316', icon: '🦊', title: 'Raposa Veloz', requiredXP: 750, reqDesc: 'Conquiste 750 XP' },
-                { id: 'guerreira_luna', name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Heroína Lendária', requiredXP: 1000, reqDesc: 'Lenda do Lab (1000 XP)' }
+
+                // --- NÍVEL 4: GUARDIÕES SUPREMOS (400 a 750 XP) ---
+                { id: 'detetive_cyber', name: 'Detetive Cyber', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Investigador Neon', requiredXP: 400, reqDesc: 'Conquiste 400 XP' },
+                { id: 'cyber_titan', name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado', requiredXP: 500, reqDesc: 'Conquiste 500 XP' },
+                { id: 'dragao_fogo', name: 'Dragão de Fogo', style: 'fun-emoji', seed: 'FireDragon', bg: 'ea580c', icon: '🔥', title: 'Chamas do Saber', requiredXP: 600, reqDesc: 'Conquiste 600 XP' },
+                { id: 'guerreira_luna', name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Heroína Lendária', requiredXP: 750, reqDesc: 'Conquiste 750 XP' },
+
+                // --- NÍVEL 5: LENDAS DA TEMPORADA (1000 a 2000 XP) ---
+                { id: 'nexus_cosmico', name: 'Nexus Cósmico', style: 'bottts', seed: 'NexusGalaxy', bg: '1e1b4b', icon: '🌌', title: 'Soberano das Estrelas', requiredXP: 1000, reqDesc: 'Lenda do Lab (1000 XP)' },
+                { id: 'cavaleiro_ouro', name: 'Cavaleiro de Ouro', style: 'adventurer', seed: 'CavaleiroDeOuro', bg: 'b45309', icon: '⚡', title: 'Armadura Dourada', requiredXP: 1250, reqDesc: 'Conquiste 1250 XP' },
+                { id: 'fenix_dourada', name: 'Fênix Dourada', style: 'fun-emoji', seed: 'CosmicPanda', bg: 'b45309', icon: '🏆', title: 'Renascida da Vitória', requiredXP: 1500, reqDesc: 'Conquiste 1500 XP' },
+                { id: 'mestre_supremo', name: 'Mestre Supremo', style: 'adventurer', seed: 'MestreSupremo', bg: '78350f', icon: '👑', title: 'Grande Lenda do Lab', requiredXP: 2000, reqDesc: 'Mestre Supremo (2000 XP)' }
             ],
-            studentPresets: [
-                { name: 'Lucas Gamer', seed: 'CapitaoLucas', top: 'hat', clothing: 'hoodie', hairColor: '2c1b18', skinColor: 'edb98a', icon: '👦' },
-                { name: 'Maria Clara', seed: 'MariaClara', top: 'bun', clothing: 'graphicShirt', hairColor: '4a312c', skinColor: 'ffdbb4', icon: '👧' },
-                { name: 'Gabriel Afro', seed: 'GabrielAfro', top: 'fro', clothing: 'hoodie', hairColor: '2c1b18', skinColor: '614335', icon: '🧑‍🦱' },
-                { name: 'Bia Estrela', seed: 'BiaEstrela', top: 'curly', clothing: 'collarAndSweater', hairColor: 'c93305', skinColor: 'ffdbb4', icon: '✨' },
-                { name: 'Pedro Radical', seed: 'PedroGamer', top: 'shortCurly', clothing: 'graphicShirt', hairColor: 'b58143', skinColor: 'd08b5b', icon: '🧢' },
-                { name: 'Ana Luz', seed: 'AnaLuz', top: 'straight01', clothing: 'hoodie', hairColor: 'f59797', skinColor: 'edb98a', icon: '🌸' }
-            ],
-            hairStyles: [
-                { id: 'shortFlat', label: 'Curto Clássico 👦', icon: '👦' },
-                { id: 'shortCurly', label: 'Cachos Curtinhos 🧑‍🦱', icon: '🧑‍🦱' },
-                { id: 'curly', label: 'Cachos com Volume 🌀', icon: '🌀' },
-                { id: 'fro', label: 'Black Power Poderoso ✊', icon: '✊' },
-                { id: 'dreads', label: 'Dreads Estilosos 🧑‍🦱', icon: '🧑‍🦱' },
-                { id: 'bun', label: 'Coque Estudante 👧', icon: '👧' },
-                { id: 'bob', label: 'Chanel Moderno 💇', icon: '💇' },
-                { id: 'straight01', label: 'Liso Longo 👩', icon: '👩' },
-                { id: 'curvy', label: 'Ondulado Divertido 🌊', icon: '🌊' },
-                { id: 'hat', label: 'Boné Gamer Virado 🧢', icon: '🧢' },
-                { id: 'winterHat1', label: 'Gorro Quentinho ❄️', icon: '❄️' }
-            ],
-            hairColors: [
-                { id: '2c1b18', label: 'Preto Ônix', hex: '#2c1b18' },
-                { id: '4a312c', label: 'Castanho Escuro', hex: '#4a312c' },
-                { id: '724133', label: 'Castanho Chocolate', hex: '#724133' },
-                { id: 'b58143', label: 'Castanho Dourado', hex: '#b58143' },
-                { id: 'd6b370', label: 'Loiro Solar', hex: '#d6b370' },
-                { id: 'f59797', label: 'Rosa Anime 🌸', hex: '#f59797' },
-                { id: 'c93305', label: 'Ruivo Fogo 🔥', hex: '#c93305' },
-                { id: 'e8e1e1', label: 'Platinado / Prata ⚡', hex: '#e8e1e1' }
-            ],
-            eyes: [
-                { id: 'happy', label: 'Super Feliz 😄', icon: '😄' },
-                { id: 'wink', label: 'Piscadinha Gamer 😉', icon: '😉' },
-                { id: 'hearts', label: 'Olhos de Coração 😍', icon: '😍' },
-                { id: 'squint', label: 'Focado / Detetive 🧐', icon: '🧐' },
-                { id: 'winkWacky', label: 'Careta Brincalhona 😜', icon: '😜' },
-                { id: 'default', label: 'Curioso / Tranquilo 🙂', icon: '👀' },
-                { id: 'surprised', label: 'Surpreso / Uau! 😲', icon: '😲' },
-                { id: 'closed', label: 'Zen / Descansando 😌', icon: '😌' }
-            ],
-            mouth: [
-                { id: 'smile', label: 'Sorrisão Amigo 😊', icon: '😊' },
-                { id: 'twinkle', label: 'Radiante / Estrela 🌟', icon: '🌟' },
-                { id: 'tongue', label: 'Língua de Fora 😋', icon: '😋' },
-                { id: 'eating', label: 'Comendo Cookies 🍪', icon: '🍪' },
-                { id: 'default', label: 'Sorriso Suave 🙂', icon: '🙂' },
-                { id: 'serious', label: 'Concentrado 😐', icon: '😐' }
-            ],
-            accessories: [
-                { id: 'none', label: 'Sem Óculos 🚫', icon: '🚫' },
-                { id: 'round', label: 'Redondos / Harry Potter 🤓', icon: '👓' },
-                { id: 'wayfarers', label: 'Óculos Gamer Estiloso 😎', icon: '🕶️' },
-                { id: 'prescription01', label: 'Óculos de Grau Moderno 👓', icon: '👓' },
-                { id: 'prescription02', label: 'Óculos Retrô 👓', icon: '👓' },
-                { id: 'sunglasses', label: 'Óculos de Sol Praia 🏖️', icon: '🕶️' },
-                { id: 'eyepatch', label: 'Tapa-Olho Pirata 🏴‍☠️', icon: '🏴‍☠️' }
-            ],
-            clothing: [
-                { id: 'hoodie', label: 'Moletom Gamer com Capuz 🧥', icon: '🧥' },
-                { id: 'graphicShirt', label: 'Camiseta Estampada 🎮', icon: '🎮' },
-                { id: 'shirtCrewNeck', label: 'Camiseta Básica 👕', icon: '👕' },
-                { id: 'overall', label: 'Macacão de Aventura 👖', icon: '👖' },
-                { id: 'collarAndSweater', label: 'Uniforme Escolar 👔', icon: '👔' },
-                { id: 'blazerAndShirt', label: 'Formatura / Gala 🎓', icon: '🎓' }
-            ],
-            clothesColors: [
-                { id: '0284c7', label: 'Azul Lab Kids', hex: '#0284c7' },
-                { id: '7c3aed', label: 'Roxo Gamer', hex: '#7c3aed' },
-                { id: 'ef4444', label: 'Vermelho Rubi', hex: '#ef4444' },
-                { id: '10b981', label: 'Verde Esmeralda', hex: '#10b981' },
-                { id: 'f59e0b', label: 'Amarelo Ouro', hex: '#f59e0b' },
-                { id: 'ec4899', label: 'Rosa Pink', hex: '#ec4899' },
-                { id: '1e293b', label: 'Preto Grafite', hex: '#1e293b' },
-                { id: 'ffffff', label: 'Branco Puro', hex: '#ffffff' }
-            ],
-            skinColors: [
-                { id: 'ffdbb4', label: 'Claro Neutro', hex: '#ffdbb4' },
-                { id: 'edb98a', label: 'Claro Dourado', hex: '#edb98a' },
-                { id: 'f8d25c', label: 'Dourado Quente', hex: '#f8d25c' },
-                { id: 'fd9841', label: 'Canela Suave', hex: '#fd9841' },
-                { id: 'd08b5b', label: 'Moreno Natural', hex: '#d08b5b' },
-                { id: 'ae5d29', label: 'Moreno Médio', hex: '#ae5d29' },
-                { id: '614335', label: 'Negro / Ébano', hex: '#614335' }
+            frames: [
+                { id: 'frame_none', name: 'Sem Moldura', icon: '🚫', desc: 'Borda padrão sem efeito', requiredXP: 0, badge: 'Inicial', borderStyle: 'border: 3px solid rgba(255,255,255,0.7); box-shadow: 0 4px 15px rgba(0,0,0,0.15);' },
+                { id: 'frame_madeira', name: 'Madeira Rústica', icon: '🪵', desc: 'Borda rústica de explorador mirim', requiredXP: 20, badge: '20 XP', borderStyle: 'border: 5px solid #854d0e; outline: 2px solid #713f12; box-shadow: 0 0 12px rgba(133, 77, 14, 0.6), inset 0 0 6px #713f12;' },
+                { id: 'frame_bronze', name: 'Aço de Batalha', icon: '🛡️', desc: 'Aro reforçado metálico com rebites', requiredXP: 60, badge: '60 XP', borderStyle: 'border: 5px solid #94a3b8; outline: 2px solid #475569; box-shadow: 0 0 14px rgba(148, 163, 184, 0.8), inset 0 0 6px #334155;' },
+                { id: 'frame_cyber', name: 'Neon Cyberpunk', icon: '⚡', desc: 'Brilho ciano e azul elétrico arcade', requiredXP: 120, badge: '120 XP', borderStyle: 'border: 5px solid #00f2fe; outline: 2px solid #0284c7; box-shadow: 0 0 20px #00f2fe, inset 0 0 10px rgba(0, 242, 254, 0.6); animation: neonCyberPulse 2s infinite ease-in-out;' },
+                { id: 'frame_craft', name: 'Bloco Craft', icon: '⛏️', desc: 'Estilo bloco de esmeralda cúbico', requiredXP: 250, badge: '250 XP', borderStyle: 'border: 5px solid #10b981; outline: 3px solid #065f46; box-shadow: 0 0 16px rgba(16, 185, 129, 0.85), inset 0 0 8px #047857;' },
+                { id: 'frame_brasil', name: 'Pátria Canarinho', icon: '🇧🇷', desc: 'Ouro e verde da Seleção com estrelas', requiredXP: 400, badge: '400 XP', borderStyle: 'border: 5px solid #facc15; outline: 3px solid #15803d; box-shadow: 0 0 22px rgba(250, 204, 21, 0.95), 0 0 35px rgba(21, 128, 61, 0.6);' },
+                { id: 'frame_freefire', name: 'Fogo Free Fire', icon: '🔥', desc: 'Chamas carmesim e fogo ardente', requiredXP: 600, badge: '600 XP', borderStyle: 'border: 5px solid #ff4500; outline: 3px solid #dc2626; box-shadow: 0 0 24px #ef4444, inset 0 0 14px #f97316; animation: flamePulse 1.8s infinite ease-in-out;' },
+                { id: 'frame_xbox', name: 'Xbox Ultra Verde', icon: '🎮', desc: 'Verde oficial Xbox com aura gamer', requiredXP: 850, badge: '850 XP', borderStyle: 'border: 5px solid #107c10; outline: 3px solid #052e16; box-shadow: 0 0 24px #22c55e, inset 0 0 12px #107c10;' },
+                { id: 'frame_flamengo', name: 'Nação Rubro-Negra', icon: '🔴⚫', desc: 'Raça rubro-negra com detalhes de ouro', requiredXP: 1100, badge: '1100 XP', borderStyle: 'border: 5px solid #dc2626; outline: 3px solid #09090b; box-shadow: 0 0 25px rgba(220, 38, 38, 0.95), 0 0 10px #fbbf24;' },
+                { id: 'frame_diamante', name: 'Diamante Radiante', icon: '💎', desc: 'Cristal raro com brilho celestial', requiredXP: 1500, badge: '1500 XP', borderStyle: 'border: 5px solid #e0f2fe; outline: 3px solid #38bdf8; box-shadow: 0 0 30px #38bdf8, 0 0 45px rgba(255, 255, 255, 0.9); animation: diamondShimmer 2.5s infinite;' },
+                { id: 'frame_campeao', name: 'Coroa da Glória (TOP 1)', icon: '👑', desc: 'Ouro real da temporada com gemas', requiredXP: 2000, badge: '2000 XP', borderStyle: 'border: 6px solid #fbbf24; outline: 3px solid #b45309; box-shadow: 0 0 35px #fbbf24, inset 0 0 18px #fbbf24;' }
             ],
             bgColors: [
-                { id: '38bdf8', label: 'Céu Azul ☁️', hex: '#38bdf8' },
-                { id: '818cf8', label: 'Galáxia Espacial 🚀', hex: '#818cf8' },
-                { id: 'fbbf24', label: 'Ouro Campeão 🏆', hex: '#fbbf24' },
-                { id: '10b981', label: 'Floresta Mágica 🌿', hex: '#10b981' },
-                { id: 'f43f5e', label: 'Rubi de Fogo 🔥', hex: '#f43f5e' },
-                { id: 'c0aedd', label: 'Roxo Arcano 🔮', hex: '#c0aedd' },
-                { id: 'ffd5dc', label: 'Doce Algodão 🌸', hex: '#ffd5dc' },
-                { id: '0f172a', label: 'Dojo Ninja 🥋', hex: '#0f172a' },
-                { id: 'ffdfbf', label: 'Pêssego Solar ☀️', hex: '#ffdfbf' },
-                { id: '1e3a8a', label: 'Azul Cósmico 🌌', hex: '#1e3a8a' }
+                { id: 'freefire', label: 'Free Fire Battle 🔥', gradient: 'linear-gradient(135deg, #7f1d1d 0%, #ea580c 50%, #450a0a 100%)', hex: 'ea580c' },
+                { id: 'xbox', label: 'Xbox Game Pass 🎮', gradient: 'linear-gradient(135deg, #052e16 0%, #107c10 50%, #064e3b 100%)', hex: '107c10' },
+                { id: 'flamengo', label: 'Manto Rubro-Negro 🔴⚫', gradient: 'linear-gradient(135deg, #450a0a 0%, #dc2626 50%, #09090b 100%)', hex: 'dc2626' },
+                { id: 'brasil', label: 'Brasil Canarinho 🇧🇷', gradient: 'linear-gradient(135deg, #15803d 0%, #facc15 50%, #1d4ed8 100%)', hex: 'facc15' },
+                { id: 'minecraft', label: 'Minecraft Craft ⛏️', gradient: 'linear-gradient(135deg, #15803d 0%, #22c55e 50%, #78350f 100%)', hex: '22c55e' },
+                { id: 'galaxy', label: 'Galáxia Espacial 🚀', gradient: 'linear-gradient(135deg, #0f172a 0%, #312e81 50%, #581c87 100%)', hex: '818cf8' },
+                { id: 'playstation', label: 'PlayStation Blue ⚡', gradient: 'linear-gradient(135deg, #002244 0%, #003791 50%, #00f2fe 100%)', hex: '003791' },
+                { id: 'ouro_campeao', label: 'Ouro Campeão 🏆', gradient: 'linear-gradient(135deg, #78350f 0%, #f59e0b 50%, #fbbf24 100%)', hex: 'fbbf24' },
+                { id: 'ninja_dark', label: 'Dojo das Sombras 🥋', gradient: 'linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #0f172a 100%)', hex: '0f172a' },
+                { id: 'candy_pop', label: 'Doce Pop Rainbow 🍭', gradient: 'linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%)', hex: 'ec4899' }
             ]
         };
 
@@ -1369,15 +1299,7 @@
                 : (typeof DUOLINGO_AVATAR_PRESETS !== 'undefined' ? DUOLINGO_AVATAR_PRESETS : {});
             return {
                 heroes: (ext.heroes && ext.heroes.length) ? ext.heroes : FALLBACK_AVATAR_PRESETS.heroes,
-                studentPresets: (ext.studentPresets && ext.studentPresets.length) ? ext.studentPresets : FALLBACK_AVATAR_PRESETS.studentPresets,
-                hairStyles: (ext.hairStyles && ext.hairStyles.length) ? ext.hairStyles : FALLBACK_AVATAR_PRESETS.hairStyles,
-                hairColors: (ext.hairColors && ext.hairColors.length) ? ext.hairColors : FALLBACK_AVATAR_PRESETS.hairColors,
-                eyes: (ext.eyes && ext.eyes.length) ? ext.eyes : FALLBACK_AVATAR_PRESETS.eyes,
-                mouth: (ext.mouth && ext.mouth.length) ? ext.mouth : FALLBACK_AVATAR_PRESETS.mouth,
-                accessories: (ext.accessories && ext.accessories.length) ? ext.accessories : FALLBACK_AVATAR_PRESETS.accessories,
-                clothing: (ext.clothing && ext.clothing.length) ? ext.clothing : FALLBACK_AVATAR_PRESETS.clothing,
-                clothesColors: (ext.clothesColors && ext.clothesColors.length) ? ext.clothesColors : FALLBACK_AVATAR_PRESETS.clothesColors,
-                skinColors: (ext.skinColors && ext.skinColors.length) ? ext.skinColors : FALLBACK_AVATAR_PRESETS.skinColors,
+                frames: (ext.frames && ext.frames.length) ? ext.frames : FALLBACK_AVATAR_PRESETS.frames,
                 bgColors: (ext.bgColors && ext.bgColors.length) ? ext.bgColors : FALLBACK_AVATAR_PRESETS.bgColors
             };
         }
@@ -1389,20 +1311,7 @@
             const cfg = config || {};
             const style = cfg.style || 'bottts';
             const seed = cfg.seed || 'LeoRobot';
-            const bg = (cfg.bg || '38bdf8').replace('#', '');
-            let url = '/api/avatar-proxy?style=' + encodeURIComponent(style) + '&seed=' + encodeURIComponent(seed);
-            if (bg && bg !== 'transparent') url += '&backgroundColor=' + bg;
-            if (style === 'avataaars') {
-                if (cfg.top) url += '&top=' + encodeURIComponent(cfg.top);
-                if (cfg.hairColor) url += '&hairColor=' + encodeURIComponent(cfg.hairColor.replace('#', ''));
-                if (cfg.skinColor) url += '&skinColor=' + encodeURIComponent(cfg.skinColor.replace('#', ''));
-                if (cfg.clothing) url += '&clothing=' + encodeURIComponent(cfg.clothing);
-                if (cfg.clothesColor) url += '&clothesColor=' + encodeURIComponent(cfg.clothesColor.replace('#', ''));
-                if (cfg.eyes) url += '&eyes=' + encodeURIComponent(cfg.eyes);
-                if (cfg.mouth) url += '&mouth=' + encodeURIComponent(cfg.mouth);
-                if (cfg.accessories) url += '&accessories=' + encodeURIComponent(cfg.accessories);
-            }
-            return url;
+            return '/api/avatar-proxy?style=' + encodeURIComponent(style) + '&seed=' + encodeURIComponent(seed);
         }
 
         function randomizeAvatar() {
@@ -1412,27 +1321,29 @@
                 window.LabKidsGamification.confetti();
             }
 
-            if (Math.random() > 0.5 && P.heroes && P.heroes.length > 0) {
-                const h = P.heroes[Math.floor(Math.random() * P.heroes.length)];
-                avatarConfig.style = h.style;
-                avatarConfig.seed = h.seed;
-                avatarConfig.bg = h.bg;
-                const nameInp = document.getElementById('student-name-input');
-                if (nameInp && (!nameInp.value || nameInp.value === 'Aluno Lab Kids')) {
-                    nameInp.value = h.name;
-                }
-            } else {
-                avatarConfig.style = 'avataaars';
-                avatarConfig.seed = 'Kid' + Math.floor(Math.random() * 1000);
-                avatarConfig.top = P.hairStyles[Math.floor(Math.random() * P.hairStyles.length)].id;
-                avatarConfig.hairColor = P.hairColors[Math.floor(Math.random() * P.hairColors.length)].hex;
-                avatarConfig.skinColor = P.skinColors[Math.floor(Math.random() * P.skinColors.length)].hex;
-                avatarConfig.clothing = P.clothing[Math.floor(Math.random() * P.clothing.length)].id;
-                avatarConfig.clothesColor = P.clothesColors[Math.floor(Math.random() * P.clothesColors.length)].hex;
-                avatarConfig.eyes = P.eyes[Math.floor(Math.random() * P.eyes.length)].id;
-                avatarConfig.mouth = P.mouth[Math.floor(Math.random() * P.mouth.length)].id;
-                avatarConfig.accessories = P.accessories[Math.floor(Math.random() * P.accessories.length)].id;
-                avatarConfig.bg = P.bgColors[Math.floor(Math.random() * P.bgColors.length)].hex;
+            const currentXP = Number((selectedStudent && selectedStudent.points) || (JSON.parse(localStorage.getItem('lab_student_profile') || '{}').points) || 0);
+
+            // Herói aleatório (dá preferência aos desbloqueados)
+            const unlockedHeroes = (P.heroes || []).filter(h => (h.requiredXP || 0) <= currentXP);
+            const pool = unlockedHeroes.length > 0 ? unlockedHeroes : (P.heroes || []);
+            const hero = pool[Math.floor(Math.random() * pool.length)];
+
+            // Moldura aleatória desbloqueada
+            const unlockedFrames = (P.frames || []).filter(f => (f.requiredXP || 0) <= currentXP);
+            const frame = unlockedFrames.length > 0 ? unlockedFrames[Math.floor(Math.random() * unlockedFrames.length)] : { id: 'frame_none' };
+
+            // Cenário aleatório
+            const bgObj = P.bgColors[Math.floor(Math.random() * P.bgColors.length)];
+
+            avatarConfig.style = hero.style;
+            avatarConfig.seed = hero.seed;
+            avatarConfig.heroName = hero.name;
+            avatarConfig.frame = frame.id;
+            avatarConfig.bg = bgObj.id;
+
+            const nameInp = document.getElementById('student-name-input');
+            if (nameInp && (!nameInp.value || nameInp.value === 'Aluno Lab Kids')) {
+                nameInp.value = hero.name;
             }
 
             updateDuoPreview();
@@ -1446,28 +1357,27 @@
             if (!container || !titleEl) return;
             container.innerHTML = '';
 
-            // Função segura para alternar para o modo customizável humano sem apagar as escolhas do aluno
-            function enableHumanModeIfNeeded() {
-                if (avatarConfig.style !== 'avataaars') {
-                    avatarConfig.style = 'avataaars';
-                    if (!avatarConfig.seed || avatarConfig.seed === 'LeoRobot' || avatarConfig.seed === 'Ninja' || avatarConfig.seed === 'DinoRex') {
-                        avatarConfig.seed = 'CapitaoLucas';
-                    }
-                }
+            const currentXP = Number((selectedStudent && selectedStudent.points) || (JSON.parse(localStorage.getItem('lab_student_profile') || '{}').points) || 0);
+
+            // Atualiza crachá superior do jogador no studio
+            const xpDisp = document.getElementById('builder-xp-display');
+            if (xpDisp) xpDisp.innerText = currentXP + ' XP';
+            const rankDisp = document.getElementById('builder-rank-display');
+            if (rankDisp && window.LabKidsGamification && window.LabKidsGamification.calculateLevel) {
+                rankDisp.innerText = window.LabKidsGamification.calculateLevel(currentXP).title;
             }
 
+            // --- ABA 1: HERÓIS DO LAB ---
             if (activeTab === 'heroes') {
-                titleEl.innerHTML = '🌟 Heróis & Mascotes do Lab <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Desbloqueie novos personagens com seu XP!)</span>';
+                titleEl.innerHTML = '🦸‍♂️ Heróis do Lab Kids <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Desbloqueie novos heróis com seu XP!)</span>';
                 
-                const currentXP = Number((selectedStudent && selectedStudent.points) || (JSON.parse(localStorage.getItem('lab_student_profile') || '{}').points) || 0);
-                const heroes = P.heroes || [];
-                heroes.forEach(h => {
+                (P.heroes || []).forEach(h => {
                     const isSel = (avatarConfig.style === h.style && avatarConfig.seed === h.seed);
                     const isLocked = (Number(h.requiredXP || 0) > currentXP);
                     
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '') + (isLocked ? ' locked-hero' : '');
-                    tile.style.cssText = 'position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 10px; font-weight: 800; border-radius: 20px; min-height: 135px; cursor: pointer; background: ' + (isLocked ? '#f1f5f9' : '#ffffff') + '; border: 2.5px solid ' + (isSel ? '#3b82f6' : (isLocked ? '#cbd5e1' : '#e2e8f0')) + '; border-bottom: 4px solid ' + (isSel ? '#1d4ed8' : (isLocked ? '#94a3b8' : '#cbd5e1')) + '; transition: all 0.2s ease; opacity: ' + (isLocked ? '0.78' : '1') + '; overflow: hidden;';
+                    tile.style.cssText = 'position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 10px; font-weight: 800; border-radius: 20px; min-height: 135px; cursor: pointer; background: ' + (isLocked ? '#f8fafc' : '#ffffff') + '; border: 2.5px solid ' + (isSel ? '#3b82f6' : (isLocked ? '#cbd5e1' : '#e2e8f0')) + '; border-bottom: 4px solid ' + (isSel ? '#1d4ed8' : (isLocked ? '#94a3b8' : '#cbd5e1')) + '; transition: all 0.2s ease; opacity: ' + (isLocked ? '0.75' : '1') + '; overflow: hidden;';
 
                     if (!isLocked) {
                         tile.onmouseover = () => tile.style.transform = 'translateY(-4px) scale(1.02)';
@@ -1475,7 +1385,7 @@
                         tile.onclick = () => {
                             avatarConfig.style = h.style;
                             avatarConfig.seed = h.seed;
-                            avatarConfig.bg = h.bg;
+                            avatarConfig.heroName = h.name;
                             const nameInp = document.getElementById('student-name-input');
                             if (nameInp && (!nameInp.value || nameInp.value === 'Aluno Lab Kids')) {
                                 nameInp.value = h.name;
@@ -1487,10 +1397,10 @@
                     } else {
                         tile.onclick = () => {
                             const diff = h.requiredXP - currentXP;
-                            if (window.LabKidsGamification) {
-                                window.LabKidsGamification.showToast(0, '🔒 <strong>' + h.name + '</strong> está bloqueado! Faltam ' + diff + ' XP para desbloquear!', 'Conquista');
+                            if (window.LabKidsGamification && window.LabKidsGamification.showToast) {
+                                window.LabKidsGamification.showToast(0, '🔒 <strong>' + h.name + '</strong> está bloqueado! Faltam ' + diff + ' XP para liberar!', 'Conquista');
                             } else {
-                                alert('🔒 HERÓI BLOQUEADO!\n\nEste personagem é liberado ao atingir ' + h.requiredXP + ' XP!\nVocê tem atualmente: ' + currentXP + ' XP.\nFaltam apenas: ' + diff + ' XP!\n\nJogue os desafios do Lab Kids para liberar este herói!');
+                                alert('🔒 HERÓI BLOQUEADO!\n\nLiberado com ' + h.requiredXP + ' XP!\nVocê tem: ' + currentXP + ' XP (Faltam ' + diff + ' XP).\n\nComplete atividades e missões para liberar este herói!');
                             }
                         };
                     }
@@ -1501,11 +1411,13 @@
                         statusBadge = '<div style="position:absolute; top:6px; right:6px; background:rgba(15,23,42,0.85); color:#fbbf24; border-radius:50px; padding:2px 8px; font-size:0.68rem; font-weight:800; display:flex; align-items:center; gap:3px;"><span>🔒</span> <span>' + h.requiredXP + ' XP</span></div>';
                     } else if (h.requiredXP > 0) {
                         statusBadge = '<div style="position:absolute; top:6px; right:6px; background:#10b981; color:#ffffff; border-radius:50px; padding:2px 8px; font-size:0.65rem; font-weight:800;">✨ LIBERADO</div>';
+                    } else {
+                        statusBadge = '<div style="position:absolute; top:6px; right:6px; background:#38bdf8; color:#ffffff; border-radius:50px; padding:2px 8px; font-size:0.65rem; font-weight:800;">INICIAL</div>';
                     }
 
                     tile.innerHTML = statusBadge +
-                        '<div style="position:relative; margin-bottom:6px;">' +
-                            '<img src="' + sampleUrl + '" width="72" height="72" style="border-radius:18px; display:block; filter:' + (isLocked ? 'grayscale(0.65) contrast(0.9)' : 'drop-shadow(0 4px 10px rgba(0,0,0,0.15))') + ';" alt="' + h.name + '" />' +
+                        '<div style="position:relative; margin-bottom:6px; width:72px; height:72px; display:flex; align-items:center; justify-content:center;">' +
+                            '<img src="' + sampleUrl + '" width="68" height="68" style="border-radius:18px; display:block; filter:' + (isLocked ? 'grayscale(0.65) contrast(0.9)' : 'drop-shadow(0 4px 10px rgba(0,0,0,0.15))') + ';" alt="' + h.name + '" />' +
                             (isLocked ? '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:1.6rem; filter:drop-shadow(0 2px 5px rgba(0,0,0,0.8));">🔒</div>' : '') +
                         '</div>' +
                         '<div style="font-size:0.88rem; font-weight:900; color:' + (isLocked ? '#475569' : '#1e293b') + '; text-align:center;">' + h.name + '</div>' +
@@ -1513,247 +1425,93 @@
                     container.appendChild(tile);
                 });
 
-            } else if (activeTab === 'students') {
-                titleEl.innerHTML = '🧑 Escolha um Modelo Base de Aluno(a) <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Depois você pode trocar cabelo, óculos e roupas!)</span>';
-                
-                (P.studentPresets || []).forEach(sp => {
-                    const isSel = (avatarConfig.style === 'avataaars' && avatarConfig.seed === sp.seed);
+            // --- ABA 2: MOLDURAS GAMERS (TODAS TRANCADAS POR XP) ---
+            } else if (activeTab === 'frames') {
+                titleEl.innerHTML = '🖼️ Molduras Gamers Colecionáveis <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Suba de nível para desbloquear molduras épicas!)</span>';
+
+                (P.frames || []).forEach(f => {
+                    const isSel = (avatarConfig.frame || 'frame_none') === f.id;
+                    const isLocked = (Number(f.requiredXP || 0) > currentXP);
+
+                    const tile = document.createElement('div');
+                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '') + (isLocked ? ' locked-frame' : '');
+                    tile.style.cssText = 'position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px 10px; font-weight: 800; border-radius: 20px; min-height: 140px; cursor: pointer; background: ' + (isLocked ? '#f8fafc' : '#ffffff') + '; border: 2.5px solid ' + (isSel ? '#3b82f6' : (isLocked ? '#cbd5e1' : '#e2e8f0')) + '; border-bottom: 4px solid ' + (isSel ? '#1d4ed8' : (isLocked ? '#94a3b8' : '#cbd5e1')) + '; transition: all 0.2s ease; opacity: ' + (isLocked ? '0.78' : '1') + '; overflow: hidden;';
+
+                    if (!isLocked) {
+                        tile.onmouseover = () => tile.style.transform = 'translateY(-4px) scale(1.02)';
+                        tile.onmouseout = () => tile.style.transform = 'translateY(0) scale(1)';
+                        tile.onclick = () => {
+                            avatarConfig.frame = f.id;
+                            if (window.LabKidsGamification) window.LabKidsGamification.playChime();
+                            renderTabContent();
+                            updateDuoPreview();
+                        };
+                    } else {
+                        tile.onclick = () => {
+                            const diff = f.requiredXP - currentXP;
+                            if (window.LabKidsGamification && window.LabKidsGamification.showToast) {
+                                window.LabKidsGamification.showToast(0, '🔒 <strong>' + f.name + '</strong> está bloqueada! Faltam ' + diff + ' XP!', 'Moldura');
+                            } else {
+                                alert('🔒 MOLDURA BLOQUEADA!\n\nDesbloqueada com ' + f.requiredXP + ' XP!\nSeu XP atual: ' + currentXP + ' XP (Faltam ' + diff + ' XP).\n\nContinue jogando para liberar este visual!');
+                            }
+                        };
+                    }
+
+                    let statusBadge = '';
+                    if (isLocked) {
+                        statusBadge = '<div style="position:absolute; top:6px; right:6px; background:rgba(15,23,42,0.85); color:#fbbf24; border-radius:50px; padding:2px 8px; font-size:0.68rem; font-weight:800; display:flex; align-items:center; gap:3px;"><span>🔒</span> <span>' + f.requiredXP + ' XP</span></div>';
+                    } else if (f.requiredXP > 0) {
+                        statusBadge = '<div style="position:absolute; top:6px; right:6px; background:#10b981; color:#ffffff; border-radius:50px; padding:2px 8px; font-size:0.65rem; font-weight:800;">✨ LIBERADO</div>';
+                    } else {
+                        statusBadge = '<div style="position:absolute; top:6px; right:6px; background:#94a3b8; color:#ffffff; border-radius:50px; padding:2px 8px; font-size:0.65rem; font-weight:800;">PADRÃO</div>';
+                    }
+
+                    // Miniatura com o efeito real da moldura
+                    tile.innerHTML = statusBadge +
+                        '<div style="width: 58px; height: 58px; border-radius: 14px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; background: #f1f5f9; box-sizing: border-box; ' + f.borderStyle + '">' +
+                            (isLocked ? '🔒' : f.icon) +
+                        '</div>' +
+                        '<div style="font-size:0.88rem; font-weight:900; color:' + (isLocked ? '#475569' : '#1e293b') + '; text-align:center;">' + f.name + '</div>' +
+                        '<div style="font-size:0.7rem; color:' + (isLocked ? '#94a3b8' : '#64748b') + '; font-weight:700; text-align:center;">' + (isLocked ? ('Bloqueada • ' + f.requiredXP + ' XP') : f.desc) + '</div>';
+
+                    container.appendChild(tile);
+                });
+
+            // --- ABA 3: CENÁRIOS & ARENAS TEMÁTICAS (FREE FIRE, XBOX, FLAMENGO, BRASIL, ETC.) ---
+            } else if (activeTab === 'bg') {
+                titleEl.innerHTML = '🏟️ Arenas & Cenários Temáticos <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Free Fire, Xbox, Flamengo, Brasil e mais!)</span>';
+
+                (P.bgColors || []).forEach(arena => {
+                    const isSel = (avatarConfig.bg === arena.id || avatarConfig.bg === arena.hex);
+
                     const tile = document.createElement('div');
                     tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 10px; font-weight:800; border-radius:20px; min-height:120px; cursor:pointer; background:#ffffff; border:2.5px solid ' + (isSel ? '#3b82f6' : '#e2e8f0') + ';';
+                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 10px; font-weight:800; border-radius:20px; min-height:125px; cursor:pointer; background:#ffffff; border:2.5px solid ' + (isSel ? '#3b82f6' : '#e2e8f0') + '; border-bottom:4px solid ' + (isSel ? '#1d4ed8' : '#cbd5e1') + '; transition: all 0.2s ease;';
+
+                    tile.onmouseover = () => tile.style.transform = 'translateY(-4px) scale(1.02)';
+                    tile.onmouseout = () => tile.style.transform = 'translateY(0) scale(1)';
+
                     tile.onclick = () => {
-                        avatarConfig.style = 'avataaars';
-                        avatarConfig.seed = sp.seed;
-                        if (sp.top) avatarConfig.top = sp.top;
-                        if (sp.clothing) avatarConfig.clothing = sp.clothing;
-                        if (sp.hairColor) avatarConfig.hairColor = sp.hairColor;
-                        if (sp.skinColor) avatarConfig.skinColor = sp.skinColor;
-                        const nameInp = document.getElementById('student-name-input');
-                        if (nameInp && (!nameInp.value || nameInp.value === 'Aluno Lab Kids')) {
-                            nameInp.value = sp.name;
-                        }
+                        avatarConfig.bg = arena.id;
                         if (window.LabKidsGamification) window.LabKidsGamification.playChime();
                         renderTabContent();
                         updateDuoPreview();
                     };
 
-                    const sampleUrl = safeBuildDiceBearUrl({ 
-                        style: 'avataaars', 
-                        seed: sp.seed, 
-                        top: sp.top, 
-                        clothing: sp.clothing, 
-                        hairColor: sp.hairColor, 
-                        skinColor: sp.skinColor, 
-                        bg: avatarConfig.bg || '38bdf8' 
-                    });
-
                     tile.innerHTML = 
-                        '<img src="' + sampleUrl + '" width="68" height="68" style="border-radius:16px; margin-bottom:6px;" alt="' + sp.name + '" />' +
-                        '<div style="font-size:0.9rem; font-weight:900; color:#1e293b; text-align:center;">' + sp.name + '</div>';
-                    container.appendChild(tile);
-                });
+                        '<div style="background:' + arena.gradient + '; border-radius:14px; width:100%; height:62px; border:2px solid #ffffff; box-shadow:0 4px 12px rgba(0,0,0,0.18); display:flex; align-items:center; justify-content:center; font-size:1.6rem;"></div>' +
+                        '<div style="font-size:0.85rem; font-weight:900; text-align:center; margin-top:8px; color:#1e293b;">' + arena.label + '</div>';
 
-            } else if (activeTab === 'accessories') {
-                enableHumanModeIfNeeded();
-                titleEl.innerHTML = '👓 Óculos & Acessórios Gamers';
-                
-                (P.accessories || []).forEach(acc => {
-                    const isSel = (avatarConfig.accessories || 'none') === acc.id;
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 8px; font-weight:800; border-radius:18px; min-height:105px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.accessories = acc.id;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-
-                    tile.innerHTML = 
-                        '<div style="font-size:2.2rem; margin-bottom:6px;">' + acc.icon + '</div>' +
-                        '<div style="font-size:0.82rem; font-weight:900; color:#1e293b; text-align:center;">' + acc.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-            } else if (activeTab === 'eyes') {
-                enableHumanModeIfNeeded();
-                titleEl.innerHTML = '👀 Olhos, Expressões & Sorrisos';
-                
-                const eyesHeading = document.createElement('div');
-                eyesHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 4px 0 2px 0; display:flex; align-items:center; gap:6px;';
-                eyesHeading.innerHTML = '<span>👁️</span> <span>Expressão dos Olhos:</span>';
-                container.appendChild(eyesHeading);
-
-                (P.eyes || []).forEach(eye => {
-                    const isSel = (avatarConfig.eyes || 'happy') === eye.id;
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.eyes = eye.id;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div style="font-size:1.8rem; margin-bottom:2px;">' + eye.icon + '</div>' +
-                        '<div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">' + eye.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-                const mouthHeading = document.createElement('div');
-                mouthHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 16px 0 2px 0; border-top: 1px dashed #cbd5e1; padding-top: 14px; display:flex; align-items:center; gap:6px;';
-                mouthHeading.innerHTML = '<span>👄</span> <span>Sorriso e Boca:</span>';
-                container.appendChild(mouthHeading);
-
-                (P.mouth || []).forEach(m => {
-                    const isSel = (avatarConfig.mouth || 'smile') === m.id;
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.mouth = m.id;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div style="font-size:1.8rem; margin-bottom:2px;">' + m.icon + '</div>' +
-                        '<div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">' + m.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-            } else if (activeTab === 'hair') {
-                enableHumanModeIfNeeded();
-                titleEl.innerHTML = '💇 Cabelos Infantis & Cores Vivas';
-
-                const colorHeading = document.createElement('div');
-                colorHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin-bottom: 2px;';
-                colorHeading.innerHTML = '🎨 Cor do Cabelo:';
-                container.appendChild(colorHeading);
-
-                (P.hairColors || []).forEach(hc => {
-                    const isSel = (avatarConfig.hairColor || '2c1b18').replace('#', '') === hc.hex.replace('#', '');
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 4px; border-radius:14px; min-height:75px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.hairColor = hc.hex;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div class="duo-color-swatch" style="background:' + hc.hex + '; border-radius:10px; width:36px; height:36px; border:2px solid #ffffff; box-shadow:0 2px 6px rgba(0,0,0,0.15);"></div>' +
-                        '<div style="font-size:0.72rem; font-weight:800; margin-top:4px; color:#475569; text-align:center;">' + hc.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-                const styleHeading = document.createElement('div');
-                styleHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 16px 0 2px 0; border-top: 1px dashed #cbd5e1; padding-top: 14px;';
-                styleHeading.innerHTML = '✂️ Estilo do Penteado:';
-                container.appendChild(styleHeading);
-
-                (P.hairStyles || []).forEach(hs => {
-                    const isSel = (avatarConfig.top || 'shortCurly') === hs.id;
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.top = hs.id;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div style="font-size:1.8rem; margin-bottom:2px;">' + hs.icon + '</div>' +
-                        '<div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">' + hs.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-            } else if (activeTab === 'skin') {
-                enableHumanModeIfNeeded();
-                titleEl.innerHTML = '🎨 Tom de Pele Natural & Inclusivo';
-                (P.skinColors || []).forEach(sc => {
-                    const isSel = (avatarConfig.skinColor || 'edb98a').replace('#', '') === sc.hex.replace('#', '');
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px; border-radius:18px; min-height:90px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.skinColor = sc.hex;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div class="duo-color-swatch" style="background:' + sc.hex + '; border-radius:12px; width:48px; height:48px; border:3px solid #ffffff; box-shadow:0 4px 10px rgba(0,0,0,0.12);"></div>' +
-                        '<div style="font-size:0.75rem; font-weight:800; margin-top:6px; color:#475569; text-align:center;">' + sc.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-            } else if (activeTab === 'clothing') {
-                enableHumanModeIfNeeded();
-                titleEl.innerHTML = '👕 Roupas, Moletons & Camisetas Gamers';
-
-                const colorHeading = document.createElement('div');
-                colorHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin-bottom: 2px;';
-                colorHeading.innerHTML = '🎨 Cor da Roupa:';
-                container.appendChild(colorHeading);
-
-                (P.clothesColors || []).forEach(cc => {
-                    const isSel = (avatarConfig.clothesColor || '0284c7').replace('#', '') === cc.hex.replace('#', '');
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:8px 4px; border-radius:14px; min-height:75px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.clothesColor = cc.hex;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div class="duo-color-swatch" style="background:' + cc.hex + '; border-radius:10px; width:36px; height:36px; border:2px solid #ffffff; box-shadow:0 2px 6px rgba(0,0,0,0.15);"></div>' +
-                        '<div style="font-size:0.72rem; font-weight:800; margin-top:4px; color:#475569; text-align:center;">' + cc.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-                const clothesHeading = document.createElement('div');
-                clothesHeading.style.cssText = 'grid-column: 1 / -1; font-weight: 900; color: #1e3a8a; font-size: 1rem; margin: 16px 0 2px 0; border-top: 1px dashed #cbd5e1; padding-top: 14px;';
-                clothesHeading.innerHTML = '🎽 Modelo da Roupa:';
-                container.appendChild(clothesHeading);
-
-                (P.clothing || []).forEach(cl => {
-                    const isSel = (avatarConfig.clothing || 'hoodie') === cl.id;
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.style.cssText = 'display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 6px; font-weight:800; border-radius:16px; min-height:85px; cursor:pointer; background:#ffffff;';
-                    tile.onclick = () => {
-                        avatarConfig.clothing = cl.id;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div style="font-size:1.8rem; margin-bottom:2px;">' + cl.icon + '</div>' +
-                        '<div style="font-size:0.75rem; font-weight:800; color:#334155; text-align:center;">' + cl.label + '</div>';
-                    container.appendChild(tile);
-                });
-
-            } else if (activeTab === 'bg') {
-                titleEl.innerHTML = '🌈 Cenários de Fundo & Auras de Poder <span style="font-size:0.85rem; font-weight:700; color:#64748b; margin-left:8px;">(Funciona em TODOS os avatares e heróis!)</span>';
-                (P.bgColors || []).forEach(theme => {
-                    const isSel = (avatarConfig.bg || '').replace('#','') === theme.hex.replace('#','');
-                    const tile = document.createElement('div');
-                    tile.className = 'duo-tile-card' + (isSel ? ' selected' : '');
-                    tile.onclick = () => {
-                        avatarConfig.bg = theme.hex;
-                        renderTabContent();
-                        updateDuoPreview();
-                    };
-                    tile.innerHTML = 
-                        '<div class="duo-color-swatch" style="background:' + theme.hex + '; border-radius:12px; width:100%; height:55px; border:2px solid #ffffff; box-shadow:0 3px 8px rgba(0,0,0,0.15);" title="' + theme.label + '"></div>' +
-                        '<div style="font-size:0.75rem; font-weight:800; text-align:center; margin-top:4px; color:#4b5563;">' + theme.label + '</div>';
                     container.appendChild(tile);
                 });
             }
         }
 
         function updateDuoPreview() {
+            const P = getAvatarPresets();
             let svg = '';
             if (typeof generateAvatarSVG === 'function') {
-                try { svg = generateAvatarSVG(avatarConfig, 220); } catch (e) {}
+                try { svg = generateAvatarSVG(avatarConfig, 220); } catch (e) { console.warn('generateAvatarSVG error:', e); }
             }
             if (!svg) {
                 const url = safeBuildDiceBearUrl(avatarConfig);
@@ -1764,8 +1522,14 @@
             
             const bgEl = document.getElementById('duo-canvas-bg');
             if (bgEl) {
-                const hexColor = (avatarConfig.bg || '38bdf8').startsWith('#') ? avatarConfig.bg : '#' + avatarConfig.bg;
-                bgEl.style.background = hexColor;
+                const arena = (P.bgColors || []).find(b => b.id === avatarConfig.bg || b.hex === avatarConfig.bg);
+                if (arena && arena.gradient) {
+                    bgEl.style.background = arena.gradient;
+                } else if (arena && arena.hex) {
+                    bgEl.style.background = '#' + arena.hex.replace('#', '');
+                } else {
+                    bgEl.style.background = 'linear-gradient(135deg, #7f1d1d 0%, #ea580c 50%, #450a0a 100%)';
+                }
             }
         }
 

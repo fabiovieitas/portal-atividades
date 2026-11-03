@@ -1,164 +1,232 @@
 /**
  * ============================================================================
- * PORTAL LAB KIDS - STUDIO DE AVATARES ÉPICOS (ENGINE 4.0)
+ * PORTAL LAB KIDS - STUDIO DE AVATARES ÉPICOS (ENGINE 5.0)
  * ============================================================================
- * Redesenhado especialmente para crianças do 1º ao 5º Ano:
- * - Modo 1: Heróis & Mascotes Épicos (Robô Léo, Ninja, Dino Rex, Magos, etc.)
- * - Modo 2: Criador de Aluno(a) (Cabelos infantis, bonés, óculos, sorrisos e moletons)
- * - Efeito Figurinha Gamer 3D (Sticker com contorno suave e iluminação)
- * - Coroa Flutuante de Grande Campeão (TOP 1 da Turma/Escola)
- * - Zero conflito de estilos (O herói nunca é substituído sem autorização)
+ * 100% Focado em Heróis do Lab, Molduras Colecionáveis por XP e Fundos Temáticos:
+ * - 24+ Heróis e Mascotes Colecionáveis (Robôs, Ninjas, Magos, Dinos, Dragões, etc.)
+ * - Molduras Gamers Trancadas por XP (Madeira, Bronze, Neon, Craft, Brasil, Free Fire, Xbox, Mengão, Diamante, Campeão)
+ * - Fundos e Arenas Temáticas (Free Fire, Xbox, Flamengo, Brasil, Minecraft, Galáxia, etc.)
  * ============================================================================
  */
 
 const DUOLINGO_AVATAR_PRESETS = {
-  // 1. HERÓIS E MASCOTES COLECIONÁVEIS (Desbloqueio por XP da Temporada)
+  // 1. ROSTER DE HERÓIS DO LAB (Mascotes e Personagens Colecionáveis por XP)
   heroes: [
-    // --- NÍVEL 1: INICIAIS (Disponíveis para todos os alunos) ---
+    // --- NÍVEL 1: RECRUTAS INICIAIS (0 XP - Liberados para todos) ---
     { id: 'leo_robot', name: 'Robô Léo', style: 'bottts', seed: 'LeoRobot', bg: '38bdf8', icon: '🤖', title: 'Mascote Oficial do Lab', requiredXP: 0, badge: 'Inicial' },
     { id: 'astro_kid', name: 'Astro Kid', style: 'bottts', seed: 'AstroKid', bg: '818cf8', icon: '🚀', title: 'Explorador Espacial', requiredXP: 0, badge: 'Inicial' },
+    { id: 'sparky_volt', name: 'Sparky Elétrico', style: 'bottts', seed: 'SparkyVolt', bg: 'facc15', icon: '⚡', title: 'Energia Pura', requiredXP: 0, badge: 'Inicial' },
     { id: 'dra_sofia', name: 'Dra. Sofia', style: 'lorelei', seed: 'Sofia', bg: 'ffd5dc', icon: '🔬', title: 'Cientista Mirim', requiredXP: 0, badge: 'Inicial' },
     { id: 'super_sorriso', name: 'Super Sorriso', style: 'big-smile', seed: 'SuperSmile', bg: 'fbbf24', icon: '😄', title: 'Mestre da Alegria', requiredXP: 0, badge: 'Inicial' },
-    { id: 'lucas_lider', name: 'Capitão Lucas', style: 'avataaars', seed: 'CapitaoLucas', bg: '60a5fa', icon: '⚡', title: 'Líder da Turma', requiredXP: 0, badge: 'Inicial' },
+    { id: 'solzinho_pop', name: 'Solzinho Pop', style: 'fun-emoji', seed: 'SunnyPop', bg: 'fde047', icon: '🌟', title: 'Energia Solar', requiredXP: 0, badge: 'Inicial' },
+    { id: 'capitao_estudo', name: 'Capitão Estudo', style: 'adventurer', seed: 'CapitaoAventura', bg: '60a5fa', icon: '🛡️', title: 'Líder da Turma', requiredXP: 0, badge: 'Inicial' },
+    { id: 'pixel_boy', name: 'Pixel Boy', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Gamer 8-Bit', requiredXP: 0, badge: 'Inicial' },
 
-    // --- NÍVEL 2: EXPLORADORES (50 a 100 XP) ---
-    { id: 'pixel_gamer', name: 'Pixel Gamer', style: 'pixel-art', seed: 'RetroKnight', bg: 'fbbf24', icon: '👾', title: 'Campeão 8-Bit', requiredXP: 50, reqDesc: 'Alcance 50 XP' },
-    { id: 'dino_rex', name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: '10b981', icon: '🦖', title: 'Fera Pré-Histórica', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
+    // --- NÍVEL 2: AVENTUREIROS GAMERS (50 a 100 XP) ---
+    { id: 'arcade_pro', name: 'Arcade Pro', style: 'pixel-art', seed: 'ArcadeMaster', bg: 'a855f7', icon: '🕹️', title: 'Campeão dos Jogos', requiredXP: 50, reqDesc: 'Conquiste 50 XP' },
+    { id: 'dino_rex', name: 'Dino Rex', style: 'fun-emoji', seed: 'DinoRex', bg: '10b981', icon: '🦖', title: 'Fera Pré-Histórica', requiredXP: 75, reqDesc: 'Conquiste 75 XP' },
+    { id: 'gizmo_maker', name: 'Gizmo Maker', style: 'bottts', seed: 'GizmoMaker', bg: '38bdf8', icon: '⚙️', title: 'Engenheiro Robótico', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
+    { id: 'arqueira_luz', name: 'Arqueira da Luz', style: 'adventurer', seed: 'ArqueiraLuz', bg: 'ec4899', icon: '🏹', title: 'Precisão Máxima', requiredXP: 100, reqDesc: 'Alcance 100 XP' },
 
-    // --- NÍVEL 3: MESTRES DO SABER (150 a 300 XP) ---
+    // --- NÍVEL 3: MESTRES DO CONHECIMENTO (150 a 300 XP) ---
     { id: 'ninja_tabuada', name: 'Ninja da Tabuada', style: 'adventurer', seed: 'Ninja', bg: '0f172a', icon: '⚔️', title: 'Mestre do Cálculo', requiredXP: 150, reqDesc: 'Conquiste 150 XP' },
+    { id: 'kitsune_ninja', name: 'Raposa Kitsune', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'f97316', icon: '🦊', title: 'Raposa Veloz', requiredXP: 200, reqDesc: 'Conquiste 200 XP' },
     { id: 'mago_numeros', name: 'Mago dos Números', style: 'adventurer', seed: 'MagoArcano', bg: 'c0aedd', icon: '🧙‍♂️', title: 'Arcano da Lógica', requiredXP: 250, reqDesc: 'Conquiste 250 XP' },
     { id: 'princesa_sofia', name: 'Princesa Sofia', style: 'lorelei', seed: 'PrincesaSofia', bg: 'ffdfbf', icon: '👑', title: 'Guardiã da Leitura', requiredXP: 300, reqDesc: 'Conquiste 300 XP' },
 
-    // --- NÍVEL 4: GUARDIÕES SUPREMOS (450 a 750 XP) ---
-    { id: 'detetive_neo', name: 'Detetive Neo', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Investigador Cyber', requiredXP: 450, reqDesc: 'Conquiste 450 XP' },
-    { id: 'cyber_titan', name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado', requiredXP: 600, reqDesc: 'Conquiste 600 XP' },
-    { id: 'kitsune_ninja', name: 'Raposa Kitsune', style: 'fun-emoji', seed: 'KitsuneFox', bg: 'f97316', icon: '🦊', title: 'Raposa Veloz', requiredXP: 750, reqDesc: 'Conquiste 750 XP' },
+    // --- NÍVEL 4: GUARDIÕES SUPREMOS (400 a 750 XP) ---
+    { id: 'detetive_cyber', name: 'Detetive Cyber', style: 'pixel-art', seed: 'NeoDetetive', bg: '1e293b', icon: '🕵️', title: 'Investigador Neon', requiredXP: 400, reqDesc: 'Conquiste 400 XP' },
+    { id: 'cyber_titan', name: 'Cyber Titan', style: 'bottts', seed: 'CyberTitan', bg: '334155', icon: '🛡️', title: 'Defensor Blindado', requiredXP: 500, reqDesc: 'Conquiste 500 XP' },
+    { id: 'dragao_fogo', name: 'Dragão de Fogo', style: 'fun-emoji', seed: 'FireDragon', bg: 'ea580c', icon: '🔥', title: 'Chamas do Saber', requiredXP: 600, reqDesc: 'Conquiste 600 XP' },
+    { id: 'guerreira_luna', name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Heroína Lendária', requiredXP: 750, reqDesc: 'Conquiste 750 XP' },
 
-    // --- NÍVEL 5: LENDA DO LAB KIDS (1000+ XP) ---
-    { id: 'guerreira_luna', name: 'Guerreira Luna', style: 'adventurer', seed: 'LunaValente', bg: 'f43f5e', icon: '🗡️', title: 'Heroína Lendária', requiredXP: 1000, reqDesc: 'Lenda do Lab (1000 XP)' }
+    // --- NÍVEL 5: LENDAS DA TEMPORADA (1000 a 2000 XP) ---
+    { id: 'nexus_cosmico', name: 'Nexus Cósmico', style: 'bottts', seed: 'NexusGalaxy', bg: '1e1b4b', icon: '🌌', title: 'Soberano das Estrelas', requiredXP: 1000, reqDesc: 'Lenda do Lab (1000 XP)' },
+    { id: 'cavaleiro_ouro', name: 'Cavaleiro de Ouro', style: 'adventurer', seed: 'CavaleiroDeOuro', bg: 'b45309', icon: '⚡', title: 'Armadura Dourada', requiredXP: 1250, reqDesc: 'Conquiste 1250 XP' },
+    { id: 'fenix_dourada', name: 'Fênix Dourada', style: 'fun-emoji', seed: 'CosmicPanda', bg: 'b45309', icon: '🏆', title: 'Renascida da Vitória', requiredXP: 1500, reqDesc: 'Conquiste 1500 XP' },
+    { id: 'mestre_supremo', name: 'Mestre Supremo', style: 'adventurer', seed: 'MestreSupremo', bg: '78350f', icon: '👑', title: 'Grande Lenda do Lab', requiredXP: 2000, reqDesc: 'Mestre Supremo (2000 XP)' }
   ],
 
-  // 2. MODELOS BASE DE ALUNOS (Modo Criador Aluno(a))
-  studentPresets: [
-    { name: 'Lucas Gamer', seed: 'CapitaoLucas', top: 'hat', clothing: 'hoodie', hairColor: '2c1b18', skinColor: 'edb98a', icon: '👦' },
-    { name: 'Maria Clara', seed: 'MariaClara', top: 'bun', clothing: 'graphicShirt', hairColor: '4a312c', skinColor: 'ffdbb4', icon: '👧' },
-    { name: 'Gabriel Afro', seed: 'GabrielAfro', top: 'fro', clothing: 'hoodie', hairColor: '2c1b18', skinColor: '614335', icon: '🧑‍🦱' },
-    { name: 'Bia Estrela', seed: 'BiaEstrela', top: 'curly', clothing: 'collarAndSweater', hairColor: 'c93305', skinColor: 'ffdbb4', icon: '✨' },
-    { name: 'Pedro Radical', seed: 'PedroGamer', top: 'shortCurly', clothing: 'graphicShirt', hairColor: 'b58143', skinColor: 'd08b5b', icon: '🧢' },
-    { name: 'Ana Luz', seed: 'AnaLuz', top: 'straight01', clothing: 'hoodie', hairColor: 'f59797', skinColor: 'edb98a', icon: '🌸' }
+  // 2. MOLDURAS GAMERS (Frames Colecionáveis - Todas trancadas para ganhar com XP!)
+  frames: [
+    {
+      id: 'frame_none',
+      name: 'Sem Moldura',
+      icon: '🚫',
+      desc: 'Borda padrão sem efeito',
+      requiredXP: 0,
+      badge: 'Inicial',
+      borderStyle: 'border: 3px solid rgba(255,255,255,0.7); box-shadow: 0 4px 15px rgba(0,0,0,0.15);'
+    },
+    {
+      id: 'frame_madeira',
+      name: 'Madeira Rústica',
+      icon: '🪵',
+      desc: 'Borda rústica de explorador mirim',
+      requiredXP: 20,
+      badge: '20 XP',
+      borderStyle: 'border: 5px solid #854d0e; outline: 2px solid #713f12; box-shadow: 0 0 12px rgba(133, 77, 14, 0.6), inset 0 0 6px #713f12;'
+    },
+    {
+      id: 'frame_bronze',
+      name: 'Aço de Batalha',
+      icon: '🛡️',
+      desc: 'Aro reforçado metálico com rebites',
+      requiredXP: 60,
+      badge: '60 XP',
+      borderStyle: 'border: 5px solid #94a3b8; outline: 2px solid #475569; box-shadow: 0 0 14px rgba(148, 163, 184, 0.8), inset 0 0 6px #334155;'
+    },
+    {
+      id: 'frame_cyber',
+      name: 'Neon Cyberpunk',
+      icon: '⚡',
+      desc: 'Brilho ciano e azul elétrico arcade',
+      requiredXP: 120,
+      badge: '120 XP',
+      borderStyle: 'border: 5px solid #00f2fe; outline: 2px solid #0284c7; box-shadow: 0 0 20px #00f2fe, inset 0 0 10px rgba(0, 242, 254, 0.6); animation: neonCyberPulse 2s infinite ease-in-out;'
+    },
+    {
+      id: 'frame_craft',
+      name: 'Bloco Craft',
+      icon: '⛏️',
+      desc: 'Estilo bloco de esmeralda cúbico',
+      requiredXP: 250,
+      badge: '250 XP',
+      borderStyle: 'border: 5px solid #10b981; outline: 3px solid #065f46; box-shadow: 0 0 16px rgba(16, 185, 129, 0.85), inset 0 0 8px #047857;'
+    },
+    {
+      id: 'frame_brasil',
+      name: 'Pátria Canarinho',
+      icon: '🇧🇷',
+      desc: 'Ouro e verde da Seleção com estrelas',
+      requiredXP: 400,
+      badge: '400 XP',
+      borderStyle: 'border: 5px solid #facc15; outline: 3px solid #15803d; box-shadow: 0 0 22px rgba(250, 204, 21, 0.95), 0 0 35px rgba(21, 128, 61, 0.6);'
+    },
+    {
+      id: 'frame_freefire',
+      name: 'Fogo Free Fire',
+      icon: '🔥',
+      desc: 'Chamas carmesim e fogo ardente',
+      requiredXP: 600,
+      badge: '600 XP',
+      borderStyle: 'border: 5px solid #ff4500; outline: 3px solid #dc2626; box-shadow: 0 0 24px #ef4444, inset 0 0 14px #f97316; animation: flamePulse 1.8s infinite ease-in-out;'
+    },
+    {
+      id: 'frame_xbox',
+      name: 'Xbox Ultra Verde',
+      icon: '🎮',
+      desc: 'Verde oficial Xbox com aura gamer',
+      requiredXP: 850,
+      badge: '850 XP',
+      borderStyle: 'border: 5px solid #107c10; outline: 3px solid #052e16; box-shadow: 0 0 24px #22c55e, inset 0 0 12px #107c10;'
+    },
+    {
+      id: 'frame_flamengo',
+      name: 'Nação Rubro-Negra',
+      icon: '🔴⚫',
+      desc: 'Raça rubro-negra com detalhes de ouro',
+      requiredXP: 1100,
+      badge: '1100 XP',
+      borderStyle: 'border: 5px solid #dc2626; outline: 3px solid #09090b; box-shadow: 0 0 25px rgba(220, 38, 38, 0.95), 0 0 10px #fbbf24;'
+    },
+    {
+      id: 'frame_diamante',
+      name: 'Diamante Radiante',
+      icon: '💎',
+      desc: 'Cristal raro com brilho celestial',
+      requiredXP: 1500,
+      badge: '1500 XP',
+      borderStyle: 'border: 5px solid #e0f2fe; outline: 3px solid #38bdf8; box-shadow: 0 0 30px #38bdf8, 0 0 45px rgba(255, 255, 255, 0.9); animation: diamondShimmer 2.5s infinite;'
+    },
+    {
+      id: 'frame_campeao',
+      name: 'Coroa da Glória (TOP 1)',
+      icon: '👑',
+      desc: 'Ouro real da temporada com gemas',
+      requiredXP: 2000,
+      badge: '2000 XP',
+      borderStyle: 'border: 6px solid #fbbf24; outline: 3px solid #b45309; box-shadow: 0 0 35px #fbbf24, inset 0 0 18px #fbbf24;'
+    }
   ],
 
-  // 3. CABELOS E PENTEADOS INFANTIS
-  hairStyles: [
-    { id: 'shortFlat', label: 'Curto Clássico 👦', icon: '👦' },
-    { id: 'shortCurly', label: 'Cachos Curtinhos 🧑‍🦱', icon: '🧑‍🦱' },
-    { id: 'curly', label: 'Cachos com Volume 🌀', icon: '🌀' },
-    { id: 'fro', label: 'Black Power Poderoso ✊', icon: '✊' },
-    { id: 'dreads', label: 'Dreads Estilosos 🧑‍🦱', icon: '🧑‍🦱' },
-    { id: 'bun', label: 'Coque Estudante 👧', icon: '👧' },
-    { id: 'bob', label: 'Chanel Moderno 💇', icon: '💇' },
-    { id: 'straight01', label: 'Liso Longo 👩', icon: '👩' },
-    { id: 'curvy', label: 'Ondulado Divertido 🌊', icon: '🌊' },
-    { id: 'hat', label: 'Boné Gamer Virado 🧢', icon: '🧢' },
-    { id: 'winterHat1', label: 'Gorro Quentinho ❄️', icon: '❄️' }
-  ],
-
-  // 4. CORES DE CABELO
-  hairColors: [
-    { id: '2c1b18', label: 'Preto Ônix', hex: '#2c1b18' },
-    { id: '4a312c', label: 'Castanho Escuro', hex: '#4a312c' },
-    { id: '724133', label: 'Castanho Chocolate', hex: '#724133' },
-    { id: 'b58143', label: 'Castanho Dourado', hex: '#b58143' },
-    { id: 'd6b370', label: 'Loiro Solar', hex: '#d6b370' },
-    { id: 'f59797', label: 'Rosa Anime 🌸', hex: '#f59797' },
-    { id: 'c93305', label: 'Ruivo Fogo 🔥', hex: '#c93305' },
-    { id: 'e8e1e1', label: 'Platinado / Prata ⚡', hex: '#e8e1e1' }
-  ],
-
-  // 5. OLHOS E EXPRESSÕES INFANTIS
-  eyes: [
-    { id: 'happy', label: 'Super Feliz 😄', icon: '😄' },
-    { id: 'wink', label: 'Piscadinha Gamer 😉', icon: '😉' },
-    { id: 'hearts', label: 'Olhos de Coração 😍', icon: '😍' },
-    { id: 'squint', label: 'Focado / Detetive 🧐', icon: '🧐' },
-    { id: 'winkWacky', label: 'Careta Brincalhona 😜', icon: '😜' },
-    { id: 'default', label: 'Curioso / Tranquilo 🙂', icon: '👀' },
-    { id: 'surprised', label: 'Surpreso / Uau! 😲', icon: '😲' },
-    { id: 'closed', label: 'Zen / Descansando 😌', icon: '😌' }
-  ],
-
-  // 6. BOCAS E SORRISOS
-  mouth: [
-    { id: 'smile', label: 'Sorrisão Amigo 😊', icon: '😊' },
-    { id: 'twinkle', label: 'Radiante / Estrela 🌟', icon: '🌟' },
-    { id: 'tongue', label: 'Língua de Fora 😋', icon: '😋' },
-    { id: 'eating', label: 'Comendo Cookies 🍪', icon: '🍪' },
-    { id: 'default', label: 'Sorriso Suave 🙂', icon: '🙂' },
-    { id: 'serious', label: 'Concentrado 😐', icon: '😐' }
-  ],
-
-  // 7. ÓCULOS E ACESSÓRIOS
-  accessories: [
-    { id: 'none', label: 'Sem Óculos 🚫', icon: '🚫' },
-    { id: 'round', label: 'Redondos / Harry Potter 🤓', icon: '👓' },
-    { id: 'wayfarers', label: 'Óculos Gamer Estiloso 😎', icon: '🕶️' },
-    { id: 'prescription01', label: 'Óculos de Grau Moderno 👓', icon: '👓' },
-    { id: 'prescription02', label: 'Óculos Retrô 👓', icon: '👓' },
-    { id: 'sunglasses', label: 'Óculos de Sol Praia 🏖️', icon: '🕶️' },
-    { id: 'eyepatch', label: 'Tapa-Olho Pirata 🏴‍☠️', icon: '🏴‍☠️' }
-  ],
-
-  // 8. ROUPAS E TRAJES INFANTIS
-  clothing: [
-    { id: 'hoodie', label: 'Moletom Gamer com Capuz 🧥', icon: '🧥' },
-    { id: 'graphicShirt', label: 'Camiseta Estampada 🎮', icon: '🎮' },
-    { id: 'shirtCrewNeck', label: 'Camiseta Básica 👕', icon: '👕' },
-    { id: 'overall', label: 'Macacão de Aventura 👖', icon: '👖' },
-    { id: 'collarAndSweater', label: 'Uniforme Escolar 👔', icon: '👔' },
-    { id: 'blazerAndShirt', label: 'Formatura / Gala 🎓', icon: '🎓' }
-  ],
-
-  // 9. CORES DE ROUPAS
-  clothesColors: [
-    { id: '0284c7', label: 'Azul Lab Kids', hex: '#0284c7' },
-    { id: '7c3aed', label: 'Roxo Gamer', hex: '#7c3aed' },
-    { id: 'ef4444', label: 'Vermelho Rubi', hex: '#ef4444' },
-    { id: '10b981', label: 'Verde Esmeralda', hex: '#10b981' },
-    { id: 'f59e0b', label: 'Amarelo Ouro', hex: '#f59e0b' },
-    { id: 'ec4899', label: 'Rosa Pink', hex: '#ec4899' },
-    { id: '1e293b', label: 'Preto Grafite', hex: '#1e293b' },
-    { id: 'ffffff', label: 'Branco Puro', hex: '#ffffff' }
-  ],
-
-  // 10. TONS DE PELE INCLUSIVOS
-  skinColors: [
-    { id: 'ffdbb4', label: 'Claro Neutro', hex: '#ffdbb4' },
-    { id: 'edb98a', label: 'Claro Dourado', hex: '#edb98a' },
-    { id: 'f8d25c', label: 'Dourado Quente', hex: '#f8d25c' },
-    { id: 'fd9841', label: 'Canela Suave', hex: '#fd9841' },
-    { id: 'd08b5b', label: 'Moreno Natural', hex: '#d08b5b' },
-    { id: 'ae5d29', label: 'Moreno Médio', hex: '#ae5d29' },
-    { id: '614335', label: 'Negro / Ébano', hex: '#614335' }
-  ],
-
-  // 11. CENÁRIOS DE PODER / FUNDO VIBRANTE
+  // 3. CENÁRIOS & FUNDOS TEMÁTICOS (Arenas de Batalha Populares)
   bgColors: [
-    { id: '38bdf8', label: 'Céu Azul ☁️', hex: '#38bdf8' },
-    { id: '818cf8', label: 'Galáxia Espacial 🚀', hex: '#818cf8' },
-    { id: 'fbbf24', label: 'Ouro Campeão 🏆', hex: '#fbbf24' },
-    { id: '10b981', label: 'Floresta Mágica 🌿', hex: '#10b981' },
-    { id: 'f43f5e', label: 'Rubi de Fogo 🔥', hex: '#f43f5e' },
-    { id: 'c0aedd', label: 'Roxo Arcano 🔮', hex: '#c0aedd' },
-    { id: 'ffd5dc', label: 'Doce Algodão 🌸', hex: '#ffd5dc' },
-    { id: '0f172a', label: 'Dojo Ninja 🥋', hex: '#0f172a' },
-    { id: 'ffdfbf', label: 'Pêssego Solar ☀️', hex: '#ffdfbf' },
-    { id: '1e3a8a', label: 'Azul Cósmico 🌌', hex: '#1e3a8a' }
+    {
+      id: 'freefire',
+      label: 'Free Fire Battle 🔥',
+      gradient: 'linear-gradient(135deg, #7f1d1d 0%, #ea580c 50%, #450a0a 100%)',
+      hex: 'ea580c',
+      themeClass: 'theme-freefire'
+    },
+    {
+      id: 'xbox',
+      label: 'Xbox Game Pass 🎮',
+      gradient: 'linear-gradient(135deg, #052e16 0%, #107c10 50%, #064e3b 100%)',
+      hex: '107c10',
+      themeClass: 'theme-xbox'
+    },
+    {
+      id: 'flamengo',
+      label: 'Manto Rubro-Negro 🔴⚫',
+      gradient: 'linear-gradient(135deg, #450a0a 0%, #dc2626 50%, #09090b 100%)',
+      hex: 'dc2626',
+      themeClass: 'theme-flamengo'
+    },
+    {
+      id: 'brasil',
+      label: 'Brasil Canarinho 🇧🇷',
+      gradient: 'linear-gradient(135deg, #15803d 0%, #facc15 50%, #1d4ed8 100%)',
+      hex: 'facc15',
+      themeClass: 'theme-brasil'
+    },
+    {
+      id: 'minecraft',
+      label: 'Minecraft Craft ⛏️',
+      gradient: 'linear-gradient(135deg, #15803d 0%, #22c55e 50%, #78350f 100%)',
+      hex: '22c55e',
+      themeClass: 'theme-minecraft'
+    },
+    {
+      id: 'galaxy',
+      label: 'Galáxia Espacial 🚀',
+      gradient: 'linear-gradient(135deg, #0f172a 0%, #312e81 50%, #581c87 100%)',
+      hex: '818cf8',
+      themeClass: 'theme-galaxy'
+    },
+    {
+      id: 'playstation',
+      label: 'PlayStation Blue ⚡',
+      gradient: 'linear-gradient(135deg, #002244 0%, #003791 50%, #00f2fe 100%)',
+      hex: '003791',
+      themeClass: 'theme-playstation'
+    },
+    {
+      id: 'ouro_campeao',
+      label: 'Ouro Campeão 🏆',
+      gradient: 'linear-gradient(135deg, #78350f 0%, #f59e0b 50%, #fbbf24 100%)',
+      hex: 'fbbf24',
+      themeClass: 'theme-ouro'
+    },
+    {
+      id: 'ninja_dark',
+      label: 'Dojo das Sombras 🥋',
+      gradient: 'linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #0f172a 100%)',
+      hex: '0f172a',
+      themeClass: 'theme-ninja'
+    },
+    {
+      id: 'candy_pop',
+      label: 'Doce Pop Rainbow 🍭',
+      gradient: 'linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%)',
+      hex: 'ec4899',
+      themeClass: 'theme-candy'
+    }
   ]
 };
 
 /**
- * Constrói a URL do avatar de forma inteligente e sem quebrar estilos
+ * Constrói a URL do avatar de forma inteligente
  */
 function buildDiceBearUrl(config = {}, isTilePreview = false) {
   if (typeof config === 'string') {
@@ -167,61 +235,79 @@ function buildDiceBearUrl(config = {}, isTilePreview = false) {
 
   const style = config.style || 'bottts';
   const seed = config.seed || 'LeoRobot';
-  const bg = (config.bg || '38bdf8').replace('#', '');
-
-  let url = `/api/avatar-proxy?style=${encodeURIComponent(style)}&seed=${encodeURIComponent(seed)}`;
-  if (bg && bg !== 'transparent') {
-    url += `&backgroundColor=${bg}`;
+  
+  // Resolução de cores de fundo temáticas
+  let bgHex = '38bdf8';
+  if (config.bg) {
+    const foundBg = DUOLINGO_AVATAR_PRESETS.bgColors.find(b => b.id === config.bg || b.hex === config.bg.replace('#', ''));
+    bgHex = foundBg ? foundBg.hex : config.bg.replace('#', '');
   }
 
-  // Se for o estilo humano (avataaars), anexa os parâmetros de vestuário e rosto
-  if (style === 'avataaars') {
-    if (config.top) url += `&top=${encodeURIComponent(config.top)}`;
-    if (config.hairColor) url += `&hairColor=${encodeURIComponent(config.hairColor.replace('#', ''))}`;
-    if (config.skinColor) url += `&skinColor=${encodeURIComponent(config.skinColor.replace('#', ''))}`;
-    if (config.clothing) url += `&clothing=${encodeURIComponent(config.clothing)}`;
-    if (config.clothesColor) url += `&clothesColor=${encodeURIComponent(config.clothesColor.replace('#', ''))}`;
-    if (config.eyes) url += `&eyes=${encodeURIComponent(config.eyes)}`;
-    if (config.mouth) url += `&mouth=${encodeURIComponent(config.mouth)}`;
-    if (config.accessories) url += `&accessories=${encodeURIComponent(config.accessories)}`;
+  let url = `/api/avatar-proxy?style=${encodeURIComponent(style)}&seed=${encodeURIComponent(seed)}`;
+  if (bgHex && bgHex !== 'transparent') {
+    url += `&backgroundColor=${bgHex}`;
   }
 
   return url;
 }
 
 /**
- * Gera a tag HTML com o Avatar no Estilo Figurinha 3D Gamer
+ * Gera a tag HTML com o Avatar no Estilo Figurinha 3D Gamer envolvido na Moldura Selecionada
  */
 function generateAvatarSVG(config = {}, size = 220, isTilePreview = false, isChampion = false) {
   if (typeof config === 'string') {
     try { config = JSON.parse(config); } catch(e){ config = {}; }
   }
+
   const url = buildDiceBearUrl(config, isTilePreview);
   const borderRadius = isTilePreview ? '16px' : '26px';
   const stickerFilter = isTilePreview 
     ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.15))' 
     : 'drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 5px #ffffff) drop-shadow(0 14px 28px rgba(0,0,0,0.32))';
 
-  const hasCrown = Boolean(isChampion || config.isChampion);
+  // Resolução da moldura selecionada
+  let frameCss = '';
+  let frameCorner = '';
+  if (config.frame && config.frame !== 'frame_none') {
+    const f = DUOLINGO_AVATAR_PRESETS.frames.find(fr => fr.id === config.frame);
+    if (f) {
+      frameCss = f.borderStyle;
+      if (f.id === 'frame_brasil') frameCorner = '🇧🇷';
+      else if (f.id === 'frame_freefire') frameCorner = '🔥';
+      else if (f.id === 'frame_xbox') frameCorner = '🎮';
+      else if (f.id === 'frame_flamengo') frameCorner = '🔴⚫';
+      else if (f.id === 'frame_diamante') frameCorner = '💎';
+      else if (f.id === 'frame_campeao') frameCorner = '👑';
+    }
+  }
+
+  const hasCrown = Boolean(isChampion || config.isChampion || config.frame === 'frame_campeao');
   const crownHtml = hasCrown ? `
-    <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); font-size: ${Math.max(22, Math.round(size * 0.28))}px; filter: drop-shadow(0 4px 10px rgba(245,158,11,0.6)); z-index: 10; animation: crownFloat 2.5s infinite ease-in-out;">
+    <div style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: ${Math.max(22, Math.round(size * 0.28))}px; filter: drop-shadow(0 4px 10px rgba(245,158,11,0.7)); z-index: 10; animation: crownFloat 2.5s infinite ease-in-out;">
       👑
     </div>
   ` : '';
 
+  const cornerBadgeHtml = frameCorner ? `
+    <div style="position: absolute; bottom: -8px; right: -8px; font-size: ${Math.max(16, Math.round(size * 0.2))}px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); z-index: 9;">
+      ${frameCorner}
+    </div>
+  ` : '';
+
   return `
-    <div style="position: relative; display: inline-block; width: ${size}px; height: ${size}px; vertical-align: middle;">
+    <div style="position: relative; display: inline-block; width: ${size}px; height: ${size}px; vertical-align: middle; box-sizing: border-box; border-radius: ${borderRadius}; ${frameCss}">
       ${crownHtml}
-      <img src="${url}" width="${size}" height="${size}" 
-           style="border-radius: ${borderRadius}; display: block; object-fit: contain; filter: ${stickerFilter}; transition: transform 0.25s ease;" 
+      ${cornerBadgeHtml}
+      <img src="${url}" width="100%" height="100%" 
+           style="border-radius: calc(${borderRadius} - 4px); display: block; object-fit: contain; filter: ${stickerFilter}; transition: transform 0.25s ease;" 
            alt="Avatar Lab Kids" />
     </div>
   `;
 }
 
-// Injeção de Animação de Flutuação da Coroa
+// Injeção de Animações das Molduras e Coroas
 if (typeof document !== 'undefined') {
-  const crownStyleId = 'lab-avatar-crown-style';
+  const crownStyleId = 'lab-avatar-frames-style';
   if (!document.getElementById(crownStyleId)) {
     const st = document.createElement('style');
     st.id = crownStyleId;
@@ -229,6 +315,18 @@ if (typeof document !== 'undefined') {
       @keyframes crownFloat {
         0%, 100% { transform: translateX(-50%) translateY(0) rotate(-3deg); }
         50% { transform: translateX(-50%) translateY(-6px) rotate(3deg); }
+      }
+      @keyframes flamePulse {
+        0%, 100% { box-shadow: 0 0 20px #ef4444, inset 0 0 10px #f97316; }
+        50% { box-shadow: 0 0 32px #ff4500, inset 0 0 16px #facc15; }
+      }
+      @keyframes neonCyberPulse {
+        0%, 100% { box-shadow: 0 0 16px #00f2fe, inset 0 0 8px rgba(0,242,254,0.5); }
+        50% { box-shadow: 0 0 28px #38bdf8, inset 0 0 14px rgba(2,132,199,0.8); }
+      }
+      @keyframes diamondShimmer {
+        0%, 100% { box-shadow: 0 0 25px #38bdf8, 0 0 40px rgba(255,255,255,0.8); }
+        50% { box-shadow: 0 0 40px #a855f7, 0 0 55px rgba(255,255,255,1); }
       }
     `;
     document.head.appendChild(st);
