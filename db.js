@@ -2436,11 +2436,7 @@ async function autoRestoreOnStartup() {
   }
 }
 
-setTimeout(() => {
-  autoRestoreOnStartup().catch(console.warn);
-}, 1000);
-
-initTables().then(() => autoRestoreOnStartup()).catch(err => console.error('[DB Init Error]:', err.message));
+initTables().catch(err => console.error('[DB Init Error]:', err.message));
 
 module.exports = dbHelper;
 
