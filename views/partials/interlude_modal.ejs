@@ -52,6 +52,14 @@
 
 <script>
 window.triggerGameInterlude = function(targetUrl, isExternal = false) {
+  // Previne loop infinito: se targetUrl for rota de apresentação /atividades/slug, redireciona para o jogo real /games/slug/
+  if (targetUrl && (targetUrl.includes('/atividades/') || targetUrl === window.location.href)) {
+    const match = targetUrl.match(/\/atividades\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      targetUrl = '/games/' + match[1] + '/';
+    }
+  }
+
   const modal = document.getElementById('interlude-ad-modal');
   if (!modal) {
     if (isExternal) window.open(targetUrl, '_blank');

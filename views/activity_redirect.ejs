@@ -355,8 +355,16 @@
                  alt="<%= activity.title %>"
                  onerror="this.src='https://cdn-icons-png.flaticon.com/512/3662/3662817.png'">
 
+            <%
+                let finalLaunchUrl = activity.activity_url || '#';
+                if (finalLaunchUrl && finalLaunchUrl.startsWith('/atividades/')) {
+                    const gameSlug = finalLaunchUrl.replace('/atividades/', '').split('?')[0];
+                    finalLaunchUrl = '/games/' + gameSlug + '/';
+                }
+            %>
+
             <div>
-                <a href="<%= activity.activity_url %>" class="btn-launch-game" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener" onclick="event.preventDefault(); triggerGameInterlude(this.href, <%= isExternal %>);">
+                <a href="<%= finalLaunchUrl %>" class="btn-launch-game" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener" onclick="event.preventDefault(); triggerGameInterlude(this.href, <%= isExternal %>);">
                     🎮 INICIAR O JOGO AGORA 🚀
                 </a>
             </div>
@@ -364,7 +372,7 @@
             <!-- PROJEÇÃO EM 1 CLIQUE NA LOUSA DIGITAL (ITEM 16 - MODO PROFESSOR) -->
             <% if (typeof teacher !== 'undefined' && teacher) { %>
                 <div style="margin-top: 14px;">
-                    <a href="<%= activity.activity_url %><%= activity.activity_url.includes('?') ? '&' : '?' %>modo=datashow&foco=1" class="btn-submit" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #4f46e5, #4338ca); color: #ffffff; padding: 12px 24px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); border: 2px solid rgba(255,255,255,0.2);">
+                    <a href="<%= finalLaunchUrl %><%= finalLaunchUrl.includes('?') ? '&' : '?' %>modo=datashow&foco=1" class="btn-submit" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #4f46e5, #4338ca); color: #ffffff; padding: 12px 24px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); border: 2px solid rgba(255,255,255,0.2);">
                         📽️ Projetar na Lousa / Datashow (Modo Foco em Tela Cheia) 🚀
                     </a>
                 </div>
@@ -479,7 +487,7 @@
 
         <!-- Bottom CTA -->
         <div style="text-align: center; margin-top: 25px;">
-            <a href="<%= activity.activity_url %>" class="btn-launch-game" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener" onclick="event.preventDefault(); triggerGameInterlude(this.href, <%= isExternal %>);">
+            <a href="<%= finalLaunchUrl %>" class="btn-launch-game" target="<%= isExternal ? '_blank' : '_self' %>" rel="noopener" onclick="event.preventDefault(); triggerGameInterlude(this.href, <%= isExternal %>);">
                 🎮 JOGAR <%= activity.title.toUpperCase() %> AGORA 🚀
             </a>
         </div>

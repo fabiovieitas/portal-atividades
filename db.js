@@ -564,6 +564,14 @@ const dbHelper = {
           activity_url: "/atividades/ninja-math",
           icon_url: "/img/covers/ninja-math.jpg",
           level: "1-5", category: "Matemática Divertida", subject: "Matemática", bncc_code: "EF01MA06, EF02MA05, EF03MA03, EF04MA04, EF05MA08", status: "public", visits: 1250
+        },
+        {
+          id: 53,
+          title: "🤖 Cyber Bot: Fuga do Laboratório [JOGO AUTORAL]",
+          description: "⚡ JOGO AUTORAL LAB KIDS! Ajude o simpático robô Byte a escapar do laboratório secreto programando rotas com blocos lógicos, loops, pulos e desvios de laser!",
+          activity_url: "/atividades/cyber-bot",
+          icon_url: "/img/covers/cyber-bot.jpg",
+          level: "1-5", category: "Pensamento Computacional", subject: "Lógica & Programação", bncc_code: "EF01CO01, EF02CO02, EF03CO03, EF04CO04, EF05CO05", status: "public", visits: 1100
         }
       ];
     }
@@ -2292,6 +2300,13 @@ async function initTables() {
           activity_url: "/atividades/ninja-math",
           icon_url: "/img/covers/ninja-math.jpg",
           level: "1-5", category: "Matemática Divertida", bncc_code: "EF01MA06, EF02MA05, EF03MA03, EF04MA04, EF05MA08", subject: "Matemática"
+        },
+        {
+          title: "🤖 Cyber Bot: Fuga do Laboratório [JOGO AUTORAL]",
+          description: "⚡ JOGO AUTORAL LAB KIDS! Ajude o simpático robô Byte a escapar do laboratório secreto programando rotas com blocos lógicos, loops, pulos e desvios de laser!",
+          activity_url: "/atividades/cyber-bot",
+          icon_url: "/img/covers/cyber-bot.jpg",
+          level: "1-5", category: "Pensamento Computacional", bncc_code: "EF01CO01, EF02CO02, EF03CO03, EF04CO04, EF05CO05", subject: "Lógica & Programação"
         }
       ];
 

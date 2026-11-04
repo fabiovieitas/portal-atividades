@@ -920,6 +920,14 @@ app.get(['/games/ninja-math', '/games/ninja-math/', '/games/ninja-math/index.htm
   res.sendFile(path.join(__dirname, 'public', 'games', 'ninja-math', 'index.html'));
 });
 
+// Cyber Bot: Fuga do Laboratório
+app.get('/atividades/cyber-bot', (req, res) => res.render('cyber_bot_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
+app.get(['/games/cyber-bot', '/games/cyber-bot/', '/games/cyber-bot/index.html'], (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.sendFile(path.join(__dirname, 'public', 'games', 'cyber-bot', 'index.html'));
+});
+app.get(['/cyber-bot', '/jogos/cyber-bot'], (req, res) => res.redirect('/atividades/cyber-bot'));
+
 
 // SEO Routes: dynamic sitemap.xml canônico e limpo
 app.get('/sitemap.xml', async (req, res) => {

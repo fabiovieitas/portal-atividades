@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cyber Bot: Fuga do Laboratório | Lab Kids</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800;900&family=Outfit:wght@500;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        :root {
+            --neon-blue: #00f0ff;
+            --neon-green: #10b981;
+            --neon-amber: #f59e0b;
+            --neon-purple: #8b5cf6;
+            --neon-red: #ef4444;
+            --bg-dark: #0a0e17;
+            --panel-bg: rgba(16, 24, 39, 0.95);
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 54px;
+            background: rgba(10, 14, 23, 0.92);
+            border-bottom: 2px solid #00f0ff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 25px rgba(0, 240, 255, 0.2);
+        }
+
+        .top-left, .top-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-top:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .btn-portal {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+            border-color: #f87171;
+        }
+
+        .btn-shop {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+            border-color: #a78bfa;
+        }
+
+        .game-logo {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.25rem;
+            color: #00f0ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+        }
+
+        .badge-stat {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1.5px solid #f59e0b;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #fbbf24;
+        }
+
+        /* Game Layout */
+        .game-container {
+            position: absolute;
+            top: 54px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: row;
+            background: radial-gradient(circle at 50% 30%, #151f32 0%, #080b12 100%);
+        }
+
+        @media (max-width: 900px) {
+            .game-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Left/Center: Visual Arena */
+        .arena-section {
+            flex: 1.2;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 15px;
+        }
+
+        .arena-header {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .level-badge {
+            background: rgba(0, 240, 255, 0.15);
+            border: 2px solid #00f0ff;
+            padding: 8px 18px;
+            border-radius: 14px;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.15rem;
+            color: #00f0ff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            backdrop-filter: blur(8px);
+        }
+
+        .goal-banner {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            padding: 8px 16px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: #34d399;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* The Grid Canvas */
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 580px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #gameCanvas {
+            background: rgba(15, 23, 42, 0.7);
+            border: 3px solid rgba(0, 240, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.15);
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Right: Programming IDE & Blocks */
+        .ide-section {
+            flex: 0.95;
+            background: var(--panel-bg);
+            border-left: 2px solid rgba(0, 240, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(16px);
+        }
+
+        .ide-header {
+            padding: 14px 18px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .ide-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.15rem;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-clear {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1.5px solid #ef4444;
+            color: #fca5a5;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-clear:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Program Sequence (Code Lines) */
+        .program-queue {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .queue-empty-hint {
+            margin: auto;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.95rem;
+            padding: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            max-width: 280px;
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            animation: slideIn 0.2s ease-out;
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .queue-item.active-step {
+            border-color: #fbbf24 !important;
+            background: rgba(251, 191, 36, 0.25) !important;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+            transform: scale(1.02);
+        }
+
+        .queue-index {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            min-width: 24px;
+        }
+
+        .queue-icon {
+            font-size: 1.2rem;
+        }
+
+        .queue-name {
+            flex: 1;
+        }
+
+        .queue-delete {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .queue-delete:hover {
+            opacity: 1;
+        }
+
+        /* Block Toolbox (Command Buttons) */
+        .toolbox-section {
+            padding: 14px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(10, 14, 23, 0.8);
+        }
+
+        .toolbox-title {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .btn-block {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 14px;
+            border-radius: 12px;
+            border: 2px solid;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .btn-block:active {
+            transform: scale(0.96);
+        }
+
+        .block-forward {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #34d399;
+            color: #fff;
+        }
+
+        .block-left {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-color: #60a5fa;
+            color: #fff;
+        }
+
+        .block-right {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            border-color: #a78bfa;
+            color: #fff;
+        }
+
+        .block-jump {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-color: #fbbf24;
+            color: #fff;
+        }
+
+        .block-loop {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            border-color: #f472b6;
+            color: #fff;
+            grid-column: span 2;
+        }
+
+        /* IDE Action Bar (Run / Stop) */
+        .ide-actions {
+            padding: 12px 14px 16px 14px;
+            display: flex;
+            gap: 10px;
+            background: rgba(10, 14, 23, 0.95);
+        }
+
+        .btn-run {
+            flex: 2;
+            padding: 14px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.25rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-run:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-run:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(0.8);
+        }
+
+        .btn-reset-pos {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset-pos:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        /* Modals & Overlays */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(4, 7, 13, 0.85);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-card {
+            background: linear-gradient(135deg, #131b2e 0%, #0d121f 100%);
+            border: 3px solid #00f0ff;
+            border-radius: 28px;
+            padding: 30px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.3);
+            position: relative;
+        }
+
+        .modal-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 2rem;
+            color: #fbbf24;
+            margin-bottom: 8px;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+        }
+
+        .stars-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            font-size: 3rem;
+            margin: 15px 0 20px 0;
+        }
+
+        .star {
+            color: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .star.earned {
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+            transform: scale(1.15);
+        }
+
+        .modal-stats {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #00f0ff;
+        }
+
+        .stat-lbl {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .modal-btn-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-modal {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.15rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-modal-next {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-modal-retry {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Shop Modal */
+        .shop-items-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            max-height: 320px;
+            overflow-y: auto;
+            margin: 15px 0 20px 0;
+            padding: 5px;
+        }
+
+        .shop-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .shop-card:hover {
+            border-color: #00f0ff;
+            transform: translateY(-2px);
+        }
+
+        .shop-card.equipped {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .shop-robot-preview {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="top-left">
+            <a href="/atividades/cyber-bot" class="btn-top btn-portal">
+                <span>◀</span> Sair
+            </a>
+            <div class="game-logo">
+                <span>🤖</span> Cyber Bot
+            </div>
+        </div>
+
+        <div class="top-right">
+            <div class="badge-stat">
+                <span>⚙️</span> <span id="gearCount">0</span>
+            </div>
+            <div class="badge-stat" style="border-color:#38bdf8; color:#38bdf8;">
+                <span>⚡</span> <span id="xpCount">0</span> XP
+            </div>
+            <button class="btn-top btn-shop" id="btnOpenShop">
+                <span>👕</span> Oficina
+            </button>
+            <button class="btn-top" id="btnToggleSound">
+                <span id="soundIcon">🔊</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Game Container -->
+    <main class="game-container">
+        <!-- Visual Grid Arena -->
+        <section class="arena-section">
+            <div class="arena-header">
+                <div class="level-badge" id="levelBadge">Fase 1: Primeiros Passos</div>
+                <div class="goal-banner">
+                    <span>🎯</span> Chegue à Cápsula de Fuga!
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <canvas id="gameCanvas" width="550" height="550"></canvas>
+            </div>
+        </section>
+
+        <!-- IDE / Programming Terminal -->
+        <aside class="ide-section">
+            <div class="ide-header">
+                <div class="ide-title">
+                    <span>💻</span> Sequência de Código
+                </div>
+                <button class="btn-clear" id="btnClearCode" title="Limpar todos os comandos">
+                    🗑️ Limpar
+                </button>
+            </div>
+
+            <!-- Program Queue (Instructions) -->
+            <div class="program-queue" id="programQueue">
+                <div class="queue-empty-hint" id="emptyHint">
+                    Clique nos blocos abaixo para programar a rota do robô! 🚀
+                </div>
+            </div>
+
+            <!-- Block Toolbox -->
+            <div class="toolbox-section">
+                <div class="toolbox-title">
+                    <span>Comandos Disponíveis</span>
+                    <span id="blockLimitCount">0/15</span>
+                </div>
+                <div class="blocks-grid">
+                    <button class="btn-block block-forward" data-command="forward">
+                        <span>⬆️</span> Avançar
+                    </button>
+                    <button class="btn-block block-left" data-command="turn_left">
+                        <span>↩️</span> Girar Esq.
+                    </button>
+                    <button class="btn-block block-right" data-command="turn_right">
+                        <span>↪️</span> Girar Dir.
+                    </button>
+                    <button class="btn-block block-jump" data-command="jump">
+                        <span>🦘</span> Pular Laser
+                    </button>
+                    <button class="btn-block block-loop" data-command="loop_2x" id="btnLoopBlock">
+                        <span>🔁</span> Repetir 2x (Loop)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="ide-actions">
+                <button class="btn-run" id="btnRunCode">
+                    <span>▶️</span> EXECUTAR
+                </button>
+                <button class="btn-reset-pos" id="btnResetRobot">
+                    <span>🔄</span> Reiniciar
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Victory Modal -->
+    <div class="modal-overlay" id="victoryModal">
+        <div class="modal-card">
+            <div class="modal-title">🎉 MISSÃO CUMPRIDA!</div>
+            <p style="color: #94a3b8; font-size: 0.95rem;">Byte escapou com sucesso para a próxima sala!</p>
+            
+            <div class="stars-container">
+                <span class="star" id="star1">★</span>
+                <span class="star" id="star2">★</span>
+                <span class="star" id="star3">★</span>
+            </div>
+
+            <div class="modal-stats">
+                <div class="stat-box">
+                    <span class="stat-val" id="modalLinesVal">0</span>
+                    <span class="stat-lbl">Linhas de Código</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val" id="modalGearsVal">+50</span>
+                    <span class="stat-lbl">Engrenagens Ganhas</span>
+                </div>
+            </div>
+
+            <div class="modal-btn-row">
+                <button class="btn-modal btn-modal-retry" id="btnReplayLevel">Repetir</button>
+                <button class="btn-modal btn-modal-next" id="btnNextLevel">Próxima Fase ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Defeat / Crash Modal -->
+    <div class="modal-overlay" id="crashModal">
+        <div class="modal-card" style="border-color: #ef4444;">
+            <div class="modal-title" style="color: #ef4444;">💥 OOPS! BZZZT!</div>
+            <p id="crashReason" style="color: #cbd5e1; margin: 15px 0 20px 0; font-size: 1rem; line-height: 1.4;">
+                O robô bateu na parede de lasers! Revise os comandos e tente novamente.
+            </p>
+            <div class="modal-btn-row">
+                <button class="btn-modal btn-modal-retry" id="btnFixCode" style="background:#ef4444; border:none; color:white; font-size:1.1rem;">
+                    🔧 Corrigir Código
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop / Robot Customization Modal -->
+    <div class="modal-overlay" id="shopModal">
+        <div class="modal-card" style="border-color: #8b5cf6;">
+            <div class="modal-title" style="color: #c084fc;">👕 Oficina do Byte</div>
+            <p style="color: #94a3b8; font-size: 0.9rem;">Personalize a carcaça e as luzes do seu robô com engrenagens!</p>
+            
+            <div class="shop-items-grid" id="shopGrid">
+                <!-- Injected via JS -->
+            </div>
+
+            <button class="btn-modal btn-modal-next" id="btnCloseShop" style="background:#8b5cf6;">
+                Salvar & Voltar
+            </button>
+        </div>
+    </div>
+
+    <!-- Audio Synthesizer & Game Logic -->
+    <script>
+        // --- Web Audio API Chiptune Synth ---
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+            }
+
+            playTone(freq, type, duration, delay = 0) {
+                if (!this.enabled) return;
+                this.init();
+                setTimeout(() => {
+                    try {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = type;
+                        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start();
+                        osc.stop(this.ctx.currentTime + duration);
+                    } catch (e) {}
+                }, delay * 1000);
+            }
+
+            step() { this.playTone(320, 'triangle', 0.08); }
+            turn() { this.playTone(480, 'sine', 0.1); }
+            jump() {
+                this.playTone(400, 'square', 0.1);
+                this.playTone(600, 'square', 0.15, 0.05);
+            }
+            gear() {
+                this.playTone(659, 'sine', 0.08);
+                this.playTone(880, 'sine', 0.15, 0.08);
+            }
+            crash() {
+                this.playTone(150, 'sawtooth', 0.3);
+                this.playTone(90, 'sawtooth', 0.4, 0.1);
+            }
+            victory() {
+                const notes = [523, 659, 783, 1046];
+                notes.forEach((f, i) => this.playTone(f, 'square', 0.25, i * 0.12));
+            }
+        }
+
+        const sound = new SoundEngine();
+
+        // --- Game Levels Definition ---
+        // 0: empty floor, 1: wall, 2: laser obstacle, 3: key, 4: door, 5: exit capsule
+        const LEVELS = [
+            {
+                id: 1,
+                name: "Fase 1: Primeiros Passos",
+                desc: "Avance 3 casas até a cápsula!",
+                gridSize: 5,
+                start: { x: 1, y: 3, dir: 0 }, // 0: North, 1: East, 2: South, 3: West
+                exit: { x: 1, y: 0 },
+                gears: [{ x: 1, y: 1 }],
+                walls: [
+                    { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 },
+                    { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 3 }
+                ],
+                lasers: [],
+                idealLines: 3
+            },
+            {
+                id: 2,
+                name: "Fase 2: Curva de 90 Graus",
+                desc: "Avance e faça a curva para escapar!",
+                gridSize: 5,
+                start: { x: 1, y: 3, dir: 0 },
+                exit: { x: 3, y: 1 },
+                gears: [{ x: 1, y: 1 }, { x: 2, y: 1 }],
+                walls: [
+                    { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 },
+                    { x: 2, y: 2 }, { x: 2, y: 3 }
+                ],
+                lasers: [],
+                idealLines: 5
+            },
+            {
+                id: 3,
+                name: "Fase 3: O Primeiro Salto",
+                desc: "Use o comando PULAR para passar o laser!",
+                gridSize: 5,
+                start: { x: 2, y: 4, dir: 0 },
+                exit: { x: 2, y: 0 },
+                gears: [{ x: 2, y: 1 }],
+                walls: [{ x: 1, y: 2 }, { x: 3, y: 2 }],
+                lasers: [{ x: 2, y: 2 }],
+                idealLines: 4
+            },
+            {
+                id: 4,
+                name: "Fase 4: Labirinto em Zig-Zag",
+                desc: "Desvie dos blocos de choque e pegue as engrenagens!",
+                gridSize: 6,
+                start: { x: 1, y: 4, dir: 1 },
+                exit: { x: 4, y: 1 },
+                gears: [{ x: 3, y: 4 }, { x: 3, y: 2 }, { x: 1, y: 2 }],
+                walls: [{ x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 }],
+                lasers: [{ x: 2, y: 1 }],
+                idealLines: 8
+            },
+            {
+                id: 5,
+                name: "Fase 5: A Grande Fuga",
+                desc: "Combine saltos, curvas e colete tudo!",
+                gridSize: 6,
+                start: { x: 1, y: 5, dir: 0 },
+                exit: { x: 4, y: 0 },
+                gears: [{ x: 1, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 }],
+                walls: [{ x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 4 }],
+                lasers: [{ x: 1, y: 3 }, { x: 4, y: 3 }],
+                idealLines: 10
+            }
+        ];
+
+        // --- Skins Database ---
+        const SKINS = [
+            { id: "default", name: "Byte Prateado", color: "#38bdf8", eye: "#00f0ff", price: 0, unlocked: true },
+            { id: "neon_green", name: "Byte Matrix", color: "#10b981", eye: "#34d399", price: 30, unlocked: false },
+            { id: "cyber_purple", name: "Byte Mágico", color: "#8b5cf6", eye: "#c084fc", price: 60, unlocked: false },
+            { id: "solar_gold", name: "Byte Dourado", color: "#f59e0b", eye: "#fde047", price: 100, unlocked: false }
+        ];
+
+        // --- Game State ---
+        let currentLevelIdx = 0;
+        let robot = { x: 0, y: 0, dir: 0 };
+        let commandQueue = [];
+        let isRunning = false;
+        let collectedGearsInLevel = 0;
+        let totalGears = parseInt(localStorage.getItem('cyberbot_gears') || '0');
+        let totalXP = parseInt(localStorage.getItem('cyberbot_xp') || '0');
+        let equippedSkinId = localStorage.getItem('cyberbot_skin') || 'default';
+
+        // Canvas Setup
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function getActiveSkin() {
+            return SKINS.find(s => s.id === equippedSkinId) || SKINS[0];
+        }
+
+        function updateStatsUI() {
+            document.getElementById('gearCount').innerText = totalGears;
+            document.getElementById('xpCount').innerText = totalXP;
+            localStorage.setItem('cyberbot_gears', totalGears);
+            localStorage.setItem('cyberbot_xp', totalXP);
+        }
+
+        // --- Render Arena Grid ---
+        function drawArena() {
+            const level = LEVELS[currentLevelIdx];
+            const size = level.gridSize;
+            const tileSize = canvas.width / size;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Grid Tiles
+            for (let r = 0; r < size; r++) {
+                for (let c = 0; c < size; c++) {
+                    const x = c * tileSize;
+                    const y = r * tileSize;
+
+                    // Tile background
+                    ctx.fillStyle = (r + c) % 2 === 0 ? "#111827" : "#1a2234";
+                    ctx.fillRect(x, y, tileSize, tileSize);
+
+                    // Tile border
+                    ctx.strokeStyle = "rgba(0, 240, 255, 0.08)";
+                    ctx.lineWidth = 1.5;
+                    ctx.strokeRect(x, y, tileSize, tileSize);
+                }
+            }
+
+            // Draw Exit Capsule
+            const exitX = level.exit.x * tileSize + tileSize / 2;
+            const exitY = level.exit.y * tileSize + tileSize / 2;
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(exitX, exitY, tileSize * 0.38, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(16, 185, 129, 0.3)";
+            ctx.fill();
+            ctx.strokeStyle = "#10b981";
+            ctx.lineWidth = 3;
+            ctx.shadowColor = "#10b981";
+            ctx.shadowBlur = 15;
+            ctx.stroke();
+            ctx.font = `${tileSize * 0.45}px Outfit`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("🚀", exitX, exitY);
+            ctx.restore();
+
+            // Draw Walls
+            level.walls.forEach(w => {
+                const wx = w.x * tileSize + 4;
+                const wy = w.y * tileSize + 4;
+                ctx.fillStyle = "#334155";
+                ctx.fillRect(wx, wy, tileSize - 8, tileSize - 8);
+                ctx.strokeStyle = "#64748b";
+                ctx.lineWidth = 2;
+                ctx.strokeRect(wx, wy, tileSize - 8, tileSize - 8);
+                ctx.font = `${tileSize * 0.35}px Outfit`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("🧱", wx + (tileSize - 8) / 2, wy + (tileSize - 8) / 2);
+            });
+
+            // Draw Lasers
+            level.lasers.forEach(l => {
+                const lx = l.x * tileSize + tileSize / 2;
+                const ly = l.y * tileSize + tileSize / 2;
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(lx, ly, tileSize * 0.35, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(239, 68, 68, 0.3)";
+                ctx.fill();
+                ctx.strokeStyle = "#ef4444";
+                ctx.lineWidth = 2;
+                ctx.shadowColor = "#ef4444";
+                ctx.shadowBlur = 12;
+                ctx.stroke();
+                ctx.font = `${tileSize * 0.4}px Outfit`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("⚡", lx, ly);
+                ctx.restore();
+            });
+
+            // Draw Gears
+            level.gears.forEach((g, idx) => {
+                if (!g.collected) {
+                    const gx = g.x * tileSize + tileSize / 2;
+                    const gy = g.y * tileSize + tileSize / 2;
+                    ctx.save();
+                    ctx.font = `${tileSize * 0.4}px Outfit`;
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.shadowColor = "#fbbf24";
+                    ctx.shadowBlur = 10;
+                    ctx.fillText("⚙️", gx, gy);
+                    ctx.restore();
+                }
+            });
+
+            // Draw Robot "Byte"
+            drawRobot(tileSize);
+        }
+
+        function drawRobot(tileSize) {
+            const rx = robot.x * tileSize + tileSize / 2;
+            const ry = robot.y * tileSize + tileSize / 2;
+            const skin = getActiveSkin();
+
+            ctx.save();
+            ctx.translate(rx, ry);
+            // Direction: 0: North (-90deg), 1: East (0deg), 2: South (90deg), 3: West (180deg)
+            const angleMap = [ -Math.PI / 2, 0, Math.PI / 2, Math.PI ];
+            ctx.rotate(angleMap[robot.dir]);
+
+            // Body
+            ctx.fillStyle = skin.color;
+            ctx.beginPath();
+            ctx.roundRect(-tileSize * 0.28, -tileSize * 0.28, tileSize * 0.56, tileSize * 0.56, 12);
+            ctx.fill();
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Eyes / Visor
+            ctx.fillStyle = "#0f172a";
+            ctx.beginPath();
+            ctx.roundRect(tileSize * 0.05, -tileSize * 0.18, tileSize * 0.2, tileSize * 0.36, 6);
+            ctx.fill();
+
+            ctx.fillStyle = skin.eye;
+            ctx.shadowColor = skin.eye;
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.arc(tileSize * 0.15, -tileSize * 0.08, tileSize * 0.05, 0, Math.PI * 2);
+            ctx.arc(tileSize * 0.15, tileSize * 0.08, tileSize * 0.05, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Antenna
+            ctx.fillStyle = "#fbbf24";
+            ctx.beginPath();
+            ctx.arc(-tileSize * 0.25, 0, tileSize * 0.06, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // --- Load Level ---
+        function loadLevel(idx) {
+            currentLevelIdx = idx;
+            const lvl = LEVELS[idx];
+            robot = { ...lvl.start };
+            collectedGearsInLevel = 0;
+            lvl.gears.forEach(g => g.collected = false);
+
+            document.getElementById('levelBadge').innerText = lvl.name;
+            commandQueue = [];
+            renderProgramQueue();
+            drawArena();
+        }
+
+        // --- Queue UI Render ---
+        const CMD_NAMES = {
+            forward: { label: "Avançar", icon: "⬆️", class: "block-forward" },
+            turn_left: { label: "Girar Esquerda", icon: "↩️", class: "block-left" },
+            turn_right: { label: "Girar Direita", icon: "↪️", class: "block-right" },
+            jump: { label: "Pular Laser", icon: "🦘", class: "block-jump" },
+            loop_2x: { label: "Repetir 2x [Avançar]", icon: "🔁", class: "block-loop" }
+        };
+
+        function renderProgramQueue() {
+            const queueEl = document.getElementById('programQueue');
+            queueEl.innerHTML = '';
+
+            if (commandQueue.length === 0) {
+                queueEl.innerHTML = `
+                    <div class="queue-empty-hint" id="emptyHint">
+                        Clique nos blocos abaixo para programar a rota do robô! 🚀
+                    </div>
+                `;
+            } else {
+                commandQueue.forEach((cmd, idx) => {
+                    const item = document.createElement('div');
+                    item.className = 'queue-item';
+                    item.id = `cmd_step_${idx}`;
+                    const meta = CMD_NAMES[cmd];
+                    item.innerHTML = `
+                        <span class="queue-index">${String(idx + 1).padStart(2, '0')}</span>
+                        <span class="queue-icon">${meta.icon}</span>
+                        <span class="queue-name">${meta.label}</span>
+                        <button class="queue-delete" onclick="removeCommand(${idx})">✖</button>
+                    `;
+                    queueEl.appendChild(item);
+                });
+            }
+
+            document.getElementById('blockLimitCount').innerText = `${commandQueue.length}/15`;
+        }
+
+        function addCommand(cmd) {
+            if (isRunning) return;
+            if (commandQueue.length >= 15) return;
+            sound.step();
+            commandQueue.push(cmd);
+            renderProgramQueue();
+        }
+
+        function removeCommand(idx) {
+            if (isRunning) return;
+            commandQueue.splice(idx, 1);
+            renderProgramQueue();
+        }
+
+        window.removeCommand = removeCommand;
+
+        // --- Execution Engine ---
+        async function runCode() {
+            if (isRunning || commandQueue.length === 0) return;
+            isRunning = true;
+            document.getElementById('btnRunCode').disabled = true;
+
+            const lvl = LEVELS[currentLevelIdx];
+            robot = { ...lvl.start };
+            drawArena();
+
+            // Expand loops
+            let expandedSteps = [];
+            commandQueue.forEach(cmd => {
+                if (cmd === 'loop_2x') {
+                    expandedSteps.push('forward');
+                    expandedSteps.push('forward');
+                } else {
+                    expandedSteps.push(cmd);
+                }
+            });
+
+            for (let i = 0; i < commandQueue.length; i++) {
+                // Highlight step
+                document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('active-step'));
+                const stepEl = document.getElementById(`cmd_step_${i}`);
+                if (stepEl) stepEl.classList.add('active-step');
+
+                const cmd = commandQueue[i];
+                let subSteps = (cmd === 'loop_2x') ? ['forward', 'forward'] : [cmd];
+
+                for (let sub of subSteps) {
+                    await executeSingleAction(sub, lvl);
+                    drawArena();
+                    await new Promise(r => setTimeout(r, 400));
+
+                    // Check collisions
+                    if (checkCrash(lvl)) {
+                        sound.crash();
+                        showCrash("💥 Bateu na parede ou caiu no laser! Corrija os passos.");
+                        cleanupRun();
+                        return;
+                    }
+
+                    // Check Gear Collection
+                    lvl.gears.forEach(g => {
+                        if (!g.collected && g.x === robot.x && g.y === robot.y) {
+                            g.collected = true;
+                            collectedGearsInLevel++;
+                            totalGears += 10;
+                            totalXP += 25;
+                            sound.gear();
+                            updateStatsUI();
+                        }
+                    });
+
+                    // Check Goal Reached
+                    if (robot.x === lvl.exit.x && robot.y === lvl.exit.y) {
+                        sound.victory();
+                        await new Promise(r => setTimeout(r, 300));
+                        showVictory(lvl);
+                        cleanupRun();
+                        return;
+                    }
+                }
+            }
+
+            // Ended without reaching goal
+            cleanupRun();
+            if (!(robot.x === lvl.exit.x && robot.y === lvl.exit.y)) {
+                showCrash("⚠️ O robô parou antes de alcançar a cápsula de fuga! Adicione mais passos.");
+            }
+        }
+
+        async function executeSingleAction(action, lvl) {
+            const deltas = [
+                { dx: 0, dy: -1 }, // North
+                { dx: 1, dy: 0 },  // East
+                { dx: 0, dy: 1 },  // South
+                { dx: -1, dy: 0 }  // West
+            ];
+
+            if (action === 'forward') {
+                sound.step();
+                robot.x += deltas[robot.dir].dx;
+                robot.y += deltas[robot.dir].dy;
+            } else if (action === 'turn_left') {
+                sound.turn();
+                robot.dir = (robot.dir + 3) % 4;
+            } else if (action === 'turn_right') {
+                sound.turn();
+                robot.dir = (robot.dir + 1) % 4;
+            } else if (action === 'jump') {
+                sound.jump();
+                // Jumps 2 tiles ahead
+                robot.x += deltas[robot.dir].dx * 2;
+                robot.y += deltas[robot.dir].dy * 2;
+            }
+        }
+
+        function checkCrash(lvl) {
+            // Out of bounds
+            if (robot.x < 0 || robot.x >= lvl.gridSize || robot.y < 0 || robot.y >= lvl.gridSize) {
+                return true;
+            }
+            // Walls
+            if (lvl.walls.some(w => w.x === robot.x && w.y === robot.y)) {
+                return true;
+            }
+            // Lasers
+            if (lvl.lasers.some(l => l.x === robot.x && l.y === robot.y)) {
+                return true;
+            }
+            return false;
+        }
+
+        function cleanupRun() {
+            isRunning = false;
+            document.getElementById('btnRunCode').disabled = false;
+            document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('active-step'));
+        }
+
+        // --- Victory & Crash Handlers ---
+        function showVictory(lvl) {
+            const earnedBonus = 50 + (collectedGearsInLevel * 15);
+            totalGears += earnedBonus;
+            totalXP += 100;
+            updateStatsUI();
+
+            // Stars Calculation
+            const lines = commandQueue.length;
+            let stars = 1;
+            if (lines <= lvl.idealLines) stars = 3;
+            else if (lines <= lvl.idealLines + 3) stars = 2;
+
+            document.getElementById('star1').className = 'star earned';
+            document.getElementById('star2').className = stars >= 2 ? 'star earned' : 'star';
+            document.getElementById('star3').className = stars === 3 ? 'star earned' : 'star';
+
+            document.getElementById('modalLinesVal').innerText = lines;
+            document.getElementById('modalGearsVal').innerText = `+${earnedBonus}`;
+
+            document.getElementById('victoryModal').classList.add('active');
+
+            // Save score to API if available
+            try {
+                fetch('/api/games/cyber-bot/score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        level: lvl.id,
+                        stars: stars,
+                        gears: earnedBonus,
+                        xp: 100
+                    })
+                }).catch(() => {});
+            } catch (e) {}
+        }
+
+        function showCrash(reason) {
+            document.getElementById('crashReason').innerText = reason;
+            document.getElementById('crashModal').classList.add('active');
+        }
+
+        // --- Shop Modal Handlers ---
+        function renderShop() {
+            const grid = document.getElementById('shopGrid');
+            grid.innerHTML = '';
+            SKINS.forEach(skin => {
+                const card = document.createElement('div');
+                card.className = `shop-card ${skin.id === equippedSkinId ? 'equipped' : ''}`;
+                card.innerHTML = `
+                    <div class="shop-robot-preview" style="background:${skin.color}; border: 2px solid ${skin.eye};">
+                        🤖
+                    </div>
+                    <div style="font-weight:800; font-size:0.9rem;">${skin.name}</div>
+                    <div style="font-size:0.8rem; color:${skin.unlocked ? '#10b981' : '#fbbf24'};">
+                        ${skin.id === equippedSkinId ? 'Em Uso' : (skin.unlocked ? 'Equipar' : `⚙️ ${skin.price}`)}
+                    </div>
+                `;
+                card.onclick = () => handleShopAction(skin);
+                grid.appendChild(card);
+            });
+        }
+
+        function handleShopAction(skin) {
+            if (skin.unlocked || skin.price === 0) {
+                equippedSkinId = skin.id;
+                localStorage.setItem('cyberbot_skin', equippedSkinId);
+                renderShop();
+                drawArena();
+            } else {
+                if (totalGears >= skin.price) {
+                    totalGears -= skin.price;
+                    skin.unlocked = true;
+                    equippedSkinId = skin.id;
+                    localStorage.setItem('cyberbot_skin', equippedSkinId);
+                    updateStatsUI();
+                    renderShop();
+                    drawArena();
+                    sound.victory();
+                } else {
+                    alert(`Você precisa de mais ${skin.price - totalGears} engrenagens! Complete mais fases.`);
+                }
+            }
+        }
+
+        // --- Event Listeners ---
+        document.querySelectorAll('.btn-block').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const cmd = btn.getAttribute('data-command');
+                addCommand(cmd);
+            });
+        });
+
+        document.getElementById('btnRunCode').addEventListener('click', runCode);
+
+        document.getElementById('btnResetRobot').addEventListener('click', () => {
+            if (isRunning) return;
+            const lvl = LEVELS[currentLevelIdx];
+            robot = { ...lvl.start };
+            drawArena();
+        });
+
+        document.getElementById('btnClearCode').addEventListener('click', () => {
+            if (isRunning) return;
+            commandQueue = [];
+            renderProgramQueue();
+        });
+
+        document.getElementById('btnNextLevel').addEventListener('click', () => {
+            document.getElementById('victoryModal').classList.remove('active');
+            if (currentLevelIdx + 1 < LEVELS.length) {
+                loadLevel(currentLevelIdx + 1);
+            } else {
+                alert("🎉 PARABÉNS! Você completou todos os setores do laboratório e se tornou um Mestre Hacker!");
+                loadLevel(0);
+            }
+        });
+
+        document.getElementById('btnReplayLevel').addEventListener('click', () => {
+            document.getElementById('victoryModal').classList.remove('active');
+            loadLevel(currentLevelIdx);
+        });
+
+        document.getElementById('btnFixCode').addEventListener('click', () => {
+            document.getElementById('crashModal').classList.remove('active');
+            const lvl = LEVELS[currentLevelIdx];
+            robot = { ...lvl.start };
+            drawArena();
+        });
+
+        document.getElementById('btnOpenShop').addEventListener('click', () => {
+            renderShop();
+            document.getElementById('shopModal').classList.add('active');
+        });
+
+        document.getElementById('btnCloseShop').addEventListener('click', () => {
+            document.getElementById('shopModal').classList.remove('active');
+        });
+
+        document.getElementById('btnToggleSound').addEventListener('click', () => {
+            sound.enabled = !sound.enabled;
+            document.getElementById('soundIcon').innerText = sound.enabled ? '🔊' : '🔇';
+        });
+
+        // Initialize
+        updateStatsUI();
+        loadLevel(0);
+    </script>
+</body>
+</html>
+
