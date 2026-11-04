@@ -150,11 +150,13 @@ const DUOLINGO_AVATAR_PRESETS = {
     }
   ],
 
-  // 3. CENÁRIOS & FUNDOS TEMÁTICOS (Arenas de Batalha Populares)
+  // 3. CENÁRIOS & FUNDOS TEMÁTICOS (Arenas de Batalha com Cenários Reais)
   bgColors: [
     {
       id: 'freefire',
       label: 'Free Fire Battle 🔥',
+      image: '/img/arenas/freefire.webp',
+      thumb: '/img/arenas/freefire_thumb.webp',
       gradient: 'linear-gradient(135deg, #7f1d1d 0%, #ea580c 50%, #450a0a 100%)',
       hex: 'ea580c',
       themeClass: 'theme-freefire'
@@ -162,6 +164,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'xbox',
       label: 'Xbox Game Pass 🎮',
+      image: '/img/arenas/xbox.webp',
+      thumb: '/img/arenas/xbox_thumb.webp',
       gradient: 'linear-gradient(135deg, #052e16 0%, #107c10 50%, #064e3b 100%)',
       hex: '107c10',
       themeClass: 'theme-xbox'
@@ -169,6 +173,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'flamengo',
       label: 'Manto Rubro-Negro 🔴⚫',
+      image: '/img/arenas/flamengo.webp',
+      thumb: '/img/arenas/flamengo_thumb.webp',
       gradient: 'linear-gradient(135deg, #450a0a 0%, #dc2626 50%, #09090b 100%)',
       hex: 'dc2626',
       themeClass: 'theme-flamengo'
@@ -176,6 +182,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'brasil',
       label: 'Brasil Canarinho 🇧🇷',
+      image: '/img/arenas/brasil.webp',
+      thumb: '/img/arenas/brasil_thumb.webp',
       gradient: 'linear-gradient(135deg, #15803d 0%, #facc15 50%, #1d4ed8 100%)',
       hex: 'facc15',
       themeClass: 'theme-brasil'
@@ -183,6 +191,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'minecraft',
       label: 'Minecraft Craft ⛏️',
+      image: '/img/arenas/minecraft.webp',
+      thumb: '/img/arenas/minecraft_thumb.webp',
       gradient: 'linear-gradient(135deg, #15803d 0%, #22c55e 50%, #78350f 100%)',
       hex: '22c55e',
       themeClass: 'theme-minecraft'
@@ -190,6 +200,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'galaxy',
       label: 'Galáxia Espacial 🚀',
+      image: '/img/arenas/galaxy.webp',
+      thumb: '/img/arenas/galaxy_thumb.webp',
       gradient: 'linear-gradient(135deg, #0f172a 0%, #312e81 50%, #581c87 100%)',
       hex: '818cf8',
       themeClass: 'theme-galaxy'
@@ -197,6 +209,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'playstation',
       label: 'PlayStation Blue ⚡',
+      image: '/img/arenas/playstation.webp',
+      thumb: '/img/arenas/playstation_thumb.webp',
       gradient: 'linear-gradient(135deg, #002244 0%, #003791 50%, #00f2fe 100%)',
       hex: '003791',
       themeClass: 'theme-playstation'
@@ -204,6 +218,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'ouro_campeao',
       label: 'Ouro Campeão 🏆',
+      image: '/img/arenas/ouro_campeao.webp',
+      thumb: '/img/arenas/ouro_campeao_thumb.webp',
       gradient: 'linear-gradient(135deg, #78350f 0%, #f59e0b 50%, #fbbf24 100%)',
       hex: 'fbbf24',
       themeClass: 'theme-ouro'
@@ -211,6 +227,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'ninja_dark',
       label: 'Dojo das Sombras 🥋',
+      image: '/img/arenas/ninja_dark.webp',
+      thumb: '/img/arenas/ninja_dark_thumb.webp',
       gradient: 'linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #0f172a 100%)',
       hex: '0f172a',
       themeClass: 'theme-ninja'
@@ -218,6 +236,8 @@ const DUOLINGO_AVATAR_PRESETS = {
     {
       id: 'candy_pop',
       label: 'Doce Pop Rainbow 🍭',
+      image: '/img/arenas/candy_pop.webp',
+      thumb: '/img/arenas/candy_pop_thumb.webp',
       gradient: 'linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%)',
       hex: 'ec4899',
       themeClass: 'theme-candy'
