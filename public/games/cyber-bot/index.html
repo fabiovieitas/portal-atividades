@@ -23,8 +23,11 @@
             --neon-amber: #f59e0b;
             --neon-purple: #8b5cf6;
             --neon-red: #ef4444;
+            --neon-pink: #ec4899;
             --bg-dark: #0a0e17;
             --panel-bg: rgba(16, 24, 39, 0.95);
+            --byte-head-color: #38bdf8;
+            --byte-eye-color: #00f0ff;
         }
 
         body, html {
@@ -36,14 +39,145 @@
             color: #fff;
         }
 
-        /* Top Bar */
+        /* --- SPLASH SCREEN --- */
+        .splash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 40%, #172554 0%, #060911 100%);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .splash-overlay.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-card {
+            background: rgba(15, 23, 42, 0.92);
+            border: 3px solid #00f0ff;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.35), 0 25px 60px rgba(0, 0, 0, 0.9);
+            border-radius: 32px;
+            max-width: 520px;
+            width: 100%;
+            padding: 36px 28px;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            animation: cardPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes cardPop {
+            0% { transform: scale(0.85); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .splash-badge {
+            display: inline-block;
+            background: rgba(0, 240, 255, 0.15);
+            border: 1.5px solid #00f0ff;
+            color: #38bdf8;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 5px 14px;
+            border-radius: 50px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .splash-title {
+            font-family: 'Fredoka', cursive;
+            font-size: 2.8rem;
+            color: #00f0ff;
+            text-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .splash-subtitle {
+            font-family: 'Fredoka', cursive;
+            font-size: 1.3rem;
+            color: #fbbf24;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+        }
+
+        .splash-mascot-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0 20px 0;
+        }
+
+        .splash-desc {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 22px;
+        }
+
+        .splash-features {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .splash-pill {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        .btn-splash-start {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: #fff;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 16px 36px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            animation: pulseBtn 2s infinite;
+        }
+
+        .btn-splash-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.7);
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(16, 185, 129, 0.8); }
+        }
+
+        /* --- TOP BAR --- */
         .top-bar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             height: 54px;
-            background: rgba(10, 14, 23, 0.92);
+            background: rgba(10, 14, 23, 0.94);
             border-bottom: 2px solid #00f0ff;
             display: flex;
             align-items: center;
@@ -64,15 +198,15 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 7px 14px;
+            padding: 6px 12px;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             text-decoration: none;
             color: white;
             cursor: pointer;
             transition: all 0.2s;
-            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.08);
         }
 
@@ -103,20 +237,53 @@
             text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
         }
 
+        .badge-rank {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1.5px solid #8b5cf6;
+            color: #c084fc;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
         .badge-stat {
             background: rgba(0, 0, 0, 0.6);
             border: 1.5px solid #f59e0b;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             display: flex;
             align-items: center;
             gap: 6px;
             color: #fbbf24;
         }
 
-        /* Game Layout */
+        .badge-combo {
+            background: linear-gradient(135deg, #f97316, #ef4444);
+            border: 1.5px solid #fbbf24;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.78rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
+            animation: comboPulse 1.2s infinite;
+        }
+
+        @keyframes comboPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        /* --- GAME LAYOUT --- */
         .game-container {
             position: absolute;
             top: 54px;
@@ -125,69 +292,318 @@
             bottom: 0;
             display: flex;
             flex-direction: row;
-            background: radial-gradient(circle at 50% 30%, #151f32 0%, #080b12 100%);
+            background: radial-gradient(circle at 40% 30%, #151f32 0%, #080b12 100%);
+            overflow: hidden;
         }
 
         @media (max-width: 900px) {
             .game-container {
                 flex-direction: column;
+                overflow-y: auto;
             }
         }
 
-        /* Left/Center: Visual Arena */
+        /* --- LEFT/CENTER: ARENA SECTION --- */
         .arena-section {
-            flex: 1.2;
+            flex: 1.25;
             position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            padding: 15px;
+            justify-content: flex-start;
+            overflow-y: auto;
+            padding: 12px 16px 20px 16px;
+            gap: 10px;
         }
 
-        .arena-header {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            right: 20px;
+        /* Sector narrative & briefing */
+        .sector-narrative-bar {
+            width: 100%;
+            max-width: 580px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px solid rgba(0, 240, 255, 0.3);
+            border-radius: 16px;
+            padding: 8px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .sector-top-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 10;
         }
 
-        .level-badge {
-            background: rgba(0, 240, 255, 0.15);
-            border: 2px solid #00f0ff;
-            padding: 8px 18px;
-            border-radius: 14px;
+        .sector-tag {
             font-family: 'Fredoka', cursive;
-            font-size: 1.15rem;
+            font-size: 0.95rem;
             color: #00f0ff;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-            backdrop-filter: blur(8px);
-        }
-
-        .goal-banner {
-            background: rgba(16, 185, 129, 0.2);
-            border: 2px solid #10b981;
-            padding: 8px 16px;
-            border-radius: 14px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            color: #34d399;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+        }
+
+        .level-num-pill {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid #fbbf24;
+            color: #fbbf24;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .sector-story-text {
+            font-size: 0.82rem;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+
+        .sector-story-text strong {
+            color: #e2e8f0;
+        }
+
+        /* 12-Level Progress Tracker */
+        .level-tracker {
+            width: 100%;
+            max-width: 580px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tracker-dot {
+            flex: 1;
+            height: 22px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+        }
+
+        .tracker-dot:hover {
+            transform: translateY(-1px);
+        }
+
+        .tracker-dot.past {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #34d399;
+        }
+
+        .tracker-dot.current {
+            background: rgba(0, 240, 255, 0.3);
+            border-color: #00f0ff;
+            color: #00f0ff;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            transform: scale(1.08);
+        }
+
+        .tracker-dot.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Reactive CSS Mascot: BYTE */
+        .mascot-bar {
+            width: 100%;
+            max-width: 580px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 8px 14px;
             backdrop-filter: blur(8px);
+        }
+
+        /* Mascot Robot Figure (Pure CSS) */
+        .byte-avatar {
+            width: 50px;
+            height: 52px;
+            position: relative;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .byte-avatar.state-idle {
+            animation: byteFloat 3s ease-in-out infinite;
+        }
+
+        .byte-avatar.state-running {
+            animation: byteRun 0.25s infinite alternate;
+        }
+
+        .byte-avatar.state-victory {
+            animation: byteCelebrate 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate;
+        }
+
+        .byte-avatar.state-crash {
+            animation: byteCrash 0.1s infinite;
+        }
+
+        @keyframes byteFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @keyframes byteRun {
+            0% { transform: translateY(0) rotate(-4deg); }
+            100% { transform: translateY(-3px) rotate(4deg); }
+        }
+
+        @keyframes byteCelebrate {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-10px) scale(1.12) rotate(6deg); }
+        }
+
+        @keyframes byteCrash {
+            0% { transform: translate(-3px, 1px) rotate(-3deg); }
+            50% { transform: translate(3px, -2px) rotate(3deg); }
+            100% { transform: translate(-2px, -1px); }
+        }
+
+        .byte-antenna {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .antenna-ball {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fbbf24;
+            box-shadow: 0 0 10px #fbbf24, 0 0 16px #f59e0b;
+            animation: bulbGlow 1.5s infinite alternate;
+        }
+
+        @keyframes bulbGlow {
+            0% { transform: scale(0.9); box-shadow: 0 0 6px #fbbf24; }
+            100% { transform: scale(1.15); box-shadow: 0 0 14px #fbbf24, 0 0 20px #f59e0b; }
+        }
+
+        .antenna-stem {
+            width: 3px;
+            height: 6px;
+            background: #64748b;
+        }
+
+        .byte-head {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 38px;
+            background: var(--byte-head-color);
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 240, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .byte-ear {
+            position: absolute;
+            top: 12px;
+            width: 5px;
+            height: 12px;
+            background: #64748b;
+            border-radius: 3px;
+        }
+
+        .byte-ear.left { left: -5px; }
+        .byte-ear.right { right: -5px; }
+
+        .byte-visor {
+            width: 34px;
+            height: 22px;
+            background: #090d16;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 4px;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .byte-eye {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--byte-eye-color);
+            box-shadow: 0 0 8px var(--byte-eye-color);
+            animation: eyeBlink 3.5s infinite;
+        }
+
+        @keyframes eyeBlink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.15); }
+        }
+
+        .mascot-speech-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .mascot-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mascot-name {
+            font-family: 'Fredoka', cursive;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            letter-spacing: 0.5px;
+        }
+
+        .mascot-mood {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .mascot-speech {
+            font-size: 0.84rem;
+            color: #e2e8f0;
+            line-height: 1.3;
+            transition: all 0.2s;
         }
 
         /* The Grid Canvas */
         .canvas-wrapper {
             position: relative;
             width: 100%;
-            max-width: 580px;
+            max-width: 540px;
             aspect-ratio: 1 / 1;
             display: flex;
             align-items: center;
@@ -195,15 +611,15 @@
         }
 
         #gameCanvas {
-            background: rgba(15, 23, 42, 0.7);
-            border: 3px solid rgba(0, 240, 255, 0.3);
+            background: rgba(15, 23, 42, 0.85);
+            border: 3px solid rgba(0, 240, 255, 0.35);
             border-radius: 24px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 240, 255, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 240, 255, 0.15);
             width: 100%;
             height: 100%;
         }
 
-        /* Right: Programming IDE & Blocks */
+        /* --- RIGHT: IDE SECTION --- */
         .ide-section {
             flex: 0.95;
             background: var(--panel-bg);
@@ -216,7 +632,7 @@
         }
 
         .ide-header {
-            padding: 14px 18px;
+            padding: 12px 16px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: space-between;
@@ -226,21 +642,38 @@
 
         .ide-title {
             font-family: 'Fredoka', cursive;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             color: #38bdf8;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
+        .ide-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-counter-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid #fbbf24;
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+
         .btn-clear {
             background: rgba(239, 68, 68, 0.15);
             border: 1.5px solid #ef4444;
             color: #fca5a5;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -249,45 +682,47 @@
             background: rgba(239, 68, 68, 0.3);
         }
 
-        /* Program Sequence (Code Lines) */
+        /* Program Queue (Code Sequence) */
         .program-queue {
             flex: 1;
-            padding: 14px;
+            padding: 12px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            background: rgba(0, 0, 0, 0.2);
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
         }
 
         .queue-empty-hint {
             margin: auto;
             text-align: center;
             color: #64748b;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             padding: 20px;
             border: 2px dashed rgba(255, 255, 255, 0.15);
             border-radius: 16px;
             max-width: 280px;
+            line-height: 1.4;
         }
 
         .queue-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 9px 14px;
+            gap: 8px;
+            padding: 8px 12px;
             background: rgba(255, 255, 255, 0.06);
             border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.88rem;
             animation: slideIn 0.2s ease-out;
             position: relative;
+            transition: all 0.2s;
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-8px); }
+            from { opacity: 0; transform: translateY(-6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -300,12 +735,12 @@
 
         .queue-index {
             color: #94a3b8;
-            font-size: 0.8rem;
-            min-width: 24px;
+            font-size: 0.78rem;
+            min-width: 22px;
         }
 
         .queue-icon {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
         }
 
         .queue-name {
@@ -325,22 +760,23 @@
 
         .queue-delete:hover {
             opacity: 1;
+            transform: scale(1.15);
         }
 
         /* Block Toolbox (Command Buttons) */
         .toolbox-section {
-            padding: 14px;
+            padding: 12px 14px;
             border-top: 2px solid rgba(255, 255, 255, 0.1);
-            background: rgba(10, 14, 23, 0.8);
+            background: rgba(10, 14, 23, 0.85);
         }
 
         .toolbox-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #94a3b8;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
         }
@@ -355,19 +791,36 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 11px 14px;
+            padding: 9px 12px;
             border-radius: 12px;
             border: 2px solid;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.86rem;
             cursor: pointer;
             transition: all 0.15s ease;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-block:active {
             transform: scale(0.96);
+        }
+
+        .btn-block.locked-cmd {
+            opacity: 0.45;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        .lock-badge {
+            font-size: 0.68rem;
+            background: rgba(0,0,0,0.6);
+            padding: 1px 6px;
+            border-radius: 8px;
+            margin-left: auto;
+            color: #fbbf24;
         }
 
         .block-forward {
@@ -394,24 +847,36 @@
             color: #fff;
         }
 
-        .block-loop {
+        .block-loop2 {
             background: linear-gradient(135deg, #ec4899, #be185d);
             border-color: #f472b6;
+            color: #fff;
+        }
+
+        .block-loop3 {
+            background: linear-gradient(135deg, #d946ef, #a21caf);
+            border-color: #f0abfc;
+            color: #fff;
+        }
+
+        .block-wait {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            border-color: #67e8f9;
             color: #fff;
             grid-column: span 2;
         }
 
         /* IDE Action Bar (Run / Stop) */
         .ide-actions {
-            padding: 12px 14px 16px 14px;
+            padding: 12px 14px 14px 14px;
             display: flex;
             gap: 10px;
-            background: rgba(10, 14, 23, 0.95);
+            background: rgba(10, 14, 23, 0.98);
         }
 
         .btn-run {
             flex: 2;
-            padding: 14px;
+            padding: 12px;
             border-radius: 14px;
             border: none;
             background: linear-gradient(135deg, #10b981, #059669);
@@ -441,13 +906,13 @@
 
         .btn-reset-pos {
             flex: 1;
-            padding: 14px;
+            padding: 12px;
             border-radius: 14px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.08);
             color: #cbd5e1;
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -457,15 +922,15 @@
             color: #fff;
         }
 
-        /* Modals & Overlays */
+        /* --- MODALS & OVERLAYS --- */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(4, 7, 13, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(4, 7, 13, 0.88);
+            backdrop-filter: blur(14px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -487,49 +952,69 @@
             background: linear-gradient(135deg, #131b2e 0%, #0d121f 100%);
             border: 3px solid #00f0ff;
             border-radius: 28px;
-            padding: 30px;
+            padding: 28px;
             max-width: 480px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 40px rgba(0, 240, 255, 0.3);
             position: relative;
         }
 
         .modal-title {
             font-family: 'Fredoka', cursive;
-            font-size: 2rem;
+            font-size: 2.1rem;
             color: #fbbf24;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
         }
 
         .stars-container {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            font-size: 3rem;
-            margin: 15px 0 20px 0;
+            gap: 14px;
+            font-size: 3.2rem;
+            margin: 12px 0 16px 0;
         }
 
         .star {
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.15);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
         }
 
         .star.earned {
             color: #fbbf24;
-            text-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
-            transform: scale(1.15);
+            text-shadow: 0 0 22px rgba(251, 191, 36, 0.9);
+            transform: scale(1.2);
+            animation: starBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        @keyframes starBounce {
+            0% { transform: scale(0.4); opacity: 0; }
+            100% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .medal-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+        }
+
+        .medal-gold { background: rgba(251, 191, 36, 0.2); border: 1.5px solid #fbbf24; color: #fde047; }
+        .medal-silver { background: rgba(148, 163, 184, 0.2); border: 1.5px solid #94a3b8; color: #cbd5e1; }
+        .medal-bronze { background: rgba(249, 115, 22, 0.2); border: 1.5px solid #f97316; color: #fdba74; }
+
         .modal-stats {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 25px;
+            padding: 14px;
+            margin-bottom: 20px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
 
         .stat-box {
@@ -541,27 +1026,43 @@
         .stat-val {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 800;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #00f0ff;
         }
 
         .stat-lbl {
-            font-size: 0.8rem;
+            font-size: 0.74rem;
             color: #94a3b8;
             font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .combo-alert-badge {
+            background: linear-gradient(135deg, #f97316, #ef4444);
+            border: 1.5px solid #fbbf24;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
         }
 
         .modal-btn-row {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
 
         .btn-modal {
             flex: 1;
-            padding: 14px;
+            padding: 12px;
             border-radius: 14px;
             font-family: 'Fredoka', cursive;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             border: none;
             cursor: pointer;
             transition: all 0.2s;
@@ -571,6 +1072,11 @@
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-modal-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
         }
 
         .btn-modal-retry {
@@ -583,18 +1089,18 @@
         .shop-items-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 10px;
             max-height: 320px;
             overflow-y: auto;
-            margin: 15px 0 20px 0;
-            padding: 5px;
+            margin: 14px 0 18px 0;
+            padding: 4px;
         }
 
         .shop-card {
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(255, 255, 255, 0.15);
             border-radius: 16px;
-            padding: 12px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -610,21 +1116,63 @@
 
         .shop-card.equipped {
             border-color: #10b981;
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(16, 185, 129, 0.18);
         }
 
         .shop-robot-preview {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
     </style>
 </head>
 <body>
+
+    <!-- Splash Screen (Boas-vindas para crianças) -->
+    <div class="splash-overlay" id="splashScreen">
+        <div class="splash-card">
+            <span class="splash-badge">🎮 Missão de Programação Lab Kids</span>
+            <h1 class="splash-title">CYBER BOT</h1>
+            <p class="splash-subtitle">Fuga do Laboratório</p>
+
+            <div class="splash-mascot-box">
+                <div class="byte-avatar state-idle" style="transform: scale(1.4);">
+                    <div class="byte-antenna">
+                        <div class="antenna-ball"></div>
+                        <div class="antenna-stem"></div>
+                    </div>
+                    <div class="byte-head">
+                        <div class="byte-ear left"></div>
+                        <div class="byte-visor">
+                            <div class="byte-eye"></div>
+                            <div class="byte-eye"></div>
+                        </div>
+                        <div class="byte-ear right"></div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="splash-desc">
+                O laboratório entrou em quarentena de segurança máxima!<br>
+                Programe os movimentos do <strong>Byte</strong> através de 12 setores repletos de desafios, lasers e engrenagens para alcançar a cápsula de fuga.
+            </p>
+
+            <div class="splash-features">
+                <span class="splash-pill">🚀 12 Fases Épicas</span>
+                <span class="splash-pill">⚡ Animações Suaves</span>
+                <span class="splash-pill">⚙️ Oficina de Robôs</span>
+            </div>
+
+            <button class="btn-splash-start" id="btnStartGame">
+                <span>▶️</span> INICIAR MISSÃO!
+            </button>
+        </div>
+    </div>
 
     <!-- Top Bar -->
     <header class="top-bar">
@@ -635,9 +1183,15 @@
             <div class="game-logo">
                 <span>🤖</span> Cyber Bot
             </div>
+            <div class="badge-rank" id="topRankBadge">
+                <span>🥉</span> <span id="topRankText">Iniciante</span>
+            </div>
         </div>
 
         <div class="top-right">
+            <div class="badge-combo" id="topComboBadge" style="display: none;">
+                <span>🔥</span> <span id="topComboText">Combo x2</span>
+            </div>
             <div class="badge-stat">
                 <span>⚙️</span> <span id="gearCount">0</span>
             </div>
@@ -647,7 +1201,7 @@
             <button class="btn-top btn-shop" id="btnOpenShop">
                 <span>👕</span> Oficina
             </button>
-            <button class="btn-top" id="btnToggleSound">
+            <button class="btn-top" id="btnToggleSound" title="Ligar/Desligar Sons e Música">
                 <span id="soundIcon">🔊</span>
             </button>
         </div>
@@ -657,13 +1211,54 @@
     <main class="game-container">
         <!-- Visual Grid Arena -->
         <section class="arena-section">
-            <div class="arena-header">
-                <div class="level-badge" id="levelBadge">Fase 1: Primeiros Passos</div>
-                <div class="goal-banner">
-                    <span>🎯</span> Chegue à Cápsula de Fuga!
+            <!-- Sector Narrative Bar -->
+            <div class="sector-narrative-bar">
+                <div class="sector-top-row">
+                    <div class="sector-tag" id="sectorTag">
+                        <span>🟢</span> Setor 1: Treinamento
+                    </div>
+                    <div class="level-num-pill" id="levelPill">
+                        Fase 1 de 12
+                    </div>
+                </div>
+                <div class="sector-story-text" id="sectorStoryText">
+                    "Aprenda os controles básicos do robô! Avance 3 casas até a cápsula de fuga."
                 </div>
             </div>
 
+            <!-- 12-Level Progress Tracker -->
+            <div class="level-tracker" id="levelTracker">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Reactive Mascot: Byte -->
+            <div class="mascot-bar">
+                <div class="byte-avatar state-idle" id="mascotAvatar">
+                    <div class="byte-antenna">
+                        <div class="antenna-ball"></div>
+                        <div class="antenna-stem"></div>
+                    </div>
+                    <div class="byte-head" id="mascotHead">
+                        <div class="byte-ear left"></div>
+                        <div class="byte-visor">
+                            <div class="byte-eye" id="mascotEye1"></div>
+                            <div class="byte-eye" id="mascotEye2"></div>
+                        </div>
+                        <div class="byte-ear right"></div>
+                    </div>
+                </div>
+                <div class="mascot-speech-box">
+                    <div class="mascot-meta-row">
+                        <span class="mascot-name">BYTE</span>
+                        <span class="mascot-mood" id="mascotMood">⚡ Pronto</span>
+                    </div>
+                    <p class="mascot-speech" id="mascotSpeech">
+                        "Pronto para a fuga! Clique nos blocos à direita para montar minha rota."
+                    </p>
+                </div>
+            </div>
+
+            <!-- The Grid Canvas -->
             <div class="canvas-wrapper">
                 <canvas id="gameCanvas" width="550" height="550"></canvas>
             </div>
@@ -675,23 +1270,29 @@
                 <div class="ide-title">
                     <span>💻</span> Sequência de Código
                 </div>
-                <button class="btn-clear" id="btnClearCode" title="Limpar todos os comandos">
-                    🗑️ Limpar
-                </button>
+                <div class="ide-header-right">
+                    <span class="code-counter-badge" id="blockLimitCount">0/20</span>
+                    <button class="btn-clear" id="btnClearCode" title="Limpar todos os comandos">
+                        🗑️ Limpar
+                    </button>
+                </div>
             </div>
 
             <!-- Program Queue (Instructions) -->
             <div class="program-queue" id="programQueue">
                 <div class="queue-empty-hint" id="emptyHint">
-                    Clique nos blocos abaixo para programar a rota do robô! 🚀
+                    Clique nos blocos abaixo para programar a rota do Byte! 🚀<br>
+                    <span style="font-size:0.8rem; color:#475569; display:block; margin-top:6px;">
+                        Dica: Tente usar a menor quantidade de blocos para ganhar 3 Estrelas de Ouro!
+                    </span>
                 </div>
             </div>
 
             <!-- Block Toolbox -->
             <div class="toolbox-section">
                 <div class="toolbox-title">
-                    <span>Comandos Disponíveis</span>
-                    <span id="blockLimitCount">0/15</span>
+                    <span>Blocos de Comando</span>
+                    <span style="color:#38bdf8; font-size:0.75rem;">Arraste ou Toque</span>
                 </div>
                 <div class="blocks-grid">
                     <button class="btn-block block-forward" data-command="forward">
@@ -706,8 +1307,16 @@
                     <button class="btn-block block-jump" data-command="jump">
                         <span>🦘</span> Pular Laser
                     </button>
-                    <button class="btn-block block-loop" data-command="loop_2x" id="btnLoopBlock">
-                        <span>🔁</span> Repetir 2x (Loop)
+                    <button class="btn-block block-loop2" data-command="loop_2x" id="btnLoop2">
+                        <span>🔁</span> Repetir 2x
+                    </button>
+                    <button class="btn-block block-loop3" data-command="loop_3x" id="btnLoop3">
+                        <span>🔂</span> Repetir 3x
+                        <span class="lock-badge" id="lockLoop3">🔒 Fase 7+</span>
+                    </button>
+                    <button class="btn-block block-wait" data-command="wait" id="btnWait">
+                        <span>⏱️</span> Aguardar 1s (Pausa)
+                        <span class="lock-badge" id="lockWait">🔒 Fase 7+</span>
                     </button>
                 </div>
             </div>
@@ -728,7 +1337,8 @@
     <div class="modal-overlay" id="victoryModal">
         <div class="modal-card">
             <div class="modal-title">🎉 MISSÃO CUMPRIDA!</div>
-            <p style="color: #94a3b8; font-size: 0.95rem;">Byte escapou com sucesso para a próxima sala!</p>
+            <div id="modalMedalBadge" class="medal-badge medal-gold">🏅 Medalha de Ouro!</div>
+            <p style="color: #94a3b8; font-size: 0.95rem;" id="victoryMsg">Byte escapou com sucesso para o próximo setor!</p>
             
             <div class="stars-container">
                 <span class="star" id="star1">★</span>
@@ -736,14 +1346,24 @@
                 <span class="star" id="star3">★</span>
             </div>
 
+            <div id="modalComboRow" style="display: none;">
+                <div class="combo-alert-badge">
+                    🔥 COMBO x2 ATIVADO! (+BÔNUS DUPLO DE ENGRENAGENS)
+                </div>
+            </div>
+
             <div class="modal-stats">
                 <div class="stat-box">
                     <span class="stat-val" id="modalLinesVal">0</span>
-                    <span class="stat-lbl">Linhas de Código</span>
+                    <span class="stat-lbl">Linhas (Ideal: <span id="modalIdealLines">0</span>)</span>
                 </div>
                 <div class="stat-box">
                     <span class="stat-val" id="modalGearsVal">+50</span>
-                    <span class="stat-lbl">Engrenagens Ganhas</span>
+                    <span class="stat-lbl">Engrenagens</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-val" id="modalXpVal">+100</span>
+                    <span class="stat-lbl">XP Ganho</span>
                 </div>
             </div>
 
@@ -773,7 +1393,7 @@
     <div class="modal-overlay" id="shopModal">
         <div class="modal-card" style="border-color: #8b5cf6;">
             <div class="modal-title" style="color: #c084fc;">👕 Oficina do Byte</div>
-            <p style="color: #94a3b8; font-size: 0.9rem;">Personalize a carcaça e as luzes do seu robô com engrenagens!</p>
+            <p style="color: #94a3b8; font-size: 0.9rem;">Personalize a carcaça e visor do robô com as engrenagens coletadas!</p>
             
             <div class="shop-items-grid" id="shopGrid">
                 <!-- Injected via JS -->
@@ -785,13 +1405,15 @@
         </div>
     </div>
 
-    <!-- Audio Synthesizer & Game Logic -->
+    <!-- Web Audio Synthesizer & Game Logic -->
     <script>
         // --- Web Audio API Chiptune Synth ---
         class SoundEngine {
             constructor() {
                 this.ctx = null;
                 this.enabled = true;
+                this.bgmTimer = null;
+                this.bgmStep = 0;
             }
 
             init() {
@@ -799,9 +1421,12 @@
                     const AudioContext = window.AudioContext || window.webkitAudioContext;
                     this.ctx = new AudioContext();
                 }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
             }
 
-            playTone(freq, type, duration, delay = 0) {
+            playTone(freq, type, duration, delay = 0, volume = 0.1) {
                 if (!this.enabled) return;
                 this.init();
                 setTimeout(() => {
@@ -810,8 +1435,8 @@
                         const gain = this.ctx.createGain();
                         osc.type = type;
                         osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-                        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                        gain.gain.setValueAtTime(volume, this.ctx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
                         osc.connect(gain);
                         gain.connect(this.ctx.destination);
                         osc.start();
@@ -820,116 +1445,322 @@
                 }, delay * 1000);
             }
 
-            step() { this.playTone(320, 'triangle', 0.08); }
-            turn() { this.playTone(480, 'sine', 0.1); }
-            jump() {
-                this.playTone(400, 'square', 0.1);
-                this.playTone(600, 'square', 0.15, 0.05);
+            playFreqSlide(fStart, fEnd, type, duration, volume = 0.1) {
+                if (!this.enabled) return;
+                this.init();
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(fStart, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(fEnd, this.ctx.currentTime + duration);
+                    gain.gain.setValueAtTime(volume, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch (e) {}
             }
+
+            click() { this.playTone(850, 'square', 0.03, 0, 0.05); }
+            remove() { this.playTone(320, 'sine', 0.05, 0, 0.06); }
+            step() { this.playTone(340, 'triangle', 0.06, 0, 0.08); }
+            turn() { this.playFreqSlide(400, 560, 'sine', 0.1, 0.08); }
+            jump() { this.playFreqSlide(320, 750, 'square', 0.18, 0.09); }
+            wait() { this.playTone(660, 'sine', 0.12, 0, 0.06); }
+
             gear() {
-                this.playTone(659, 'sine', 0.08);
-                this.playTone(880, 'sine', 0.15, 0.08);
+                const notes = [587, 740, 880, 1175];
+                notes.forEach((f, i) => this.playTone(f, 'sine', 0.12, i * 0.04, 0.1));
             }
+
             crash() {
-                this.playTone(150, 'sawtooth', 0.3);
-                this.playTone(90, 'sawtooth', 0.4, 0.1);
+                this.playTone(140, 'sawtooth', 0.35, 0, 0.15);
+                this.playTone(80, 'sawtooth', 0.45, 0.08, 0.15);
             }
+
             victory() {
-                const notes = [523, 659, 783, 1046];
-                notes.forEach((f, i) => this.playTone(f, 'square', 0.25, i * 0.12));
+                const notes = [523, 659, 783, 1046, 1318];
+                notes.forEach((f, i) => this.playTone(f, 'square', 0.22, i * 0.1, 0.1));
+            }
+
+            startBGM() {
+                if (this.bgmTimer) return;
+                this.bgmStep = 0;
+                // Calming pentatonic sci-fi loop
+                const melody = [261.63, 329.63, 392.00, 523.25, 440.00, 392.00, 329.63, 293.66];
+                this.bgmTimer = setInterval(() => {
+                    if (!this.enabled || !this.ctx) return;
+                    const freq = melody[this.bgmStep % melody.length];
+                    this.playTone(freq, 'triangle', 0.2, 0, 0.022);
+                    this.bgmStep++;
+                }, 480);
+            }
+
+            stopBGM() {
+                if (this.bgmTimer) {
+                    clearInterval(this.bgmTimer);
+                    this.bgmTimer = null;
+                }
+            }
+
+            toggleSound() {
+                this.enabled = !this.enabled;
+                if (!this.enabled) {
+                    this.stopBGM();
+                } else {
+                    this.init();
+                    this.startBGM();
+                }
+                return this.enabled;
             }
         }
 
         const sound = new SoundEngine();
 
-        // --- Game Levels Definition ---
-        // 0: empty floor, 1: wall, 2: laser obstacle, 3: key, 4: door, 5: exit capsule
+        // --- 12 Progressive Levels Definition (4 Sectors) ---
         const LEVELS = [
+            // SECTOR 1: TREINAMENTO (Fases 1 a 3)
             {
                 id: 1,
+                sector: 1,
+                sectorName: "Setor 1: Treinamento",
                 name: "Fase 1: Primeiros Passos",
-                desc: "Avance 3 casas até a cápsula!",
+                story: "Byte precisa testar seus motores de passo. Programe 3 avanços até a cápsula!",
                 gridSize: 5,
-                start: { x: 1, y: 3, dir: 0 }, // 0: North, 1: East, 2: South, 3: West
-                exit: { x: 1, y: 0 },
-                gears: [{ x: 1, y: 1 }],
+                start: { x: 2, y: 4, dir: 0 }, // 0: N, 1: E, 2: S, 3: W
+                exit: { x: 2, y: 1 },
+                gears: [{ x: 2, y: 2 }],
                 walls: [
-                    { x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 },
-                    { x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 3 }
+                    { x: 1, y: 1 }, { x: 1, y: 2 }, { x: 1, y: 3 }, { x: 1, y: 4 },
+                    { x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }, { x: 3, y: 4 }
                 ],
                 lasers: [],
                 idealLines: 3
             },
             {
                 id: 2,
+                sector: 1,
+                sectorName: "Setor 1: Treinamento",
                 name: "Fase 2: Curva de 90 Graus",
-                desc: "Avance e faça a curva para escapar!",
+                story: "Os corredores do laboratório têm esquinas! Use Girar Direita para fazer a curva.",
                 gridSize: 5,
                 start: { x: 1, y: 3, dir: 0 },
                 exit: { x: 3, y: 1 },
                 gears: [{ x: 1, y: 1 }, { x: 2, y: 1 }],
                 walls: [
                     { x: 0, y: 1 }, { x: 0, y: 2 }, { x: 0, y: 3 },
-                    { x: 2, y: 2 }, { x: 2, y: 3 }
+                    { x: 2, y: 2 }, { x: 2, y: 3 },
+                    { x: 4, y: 1 }, { x: 4, y: 2 }
                 ],
                 lasers: [],
                 idealLines: 5
             },
             {
                 id: 3,
+                sector: 1,
+                sectorName: "Setor 1: Treinamento",
                 name: "Fase 3: O Primeiro Salto",
-                desc: "Use o comando PULAR para passar o laser!",
+                story: "Um feixe de laser bloqueia o piso! Use o comando PULAR LASER para voar por cima.",
                 gridSize: 5,
                 start: { x: 2, y: 4, dir: 0 },
                 exit: { x: 2, y: 0 },
                 gears: [{ x: 2, y: 1 }],
-                walls: [{ x: 1, y: 2 }, { x: 3, y: 2 }],
+                walls: [{ x: 1, y: 2 }, { x: 3, y: 2 }, { x: 0, y: 2 }, { x: 4, y: 2 }],
                 lasers: [{ x: 2, y: 2 }],
                 idealLines: 4
             },
+
+            // SECTOR 2: ENERGIA (Fases 4 a 6)
             {
                 id: 4,
+                sector: 2,
+                sectorName: "Setor 2: Energia",
                 name: "Fase 4: Labirinto em Zig-Zag",
-                desc: "Desvie dos blocos de choque e pegue as engrenagens!",
+                story: "As baterias da nave estão descarregadas! Colete as engrenagens energéticas no labirinto.",
                 gridSize: 6,
-                start: { x: 1, y: 4, dir: 1 },
+                start: { x: 1, y: 4, dir: 0 },
                 exit: { x: 4, y: 1 },
-                gears: [{ x: 3, y: 4 }, { x: 3, y: 2 }, { x: 1, y: 2 }],
-                walls: [{ x: 2, y: 3 }, { x: 3, y: 3 }, { x: 4, y: 3 }],
-                lasers: [{ x: 2, y: 1 }],
-                idealLines: 8
+                gears: [{ x: 1, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 }],
+                walls: [
+                    { x: 0, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 }, { x: 2, y: 5 },
+                    { x: 3, y: 3 }, { x: 5, y: 1 }, { x: 5, y: 2 }
+                ],
+                lasers: [],
+                idealLines: 7
             },
             {
                 id: 5,
-                name: "Fase 5: A Grande Fuga",
-                desc: "Combine saltos, curvas e colete tudo!",
+                sector: 2,
+                sectorName: "Setor 2: Energia",
+                name: "Fase 5: Salto Duplo Energético",
+                story: "Dois feixes de alta voltagem ativados! Calcule a distância exata para os saltos.",
+                gridSize: 6,
+                start: { x: 1, y: 4, dir: 1 },
+                exit: { x: 5, y: 2 },
+                gears: [{ x: 2, y: 4 }, { x: 4, y: 4 }, { x: 5, y: 3 }],
+                walls: [{ x: 3, y: 5 }, { x: 3, y: 3 }, { x: 2, y: 2 }, { x: 4, y: 2 }],
+                lasers: [{ x: 3, y: 4 }],
+                idealLines: 7
+            },
+            {
+                id: 6,
+                sector: 2,
+                sectorName: "Setor 2: Energia",
+                name: "Fase 6: Circuito Turbo",
+                story: "Use o bloco 'Repetir 2x' para economizar comandos e atingir 3 estrelas de Ouro!",
+                gridSize: 6,
+                start: { x: 1, y: 4, dir: 0 },
+                exit: { x: 4, y: 4 },
+                gears: [{ x: 1, y: 1 }, { x: 3, y: 1 }, { x: 4, y: 2 }],
+                walls: [{ x: 2, y: 2 }, { x: 2, y: 3 }, { x: 3, y: 2 }, { x: 3, y: 3 }],
+                lasers: [{ x: 2, y: 1 }, { x: 4, y: 3 }],
+                idealLines: 7
+            },
+
+            // SECTOR 3: DEFESA (Fases 7 a 9 - Desbloqueia loop_3x e wait)
+            {
+                id: 7,
+                sector: 3,
+                sectorName: "Setor 3: Defesa",
+                name: "Fase 7: A Muralha de Choque",
+                story: "NOVO COMANDO: Repetir 3x liberado! Atravesse a linha de defesa com máxima velocidade.",
+                gridSize: 6,
+                start: { x: 1, y: 4, dir: 0 },
+                exit: { x: 4, y: 1 },
+                gears: [{ x: 1, y: 2 }, { x: 3, y: 1 }],
+                walls: [{ x: 2, y: 2 }, { x: 2, y: 3 }, { x: 2, y: 4 }, { x: 3, y: 3 }],
+                lasers: [{ x: 1, y: 3 }],
+                idealLines: 4
+            },
+            {
+                id: 8,
+                sector: 3,
+                sectorName: "Setor 3: Defesa",
+                name: "Fase 8: Patrulha Laser",
+                story: "O sistema detectou invasores! Desvie das barreiras de choque da patrulha.",
                 gridSize: 6,
                 start: { x: 1, y: 5, dir: 0 },
                 exit: { x: 4, y: 0 },
                 gears: [{ x: 1, y: 2 }, { x: 3, y: 2 }, { x: 4, y: 2 }],
-                walls: [{ x: 2, y: 1 }, { x: 2, y: 2 }, { x: 2, y: 4 }],
-                lasers: [{ x: 1, y: 3 }, { x: 4, y: 3 }],
+                walls: [
+                    { x: 0, y: 3 }, { x: 2, y: 5 }, { x: 2, y: 4 },
+                    { x: 2, y: 3 }, { x: 3, y: 4 }, { x: 3, y: 5 }
+                ],
+                lasers: [{ x: 1, y: 3 }, { x: 3, y: 3 }],
+                idealLines: 8
+            },
+            {
+                id: 9,
+                sector: 3,
+                sectorName: "Setor 3: Defesa",
+                name: "Fase 9: Câmara de Sensores",
+                story: "Sensores em alta velocidade! Use 'Aguardar 1s' para sincronizar os seus saltos com precisão.",
+                gridSize: 7,
+                start: { x: 1, y: 5, dir: 1 },
+                exit: { x: 5, y: 1 },
+                gears: [{ x: 4, y: 5 }, { x: 5, y: 3 }, { x: 3, y: 1 }],
+                walls: [{ x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }, { x: 3, y: 2 }, { x: 4, y: 2 }],
+                lasers: [{ x: 2, y: 5 }, { x: 5, y: 4 }],
+                idealLines: 8
+            },
+
+            // SECTOR 4: NÚCLEO CENTRAL (Fases 10 a 12 - Super Desafio)
+            {
+                id: 10,
+                sector: 4,
+                sectorName: "Setor 4: Núcleo Central",
+                name: "Fase 10: Labirinto de Alta Voltagem",
+                story: "Entramos no reator principal! O piso está carregado de feixes cruzados de choque.",
+                gridSize: 7,
+                start: { x: 1, y: 5, dir: 0 },
+                exit: { x: 5, y: 1 },
+                gears: [{ x: 1, y: 2 }, { x: 3, y: 2 }, { x: 5, y: 4 }],
+                walls: [
+                    { x: 2, y: 3 }, { x: 2, y: 4 }, { x: 2, y: 5 },
+                    { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }
+                ],
+                lasers: [{ x: 1, y: 4 }, { x: 3, y: 2 }, { x: 5, y: 3 }],
+                idealLines: 9
+            },
+            {
+                id: 11,
+                sector: 4,
+                sectorName: "Setor 4: Núcleo Central",
+                name: "Fase 11: A Grande Fuga do Núcleo",
+                story: "Alarme nível 5! O núcleo está superaquecendo. Combine loops e saltos rápidos para escapar!",
+                gridSize: 7,
+                start: { x: 0, y: 5, dir: 0 },
+                exit: { x: 6, y: 1 },
+                gears: [{ x: 0, y: 2 }, { x: 3, y: 2 }, { x: 3, y: 5 }, { x: 6, y: 3 }],
+                walls: [
+                    { x: 1, y: 3 }, { x: 1, y: 4 }, { x: 1, y: 5 },
+                    { x: 4, y: 1 }, { x: 4, y: 2 }, { x: 4, y: 3 }, { x: 5, y: 5 }
+                ],
+                lasers: [{ x: 0, y: 3 }, { x: 3, y: 4 }, { x: 6, y: 4 }],
                 idealLines: 10
+            },
+            {
+                id: 12,
+                sector: 4,
+                sectorName: "Setor 4: Núcleo Central",
+                name: "Fase 12: Mestre da Programação",
+                story: "DESAFIO FINAL: A cápsula de fuga suprema aguarda o Mestre do Código! Prove seu valor!",
+                gridSize: 7,
+                start: { x: 1, y: 6, dir: 0 },
+                exit: { x: 5, y: 0 },
+                gears: [{ x: 1, y: 3 }, { x: 3, y: 5 }, { x: 3, y: 2 }, { x: 5, y: 3 }],
+                walls: [
+                    { x: 2, y: 1 }, { x: 2, y: 3 }, { x: 2, y: 5 },
+                    { x: 4, y: 1 }, { x: 4, y: 3 }, { x: 4, y: 5 }
+                ],
+                lasers: [{ x: 1, y: 4 }, { x: 3, y: 3 }, { x: 5, y: 2 }],
+                idealLines: 11
             }
         ];
 
         // --- Skins Database ---
         const SKINS = [
-            { id: "default", name: "Byte Prateado", color: "#38bdf8", eye: "#00f0ff", price: 0, unlocked: true },
-            { id: "neon_green", name: "Byte Matrix", color: "#10b981", eye: "#34d399", price: 30, unlocked: false },
-            { id: "cyber_purple", name: "Byte Mágico", color: "#8b5cf6", eye: "#c084fc", price: 60, unlocked: false },
-            { id: "solar_gold", name: "Byte Dourado", color: "#f59e0b", eye: "#fde047", price: 100, unlocked: false }
+            { id: "default", name: "Byte Clássico", color: "#38bdf8", eye: "#00f0ff", price: 0, unlocked: true },
+            { id: "matrix", name: "Byte Matrix", color: "#10b981", eye: "#34d399", price: 30, unlocked: false },
+            { id: "magic", name: "Byte Mágico", color: "#8b5cf6", eye: "#c084fc", price: 60, unlocked: false },
+            { id: "solar", name: "Byte Dourado", color: "#f59e0b", eye: "#fde047", price: 100, unlocked: false },
+            { id: "fire", name: "Byte Vulcão", color: "#ef4444", eye: "#fca5a5", price: 150, unlocked: false },
+            { id: "ninja", name: "Byte Cyber Ninja", color: "#1e293b", eye: "#ec4899", price: 200, unlocked: false }
         ];
 
         // --- Game State ---
         let currentLevelIdx = 0;
-        let robot = { x: 0, y: 0, dir: 0 };
         let commandQueue = [];
         let isRunning = false;
         let collectedGearsInLevel = 0;
         let totalGears = parseInt(localStorage.getItem('cyberbot_gears') || '0');
         let totalXP = parseInt(localStorage.getItem('cyberbot_xp') || '0');
         let equippedSkinId = localStorage.getItem('cyberbot_skin') || 'default';
+        let levelStars = JSON.parse(localStorage.getItem('cyberbot_stars') || '{}');
+        let maxUnlockedLevel = parseInt(localStorage.getItem('cyberbot_max_level') || '0');
+        let consecutiveWins = parseInt(localStorage.getItem('cyberbot_combo') || '0');
+
+        // Smooth tweening & rendering state
+        const robot = {
+            x: 0,
+            y: 0,
+            dir: 0, // 0: N, 1: E, 2: S, 3: W
+            renderX: 0,
+            renderY: 0,
+            renderAngle: -Math.PI / 2,
+            jumpZ: 0,
+            isJumping: false,
+            isMoving: false
+        };
+
+        // Particles & visual juice
+        const particles = [];
+        const floatingTexts = [];
+        const confettiList = [];
+        let screenFlashAlpha = 0;
+        let gearRotation = 0;
 
         // Canvas Setup
         const canvas = document.getElementById('gameCanvas');
@@ -939,177 +1770,171 @@
             return SKINS.find(s => s.id === equippedSkinId) || SKINS[0];
         }
 
+        function applyActiveSkin() {
+            const skin = getActiveSkin();
+            document.documentElement.style.setProperty('--byte-head-color', skin.color);
+            document.documentElement.style.setProperty('--byte-eye-color', skin.eye);
+        }
+
         function updateStatsUI() {
             document.getElementById('gearCount').innerText = totalGears;
             document.getElementById('xpCount').innerText = totalXP;
             localStorage.setItem('cyberbot_gears', totalGears);
             localStorage.setItem('cyberbot_xp', totalXP);
-        }
+            localStorage.setItem('cyberbot_stars', JSON.stringify(levelStars));
+            localStorage.setItem('cyberbot_max_level', maxUnlockedLevel);
+            localStorage.setItem('cyberbot_combo', consecutiveWins);
 
-        // --- Render Arena Grid ---
-        function drawArena() {
-            const level = LEVELS[currentLevelIdx];
-            const size = level.gridSize;
-            const tileSize = canvas.width / size;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw Grid Tiles
-            for (let r = 0; r < size; r++) {
-                for (let c = 0; c < size; c++) {
-                    const x = c * tileSize;
-                    const y = r * tileSize;
-
-                    // Tile background
-                    ctx.fillStyle = (r + c) % 2 === 0 ? "#111827" : "#1a2234";
-                    ctx.fillRect(x, y, tileSize, tileSize);
-
-                    // Tile border
-                    ctx.strokeStyle = "rgba(0, 240, 255, 0.08)";
-                    ctx.lineWidth = 1.5;
-                    ctx.strokeRect(x, y, tileSize, tileSize);
-                }
+            // Combo Badge
+            const comboEl = document.getElementById('topComboBadge');
+            if (consecutiveWins >= 2) {
+                comboEl.style.display = 'flex';
+                document.getElementById('topComboText').innerText = `Combo x${Math.min(3, consecutiveWins)}`;
+            } else {
+                comboEl.style.display = 'none';
             }
 
-            // Draw Exit Capsule
-            const exitX = level.exit.x * tileSize + tileSize / 2;
-            const exitY = level.exit.y * tileSize + tileSize / 2;
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(exitX, exitY, tileSize * 0.38, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(16, 185, 129, 0.3)";
-            ctx.fill();
-            ctx.strokeStyle = "#10b981";
-            ctx.lineWidth = 3;
-            ctx.shadowColor = "#10b981";
-            ctx.shadowBlur = 15;
-            ctx.stroke();
-            ctx.font = `${tileSize * 0.45}px Outfit`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("🚀", exitX, exitY);
-            ctx.restore();
-
-            // Draw Walls
-            level.walls.forEach(w => {
-                const wx = w.x * tileSize + 4;
-                const wy = w.y * tileSize + 4;
-                ctx.fillStyle = "#334155";
-                ctx.fillRect(wx, wy, tileSize - 8, tileSize - 8);
-                ctx.strokeStyle = "#64748b";
-                ctx.lineWidth = 2;
-                ctx.strokeRect(wx, wy, tileSize - 8, tileSize - 8);
-                ctx.font = `${tileSize * 0.35}px Outfit`;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText("🧱", wx + (tileSize - 8) / 2, wy + (tileSize - 8) / 2);
-            });
-
-            // Draw Lasers
-            level.lasers.forEach(l => {
-                const lx = l.x * tileSize + tileSize / 2;
-                const ly = l.y * tileSize + tileSize / 2;
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(lx, ly, tileSize * 0.35, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(239, 68, 68, 0.3)";
-                ctx.fill();
-                ctx.strokeStyle = "#ef4444";
-                ctx.lineWidth = 2;
-                ctx.shadowColor = "#ef4444";
-                ctx.shadowBlur = 12;
-                ctx.stroke();
-                ctx.font = `${tileSize * 0.4}px Outfit`;
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText("⚡", lx, ly);
-                ctx.restore();
-            });
-
-            // Draw Gears
-            level.gears.forEach((g, idx) => {
-                if (!g.collected) {
-                    const gx = g.x * tileSize + tileSize / 2;
-                    const gy = g.y * tileSize + tileSize / 2;
-                    ctx.save();
-                    ctx.font = `${tileSize * 0.4}px Outfit`;
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.shadowColor = "#fbbf24";
-                    ctx.shadowBlur = 10;
-                    ctx.fillText("⚙️", gx, gy);
-                    ctx.restore();
-                }
-            });
-
-            // Draw Robot "Byte"
-            drawRobot(tileSize);
+            // Hacker Rank
+            const completedCount = Object.keys(levelStars).length;
+            let rankName = "Iniciante";
+            let rankIcon = "🥉";
+            if (completedCount >= 10 || (completedCount === 12 && Object.values(levelStars).every(s => s === 3))) {
+                rankName = "Mestre do Código";
+                rankIcon = "👑";
+            } else if (completedCount >= 9) {
+                rankName = "Hacker Sênior";
+                rankIcon = "🥇";
+            } else if (completedCount >= 5) {
+                rankName = "Programador Jr.";
+                rankIcon = "🥈";
+            }
+            document.getElementById('topRankText').innerText = rankName;
+            document.getElementById('topRankBadge').querySelector('span:first-child').innerText = rankIcon;
         }
 
-        function drawRobot(tileSize) {
-            const rx = robot.x * tileSize + tileSize / 2;
-            const ry = robot.y * tileSize + tileSize / 2;
-            const skin = getActiveSkin();
+        // --- Mascot Reactive State ---
+        function setMascotState(state, speechText = null, mood = null) {
+            const avatar = document.getElementById('mascotAvatar');
+            avatar.className = `byte-avatar state-${state}`;
 
-            ctx.save();
-            ctx.translate(rx, ry);
-            // Direction: 0: North (-90deg), 1: East (0deg), 2: South (90deg), 3: West (180deg)
-            const angleMap = [ -Math.PI / 2, 0, Math.PI / 2, Math.PI ];
-            ctx.rotate(angleMap[robot.dir]);
-
-            // Body
-            ctx.fillStyle = skin.color;
-            ctx.beginPath();
-            ctx.roundRect(-tileSize * 0.28, -tileSize * 0.28, tileSize * 0.56, tileSize * 0.56, 12);
-            ctx.fill();
-            ctx.strokeStyle = "#fff";
-            ctx.lineWidth = 2.5;
-            ctx.stroke();
-
-            // Eyes / Visor
-            ctx.fillStyle = "#0f172a";
-            ctx.beginPath();
-            ctx.roundRect(tileSize * 0.05, -tileSize * 0.18, tileSize * 0.2, tileSize * 0.36, 6);
-            ctx.fill();
-
-            ctx.fillStyle = skin.eye;
-            ctx.shadowColor = skin.eye;
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            ctx.arc(tileSize * 0.15, -tileSize * 0.08, tileSize * 0.05, 0, Math.PI * 2);
-            ctx.arc(tileSize * 0.15, tileSize * 0.08, tileSize * 0.05, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Antenna
-            ctx.fillStyle = "#fbbf24";
-            ctx.beginPath();
-            ctx.arc(-tileSize * 0.25, 0, tileSize * 0.06, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.restore();
+            if (speechText) {
+                document.getElementById('mascotSpeech').innerText = speechText;
+            }
+            if (mood) {
+                document.getElementById('mascotMood').innerText = mood;
+            }
         }
 
         // --- Load Level ---
         function loadLevel(idx) {
             currentLevelIdx = idx;
             const lvl = LEVELS[idx];
-            robot = { ...lvl.start };
+            robot.x = lvl.start.x;
+            robot.y = lvl.start.y;
+            robot.dir = lvl.start.dir;
+            robot.renderX = lvl.start.x;
+            robot.renderY = lvl.start.y;
+            const angleMap = [ -Math.PI / 2, 0, Math.PI / 2, Math.PI ];
+            robot.renderAngle = angleMap[robot.dir];
+            robot.jumpZ = 0;
+            robot.isJumping = false;
+            robot.isMoving = false;
+
             collectedGearsInLevel = 0;
             lvl.gears.forEach(g => g.collected = false);
 
-            document.getElementById('levelBadge').innerText = lvl.name;
+            // Update UI narrative
+            const sectorColors = ["🟢", "⚡", "🛡️", "🚀"];
+            document.getElementById('sectorTag').innerHTML = `<span>${sectorColors[lvl.sector - 1]}</span> ${lvl.sectorName}`;
+            document.getElementById('levelPill').innerText = `Fase ${lvl.id} de 12`;
+            document.getElementById('sectorStoryText').innerHTML = `<strong>${lvl.name}:</strong> ${lvl.story}`;
+
+            // Mascot greeting
+            const hints = [
+                "Avance até a cápsula usando o comando Avançar!",
+                "Cuidado com a curva! Gire no momento certo.",
+                "Laser adiante! Pule por cima dele usando propulsores!",
+                "Colete as 3 engrenagens energéticas para ligar o sistema!",
+                "Salto duplo! Calcule bem a distância.",
+                "Dica: O bloco 'Repetir 2x' economiza linhas de código!",
+                "Desbloqueamos o Repetir 3x! Teste agora mesmo!",
+                "Desvie das barreiras de choque da patrulha!",
+                "Use 'Aguardar 1s' para sincronizar os seus movimentos!",
+                "Entramos no Reator Central! Máxima atenção!",
+                "Superaquecimento! Encontre a rota mais curta e rápida!",
+                "A cápsula suprema aguarda o Mestre do Código! Boa sorte!"
+            ];
+            setMascotState('idle', `"${hints[idx]}"`, "⚡ Pronto");
+
+            // Update Toolbox Locks (Fase 7+)
+            updateToolboxLocks(idx);
+
+            // Render Level Tracker & Queue
+            renderLevelTracker();
             commandQueue = [];
             renderProgramQueue();
-            drawArena();
         }
 
-        // --- Queue UI Render ---
-        const CMD_NAMES = {
+        function updateToolboxLocks(levelIdx) {
+            const isUnlocked = levelIdx >= 6; // Index 6 is Level 7
+            const btnLoop3 = document.getElementById('btnLoop3');
+            const btnWait = document.getElementById('btnWait');
+            const lockLoop3 = document.getElementById('lockLoop3');
+            const lockWait = document.getElementById('lockWait');
+
+            if (isUnlocked) {
+                btnLoop3.classList.remove('locked-cmd');
+                btnWait.classList.remove('locked-cmd');
+                lockLoop3.style.display = 'none';
+                lockWait.style.display = 'none';
+            } else {
+                btnLoop3.classList.add('locked-cmd');
+                btnWait.classList.add('locked-cmd');
+                lockLoop3.style.display = 'inline-block';
+                lockWait.style.display = 'inline-block';
+            }
+        }
+
+        function renderLevelTracker() {
+            const container = document.getElementById('levelTracker');
+            container.innerHTML = '';
+            LEVELS.forEach((lvl, i) => {
+                const dot = document.createElement('div');
+                const isCurrent = i === currentLevelIdx;
+                const isPast = levelStars[lvl.id] !== undefined;
+                const isLocked = i > maxUnlockedLevel;
+
+                dot.className = `tracker-dot ${isCurrent ? 'current' : ''} ${isPast ? 'past' : ''} ${isLocked ? 'locked' : ''}`;
+                
+                if (isPast) {
+                    const stars = levelStars[lvl.id];
+                    dot.innerHTML = `${lvl.id} <span style="font-size:0.6rem; color:#fbbf24;">${'★'.repeat(stars)}</span>`;
+                } else {
+                    dot.innerText = lvl.id;
+                }
+
+                if (!isLocked) {
+                    dot.title = `${lvl.name}`;
+                    dot.onclick = () => {
+                        if (!isRunning) {
+                            sound.click();
+                            loadLevel(i);
+                        }
+                    };
+                }
+                container.appendChild(dot);
+            });
+        }
+
+        // --- Command Queue Management ---
+        const CMD_META = {
             forward: { label: "Avançar", icon: "⬆️", class: "block-forward" },
             turn_left: { label: "Girar Esquerda", icon: "↩️", class: "block-left" },
             turn_right: { label: "Girar Direita", icon: "↪️", class: "block-right" },
             jump: { label: "Pular Laser", icon: "🦘", class: "block-jump" },
-            loop_2x: { label: "Repetir 2x [Avançar]", icon: "🔁", class: "block-loop" }
+            loop_2x: { label: "Repetir 2x [Avançar]", icon: "🔁", class: "block-loop2" },
+            loop_3x: { label: "Repetir 3x [Avançar]", icon: "🔂", class: "block-loop3" },
+            wait: { label: "Aguardar 1s (Pausa)", icon: "⏱️", class: "block-wait" }
         };
 
         function renderProgramQueue() {
@@ -1119,7 +1944,10 @@
             if (commandQueue.length === 0) {
                 queueEl.innerHTML = `
                     <div class="queue-empty-hint" id="emptyHint">
-                        Clique nos blocos abaixo para programar a rota do robô! 🚀
+                        Clique nos blocos abaixo para programar a rota do Byte! 🚀<br>
+                        <span style="font-size:0.8rem; color:#475569; display:block; margin-top:6px;">
+                            Dica: Tente usar a menor quantidade de blocos para ganhar 3 Estrelas de Ouro!
+                        </span>
                     </div>
                 `;
             } else {
@@ -1127,7 +1955,7 @@
                     const item = document.createElement('div');
                     item.className = 'queue-item';
                     item.id = `cmd_step_${idx}`;
-                    const meta = CMD_NAMES[cmd];
+                    const meta = CMD_META[cmd];
                     item.innerHTML = `
                         <span class="queue-index">${String(idx + 1).padStart(2, '0')}</span>
                         <span class="queue-icon">${meta.icon}</span>
@@ -1138,99 +1966,178 @@
                 });
             }
 
-            document.getElementById('blockLimitCount').innerText = `${commandQueue.length}/15`;
+            document.getElementById('blockLimitCount').innerText = `${commandQueue.length}/20`;
         }
 
         function addCommand(cmd) {
             if (isRunning) return;
-            if (commandQueue.length >= 15) return;
-            sound.step();
+            if (commandQueue.length >= 20) {
+                setMascotState('idle', '"A memória do robô está cheia! Execute ou limpe comandos."', '⚠️ Atenção');
+                return;
+            }
+
+            // Check if level allows locked commands
+            if ((cmd === 'loop_3x' || cmd === 'wait') && currentLevelIdx < 6) {
+                sound.remove();
+                setMascotState('idle', '"Esse comando superpoderoso desbloqueia no Setor de Defesa (Fase 7)!"', '🔒 Bloqueado');
+                return;
+            }
+
+            sound.click();
             commandQueue.push(cmd);
             renderProgramQueue();
+
+            // Auto-scroll queue
+            const q = document.getElementById('programQueue');
+            q.scrollTop = q.scrollHeight;
         }
 
         function removeCommand(idx) {
             if (isRunning) return;
+            sound.remove();
             commandQueue.splice(idx, 1);
             renderProgramQueue();
         }
 
         window.removeCommand = removeCommand;
 
+        // --- Smooth Tweening Animations ---
+        function tweenRobotMove(fromX, fromY, toX, toY, duration = 300) {
+            return new Promise(resolve => {
+                const startTime = performance.now();
+                robot.isMoving = true;
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(1, elapsed / duration);
+                    // Ease out cubic
+                    const ease = 1 - Math.pow(1 - progress, 3);
+
+                    robot.renderX = fromX + (toX - fromX) * ease;
+                    robot.renderY = fromY + (toY - fromY) * ease;
+                    robot.jumpZ = Math.sin(progress * Math.PI) * 4;
+
+                    // Footstep spark
+                    if (Math.random() < 0.25) {
+                        spawnSparkle(
+                            (robot.renderX + 0.5) * (canvas.width / LEVELS[currentLevelIdx].gridSize),
+                            (robot.renderY + 0.5) * (canvas.height / LEVELS[currentLevelIdx].gridSize),
+                            '#38bdf8'
+                        );
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        robot.renderX = toX;
+                        robot.renderY = toY;
+                        robot.jumpZ = 0;
+                        robot.isMoving = false;
+                        resolve();
+                    }
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        function tweenRobotTurn(fromAngle, toAngle, duration = 220) {
+            return new Promise(resolve => {
+                const startTime = performance.now();
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(1, elapsed / duration);
+                    const ease = 1 - Math.pow(1 - progress, 2);
+
+                    robot.renderAngle = fromAngle + (toAngle - fromAngle) * ease;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        robot.renderAngle = toAngle;
+                        resolve();
+                    }
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        function tweenRobotJump(fromX, fromY, toX, toY, duration = 440) {
+            return new Promise(resolve => {
+                const startTime = performance.now();
+                robot.isJumping = true;
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    const progress = Math.min(1, elapsed / duration);
+                    const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+                    robot.renderX = fromX + (toX - fromX) * ease;
+                    robot.renderY = fromY + (toY - fromY) * ease;
+                    // Parabolic jump arc: height up to 32px
+                    robot.jumpZ = Math.sin(progress * Math.PI) * 32;
+
+                    // Jet trail
+                    spawnSparkle(
+                        (robot.renderX + 0.5) * (canvas.width / LEVELS[currentLevelIdx].gridSize),
+                        (robot.renderY + 0.5) * (canvas.height / LEVELS[currentLevelIdx].gridSize) + 8,
+                        '#fbbf24'
+                    );
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        robot.renderX = toX;
+                        robot.renderY = toY;
+                        robot.jumpZ = 0;
+                        robot.isJumping = false;
+                        resolve();
+                    }
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        function tweenRobotWait(duration = 750) {
+            return new Promise(resolve => {
+                const startTime = performance.now();
+                sound.wait();
+                setMascotState('idle', '"Aguardando o ciclo... calculando tempo."', '⏱️ Pausa');
+                spawnFloatingText('⏱️ 1s', 
+                    (robot.x + 0.5) * (canvas.width / LEVELS[currentLevelIdx].gridSize),
+                    (robot.y + 0.5) * (canvas.height / LEVELS[currentLevelIdx].gridSize) - 20,
+                    '#38bdf8'
+                );
+
+                function step(now) {
+                    const elapsed = now - startTime;
+                    if (elapsed < duration) {
+                        requestAnimationFrame(step);
+                    } else {
+                        resolve();
+                    }
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
         // --- Execution Engine ---
         async function runCode() {
             if (isRunning || commandQueue.length === 0) return;
             isRunning = true;
             document.getElementById('btnRunCode').disabled = true;
+            setMascotState('running', '"Executando rota! Bip bop bip!"', '⚙️ Em Marcha');
 
             const lvl = LEVELS[currentLevelIdx];
-            robot = { ...lvl.start };
-            drawArena();
+            robot.x = lvl.start.x;
+            robot.y = lvl.start.y;
+            robot.dir = lvl.start.dir;
+            robot.renderX = lvl.start.x;
+            robot.renderY = lvl.start.y;
+            const angleMap = [ -Math.PI / 2, 0, Math.PI / 2, Math.PI ];
+            robot.renderAngle = angleMap[robot.dir];
 
-            // Expand loops
-            let expandedSteps = [];
-            commandQueue.forEach(cmd => {
-                if (cmd === 'loop_2x') {
-                    expandedSteps.push('forward');
-                    expandedSteps.push('forward');
-                } else {
-                    expandedSteps.push(cmd);
-                }
-            });
-
-            for (let i = 0; i < commandQueue.length; i++) {
-                // Highlight step
-                document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('active-step'));
-                const stepEl = document.getElementById(`cmd_step_${i}`);
-                if (stepEl) stepEl.classList.add('active-step');
-
-                const cmd = commandQueue[i];
-                let subSteps = (cmd === 'loop_2x') ? ['forward', 'forward'] : [cmd];
-
-                for (let sub of subSteps) {
-                    await executeSingleAction(sub, lvl);
-                    drawArena();
-                    await new Promise(r => setTimeout(r, 400));
-
-                    // Check collisions
-                    if (checkCrash(lvl)) {
-                        sound.crash();
-                        showCrash("💥 Bateu na parede ou caiu no laser! Corrija os passos.");
-                        cleanupRun();
-                        return;
-                    }
-
-                    // Check Gear Collection
-                    lvl.gears.forEach(g => {
-                        if (!g.collected && g.x === robot.x && g.y === robot.y) {
-                            g.collected = true;
-                            collectedGearsInLevel++;
-                            totalGears += 10;
-                            totalXP += 25;
-                            sound.gear();
-                            updateStatsUI();
-                        }
-                    });
-
-                    // Check Goal Reached
-                    if (robot.x === lvl.exit.x && robot.y === lvl.exit.y) {
-                        sound.victory();
-                        await new Promise(r => setTimeout(r, 300));
-                        showVictory(lvl);
-                        cleanupRun();
-                        return;
-                    }
-                }
-            }
-
-            // Ended without reaching goal
-            cleanupRun();
-            if (!(robot.x === lvl.exit.x && robot.y === lvl.exit.y)) {
-                showCrash("⚠️ O robô parou antes de alcançar a cápsula de fuga! Adicione mais passos.");
-            }
-        }
-
-        async function executeSingleAction(action, lvl) {
+            // Direction vectors
             const deltas = [
                 { dx: 0, dy: -1 }, // North
                 { dx: 1, dy: 0 },  // East
@@ -1238,22 +2145,149 @@
                 { dx: -1, dy: 0 }  // West
             ];
 
-            if (action === 'forward') {
-                sound.step();
-                robot.x += deltas[robot.dir].dx;
-                robot.y += deltas[robot.dir].dy;
-            } else if (action === 'turn_left') {
-                sound.turn();
-                robot.dir = (robot.dir + 3) % 4;
-            } else if (action === 'turn_right') {
-                sound.turn();
-                robot.dir = (robot.dir + 1) % 4;
-            } else if (action === 'jump') {
-                sound.jump();
-                // Jumps 2 tiles ahead
-                robot.x += deltas[robot.dir].dx * 2;
-                robot.y += deltas[robot.dir].dy * 2;
+            for (let i = 0; i < commandQueue.length; i++) {
+                // Highlight step
+                document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('active-step'));
+                const stepEl = document.getElementById(`cmd_step_${i}`);
+                if (stepEl) {
+                    stepEl.classList.add('active-step');
+                    stepEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                const cmd = commandQueue[i];
+
+                if (cmd === 'forward') {
+                    sound.step();
+                    const fromX = robot.x;
+                    const fromY = robot.y;
+                    const toX = robot.x + deltas[robot.dir].dx;
+                    const toY = robot.y + deltas[robot.dir].dy;
+                    robot.x = toX;
+                    robot.y = toY;
+                    await tweenRobotMove(fromX, fromY, toX, toY, 280);
+
+                } else if (cmd === 'loop_2x') {
+                    // Loop 2x forwards
+                    for (let step = 0; step < 2; step++) {
+                        sound.step();
+                        const fromX = robot.x;
+                        const fromY = robot.y;
+                        const toX = robot.x + deltas[robot.dir].dx;
+                        const toY = robot.y + deltas[robot.dir].dy;
+                        robot.x = toX;
+                        robot.y = toY;
+                        await tweenRobotMove(fromX, fromY, toX, toY, 260);
+
+                        if (checkCrash(lvl)) break;
+                        checkItemCollisions(lvl);
+                        if (checkGoalReached(lvl)) break;
+                    }
+
+                } else if (cmd === 'loop_3x') {
+                    // Loop 3x forwards
+                    for (let step = 0; step < 3; step++) {
+                        sound.step();
+                        const fromX = robot.x;
+                        const fromY = robot.y;
+                        const toX = robot.x + deltas[robot.dir].dx;
+                        const toY = robot.y + deltas[robot.dir].dy;
+                        robot.x = toX;
+                        robot.y = toY;
+                        await tweenRobotMove(fromX, fromY, toX, toY, 240);
+
+                        if (checkCrash(lvl)) break;
+                        checkItemCollisions(lvl);
+                        if (checkGoalReached(lvl)) break;
+                    }
+
+                } else if (cmd === 'turn_left') {
+                    sound.turn();
+                    const fromAngle = robot.renderAngle;
+                    const toAngle = fromAngle - Math.PI / 2;
+                    robot.dir = (robot.dir + 3) % 4;
+                    await tweenRobotTurn(fromAngle, toAngle, 200);
+
+                } else if (cmd === 'turn_right') {
+                    sound.turn();
+                    const fromAngle = robot.renderAngle;
+                    const toAngle = fromAngle + Math.PI / 2;
+                    robot.dir = (robot.dir + 1) % 4;
+                    await tweenRobotTurn(fromAngle, toAngle, 200);
+
+                } else if (cmd === 'jump') {
+                    sound.jump();
+                    const fromX = robot.x;
+                    const fromY = robot.y;
+                    const toX = robot.x + deltas[robot.dir].dx * 2;
+                    const toY = robot.y + deltas[robot.dir].dy * 2;
+                    robot.x = toX;
+                    robot.y = toY;
+                    await tweenRobotJump(fromX, fromY, toX, toY, 420);
+
+                } else if (cmd === 'wait') {
+                    await tweenRobotWait(800);
+                }
+
+                // Check collisions after each action
+                if (checkCrash(lvl)) {
+                    consecutiveWins = 0;
+                    updateStatsUI();
+                    sound.crash();
+                    spawnCrashExplosion(
+                        (robot.renderX + 0.5) * (canvas.width / lvl.gridSize),
+                        (robot.renderY + 0.5) * (canvas.height / lvl.gridSize)
+                    );
+                    setMascotState('crash', '"Bzzzt! Bati na barreira! Revise os comandos."', '💥 Ouch!');
+                    showCrash("💥 O robô bateu na parede ou caiu no laser! Tente ajustar a rota.");
+                    cleanupRun();
+                    return;
+                }
+
+                checkItemCollisions(lvl);
+
+                if (checkGoalReached(lvl)) {
+                    sound.victory();
+                    consecutiveWins++;
+                    updateStatsUI();
+                    spawnVictoryConfetti();
+                    setMascotState('victory', '"EBAAA! Cápsula de fuga alcançada! Conseguimos!"', '🎉 Vitória!');
+                    await new Promise(r => setTimeout(r, 400));
+                    showVictory(lvl);
+                    cleanupRun();
+                    return;
+                }
+
+                await new Promise(r => setTimeout(r, 60));
             }
+
+            // Finished sequence without reaching exit
+            cleanupRun();
+            if (!checkGoalReached(lvl)) {
+                consecutiveWins = 0;
+                updateStatsUI();
+                setMascotState('idle', '"Quase lá! Faltaram comandos para chegar à cápsula."', '🤔 Quase');
+                showCrash("⚠️ O robô parou antes de alcançar a cápsula de fuga! Adicione mais passos.");
+            }
+        }
+
+        function checkItemCollisions(lvl) {
+            const tileSize = canvas.width / lvl.gridSize;
+            lvl.gears.forEach(g => {
+                if (!g.collected && g.x === robot.x && g.y === robot.y) {
+                    g.collected = true;
+                    collectedGearsInLevel++;
+                    totalGears += 10;
+                    totalXP += 25;
+                    sound.gear();
+                    updateStatsUI();
+
+                    const gx = (g.x + 0.5) * tileSize;
+                    const gy = (g.y + 0.5) * tileSize;
+                    spawnGearExplosion(gx, gy);
+                    spawnFloatingText('+10 ⚙️', gx, gy - 15, '#fbbf24');
+                    spawnFloatingText('+25 XP', gx, gy - 35, '#38bdf8');
+                }
+            });
         }
 
         function checkCrash(lvl) {
@@ -1272,35 +2306,78 @@
             return false;
         }
 
+        function checkGoalReached(lvl) {
+            return robot.x === lvl.exit.x && robot.y === lvl.exit.y;
+        }
+
         function cleanupRun() {
             isRunning = false;
             document.getElementById('btnRunCode').disabled = false;
             document.querySelectorAll('.queue-item').forEach(el => el.classList.remove('active-step'));
         }
 
-        // --- Victory & Crash Handlers ---
+        // --- Victory & Crash Modals ---
         function showVictory(lvl) {
-            const earnedBonus = 50 + (collectedGearsInLevel * 15);
-            totalGears += earnedBonus;
-            totalXP += 100;
-            updateStatsUI();
-
-            // Stars Calculation
             const lines = commandQueue.length;
             let stars = 1;
-            if (lines <= lvl.idealLines) stars = 3;
-            else if (lines <= lvl.idealLines + 3) stars = 2;
+            let medalClass = 'medal-bronze';
+            let medalText = '🥉 Medalha de Bronze!';
 
+            if (lines <= lvl.idealLines) {
+                stars = 3;
+                medalClass = 'medal-gold';
+                medalText = '🥇 Medalha de Ouro! (Código Perfeito)';
+            } else if (lines <= lvl.idealLines + 2) {
+                stars = 2;
+                medalClass = 'medal-silver';
+                medalText = '🥈 Medalha de Prata! (Quase Perfeito)';
+            }
+
+            // Save max stars
+            const prevStars = levelStars[lvl.id] || 0;
+            if (stars > prevStars) {
+                levelStars[lvl.id] = stars;
+            }
+
+            // Unlock next level
+            if (lvl.id > maxUnlockedLevel && lvl.id < 12) {
+                maxUnlockedLevel = lvl.id;
+            }
+
+            // Bonus calculations
+            let earnedBonus = 50 + (collectedGearsInLevel * 15);
+            let earnedXP = 100 + (stars * 25);
+
+            // Combo 2x Bonus
+            const comboRow = document.getElementById('modalComboRow');
+            if (consecutiveWins >= 3) {
+                earnedBonus *= 2;
+                comboRow.style.display = 'block';
+            } else {
+                comboRow.style.display = 'none';
+            }
+
+            totalGears += earnedBonus;
+            totalXP += earnedXP;
+            updateStatsUI();
+
+            // Stars DOM
             document.getElementById('star1').className = 'star earned';
             document.getElementById('star2').className = stars >= 2 ? 'star earned' : 'star';
             document.getElementById('star3').className = stars === 3 ? 'star earned' : 'star';
 
+            const badge = document.getElementById('modalMedalBadge');
+            badge.className = `medal-badge ${medalClass}`;
+            badge.innerText = medalText;
+
             document.getElementById('modalLinesVal').innerText = lines;
+            document.getElementById('modalIdealLines').innerText = lvl.idealLines;
             document.getElementById('modalGearsVal').innerText = `+${earnedBonus}`;
+            document.getElementById('modalXpVal').innerText = `+${earnedXP}`;
 
             document.getElementById('victoryModal').classList.add('active');
 
-            // Save score to API if available
+            // API Score Sync
             try {
                 fetch('/api/games/cyber-bot/score', {
                     method: 'POST',
@@ -1309,7 +2386,8 @@
                         level: lvl.id,
                         stars: stars,
                         gears: earnedBonus,
-                        xp: 100
+                        xp: earnedXP,
+                        combo: consecutiveWins
                     })
                 }).catch(() => {});
             } catch (e) {}
@@ -1318,6 +2396,385 @@
         function showCrash(reason) {
             document.getElementById('crashReason').innerText = reason;
             document.getElementById('crashModal').classList.add('active');
+        }
+
+        // --- Particles & Juice Engine ---
+        function spawnSparkle(x, y, color = '#fbbf24') {
+            particles.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 3,
+                vy: (Math.random() - 0.5) * 3 - 0.5,
+                size: 2.5 + Math.random() * 3,
+                color: color,
+                shape: 'circle',
+                life: 18 + Math.random() * 10,
+                maxLife: 28
+            });
+        }
+
+        function spawnGearExplosion(x, y) {
+            screenFlashAlpha = 0.35;
+            for (let i = 0; i < 16; i++) {
+                const angle = (Math.PI * 2 * i) / 16 + Math.random() * 0.4;
+                const speed = 2.5 + Math.random() * 4.5;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: 4 + Math.random() * 4,
+                    color: ['#fbbf24', '#fde047', '#f59e0b', '#ffffff'][Math.floor(Math.random() * 4)],
+                    shape: Math.random() > 0.5 ? 'star' : 'circle',
+                    life: 30 + Math.random() * 15,
+                    maxLife: 45
+                });
+            }
+        }
+
+        function spawnCrashExplosion(x, y) {
+            screenFlashAlpha = 0.45;
+            for (let i = 0; i < 26; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 3 + Math.random() * 6;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 1.5,
+                    size: 4 + Math.random() * 5,
+                    color: ['#ef4444', '#f97316', '#fbbf24', '#ffffff'][Math.floor(Math.random() * 4)],
+                    shape: 'spark',
+                    life: 35 + Math.random() * 20,
+                    maxLife: 55
+                });
+            }
+        }
+
+        function spawnFloatingText(text, x, y, color = '#fbbf24') {
+            floatingTexts.push({
+                text: text,
+                x: x,
+                y: y,
+                vy: -1.2,
+                color: color,
+                alpha: 1,
+                life: 55,
+                maxLife: 55
+            });
+        }
+
+        function spawnVictoryConfetti() {
+            confettiList.length = 0;
+            const colors = ['#00f0ff', '#10b981', '#fbbf24', '#ec4899', '#8b5cf6', '#3b82f6'];
+            for (let i = 0; i < 70; i++) {
+                confettiList.push({
+                    x: Math.random() * canvas.width,
+                    y: -20 - Math.random() * 120,
+                    vx: (Math.random() - 0.5) * 3,
+                    vy: 2 + Math.random() * 4,
+                    size: 6 + Math.random() * 6,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 10,
+                    life: 140 + Math.random() * 60,
+                    maxLife: 200
+                });
+            }
+        }
+
+        // --- Continuous 60fps Canvas Render Loop ---
+        function renderCanvas() {
+            const lvl = LEVELS[currentLevelIdx];
+            const size = lvl.gridSize;
+            const tileSize = canvas.width / size;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Draw Grid Tiles
+            for (let r = 0; r < size; r++) {
+                for (let c = 0; c < size; c++) {
+                    const x = c * tileSize;
+                    const y = r * tileSize;
+
+                    // Modern cyber floor
+                    ctx.fillStyle = (r + c) % 2 === 0 ? "#0f172a" : "#141e33";
+                    ctx.fillRect(x, y, tileSize, tileSize);
+
+                    // Grid border
+                    ctx.strokeStyle = "rgba(0, 240, 255, 0.07)";
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, tileSize, tileSize);
+
+                    // Subtle floor crosshairs
+                    ctx.fillStyle = "rgba(0, 240, 255, 0.15)";
+                    ctx.fillRect(x + 3, y + 3, 2, 2);
+                }
+            }
+
+            // 2. Draw Exit Capsule (Portal)
+            const exitX = (lvl.exit.x + 0.5) * tileSize;
+            const exitY = (lvl.exit.y + 0.5) * tileSize;
+            ctx.save();
+            // Outer pulsing aura
+            const auraPulse = Math.sin(Date.now() / 250) * 4;
+            ctx.beginPath();
+            ctx.arc(exitX, exitY, tileSize * 0.38 + auraPulse, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(16, 185, 129, 0.22)";
+            ctx.fill();
+            ctx.strokeStyle = "#10b981";
+            ctx.lineWidth = 3;
+            ctx.shadowColor = "#10b981";
+            ctx.shadowBlur = 18;
+            ctx.stroke();
+
+            // Rotating beacon ring
+            ctx.beginPath();
+            ctx.arc(exitX, exitY, tileSize * 0.28, Date.now() / 400, Date.now() / 400 + Math.PI * 1.5);
+            ctx.strokeStyle = "rgba(52, 211, 153, 0.7)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Rocket Icon
+            ctx.font = `${tileSize * 0.42}px Outfit`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("🚀", exitX, exitY);
+            ctx.restore();
+
+            // 3. Draw Walls (3D Metallic Blocks)
+            lvl.walls.forEach(w => {
+                const wx = w.x * tileSize + 4;
+                const wy = w.y * tileSize + 4;
+                const wSize = tileSize - 8;
+
+                // Base shadow
+                ctx.fillStyle = "#1e293b";
+                ctx.fillRect(wx, wy, wSize, wSize);
+
+                // Top metallic plate
+                ctx.fillStyle = "#334155";
+                ctx.fillRect(wx + 2, wy + 2, wSize - 4, wSize - 4);
+
+                // Highlight border
+                ctx.strokeStyle = "#475569";
+                ctx.lineWidth = 2;
+                ctx.strokeRect(wx, wy, wSize, wSize);
+
+                // Hazard icon
+                ctx.font = `${tileSize * 0.34}px Outfit`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("🧱", wx + wSize / 2, wy + wSize / 2);
+            });
+
+            // 4. Draw Lasers (Pulsing Energy Hazard)
+            const laserPulse = (Math.sin(Date.now() / 160) + 1) / 2; // 0 to 1
+            lvl.lasers.forEach(l => {
+                const lx = (l.x + 0.5) * tileSize;
+                const ly = (l.y + 0.5) * tileSize;
+
+                ctx.save();
+                // Outer danger glow
+                ctx.beginPath();
+                ctx.arc(lx, ly, tileSize * 0.32 + laserPulse * 5, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(239, 68, 68, ${0.2 + laserPulse * 0.2})`;
+                ctx.fill();
+
+                // Core electric ring
+                ctx.beginPath();
+                ctx.arc(lx, ly, tileSize * 0.24, 0, Math.PI * 2);
+                ctx.strokeStyle = "#ef4444";
+                ctx.lineWidth = 2.5;
+                ctx.shadowColor = "#ef4444";
+                ctx.shadowBlur = 14 + laserPulse * 8;
+                ctx.stroke();
+
+                // Electric spark icon
+                ctx.font = `${tileSize * 0.4}px Outfit`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("⚡", lx, ly);
+                ctx.restore();
+            });
+
+            // 5. Draw Rotating Gears (Parametric Canvas Wheel)
+            gearRotation += 0.035;
+            lvl.gears.forEach(g => {
+                if (!g.collected) {
+                    const gx = (g.x + 0.5) * tileSize;
+                    const gy = (g.y + 0.5) * tileSize;
+
+                    ctx.save();
+                    ctx.translate(gx, gy);
+                    ctx.rotate(gearRotation);
+
+                    // Gear teeth
+                    ctx.fillStyle = "#fbbf24";
+                    ctx.shadowColor = "#fbbf24";
+                    ctx.shadowBlur = 10;
+                    const teeth = 8;
+                    const outerR = tileSize * 0.28;
+                    const innerR = tileSize * 0.16;
+
+                    ctx.beginPath();
+                    for (let i = 0; i < teeth * 2; i++) {
+                        const r = i % 2 === 0 ? outerR : innerR;
+                        const a = (i * Math.PI) / teeth;
+                        const px = Math.cos(a) * r;
+                        const py = Math.sin(a) * r;
+                        if (i === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // Inner gear hole
+                    ctx.beginPath();
+                    ctx.arc(0, 0, tileSize * 0.08, 0, Math.PI * 2);
+                    ctx.fillStyle = "#0f172a";
+                    ctx.shadowBlur = 0;
+                    ctx.fill();
+                    ctx.strokeStyle = "#f59e0b";
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+            });
+
+            // 6. Draw Robot "Byte"
+            drawRobotOnCanvas(tileSize);
+
+            // 7. Update & Draw Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.life--;
+                const alpha = Math.max(0, p.life / p.maxLife);
+
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                if (p.life <= 0) particles.splice(i, 1);
+            }
+
+            // 8. Update & Draw Floating Texts
+            for (let i = floatingTexts.length - 1; i >= 0; i--) {
+                const ft = floatingTexts[i];
+                ft.y += ft.vy;
+                ft.life--;
+                const alpha = Math.max(0, ft.life / ft.maxLife);
+
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.font = `bold 16px Fredoka, Outfit`;
+                ctx.fillStyle = ft.color;
+                ctx.shadowColor = ft.color;
+                ctx.shadowBlur = 8;
+                ctx.textAlign = "center";
+                ctx.fillText(ft.text, ft.x, ft.y);
+                ctx.restore();
+
+                if (ft.life <= 0) floatingTexts.splice(i, 1);
+            }
+
+            // 9. Update & Draw Confetti
+            for (let i = confettiList.length - 1; i >= 0; i--) {
+                const c = confettiList[i];
+                c.x += c.vx;
+                c.y += c.vy;
+                c.rot += c.rotSpeed;
+                c.life--;
+                const alpha = Math.max(0, c.life / c.maxLife);
+
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.translate(c.x, c.y);
+                ctx.rotate((c.rot * Math.PI) / 180);
+                ctx.fillStyle = c.color;
+                ctx.fillRect(-c.size / 2, -c.size / 2, c.size, c.size * 0.6);
+                ctx.restore();
+
+                if (c.life <= 0) confettiList.splice(i, 1);
+            }
+
+            // 10. Screen Flash Juice
+            if (screenFlashAlpha > 0) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${screenFlashAlpha})`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                screenFlashAlpha = Math.max(0, screenFlashAlpha - 0.04);
+            }
+
+            requestAnimationFrame(renderCanvas);
+        }
+
+        function drawRobotOnCanvas(tileSize) {
+            const rx = (robot.renderX + 0.5) * tileSize;
+            const ry = (robot.renderY + 0.5) * tileSize;
+            const skin = getActiveSkin();
+
+            // 1. Ground Shadow (stays on tile during jumps)
+            ctx.save();
+            ctx.beginPath();
+            const shadowRadius = Math.max(4, tileSize * 0.28 - robot.jumpZ * 0.4);
+            ctx.ellipse(rx, ry + 2, shadowRadius, shadowRadius * 0.5, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+            ctx.fill();
+            ctx.restore();
+
+            // 2. Robot Body (elevated by jumpZ)
+            ctx.save();
+            ctx.translate(rx, ry - robot.jumpZ);
+            ctx.rotate(robot.renderAngle);
+
+            const scale = robot.isJumping ? 1.15 : 1;
+            ctx.scale(scale, scale);
+
+            // Side Treads / Hover Pads
+            ctx.fillStyle = "#1e293b";
+            ctx.fillRect(-tileSize * 0.24, -tileSize * 0.32, tileSize * 0.48, tileSize * 0.08);
+            ctx.fillRect(-tileSize * 0.24, tileSize * 0.24, tileSize * 0.48, tileSize * 0.08);
+
+            // Main Body Chassis
+            ctx.fillStyle = skin.color;
+            ctx.beginPath();
+            ctx.roundRect(-tileSize * 0.26, -tileSize * 0.26, tileSize * 0.52, tileSize * 0.52, 10);
+            ctx.fill();
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Dark Visor Window
+            ctx.fillStyle = "#090d16";
+            ctx.beginPath();
+            ctx.roundRect(tileSize * 0.04, -tileSize * 0.16, tileSize * 0.18, tileSize * 0.32, 6);
+            ctx.fill();
+
+            // Glowing Robot Eyes
+            ctx.fillStyle = skin.eye;
+            ctx.shadowColor = skin.eye;
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(tileSize * 0.12, -tileSize * 0.07, tileSize * 0.045, 0, Math.PI * 2);
+            ctx.arc(tileSize * 0.12, tileSize * 0.07, tileSize * 0.045, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Antenna Base & Orb
+            ctx.fillStyle = "#fbbf24";
+            ctx.shadowColor = "#fbbf24";
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.arc(-tileSize * 0.22, 0, tileSize * 0.055, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
         }
 
         // --- Shop Modal Handlers ---
@@ -1331,8 +2788,8 @@
                     <div class="shop-robot-preview" style="background:${skin.color}; border: 2px solid ${skin.eye};">
                         🤖
                     </div>
-                    <div style="font-weight:800; font-size:0.9rem;">${skin.name}</div>
-                    <div style="font-size:0.8rem; color:${skin.unlocked ? '#10b981' : '#fbbf24'};">
+                    <div style="font-weight:800; font-size:0.88rem;">${skin.name}</div>
+                    <div style="font-size:0.78rem; color:${skin.unlocked ? '#10b981' : '#fbbf24'}; font-weight:800;">
                         ${skin.id === equippedSkinId ? 'Em Uso' : (skin.unlocked ? 'Equipar' : `⚙️ ${skin.price}`)}
                     </div>
                 `;
@@ -1345,25 +2802,37 @@
             if (skin.unlocked || skin.price === 0) {
                 equippedSkinId = skin.id;
                 localStorage.setItem('cyberbot_skin', equippedSkinId);
+                applyActiveSkin();
                 renderShop();
-                drawArena();
+                sound.click();
             } else {
                 if (totalGears >= skin.price) {
                     totalGears -= skin.price;
                     skin.unlocked = true;
                     equippedSkinId = skin.id;
                     localStorage.setItem('cyberbot_skin', equippedSkinId);
+                    applyActiveSkin();
                     updateStatsUI();
                     renderShop();
-                    drawArena();
                     sound.victory();
                 } else {
+                    sound.crash();
                     alert(`Você precisa de mais ${skin.price - totalGears} engrenagens! Complete mais fases.`);
                 }
             }
         }
 
         // --- Event Listeners ---
+        document.getElementById('btnStartGame').addEventListener('click', () => {
+            sound.init();
+            sound.startBGM();
+            const splash = document.getElementById('splashScreen');
+            splash.classList.add('fade-out');
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 400);
+        });
+
         document.querySelectorAll('.btn-block').forEach(btn => {
             btn.addEventListener('click', () => {
                 const cmd = btn.getAttribute('data-command');
@@ -1375,15 +2844,25 @@
 
         document.getElementById('btnResetRobot').addEventListener('click', () => {
             if (isRunning) return;
+            sound.remove();
             const lvl = LEVELS[currentLevelIdx];
-            robot = { ...lvl.start };
-            drawArena();
+            robot.x = lvl.start.x;
+            robot.y = lvl.start.y;
+            robot.dir = lvl.start.dir;
+            robot.renderX = lvl.start.x;
+            robot.renderY = lvl.start.y;
+            const angleMap = [ -Math.PI / 2, 0, Math.PI / 2, Math.PI ];
+            robot.renderAngle = angleMap[robot.dir];
+            robot.jumpZ = 0;
+            setMascotState('idle', '"Posição do robô reiniciada. Pode tentar novamente!"', '⚡ Pronto');
         });
 
         document.getElementById('btnClearCode').addEventListener('click', () => {
             if (isRunning) return;
+            sound.remove();
             commandQueue = [];
             renderProgramQueue();
+            setMascotState('idle', '"Sequência de código limpa! Escolha novos blocos."', '🧹 Limpo');
         });
 
         document.getElementById('btnNextLevel').addEventListener('click', () => {
@@ -1391,7 +2870,7 @@
             if (currentLevelIdx + 1 < LEVELS.length) {
                 loadLevel(currentLevelIdx + 1);
             } else {
-                alert("🎉 PARABÉNS! Você completou todos os setores do laboratório e se tornou um Mestre Hacker!");
+                alert("🎉 PARABÉNS! Você completou todos os 12 setores do laboratório e se consagrou Mestre do Código!");
                 loadLevel(0);
             }
         });
@@ -1404,28 +2883,38 @@
         document.getElementById('btnFixCode').addEventListener('click', () => {
             document.getElementById('crashModal').classList.remove('active');
             const lvl = LEVELS[currentLevelIdx];
-            robot = { ...lvl.start };
-            drawArena();
+            robot.x = lvl.start.x;
+            robot.y = lvl.start.y;
+            robot.dir = lvl.start.dir;
+            robot.renderX = lvl.start.x;
+            robot.renderY = lvl.start.y;
+            const angleMap = [ -Math.PI / 2, 0, Math.PI / 2, Math.PI ];
+            robot.renderAngle = angleMap[robot.dir];
+            robot.jumpZ = 0;
+            setMascotState('idle', '"Revise sua lista de comandos e clique em EXECUTAR!"', '🔧 Ajuste');
         });
 
         document.getElementById('btnOpenShop').addEventListener('click', () => {
+            sound.click();
             renderShop();
             document.getElementById('shopModal').classList.add('active');
         });
 
         document.getElementById('btnCloseShop').addEventListener('click', () => {
+            sound.click();
             document.getElementById('shopModal').classList.remove('active');
         });
 
         document.getElementById('btnToggleSound').addEventListener('click', () => {
-            sound.enabled = !sound.enabled;
-            document.getElementById('soundIcon').innerText = sound.enabled ? '🔊' : '🔇';
+            const isEnabled = sound.toggleSound();
+            document.getElementById('soundIcon').innerText = isEnabled ? '🔊' : '🔇';
         });
 
-        // Initialize
+        // Initialize Game
+        applyActiveSkin();
         updateStatsUI();
         loadLevel(0);
+        requestAnimationFrame(renderCanvas);
     </script>
 </body>
 </html>
-
