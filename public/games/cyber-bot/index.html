@@ -1212,6 +1212,12 @@
             <div class="stat-badge xp-badge" title="Pontos de Experiência">
                 <span>⚡</span> <span id="topXpVal">0</span> XP
             </div>
+            <button class="btn-header-action" id="btnOpenEditor" style="background: linear-gradient(135deg, #0284c7, #0369a1);" title="Crie sua própria fase 3D!">
+                <span>🛠️</span> Criador
+            </button>
+            <button class="btn-header-action" id="btnOpenCert" style="background: linear-gradient(135deg, #f59e0b, #d97706); display: none;" title="Seu Certificado de Programador Mirim!">
+                <span>🎓</span> Certificado
+            </button>
             <button class="btn-header-action" id="btnOpenOficina">
                 <span>🧰</span> Oficina
             </button>
@@ -1441,6 +1447,93 @@
     </div>
 
     <!-- SKINS / OFICINA MODAL -->
+    
+    <!-- CERTIFICADO DE PROGRAMADOR MIRIM 3D -->
+    <div class="modal-backdrop" id="certModal">
+        <div class="modal-box" style="border-color: #f59e0b; box-shadow: 0 0 50px rgba(245, 158, 11, 0.45); max-width: 580px; padding: 32px 24px;">
+            <div style="border: 3px double #fbbf24; border-radius: 20px; padding: 20px 16px; background: rgba(15, 23, 42, 0.7);">
+                <div style="font-size: 2.8rem; line-height: 1;">🏆</div>
+                <div class="modal-title-big" style="color: #fbbf24; font-size: 1.85rem; margin-top: 6px;">
+                    CERTIFICADO DE CONQUISTA
+                </div>
+                <p style="color: #38bdf8; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">
+                    Programador Mirim 3D — Lab Kids
+                </p>
+                <div style="margin: 18px 0; color: #e2e8f0; font-size: 0.95rem; line-height: 1.6;">
+                    Certificamos com louvor que o(a) jovem comandante concluiu com êxito todas as missões e algoritmos do 
+                    <strong style="color: #00f0ff;">Cyber Bot 3D: A Grande Fuga</strong>, demonstrando raciocínio lógico, 
+                    pensamento computacional e domínio sobre trajetórias e vetores espaciais! 🚀✨
+                </div>
+                <div style="display: flex; justify-content: center; gap: 16px; margin: 16px 0;">
+                    <div style="background: rgba(255,255,255,0.06); padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(251,191,36,0.3);">
+                        <div style="font-size: 0.75rem; color: #94a3b8;">Fases Vencidas</div>
+                        <div style="font-size: 1.25rem; font-weight: 800; color: #fbbf24;">12 / 12 ⭐</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.06); padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(56,189,248,0.3);">
+                        <div style="font-size: 0.75rem; color: #94a3b8;">Título Honorário</div>
+                        <div style="font-size: 1.05rem; font-weight: 800; color: #38bdf8;">Mestre dos Algoritmos</div>
+                    </div>
+                </div>
+                <div style="font-size: 0.74rem; color: #64748b; margin-top: 10px;">
+                    Autenticado por Lab Kids • Pensamento Computacional BNCC
+                </div>
+            </div>
+            <div class="modal-btns-row" style="margin-top: 18px;">
+                <button class="btn-modal-action btn-modal-primary" onclick="window.print()" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                    🖨️ Imprimir / Salvar PDF
+                </button>
+                <button class="btn-modal-action btn-modal-secondary" id="btnCloseCert">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DO CRIADOR DE FASES 3D -->
+    <div class="modal-backdrop" id="editorModal">
+        <div class="modal-box" style="border-color: #0284c7; box-shadow: 0 0 50px rgba(2, 132, 199, 0.45); max-width: 520px; padding: 24px;">
+            <div class="modal-title-big" style="color: #38bdf8; font-size: 1.8rem;">🛠️ Criador de Fases 3D</div>
+            <p style="color: #cbd5e1; font-size: 0.85rem; margin-bottom: 12px;">
+                Clique nos quadrados abaixo para desenhar o seu próprio labirinto do Byte!
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+                <button class="editor-tool-btn is-active" data-tool="robot" style="background: #0284c7; border: 1px solid #38bdf8; color: #fff; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                    🤖 Byte (Início)
+                </button>
+                <button class="editor-tool-btn" data-tool="exit" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                    🚀 Cápsula (Fim)
+                </button>
+                <button class="editor-tool-btn" data-tool="wall" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                    🧱 Muro
+                </button>
+                <button class="editor-tool-btn" data-tool="gear" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                    ⚙️ Engrenagem
+                </button>
+                <button class="editor-tool-btn" data-tool="switch" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                    🔘 Botão Laser
+                </button>
+                <button class="editor-tool-btn" data-tool="empty" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer;">
+                    ⬜ Chão Livre
+                </button>
+            </div>
+
+            <!-- Grid 5x5 interativa do editor -->
+            <div id="editorGridContainer" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; background: rgba(10,15,29,0.8); padding: 12px; border-radius: 16px; border: 1px solid rgba(56,189,248,0.3); max-width: 320px; margin: 0 auto 16px auto;">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <div class="modal-btns-row">
+                <button class="btn-modal-action btn-modal-primary" id="btnPlayCustomLevel">
+                    ▶️ Jogar Minha Fase!
+                </button>
+                <button class="btn-modal-action btn-modal-secondary" id="btnCloseEditor">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-backdrop" id="shopModal">
         <div class="modal-box" style="border-color: #8b5cf6; box-shadow: 0 0 45px rgba(139, 92, 246, 0.4); max-width: 500px;">
             <div class="modal-title-big" style="color: #c084fc;">🧰 Oficina do Byte</div>
@@ -1466,19 +1559,19 @@
         class RetroAudioEngine {
             constructor() {
                 this.ctx = null;
-                this.bgmAudio = new Audio('./cyber-theme.mp3');
-                this.bgmAudio.loop = true;
-                this.bgmAudio.volume = 0.35;
                 this.isMuted = false;
                 this.isInitialized = false;
+                this.bgmTimer = null;
+                this.bgmStep = 0;
+                this.isPlayingBGM = false;
 
-                // Preloaded SFX
+                // Sons de efeito originais como fallback
                 this.sfxLevelUp = new Audio('./level-up.mp3');
                 this.sfxSparkle = new Audio('./sparkle.mp3');
                 this.sfxGameOver = new Audio('./game-over.mp3');
-                this.sfxLevelUp.volume = 0.6;
-                this.sfxSparkle.volume = 0.6;
-                this.sfxGameOver.volume = 0.6;
+                this.sfxLevelUp.volume = 0.5;
+                this.sfxSparkle.volume = 0.5;
+                this.sfxGameOver.volume = 0.5;
             }
 
             init() {
@@ -1493,21 +1586,115 @@
             }
 
             startBGM() {
-                if (this.isMuted) return;
-                this.bgmAudio.play().catch(e => console.log("BGM autoplay prevented:", e));
+                if (this.isMuted || this.isPlayingBGM) return;
+                this.init();
+                if (!this.ctx) return;
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+                this.isPlayingBGM = true;
+                this.bgmStep = 0;
+
+                // Sequenciador sintetizado espacial futurista (Synthwave / Cyberpunk Chiptune)
+                // Escala Pentatônica Futurista (Fm7 / Ab / Bb / C)
+                const bassLine = [65.41, 65.41, 77.78, 87.31, 65.41, 98.00, 87.31, 77.78]; // C2 / Eb2 / F2 / G2
+                const arpeggio = [261.63, 311.13, 392.00, 466.16, 523.25, 466.16, 392.00, 311.13]; // C4, Eb4, G4, Bb4, C5
+
+                const stepDuration = 180; // ms por semicolcheia (~166 BPM)
+
+                const playBgmTick = () => {
+                    if (!this.isPlayingBGM || this.isMuted || !this.ctx) return;
+
+                    const t = this.ctx.currentTime;
+                    const step = this.bgmStep;
+
+                    // 1. Kick Futurista / Sub-Bass a cada 4 passos
+                    if (step % 4 === 0) {
+                        try {
+                            const kickOsc = this.ctx.createOscillator();
+                            const kickGain = this.ctx.createGain();
+                            kickOsc.type = 'sine';
+                            kickOsc.frequency.setValueAtTime(140, t);
+                            kickOsc.frequency.exponentialRampToValueAtTime(36, t + 0.12);
+                            kickGain.gain.setValueAtTime(0.25, t);
+                            kickGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+                            kickOsc.connect(kickGain);
+                            kickGain.connect(this.ctx.destination);
+                            kickOsc.start(t);
+                            kickOsc.stop(t + 0.14);
+                        } catch(e) {}
+                    }
+
+                    // 2. Hi-hat cibernético (ruído de pulso filtrado) a cada 2 passos
+                    if (step % 2 === 1) {
+                        try {
+                            const hatOsc = this.ctx.createOscillator();
+                            const hatGain = this.ctx.createGain();
+                            hatOsc.type = 'square';
+                            hatOsc.frequency.setValueAtTime(4200 + (step % 4) * 800, t);
+                            hatGain.gain.setValueAtTime(0.035, t);
+                            hatGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+                            hatOsc.connect(hatGain);
+                            hatGain.connect(this.ctx.destination);
+                            hatOsc.start(t);
+                            hatOsc.stop(t + 0.04);
+                        } catch(e) {}
+                    }
+
+                    // 3. Synth Bassline Cyberpunk
+                    const bassFreq = bassLine[Math.floor(step / 2) % bassLine.length];
+                    if (step % 2 === 0) {
+                        try {
+                            const bassOsc = this.ctx.createOscillator();
+                            const bassGain = this.ctx.createGain();
+                            bassOsc.type = 'sawtooth';
+                            bassOsc.frequency.setValueAtTime(bassFreq, t);
+                            bassGain.gain.setValueAtTime(0.08, t);
+                            bassGain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+                            bassOsc.connect(bassGain);
+                            bassGain.connect(this.ctx.destination);
+                            bassOsc.start(t);
+                            bassOsc.stop(t + 0.22);
+                        } catch(e) {}
+                    }
+
+                    // 4. Arpejo Futurista Cristalino
+                    const arpFreq = arpeggio[step % arpeggio.length];
+                    try {
+                        const arpOsc = this.ctx.createOscillator();
+                        const arpGain = this.ctx.createGain();
+                        arpOsc.type = 'triangle';
+                        arpOsc.frequency.setValueAtTime(arpFreq, t);
+                        arpGain.gain.setValueAtTime(0.045, t);
+                        arpGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
+                        arpOsc.connect(arpGain);
+                        arpGain.connect(this.ctx.destination);
+                        arpOsc.start(t);
+                        arpOsc.stop(t + 0.14);
+                    } catch(e) {}
+
+                    this.bgmStep = (this.bgmStep + 1) % 32;
+                    this.bgmTimer = setTimeout(playBgmTick, stepDuration);
+                };
+
+                this.bgmTimer = setTimeout(playBgmTick, stepDuration);
             }
 
             stopBGM() {
-                this.bgmAudio.pause();
-                this.bgmAudio.currentTime = 0;
+                this.isPlayingBGM = false;
+                if (this.bgmTimer) {
+                    clearTimeout(this.bgmTimer);
+                    this.bgmTimer = null;
+                }
             }
 
             toggleMute() {
                 this.isMuted = !this.isMuted;
-                this.bgmAudio.muted = this.isMuted;
-                this.sfxLevelUp.muted = this.isMuted;
-                this.sfxSparkle.muted = this.isMuted;
-                this.sfxGameOver.muted = this.isMuted;
+                if (this.isMuted) {
+                    this.stopBGM();
+                } else {
+                    this.startBGM();
+                }
                 return this.isMuted;
             }
 
@@ -1528,79 +1715,121 @@
             }
 
             step() {
-                this.playTone(340, 'triangle', 0.08, 0.12);
+                // Efeito sonoro futurista de propulsão a plasma
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const t = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(480, t);
+                    osc.frequency.exponentialRampToValueAtTime(160, t + 0.08);
+                    gain.gain.setValueAtTime(0.12, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.09);
+                } catch (e) {}
             }
 
             turn() {
-                this.playTone(520, 'sine', 0.09, 0.1);
+                // Som de servomotor sci-fi
+                this.playTone(680, 'sine', 0.08, 0.1);
             }
 
             jump() {
+                // Som de jato de propulsão ascendente
                 if (this.isMuted || !this.ctx) return;
                 try {
+                    const t = this.ctx.currentTime;
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(260, this.ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(780, this.ctx.currentTime + 0.28);
-                    gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+                    osc.frequency.setValueAtTime(280, t);
+                    osc.frequency.exponentialRampToValueAtTime(1100, t + 0.28);
+                    gain.gain.setValueAtTime(0.2, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + 0.3);
+                    osc.start(t);
+                    osc.stop(t + 0.3);
                 } catch (e) {}
             }
 
             click() {
-                this.playTone(600, 'sine', 0.04, 0.08);
+                this.playTone(840, 'sine', 0.04, 0.08);
             }
 
             remove() {
-                this.playTone(280, 'triangle', 0.06, 0.1);
+                this.playTone(320, 'triangle', 0.06, 0.1);
             }
 
             coin() {
-                if (!this.isMuted) {
-                    this.sfxSparkle.currentTime = 0;
-                    this.sfxSparkle.play().catch(() => {
-                        this.playTone(880, 'sine', 0.15, 0.2);
+                // Coleta de engrenagem sci-fi com harmônicos brilhantes
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const t = this.ctx.currentTime;
+                    [880, 1320, 1760].forEach((f, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(f, t + idx * 0.04);
+                        gain.gain.setValueAtTime(0.12, t + idx * 0.04);
+                        gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.04 + 0.18);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(t + idx * 0.04);
+                        osc.stop(t + idx * 0.04 + 0.18);
                     });
-                }
+                } catch(e) {}
+            }
+
+            switchClick() {
+                // Som de ativação de botão laser
+                this.playTone(1200, 'square', 0.12, 0.15);
             }
 
             victory() {
-                if (!this.isMuted) {
-                    this.sfxLevelUp.currentTime = 0;
-                    this.sfxLevelUp.play().catch(() => {
-                        this.playTone(523, 'triangle', 0.2, 0.3);
+                // Fanfarra triunfal sintetizada 3D
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const notes = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, C alta
+                    const t = this.ctx.currentTime;
+                    notes.forEach((f, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(f, t + idx * 0.1);
+                        gain.gain.setValueAtTime(0.22, t + idx * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.1 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(t + idx * 0.1);
+                        osc.stop(t + idx * 0.1 + 0.35);
                     });
-                }
+                } catch(e) {}
             }
 
             defeat() {
-                if (!this.isMuted) {
-                    this.sfxGameOver.currentTime = 0;
-                    this.sfxGameOver.play().catch(() => {
-                        this.bonk();
-                    });
-                }
+                this.bonk();
             }
 
             bonk() {
                 if (this.isMuted || !this.ctx) return;
                 try {
+                    const t = this.ctx.currentTime;
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(140, this.ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.22);
-                    gain.gain.setValueAtTime(0.28, this.ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
+                    osc.frequency.setValueAtTime(220, t);
+                    osc.frequency.exponentialRampToValueAtTime(45, t + 0.26);
+                    gain.gain.setValueAtTime(0.3, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + 0.25);
+                    osc.start(t);
+                    osc.stop(t + 0.28);
                 } catch (e) {}
             }
         }
@@ -1835,12 +2064,14 @@
            3. SKINS DATABASE (Oficina do Byte)
            ========================================================================== */
         const SKINS = [
-            { id: "default", name: "Byte Clássico", armorColor: 0x38bdf8, eyeColor: 0x00f0ff, price: 0, unlocked: true },
-            { id: "matrix", name: "Byte Matrix", armorColor: 0x10b981, eyeColor: 0x34d399, price: 30, unlocked: false },
-            { id: "magic", name: "Byte Mágico", armorColor: 0x8b5cf6, eyeColor: 0xc084fc, price: 60, unlocked: false },
-            { id: "solar", name: "Byte Dourado", armorColor: 0xf59e0b, eyeColor: 0xfde047, price: 100, unlocked: false },
-            { id: "fire", name: "Byte Vulcão", armorColor: 0xef4444, eyeColor: 0xfca5a5, price: 150, unlocked: false },
-            { id: "ninja", name: "Cyber Ninja", armorColor: 0x0f172a, eyeColor: 0xec4899, price: 200, unlocked: false }
+            { id: "default", name: "Byte Clássico", armorColor: 0x38bdf8, eyeColor: 0x00f0ff, hat: "none", price: 0, unlocked: true },
+            { id: "matrix", name: "Byte Matrix", armorColor: 0x10b981, eyeColor: 0x34d399, hat: "none", price: 30, unlocked: false },
+            { id: "magic", name: "Byte Mágico", armorColor: 0x8b5cf6, eyeColor: 0xc084fc, hat: "wizard", price: 60, unlocked: false },
+            { id: "solar", name: "Byte Dourado", armorColor: 0xf59e0b, eyeColor: 0xfde047, hat: "crown", price: 100, unlocked: false },
+            { id: "fire", name: "Byte Vulcão", armorColor: 0xef4444, eyeColor: 0xfca5a5, hat: "cap", price: 150, unlocked: false },
+            { id: "ninja", name: "Cyber Ninja", armorColor: 0x0f172a, eyeColor: 0xec4899, hat: "none", price: 200, unlocked: false },
+            { id: "astro", name: "Byte Astronauta", armorColor: 0xffffff, eyeColor: 0x38bdf8, hat: "none", price: 250, unlocked: false },
+            { id: "party", name: "Byte Festeiro", armorColor: 0xec4899, eyeColor: 0xfde047, hat: "party", price: 300, unlocked: false }
         ];
 
         let selectedSkinId = "default";
@@ -1881,7 +2112,9 @@
         let capsuleObj = null;
         let introShowcaseGroup = null;
 
-        let gridGroup, collectiblesGroup, wallsGroup, lasersGroup;
+        let gridGroup, collectiblesGroup, wallsGroup, lasersGroup, trailGroup, switchesGroup;
+        let activeSwitches = [];
+        let activeTrails = [];
         const TILE_SPACING = 1.12;
 
         let robotState = {
@@ -2160,6 +2393,59 @@
             head.castShadow = true;
             bobGroup.add(head);
 
+            // --- ACESSÓRIOS 3D / CHAPÉUS COLECIONÁVEIS ---
+            const hatGroup = new THREE.Group();
+            hatGroup.position.set(0, 1.14, 0);
+
+            // Coroa de Ouro
+            const crownGroup = new THREE.Group();
+            crownGroup.name = "hat_crown";
+            const crownRing = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.22, 0.08, 8), new THREE.MeshStandardMaterial({ color: 0xfbbf24, metalness: 0.85, roughness: 0.2 }));
+            crownGroup.add(crownRing);
+            for (let c = 0; c < 5; c++) {
+                const ang = (c * Math.PI * 2) / 5;
+                const spike = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.12, 4), new THREE.MeshStandardMaterial({ color: 0xfde047, metalness: 0.9 }));
+                spike.position.set(Math.cos(ang) * 0.18, 0.08, Math.sin(ang) * 0.18);
+                crownGroup.add(spike);
+            }
+            crownGroup.visible = false;
+            hatGroup.add(crownGroup);
+
+            // Chapéu de Mago
+            const wizardGroup = new THREE.Group();
+            wizardGroup.name = "hat_wizard";
+            const wizCone = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.42, 12), new THREE.MeshStandardMaterial({ color: 0x6d28d9, roughness: 0.5 }));
+            wizCone.position.y = 0.18;
+            wizCone.rotation.z = -0.15;
+            const wizBrim = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.03, 16), new THREE.MeshStandardMaterial({ color: 0x5b21b6 }));
+            wizardGroup.add(wizCone);
+            wizardGroup.add(wizBrim);
+            wizardGroup.visible = false;
+            hatGroup.add(wizardGroup);
+
+            // Boné Moderno
+            const capGroup = new THREE.Group();
+            capGroup.name = "hat_cap";
+            const capDome = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0xef4444 }));
+            const capVisor = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.02, 0.18), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
+            capVisor.position.set(0.14, 0.02, 0.14);
+            capVisor.rotation.y = -Math.PI / 4;
+            capGroup.add(capDome);
+            capGroup.add(capVisor);
+            capGroup.visible = false;
+            hatGroup.add(capGroup);
+
+            // Chapéu de Festa
+            const partyGroup = new THREE.Group();
+            partyGroup.name = "hat_party";
+            const partyCone = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.36, 12), new THREE.MeshStandardMaterial({ color: 0xec4899, roughness: 0.3 }));
+            partyCone.position.y = 0.16;
+            partyGroup.add(partyCone);
+            partyGroup.visible = false;
+            hatGroup.add(partyGroup);
+
+            bobGroup.add(hatGroup);
+
             // Antenna
             const antStickGeom = new THREE.CylinderGeometry(0.02, 0.02, 0.22, 8);
             const antStick = new THREE.Mesh(antStickGeom, darkJointMat);
@@ -2240,7 +2526,8 @@
                 core,
                 antBulb,
                 armorMat,
-                eyeMat
+                eyeMat,
+                hatGroup
             };
         }
 
@@ -2739,6 +3026,8 @@
         let activeLasers = []; // Holds active enemies
 
         function loadLevel(levelIndex) {
+            clearNeonTrails();
+            setRobotFaceExpression("normal");
             currentLevelIdx = Math.max(0, Math.min(levelIndex, LEVELS.length - 1));
             const lvl = LEVELS[currentLevelIdx];
 
@@ -3415,6 +3704,7 @@
                     totalGears += 10;
                     totalXp += 25;
                     updateTopStats();
+            checkCertificateUnlock();
                     sound.coin();
                     setMascotMessage("Engrenagem de energia coletada! +10 ⚙️");
                 }
@@ -3455,6 +3745,7 @@
             totalGears += stars * 15;
             totalXp += stars * 40;
             updateTopStats();
+            checkCertificateUnlock();
 
             document.getElementById('victoryLinesVal').innerText = usedLines;
             document.getElementById('victoryIdealLines').innerText = ideal;
@@ -3751,6 +4042,45 @@
         });
 
         // Oficina / Skins Modal
+        
+        // Editor de Fases Handlers
+        document.getElementById('btnOpenEditor')?.addEventListener('click', () => {
+            sound.click();
+            initEditorGridUI();
+            document.getElementById('editorModal').classList.add('is-open');
+        });
+        document.getElementById('btnCloseEditor')?.addEventListener('click', () => {
+            sound.click();
+            document.getElementById('editorModal').classList.remove('is-open');
+        });
+        document.getElementById('btnPlayCustomLevel')?.addEventListener('click', () => {
+            document.getElementById('editorModal').classList.remove('is-open');
+            launchCustomLevel();
+        });
+        document.querySelectorAll('.editor-tool-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                sound.click();
+                document.querySelectorAll('.editor-tool-btn').forEach(b => {
+                    b.style.background = 'rgba(255,255,255,0.08)';
+                    b.classList.remove('is-active');
+                });
+                btn.style.background = '#0284c7';
+                btn.classList.add('is-active');
+                currentEditorTool = btn.dataset.tool;
+            });
+        });
+
+        // Certificado Handlers
+        document.getElementById('btnOpenCert')?.addEventListener('click', () => {
+            sound.click();
+            sound.victory();
+            document.getElementById('certModal').classList.add('is-open');
+        });
+        document.getElementById('btnCloseCert')?.addEventListener('click', () => {
+            sound.click();
+            document.getElementById('certModal').classList.remove('is-open');
+        });
+
         document.getElementById('btnOpenOficina').addEventListener('click', () => {
             sound.click();
             renderSkinsGrid();
@@ -3787,6 +4117,7 @@
                         selectedSkinId = skin.id;
                         sound.victory();
                         updateTopStats();
+            checkCertificateUnlock();
                         applyActiveSkin();
                         renderSkinsGrid();
                     } else {
@@ -3805,6 +4136,217 @@
             robotMeshObj.eyeMat.color.setHex(skin.eyeColor);
             robotMeshObj.core.material.color.setHex(skin.eyeColor);
             robotMeshObj.antBulb.material.color.setHex(skin.eyeColor);
+
+            if (robotMeshObj.hatGroup) {
+                robotMeshObj.hatGroup.children.forEach(hat => {
+                    hat.visible = (hat.name === "hat_" + skin.hat);
+                });
+            }
+        }
+
+        
+        /* ==========================================================================
+           NOVA SUÍTE DE JUICING, RASTRO 3D, BOTÕES LASER, CERTIFICADO E EDITOR
+           ========================================================================== */
+        // 1. Rastro Neon Luminoso deixado pelo robô
+        function dropNeonTrail(gridX, gridY) {
+            if (!scene || !trailGroup) return;
+            const lvl = LEVELS[currentLevelIdx];
+            const cx = (lvl.gridSize - 1) / 2;
+            const cz = (lvl.gridSize - 1) / 2;
+            const wx = (gridX - cx) * TILE_SPACING;
+            const wz = (gridY - cz) * TILE_SPACING;
+
+            const skin = getActiveSkin();
+            const trailMat = new THREE.MeshBasicMaterial({
+                color: skin.eyeColor || 0x00f0ff,
+                transparent: true,
+                opacity: 0.65
+            });
+            const trailGeom = new THREE.PlaneGeometry(0.85, 0.85);
+            trailGeom.rotateX(-Math.PI / 2);
+            const trailMesh = new THREE.Mesh(trailGeom, trailMat);
+            trailMesh.position.set(wx, 0.208, wz);
+            trailGroup.add(trailMesh);
+            activeTrails.push({ mesh: trailMesh, life: 1.0 });
+        }
+
+        function clearNeonTrails() {
+            if (!trailGroup) return;
+            while (trailGroup.children.length > 0) {
+                trailGroup.remove(trailGroup.children[0]);
+            }
+            activeTrails = [];
+        }
+
+        // 2. Expressões Faciais Dinâmicas do Byte
+        function setRobotFaceExpression(type = 'normal') {
+            if (!robotMeshObj) return;
+            if (type === 'happy') {
+                robotMeshObj.leftEye.scale.set(1.5, 0.6, 1);
+                robotMeshObj.rightEye.scale.set(1.5, 0.6, 1);
+            } else if (type === 'shocked') {
+                robotMeshObj.leftEye.scale.set(1.8, 1.8, 1);
+                robotMeshObj.rightEye.scale.set(1.8, 1.8, 1);
+            } else if (type === 'dizzy') {
+                robotMeshObj.leftEye.scale.set(0.4, 1.8, 1);
+                robotMeshObj.rightEye.scale.set(1.8, 0.4, 1);
+            } else {
+                robotMeshObj.leftEye.scale.set(1.45, 1.45, 1);
+                robotMeshObj.rightEye.scale.set(1.45, 1.45, 1);
+            }
+        }
+
+        // 3. Sistema de Botão de Pressão / Portão Laser
+        function checkSwitchesAndLasers(lvl) {
+            if (!lvl.switches) return;
+            lvl.switches.forEach(sw => {
+                if (!sw.isPressed && robotState.x === sw.x && robotState.y === sw.y) {
+                    sw.isPressed = true;
+                    sound.switchClick();
+                    if (sw.mesh) {
+                        sw.mesh.position.y = 0.205; // afunda o botão
+                        sw.mesh.material.color.setHex(0x10b981); // verde ativado
+                    }
+                    // Desativa laser correspondente
+                    const targetLaser = activeLasers.find(l => l.gridX === sw.targetLaserX && l.gridY === sw.targetLaserY);
+                    if (targetLaser) {
+                        targetLaser.group.visible = false;
+                        targetLaser.isDeactivated = true;
+                        setMascotMessage("Bip-Bop! Botão acionado: Barreira laser desativada! Caminho livre! 🔘🔓");
+                    }
+                }
+            });
+        }
+
+        // 4. Editor de Fases 3D (Custom Level Builder)
+        let editorData = {
+            gridSize: 5,
+            start: { x: 0, y: 4, dir: 0 },
+            exit: { x: 4, y: 0 },
+            walls: [{ x: 2, y: 2 }],
+            gears: [{ x: 1, y: 3 }, { x: 3, y: 1 }],
+            switches: [],
+            lasers: []
+        };
+        let currentEditorTool = 'robot';
+
+        function initEditorGridUI() {
+            const container = document.getElementById('editorGridContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let y = 0; y < 5; y++) {
+                for (let x = 0; x < 5; x++) {
+                    const cell = document.createElement('div');
+                    cell.style.width = '52px';
+                    cell.style.height = '52px';
+                    cell.style.borderRadius = '10px';
+                    cell.style.background = 'rgba(255, 255, 255, 0.08)';
+                    cell.style.border = '1px solid rgba(56, 189, 248, 0.3)';
+                    cell.style.display = 'flex';
+                    cell.style.alignItems = 'center';
+                    cell.style.justifyContent = 'center';
+                    cell.style.fontSize = '1.3rem';
+                    cell.style.cursor = 'pointer';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+
+                    updateCellDisplay(cell, x, y);
+
+                    cell.addEventListener('click', () => {
+                        sound.click();
+                        applyEditorTool(x, y);
+                        initEditorGridUI();
+                    });
+
+                    container.appendChild(cell);
+                }
+            }
+        }
+
+        function updateCellDisplay(cell, x, y) {
+            if (editorData.start.x === x && editorData.start.y === y) {
+                cell.innerText = '🤖';
+                cell.style.background = 'rgba(2, 132, 199, 0.5)';
+            } else if (editorData.exit.x === x && editorData.exit.y === y) {
+                cell.innerText = '🚀';
+                cell.style.background = 'rgba(16, 185, 129, 0.4)';
+            } else if (editorData.walls.some(w => w.x === x && w.y === y)) {
+                cell.innerText = '🧱';
+                cell.style.background = 'rgba(100, 116, 139, 0.5)';
+            } else if (editorData.gears.some(g => g.x === x && g.y === y)) {
+                cell.innerText = '⚙️';
+                cell.style.background = 'rgba(245, 158, 11, 0.3)';
+            } else if (editorData.switches.some(s => s.x === x && s.y === y)) {
+                cell.innerText = '🔘';
+                cell.style.background = 'rgba(139, 92, 246, 0.4)';
+            } else {
+                cell.innerText = '';
+                cell.style.background = 'rgba(255, 255, 255, 0.05)';
+            }
+        }
+
+        function applyEditorTool(x, y) {
+            // Remove de qualquer categoria existente nessa posição
+            editorData.walls = editorData.walls.filter(w => !(w.x === x && w.y === y));
+            editorData.gears = editorData.gears.filter(g => !(g.x === x && g.y === y));
+            editorData.switches = editorData.switches.filter(s => !(s.x === x && s.y === y));
+
+            if (currentEditorTool === 'robot') {
+                editorData.start = { x, y, dir: 0 };
+            } else if (currentEditorTool === 'exit') {
+                editorData.exit = { x, y };
+            } else if (currentEditorTool === 'wall') {
+                if (!(editorData.start.x === x && editorData.start.y === y) && !(editorData.exit.x === x && editorData.exit.y === y)) {
+                    editorData.walls.push({ x, y });
+                }
+            } else if (currentEditorTool === 'gear') {
+                if (!(editorData.start.x === x && editorData.start.y === y) && !(editorData.exit.x === x && editorData.exit.y === y)) {
+                    editorData.gears.push({ x, y });
+                }
+            } else if (currentEditorTool === 'switch') {
+                editorData.switches.push({ x, y, isPressed: false });
+            }
+        }
+
+        function launchCustomLevel() {
+            const customLvl = {
+                id: 99,
+                sector: 4,
+                sectorName: "Oficina do Futuro",
+                name: "Fase Customizada do Usuário",
+                story: "Sua própria fase personalizada 3D! Encontre o algoritmo ideal para escapar!",
+                gridSize: 5,
+                start: { x: editorData.start.x, y: editorData.start.y, dir: 0 },
+                exit: { x: editorData.exit.x, y: editorData.exit.y },
+                gears: [...editorData.gears],
+                walls: [...editorData.walls],
+                switches: [...editorData.switches],
+                lasers: [],
+                idealLines: 6
+            };
+
+            // Adiciona ou substitui fase 99 nos LEVELS
+            const existIdx = LEVELS.findIndex(l => l.id === 99);
+            if (existIdx >= 0) LEVELS[existIdx] = customLvl;
+            else LEVELS.push(customLvl);
+
+            loadLevel(LEVELS.length - 1);
+            commandQueue = [];
+            renderQueue();
+            setMascotMessage("Sua fase customizada foi carregada com sucesso! Teste sua programação!");
+            sound.victory();
+        }
+
+        // 5. Verificação de Conquista para Liberação do Certificado
+        function checkCertificateUnlock() {
+            const btnCert = document.getElementById('btnOpenCert');
+            if (!btnCert) return;
+            // Se completou pelo menos 1 fase ou todas as 12
+            if (completedLevels.length >= 1) {
+                btnCert.style.display = 'inline-flex';
+            }
         }
 
         /* ==========================================================================
@@ -3812,6 +4354,7 @@
            ========================================================================== */
         window.addEventListener('DOMContentLoaded', () => {
             updateTopStats();
+            checkCertificateUnlock();
             initThreeScene();
             loadLevel(0);
             renderQueue();
