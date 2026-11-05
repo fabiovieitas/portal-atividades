@@ -13,7 +13,7 @@ const dbHelper = require('./db');
 const mailService = require('./mailService');
 // Supabase fully decommissioned. All operations run via Turso Cloud (libsql).
 // Ninja Math v2.6 - Calibrated 50min Belts, Safe Distractor Loop (No-Freeze), Ultra-Easy 1st Grade Math (1-10)
-// Datashow v8.2 modern redesign deploy trigger
+// Datashow v8.3 pro redesign with auto-speed and distinct colored syllables
 const supabase = null;
 
 const app = express();
