@@ -1215,9 +1215,6 @@
             <button class="btn-header-action" id="btnOpenEditor" style="background: linear-gradient(135deg, #0284c7, #0369a1);" title="Crie sua própria fase 3D!">
                 <span>🛠️</span> Criador
             </button>
-            <button class="btn-header-action" id="btnOpenCert" style="background: linear-gradient(135deg, #f59e0b, #d97706); display: none;" title="Seu Certificado de Programador Mirim!">
-                <span>🎓</span> Certificado
-            </button>
             <button class="btn-header-action" id="btnOpenOficina">
                 <span>🧰</span> Oficina
             </button>
@@ -1448,32 +1445,7 @@
 
     <!-- SKINS / OFICINA MODAL -->
     
-    <!-- CERTIFICADO DE PROGRAMADOR MIRIM 3D -->
-    <div class="modal-backdrop" id="certModal">
-        <div class="modal-box" style="border-color: #f59e0b; box-shadow: 0 0 50px rgba(245, 158, 11, 0.45); max-width: 580px; padding: 32px 24px;">
-            <div style="border: 3px double #fbbf24; border-radius: 20px; padding: 20px 16px; background: rgba(15, 23, 42, 0.7);">
-                <div style="font-size: 2.8rem; line-height: 1;">🏆</div>
-                <div class="modal-title-big" style="color: #fbbf24; font-size: 1.85rem; margin-top: 6px;">
-                    CERTIFICADO DE CONQUISTA
-                </div>
-                <p style="color: #38bdf8; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px;">
-                    Programador Mirim 3D — Lab Kids
-                </p>
-                <div style="margin: 18px 0; color: #e2e8f0; font-size: 0.95rem; line-height: 1.6;">
-                    Certificamos com louvor que o(a) jovem comandante concluiu com êxito todas as missões e algoritmos do 
-                    <strong style="color: #00f0ff;">Cyber Bot 3D: A Grande Fuga</strong>, demonstrando raciocínio lógico, 
-                    pensamento computacional e domínio sobre trajetórias e vetores espaciais! 🚀✨
-                </div>
-                <div style="display: flex; justify-content: center; gap: 16px; margin: 16px 0;">
-                    <div style="background: rgba(255,255,255,0.06); padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(251,191,36,0.3);">
-                        <div style="font-size: 0.75rem; color: #94a3b8;">Fases Vencidas</div>
-                        <div style="font-size: 1.25rem; font-weight: 800; color: #fbbf24;">12 / 12 ⭐</div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.06); padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(56,189,248,0.3);">
-                        <div style="font-size: 0.75rem; color: #94a3b8;">Título Honorário</div>
-                        <div style="font-size: 1.05rem; font-weight: 800; color: #38bdf8;">Mestre dos Algoritmos</div>
-                    </div>
-                </div>
+    
                 <div style="font-size: 0.74rem; color: #64748b; margin-top: 10px;">
                     Autenticado por Lab Kids • Pensamento Computacional BNCC
                 </div>
@@ -1556,22 +1528,24 @@
         /* ==========================================================================
            1. COMPACT RETRO SYNTH SOUND ENGINE & MP3 TRACKS
            ========================================================================== */
-        class RetroAudioEngine {
+        class CleanAcousticAudioEngine {
             constructor() {
                 this.ctx = null;
                 this.isMuted = false;
                 this.isInitialized = false;
-                this.bgmTimer = null;
-                this.bgmStep = 0;
-                this.isPlayingBGM = false;
 
-                // Sons de efeito originais como fallback
+                // Trilha sonora oficial e orgânica em MP3 de alta fidelidade
+                this.bgmAudio = new Audio('./cyber-theme.mp3');
+                this.bgmAudio.loop = true;
+                this.bgmAudio.volume = 0.28;
+
+                // Efeitos sonoros reais em MP3
                 this.sfxLevelUp = new Audio('./level-up.mp3');
                 this.sfxSparkle = new Audio('./sparkle.mp3');
                 this.sfxGameOver = new Audio('./game-over.mp3');
-                this.sfxLevelUp.volume = 0.5;
-                this.sfxSparkle.volume = 0.5;
-                this.sfxGameOver.volume = 0.5;
+                this.sfxLevelUp.volume = 0.55;
+                this.sfxSparkle.volume = 0.55;
+                this.sfxGameOver.volume = 0.55;
             }
 
             init() {
@@ -1580,239 +1554,147 @@
                     const AudioContext = window.AudioContext || window.webkitAudioContext;
                     this.ctx = new AudioContext();
                     this.isInitialized = true;
-                } catch (e) {
-                    console.warn("Web Audio API not supported", e);
-                }
+                } catch (e) {}
             }
 
             startBGM() {
-                if (this.isMuted || this.isPlayingBGM) return;
-                this.init();
-                if (!this.ctx) return;
-                if (this.ctx.state === 'suspended') {
-                    this.ctx.resume();
-                }
-                this.isPlayingBGM = true;
-                this.bgmStep = 0;
-
-                // Sequenciador sintetizado espacial futurista (Synthwave / Cyberpunk Chiptune)
-                // Escala Pentatônica Futurista (Fm7 / Ab / Bb / C)
-                const bassLine = [65.41, 65.41, 77.78, 87.31, 65.41, 98.00, 87.31, 77.78]; // C2 / Eb2 / F2 / G2
-                const arpeggio = [261.63, 311.13, 392.00, 466.16, 523.25, 466.16, 392.00, 311.13]; // C4, Eb4, G4, Bb4, C5
-
-                const stepDuration = 180; // ms por semicolcheia (~166 BPM)
-
-                const playBgmTick = () => {
-                    if (!this.isPlayingBGM || this.isMuted || !this.ctx) return;
-
-                    const t = this.ctx.currentTime;
-                    const step = this.bgmStep;
-
-                    // 1. Kick Futurista / Sub-Bass a cada 4 passos
-                    if (step % 4 === 0) {
-                        try {
-                            const kickOsc = this.ctx.createOscillator();
-                            const kickGain = this.ctx.createGain();
-                            kickOsc.type = 'sine';
-                            kickOsc.frequency.setValueAtTime(140, t);
-                            kickOsc.frequency.exponentialRampToValueAtTime(36, t + 0.12);
-                            kickGain.gain.setValueAtTime(0.25, t);
-                            kickGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
-                            kickOsc.connect(kickGain);
-                            kickGain.connect(this.ctx.destination);
-                            kickOsc.start(t);
-                            kickOsc.stop(t + 0.14);
-                        } catch(e) {}
-                    }
-
-                    // 2. Hi-hat cibernético (ruído de pulso filtrado) a cada 2 passos
-                    if (step % 2 === 1) {
-                        try {
-                            const hatOsc = this.ctx.createOscillator();
-                            const hatGain = this.ctx.createGain();
-                            hatOsc.type = 'square';
-                            hatOsc.frequency.setValueAtTime(4200 + (step % 4) * 800, t);
-                            hatGain.gain.setValueAtTime(0.035, t);
-                            hatGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
-                            hatOsc.connect(hatGain);
-                            hatGain.connect(this.ctx.destination);
-                            hatOsc.start(t);
-                            hatOsc.stop(t + 0.04);
-                        } catch(e) {}
-                    }
-
-                    // 3. Synth Bassline Cyberpunk
-                    const bassFreq = bassLine[Math.floor(step / 2) % bassLine.length];
-                    if (step % 2 === 0) {
-                        try {
-                            const bassOsc = this.ctx.createOscillator();
-                            const bassGain = this.ctx.createGain();
-                            bassOsc.type = 'sawtooth';
-                            bassOsc.frequency.setValueAtTime(bassFreq, t);
-                            bassGain.gain.setValueAtTime(0.08, t);
-                            bassGain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
-                            bassOsc.connect(bassGain);
-                            bassGain.connect(this.ctx.destination);
-                            bassOsc.start(t);
-                            bassOsc.stop(t + 0.22);
-                        } catch(e) {}
-                    }
-
-                    // 4. Arpejo Futurista Cristalino
-                    const arpFreq = arpeggio[step % arpeggio.length];
-                    try {
-                        const arpOsc = this.ctx.createOscillator();
-                        const arpGain = this.ctx.createGain();
-                        arpOsc.type = 'triangle';
-                        arpOsc.frequency.setValueAtTime(arpFreq, t);
-                        arpGain.gain.setValueAtTime(0.045, t);
-                        arpGain.gain.exponentialRampToValueAtTime(0.001, t + 0.14);
-                        arpOsc.connect(arpGain);
-                        arpGain.connect(this.ctx.destination);
-                        arpOsc.start(t);
-                        arpOsc.stop(t + 0.14);
-                    } catch(e) {}
-
-                    this.bgmStep = (this.bgmStep + 1) % 32;
-                    this.bgmTimer = setTimeout(playBgmTick, stepDuration);
-                };
-
-                this.bgmTimer = setTimeout(playBgmTick, stepDuration);
+                if (this.isMuted) return;
+                this.bgmAudio.play().catch(() => {});
             }
 
             stopBGM() {
-                this.isPlayingBGM = false;
-                if (this.bgmTimer) {
-                    clearTimeout(this.bgmTimer);
-                    this.bgmTimer = null;
-                }
+                this.bgmAudio.pause();
+                this.bgmAudio.currentTime = 0;
             }
 
             toggleMute() {
                 this.isMuted = !this.isMuted;
-                if (this.isMuted) {
-                    this.stopBGM();
-                } else {
+                this.bgmAudio.muted = this.isMuted;
+                this.sfxLevelUp.muted = this.isMuted;
+                this.sfxSparkle.muted = this.isMuted;
+                this.sfxGameOver.muted = this.isMuted;
+                if (!this.isMuted) {
                     this.startBGM();
                 }
                 return this.isMuted;
             }
 
-            playTone(freq, type = 'sine', duration = 0.12, gainVal = 0.15) {
-                if (this.isMuted || !this.ctx) return;
-                try {
-                    const osc = this.ctx.createOscillator();
-                    const gain = this.ctx.createGain();
-                    osc.type = type;
-                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start();
-                    osc.stop(this.ctx.currentTime + duration);
-                } catch (e) {}
-            }
-
+            // Som suave de "Passo Fofo / Soft Pop" (NADA de bip 8-bit!)
             step() {
-                // Efeito sonoro futurista de propulsão a plasma
                 if (this.isMuted || !this.ctx) return;
                 try {
                     const t = this.ctx.currentTime;
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(480, t);
-                    osc.frequency.exponentialRampToValueAtTime(160, t + 0.08);
-                    gain.gain.setValueAtTime(0.12, t);
-                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+                    // Onda senoidal pura suave de baixa frequência (estilo bolha/passo macio)
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(180, t);
+                    osc.frequency.exponentialRampToValueAtTime(110, t + 0.07);
+                    gain.gain.setValueAtTime(0.08, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
                     osc.start(t);
-                    osc.stop(t + 0.09);
-                } catch (e) {}
+                    osc.stop(t + 0.07);
+                } catch(e) {}
             }
 
+            // Giro suave e aveludado
             turn() {
-                // Som de servomotor sci-fi
-                this.playTone(680, 'sine', 0.08, 0.1);
-            }
-
-            jump() {
-                // Som de jato de propulsão ascendente
                 if (this.isMuted || !this.ctx) return;
                 try {
                     const t = this.ctx.currentTime;
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(280, t);
-                    osc.frequency.exponentialRampToValueAtTime(1100, t + 0.28);
-                    gain.gain.setValueAtTime(0.2, t);
-                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+                    osc.frequency.setValueAtTime(240, t);
+                    osc.frequency.exponentialRampToValueAtTime(320, t + 0.08);
+                    gain.gain.setValueAtTime(0.06, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
                     osc.start(t);
-                    osc.stop(t + 0.3);
-                } catch (e) {}
+                    osc.stop(t + 0.08);
+                } catch(e) {}
             }
 
+            // Pulo estilo desenho animado fofo
+            jump() {
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const t = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(200, t);
+                    osc.frequency.exponentialRampToValueAtTime(540, t + 0.22);
+                    gain.gain.setValueAtTime(0.12, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.24);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.24);
+                } catch(e) {}
+            }
+
+            // Clique sutil e agradável na interface
             click() {
-                this.playTone(840, 'sine', 0.04, 0.08);
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const t = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, t);
+                    gain.gain.setValueAtTime(0.04, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.03);
+                } catch(e) {}
             }
 
             remove() {
-                this.playTone(320, 'triangle', 0.06, 0.1);
+                if (this.isMuted || !this.ctx) return;
+                try {
+                    const t = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(220, t);
+                    gain.gain.setValueAtTime(0.05, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(t);
+                    osc.stop(t + 0.04);
+                } catch(e) {}
             }
 
             coin() {
-                // Coleta de engrenagem sci-fi com harmônicos brilhantes
-                if (this.isMuted || !this.ctx) return;
-                try {
-                    const t = this.ctx.currentTime;
-                    [880, 1320, 1760].forEach((f, idx) => {
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = 'sine';
-                        osc.frequency.setValueAtTime(f, t + idx * 0.04);
-                        gain.gain.setValueAtTime(0.12, t + idx * 0.04);
-                        gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.04 + 0.18);
-                        osc.connect(gain);
-                        gain.connect(this.ctx.destination);
-                        osc.start(t + idx * 0.04);
-                        osc.stop(t + idx * 0.04 + 0.18);
-                    });
-                } catch(e) {}
+                if (!this.isMuted) {
+                    this.sfxSparkle.currentTime = 0;
+                    this.sfxSparkle.play().catch(() => {});
+                }
             }
 
             switchClick() {
-                // Som de ativação de botão laser
-                this.playTone(1200, 'square', 0.12, 0.15);
+                this.coin();
             }
 
             victory() {
-                // Fanfarra triunfal sintetizada 3D
-                if (this.isMuted || !this.ctx) return;
-                try {
-                    const notes = [523.25, 659.25, 783.99, 1046.50]; // C, E, G, C alta
-                    const t = this.ctx.currentTime;
-                    notes.forEach((f, idx) => {
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = 'triangle';
-                        osc.frequency.setValueAtTime(f, t + idx * 0.1);
-                        gain.gain.setValueAtTime(0.22, t + idx * 0.1);
-                        gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.1 + 0.35);
-                        osc.connect(gain);
-                        gain.connect(this.ctx.destination);
-                        osc.start(t + idx * 0.1);
-                        osc.stop(t + idx * 0.1 + 0.35);
-                    });
-                } catch(e) {}
+                if (!this.isMuted) {
+                    this.sfxLevelUp.currentTime = 0;
+                    this.sfxLevelUp.play().catch(() => {});
+                }
             }
 
             defeat() {
-                this.bonk();
+                if (!this.isMuted) {
+                    this.sfxGameOver.currentTime = 0;
+                    this.sfxGameOver.play().catch(() => {});
+                }
             }
 
             bonk() {
@@ -1821,20 +1703,20 @@
                     const t = this.ctx.currentTime;
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(220, t);
-                    osc.frequency.exponentialRampToValueAtTime(45, t + 0.26);
-                    gain.gain.setValueAtTime(0.3, t);
-                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(140, t);
+                    osc.frequency.exponentialRampToValueAtTime(60, t + 0.2);
+                    gain.gain.setValueAtTime(0.15, t);
+                    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
                     osc.start(t);
-                    osc.stop(t + 0.28);
-                } catch (e) {}
+                    osc.stop(t + 0.22);
+                } catch(e) {}
             }
         }
 
-        const sound = new RetroAudioEngine();
+        const sound = new CleanAcousticAudioEngine();
 
         /* ==========================================================================
            2. 12 PROGRESSIVE LEVELS DEFINITION WITH ANIMATED ENEMIES & OBSTACLES
@@ -2139,8 +2021,26 @@
 
             // 1. Scene: Cheerful Sky Blue & Soft Atmospheric Mist
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x38bdf8);
-            scene.fog = new THREE.FogExp2(0x7dd3fc, 0.012);
+            // Céu alegre em azul suave com nuvens ensolaradas
+            scene.background = new THREE.Color(0x67e8f9); // Cyan luminoso
+            scene.fog = new THREE.FogExp2(0xa5f3fc, 0.008);
+
+            // Nuvens felizes e macias no horizonte 3D
+            const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9, flatShading: true });
+            const cloudsGroup = new THREE.Group();
+            for (let c = 0; c < 7; c++) {
+                const cloud = new THREE.Group();
+                const numPuffs = 4 + Math.floor(Math.random() * 3);
+                for (let p = 0; p < numPuffs; p++) {
+                    const puff = new THREE.Mesh(new THREE.DodecahedronGeometry(0.8 + Math.random() * 0.7, 1), cloudMat);
+                    puff.position.set((p - numPuffs / 2) * 0.9, Math.random() * 0.3, Math.random() * 0.5);
+                    cloud.add(puff);
+                }
+                const angle = (c * Math.PI * 2) / 7;
+                cloud.position.set(Math.cos(angle) * 16, 4.5 + Math.sin(c) * 1.5, Math.sin(angle) * 16);
+                cloudsGroup.add(cloud);
+            }
+            scene.add(cloudsGroup);
 
             // 2. Camera
             camera = new THREE.PerspectiveCamera(44, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -2630,30 +2530,44 @@
         function create3DTechWall() {
             const group = new THREE.Group();
 
-            const wallGeom = new THREE.BoxGeometry(0.96, 0.95, 0.96);
-            const wallMat = new THREE.MeshStandardMaterial({
-                color: 0x1e293b,
-                metalness: 0.6,
-                roughness: 0.35
+            // Arbusto / Cristal fofo e arredondado em vez de bloco escuro pesado
+            const colors = [0x10b981, 0x06b6d4, 0x8b5cf6, 0xf59e0b];
+            const randColor = colors[Math.floor(Math.random() * colors.length)];
+
+            // Base arredondada estilo pedra de parque de diversões
+            const baseGeom = new THREE.CylinderGeometry(0.38, 0.44, 0.75, 16);
+            const baseMat = new THREE.MeshStandardMaterial({
+                color: 0x38bdf8,
+                roughness: 0.3,
+                metalness: 0.1
             });
-            const wall = new THREE.Mesh(wallGeom, wallMat);
-            wall.position.y = 0.48;
-            wall.castShadow = true;
-            wall.receiveShadow = true;
-            group.add(wall);
+            const pillar = new THREE.Mesh(baseGeom, baseMat);
+            pillar.position.y = 0.38;
+            pillar.castShadow = true;
+            pillar.receiveShadow = true;
+            group.add(pillar);
 
-            // Cyan circuit lines on faces
-            const lineGeom = new THREE.BoxGeometry(0.82, 0.04, 0.97);
-            const lineMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-            const line1 = new THREE.Mesh(lineGeom, lineMat);
-            line1.position.y = 0.48;
-            group.add(line1);
+            // Cúpula esférica brilhante no topo (como uma flor holográfica ou gema mágica)
+            const gemGeom = new THREE.SphereGeometry(0.32, 16, 16);
+            const gemMat = new THREE.MeshStandardMaterial({
+                color: 0xfacc15,
+                roughness: 0.2,
+                metalness: 0.4,
+                emissive: 0xfbbf24,
+                emissiveIntensity: 0.25
+            });
+            const gem = new THREE.Mesh(gemGeom, gemMat);
+            gem.position.y = 0.88;
+            gem.castShadow = true;
+            group.add(gem);
 
-            const capGeom = new THREE.BoxGeometry(0.98, 0.05, 0.98);
-            const capMat = new THREE.MeshBasicMaterial({ color: 0x0284c7 });
-            const cap = new THREE.Mesh(capGeom, capMat);
-            cap.position.y = 0.96;
-            group.add(cap);
+            // Anel decorativo alegre
+            const ringGeom = new THREE.TorusGeometry(0.34, 0.05, 8, 24);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const ring = new THREE.Mesh(ringGeom, ringMat);
+            ring.rotation.x = Math.PI / 2;
+            ring.position.y = 0.52;
+            group.add(ring);
 
             return group;
         }
@@ -3076,14 +2990,14 @@
             // 2. White & Cyan Technological Floor Tiles
             const tileGeom = new THREE.BoxGeometry(0.96, 0.2, 0.96);
             const regularTileMat = new THREE.MeshStandardMaterial({
-                color: 0xffffff,
-                roughness: 0.25,
-                metalness: 0.1
+                color: 0xf0fdf4, // Menta pastel super claro e alegre
+                roughness: 0.3,
+                metalness: 0.05
             });
             const startTileMat = new THREE.MeshStandardMaterial({
-                color: 0x0284c7,
-                roughness: 0.2,
-                metalness: 0.2
+                color: 0x38bdf8, // Azul céu convidativo
+                roughness: 0.25,
+                metalness: 0.1
             });
 
             for (let y = 0; y < N; y++) {
@@ -3174,7 +3088,7 @@
             robotState.worldZ = (gridY - cz) * TILE_SPACING;
 
             // Yaw: 0: North (-Z, angle 0), 1: East (+X, angle -PI/2), 2: South (+Z, angle PI), 3: West (-X, angle PI/2)
-            const angles = [0, -Math.PI / 2, Math.PI, Math.PI / 2];
+            const angles = [Math.PI, Math.PI / 2, 0, -Math.PI / 2];
             robotState.targetYaw = angles[dir];
 
             if (instant && robotMeshObj) {
@@ -3588,13 +3502,13 @@
 
                 } else if (action.type === 'turn_left') {
                     robotState.dir = (robotState.dir + 3) % 4;
-                    const angles = [0, -Math.PI / 2, Math.PI, Math.PI / 2];
+                    const angles = [Math.PI, Math.PI / 2, 0, -Math.PI / 2];
                     robotState.targetYaw = angles[robotState.dir];
                     await tweenTurn(executionSpeed);
 
                 } else if (action.type === 'turn_right') {
                     robotState.dir = (robotState.dir + 1) % 4;
-                    const angles = [0, -Math.PI / 2, Math.PI, Math.PI / 2];
+                    const angles = [Math.PI, Math.PI / 2, 0, -Math.PI / 2];
                     robotState.targetYaw = angles[robotState.dir];
                     await tweenTurn(executionSpeed);
 
@@ -3704,7 +3618,7 @@
                     totalGears += 10;
                     totalXp += 25;
                     updateTopStats();
-            checkCertificateUnlock();
+            
                     sound.coin();
                     setMascotMessage("Engrenagem de energia coletada! +10 ⚙️");
                 }
@@ -3745,7 +3659,7 @@
             totalGears += stars * 15;
             totalXp += stars * 40;
             updateTopStats();
-            checkCertificateUnlock();
+            
 
             document.getElementById('victoryLinesVal').innerText = usedLines;
             document.getElementById('victoryIdealLines').innerText = ideal;
@@ -4071,11 +3985,6 @@
         });
 
         // Certificado Handlers
-        document.getElementById('btnOpenCert')?.addEventListener('click', () => {
-            sound.click();
-            sound.victory();
-            document.getElementById('certModal').classList.add('is-open');
-        });
         document.getElementById('btnCloseCert')?.addEventListener('click', () => {
             sound.click();
             document.getElementById('certModal').classList.remove('is-open');
@@ -4117,7 +4026,7 @@
                         selectedSkinId = skin.id;
                         sound.victory();
                         updateTopStats();
-            checkCertificateUnlock();
+            
                         applyActiveSkin();
                         renderSkinsGrid();
                     } else {
@@ -4354,7 +4263,7 @@
            ========================================================================== */
         window.addEventListener('DOMContentLoaded', () => {
             updateTopStats();
-            checkCertificateUnlock();
+            
             initThreeScene();
             loadLevel(0);
             renderQueue();
