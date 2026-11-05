@@ -1,23 +1,48 @@
 /* ==========================================================================
-   ESTILOS SISTEMA DE CARDS DE LEITURA v10.0 - CORREÇÃO DE LAYOUT E BARRA HORIZONTAL
+   ESTILOS SISTEMA DE CARDS DE LEITURA v8.0 PROFISSIONAL
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lexend+Deca:wght@500;700;800;900&family=Outfit:wght@500;700;900&display=swap');
 
 :root {
-  --font-display: 'Fredoka', 'Outfit', sans-serif;
-  --font-body: 'Outfit', sans-serif;
+  --font-display: 'Lexend Deca', 'Fredoka', sans-serif;
+  --font-body: 'Lexend Deca', sans-serif;
   
-  --color-bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
-  --color-primary: #ec4899;
+  --color-bg-gradient: linear-gradient(135deg, #0b1329 0%, #17153b 50%, #2e0854 100%);
+  --color-primary: #38bdf8;
   --color-accent: #fbbf24;
-  --color-secondary: #38bdf8;
+  --color-secondary: #818cf8;
   --color-success: #10b981;
-  --color-purple: #8b5cf6;
+  --color-purple: #a855f7;
   
-  --card-bg: rgba(255, 255, 255, 0.97);
+  --card-bg: #ffffff;
   --card-text: #0f172a;
-  --card-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 45px rgba(236, 72, 153, 0.35);
+  --card-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.7), 0 0 35px rgba(56, 189, 248, 0.25);
+}
+
+body.theme-light-mode {
+  --color-bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+  --card-bg: #ffffff;
+  --card-text: #0f172a;
+  --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 0 20px rgba(56, 189, 248, 0.2);
+  color: #0f172a;
+}
+
+body.theme-light-mode .pres-header {
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+  border-bottom: 2px solid #cbd5e1;
+}
+
+body.theme-light-mode .pres-controls-bar {
+  background: rgba(255, 255, 255, 0.92);
+  border-top: 2px solid #cbd5e1;
+}
+
+body.theme-light-mode .ctrl-btn {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #cbd5e1;
 }
 
 * {

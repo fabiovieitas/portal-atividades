@@ -48,24 +48,16 @@
       <!-- SELETOR DE MODO DA ATIVIDADE NA TELA PRINCIPAL (PASSO 1) -->
       <div class="form-group" style="background: rgba(56, 189, 248, 0.1); border: 2px solid #38bdf8; padding: 1rem 1.2rem; border-radius: 20px; margin-bottom: 1.2rem;">
         <label for="select-game-mode-step1" style="font-size: 1.15rem; color: #38bdf8; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;">
-          🎮 Modo da Atividade Coletiva no Datashow:
+          📖 Modo de Fluência de Leitura no Datashow:
         </label>
         <select id="select-game-mode-step1" class="form-input" style="font-weight: 700; background: #0f172a; border-color: #38bdf8;">
-          <option value="cards" selected>📺 Leitura em Cards Gigantes (Padrão)</option>
-          <option value="build">🧩 Monte a Palavra (Sílabas Interativas)</option>
-          <option value="forca">🎯 A Palavra Misteriosa (Forca da Turma)</option>
-          <option value="frase">🧩 Quebra-Cabeça de Frases Coletivo</option>
-          <option value="eco">🔊 ECO Silábico (Leitura Coral no Ritmo)</option>
-          <option value="rima">🔎 Caça às Rimas no Datashow</option>
-          <option value="roleta">⚡ Roda da Velocidade (Roleta 3D)</option>
-          <option value="acao">🎨 Palavra e Ação (Teatro & Mímica)</option>
-          <option value="intruso">🎒 O Inseto / Intruso do Grupo</option>
-          <option value="corrida">🏁 Corrida de Leitura (Times 🏎️ x 💙)</option>
-          <option value="silaba_magica">🔤 Primeira Sílaba Mágica</option>
-          <option value="storytelling">📖 Storytelling Coletivo (Crie a História)</option>
+          <option value="cards" selected>📺 Cards Gigantes de Alta Legibilidade (Leitura Coletiva)</option>
+          <option value="roleta">⚡ Leitura Flash & Dinâmica (Reconhecimento Ágil)</option>
+          <option value="eco">🔊 ECO Silábico (Leitura Coral Guiada por Sílaba)</option>
+          <option value="build">🧩 Monte a Palavra (Consciência Fonológica e Sílabas)</option>
         </select>
         <div style="font-size: 0.85rem; color: #fbbf24; margin-top: 0.4rem; font-weight: 600;">
-          ✨ Escolha o modo de dinâmica para a sala de aula ou mantenha em Cards Gigantes!
+          ✨ Modos focados estritamente na fluência, decodificação e dinâmica de leitura da turma!
         </div>
       </div>
 
@@ -165,20 +157,12 @@
 
         <!-- Modo de Atividade -->
         <div style="flex: 1; min-width: 200px;">
-          <label for="select-game-mode">🎮 Modo da Atividade Coletiva:</label>
+          <label for="select-game-mode">📖 Modo de Fluência:</label>
           <select id="select-game-mode" class="form-input">
-            <option value="cards" selected>📺 Leitura em Cards Gigantes (Padrão)</option>
-            <option value="build">🧩 Monte a Palavra (Sílabas Interativas)</option>
-            <option value="forca">🎯 A Palavra Misteriosa (Forca da Turma)</option>
-            <option value="frase">🧩 Quebra-Cabeça de Frases Coletivo</option>
-            <option value="eco">🔊 ECO Silábico (Leitura Coral no Ritmo)</option>
-            <option value="rima">🔎 Caça às Rimas no Datashow</option>
-            <option value="roleta">⚡ Roda da Velocidade (Roleta 3D)</option>
-            <option value="acao">🎨 Palavra e Ação (Teatro & Mímica)</option>
-            <option value="intruso">🎒 O Inseto / Intruso do Grupo</option>
-            <option value="corrida">🏁 Corrida de Leitura (Times 🏎️ x 💙)</option>
-            <option value="silaba_magica">🔤 Primeira Sílaba Mágica</option>
-            <option value="storytelling">📖 Storytelling Coletivo (Crie a História)</option>
+            <option value="cards" selected>📺 Cards Gigantes de Alta Legibilidade</option>
+            <option value="roleta">⚡ Leitura Flash & Dinâmica</option>
+            <option value="eco">🔊 ECO Silábico (Leitura Coral)</option>
+            <option value="build">🧩 Monte a Palavra (Sílabas)</option>
           </select>
         </div>
 
@@ -186,32 +170,16 @@
 
       <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap; text-align: left; margin-top: 0.5rem;">
         
-        <!-- Voz -->
+        <!-- Trilha Sonora MP3 -->
         <div style="flex: 1.5; min-width: 260px;">
-          <label for="select-voice">🗣️ Voz de Leitura:</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <select id="select-voice" class="form-input" style="flex: 1;">
-              <option value="natural" selected>Voz Humana HD (Recomendada)</option>
-            </select>
-            <button id="btn-preview-voice" class="ctrl-btn" style="width: auto; padding: 0 1rem; border-radius: 16px; font-size: 0.9rem;" title="Ouvir amostra da voz">
-              🔊 Testar
-            </button>
-          </div>
-        </div>
-
-        <!-- Trilha Sonora com Teste -->
-        <div style="flex: 1.5; min-width: 260px;">
-          <label for="select-music-style">🎵 Trilha Sonora:</label>
+          <label for="select-music-style">🎵 Trilha Sonora Ambiente (MP3 Estéreo):</label>
           <div style="display: flex; gap: 0.5rem;">
             <select id="select-music-style" class="form-input" style="flex: 1;">
-              <option value="alegre" selected>Melodia Alegre Pop (Piano Bright)</option>
-              <option value="calma">Ritmo Infantil Calmo (Lullaby)</option>
-              <option value="batuque">Batuque da Floresta (Percussivo)</option>
-              <option value="aventura">Aventura Espacial (Marcha)</option>
-              <option value="off">Silencioso (Sem Música)</option>
+              <option value="reading" selected>Trilha Instrumental Ambiente (Concentração)</option>
+              <option value="off">Silencioso (Sem Trilha Sonora)</option>
             </select>
-            <button id="btn-preview-music" class="ctrl-btn" style="width: auto; padding: 0 0.9rem; border-radius: 16px; font-size: 0.9rem;" title="Testar som da música">
-              🎵 Testar
+            <button id="btn-preview-music" type="button" onclick="window.audioManager.toggleBGM()" class="ctrl-btn" style="width: auto; padding: 0 0.9rem; border-radius: 16px; font-size: 0.9rem;" title="Ouvir música ambiente">
+              🎵 Tocar / Pausar
             </button>
           </div>
         </div>
@@ -301,15 +269,14 @@
       <button id="btn-theme-toggle" type="button" onclick="toggleThemeV8()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0 4px;" title="Alternar Modo Escuro / Claro">🌓</button>
     </div>
 
-    <!-- Barra de Controles -->
+    <!-- Barra de Controles Discreta e Profissional -->
     <footer class="pres-controls-bar">
       <button id="btn-stop-menu" onclick="stopAllAndReturnHomeGlobal()" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; width: auto; padding: 0 16px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);" title="Parar Total e Voltar ao Início do Jogo (ESC / Home)">🛑 STOP (INÍCIO)</button>
       <button id="btn-prev" class="ctrl-btn" title="Palavra Anterior (Seta Esquerda)">⬅️</button>
       <button id="btn-pause-toggle" class="ctrl-btn" title="Pausar / Continuar Tempo (Teclado: P)">⏸️</button>
-      <button id="btn-speak" class="ctrl-btn" title="Ouvir Pronúncia (Teclado: S)">🔊</button>
-      <button id="btn-syllable" class="ctrl-btn active" title="Separar Sílabas (Teclado: D)">✂️</button>
-      <button id="btn-image" class="ctrl-btn active" title="Mostrar/Ocultar Imagem (Teclado: I)">👁️</button>
-      <button id="btn-music" class="ctrl-btn active" title="Alternar Música (Teclado: M)">🎵</button>
+      <button id="btn-syllable" class="ctrl-btn active" title="Separar Sílabas com Cores (Teclado: D)">✂️ Sílabas</button>
+      <button id="btn-image" class="ctrl-btn active" title="Mostrar/Ocultar Imagem (Teclado: I)">👁️ Imagem</button>
+      <button id="btn-music" onclick="window.audioManager.toggleBGM()" class="ctrl-btn active" title="Alternar Trilha Sonora MP3 (Teclado: M)">🎵 Trilha</button>
       <button id="btn-fullscreen" class="ctrl-btn" title="Tela Cheia (Teclado: F)">⛶</button>
       <button id="btn-next" class="ctrl-btn ctrl-btn-large" title="Próxima Palavra (Espaço / Seta Direita)">Próxima ➡️</button>
     </footer>
