@@ -11,6 +11,11 @@ const WORDS_DATABASE = {
       "1.1": {
         title: "Subnível 1.1: As Vogais Principais",
         items: [
+          { text: "A O E", syllables: ["A", "O", "E"], image: "🔤", hint: "Sons de vogais" },
+          { text: "I U A", syllables: ["I", "U", "A"], image: "🔤", hint: "Três vogais amigas" },
+          { text: "E O A", syllables: ["E", "O", "A"], image: "🔤", hint: "Vogais sonoras" },
+          { text: "U I O", syllables: ["U", "I", "O"], image: "🔤", hint: "Sons da lousa" },
+          { text: "O E I", syllables: ["O", "E", "I"], image: "🔤", hint: "Vogais em ordem" },
           { text: "A", syllables: ["A"], image: "🍎", hint: "Abacaxi / Maçã" },
           { text: "E", syllables: ["E"], image: "🐘", hint: "Elefante" },
           { text: "I", syllables: ["I"], image: "🏝️", hint: "Ilha" },
@@ -36,6 +41,11 @@ const WORDS_DATABASE = {
       "1.2": {
         title: "Subnível 1.2: Encontros Vocálicos Curtos",
         items: [
+          { text: "OBA", syllables: ["O", "BA"], image: "🎉", hint: "Oba! Festa e alegria" },
+          { text: "OPA", syllables: ["O", "PA"], image: "👋", hint: "Opa! Cheguei na sala" },
+          { text: "EITA", syllables: ["EI", "TA"], image: "⚡", hint: "Eita! Que surpresa" },
+          { text: "UAU", syllables: ["UAU"], image: "🌟", hint: "Uau! Ficou incrível" },
+          { text: "LEI", syllables: ["LEI"], image: "📜", hint: "Regra combinada" },
           { text: "AI", syllables: ["A", "I"], image: "🩹", hint: "Ai! Machucou" },
           { text: "EI", syllables: ["E", "I"], image: "👋", hint: "Ei! Olá" },
           { text: "OI", syllables: ["O", "I"], image: "🙋", hint: "Oi! Tudo bem?" },
@@ -93,6 +103,16 @@ const WORDS_DATABASE = {
       "2.1": {
         title: "Subnível 2.1: Famílias do B, C e D",
         items: [
+          { text: "BONECA", syllables: ["BO", "NE", "CA"], image: "🎎", hint: "Brinquedo de criança" },
+          { text: "CANETA", syllables: ["CA", "NE", "TA"], image: "🖊️", hint: "Escrever no caderno" },
+          { text: "GAVETA", syllables: ["GA", "VE", "TA"], image: "🗄️", hint: "Guardar cadernos" },
+          { text: "SAPATO", syllables: ["SA", "PA", "TO"], image: "👟", hint: "Calçado no pé" },
+          { text: "TOMATE", syllables: ["TO", "MA", "TE"], image: "🍅", hint: "Fruta vermelha gostosa" },
+          { text: "PIPOCA", syllables: ["PI", "PO", "CA"], image: "🍿", hint: "Estoura na panela" },
+          { text: "PETECA", syllables: ["PE", "TE", "CA"], image: "🪶", hint: "Bate com a palma da mão" },
+          { text: "PANELA", syllables: ["PA", "NE", "LA"], image: "🍳", hint: "Fazer comida quentinha" },
+          { text: "JANELA", syllables: ["JA", "NE", "LA"], image: "🪟", hint: "Entra a luz do sol" },
+          { text: "CAMELO", syllables: ["CA", "ME", "LO"], image: "🐪", hint: "Anda pelo deserto" },
           { text: "BA", syllables: ["BA"], image: "👶", hint: "Bata / Bebê" },
           { text: "BE", syllables: ["BE"], image: "🥤", hint: "Bebida" },
           { text: "BI", syllables: ["BI"], image: "🚲", hint: "Bici" },
@@ -121,6 +141,14 @@ const WORDS_DATABASE = {
       "2.2": {
         title: "Subnível 2.2: Famílias do F, M e P",
         items: [
+          { text: "GIRAFINHA", syllables: ["GI", "RA", "FI", "NHA"], image: "🦒", hint: "Pescoço bem alto" },
+          { text: "GALINHA", syllables: ["GA", "LI", "NHA"], image: "🐔", hint: "Bota ovos no ninho" },
+          { text: "PALHAÇO", syllables: ["PA", "LHA", "ÇO"], image: "🤡", hint: "Muita risada no circo" },
+          { text: "CHUTEIRA", syllables: ["CHU", "TEI", "RA"], image: "⚽", hint: "Chutar bola no gol" },
+          { text: "CHUCHU", syllables: ["CHU", "CHU"], image: "🥒", hint: "Legume verde cozido" },
+          { text: "ABELHINHA", syllables: ["A", "BE", "LHI", "NHA"], image: "🐝", hint: "Produz mel docinho" },
+          { text: "MINHOCA", syllables: ["MI", "NHO", "CA"], image: "🪱", hint: "Mora debaixo da terra" },
+          { text: "COELHINHO", syllables: ["CO", "E", "LHI", "NHO"], image: "🐰", hint: "Pula e come cenoura" },
           { text: "FA", syllables: ["FA"], image: "🧚", hint: "Fada" },
           { text: "FE", syllables: ["FE"], image: "🧲", hint: "Ferro" },
           { text: "FI", syllables: ["FI"], image: "🧵", hint: "Fio" },
@@ -183,6 +211,12 @@ const WORDS_DATABASE = {
       "3.1": {
         title: "Subnível 3.1: Objetos e Brinquedos",
         items: [
+          { text: "FOGUETE", syllables: ["FO", "GUE", "TE"], image: "🚀", hint: "Voa até o espaço" },
+          { text: "COMETA", syllables: ["CO", "ME", "TA"], image: "☄️", hint: "Brilho veloz no céu" },
+          { text: "PLANETA", syllables: ["PLA", "NE", "TA"], image: "🪐", hint: "Gira ao redor do Sol" },
+          { text: "SATÉLITE", syllables: ["SA", "TÉ", "LI", "TE"], image: "🛰️", hint: "Manda sinal do espaço" },
+          { text: "GALÁXIA", syllables: ["GA", "LÁ", "XIA"], image: "🌌", hint: "Milhões de estrelas juntas" },
+          { text: "TELESCOPIO", syllables: ["TE", "LES", "CÓ", "PIO"], image: "🔭", hint: "Olhar as estrelas de longe" },
           { text: "BOLA", syllables: ["BO", "LA"], image: "⚽", hint: "Brinquedo redondo" },
           { text: "CASA", syllables: ["CA", "SA"], image: "🏠", hint: "Onde moramos" },
           { text: "DADO", syllables: ["DA", "DO"], image: "🎲", hint: "Cubo do jogo" },
@@ -271,6 +305,11 @@ const WORDS_DATABASE = {
       "4.1": {
         title: "Subnível 4.1: Frutas e Comidas Gostosas",
         items: [
+          { text: "BORBOLETA", syllables: ["BOR", "BO", "LE", "TA"], image: "🦋", hint: "Asas coloridas no jardim" },
+          { text: "CHOCOLATE", syllables: ["CHO", "CO", "LA", "TE"], image: "🍫", hint: "Doce muito gostoso" },
+          { text: "BICICLETA", syllables: ["BI", "CI", "CLE", "TA"], image: "🚲", hint: "Duas rodas e pedal" },
+          { text: "TARTARUGA", syllables: ["TAR", "TA", "RU", "GA"], image: "🐢", hint: "Passinhos calmos e casco" },
+          { text: "GIRASSOL", syllables: ["GI", "RAS", "SOL"], image: "🌻", hint: "Flor amarela que segue o sol" },
           { text: "BANANA", syllables: ["BA", "NA", "NA"], image: "🍌", hint: "Amarela e saborosa" },
           { text: "PIPOCA", syllables: ["PI", "PO", "CA"], image: "🍿", hint: "Estoura na panela" },
           { text: "TOMATE", syllables: ["TO", "MA", "TE"], image: "🍅", hint: "Vermelho na salada" },
@@ -353,6 +392,10 @@ const WORDS_DATABASE = {
       "5.1": {
         title: "Subnível 5.1: Palavras com CH e LH",
         items: [
+          { text: "PASSARINHO", syllables: ["PAS", "SA", "RI", "NHO"], image: "🐦", hint: "Canta feliz no galho" },
+          { text: "TRAVESSEIRO", syllables: ["TRA", "VES", "SEI", "RO"], image: "🛏️", hint: "Fofinho para dormir" },
+          { text: "DINOSSAURO", syllables: ["DI", "NOS", "SAU", "RO"], image: "🦖", hint: "Gigante da pré-história" },
+          { text: "TESOURO", syllables: ["TE", "SOU", "RO"], image: "🪙", hint: "Moedas e joias raras" },
           { text: "CHUVA", syllables: ["CHU", "VA"], image: "🌧️", hint: "Água limpa do céu" },
           { text: "CHAVE", syllables: ["CHA", "VE"], image: "🔑", hint: "Abre a fechadura" },
           { text: "OVELHA", syllables: ["O", "VE", "LHA"], image: "🐑", hint: "Tem lã bem macia" },
@@ -435,6 +478,10 @@ const WORDS_DATABASE = {
       "6.1": {
         title: "Subnível 6.1: Consoante + R (PR, TR, BR)",
         items: [
+          { text: "DRAGÃOZINHO", syllables: ["DRA", "GÃO", "ZI", "NHO"], image: "🐲", hint: "Mítico e amigo" },
+          { text: "FLAUTINHA", syllables: ["FLAU", "TI", "NHA"], image: "🪈", hint: "Instrumento musical de sopro" },
+          { text: "CRISTAL", syllables: ["CRIS", "TAL"], image: "💎", hint: "Pedra preciosa e brilhante" },
+          { text: "BRINCADEIRA", syllables: ["BRIN", "CA", "DEI", "RA"], image: "🤹", hint: "Diversão com amigos" },
           { text: "PRATO", syllables: ["PRA", "TO"], image: "🍽️", hint: "Onde servimos o almoço" },
           { text: "TRATOR", syllables: ["TRA", "TOR"], image: "🚜", hint: "Veículo forte da fazenda" },
           { text: "BRASIL", syllables: ["BRA", "SIL"], image: "🇧🇷", hint: "Nosso lindo país" },
@@ -517,6 +564,10 @@ const WORDS_DATABASE = {
       "7.1": {
         title: "Subnível 7.1: Frases de Animais",
         items: [
+          { text: "CARROUSSEL", syllables: ["CAR", "ROS", "SEL"], image: "🎠", hint: "Gira com cavalinhos no parque" },
+          { text: "BARRANCO", syllables: ["BAR", "RAN", "CO"], image: "⛰️", hint: "Terra alta na beira do morro" },
+          { text: "SORRISO", syllables: ["SOR", "RI", "SO"], image: "😄", hint: "Demonstra felicidade" },
+          { text: "FERRADURA", syllables: ["FER", "RA", "DU", "RA"], image: "🧲", hint: "Protege o casco do cavalo" },
           { text: "O GATO É FOFO.", syllables: ["O", "GA-TO", "É", "FO-FO"], image: "🐱", hint: "Frase do gatinho" },
           { text: "O SAPO PULA ALTO.", syllables: ["O", "SA-PO", "PU-LA", "AL-TO"], image: "🐸", hint: "Frase do sapinho" },
           { text: "A VACA DÁ LEITE.", syllables: ["A", "VA-CA", "DÁ", "LEI-TE"], image: "🐮", hint: "Frase da vaquinha" },
@@ -599,6 +650,9 @@ const WORDS_DATABASE = {
       "8.1": {
         title: "Subnível 8.1: Histórias de 2 Frases",
         items: [
+          { text: "ASTRONOMIA", syllables: ["AS", "TRO", "NO", "MI", "A"], image: "🔭", hint: "Ciência que estuda o universo" },
+          { text: "ARQUITETURA", syllables: ["AR", "QUI", "TE", "TU", "RA"], image: "🏛️", hint: "Construção de prédios bonitos" },
+          { text: "LABORATÓRIO", syllables: ["LA", "BO", "RA", "TÓ", "RIO"], image: "🧪", hint: "Lugar de fazer experiências" },
           { text: "O CÃO LATIU NA PRAÇA! ELE QUERIA BRINCAR COM A BOLA.", syllables: ["O CÃO LATIU NA PRAÇA!", "ELE QUERIA BRINCAR."], image: "🐶", hint: "Aventuras do cãozinho" },
           { text: "A PIPOCA PULOU DA PANELA. QUE CHEIRINHO GOSTOSO!", syllables: ["A PIPOCA PULOU...", "QUE CHEIRINHO GOSTOSO!"], image: "🍿", hint: "Lanche na cozinha" },
           { text: "O TRATOR TRABALHA NA FAZENDA. ELE AJUDA NA COLHEITA.", syllables: ["O TRATOR TRABALHA...", "ELE AJUDA NA COLHEITA."], image: "🚜", hint: "Trabalho no campo" },
@@ -681,6 +735,9 @@ const WORDS_DATABASE = {
       "9.1": {
         title: "Subnível 9.1: A História do Urso Beto",
         items: [
+          { text: "EXTRAORDINÁRIO", syllables: ["EX", "TRA", "OR", "DI", "NÁ", "RIO"], image: "✨", hint: "Algo incrível e fora do comum" },
+          { text: "IMAGINAÇÃO", syllables: ["I", "MA", "GI", "NA", "ÇÃO"], image: "🧠", hint: "Poder de criar coisas na mente" },
+          { text: "SUSTENTABILIDADE", syllables: ["SUS", "TEN", "TA", "BI", "LI", "DA", "DE"], image: "🌱", hint: "Cuidar do planeta Terra" },
           { 
             text: "O URSO BETO ADORA MEL DOCINHO. ELE VIU UMA COLMEIA NA ÁRVORE ALTA. BETO COMEU TUDO E FICOU MUITO FELIZ!", 
             syllables: ["O URSO BETO ADORA MEL.", "ELE VIU UMA COLMEIA.", "BETO COMEU E FICOU FELIZ!"], 
@@ -775,6 +832,9 @@ const WORDS_DATABASE = {
       "10.1": {
         title: "Subnível 10.1: Trava-Línguas dos Animais",
         items: [
+          { text: "TODOS NÓS ADORAMOS LER JUNTOS", syllables: ["TO", "DOS", "NÓS", "A", "DO", "RA", "MOS", "LER", "JUN", "TOS"], image: "📚", hint: "Leitura em coro da turma toda!" },
+          { text: "O CONHECIMENTO TRANSFORMA O MUNDO", syllables: ["O", "CO", "NHE", "CI", "MEN", "TO", "TRANS", "FOR", "MA", "O", "MUN", "DO"], image: "🌍", hint: "Estudar nos leva longe!" },
+          { text: "A LEITURA ABRE AS PORTAS DO FUTURO", syllables: ["A", "LEI", "TU", "RA", "A", "BRE", "AS", "POR", "TAS", "DO", "FU", "TU", "RO"], image: "🚀", hint: "Grandes leitores, grandes heróis!" },
           { text: "O PRATO DE TIGRE TEM TRÊS TIGRES TRISTES.", syllables: ["TRÊS TIGRES", "TRISTES COMEM", "NO PRATO DE TIGRE"], image: "🐯", hint: "Trava-línguas dos tigres" },
           { text: "SABIA QUE O SABIÁ SABIA ASSOBIAR?", syllables: ["SABIA QUE O SABIÁ", "SABIA ASSOBIAR?"], image: "🐦", hint: "Trava-línguas do sabiá" },
           { text: "O RATO ROEU A ROUPA DO REI DE ROMA.", syllables: ["O RATO ROEU", "A ROUPA DO REI", "DE ROMA!"], image: "🐀", hint: "Trava-línguas do rato" },

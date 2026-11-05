@@ -273,8 +273,8 @@
       border-radius: 26px;
       padding: 18px 26px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
       backdrop-filter: blur(14px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
     }
@@ -516,7 +516,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 15px;
-      margin: 25px 0;
+      margin: 20px 0;
     }
 
     .sublevel-option-btn {
@@ -564,11 +564,137 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
+      margin-top: 15px;
     }
 
     .btn-start-reading-action:hover {
       transform: translateY(-3px) scale(1.01);
       box-shadow: 0 18px 45px rgba(16, 185, 129, 0.7);
+    }
+
+    /* MODAL DE PARABÉNS / VITÓRIA DA TURMA */
+    .modal-celebration-sheet {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      border: 4px solid #fbbf24;
+      border-radius: 40px;
+      width: 100%;
+      max-width: 820px;
+      padding: 45px 35px;
+      text-align: center;
+      box-shadow: 0 35px 100px rgba(0, 0, 0, 0.9), 0 0 70px rgba(251, 191, 36, 0.45);
+      animation: cardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    body.theme-light .modal-celebration-sheet {
+      background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+      color: #0f172a;
+    }
+
+    .trophy-grand-icon {
+      font-size: 6.5rem;
+      animation: floatSmooth 2.8s ease-in-out infinite;
+      filter: drop-shadow(0 15px 30px rgba(251, 191, 36, 0.5));
+    }
+
+    .celebration-title {
+      font-family: var(--font-title);
+      font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+      font-weight: 900;
+      color: #fbbf24;
+      line-height: 1.15;
+    }
+
+    .celebration-sub {
+      font-size: 1.25rem;
+      color: #cbd5e1;
+      max-width: 620px;
+      line-height: 1.45;
+    }
+
+    body.theme-light .celebration-sub {
+      color: #475569;
+    }
+
+    .celebration-stats-box {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(251, 191, 36, 0.4);
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    body.theme-light .stat-pill {
+      background: #ffffff;
+      color: #0f172a;
+    }
+
+    .celebration-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-celebration-repeat {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 30px;
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-celebration-repeat:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6);
+    }
+
+    .btn-celebration-home {
+      background: rgba(255, 255, 255, 0.12);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 30px;
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    body.theme-light .btn-celebration-home {
+      background: #e2e8f0;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+
+    .btn-celebration-home:hover {
+      background: var(--primary);
+      color: #0f172a;
+      transform: translateY(-2px);
     }
 
     /* TELA 2: ARENA DO DATASHOW */
@@ -599,6 +725,29 @@
       width: 0%;
       background: linear-gradient(90deg, #38bdf8, #a855f7, #fbbf24);
       transition: width 0.1s linear;
+    }
+
+    /* CONTADOR DE CARDS NO TOPO DO DATASHOW */
+    .arena-counter-badge {
+      position: absolute;
+      top: 25px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 2px solid var(--surface-border);
+      padding: 8px 24px;
+      border-radius: 40px;
+      font-family: var(--font-title);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--accent);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      z-index: 60;
+    }
+
+    body.theme-light .arena-counter-badge {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: #cbd5e1;
+      color: #d97706;
     }
 
     /* O CARTÃO GIGANTE DE LEITURA */
@@ -758,13 +907,13 @@
           <div class="hero-pill-tag">✨ Atividade Interativa no Datashow</div>
           <h1 class="hero-title">Expedição da Leitura Dinâmica! 🌟</h1>
           <p class="hero-desc">
-            Prática coletiva projetada para salas de aula e alfabetização: decodificação rápida, divisão silábica colorida em alto contraste e retenção fonética para pequenos leitores!
+            Prática coletiva projetada para salas de aula e alfabetização: decodificação rápida, divisão silábica colorida em alto contraste, banco recheado de palavras e celebração da vitória!
           </p>
           <div class="hero-badges-quick">
-            <span class="hero-mini-badge">🎯 10 Níveis Progressivos</span>
-            <span class="hero-mini-badge">✂️ Sílabas Coloridas</span>
-            <span class="hero-mini-badge">⚡ Timer Automático</span>
-            <span class="hero-mini-badge">🔊 Trilha Instrumental</span>
+            <span class="hero-mini-badge">🎯 10 Mundos de Leitura</span>
+            <span class="hero-mini-badge">📚 Quase 600 Palavras</span>
+            <span class="hero-mini-badge">🏆 Parabéns com Troféu</span>
+            <span class="hero-mini-badge">🔢 Escolha de Quantidade</span>
           </div>
         </div>
         <div class="hero-mascot-visual">🚀</div>
@@ -773,6 +922,18 @@
       <!-- PAINEL DE CONFIGURAÇÕES RÁPIDAS DA AULA -->
       <section class="quick-settings-panel">
         
+        <!-- Quantidade de Palavras da Sessão -->
+        <div class="setting-item">
+          <label class="setting-label">🔢 Quantidade de Palavras:</label>
+          <select id="config-word-count" class="setting-select">
+            <option value="5">Aquecimento Rápido (5 palavras) ⚡</option>
+            <option value="10" selected>Rodada Padrão (10 palavras) 🎯</option>
+            <option value="15">Desafio Completo (15 palavras) 🚀</option>
+            <option value="20">Mega Sessão (20 palavras) 🌟</option>
+            <option value="all">Todas as Palavras do Subnível 📚</option>
+          </select>
+        </div>
+
         <!-- Velocidade Automática -->
         <div class="setting-item">
           <label class="setting-label">⏱️ Velocidade dos Cards:</label>
@@ -855,12 +1016,43 @@
     </div>
   </div>
 
+  <!-- MODAL DE VITÓRIA / PARABÉNS DA TURMA -->
+  <div class="modal-backdrop" id="modal-celebration">
+    <div class="modal-celebration-sheet">
+      <div class="trophy-grand-icon">🏆</div>
+      <h2 class="celebration-title">MISSÃO CUMPRIDA! 🌟</h2>
+      <p class="celebration-sub" id="celebration-summary-text">
+        Parabéns, turma! Vocês leram todas as palavras com muita dedicação e maestria!
+      </p>
+      
+      <div class="celebration-stats-box">
+        <div class="stat-pill">📖 <span id="stat-words-read">10 Palavras</span> Lidas</div>
+        <div class="stat-pill">⭐ Nível Concluído com Sucesso</div>
+        <div class="stat-pill">🎉 Fluência Nota 10!</div>
+      </div>
+
+      <div class="celebration-actions">
+        <button class="btn-celebration-repeat" onclick="replayCurrentSession()">
+          🔄 Jogar Novamente
+        </button>
+        <button class="btn-celebration-home" onclick="exitCelebrationToDashboard()">
+          🏠 Escolher Outro Nível
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- TELA 2: ARENA DO DATASHOW -->
   <main id="screen-arena" class="view-container">
     
     <!-- Barra de Progresso do Tempo Automático -->
     <div class="speed-timer-bar-container">
       <div class="speed-timer-progress" id="speed-progress-bar"></div>
+    </div>
+
+    <!-- Contador de Palavras no Topo -->
+    <div class="arena-counter-badge" id="arena-card-counter">
+      Palavra 1 de 10 🌟
     </div>
 
     <div class="reading-stage">
@@ -891,7 +1083,7 @@
   </audio>
 
   <!-- BANCO DE PALAVRAS E MOTOR -->
-  <script src="words-data.js?v=8.4"></script>
+  <script src="words-data.js?v=8.5"></script>
   <script>
     // PALETAS DE DESIGN E METADADOS LÚDICOS DOS 10 NÍVEIS
     const LEVEL_THEMES = {
@@ -910,6 +1102,7 @@
     // ESTADO GLOBAL
     let selectedLevelIndex = 1;
     let selectedSublevelCode = '1.1';
+    let rawDeck = [];
     let activeDeck = [];
     let currentCardIndex = 0;
     
@@ -1030,13 +1223,35 @@
       document.getElementById('modal-sublevel-picker').classList.remove('active');
     }
 
+    // EMBARALHAR ARRAY (SHUFFLE)
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
     // INICIAR ATIVIDADE
     function launchDatashowArena() {
       closePickerModal();
       const info = WORDS_DATABASE[selectedLevelIndex];
       if (!info || !info.sublevels || !info.sublevels[selectedSublevelCode]) return;
 
-      activeDeck = [...info.sublevels[selectedSublevelCode].items];
+      rawDeck = [...info.sublevels[selectedSublevelCode].items];
+      
+      // Aplicar filtro de quantidade de palavras
+      const countChoice = document.getElementById('config-word-count').value;
+      if (countChoice === 'all') {
+        activeDeck = [...rawDeck];
+      } else {
+        const qty = parseInt(countChoice) || 10;
+        // Embaralha para que cada rodada de 5 ou 10 seja diferente e rica
+        const shuffled = shuffleArray(rawDeck);
+        activeDeck = shuffled.slice(0, Math.min(qty, shuffled.length));
+      }
+
       currentCardIndex = 0;
 
       // Aplicar configurações selecionadas
@@ -1044,6 +1259,7 @@
       isImageVisible = document.getElementById('config-image').value === 'yes';
 
       document.getElementById('screen-dashboard').classList.remove('active');
+      document.getElementById('modal-celebration').classList.remove('active');
       document.getElementById('screen-arena').classList.add('active');
       document.getElementById('hud-activity-badge').textContent = `⭐ Nível ${selectedLevelIndex} - Subnível ${selectedSublevelCode}`;
 
@@ -1056,6 +1272,7 @@
     function exitArenaToDashboard() {
       clearAutoSpeedTimer();
       document.getElementById('screen-arena').classList.remove('active');
+      document.getElementById('modal-celebration').classList.remove('active');
       document.getElementById('screen-dashboard').classList.add('active');
       document.getElementById('hud-activity-badge').textContent = '🚀 LabKids: Expedição da Leitura';
     }
@@ -1069,6 +1286,9 @@
       card.style.animation = 'none';
       card.offsetHeight; // Reflow
       card.style.animation = 'cardPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+
+      // Atualizar Contador do Topo
+      document.getElementById('arena-card-counter').textContent = `Palavra ${currentCardIndex + 1} de ${activeDeck.length} 🌟`;
 
       // Emoji
       const illusElem = document.getElementById('word-illustration');
@@ -1090,20 +1310,57 @@
       document.getElementById('word-meaning-hint').textContent = item.hint || '';
     }
 
-    // NAVEGAÇÃO ENTRE CARDS
+    // NAVEGAÇÃO ENTRE CARDS E TELA DE PARABÉNS AO FINAL
     function navCard(direction) {
       if (direction === 1) {
         if (currentCardIndex < activeDeck.length - 1) {
           currentCardIndex++;
+          displayCurrentCardPro();
+          resetAutoSpeedProgress();
         } else {
-          currentCardIndex = 0;
-          if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 90, origin: { y: 0.7 } });
+          // Chegou ao fim da atividade!
+          triggerCelebrationSuccess();
         }
       } else {
-        if (currentCardIndex > 0) currentCardIndex--;
+        if (currentCardIndex > 0) {
+          currentCardIndex--;
+          displayCurrentCardPro();
+          resetAutoSpeedProgress();
+        }
       }
-      displayCurrentCardPro();
-      resetAutoSpeedProgress();
+    }
+
+    // TELA DE VITÓRIA / PARABÉNS
+    function triggerCelebrationSuccess() {
+      clearAutoSpeedTimer();
+      document.getElementById('screen-arena').classList.remove('active');
+      
+      const modalCel = document.getElementById('modal-celebration');
+      modalCel.classList.add('active');
+
+      document.getElementById('stat-words-read').textContent = `${activeDeck.length} Palavras`;
+      document.getElementById('celebration-summary-text').innerHTML = `
+        Parabéns, turma! Vocês concluíram o <strong>Nível ${selectedLevelIndex} (Subnível ${selectedSublevelCode})</strong> lendo todas as <strong>${activeDeck.length} palavras</strong> com sucesso!
+      `;
+
+      // Chuva de confetes triunfal
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 100, spread: 100, origin: { y: 0.6 } });
+        setTimeout(() => {
+          confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0 } });
+          confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1 } });
+        }, 400);
+      }
+    }
+
+    function replayCurrentSession() {
+      document.getElementById('modal-celebration').classList.remove('active');
+      launchDatashowArena();
+    }
+
+    function exitCelebrationToDashboard() {
+      document.getElementById('modal-celebration').classList.remove('active');
+      exitArenaToDashboard();
     }
 
     // CONTROLE DE VELOCIDADE AUTOMÁTICA
