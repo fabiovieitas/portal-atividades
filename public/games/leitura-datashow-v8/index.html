@@ -13,9 +13,9 @@
 
   <style>
     :root {
-      --bg-gradient: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #0f172a 60%, #090d16 100%);
-      --surface-glass: rgba(30, 41, 59, 0.7);
-      --surface-border: rgba(56, 189, 248, 0.3);
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 55%, #020617 100%);
+      --surface-glass: rgba(30, 41, 59, 0.72);
+      --surface-border: rgba(56, 189, 248, 0.28);
       --primary: #38bdf8;
       --accent: #fbbf24;
       --card-bg: #ffffff;
@@ -25,9 +25,9 @@
     }
 
     body.theme-light {
-      --bg-gradient: radial-gradient(circle at 50% 10%, #e0f2fe 0%, #f1f5f9 60%, #e2e8f0 100%);
-      --surface-glass: rgba(255, 255, 255, 0.85);
-      --surface-border: rgba(148, 163, 184, 0.4);
+      --bg-gradient: radial-gradient(circle at 50% 0%, #e0f2fe 0%, #f0fdf4 40%, #f8fafc 100%);
+      --surface-glass: rgba(255, 255, 255, 0.92);
+      --surface-border: rgba(148, 163, 184, 0.35);
       --primary: #0284c7;
       --accent: #d97706;
       --card-bg: #ffffff;
@@ -58,8 +58,8 @@
 
     /* TOP BAR ELEGANTE */
     .top-header {
-      height: 70px;
-      padding: 0 30px;
+      height: 72px;
+      padding: 0 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -67,12 +67,13 @@
       border-bottom: 2px solid var(--surface-border);
       backdrop-filter: blur(16px);
       z-index: 100;
+      flex-shrink: 0;
     }
 
     .brand-box {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .brand-badge {
@@ -81,14 +82,17 @@
       font-family: var(--font-title);
       font-weight: 800;
       font-size: 1.15rem;
-      padding: 6px 16px;
+      padding: 6px 18px;
       border-radius: 50px;
-      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .top-actions {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
     }
 
@@ -96,16 +100,16 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1.5px solid var(--surface-border);
       color: inherit;
-      padding: 9px 18px;
+      padding: 9px 16px;
       border-radius: 40px;
       font-family: inherit;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      gap: 7px;
+      transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     body.theme-light .btn-pill {
@@ -116,7 +120,7 @@
     .btn-pill:hover {
       transform: translateY(-2px);
       border-color: var(--primary);
-      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.25);
     }
 
     .btn-danger-pill {
@@ -124,6 +128,7 @@
       color: white !important;
       border: none !important;
       box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
+      text-decoration: none;
     }
 
     /* TELAS */
@@ -131,7 +136,7 @@
       display: none;
       flex: 1;
       width: 100%;
-      height: calc(100vh - 70px);
+      height: calc(100vh - 72px);
       position: relative;
     }
 
@@ -142,30 +147,136 @@
 
     /* TELA 1: DASHBOARD DE NÍVEIS & CONFIGURAÇÕES */
     #screen-dashboard {
-      padding: 25px 40px;
+      padding: 24px 35px 35px;
       overflow-y: auto;
     }
 
     .dashboard-layout {
       width: 100%;
-      max-width: 1400px;
+      max-width: 1380px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 25px;
+      gap: 24px;
     }
 
-    /* BARRA DE CONFIGURAÇÕES RÁPIDAS NO TOPO */
+    /* HERO BANNER SUPER CHAMATIVO & LÚDICO */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.95), rgba(49, 46, 129, 0.85), rgba(67, 56, 202, 0.75));
+      border: 3px solid rgba(129, 140, 248, 0.45);
+      border-radius: 32px;
+      padding: 28px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.theme-light .hero-banner {
+      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 60%, #a855f7 100%);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .hero-pill-tag {
+      align-self: flex-start;
+      background: #fbbf24;
+      color: #78350f;
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 5px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+    }
+
+    .hero-title {
+      font-family: var(--font-title);
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: #ffffff;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      max-width: 720px;
+      line-height: 1.45;
+    }
+
+    body.theme-light .hero-desc {
+      color: #f1f5f9;
+    }
+
+    .hero-badges-quick {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .hero-mini-badge {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-mascot-visual {
+      font-size: 5rem;
+      animation: bounceMascot 3s ease-in-out infinite;
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4));
+      flex-shrink: 0;
+      z-index: 2;
+    }
+
+    @keyframes bounceMascot {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(4deg); }
+    }
+
+    /* BARRA DE CONFIGURAÇÕES RÁPIDAS NO TOPO (REFINADA) */
     .quick-settings-panel {
       background: var(--surface-glass);
       border: 2px solid var(--surface-border);
-      border-radius: 24px;
-      padding: 20px 30px;
+      border-radius: 26px;
+      padding: 18px 26px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
     }
 
     .setting-item {
@@ -175,25 +286,32 @@
     }
 
     .setting-label {
-      font-size: 0.95rem;
-      font-weight: 700;
+      font-size: 0.92rem;
+      font-weight: 800;
       color: var(--primary);
       display: flex;
       align-items: center;
       gap: 6px;
+      letter-spacing: 0.3px;
     }
 
     .setting-select {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1.5px solid var(--surface-border);
+      background: rgba(15, 23, 42, 0.85);
+      border: 2px solid var(--surface-border);
       color: #ffffff;
       padding: 10px 14px;
-      border-radius: 14px;
+      border-radius: 16px;
       font-family: inherit;
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 700;
       outline: none;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .setting-select:focus, .setting-select:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 0.95);
     }
 
     body.theme-light .setting-select {
@@ -202,26 +320,57 @@
       border-color: #cbd5e1;
     }
 
-    /* GRADE DOS 10 NÍVEIS */
+    body.theme-light .setting-select:focus,
+    body.theme-light .setting-select:hover {
+      border-color: var(--primary);
+    }
+
+    /* TÍTULO DA SEÇÃO DE NÍVEIS */
+    .section-header-levels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-subtitle-tag {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    /* GRADE DOS 10 NÍVEIS NO ESTADO LÚDICO "GAME WORLD" */
     .levels-masonry {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
+      gap: 22px;
     }
 
+    /* Cores Temáticas Específicas por Nível */
     .level-card-pro {
       background: var(--surface-glass);
-      border: 2px solid var(--surface-border);
-      border-radius: 24px;
-      padding: 22px;
+      border: 3px solid var(--surface-border);
+      border-radius: 28px;
+      padding: 22px 20px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
       position: relative;
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     .level-card-pro::before {
@@ -230,15 +379,15 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #38bdf8, #818cf8, #ec4899);
-      opacity: 0.6;
+      height: 8px;
+      background: var(--level-color, #38bdf8);
+      border-radius: 28px 28px 0 0;
     }
 
     .level-card-pro:hover {
-      transform: translateY(-6px);
-      border-color: var(--accent);
-      box-shadow: 0 16px 35px rgba(251, 191, 36, 0.25);
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--level-color, var(--accent));
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 0 25px var(--level-glow, rgba(56, 189, 248, 0.3));
     }
 
     .card-top-info {
@@ -248,32 +397,83 @@
     }
 
     .badge-number {
-      background: rgba(56, 189, 248, 0.15);
-      border: 1.5px solid #38bdf8;
-      color: #38bdf8;
+      background: var(--level-bg-badge, rgba(56, 189, 248, 0.18));
+      border: 2px solid var(--level-color, #38bdf8);
+      color: var(--level-color, #38bdf8);
       font-family: var(--font-title);
       font-weight: 800;
-      font-size: 0.9rem;
-      padding: 4px 12px;
-      border-radius: 20px;
+      font-size: 0.95rem;
+      padding: 5px 14px;
+      border-radius: 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .level-card-icon {
+      font-size: 2.2rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+      transition: transform 0.25s ease;
+    }
+
+    .level-card-pro:hover .level-card-icon {
+      transform: scale(1.2) rotate(6deg);
     }
 
     .level-card-title {
       font-family: var(--font-title);
       font-size: 1.35rem;
-      font-weight: 700;
+      font-weight: 800;
       line-height: 1.25;
-      margin-top: 4px;
+      margin-top: 6px;
+      color: #ffffff;
+    }
+
+    body.theme-light .level-card-title {
+      color: #0f172a;
     }
 
     .level-card-desc {
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       color: #94a3b8;
-      line-height: 1.4;
+      line-height: 1.45;
+      font-weight: 500;
+      margin-top: 4px;
     }
 
     body.theme-light .level-card-desc {
       color: #64748b;
+    }
+
+    .level-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1.5px dashed rgba(255, 255, 255, 0.12);
+      margin-top: 4px;
+    }
+
+    body.theme-light .level-card-footer {
+      border-top-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .level-tag-diff {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .level-play-action-btn {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 0.92rem;
+      color: var(--level-color, #38bdf8);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* MODAL DE SUBNÍVEL */
@@ -281,8 +481,8 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(12px);
       z-index: 200;
       align-items: center;
       justify-content: center;
@@ -295,14 +495,14 @@
 
     .modal-sheet {
       background: #0f172a;
-      border: 2px solid var(--primary);
-      border-radius: 32px;
+      border: 3px solid var(--primary);
+      border-radius: 36px;
       width: 100%;
-      max-width: 950px;
+      max-width: 960px;
       max-height: 90vh;
       overflow-y: auto;
       padding: 35px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.9), 0 0 60px rgba(56, 189, 248, 0.25);
       position: relative;
     }
 
@@ -315,14 +515,14 @@
     .sublevel-grid-options {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
+      gap: 15px;
       margin: 25px 0;
     }
 
     .sublevel-option-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2.5px solid rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
       padding: 16px 20px;
       color: inherit;
       font-family: inherit;
@@ -330,8 +530,8 @@
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      transition: all 0.25s;
+      gap: 5px;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     body.theme-light .sublevel-option-btn {
@@ -340,30 +540,35 @@
     }
 
     .sublevel-option-btn:hover, .sublevel-option-btn.selected {
-      background: rgba(56, 189, 248, 0.15);
+      background: rgba(56, 189, 248, 0.18);
       border-color: var(--primary);
       transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
     }
 
     .btn-start-reading-action {
       width: 100%;
-      padding: 18px;
+      padding: 20px;
       background: linear-gradient(135deg, #10b981, #059669);
       color: white;
       border: none;
-      border-radius: 22px;
+      border-radius: 24px;
       font-family: var(--font-title);
-      font-size: 1.45rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.6px;
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.45);
-      transition: all 0.2s;
+      box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5);
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
     }
 
     .btn-start-reading-action:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 40px rgba(16, 185, 129, 0.65);
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 18px 45px rgba(16, 185, 129, 0.7);
     }
 
     /* TELA 2: ARENA DO DATASHOW */
@@ -384,8 +589,8 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.1);
+      height: 9px;
+      background: rgba(255, 255, 255, 0.12);
       z-index: 50;
     }
 
@@ -411,16 +616,16 @@
     .card-grand-pro {
       background: var(--card-bg);
       color: var(--card-text);
-      border-radius: 45px;
+      border-radius: 48px;
       padding: 3.5rem 4rem;
       width: 90vw;
-      max-width: 1250px;
-      min-height: 540px;
+      max-width: 1280px;
+      min-height: 550px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.65), 0 0 50px rgba(56, 189, 248, 0.25);
+      box-shadow: 0 35px 95px rgba(0, 0, 0, 0.7), 0 0 55px rgba(56, 189, 248, 0.3);
       text-align: center;
       position: relative;
       animation: cardPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -432,9 +637,9 @@
     }
 
     .word-illustration {
-      font-size: clamp(4.5rem, 11vw, 8rem);
+      font-size: clamp(4.5rem, 11vw, 8.5rem);
       margin-bottom: 15px;
-      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.18));
+      filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.2));
       animation: floatSmooth 3.2s ease-in-out infinite;
     }
 
@@ -446,25 +651,25 @@
     .word-headline {
       font-family: var(--font-title);
       font-size: clamp(5rem, 12vw, 10.5rem);
-      font-weight: 700;
+      font-weight: 800;
       color: #0f172a;
       line-height: 1.05;
       letter-spacing: 2px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
     }
 
     /* SÍLABAS COM CORES DISTINTAS VIBRANTES */
     .syl-colored {
       display: inline-block;
-      padding: 6px 24px;
-      border-radius: 28px;
+      padding: 8px 26px;
+      border-radius: 32px;
       font-weight: 800;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-      border: 3.5px solid transparent;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      border: 4px solid transparent;
       transition: all 0.25s ease;
     }
 
@@ -477,9 +682,9 @@
     .syl-c5 { background: #ffedd5; color: #c2410c; border-color: #fb923c; } /* Laranja */
 
     .word-meaning-hint {
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       color: #64748b;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     /* BARRA FLUTUANTE DE CONTROLES NO DATASHOW */
@@ -489,12 +694,12 @@
       display: flex;
       gap: 14px;
       align-items: center;
-      background: rgba(15, 23, 42, 0.88);
-      padding: 10px 25px;
+      background: rgba(15, 23, 42, 0.92);
+      padding: 10px 26px;
       border-radius: 50px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65);
       z-index: 100;
     }
 
@@ -533,8 +738,8 @@
   <!-- BARRA DE TOPO ELEGANTE -->
   <header class="top-header">
     <div class="brand-box">
-      <a href="/" class="btn-pill btn-danger-pill">⬅️ Voltar ao Portal</a>
-      <span class="brand-badge" id="hud-activity-badge">⭐ Leitura Coletiva no Datashow</span>
+      <a href="/" class="btn-pill btn-danger-pill">⬅️ Sair</a>
+      <span class="brand-badge" id="hud-activity-badge">🚀 LabKids: Expedição da Leitura</span>
     </div>
     <div class="top-actions">
       <button class="btn-pill" onclick="toggleThemeGlobal()" title="Alternar Modo Escuro / Claro">🌓 Tema</button>
@@ -547,19 +752,37 @@
   <main id="screen-dashboard" class="view-container active">
     <div class="dashboard-layout">
       
-      <!-- PAINEL DE CONFIGURAÇÕES RÁPIDAS -->
+      <!-- HERO BANNER VISUALMENTE IMPACTANTE E LÚDICO -->
+      <section class="hero-banner">
+        <div class="hero-content">
+          <div class="hero-pill-tag">✨ Atividade Interativa no Datashow</div>
+          <h1 class="hero-title">Expedição da Leitura Dinâmica! 🌟</h1>
+          <p class="hero-desc">
+            Prática coletiva projetada para salas de aula e alfabetização: decodificação rápida, divisão silábica colorida em alto contraste e retenção fonética para pequenos leitores!
+          </p>
+          <div class="hero-badges-quick">
+            <span class="hero-mini-badge">🎯 10 Níveis Progressivos</span>
+            <span class="hero-mini-badge">✂️ Sílabas Coloridas</span>
+            <span class="hero-mini-badge">⚡ Timer Automático</span>
+            <span class="hero-mini-badge">🔊 Trilha Instrumental</span>
+          </div>
+        </div>
+        <div class="hero-mascot-visual">🚀</div>
+      </section>
+
+      <!-- PAINEL DE CONFIGURAÇÕES RÁPIDAS DA AULA -->
       <section class="quick-settings-panel">
         
         <!-- Velocidade Automática -->
         <div class="setting-item">
-          <label class="setting-label">⏱️ Velocidade Automática:</label>
+          <label class="setting-label">⏱️ Velocidade dos Cards:</label>
           <select id="config-speed" class="setting-select" onchange="onSpeedChange()">
-            <option value="manual">Manual (Espaço / Setas)</option>
-            <option value="3">Automático (3 segundos) ⚡</option>
-            <option value="5">Automático (5 segundos) 🚀</option>
-            <option value="7">Automático (7 segundos) 🎯</option>
-            <option value="10" selected>Automático (10 segundos) ⏳</option>
-            <option value="15">Automático (15 segundos) 🐢</option>
+            <option value="manual">Manual (Espaço / Setas do Teclado)</option>
+            <option value="3">Relâmpago (3 segundos) ⚡</option>
+            <option value="5">Rápido (5 segundos) 🚀</option>
+            <option value="7">Dinamizado (7 segundos) 🎯</option>
+            <option value="10" selected>Padrão Aula (10 segundos) ⏳</option>
+            <option value="15">Tranquilo (15 segundos) 🐢</option>
           </select>
         </div>
 
@@ -567,8 +790,8 @@
         <div class="setting-item">
           <label class="setting-label">✂️ Divisão Silábica Colorida:</label>
           <select id="config-syllables" class="setting-select">
-            <option value="colored" selected>Colorida em Cores Vivas (Recomendado)</option>
-            <option value="plain">Apenas Palavra Inteira</option>
+            <option value="colored" selected>Colorida em Cores Vivas (Recomendado) 🎨</option>
+            <option value="plain">Apenas Palavra Inteira 🔤</option>
           </select>
         </div>
 
@@ -595,11 +818,15 @@
       </section>
 
       <!-- GRADE DOS 10 NÍVEIS -->
-      <h2 style="font-family: var(--font-title); font-size: 1.6rem; color: var(--accent);">
-        📚 Escolha o Nível da Turma:
-      </h2>
+      <div class="section-header-levels">
+        <h2 class="section-title">
+          🗺️ Escolha o Mundo da Leitura:
+        </h2>
+        <span class="section-subtitle-tag">Do 1º ao 5º Ano Fundamental & Alfabetização</span>
+      </div>
+
       <div class="levels-masonry" id="levels-masonry-list">
-        <!-- Renderizado dinamicamente -->
+        <!-- Renderizado dinamicamente com temas e ícones vibrantes -->
       </div>
 
     </div>
@@ -614,8 +841,8 @@
         </h2>
         <button class="btn-pill btn-danger-pill" onclick="closePickerModal()">✖ Fechar</button>
       </div>
-      <p style="color: #94a3b8; font-size: 1.05rem; margin-top: 5px;">
-        Clique no subnível desejado e pressione o botão para projetar no Datashow:
+      <p style="color: #94a3b8; font-size: 1.05rem; margin-top: 6px;">
+        Selecione o subnível com as palavras desejadas para a turma e clique no botão verde para projetar:
       </p>
 
       <!-- Grade de Subníveis -->
@@ -664,8 +891,22 @@
   </audio>
 
   <!-- BANCO DE PALAVRAS E MOTOR -->
-  <script src="words-data.js?v=8.3"></script>
+  <script src="words-data.js?v=8.4"></script>
   <script>
+    // PALETAS DE DESIGN E METADADOS LÚDICOS DOS 10 NÍVEIS
+    const LEVEL_THEMES = {
+      1: { color: '#fbbf24', bgBadge: 'rgba(251, 191, 36, 0.2)', glow: 'rgba(251, 191, 36, 0.4)', icon: '🌟', diff: 'Iniciante', tag: 'Vogais & Sons' },
+      2: { color: '#34d399', bgBadge: 'rgba(52, 211, 153, 0.2)', glow: 'rgba(52, 211, 153, 0.4)', icon: '🍀', diff: 'Básico', tag: 'Sílabas Simples' },
+      3: { color: '#38bdf8', bgBadge: 'rgba(56, 189, 248, 0.2)', glow: 'rgba(56, 189, 248, 0.4)', icon: '🌊', diff: 'Básico+', tag: 'Palavras Curtas' },
+      4: { color: '#818cf8', bgBadge: 'rgba(129, 140, 248, 0.2)', glow: 'rgba(129, 140, 248, 0.4)', icon: '🚀', diff: 'Intermediário', tag: 'Trissílabas' },
+      5: { color: '#f472b6', bgBadge: 'rgba(244, 114, 182, 0.2)', glow: 'rgba(244, 114, 182, 0.4)', icon: '🎨', diff: 'Intermediário', tag: 'Dígrafos CH/NH/LH' },
+      6: { color: '#a78bfa', bgBadge: 'rgba(167, 139, 250, 0.2)', glow: 'rgba(167, 139, 250, 0.4)', icon: '🔮', diff: 'Avançado', tag: 'Encontros Consonantais' },
+      7: { color: '#fb923c', bgBadge: 'rgba(251, 146, 60, 0.2)', glow: 'rgba(251, 146, 60, 0.4)', icon: '🦁', diff: 'Avançado', tag: 'Sons do R e S' },
+      8: { color: '#e879f9', bgBadge: 'rgba(232, 121, 249, 0.2)', glow: 'rgba(232, 121, 249, 0.4)', icon: '👑', diff: 'Desafio', tag: 'Palavras Complexas' },
+      9: { color: '#2dd4bf', bgBadge: 'rgba(45, 212, 191, 0.2)', glow: 'rgba(45, 212, 191, 0.4)', icon: '💎', diff: 'Desafio', tag: 'Polissílabas' },
+      10: { color: '#f87171', bgBadge: 'rgba(248, 113, 113, 0.2)', glow: 'rgba(248, 113, 113, 0.4)', icon: '🏆', diff: 'Mestre', tag: 'Frases & Fluência' }
+    };
+
     // ESTADO GLOBAL
     let selectedLevelIndex = 1;
     let selectedSublevelCode = '1.1';
@@ -677,7 +918,6 @@
     let isBgmPlaying = true;
     let isAutoPaused = false;
     
-    let autoIntervalId = null;
     let autoProgressIntervalId = null;
     let autoSpeedSeconds = 10;
     let progressElapsedMs = 0;
@@ -712,7 +952,7 @@
       });
     });
 
-    // RENDERIZAR OS 10 NÍVEIS
+    // RENDERIZAR OS 10 NÍVEIS COM DESIGN LÚDICO VIBRANTE
     function renderDashboardLevels() {
       const container = document.getElementById('levels-masonry-list');
       container.innerHTML = '';
@@ -721,16 +961,26 @@
         const info = WORDS_DATABASE[lvl];
         if (!info) continue;
 
+        const theme = LEVEL_THEMES[lvl] || { color: '#38bdf8', bgBadge: 'rgba(56, 189, 248, 0.2)', glow: 'rgba(56, 189, 248, 0.3)', icon: '📖', diff: 'Geral', tag: 'Leitura' };
+
         const card = document.createElement('div');
         card.className = 'level-card-pro';
+        card.style.setProperty('--level-color', theme.color);
+        card.style.setProperty('--level-bg-badge', theme.bgBadge);
+        card.style.setProperty('--level-glow', theme.glow);
+
         card.innerHTML = `
           <div class="card-top-info">
             <span class="badge-number">Nível ${lvl}</span>
-            <span style="font-size: 1.3rem;">✨</span>
+            <span class="level-card-icon">${theme.icon}</span>
           </div>
           <div>
             <h3 class="level-card-title">${info.title.split(':')[1] || info.title}</h3>
             <p class="level-card-desc">${info.description || 'Prática de leitura coletiva e decodificação fluente.'}</p>
+          </div>
+          <div class="level-card-footer">
+            <span class="level-tag-diff" style="color: ${theme.color};">${theme.diff}</span>
+            <span class="level-play-action-btn">Explorar ➔</span>
           </div>
         `;
 
@@ -745,7 +995,9 @@
       const info = WORDS_DATABASE[level];
       if (!info || !info.sublevels) return;
 
-      document.getElementById('picker-level-name').textContent = `Nível ${level}: Escolha o Subnível`;
+      const theme = LEVEL_THEMES[level] || { color: '#38bdf8', icon: '⭐' };
+      document.getElementById('picker-level-name').innerHTML = `${theme.icon} Nível ${level}: Escolha o Subnível`;
+      
       const grid = document.getElementById('picker-sublevels-grid');
       grid.innerHTML = '';
 
@@ -757,9 +1009,9 @@
         const btn = document.createElement('button');
         btn.className = `sublevel-option-btn ${idx === 0 ? 'selected' : ''}`;
         btn.innerHTML = `
-          <strong style="color: var(--primary); font-size: 1.1rem;">Subnível ${k}</strong>
-          <span>${sub.title.split(':')[1] || sub.title}</span>
-          <small style="color: #94a3b8; font-size: 0.8rem; margin-top: 4px;">(${sub.items.length} palavras disponíveis)</small>
+          <strong style="color: var(--primary); font-size: 1.15rem;">Subnível ${k}</strong>
+          <span style="font-weight: 600;">${sub.title.split(':')[1] || sub.title}</span>
+          <small style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">(${sub.items.length} palavras disponíveis)</small>
         `;
 
         btn.onclick = () => {
@@ -805,7 +1057,7 @@
       clearAutoSpeedTimer();
       document.getElementById('screen-arena').classList.remove('active');
       document.getElementById('screen-dashboard').classList.add('active');
-      document.getElementById('hud-activity-badge').textContent = '⭐ Leitura Coletiva no Datashow';
+      document.getElementById('hud-activity-badge').textContent = '🚀 LabKids: Expedição da Leitura';
     }
 
     // EXIBIR O CARD COM SÍLABAS COLORIDAS VIBRANTES
@@ -845,7 +1097,7 @@
           currentCardIndex++;
         } else {
           currentCardIndex = 0;
-          if (typeof confetti === 'function') confetti({ particleCount: 70, spread: 80, origin: { y: 0.7 } });
+          if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 90, origin: { y: 0.7 } });
         }
       } else {
         if (currentCardIndex > 0) currentCardIndex--;
