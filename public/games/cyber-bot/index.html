@@ -4248,14 +4248,7 @@
             sound.victory();
         }
 
-        // 5. Verificação de Conquista para Liberação do Certificado
-        function checkCertificateUnlock() {
-            const btnCert = document.getElementById('btnOpenCert');
-            if (!btnCert) return;
-            // Se completou pelo menos 1 fase ou todas as 12
-            if (completedLevels.length >= 1) {
-                btnCert.style.display = 'inline-flex';
-            }
+        
         }
 
         /* ==========================================================================
