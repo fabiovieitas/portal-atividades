@@ -1,0 +1,37 @@
+// data.js - static game data
+export const gameData = {
+  "gameTitle": "Leitura Datashow",
+  "questions": [
+    {
+      "id": 1,
+      "text": "Qual o significado de SOLID na programação orientada a objetos?",
+      "options": ["Princípios de Design", "Um tipo de metal", "Nenhuma das anteriores"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 2,
+      "text": "O que significa a letra “O” em SOLID?",
+      "options": ["Open/Closed Principle", "Objetos", "Ordenação"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 3,
+      "text": "Qual princípio recomenda que módulos sejam substituíveis por suas extensões?",
+      "options": ["Liskov Substitution", "Interface Segregation", "Dependency Inversion"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 4,
+      "text": "Qual princípio afirma que \"uma classe deve ser aberta para extensão, mas fechada para modificação\"?",
+      "options": ["Open/Closed Principle", "Single Responsibility", "Interface Segregation"],
+      "correctAnswer": 0
+    },
+    {
+      "id": 5,
+      "text": "Quantas perguntas há no conjunto de dados atual?",
+      "options": ["5", "4", "6"],
+      "correctAnswer": 0
+    }
+  ]
+};
+
