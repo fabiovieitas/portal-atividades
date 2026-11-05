@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setMascotSpeech("Respirando fundo... 🌬️", "happy");
 
     audioMgr.playSublevelTransitionSound();
-    audioMgr.speak(`${phrase} Vamos respirar.`, 0.82, 1.0);
+    // no-tts
 
     let count = 8;
     state.transitionInterval = setInterval(() => {
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     audioMgr.setMusicStyle(state.musicStyle);
-    audioMgr.startBGM();
+    window.audioManager.playBGM();
 
     const lvlData = WORDS_DATABASE[state.selectedLevel];
     const subData = lvlData.sublevels[sublevelCode];
@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (isCorrect) {
         audioMgr.playStartFanfare();
-        audioMgr.speak(item.text, 0.82, 1.0);
+        // no-tts
         setMascotSpeech("Muito bem! Acertaram! 🎉", "happy");
         triggerConfettiBurst(false);
 
@@ -730,7 +730,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isComplete && state.forcaRevealedLetters.length > 0) {
       audioMgr.playStartFanfare();
-      audioMgr.speak(item.text, 0.82, 1.0);
+      // no-tts
       setMascotSpeech(`PARABÉNS TURMA! Descobriram a palavra "${item.text}"! 🏆`, "happy");
       triggerConfettiBurst(true);
       if (window.LabKidsGamification && !window._leituraGamified) {
@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.fraseAssembledWords.length === words.length) {
           if (state.fraseAssembledWords.join(' ') === words.join(' ')) {
             audioMgr.playStartFanfare();
-            audioMgr.speak(item.text, 0.82, 1.0);
+            // no-tts
             setMascotSpeech("Perfeito! Frase montada com sucesso! 🎉", "happy");
             triggerConfettiBurst(false);
           } else {
@@ -983,7 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
           clearInterval(spinInterval);
           spinBtn.disabled = false;
           audioMgr.playStartFanfare();
-          audioMgr.speak(item.text, 0.82, 1.0);
+          // no-tts
           setMascotSpeech(`SORTEADA A PALAVRA: "${item.text}"! Leiam juntos! 📢`, "happy");
           triggerConfettiBurst(false);
         }
@@ -1160,7 +1160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (syl === correctFirst) {
           card.classList.add('correct');
           audioMgr.playStartFanfare();
-          audioMgr.speak(item.text, 0.82, 1.0);
+          // no-tts
           setMascotSpeech(`SÍLABA CORRETA! ${syl} + ${restWord} = ${item.text}! 🎉`, "happy");
           triggerConfettiBurst(true);
         } else {
@@ -1243,12 +1243,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.timerId) clearTimeout(state.timerId);
     showScreen('screen-victory');
 
-    audioMgr.stopBGM();
+    window.audioManager.pauseBGM();
     audioMgr.playVictorySound();
     
     const victoryMsg = "Parabéns, você terminou com sucesso. Até a próxima!";
     document.getElementById('victory-message').textContent = victoryMsg;
-    audioMgr.speak(victoryMsg, 0.82, 1.0);
+    // no-tts
 
     triggerFireworksBarrage();
   }
@@ -1273,8 +1273,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (dom.btnSpeak) {
       dom.btnSpeak.addEventListener('click', () => {
-        const item = state.currentDeck[state.currentIndex];
-        if (item && audioMgr) audioMgr.speak(item.text, 0.82, 1.0);
+        // narração desativada para foco na voz dos alunos
       });
     }
 
