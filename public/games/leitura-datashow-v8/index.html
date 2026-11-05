@@ -8,7 +8,7 @@
   <!-- Fontes de Alta Legibilidade e Estética Infantil Premium -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Lexend+Deca:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Lexend+Deca:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
@@ -50,10 +50,53 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     body.theme-light {
       color: #0f172a;
+    }
+
+    /* FUNDO DINÂMICO ESTILO JOGUINHO COM ESTRELAS E BOLHAS */
+    .game-bg-elements {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(25px);
+      opacity: 0.22;
+      animation: floatBubble 14s ease-in-out infinite alternate;
+    }
+
+    .b1 { width: 350px; height: 350px; background: #6366f1; top: -100px; left: -100px; }
+    .b2 { width: 450px; height: 450px; background: #38bdf8; bottom: -120px; right: -120px; animation-duration: 18s; }
+    .b3 { width: 280px; height: 280px; background: #ec4899; top: 40%; left: 75%; animation-duration: 12s; }
+    .b4 { width: 300px; height: 300px; background: #fbbf24; bottom: 20%; left: 5%; animation-duration: 16s; }
+
+    @keyframes floatBubble {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(40px) scale(1.12); }
+    }
+
+    .star-twinkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffffff;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.5); }
     }
 
     /* TOP BAR ELEGANTE */
@@ -138,6 +181,7 @@
       width: 100%;
       height: calc(100vh - 72px);
       position: relative;
+      z-index: 10;
     }
 
     .view-container.active {
@@ -320,11 +364,6 @@
       border-color: #cbd5e1;
     }
 
-    body.theme-light .setting-select:focus,
-    body.theme-light .setting-select:hover {
-      border-color: var(--primary);
-    }
-
     /* TÍTULO DA SEÇÃO DE NÍVEIS */
     .section-header-levels {
       display: flex;
@@ -481,8 +520,8 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(14px);
       z-index: 200;
       align-items: center;
       justify-content: center;
@@ -572,7 +611,150 @@
       box-shadow: 0 18px 45px rgba(16, 185, 129, 0.7);
     }
 
-    /* MODAL DE PARABÉNS / VITÓRIA DA TURMA */
+    /* 1. OVERLAY DE CONTAGEM REGRESSIVA 3, 2, 1 SUPER ANIMADA */
+    #overlay-countdown {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, rgba(30, 27, 75, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+      backdrop-filter: blur(20px);
+      z-index: 300;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    #overlay-countdown.active {
+      display: flex;
+    }
+
+    .countdown-title-hint {
+      font-family: var(--font-title);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .countdown-number-giant {
+      font-family: var(--font-title);
+      font-size: clamp(8rem, 25vw, 18rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 20px 40px rgba(251, 191, 36, 0.6));
+      animation: countPulse 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+      line-height: 1;
+    }
+
+    @keyframes countPulse {
+      0% { transform: scale(0.65); opacity: 0; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.95; }
+    }
+
+    .countdown-sub-phrase {
+      font-size: 1.5rem;
+      color: #94a3b8;
+      font-weight: 700;
+      margin-top: 25px;
+    }
+
+    /* 3. MODAL DE TRANSIÇÃO ENTRE FASES ("RESPIRE... 3, 2, 1") */
+    #modal-phase-pause {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, rgba(15, 23, 42, 0.94) 0%, rgba(2, 6, 23, 0.98) 100%);
+      backdrop-filter: blur(16px);
+      z-index: 250;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    #modal-phase-pause.active {
+      display: flex;
+    }
+
+    .pause-breathe-sheet {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.95));
+      border: 3.5px solid #38bdf8;
+      border-radius: 40px;
+      padding: 45px 50px;
+      text-align: center;
+      max-width: 780px;
+      width: 100%;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 50px rgba(56, 189, 248, 0.35);
+      animation: cardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    body.theme-light .pause-breathe-sheet {
+      background: #ffffff;
+      color: #0f172a;
+    }
+
+    .breathe-icon-anim {
+      font-size: 5.5rem;
+      animation: lungBreathe 4s ease-in-out infinite;
+      filter: drop-shadow(0 10px 20px rgba(56, 189, 248, 0.4));
+    }
+
+    @keyframes lungBreathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    .pause-phase-badge {
+      background: rgba(56, 189, 248, 0.2);
+      border: 2px solid #38bdf8;
+      color: #38bdf8;
+      padding: 6px 20px;
+      border-radius: 30px;
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 1.15rem;
+    }
+
+    .pause-msg-title {
+      font-family: var(--font-title);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    body.theme-light .pause-msg-title {
+      color: #0f172a;
+    }
+
+    .pause-msg-desc {
+      font-size: 1.25rem;
+      color: #cbd5e1;
+      max-width: 600px;
+      line-height: 1.45;
+    }
+
+    body.theme-light .pause-msg-desc {
+      color: #475569;
+    }
+
+    .pause-timer-counter {
+      font-family: var(--font-title);
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #fbbf24;
+      margin-top: 5px;
+    }
+
+    /* MODAL DE VITÓRIA / PARABÉNS DA TURMA */
     .modal-celebration-sheet {
       background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
       border: 4px solid #fbbf24;
@@ -727,21 +909,38 @@
       transition: width 0.1s linear;
     }
 
-    /* CONTADOR DE CARDS NO TOPO DO DATASHOW */
-    .arena-counter-badge {
+    /* BADGES DE STATUS NO TOPO DO DATASHOW */
+    .arena-top-hud {
       position: absolute;
       top: 25px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 2px solid var(--surface-border);
-      padding: 8px 24px;
-      border-radius: 40px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      z-index: 60;
+    }
+
+    .arena-phase-badge {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      padding: 8px 22px;
+      border-radius: 30px;
       font-family: var(--font-title);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
+      font-weight: 800;
+      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+    }
+
+    .arena-counter-badge {
+      background: rgba(15, 23, 42, 0.88);
+      border: 2px solid var(--surface-border);
+      padding: 8px 22px;
+      border-radius: 30px;
+      font-family: var(--font-title);
+      font-size: 1.1rem;
       font-weight: 800;
       color: var(--accent);
       backdrop-filter: blur(12px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      z-index: 60;
     }
 
     body.theme-light .arena-counter-badge {
@@ -884,6 +1083,20 @@
 </head>
 <body>
 
+  <!-- ELEMENTOS DE FUNDO ESTILO JOGUINHO (ESTRELAS E BOLHAS) -->
+  <div class="game-bg-elements">
+    <div class="bubble b1"></div>
+    <div class="bubble b2"></div>
+    <div class="bubble b3"></div>
+    <div class="bubble b4"></div>
+    <!-- Estrelas cintilantes geradas via CSS/JS -->
+    <div class="star-twinkle" style="top: 15%; left: 10%;"></div>
+    <div class="star-twinkle" style="top: 25%; left: 85%; animation-delay: 1s;"></div>
+    <div class="star-twinkle" style="top: 75%; left: 18%; animation-delay: 2s;"></div>
+    <div class="star-twinkle" style="top: 60%; left: 80%; animation-delay: 1.5s;"></div>
+    <div class="star-twinkle" style="top: 40%; left: 45%; animation-delay: 0.5s;"></div>
+  </div>
+
   <!-- BARRA DE TOPO ELEGANTE -->
   <header class="top-header">
     <div class="brand-box">
@@ -907,13 +1120,13 @@
           <div class="hero-pill-tag">✨ Atividade Interativa no Datashow</div>
           <h1 class="hero-title">Expedição da Leitura Dinâmica! 🌟</h1>
           <p class="hero-desc">
-            Prática coletiva projetada para salas de aula e alfabetização: decodificação rápida, divisão silábica colorida em alto contraste, banco recheado de palavras e celebração da vitória!
+            Prática coletiva projetada para salas de aula e alfabetização: contagem regressiva 3, 2, 1 animada, 3 fases com pausa de respiração e leitura em coro!
           </p>
           <div class="hero-badges-quick">
-            <span class="hero-mini-badge">🎯 10 Mundos de Leitura</span>
-            <span class="hero-mini-badge">📚 Quase 600 Palavras</span>
-            <span class="hero-mini-badge">🏆 Parabéns com Troféu</span>
-            <span class="hero-mini-badge">🔢 Escolha de Quantidade</span>
+            <span class="hero-mini-badge">🎮 3 Fases por Subnível</span>
+            <span class="hero-mini-badge">🫁 Pausa para Respirar</span>
+            <span class="hero-mini-badge">⚡ Largada 3, 2, 1</span>
+            <span class="hero-mini-badge">🏆 Troféu Final</span>
           </div>
         </div>
         <div class="hero-mascot-visual">🚀</div>
@@ -924,12 +1137,12 @@
         
         <!-- Quantidade de Palavras da Sessão -->
         <div class="setting-item">
-          <label class="setting-label">🔢 Quantidade de Palavras:</label>
+          <label class="setting-label">🔢 Quantidade Total de Palavras:</label>
           <select id="config-word-count" class="setting-select">
-            <option value="5">Aquecimento Rápido (5 palavras) ⚡</option>
-            <option value="10" selected>Rodada Padrão (10 palavras) 🎯</option>
-            <option value="15">Desafio Completo (15 palavras) 🚀</option>
-            <option value="20">Mega Sessão (20 palavras) 🌟</option>
+            <option value="6">Aquecimento (6 palavras - 2 por fase) ⚡</option>
+            <option value="9">Sessão Curta (9 palavras - 3 por fase) 🎯</option>
+            <option value="12" selected>Rodada Padrão (12 palavras - 4 por fase) 🚀</option>
+            <option value="15">Desafio Completo (15 palavras - 5 por fase) 🌟</option>
             <option value="all">Todas as Palavras do Subnível 📚</option>
           </select>
         </div>
@@ -1003,16 +1216,36 @@
         <button class="btn-pill btn-danger-pill" onclick="closePickerModal()">✖ Fechar</button>
       </div>
       <p style="color: #94a3b8; font-size: 1.05rem; margin-top: 6px;">
-        Selecione o subnível com as palavras desejadas para a turma e clique no botão verde para projetar:
+        Selecione o subnível com as palavras desejadas para a turma e clique no botão verde para iniciar:
       </p>
 
       <!-- Grade de Subníveis -->
       <div class="sublevel-grid-options" id="picker-sublevels-grid"></div>
 
       <!-- BOTÃO INICIAR -->
-      <button class="btn-start-reading-action" onclick="launchDatashowArena()">
+      <button class="btn-start-reading-action" onclick="startCountdownAndLaunch()">
         ▶️ INICIAR ATIVIDADE NO DATASHOW
       </button>
+    </div>
+  </div>
+
+  <!-- 1. OVERLAY DE CONTAGEM REGRESSIVA 3, 2, 1 -->
+  <div id="overlay-countdown">
+    <div class="countdown-title-hint">PREPARAR TURMINHA... 📢</div>
+    <div class="countdown-number-giant" id="countdown-number-display">3</div>
+    <div class="countdown-sub-phrase" id="countdown-sub-phrase">Olhos no Datashow! 👀</div>
+  </div>
+
+  <!-- 3. MODAL DE TRANSIÇÃO ENTRE AS 3 FASES ("RESPIRE... 3, 2, 1") -->
+  <div id="modal-phase-pause">
+    <div class="pause-breathe-sheet">
+      <div class="breathe-icon-anim">🫁</div>
+      <span class="pause-phase-badge" id="pause-phase-completed-badge">Fase 1 Concluída! ⭐</span>
+      <h2 class="pause-msg-title">Excelente, Turma! Respirem Fundo...</h2>
+      <p class="pause-msg-desc">
+        Puxem o ar pelo nariz e soltem devagar pela boca. Preparando as próximas palavras em:
+      </p>
+      <div class="pause-timer-counter" id="pause-seconds-counter">5</div>
     </div>
   </div>
 
@@ -1022,12 +1255,12 @@
       <div class="trophy-grand-icon">🏆</div>
       <h2 class="celebration-title">MISSÃO CUMPRIDA! 🌟</h2>
       <p class="celebration-sub" id="celebration-summary-text">
-        Parabéns, turma! Vocês leram todas as palavras com muita dedicação e maestria!
+        Parabéns, turma! Vocês superaram todas as 3 fases com muita maestria e energia!
       </p>
       
       <div class="celebration-stats-box">
-        <div class="stat-pill">📖 <span id="stat-words-read">10 Palavras</span> Lidas</div>
-        <div class="stat-pill">⭐ Nível Concluído com Sucesso</div>
+        <div class="stat-pill">📖 <span id="stat-words-read">12 Palavras</span> Lidas</div>
+        <div class="stat-pill">🎮 3 Fases Completadas</div>
         <div class="stat-pill">🎉 Fluência Nota 10!</div>
       </div>
 
@@ -1050,9 +1283,10 @@
       <div class="speed-timer-progress" id="speed-progress-bar"></div>
     </div>
 
-    <!-- Contador de Palavras no Topo -->
-    <div class="arena-counter-badge" id="arena-card-counter">
-      Palavra 1 de 10 🌟
+    <!-- HUD Superior do Jogo: Fase Atual + Contador de Palavras -->
+    <div class="arena-top-hud">
+      <div class="arena-phase-badge" id="arena-phase-indicator">🎮 FASE 1 / 3</div>
+      <div class="arena-counter-badge" id="arena-card-counter">Palavra 1 de 4 🌟</div>
     </div>
 
     <div class="reading-stage">
@@ -1083,7 +1317,7 @@
   </audio>
 
   <!-- BANCO DE PALAVRAS E MOTOR -->
-  <script src="words-data.js?v=8.5"></script>
+  <script src="words-data.js?v=8.6"></script>
   <script>
     // PALETAS DE DESIGN E METADADOS LÚDICOS DOS 10 NÍVEIS
     const LEVEL_THEMES = {
@@ -1099,11 +1333,12 @@
       10: { color: '#f87171', bgBadge: 'rgba(248, 113, 113, 0.2)', glow: 'rgba(248, 113, 113, 0.4)', icon: '🏆', diff: 'Mestre', tag: 'Frases & Fluência' }
     };
 
-    // ESTADO GLOBAL
+    // ESTADO GLOBAL DO JOGO
     let selectedLevelIndex = 1;
     let selectedSublevelCode = '1.1';
-    let rawDeck = [];
-    let activeDeck = [];
+    let fullSessionDeck = [];
+    let phaseDecks = [[], [], []]; // 3 Fases
+    let currentPhaseIndex = 0; // 0 = Fase 1, 1 = Fase 2, 2 = Fase 3
     let currentCardIndex = 0;
     
     let isSyllablesActive = true;
@@ -1117,6 +1352,23 @@
 
     const bgmAudio = document.getElementById('audio-bgm');
     bgmAudio.volume = 0.30;
+
+    // GERADOR DE BIP SONORO SINTETIZADO (Web Audio API)
+    function playBeepSound(frequency = 600, duration = 0.15, type = 'sine') {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
 
     // INICIALIZAÇÃO
     window.addEventListener('DOMContentLoaded', () => {
@@ -1233,33 +1485,88 @@
       return arr;
     }
 
-    // INICIAR ATIVIDADE
-    function launchDatashowArena() {
+    // 1. DISPARAR A CONTAGEM REGRESSIVA 3, 2, 1 SUPER ANIMADA
+    function startCountdownAndLaunch() {
       closePickerModal();
       const info = WORDS_DATABASE[selectedLevelIndex];
       if (!info || !info.sublevels || !info.sublevels[selectedSublevelCode]) return;
 
-      rawDeck = [...info.sublevels[selectedSublevelCode].items];
-      
-      // Aplicar filtro de quantidade de palavras
+      const rawItems = [...info.sublevels[selectedSublevelCode].items];
       const countChoice = document.getElementById('config-word-count').value;
+
+      let chosenList = [];
       if (countChoice === 'all') {
-        activeDeck = [...rawDeck];
+        chosenList = shuffleArray(rawItems);
       } else {
-        const qty = parseInt(countChoice) || 10;
-        // Embaralha para que cada rodada de 5 ou 10 seja diferente e rica
-        const shuffled = shuffleArray(rawDeck);
-        activeDeck = shuffled.slice(0, Math.min(qty, shuffled.length));
+        const qty = parseInt(countChoice) || 12;
+        const shuffled = shuffleArray(rawItems);
+        chosenList = shuffled.slice(0, Math.min(qty, shuffled.length));
       }
 
+      // Garantir pelo menos 3 palavras para dividir em 3 fases
+      while (chosenList.length < 3 && rawItems.length > 0) {
+        chosenList.push(rawItems[chosenList.length % rawItems.length]);
+      }
+
+      fullSessionDeck = chosenList;
+
+      // 3. DIVIDIR EM 3 FASES PROPORCIONAIS
+      const totalWords = fullSessionDeck.length;
+      const p1Count = Math.ceil(totalWords / 3);
+      const p2Count = Math.ceil((totalWords - p1Count) / 2);
+
+      phaseDecks[0] = fullSessionDeck.slice(0, p1Count);
+      phaseDecks[1] = fullSessionDeck.slice(p1Count, p1Count + p2Count);
+      phaseDecks[2] = fullSessionDeck.slice(p1Count + p2Count);
+
+      currentPhaseIndex = 0;
       currentCardIndex = 0;
 
+      // Iniciar a Contagem Regressiva Visual
+      const overlay = document.getElementById('overlay-countdown');
+      const numElem = document.getElementById('countdown-number-display');
+      const subElem = document.getElementById('countdown-sub-phrase');
+      overlay.classList.add('active');
+
+      let count = 3;
+      numElem.textContent = count;
+      subElem.textContent = 'Preparando os pequenos leitores... 👀';
+      playBeepSound(440, 0.2);
+
+      const countInterval = setInterval(() => {
+        count--;
+        if (count === 2) {
+          numElem.textContent = '2';
+          subElem.textContent = 'Atenção e foco na tela! 🎯';
+          playBeepSound(550, 0.2);
+        } else if (count === 1) {
+          numElem.textContent = '1';
+          subElem.textContent = 'Respirem fundo... 🫁';
+          playBeepSound(660, 0.2);
+        } else if (count === 0) {
+          numElem.textContent = 'VAI! 🚀';
+          subElem.textContent = 'Leitura Coletiva Iniciada!';
+          playBeepSound(880, 0.35, 'triangle');
+          if (typeof confetti === 'function') {
+            confetti({ particleCount: 50, spread: 70, origin: { y: 0.5 } });
+          }
+        } else {
+          clearInterval(countInterval);
+          overlay.classList.remove('active');
+          launchDatashowArenaActual();
+        }
+      }, 950);
+    }
+
+    // INICIAR DE FATO A ARENA DO DATASHOW
+    function launchDatashowArenaActual() {
       // Aplicar configurações selecionadas
       isSyllablesActive = document.getElementById('config-syllables').value === 'colored';
       isImageVisible = document.getElementById('config-image').value === 'yes';
 
       document.getElementById('screen-dashboard').classList.remove('active');
       document.getElementById('modal-celebration').classList.remove('active');
+      document.getElementById('modal-phase-pause').classList.remove('active');
       document.getElementById('screen-arena').classList.add('active');
       document.getElementById('hud-activity-badge').textContent = `⭐ Nível ${selectedLevelIndex} - Subnível ${selectedSublevelCode}`;
 
@@ -1273,13 +1580,17 @@
       clearAutoSpeedTimer();
       document.getElementById('screen-arena').classList.remove('active');
       document.getElementById('modal-celebration').classList.remove('active');
+      document.getElementById('modal-phase-pause').classList.remove('active');
+      document.getElementById('overlay-countdown').classList.remove('active');
       document.getElementById('screen-dashboard').classList.add('active');
       document.getElementById('hud-activity-badge').textContent = '🚀 LabKids: Expedição da Leitura';
     }
 
-    // EXIBIR O CARD COM SÍLABAS COLORIDAS VIBRANTES
+    // EXIBIR O CARD DA FASE ATUAL
     function displayCurrentCardPro() {
-      if (!activeDeck.length) return;
+      const activeDeck = phaseDecks[currentPhaseIndex];
+      if (!activeDeck || !activeDeck.length) return;
+
       const item = activeDeck[currentCardIndex];
       const card = document.getElementById('datashow-card');
 
@@ -1287,7 +1598,8 @@
       card.offsetHeight; // Reflow
       card.style.animation = 'cardPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
 
-      // Atualizar Contador do Topo
+      // Atualizar HUD Superior: Fase Atual e Contador
+      document.getElementById('arena-phase-indicator').textContent = `🎮 FASE ${currentPhaseIndex + 1} / 3`;
       document.getElementById('arena-card-counter').textContent = `Palavra ${currentCardIndex + 1} de ${activeDeck.length} 🌟`;
 
       // Emoji
@@ -1310,16 +1622,24 @@
       document.getElementById('word-meaning-hint').textContent = item.hint || '';
     }
 
-    // NAVEGAÇÃO ENTRE CARDS E TELA DE PARABÉNS AO FINAL
+    // NAVEGAÇÃO ENTRE CARDS E TRANSIÇÃO DE 3 FASES
     function navCard(direction) {
+      const activeDeck = phaseDecks[currentPhaseIndex];
+
       if (direction === 1) {
         if (currentCardIndex < activeDeck.length - 1) {
           currentCardIndex++;
           displayCurrentCardPro();
           resetAutoSpeedProgress();
         } else {
-          // Chegou ao fim da atividade!
-          triggerCelebrationSuccess();
+          // Chegou ao fim da fase atual!
+          if (currentPhaseIndex < 2) {
+            // Ir para a Pausa de Respiração de 5s entre fases
+            triggerPhasePauseTransition();
+          } else {
+            // Concluiu as 3 fases com louvor!
+            triggerCelebrationSuccess();
+          }
         }
       } else {
         if (currentCardIndex > 0) {
@@ -1330,7 +1650,45 @@
       }
     }
 
-    // TELA DE VITÓRIA / PARABÉNS
+    // 3. PAUSA DE 5 SEGUNDOS COM "RESPIRE... 3, 2, 1" ENTRE FASES
+    function triggerPhasePauseTransition() {
+      clearAutoSpeedTimer();
+      document.getElementById('screen-arena').classList.remove('active');
+
+      const modalPause = document.getElementById('modal-phase-pause');
+      modalPause.classList.add('active');
+
+      const completedPhaseNumber = currentPhaseIndex + 1;
+      const nextPhaseNumber = completedPhaseNumber + 1;
+
+      document.getElementById('pause-phase-completed-badge').textContent = `Fase ${completedPhaseNumber} Concluída! ⭐`;
+      document.querySelector('.pause-msg-title').textContent = `Excelente, Turma! Respirem Fundo... 🫁`;
+      document.querySelector('.pause-msg-desc').textContent = `Muito bem! Relaxem os ombros e puxem o ar. Preparando a Fase ${nextPhaseNumber} de 3 em:`;
+
+      let pauseSeconds = 5;
+      const counterElem = document.getElementById('pause-seconds-counter');
+      counterElem.textContent = `${pauseSeconds}s`;
+
+      const pauseInterval = setInterval(() => {
+        pauseSeconds--;
+        if (pauseSeconds > 0) {
+          counterElem.textContent = `${pauseSeconds}s`;
+          if (pauseSeconds <= 3) {
+            playBeepSound(500 + (4 - pauseSeconds) * 80, 0.15);
+          }
+        } else {
+          clearInterval(pauseInterval);
+          modalPause.classList.remove('active');
+
+          // Avança para a próxima fase
+          currentPhaseIndex++;
+          currentCardIndex = 0;
+          launchDatashowArenaActual();
+        }
+      }, 1000);
+    }
+
+    // TELA DE VITÓRIA / PARABÉNS FINAL
     function triggerCelebrationSuccess() {
       clearAutoSpeedTimer();
       document.getElementById('screen-arena').classList.remove('active');
@@ -1338,24 +1696,24 @@
       const modalCel = document.getElementById('modal-celebration');
       modalCel.classList.add('active');
 
-      document.getElementById('stat-words-read').textContent = `${activeDeck.length} Palavras`;
+      document.getElementById('stat-words-read').textContent = `${fullSessionDeck.length} Palavras`;
       document.getElementById('celebration-summary-text').innerHTML = `
-        Parabéns, turma! Vocês concluíram o <strong>Nível ${selectedLevelIndex} (Subnível ${selectedSublevelCode})</strong> lendo todas as <strong>${activeDeck.length} palavras</strong> com sucesso!
+        Parabéns, turma! Vocês concluíram o <strong>Nível ${selectedLevelIndex} (Subnível ${selectedSublevelCode})</strong> passando por todas as <strong>3 fases</strong> e lendo <strong>${fullSessionDeck.length} palavras</strong> com sucesso!
       `;
 
       // Chuva de confetes triunfal
       if (typeof confetti === 'function') {
-        confetti({ particleCount: 100, spread: 100, origin: { y: 0.6 } });
+        confetti({ particleCount: 120, spread: 100, origin: { y: 0.6 } });
         setTimeout(() => {
-          confetti({ particleCount: 60, angle: 60, spread: 55, origin: { x: 0 } });
-          confetti({ particleCount: 60, angle: 120, spread: 55, origin: { x: 1 } });
+          confetti({ particleCount: 70, angle: 60, spread: 60, origin: { x: 0 } });
+          confetti({ particleCount: 70, angle: 120, spread: 60, origin: { x: 1 } });
         }, 400);
       }
     }
 
     function replayCurrentSession() {
       document.getElementById('modal-celebration').classList.remove('active');
-      launchDatashowArena();
+      startCountdownAndLaunch();
     }
 
     function exitCelebrationToDashboard() {
