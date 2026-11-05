@@ -3,333 +3,742 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Cards de Alfabetização para Datashow v8.0</title>
+  <title>Leitura Interativa no Datashow - LabKids</title>
   
-  <!-- CSS Principal com cache buster -->
-  <link rel="stylesheet" href="styles.css?v=8.1">
-
-  <!-- Canvas Confetti CDN -->
+  <!-- Fontes Educacionais Modernas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Lexend+Deca:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <meta name="robots" content="noindex, follow">
-  <script src="/js/labkids-gamification.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-panel: rgba(18, 26, 43, 0.95);
+      --border-panel: rgba(56, 189, 248, 0.25);
+      --primary: #38bdf8;
+      --accent: #fbbf24;
+      --card-bg: #ffffff;
+      --card-text: #0f172a;
+      --font-main: 'Lexend Deca', sans-serif;
+      --font-display: 'Fredoka', sans-serif;
+    }
+
+    body.theme-light {
+      --bg-dark: #f0f4f8;
+      --bg-panel: rgba(255, 255, 255, 0.95);
+      --border-panel: rgba(148, 163, 184, 0.35);
+      --primary: #0284c7;
+      --accent: #d97706;
+      --card-bg: #ffffff;
+      --card-text: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg-dark);
+      color: #f8fafc;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body.theme-light {
+      color: #0f172a;
+    }
+
+    /* HEADER SUPERIOR */
+    .top-bar {
+      height: 65px;
+      padding: 0 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-panel);
+      border-bottom: 2px solid var(--border-panel);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .top-left, .top-right {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-action {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid var(--border-panel);
+      color: inherit;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    body.theme-light .btn-action {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+      color: white !important;
+      border: none !important;
+    }
+
+    /* TELAS */
+    .screen-view {
+      display: none;
+      flex: 1;
+      width: 100%;
+      height: calc(100vh - 65px);
+      position: relative;
+    }
+
+    .screen-view.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TELA 1: SELEÇÃO DE NÍVEIS & MODOS */
+    #view-setup {
+      padding: 20px 40px;
+      overflow-y: auto;
+      align-items: center;
+    }
+
+    .setup-container {
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(168, 85, 247, 0.15));
+      border: 2px solid var(--primary);
+      border-radius: 24px;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .hero-title h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      color: var(--primary);
+    }
+
+    .hero-title p {
+      font-size: 1.05rem;
+      color: #94a3b8;
+    }
+
+    body.theme-light .hero-title p {
+      color: #64748b;
+    }
+
+    /* CARDS DE NÍVEIS */
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+
+    .level-card {
+      background: var(--bg-panel);
+      border: 2px solid var(--border-panel);
+      border-radius: 20px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .level-card:hover, .level-card.selected {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(251, 191, 36, 0.2);
+    }
+
+    .level-badge {
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .level-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .level-desc {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.35;
+    }
+
+    body.theme-light .level-desc {
+      color: #64748b;
+    }
+
+    /* MODAL DE SUBNÍVEL & CONFIGURAÇÕES */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #0f172a;
+      border: 2px solid var(--primary);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    body.theme-light .modal-box {
+      background: #ffffff;
+      color: #0f172a;
+    }
+
+    .sublevels-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .sublevel-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 14px 18px;
+      cursor: pointer;
+      text-align: left;
+      color: inherit;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    body.theme-light .sublevel-item {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .sublevel-item:hover, .sublevel-item.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: scale(1.02);
+    }
+
+    .btn-launch {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-launch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.6);
+    }
+
+    /* TELA 2: ARENA DE LEITURA NO DATASHOW */
+    #view-presentation {
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%);
+    }
+
+    .card-stage {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .word-card-box {
+      background: var(--card-bg);
+      color: var(--card-text);
+      border-radius: 40px;
+      padding: 3rem 4rem;
+      width: 90vw;
+      max-width: 1200px;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(56, 189, 248, 0.2);
+      text-align: center;
+      position: relative;
+      animation: cardZoomIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes cardZoomIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .card-emoji {
+      font-size: clamp(4rem, 10vw, 7.5rem);
+      margin-bottom: 15px;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+      animation: gentleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .word-text-large {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 11vw, 9.5rem);
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    /* SÍLABAS COLORIDAS */
+    .syllable-pill {
+      display: inline-block;
+      padding: 4px 18px;
+      margin: 0 6px;
+      border-radius: 20px;
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 3px solid #38bdf8;
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .syllable-pill:nth-child(even) {
+      background: #fef3c7;
+      color: #b45309;
+      border-color: #f59e0b;
+    }
+
+    .card-hint {
+      font-size: 1.5rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* BARRA INFERIOR DE CONTROLES DO DATASHOW */
+    .controls-dock {
+      position: absolute;
+      bottom: 25px;
+      display: flex;
+      gap: 15px;
+      background: rgba(15, 23, 42, 0.88);
+      padding: 10px 25px;
+      border-radius: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+
+    .dock-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .dock-btn:hover {
+      background: var(--primary);
+      color: #0f172a;
+      transform: translateY(-2px);
+    }
+
+    .dock-btn-next {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-color: #34d399;
+      font-size: 1.15rem;
+      padding: 10px 30px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- BOTÃO FIXO DE VOLTAR AO PORTAL (Sempre visível em qualquer tela) -->
-  <a href="/" style="position: fixed; top: 15px; left: 15px; z-index: 99999; display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 10px 22px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); border: 2px solid rgba(255, 255, 255, 0.4); font-size: 0.95rem; cursor: pointer; transition: transform 0.2s ease;">
-    ⬅️ VOLTAR AO PORTAL
-  </a>
+  <!-- BARRA DE TOPO PROFISSIONAL -->
+  <header class="top-bar">
+    <div class="top-left">
+      <a href="/" class="btn-action btn-danger">⬅️ Voltar ao Portal</a>
+      <span id="current-title-badge" style="font-weight: 800; color: var(--accent); font-size: 1.05rem;">
+        ⭐ Leitura Interativa Datashow
+      </span>
+    </div>
+    <div class="top-right">
+      <button class="btn-action" onclick="toggleThemeMode()" title="Alternar Modo Escuro / Claro">🌓 Tema</button>
+      <button class="btn-action" id="btn-toggle-music" onclick="toggleBGMTrack()" title="Música Ambiente MP3">🎵 Música: Ligada</button>
+      <button class="btn-action" onclick="toggleFullScreen()" title="Modo Tela Cheia">⛶ Tela Cheia</button>
+    </div>
+  </header>
 
-  <!-- BOTÃO FIXO DE TELA CHEIA (Sempre visível em qualquer tela) -->
-  <button type="button" onclick="toggleFullScreen()" style="position: fixed; top: 15px; right: 15px; z-index: 99999; display: inline-flex; align-items: center; gap: 8px; background: rgba(15, 23, 42, 0.85); color: #ffffff; border: 1.5px solid rgba(255, 255, 255, 0.3); padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); font-family: inherit; transition: transform 0.2s ease;" title="Expandir para Tela Cheia">
-    ⛶ Tela Cheia
-  </button>
-
-
-
-  <!-- ==========================================
-       1. PASSO 1: TELA PRINCIPAL (ESCOLHA DE NÍVEL)
-       ========================================== -->
-  <main id="screen-config" class="app-screen active">
-    <div class="config-container">
+  <!-- TELA 1: SELETOR DE NÍVEL & MODAL MODERNO -->
+  <main id="view-setup" class="screen-view active">
+    <div class="setup-container">
       
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
-        <a href="/" class="btn-return-portal" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 10px 22px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 15px rgba(239,68,68,0.4); border: 2px solid rgba(255,255,255,0.3); font-size: 0.95rem; cursor: pointer;">
-          ⬅️ VOLTAR AO PORTAL
-        </a>
-      </div>
-
-      <div style="text-align: center; margin-bottom: 12px;">
-        <img src="/img/covers/leitura-datashow.jpg" style="width: 280px; max-width: 90%; aspect-ratio: 16/9; border-radius: 20px; object-fit: cover; border: 3px solid #38bdf8; box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.3); margin-bottom: 8px;" alt="Capa Leitura Divertida no Datashow">
-        <h1 class="main-title" style="margin-top: 5px;">⭐ Leitura Divertida no Datashow ⭐</h1>
-        <p class="subtitle">Passo 1: Clique em um Nível de Aprendizagem para começar</p>
-      </div>
-
-      <!-- SELETOR DE MODO DA ATIVIDADE NA TELA PRINCIPAL (PASSO 1) -->
-      <div class="form-group" style="background: rgba(56, 189, 248, 0.1); border: 2px solid #38bdf8; padding: 1rem 1.2rem; border-radius: 20px; margin-bottom: 1.2rem;">
-        <label for="select-game-mode-step1" style="font-size: 1.15rem; color: #38bdf8; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;">
-          📖 Modo de Fluência de Leitura no Datashow:
-        </label>
-        <select id="select-game-mode-step1" class="form-input" style="font-weight: 700; background: #0f172a; border-color: #38bdf8;">
-          <option value="cards" selected>📺 Cards Gigantes de Alta Legibilidade (Leitura Coletiva)</option>
-          <option value="roleta">⚡ Leitura Flash & Dinâmica (Reconhecimento Ágil)</option>
-          <option value="eco">🔊 ECO Silábico (Leitura Coral Guiada por Sílaba)</option>
-          <option value="build">🧩 Monte a Palavra (Consciência Fonológica e Sílabas)</option>
-        </select>
-        <div style="font-size: 0.85rem; color: #fbbf24; margin-top: 0.4rem; font-weight: 600;">
-          ✨ Modos focados estritamente na fluência, decodificação e dinâmica de leitura da turma!
+      <div class="hero-banner">
+        <div class="hero-title">
+          <h1>⭐ Leitura Coletiva no Datashow ⭐</h1>
+          <p>Selecione um nível para iniciar a atividade interativa na lousa ou tela grande.</p>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <label style="font-weight: 700; font-size: 0.95rem;">Modo de Leitura:</label>
+          <select id="game-mode-select" class="btn-action" style="padding: 10px 15px; background: rgba(0,0,0,0.3);">
+            <option value="cards" selected>📺 Cards Gigantes de Leitura</option>
+            <option value="flash">⚡ Leitura Rápida / Flash</option>
+            <option value="syllables">🔊 Destaque Silábico Guiado</option>
+          </select>
         </div>
       </div>
 
-      <!-- Nome da Escola -->
-      <div class="form-group">
-        <label for="input-school-name">🏫 Nome da Escola ou Turma:</label>
-        <input type="text" id="input-school-name" class="form-input" value="Monteiro Lobato" placeholder="Ex: Escola Estadual Machado de Assis">
-      </div>
-
-      <!-- PASSO 1: CARDS DOS NÍVEIS PRINCIPAIS (1 ao 10) -->
-      <div class="form-group">
-        <label style="font-size: 1.2rem; color: #fbbf24;">📚 Passo 1: Escolha o Nível desejado:</label>
-        <div class="levels-grid-compact" id="levels-grid-compact" style="margin-top: 0.8rem;">
-          <!-- Gerado dinamicamente via JS (Nível 1 ao 10) -->
-        </div>
-      </div>
-
-      <div style="font-size: 0.95rem; color: #94a3b8; margin-top: 0.5rem;">
-        💡 Ao selecionar o Nível, você escolherá o Subnível (Passo 2) e pode ajustar todas as opções (Passo 3).
+      <!-- GRID DOS 10 NÍVEIS -->
+      <div class="levels-grid" id="levels-grid-container">
+        <!-- Inserido dinamicamente via script -->
       </div>
 
     </div>
   </main>
 
-  <!-- ==========================================
-       2. PASSO 2: MODAL ESCOLHA DE SUBNÍVEL
-       ========================================== -->
-  <div id="modal-step2">
-    <div class="modal-step2-content">
-      <h2 id="modal-step2-title" class="modal-step2-title">Nível 1: Subníveis</h2>
-      <p style="color: #cbd5e1; font-size: 1.1rem;">Passo 2: Selecione o Subnível para esta aula:</p>
+  <!-- MODAL DE SUBNÍVEL (CLIQUE EM QUALQUER NÍVEL PARA ABRIR) -->
+  <div class="modal-overlay" id="sublevels-modal">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 id="modal-level-title" style="font-family: var(--font-display); color: var(--primary); font-size: 1.8rem;">
+          Nível Selecionado
+        </h2>
+        <button class="btn-action btn-danger" onclick="closeSublevelModal()">✖ Fechar</button>
+      </div>
+      <p style="color: #94a3b8; font-size: 1rem; margin-bottom: 20px;">
+        Escolha o subnível para carregar as palavras da aula:
+      </p>
 
-      <div class="sublevels-step2-grid" id="sublevels-step2-grid">
-        <!-- Gerado dinamicamente via JS -->
+      <div class="sublevels-list" id="sublevels-container">
+        <!-- Gerado via script -->
       </div>
 
-      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
-        <button id="btn-close-modal2" class="ctrl-btn" style="width: auto; padding: 0 1.5rem; border-radius: 20px;" title="Voltar ao Passo 1">
-          ⬅️ Voltar aos Níveis
-        </button>
-        <button id="btn-goto-step3" class="btn-start">
-          ➡️ PASSO 3: AJUSTAR OPÇÕES DEPOIS
-        </button>
-      </div>
+      <!-- BOTÃO VERDE TOTALMENTE FUNCIONAL -->
+      <button class="btn-launch" id="btn-start-presentation" onclick="startReadingArena()">
+        ▶️ INICIAR ATIVIDADE NO DATASHOW
+      </button>
     </div>
   </div>
 
-  <!-- ==========================================
-       3. PASSO 3: MODAL DE AJUSTES DA RODADA (OPÇÕES & VELOCIDADE)
-       ========================================== -->
-  <div id="modal-step3">
-    <div class="modal-step3-content">
-      <h2 id="modal-step3-title" class="modal-step2-title" style="color: #38bdf8;">⚙️ Passo 3: Ajustes da Rodada</h2>
-      <p style="color: #cbd5e1; font-size: 1.05rem; margin-bottom: 1.2rem;">Configure a velocidade, vozes e filtros antes de projetar no Datashow:</p>
-
-      <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap; text-align: left;">
-        
-        <!-- Tempo / Velocidade -->
-        <div style="flex: 1; min-width: 200px;">
-          <label for="select-mode">⏱️ Velocidade / Tempo:</label>
-          <select id="select-mode" class="form-input">
-            <option value="manual">Manual (Espaço / Setas)</option>
-            <option value="auto-3">Automático (3 segundos)</option>
-            <option value="auto-5">Automático (5 segundos)</option>
-            <option value="auto-8">Automático (8 segundos)</option>
-            <option value="auto-10" selected>Automático (10 segundos)</option>
-            <option value="auto-15">Automático (15 segundos)</option>
-            <option value="auto-accel-4">⚡ Aceleração Gradual (Inicia em 4s e acelera! 🚀)</option>
-            <option value="auto-accel-6">⚡ Aceleração Gradual (Inicia em 6s e acelera! ⚡)</option>
-            <option value="auto-accel-8">⚡ Aceleração Gradual (Inicia em 8s e acelera! 🔥)</option>
-            <option value="auto-accel-10">⚡ Aceleração Gradual (Inicia em 10s e acelera! 🎆)</option>
-            <option value="custom">Tempo Personalizado...</option>
-          </select>
-          <input type="number" id="input-custom-seconds" class="form-input" style="display: none; margin-top: 0.4rem;" placeholder="Segundos" min="1" max="60" value="7">
-        </div>
-
-        <!-- Palavras por Fase -->
-        <div style="flex: 1; min-width: 200px;">
-          <label for="select-words-limit">📊 Palavras por Fase / Rodada:</label>
-          <select id="select-words-limit" class="form-input">
-            <option value="5">5 Palavras (Rápido)</option>
-            <option value="10" selected>10 Palavras (Padrão)</option>
-            <option value="15">15 Palavras (Médio)</option>
-            <option value="20">20 Palavras (Longo)</option>
-            <option value="all">Todas as Palavras do Nível</option>
-          </select>
-        </div>
-
-        <!-- Exibir Imagem da Palavra -->
-        <div style="flex: 1; min-width: 200px;">
-          <label for="select-show-image">🖼️ Exibir Imagem da Palavra:</label>
-          <select id="select-show-image" class="form-input">
-            <option value="yes" selected>Sim (Exibir Ilustração/Emoji 🍎)</option>
-            <option value="no">Não (Apenas Texto Gigante 🔤)</option>
-          </select>
-        </div>
-
-        <!-- Modo de Atividade -->
-        <div style="flex: 1; min-width: 200px;">
-          <label for="select-game-mode">📖 Modo de Fluência:</label>
-          <select id="select-game-mode" class="form-input">
-            <option value="cards" selected>📺 Cards Gigantes de Alta Legibilidade</option>
-            <option value="roleta">⚡ Leitura Flash & Dinâmica</option>
-            <option value="eco">🔊 ECO Silábico (Leitura Coral)</option>
-            <option value="build">🧩 Monte a Palavra (Sílabas)</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div class="form-group" style="display: flex; gap: 1rem; flex-wrap: wrap; text-align: left; margin-top: 0.5rem;">
-        
-        <!-- Trilha Sonora MP3 -->
-        <div style="flex: 1.5; min-width: 260px;">
-          <label for="select-music-style">🎵 Trilha Sonora Ambiente (MP3 Estéreo):</label>
-          <div style="display: flex; gap: 0.5rem;">
-            <select id="select-music-style" class="form-input" style="flex: 1;">
-              <option value="reading" selected>Trilha Instrumental Ambiente (Concentração)</option>
-              <option value="off">Silencioso (Sem Trilha Sonora)</option>
-            </select>
-            <button id="btn-preview-music" type="button" onclick="window.audioManager.toggleBGM()" class="ctrl-btn" style="width: auto; padding: 0 0.9rem; border-radius: 16px; font-size: 0.9rem;" title="Ouvir música ambiente">
-              🎵 Tocar / Pausar
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.8rem;">
-        <button id="btn-close-modal3" class="ctrl-btn" style="width: auto; padding: 0 1.5rem; border-radius: 20px;" title="Voltar ao Passo 2">
-          ⬅️ Voltar aos Subníveis
-        </button>
-        <button id="btn-confirm-start" onclick="startIntroSequenceGlobal()" class="btn-start" style="padding: 1rem 3.5rem;">
-          ▶️ INICIAR ATIVIDADE NO DATASHOW
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ==========================================
-       4. TELA DE INTRODUÇÃO DA TURMA E CONTAGEM
-       ========================================== -->
-  <section id="screen-intro" class="app-screen">
-    <h2 class="intro-question">
-      ESTÃO PRONTOS ALUNOS DA<br>
-      <span id="intro-school-name" class="intro-school-name">ESCOLA MONTEIRO LOBATO</span>?
-    </h2>
-
-    <div class="countdown-box">
-      <span id="countdown-num" class="countdown-number">3</span>
-    </div>
-  </section>
-
-  <!-- ==========================================
-       5. TELA DE TRANSIÇÃO E RESPIRAÇÃO DE SUBNÍVEL
-       ========================================== -->
-  <section id="screen-sublevel-transition" class="app-screen">
-    <h2 id="trans-phrase" class="intro-question" style="font-size: clamp(2rem, 4vw, 3.2rem);">
-      Vamos para o próximo nível? Dê uma respirada...
-    </h2>
-
-    <div class="breath-circle-box">
-      <span id="breath-label" class="breath-label">RESPIRANDO...</span>
-      <span id="trans-countdown" class="breath-countdown-num">8</span>
-    </div>
-
-    <p style="font-size: 1.6rem; color: #fbbf24; font-weight: 700;">Inspira... Exala... 3, 2, 1... Vai!!!</p>
-  </section>
-
-  <!-- ==========================================
-       6. ARENA DE APRESENTAÇÃO EM TELA CHEIA
-       ========================================== -->
-  <section id="screen-presentation" class="app-screen">
-    <header class="pres-header">
-      <div id="pres-level-title" class="pres-level-badge">Subnível 1.1</div>
-      <button id="btn-top-stop" onclick="stopAllAndReturnHomeGlobal()" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; padding: 4px 16px; border-radius: 20px; font-size: 0.85rem; width: auto;" title="Parar Total e Voltar ao Início do Jogo (Passo 1)">🛑 STOP (INÍCIO)</button>
-      <div id="pres-progress-count" class="pres-progress">1 / 10</div>
-    </header>
-
+  <!-- TELA 2: ARENA DE APRESENTAÇÃO NO DATASHOW -->
+  <main id="view-presentation" class="screen-view">
     <div class="card-stage">
-      <div id="word-card" class="word-card">
-        <div id="card-image" class="card-image-box">🍎</div>
-        
-        <div id="card-word-container">
-          <div id="card-word" class="word-display">BOLA</div>
-        </div>
-
-        <div id="card-hint" class="card-hint">Objeto de jogar</div>
+      
+      <div class="word-card-box" id="presentation-card">
+        <div class="card-emoji" id="card-emoji">🍎</div>
+        <div class="word-text-large" id="card-word">MAÇÃ</div>
+        <div class="card-hint" id="card-hint">Fruta vermelha e saborosa</div>
       </div>
+
+      <!-- CONTROLES FLUTUANTES DO PROFESSOR -->
+      <footer class="controls-dock">
+        <button class="dock-btn" onclick="backToMenu()" title="Voltar ao Menu Principal">🏠 Níveis</button>
+        <button class="dock-btn" onclick="prevWord()" title="Palavra Anterior">⬅️ Anterior</button>
+        <button class="dock-btn" id="btn-toggle-syllable" onclick="toggleSyllableMode()">✂️ Sílabas</button>
+        <button class="dock-btn" id="btn-toggle-img" onclick="toggleImageDisplay()">👁️ Imagem</button>
+        <button class="dock-btn dock-btn-next" onclick="nextWord()">Próxima ➡️</button>
+      </footer>
+
     </div>
+  </main>
 
-    <!-- MASCOTE ANIMADO ("CORUJITA") -->
-    <div id="mascot-container" class="mascot-container">
-      <div id="mascot-speech" class="mascot-speech-bubble">Vamos ler juntos! 🦉</div>
-      <div class="mascot-avatar">🦉</div>
-    </div>
+  <!-- ÁUDIO MP3 AMBIENTE DE QUALIDADE -->
+  <audio id="bgm-player" loop preload="auto">
+    <source src="assets/reading-theme.mp3" type="audio/mp3">
+  </audio>
 
-    <!-- PAINEL DE GAMIFICAÇÃO & DESEMPENHO NO DATASHOW (v8.0) -->
-    <div id="hud-gamification-v8" style="position: absolute; top: 75px; right: 25px; z-index: 999; display: flex; gap: 12px; align-items: center; background: rgba(15, 23, 42, 0.85); padding: 8px 18px; border-radius: 40px; border: 2px solid rgba(56, 189, 248, 0.4); backdrop-filter: blur(8px); box-shadow: 0 8px 25px rgba(0,0,0,0.4);">
-      <div style="display: flex; align-items: center; gap: 6px; color: #fbbf24; font-weight: 800; font-size: 1.1rem;">
-        <span>⭐</span><span id="v8-score-val">0</span> <small style="font-size: 0.75rem; opacity: 0.8;">PTS</small>
-      </div>
-      <div style="width: 2px; height: 18px; background: rgba(255,255,255,0.2);"></div>
-      <div style="display: flex; align-items: center; gap: 6px; color: #ec4899; font-weight: 800; font-size: 1.1rem;">
-        <span>🔥</span><span id="v8-streak-val">0</span>x <small style="font-size: 0.75rem; opacity: 0.8;">COMBO</small>
-      </div>
-      <div style="width: 2px; height: 18px; background: rgba(255,255,255,0.2);"></div>
-      <button id="btn-theme-toggle" type="button" onclick="toggleThemeV8()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0 4px;" title="Alternar Modo Escuro / Claro">🌓</button>
-    </div>
-
-    <!-- Barra de Controles Discreta e Profissional -->
-    <footer class="pres-controls-bar">
-      <button id="btn-stop-menu" onclick="stopAllAndReturnHomeGlobal()" class="ctrl-btn" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; font-weight: 800; border: 2px solid #fca5a5; width: auto; padding: 0 16px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);" title="Parar Total e Voltar ao Início do Jogo (ESC / Home)">🛑 STOP (INÍCIO)</button>
-      <button id="btn-prev" class="ctrl-btn" title="Palavra Anterior (Seta Esquerda)">⬅️</button>
-      <button id="btn-pause-toggle" class="ctrl-btn" title="Pausar / Continuar Tempo (Teclado: P)">⏸️</button>
-      <button id="btn-syllable" class="ctrl-btn active" title="Separar Sílabas com Cores (Teclado: D)">✂️ Sílabas</button>
-      <button id="btn-image" class="ctrl-btn active" title="Mostrar/Ocultar Imagem (Teclado: I)">👁️ Imagem</button>
-      <button id="btn-music" onclick="window.audioManager.toggleBGM()" class="ctrl-btn active" title="Alternar Trilha Sonora MP3 (Teclado: M)">🎵 Trilha</button>
-      <button id="btn-fullscreen" class="ctrl-btn" title="Tela Cheia (Teclado: F)">⛶</button>
-      <button id="btn-next" class="ctrl-btn ctrl-btn-large" title="Próxima Palavra (Espaço / Seta Direita)">Próxima ➡️</button>
-    </footer>
-  </section>
-
-  <!-- ==========================================
-       7. TELA DE VITÓRIA FINAL
-       ========================================== -->
-  <section id="screen-victory" class="app-screen">
-    <h2 class="victory-title">🎉 PARABÉNS! 🎉</h2>
-    <p id="victory-message" class="victory-sub">Parabéns, você terminou com sucesso. Até a próxima!</p>
-
-    <div style="font-size: 6rem; margin-bottom: 2rem;">🏆🎆✨</div>
-
-    <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
-      <button id="btn-repeat-level" class="btn-start" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);">
-        🔄 REPETIR ESTE NÍVEL
-      </button>
-      <button id="btn-back-menu" onclick="stopAllAndReturnHomeGlobal()" class="btn-start" style="background: linear-gradient(135deg, #3b82f6, #06b6d4);">
-        🏠 MENU DO JOGO
-      </button>
-      <button onclick="window.location.href='/'" class="btn-start" style="background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);">
-        ⬅️ VOLTAR AO PORTAL
-      </button>
-    </div>
-  </section>
-
-  <canvas id="confetti-canvas"></canvas>
-
-  <script src="words-data.js?v=8.1"></script>
-  <script src="audio-manager.js?v=8.1"></script>
-  <script src="app.js?v=8.1"></script>
+  <!-- BANCO DE PALAVRAS E CONTROLADOR -->
+  <script src="words-data.js?v=8.2"></script>
   <script>
-    function toggleFullScreen() {
-      const elem = document.documentElement;
-      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        if (elem.requestFullscreen) elem.requestFullscreen();
-        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    // ESTADO DO JOGO
+    let currentLevel = 1;
+    let currentSublevel = '1.1';
+    let currentDeck = [];
+    let currentIndex = 0;
+    let showSyllables = false;
+    let showImage = true;
+    let bgmEnabled = true;
+
+    const bgmPlayer = document.getElementById('bgm-player');
+    bgmPlayer.volume = 0.25;
+
+    // INICIALIZAÇÃO
+    window.addEventListener('DOMContentLoaded', () => {
+      renderLevels();
+
+      // Desbloqueio seguro de áudio
+      const unlock = () => {
+        if (bgmEnabled) bgmPlayer.play().catch(() => {});
+        window.removeEventListener('click', unlock);
+        window.removeEventListener('keydown', unlock);
+      };
+      window.addEventListener('click', unlock, { once: true });
+      window.addEventListener('keydown', unlock, { once: true });
+
+      // Atalhos de teclado
+      window.addEventListener('keydown', (e) => {
+        if (document.getElementById('view-presentation').classList.contains('active')) {
+          if (e.key === ' ' || e.key === 'ArrowRight') nextWord();
+          if (e.key === 'ArrowLeft') prevWord();
+          if (e.key.toLowerCase() === 'm') toggleBGMTrack();
+          if (e.key.toLowerCase() === 'f') toggleFullScreen();
+          if (e.key.toLowerCase() === 'd') toggleSyllableMode();
+          if (e.key.toLowerCase() === 'i') toggleImageDisplay();
+          if (e.key === 'Escape') backToMenu();
+        }
+      });
+    });
+
+    // RENDERIZAR OS 10 NÍVEIS
+    function renderLevels() {
+      const container = document.getElementById('levels-grid-container');
+      container.innerHTML = '';
+
+      for (let lvl = 1; lvl <= 10; lvl++) {
+        const data = WORDS_DATABASE[lvl];
+        if (!data) continue;
+
+        const card = document.createElement('div');
+        card.className = `level-card ${lvl === currentLevel ? 'selected' : ''}`;
+        card.innerHTML = `
+          <span class="level-badge">Nível ${lvl}</span>
+          <h3 class="level-name">${data.title.split(':')[1] || data.title}</h3>
+          <p class="level-desc">${data.description || 'Atividade dinâmica de leitura coletiva.'}</p>
+        `;
+
+        card.onclick = () => openSublevelModal(lvl);
+        container.appendChild(card);
       }
     }
 
-    // Toggle de Tema Claro / Escuro v8
-    function toggleThemeV8() {
-      document.body.classList.toggle('theme-light-mode');
-      const isLight = document.body.classList.contains('theme-light-mode');
-      localStorage.setItem('datashow_theme_mode', isLight ? 'light' : 'dark');
+    // ABRIR MODAL COM OS SUBNÍVEIS
+    function openSublevelModal(level) {
+      currentLevel = level;
+      const data = WORDS_DATABASE[level];
+      if (!data || !data.sublevels) return;
+
+      document.getElementById('modal-level-title').textContent = data.title;
+      const subContainer = document.getElementById('sublevels-container');
+      subContainer.innerHTML = '';
+
+      const subKeys = Object.keys(data.sublevels);
+      currentSublevel = subKeys[0];
+
+      subKeys.forEach((key, idx) => {
+        const sub = data.sublevels[key];
+        const btn = document.createElement('button');
+        btn.className = `sublevel-item ${idx === 0 ? 'active' : ''}`;
+        btn.innerHTML = `<strong>Subnível ${key}:</strong> ${sub.title.split(':')[1] || sub.title} <small>(${sub.items.length} palavras)</small>`;
+        
+        btn.onclick = () => {
+          document.querySelectorAll('.sublevel-item').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentSublevel = key;
+        };
+
+        subContainer.appendChild(btn);
+      });
+
+      document.getElementById('sublevels-modal').classList.add('active');
     }
 
-    if (localStorage.getItem('datashow_theme_mode') === 'light') {
-      document.body.classList.add('theme-light-mode');
+    function closeSublevelModal() {
+      document.getElementById('sublevels-modal').classList.remove('active');
+    }
+
+    // INICIAR A ARENA DO DATASHOW
+    function startReadingArena() {
+      closeSublevelModal();
+      const data = WORDS_DATABASE[currentLevel];
+      if (!data || !data.sublevels || !data.sublevels[currentSublevel]) return;
+
+      currentDeck = [...data.sublevels[currentSublevel].items];
+      currentIndex = 0;
+
+      document.getElementById('view-setup').classList.remove('active');
+      document.getElementById('view-presentation').classList.add('active');
+
+      document.getElementById('current-title-badge').textContent = `⭐ Nível ${currentLevel} - Subnível ${currentSublevel}`;
+
+      if (bgmEnabled) bgmPlayer.play().catch(() => {});
+      displayCurrentCard();
+    }
+
+    function backToMenu() {
+      document.getElementById('view-presentation').classList.remove('active');
+      document.getElementById('view-setup').classList.add('active');
+      document.getElementById('current-title-badge').textContent = '⭐ Leitura Interativa Datashow';
+    }
+
+    // EXIBIR CARTÃO ATUAL
+    function displayCurrentCard() {
+      if (!currentDeck.length) return;
+      const item = currentDeck[currentIndex];
+      const card = document.getElementById('presentation-card');
+
+      card.style.animation = 'none';
+      card.offsetHeight; // Reflow
+      card.style.animation = 'cardZoomIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+
+      // Emoji
+      const emojiElem = document.getElementById('card-emoji');
+      emojiElem.textContent = item.image || '📖';
+      emojiElem.style.display = showImage ? 'block' : 'none';
+
+      // Palavra ou Sílabas
+      const wordElem = document.getElementById('card-word');
+      if (showSyllables && item.syllables && item.syllables.length > 1) {
+        wordElem.innerHTML = item.syllables.map(s => `<span class="syllable-pill">${s}</span>`).join('');
+      } else {
+        wordElem.textContent = item.text;
+      }
+
+      // Dica
+      document.getElementById('card-hint').textContent = item.hint || '';
+    }
+
+    function nextWord() {
+      if (currentIndex < currentDeck.length - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0; // Loop contínuo para dinamismo
+        triggerConfetti();
+      }
+      displayCurrentCard();
+    }
+
+    function prevWord() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        displayCurrentCard();
+      }
+    }
+
+    function toggleSyllableMode() {
+      showSyllables = !showSyllables;
+      document.getElementById('btn-toggle-syllable').style.background = showSyllables ? 'var(--primary)' : 'rgba(255,255,255,0.1)';
+      document.getElementById('btn-toggle-syllable').style.color = showSyllables ? '#0f172a' : 'white';
+      displayCurrentCard();
+    }
+
+    function toggleImageDisplay() {
+      showImage = !showImage;
+      document.getElementById('btn-toggle-img').style.background = showImage ? 'var(--primary)' : 'rgba(255,255,255,0.1)';
+      document.getElementById('btn-toggle-img').style.color = showImage ? '#0f172a' : 'white';
+      displayCurrentCard();
+    }
+
+    function toggleBGMTrack() {
+      bgmEnabled = !bgmEnabled;
+      const btn = document.getElementById('btn-toggle-music');
+      if (bgmEnabled) {
+        bgmPlayer.play().catch(() => {});
+        btn.textContent = '🎵 Música: Ligada';
+      } else {
+        bgmPlayer.pause();
+        btn.textContent = '🔇 Música: Desligada';
+      }
+    }
+
+    function toggleThemeMode() {
+      document.body.classList.toggle('theme-light');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 60, spread: 70, origin: { y: 0.7 } });
+      }
     }
   </script>
 </body>
