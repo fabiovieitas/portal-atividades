@@ -2,763 +2,1696 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Super Agente da Saúde 3D: Batalha Contra os Germes! | Lab Kids</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <!-- Three.js r128 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body {
-            font-family: 'Fredoka', sans-serif;
-            background: #060913;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        :root {
+            --primary: #06b6d4;
+            --primary-glow: rgba(6, 182, 212, 0.6);
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --purple: #8b5cf6;
+            --dark-card: rgba(15, 23, 42, 0.88);
+            --border-glow: 0 0 20px rgba(6, 182, 212, 0.4);
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #050814;
+            font-family: 'Fredoka', 'Outfit', sans-serif;
             color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-            padding: 15px;
-        }
-
-        #game-canvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: auto;
+            top: 0;
+            left: 0;
         }
 
-        .ui-layer {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 900px;
-            pointer-events: none;
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            display: block;
+            touch-action: none;
+        }
+
+        /* HUD - Top Bar */
+        .hud-top {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            z-index: 20;
             display: flex;
-            flex-direction: column;
             align-items: center;
-        }
-
-        .interactive-card {
-            pointer-events: auto;
-            width: 100%;
-            background: rgba(15, 23, 42, 0.92);
-            border: 3px solid #06b6d4;
-            border-radius: 28px;
-            box-shadow: 0 0 50px rgba(6, 182, 212, 0.35), inset 0 0 20px rgba(6, 182, 212, 0.15);
-            backdrop-filter: blur(14px);
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        /* HEADER STATS */
-        .header-bar {
-            width: 100%;
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            background: rgba(30, 41, 59, 0.85);
-            border: 2px solid #334155;
-            padding: 12px 20px;
-            border-radius: 20px;
-            margin-bottom: 18px;
-        }
-
-        .badge-stage {
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
-        }
-
-        .stat-box { display: flex; gap: 20px; font-size: 1.15rem; font-weight: 800; }
-        .val-score { color: #fbbf24; text-shadow: 0 0 10px rgba(251, 191, 36, 0.6); }
-        .val-combo { color: #ec4899; }
-
-        /* TAB NAVIGATION (MINI-GAMES & RANKING) */
-        .nav-tabs {
-            display: flex;
             gap: 10px;
-            background: #0f172a;
-            padding: 6px;
-            border-radius: 50px;
-            border: 1px solid #334155;
-            margin-bottom: 18px;
-            pointer-events: auto;
+            pointer-events: none;
         }
-        .btn-tab {
-            padding: 10px 20px;
-            border-radius: 50px;
-            border: none;
-            background: transparent;
-            color: #94a3b8;
-            font-family: 'Fredoka', sans-serif;
+
+        .hud-pill {
+            pointer-events: auto;
+            background: var(--dark-card);
+            border: 2px solid rgba(6, 182, 212, 0.45);
+            border-radius: 40px;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-weight: 700;
             font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .btn-tab.active {
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), var(--border-glow);
+            backdrop-filter: blur(12px);
+            transition: all 0.25s ease;
         }
 
-        /* PLAYGROUND STAGE CONTAINER */
-        .play-area {
-            width: 100%;
-            min-height: 380px;
-            background: rgba(9, 13, 22, 0.9);
-            border: 2px solid #38bdf8;
-            border-radius: 22px;
-            padding: 20px;
+        .hud-pill:hover {
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+
+        .hud-pill .icon {
+            font-size: 1.25rem;
+        }
+
+        .hud-center {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            position: relative;
+            gap: 4px;
+        }
+
+        .purity-container {
+            width: 220px;
+            height: 14px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* MINI-GAME 1: SCRUB GERMS */
-        .scrub-hand-container {
-            width: 280px; height: 280px;
-            background: radial-gradient(circle, #38bdf8 0%, #0369a1 100%);
-            border-radius: 50%;
-            border: 4px solid #fff;
-            position: relative;
-            cursor: crosshair;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 40px rgba(56, 189, 248, 0.5);
-        }
-        .germ-target {
-            position: absolute;
-            font-size: 3rem;
-            cursor: pointer;
-            transition: transform 0.1s ease;
-            animation: pulseGerm 1.5s infinite ease-in-out;
-        }
-        @keyframes pulseGerm {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.15) rotate(10deg); }
-        }
-
-        /* MINI-GAME 2: TOOTH BRUSHING */
-        .teeth-container {
-            display: flex;
-            gap: 12px;
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 20px;
-            border: 3px solid #f43f5e;
-        }
-        .tooth-unit {
-            width: 55px; height: 75px;
-            background: #f8fafc;
-            border-radius: 12px 12px 20px 20px;
-            border: 3px solid #cbd5e1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            cursor: pointer;
-            box-shadow: inset 0 -10px 0 rgba(0,0,0,0.1);
-        }
-        .tooth-plaque {
-            width: 80%; height: 60%;
-            background: rgba(180, 83, 9, 0.85);
+        .purity-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #10b981, #06b6d4, #38bdf8);
             border-radius: 8px;
-            position: absolute;
-            transition: opacity 0.3s;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 12px #38bdf8;
+        }
+
+        .purity-text {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #7dd3fc;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Top Right Controls */
+        .hud-actions {
+            display: flex;
+            gap: 8px;
+            pointer-events: auto;
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid rgba(6, 182, 212, 0.5);
+            background: var(--dark-card);
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-        }
-
-        /* QUIZ OPTIONS */
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            width: 100%;
-            margin-top: 15px;
-        }
-        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
-
-        .btn-opt {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 2px solid #334155;
-            color: #f1f5f9;
-            padding: 14px 18px;
-            border-radius: 16px;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-align: left;
-        }
-        .btn-opt:hover {
-            border-color: #06b6d4;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
-            background: linear-gradient(135deg, #1e293b, #164e63);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* RANKING LEADERBOARD */
-        .leaderboard-list {
-            width: 100%;
-            max-width: 550px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
+        .btn-icon:hover {
+            transform: scale(1.1);
+            border-color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
         }
-        .rank-item {
-            background: linear-gradient(90deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
-            border: 2px solid #334155;
-            padding: 12px 18px;
-            border-radius: 16px;
+
+        .btn-icon:active {
+            transform: scale(0.95);
+        }
+
+        .btn-shop {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: 2px solid #fde68a;
+            color: #fff;
+            font-weight: 800;
+            padding: 0 16px;
+            border-radius: 30px;
+            width: auto;
+            gap: 6px;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* HUD Bottom Toolbar */
+        .hud-bottom {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-size: 1.1rem;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid rgba(56, 189, 248, 0.4);
+            border-radius: 50px;
+            padding: 8px 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 30px rgba(6, 182, 212, 0.3);
+            backdrop-filter: blur(16px);
+            pointer-events: auto;
+        }
+
+        .tool-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid transparent;
+            color: #94a3b8;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-family: inherit;
             font-weight: 700;
-        }
-        .rank-item.top-1 { border-color: #fbbf24; background: linear-gradient(90deg, rgba(251, 191, 36, 0.15), rgba(30, 41, 59, 0.9)); }
-        .rank-item.top-2 { border-color: #94a3b8; }
-        .rank-item.top-3 { border-color: #b45309; }
-
-        /* OVERLAYS & MODALS */
-        .modal-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(6, 9, 19, 0.95);
+            font-size: 0.85rem;
+            cursor: pointer;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .tool-btn .icon {
+            font-size: 1.3rem;
+        }
+
+        .tool-btn:hover {
+            color: #fff;
+            background: rgba(51, 65, 85, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .tool-btn.active {
+            background: linear-gradient(135deg, #0284c7, #06b6d4);
+            color: #ffffff;
+            border-color: #7dd3fc;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Instructions Hint */
+        .touch-hint {
+            position: fixed;
+            bottom: 84px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #bae6fd;
+            pointer-events: none;
+            z-index: 15;
+            animation: pulseHint 2s infinite ease-in-out;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        @keyframes pulseHint {
+            0%, 100% { opacity: 0.7; transform: translate(-50%, 0); }
+            50% { opacity: 1; transform: translate(-50%, -4px); }
+        }
+
+        /* Floating Combos & Floating Numbers */
+        .combo-counter {
+            position: fixed;
+            top: 75px;
+            right: 20px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #facc15;
+            text-shadow: 0 0 10px rgba(250, 204, 21, 0.7), 0 3px 6px rgba(0,0,0,0.8);
+            pointer-events: none;
+            z-index: 25;
+            transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+
+        .combo-counter.show {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+
+        /* Modais Modernos com Glassmorphism */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 20, 0.78);
+            backdrop-filter: blur(14px);
+            z-index: 100;
+            display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 28px;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-window {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+            border: 3px solid #38bdf8;
+            border-radius: 32px;
             padding: 30px;
+            width: 100%;
+            max-width: 680px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(56, 189, 248, 0.4);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.open .modal-window {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(239, 68, 68, 0.8);
+        }
+
+        /* Loja Grid */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 15px;
+        }
+
+        .shop-item {
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .shop-item:hover {
+            border-color: #38bdf8;
+            background: rgba(30, 41, 59, 0.85);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.25);
+        }
+
+        .shop-item-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .shop-item-icon {
+            font-size: 2.2rem;
+            background: rgba(56, 189, 248, 0.15);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px;
+            width: 54px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shop-item-info h4 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #f1f5f9;
+        }
+
+        .shop-item-info p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            line-height: 1.3;
+        }
+
+        .shop-item-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .shop-price {
+            font-weight: 800;
+            color: #facc15;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-buy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+        }
+
+        .btn-buy.equipped {
+            background: #475569;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        /* Modal Inicial (Start Screen) */
+        .start-card {
+            text-align: center;
+            max-width: 540px;
+        }
+
+        .start-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #38bdf8, #10b981, #facc15);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .start-subtitle {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+        }
+
+        .phase-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .preview-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-radius: 18px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .preview-box .icon {
+            font-size: 2rem;
+            margin-bottom: 6px;
+        }
+
+        .preview-box .label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        .btn-start-epic {
+            background: linear-gradient(135deg, #0284c7, #10b981);
+            border: 3px solid #7dd3fc;
+            border-radius: 40px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1.3rem;
+            font-weight: 900;
+            padding: 16px 36px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(2, 132, 199, 0.5), 0 0 25px rgba(16, 185, 129, 0.4);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-start-epic:hover {
+            transform: scale(1.06);
+            box-shadow: 0 12px 35px rgba(2, 132, 199, 0.7), 0 0 35px rgba(16, 185, 129, 0.6);
+        }
+
+        /* Fase Banner */
+        .stage-announcement {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+            border: 3px solid #38bdf8;
+            border-radius: 30px;
+            padding: 24px 40px;
             text-align: center;
             z-index: 50;
-            pointer-events: auto;
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(56, 189, 248, 0.5);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .modal-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; }
-        .modal-sub { font-size: 1.15rem; color: #cbd5e1; margin-bottom: 25px; max-width: 550px; line-height: 1.5; }
 
-        .name-input {
-            width: 100%;
-            max-width: 320px;
-            padding: 14px 20px;
-            border-radius: 50px;
-            border: 2px solid #06b6d4;
-            background: #0f172a;
-            color: #fff;
-            font-family: 'Fredoka', sans-serif;
+        .stage-announcement.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .stage-announcement h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #facc15;
+            margin-bottom: 6px;
+        }
+
+        .stage-announcement p {
             font-size: 1.1rem;
+            color: #7dd3fc;
+            font-weight: 700;
+        }
+
+        /* Vitória Final */
+        .victory-stats {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 20px;
+            padding: 16px;
+            margin: 16px 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .victory-stat-item {
             text-align: center;
-            margin-bottom: 20px;
-            outline: none;
         }
 
-        .btn-action {
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
-            color: #fff;
-            border: none;
-            padding: 16px 36px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            font-family: 'Fredoka', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4);
-            transition: all 0.2s ease;
+        .victory-stat-item .val {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #38bdf8;
         }
-        .btn-action:hover { transform: scale(1.05); }
 
-        .back-link {
-            margin-top: 15px;
+        .victory-stat-item .lbl {
+            font-size: 0.8rem;
             color: #94a3b8;
-            text-decoration: none;
-            font-size: 0.95rem;
             font-weight: 600;
-            pointer-events: auto;
         }
-        .back-link:hover { color: #38bdf8; }
+
+        /* Efeito de flash de limpeza */
+        #clean-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(16, 185, 129, 0.15) 70%, transparent 100%);
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        /* Responsividade */
+        @media (max-width: 640px) {
+            .hud-pill { padding: 4px 10px; font-size: 0.8rem; }
+            .purity-container { width: 140px; }
+            .btn-shop span.txt { display: none; }
+            .hud-bottom { padding: 6px 12px; gap: 6px; bottom: 10px; }
+            .tool-btn { padding: 6px 12px; font-size: 0.75rem; }
+            .start-title { font-size: 1.6rem; }
+            .stage-announcement h2 { font-size: 1.5rem; }
+            .stage-announcement p { font-size: 0.9rem; }
+        }
     </style>
-  <script src="/js/labkids-gamification.js"></script>
 </head>
 <body>
-    <!-- INTERACTIVE 60FPS CANVAS BACKGROUND -->
-    <canvas id="game-canvas"></canvas>
+    <!-- Three.js Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+    <div id="clean-flash"></div>
 
-    <div style="position: fixed; top: 14px; right: 14px; z-index: 99999; display: flex; gap: 8px;">
-        <button type="button" onclick="toggleFullScreen()" style="background: rgba(15, 23, 42, 0.85); color: #ffffff; border: 1.5px solid rgba(255, 255, 255, 0.3); border-radius: 50px; padding: 8px 16px; font-size: 0.88rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); font-family: inherit;" title="Expandir para Tela Cheia">
-            ⛶ Tela Cheia
+    <!-- HUD Superior -->
+    <div class="hud-top">
+        <div class="hud-pill">
+            <span class="icon">🛡️</span>
+            <div>
+                <span id="player-rank">Recruta</span>
+                <span style="color:#38bdf8; font-size:0.8rem; margin-left:4px;">Nv.<span id="player-level">1</span></span>
+            </div>
+        </div>
+
+        <div class="hud-center">
+            <div class="purity-container">
+                <div class="purity-fill" id="purity-fill"></div>
+            </div>
+            <div class="purity-text">Pureza: <span id="purity-pct">0%</span></div>
+        </div>
+
+        <div class="hud-actions">
+            <div class="hud-pill" style="border-color:#f59e0b;">
+                <span class="icon">💧</span>
+                <span id="player-coins" style="color:#facc15;">0</span>
+            </div>
+            <button class="btn-icon btn-shop" id="btn-open-shop">
+                <span>🛒</span>
+                <span class="txt">Loja</span>
+            </button>
+            <button class="btn-icon" id="btn-toggle-sound" title="Alternar Som">
+                <span id="sound-icon">🔊</span>
+            </button>
+            <button class="btn-icon" id="btn-fullscreen" title="Tela Cheia">
+                <span>⛶</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Combo Popup -->
+    <div class="combo-counter" id="combo-display">🔥 COMBO x2!</div>
+
+    <!-- Dica de Interação -->
+    <div class="touch-hint" id="touch-hint">✨ Arraste ou clique sobre os germes para higienizar!</div>
+
+    <!-- HUD Inferior (Ferramentas 3D) -->
+    <div class="hud-bottom">
+        <button class="tool-btn active" data-tool="soap" id="tool-soap">
+            <span class="icon">🧼</span>
+            <span>Super Sabão</span>
+        </button>
+        <button class="tool-btn" data-tool="brush" id="tool-brush">
+            <span class="icon">🪥</span>
+            <span>Escova Sônica</span>
+        </button>
+        <button class="tool-btn" data-tool="spray" id="tool-spray">
+            <span class="icon">🧴</span>
+            <span>Spray Plasma</span>
         </button>
     </div>
 
-    <div class="ui-layer">
-        <div class="interactive-card">
-            <!-- HEADER STATS -->
-            <div class="header-bar">
-                <div class="badge-stage" id="stage-badge">FASE 1: ESFREGAR O SABÃO 🧼</div>
-                <div class="stat-box">
-                    <div>⭐ <span class="val-score" id="score-val">0</span></div>
-                    <div>🔥 <span class="val-combo" id="combo-val">x1</span></div>
+    <!-- Anúncio de Fase -->
+    <div class="stage-announcement" id="stage-banner">
+        <h2 id="stage-title">FASE 1: LABORATÓRIO DAS MÃOS</h2>
+        <p id="stage-desc">Elimine os germes usando a espuma de sabão!</p>
+    </div>
+
+    <!-- Modal: Iniciar Jogo -->
+    <div class="modal-overlay open" id="modal-start">
+        <div class="modal-window start-card">
+            <h1 class="start-title">SUPER AGENTE DA SAÚDE 3D</h1>
+            <p class="start-subtitle">Batalha Cósmica Contra os Germes & Bactérias!</p>
+
+            <div class="phase-preview">
+                <div class="preview-box">
+                    <div class="icon">🧼</div>
+                    <div class="label">Fase 1<br>Lava-Mãos</div>
+                </div>
+                <div class="preview-box">
+                    <div class="icon">🪥</div>
+                    <div class="label">Fase 2<br>Arena Bucal</div>
+                </div>
+                <div class="preview-box">
+                    <div class="icon">🦠</div>
+                    <div class="label">Fase 3<br>Mega Chefão</div>
                 </div>
             </div>
 
-            <!-- TAB NAVIGATION -->
-            <div class="nav-tabs">
-                <button class="btn-tab active" id="tab-game" onclick="switchView('game')">🎮 BATALHA DOS GERMES</button>
-                <button class="btn-tab" id="tab-rank" onclick="switchView('rank')">🏆 RANKING DOS CAMPEÕES</button>
-            </div>
+            <p style="font-size:0.9rem; color:#94a3b8; margin-bottom: 20px;">
+                💡 <strong>Missão:</strong> Higienize todas as áreas 3D, ganhe Gotas da Saúde e equipe seu Super Agente com ferramentas futuristas!
+            </p>
 
-            <!-- PLAY AREA CONTAINER -->
-            <div class="play-area" id="play-area">
-                <!-- Dynamic Content Rendered via JS -->
-            </div>
+            <button class="btn-start-epic" id="btn-start-game">
+                <span>🚀 ENTRAR NA MISSÃO</span>
+            </button>
+        </div>
+    </div>
 
-            <a href="/" class="back-link">⬅️ Voltar ao Portal Lab Kids</a>
-
-            <!-- MODAL OVERLAY -->
-            <div class="modal-overlay" id="game-modal">
-                <div class="modal-title" id="modal-title" style="color: #38bdf8;">🧼 SUPER AGENTE DA SAÚDE 3D</div>
-                <div class="modal-sub" id="modal-sub">
-                    Enfrente os Germes em 3 Modos de Ação: Esfregue as mãos com sabão, escove as placas nos dentes e responda ao Quiz da Saúde para subir no Ranking!
+    <!-- Modal: Loja de Equipamentos & Upgrades -->
+    <div class="modal-overlay" id="modal-shop">
+        <div class="modal-window">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span>🛒</span>
+                    <span>LOJA DO SUPER AGENTE</span>
                 </div>
-                <input type="text" id="player-name" class="name-input" placeholder="Digite seu Nome de Agente..." value="Agente Kid">
-                <button class="btn-action" onclick="startGame()">⚔️ ENTRAR NA BATALHA DA HIGIENE 🚀</button>
+                <button class="modal-close" id="btn-close-shop">✕</button>
+            </div>
+            <p style="color:#94a3b8; font-size:0.9rem;">
+                Use suas <strong>Gotas de Sabão 💧</strong> para turbinar suas armas de higiene e desbloquear itens raros!
+            </p>
+
+            <div class="shop-grid" id="shop-items-container">
+                <!-- Itens injetados via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Vitória / Conclusão -->
+    <div class="modal-overlay" id="modal-victory">
+        <div class="modal-window" style="text-align:center;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">🏆✨</div>
+            <h2 style="font-size:2rem; font-weight:900; color:#38bdf8; margin-bottom:6px;">MISSÃO CUMPRIDA!</h2>
+            <p style="color:#cbd5e1; font-size:1.05rem;">Você erradicou todos os germes e protegeu o planeta!</p>
+
+            <div class="victory-stats">
+                <div class="victory-stat-item">
+                    <div class="val" id="v-score">0</div>
+                    <div class="lbl">PONTOS</div>
+                </div>
+                <div class="victory-stat-item">
+                    <div class="val" id="v-coins">0</div>
+                    <div class="lbl">GOTAS GANHAS</div>
+                </div>
+                <div class="victory-stat-item">
+                    <div class="val" id="v-rank">Mestre</div>
+                    <div class="lbl">PATENTE</div>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+                <button class="btn-start-epic" id="btn-play-again" style="font-size:1.1rem; padding:12px 28px;">
+                    <span>🔄 JOGAR NOVAMENTE</span>
+                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // WEB AUDIO SYNTHESIZER
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        let audioCtx = null;
+        /* ==========================================================
+           ÁUDIO SINTETIZADO COM WEB AUDIO API (LIMPO E ORGÂNICO)
+           ========================================================== */
+        class HealthAudioEngine {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
 
-        function initAudio() {
-            if (!audioCtx) audioCtx = new AudioCtx();
-        }
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) {
+                        this.ctx = new AudioContext();
+                    }
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
 
-        function playSound(type) {
-            if (!audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            const now = audioCtx.currentTime;
-            if (type === 'pop') {
+            playPop() {
+                if (!this.enabled || !this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(300, now);
-                osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
-                gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                
+                const now = this.ctx.currentTime;
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(750, now + 0.08);
+
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.09);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
                 osc.start(now);
                 osc.stop(now + 0.1);
-            } else if (type === 'brush') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(500, now);
-                osc.frequency.linearRampToValueAtTime(350, now + 0.08);
-                gain.gain.setValueAtTime(0.2, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-                osc.start(now);
-                osc.stop(now + 0.08);
-            } else if (type === 'correct') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523, now);
-                osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+            }
+
+            playSplash() {
+                if (!this.enabled || !this.ctx) return;
+                // Ruído suave filtrado para água/espuma
+                const bufferSize = this.ctx.sampleRate * 0.15;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(1400, this.ctx.currentTime);
+                filter.Q.setValueAtTime(3.0, this.ctx.currentTime);
+
+                const gain = this.ctx.createGain();
+                gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.14);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+                noise.start();
+            }
+
+            playLevelUp() {
+                if (!this.enabled || !this.ctx) return;
+                const notes = [440, 554, 659, 880];
+                notes.forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    const startTime = this.ctx.currentTime + i * 0.08;
+                    osc.frequency.setValueAtTime(freq, startTime);
+                    gain.gain.setValueAtTime(0.2, startTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.2);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(startTime);
+                    osc.stop(startTime + 0.22);
+                });
+            }
+
+            playHitBoss() {
+                if (!this.enabled || !this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                const now = this.ctx.currentTime;
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(110, now + 0.12);
                 gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
                 osc.start(now);
-                osc.stop(now + 0.2);
-            } else if (type === 'win') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(440, now);
-                osc.frequency.setValueAtTime(554, now + 0.1);
-                osc.frequency.setValueAtTime(659, now + 0.2);
-                osc.frequency.setValueAtTime(880, now + 0.3);
-                gain.gain.setValueAtTime(0.4, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
-                osc.start(now);
-                osc.stop(now + 0.5);
+                osc.stop(now + 0.15);
             }
         }
 
-        // CANVAS ANIMATED GERMS & PARTICLES ENGINE
-        const canvas = document.getElementById('game-canvas');
-        const ctx = canvas.getContext('2d');
-        let canvasGerms = [];
-        let particles = [];
+        const audio = new HealthAudioEngine();
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class FloatingGerm {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.radius = Math.random() * 20 + 15;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
-                this.icon = ['🦠', '👾', '🧫', '🧼', '🪥'][Math.floor(Math.random() * 5)];
-                this.angle = Math.random() * Math.PI * 2;
+        /* ==========================================================
+           ESTADO DO JOGO, PROGRESSÃO & LOJA
+           ========================================================== */
+        const gameState = {
+            level: 1,
+            xp: 0,
+            coins: 100,
+            score: 0,
+            currentPhase: 1, // 1: Mãos, 2: Dentes, 3: Mega Chefão
+            purity: 0,
+            targetPurity: 100,
+            activeTool: 'soap',
+            combo: 0,
+            lastHitTime: 0,
+            inventory: {
+                soap_quantum: false,
+                brush_laser: false,
+                spray_plasma: false,
+                suit_golden: false
+            },
+            multipliers: {
+                cleanRadius: 1.0,
+                power: 1.0,
+                coinBonus: 1.0
             }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.angle += 0.02;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        };
+
+        // Carrega progresso salvo
+        try {
+            const saved = localStorage.getItem('labkids_health_agent_save');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed.coins !== undefined) gameState.coins = parsed.coins;
+                if (parsed.xp !== undefined) gameState.xp = parsed.xp;
+                if (parsed.level !== undefined) gameState.level = parsed.level;
+                if (parsed.inventory) gameState.inventory = Object.assign(gameState.inventory, parsed.inventory);
             }
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(Math.sin(this.angle) * 0.3);
-                ctx.font = `${this.radius * 1.8}px serif`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(this.icon, 0, 0);
-                ctx.restore();
-            }
-        }
-        for (let i = 0; i < 25; i++) canvasGerms.push(new FloatingGerm());
+        } catch(e) {}
 
-        function animateCanvas() {
-            ctx.fillStyle = 'rgba(6, 9, 19, 0.25)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            canvasGerms.forEach(g => { g.update(); g.draw(); });
-            requestAnimationFrame(animateCanvas);
-        }
-        animateCanvas();
-
-        // LEADERBOARD DEFAULT DATA
-        let leaderboard = JSON.parse(localStorage.getItem('lab_higiene_rank')) || [
-            { name: "Sofía Silva", score: 1850, avatar: "⭐" },
-            { name: "Pedro Henrique", score: 1600, avatar: "🥇" },
-            { name: "Gabriel Costa", score: 1420, avatar: "🥈" },
-            { name: "Lucas Mendes", score: 1200, avatar: "🥉" },
-            { name: "Beatriz Santos", score: 980, avatar: "🌟" }
-        ];
-
-        // GAME STATE
-        let stage = 1; // 1: Scrub, 2: Teeth, 3: Quiz
-        let playerName = "Agente Kid";
-        let score = 0;
-        let combo = 1;
-
-        function startGame() {
-            initAudio();
-            const input = document.getElementById('player-name').value.trim();
-            if (input) playerName = input;
-            document.getElementById('game-modal').style.display = 'none';
-            score = 0;
-            combo = 1;
-            stage = 1;
-            loadStage();
+        function saveGame() {
+            try {
+                localStorage.setItem('labkids_health_agent_save', JSON.stringify({
+                    coins: gameState.coins,
+                    xp: gameState.xp,
+                    level: gameState.level,
+                    inventory: gameState.inventory
+                }));
+            } catch(e) {}
         }
 
-        function switchView(view) {
-            initAudio();
-            document.getElementById('tab-game').className = 'btn-tab' + (view === 'game' ? ' active' : '');
-            document.getElementById('tab-rank').className = 'btn-tab' + (view === 'rank' ? ' active' : '');
-
-            const area = document.getElementById('play-area');
-            if (view === 'rank') {
-                renderLeaderboard(area);
-            } else {
-                loadStage();
-            }
-        }
-
-        function loadStage() {
-            const area = document.getElementById('play-area');
-            area.innerHTML = '';
-            document.getElementById('score-val').innerText = score;
-            document.getElementById('combo-val').innerText = 'x' + combo;
-
-            if (stage === 1) {
-                document.getElementById('stage-badge').innerText = 'FASE 1: ESFREGAR O SABÃO NEON 🧼';
-                renderStage1(area);
-            } else if (stage === 2) {
-                document.getElementById('stage-badge').innerText = 'FASE 2: ESCOVAÇÃO LASER DENTÁRIA 🪥';
-                renderStage2(area);
-            } else if (stage === 3) {
-                document.getElementById('stage-badge').innerText = 'FASE 3: QUIZ COMBATE AOS GERMES 🧠';
-                renderStage3(area);
-            }
-        }
-
-        // STAGE 1: SCRUB GERMS ON HAND
-        function renderStage1(area) {
-            const title = document.createElement('div');
-            title.style.fontSize = '1.2rem';
-            title.style.color = '#38bdf8';
-            title.style.marginBottom = '15px';
-            title.style.fontWeight = '700';
-            title.innerText = '🧼 Clique/Esfregue o Sabão Mágico em cima de todos os 5 Germes!';
-            area.appendChild(title);
-
-            const hand = document.createElement('div');
-            hand.className = 'scrub-hand-container';
-            
-            let germsLeft = 5;
-            const positions = [
-                { top: '20%', left: '30%' },
-                { top: '60%', left: '20%' },
-                { top: '40%', left: '60%' },
-                { top: '70%', left: '65%' },
-                { top: '25%', left: '70%' }
-            ];
-
-            positions.forEach((pos, idx) => {
-                const g = document.createElement('div');
-                g.className = 'germ-target';
-                g.innerText = ['🦠', '👾', '🧫'][idx % 3];
-                g.style.top = pos.top;
-                g.style.left = pos.left;
-                g.onclick = () => {
-                    playSound('pop');
-                    g.style.transform = 'scale(0) rotate(180deg)';
-                    g.style.pointerEvents = 'none';
-                    germsLeft--;
-                    score += 100 * combo;
-                    combo++;
-                    document.getElementById('score-val').innerText = score;
-                    document.getElementById('combo-val').innerText = 'x' + combo;
-
-                    if (germsLeft <= 0) {
-                        setTimeout(() => {
-                            stage = 2;
-                            loadStage();
-                        }, 600);
-                    }
-                };
-                hand.appendChild(g);
-            });
-
-            area.appendChild(hand);
-        }
-
-        // STAGE 2: BRUSH TEETH PLAQUES
-        function renderStage2(area) {
-            const title = document.createElement('div');
-            title.style.fontSize = '1.2rem';
-            title.style.color = '#f43f5e';
-            title.style.marginBottom = '15px';
-            title.style.fontWeight = '700';
-            title.innerText = '🪥 Clique na Escova Mágica em cima das 6 Placas de Tártaro para Limpar o Sorriso!';
-            area.appendChild(title);
-
-            const teethBox = document.createElement('div');
-            teethBox.className = 'teeth-container';
-
-            let plaquesLeft = 6;
-
-            for (let i = 0; i < 6; i++) {
-                const tooth = document.createElement('div');
-                tooth.className = 'tooth-unit';
-                
-                const plaque = document.createElement('div');
-                plaque.className = 'tooth-plaque';
-                plaque.innerText = '🦠';
-
-                tooth.onclick = () => {
-                    if (plaque.style.opacity === '0') return;
-                    playSound('brush');
-                    plaque.style.opacity = '0';
-                    plaquesLeft--;
-                    score += 150 * combo;
-                    combo++;
-                    document.getElementById('score-val').innerText = score;
-                    document.getElementById('combo-val').innerText = 'x' + combo;
-
-                    if (plaquesLeft <= 0) {
-                        setTimeout(() => {
-                            stage = 3;
-                            loadStage();
-                        }, 600);
-                    }
-                };
-
-                tooth.appendChild(plaque);
-                teethBox.appendChild(tooth);
-            }
-
-            area.appendChild(teethBox);
-        }
-
-        // STAGE 3: HEALTH QUIZ
-        const QUIZ_QUESTIONS = [
+        // Catálogo de Upgrades
+        const SHOP_ITEMS = [
             {
-                q: "Qual é o tempo ideal recomendado para lavar as mãos com água e sabão?",
-                opts: [
-                    { text: "No mínimo 20 segundos (cantar Parabéns a Você 2x)", correct: true },
-                    { text: "2 segundos apenas na ponta dos dedos", correct: false },
-                    { text: "Não precisa de sabão se passar álcool em pó", correct: false },
-                    { text: "Lavar apenas no final de semana", correct: false }
-                ]
+                id: 'soap_quantum',
+                name: 'Sabão Quântico 3D',
+                desc: 'Aumenta em 80% o raio de espuma e purifica 2x mais rápido.',
+                icon: '🫧',
+                price: 150,
+                apply: () => { gameState.multipliers.cleanRadius = 1.8; }
             },
             {
-                q: "Qual hábito evita o surgimento de cáries nos dentes?",
-                opts: [
-                    { text: "Escovar após as refeições e passar fio dental", correct: true },
-                    { text: "Comer muito pirulito antes de dormir", correct: false },
-                    { text: "Beber refrigerante em vez de água", correct: false },
-                    { text: "Morder lápis na sala de aula", correct: false }
-                ]
+                id: 'brush_laser',
+                name: 'Escova Sônica Laser',
+                desc: 'Vibração ultra-rápida! Dentes limpos em metade dos toques.',
+                icon: '⚡',
+                price: 250,
+                apply: () => { gameState.multipliers.power = 2.0; }
+            },
+            {
+                id: 'spray_plasma',
+                name: 'Spray Higienizador Turbo',
+                desc: 'Congela os germes e concede +50% de moedas a cada eliminação.',
+                icon: '🧪',
+                price: 350,
+                apply: () => { gameState.multipliers.coinBonus = 1.5; }
+            },
+            {
+                id: 'suit_golden',
+                name: 'Jaleco de Ouro Cósmico',
+                desc: 'Visual supremo de Agente da Saúde com aura brilhante.',
+                icon: '🥼',
+                price: 500,
+                apply: () => { enableGoldenSuit(); }
             }
         ];
-        let quizIdx = 0;
 
-        function renderStage3(area) {
-            if (quizIdx >= QUIZ_QUESTIONS.length) {
-                // GAME OVER - SAVE SCORE TO LEADERBOARD
-                finishGame();
-                return;
-            }
+        function applyEquippedItems() {
+            SHOP_ITEMS.forEach(item => {
+                if (gameState.inventory[item.id]) {
+                    item.apply();
+                }
+            });
+        }
 
-            const currentQ = QUIZ_QUESTIONS[quizIdx];
+        /* ==========================================================
+           MOTOR 3D (THREE.JS)
+           ========================================================== */
+        let scene, camera, renderer, raycaster, pointer;
+        let germsGroup, environmentGroup, particleSystem;
+        let baseMesh = null;
+        let isPointerDown = false;
+        let lastPointerPos = { x: 0, y: 0 };
 
-            const qBox = document.createElement('div');
-            qBox.style.width = '100%';
-            qBox.style.textAlign = 'center';
+        function initThree() {
+            const canvas = document.getElementById('webgl-canvas');
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x060919, 0.04);
 
-            const qText = document.createElement('div');
-            qText.style.fontSize = '1.25rem';
-            qText.style.fontWeight = '700';
-            qText.style.color = '#38bdf8';
-            qText.style.marginBottom = '20px';
-            qText.innerText = currentQ.q;
-            qBox.appendChild(qText);
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 0, 10);
 
-            const grid = document.createElement('div');
-            grid.className = 'options-grid';
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.1;
 
-            currentQ.opts.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'btn-opt';
-                btn.innerText = opt.text;
-                btn.onclick = () => {
-                    if (opt.correct) {
-                        playSound('correct');
-                        btn.style.background = 'linear-gradient(135deg, #059669, #10b981)';
-                        score += 300 * combo;
-                        combo++;
-                    } else {
-                        btn.style.background = 'linear-gradient(135deg, #dc2626, #ef4444)';
-                        combo = 1;
-                    }
-                    setTimeout(() => {
-                        quizIdx++;
-                        renderStage3(area);
-                    }, 800);
+            raycaster = new THREE.Raycaster();
+            pointer = new THREE.Vector2();
+
+            // Luzes
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.4);
+            dirLight.position.set(5, 10, 7);
+            scene.add(dirLight);
+
+            const pinkLight = new THREE.PointLight(0xf43f5e, 1.2, 15);
+            pinkLight.position.set(-5, -4, 4);
+            scene.add(pinkLight);
+
+            germsGroup = new THREE.Group();
+            scene.add(germsGroup);
+
+            environmentGroup = new THREE.Group();
+            scene.add(environmentGroup);
+
+            createBubbleAtmosphere();
+            createParticlesPool();
+
+            window.addEventListener('resize', onWindowResize);
+            setupInputListeners();
+            animate();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Fundo com bolhas 3D flutuantes
+        function createBubbleAtmosphere() {
+            const bubbleGeo = new THREE.SphereGeometry(0.2, 16, 16);
+            const bubbleMat = new THREE.MeshPhysicalMaterial({
+                color: 0x38bdf8,
+                transmission: 0.9,
+                opacity: 0.85,
+                transparent: true,
+                roughness: 0.1,
+                ior: 1.1
+            });
+
+            for (let i = 0; i < 40; i++) {
+                const mesh = new THREE.Mesh(bubbleGeo, bubbleMat);
+                mesh.position.set(
+                    (Math.random() - 0.5) * 16,
+                    (Math.random() - 0.5) * 12,
+                    (Math.random() - 0.5) * 8 - 2
+                );
+                const scale = 0.5 + Math.random() * 1.5;
+                mesh.scale.set(scale, scale, scale);
+                mesh.userData = {
+                    floatSpeed: 0.01 + Math.random() * 0.02,
+                    rotSpeed: 0.01 + Math.random() * 0.01,
+                    initialY: mesh.position.y
                 };
-                grid.appendChild(btn);
-            });
-
-            qBox.appendChild(grid);
-            area.appendChild(qBox);
-        }
-
-        function finishGame() {
-            playSound('win');
-            if (window.LabKidsGamification) {
-              window.LabKidsGamification.recordCompletion({
-                activityId: 12,
-                slug: 'habitos-de-higiene',
-                title: 'Missão Hábitos de Higiene',
-                subject: 'Ciências',
-                score: score
-              });
+                environmentGroup.add(mesh);
             }
-            
-            // Add to Leaderboard
-            leaderboard.push({ name: playerName, score: score, avatar: "🏆" });
-            leaderboard.sort((a, b) => b.score - a.score);
-            leaderboard = leaderboard.slice(0, 7);
-            localStorage.setItem('lab_higiene_rank', JSON.stringify(leaderboard));
-
-            const modal = document.getElementById('game-modal');
-            document.getElementById('modal-title').style.color = '#fbbf24';
-            document.getElementById('modal-title').innerText = '🏆 PARABÉNS, AGENTE!';
-            document.getElementById('modal-sub').innerHTML = `
-                Você concluiu com perfeição todas as etapas de Higiene & Saúde!<br><br>
-                ⭐ **Pontuação Final**: <strong style="color: #fbbf24; font-size: 1.6rem;">${score} PONTOS</strong><br>
-                Seu nome foi registrado no Ranking dos Campeões!
-            `;
-            const btn = modal.querySelector('.btn-action');
-            btn.innerText = '🏆 VER RANKING E JOGAR NOVAMENTE 🚀';
-            btn.onclick = () => {
-                modal.style.display = 'none';
-                switchView('rank');
-            };
-            modal.style.display = 'flex';
         }
 
-        function renderLeaderboard(area) {
-            area.innerHTML = '';
-            const title = document.createElement('div');
-            title.style.fontSize = '1.4rem';
-            title.style.color = '#fbbf24';
-            title.style.fontWeight = '800';
-            title.style.marginBottom = '15px';
-            title.innerText = '🏆 RANKING DOS SUPER AGENTES DA SAÚDE';
-            area.appendChild(title);
+        // Partículas 3D para espuma e brilhos
+        let particles, particlePositions, particleVelocities, particleLifes;
+        const MAX_PARTICLES = 250;
 
-            const list = document.createElement('div');
-            list.className = 'leaderboard-list';
+        function createParticlesPool() {
+            const geo = new THREE.BufferGeometry();
+            particlePositions = new Float32Array(MAX_PARTICLES * 3);
+            particleVelocities = new Float32Array(MAX_PARTICLES * 3);
+            particleLifes = new Float32Array(MAX_PARTICLES);
 
-            leaderboard.forEach((item, idx) => {
-                const row = document.createElement('div');
-                row.className = 'rank-item' + (idx === 0 ? ' top-1' : idx === 1 ? ' top-2' : idx === 2 ? ' top-3' : '');
-                row.innerHTML = `
-                    <div>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '🎖️'} #${idx + 1} <strong>${item.name}</strong></div>
-                    <div style="color:#fbbf24;">⭐ ${item.score} pts</div>
-                `;
-                list.appendChild(row);
+            for (let i = 0; i < MAX_PARTICLES; i++) {
+                particlePositions[i * 3 + 1] = -9999;
+                particleLifes[i] = 0;
+            }
+
+            geo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            const mat = new THREE.PointsMaterial({
+                color: 0x7dd3fc,
+                size: 0.35,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
             });
 
-            area.appendChild(list);
+            particleSystem = new THREE.Points(geo, mat);
+            scene.add(particleSystem);
         }
-        function toggleFullScreen() {
-            const elem = document.documentElement;
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
-                    elem.webkitRequestFullscreen();
+
+        function emitFoam(x, y, z, count = 12) {
+            let emitted = 0;
+            for (let i = 0; i < MAX_PARTICLES && emitted < count; i++) {
+                if (particleLifes[i] <= 0) {
+                    particlePositions[i * 3] = x + (Math.random() - 0.5) * 0.4;
+                    particlePositions[i * 3 + 1] = y + (Math.random() - 0.5) * 0.4;
+                    particlePositions[i * 3 + 2] = z + (Math.random() - 0.5) * 0.4;
+
+                    particleVelocities[i * 3] = (Math.random() - 0.5) * 0.06;
+                    particleVelocities[i * 3 + 1] = 0.02 + Math.random() * 0.05;
+                    particleVelocities[i * 3 + 2] = (Math.random() - 0.5) * 0.06;
+
+                    particleLifes[i] = 1.0;
+                    emitted++;
+                }
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+        }
+
+        function updateParticles() {
+            if (!particleSystem) return;
+            for (let i = 0; i < MAX_PARTICLES; i++) {
+                if (particleLifes[i] > 0) {
+                    particlePositions[i * 3] += particleVelocities[i * 3];
+                    particlePositions[i * 3 + 1] += particleVelocities[i * 3 + 1];
+                    particlePositions[i * 3 + 2] += particleVelocities[i * 3 + 2];
+                    particleLifes[i] -= 0.025;
+                    if (particleLifes[i] <= 0) {
+                        particlePositions[i * 3 + 1] = -9999;
+                    }
+                }
+            }
+            particleSystem.geometry.attributes.position.needsUpdate = true;
+        }
+
+        /* ==========================================================
+           CONSTRUÇÃO DOS CENÁRIOS E GERMES 3D POR FASE
+           ========================================================== */
+        function loadPhase(phaseNum) {
+            gameState.currentPhase = phaseNum;
+            gameState.purity = 0;
+            updateHUD();
+
+            // Limpa germes e base anterior
+            while (germsGroup.children.length > 0) {
+                const obj = germsGroup.children[0];
+                germsGroup.remove(obj);
+            }
+            if (baseMesh) {
+                scene.remove(baseMesh);
+                baseMesh = null;
+            }
+
+            const banner = document.getElementById('stage-banner');
+            const bTitle = document.getElementById('stage-title');
+            const bDesc = document.getElementById('stage-desc');
+
+            if (phaseNum === 1) {
+                bTitle.innerText = 'FASE 1: LABORATÓRIO DAS MÃOS';
+                bDesc.innerText = 'Esfregue o Sabão Quântico para eliminar as bactérias das mãos!';
+                createHandScene();
+            } else if (phaseNum === 2) {
+                bTitle.innerText = 'FASE 2: ARENA BUCAL';
+                bDesc.innerText = 'Acione a Escova Sônica para expulsar os germes dos dentes!';
+                createTeethScene();
+            } else if (phaseNum === 3) {
+                bTitle.innerText = 'FASE 3: MEGA CHEFÃO BACTERIANO';
+                bDesc.innerText = 'Batalha Final! Derrote a Mega Bactéria com todos os seus equipamentos!';
+                createBossScene();
+            }
+
+            banner.classList.add('show');
+            setTimeout(() => banner.classList.remove('show'), 2800);
+        }
+
+        // FASE 1: Mão Estilizada 3D com Germes
+        function createHandScene() {
+            const handGeo = new THREE.CylinderGeometry(2.4, 2.8, 0.6, 32);
+            const handMat = new THREE.MeshStandardMaterial({
+                color: 0xffdfba,
+                roughness: 0.6,
+                metalness: 0.1
+            });
+            baseMesh = new THREE.Mesh(handGeo, handMat);
+            baseMesh.rotation.x = Math.PI / 2.8;
+            baseMesh.position.set(0, -0.4, 0);
+            scene.add(baseMesh);
+
+            // Adiciona dedos estilizados
+            for (let i = -2; i <= 2; i++) {
+                const fingerGeo = new THREE.CapsuleGeometry ? new THREE.CapsuleGeometry(0.35, 1.4, 8, 16) : new THREE.CylinderGeometry(0.35, 0.35, 1.6, 16);
+                const finger = new THREE.Mesh(fingerGeo, handMat);
+                finger.position.set(i * 0.9, 2.2 - Math.abs(i) * 0.25, 0.1);
+                finger.rotation.z = -i * 0.1;
+                baseMesh.add(finger);
+            }
+
+            // Spawna 12 germes fofos
+            for (let i = 0; i < 12; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 0.5 + Math.random() * 1.8;
+                const x = Math.cos(angle) * dist;
+                const y = Math.sin(angle) * dist - 0.2;
+                spawnGerm(x, y, 0.5, 'regular');
+            }
+        }
+
+        // FASE 2: Dentes 3D
+        function createTeethScene() {
+            const archGroup = new THREE.Group();
+            const toothMat = new THREE.MeshStandardMaterial({
+                color: 0xf8fafc,
+                roughness: 0.2,
+                metalness: 0.1
+            });
+
+            for (let i = -4; i <= 4; i++) {
+                const toothGeo = new THREE.BoxGeometry(0.75, 1.1, 0.7);
+                const tooth = new THREE.Mesh(toothGeo, toothMat);
+                const ang = (i / 5) * 1.1;
+                tooth.position.set(Math.sin(ang) * 3.5, Math.cos(ang) * 0.8 - 0.5, -Math.cos(ang) * 1.5 + 1.2);
+                tooth.rotation.y = ang;
+                archGroup.add(tooth);
+            }
+            baseMesh = archGroup;
+            scene.add(baseMesh);
+
+            // Spawna germes bucais amarelados e cáries
+            for (let i = 0; i < 14; i++) {
+                const x = (Math.random() - 0.5) * 5;
+                const y = (Math.random() - 0.5) * 1.5 - 0.5;
+                spawnGerm(x, y, 0.5, 'tooth_bug');
+            }
+        }
+
+        // FASE 3: Mega Chefão Germe
+        function createBossScene() {
+            spawnBoss();
+        }
+
+        // Constrói um modelo de Germe 3D expressivo com olhos
+        function spawnGerm(x, y, z, type = 'regular') {
+            const germ = new THREE.Group();
+
+            let mainColor = 0x10b981;
+            if (type === 'tooth_bug') mainColor = 0xd97706;
+
+            const bodyGeo = new THREE.DodecahedronGeometry(0.48, 2);
+            const bodyMat = new THREE.MeshStandardMaterial({
+                color: mainColor,
+                roughness: 0.4,
+                metalness: 0.1,
+                wireframe: false
+            });
+            const body = new THREE.Mesh(bodyGeo, bodyMat);
+            germ.add(body);
+
+            // Tentáculos / Espículas
+            for (let i = 0; i < 8; i++) {
+                const spikeGeo = new THREE.ConeGeometry(0.08, 0.35, 8);
+                const spikeMat = new THREE.MeshStandardMaterial({ color: mainColor });
+                const spike = new THREE.Mesh(spikeGeo, spikeMat);
+                const v = new THREE.Vector3((Math.random()-0.5)*2, (Math.random()-0.5)*2, (Math.random()-0.5)*2).normalize();
+                spike.position.copy(v.clone().multiplyScalar(0.48));
+                spike.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v);
+                germ.add(spike);
+            }
+
+            // Olhos expressivos
+            const eyeGeo = new THREE.SphereGeometry(0.12, 12, 12);
+            const eyeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const pupilGeo = new THREE.SphereGeometry(0.05, 8, 8);
+            const pupilMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+
+            const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+            leftEye.position.set(-0.16, 0.12, 0.42);
+            const leftPupil = new THREE.Mesh(pupilGeo, pupilMat);
+            leftPupil.position.set(0, 0, 0.09);
+            leftEye.add(leftPupil);
+            germ.add(leftEye);
+
+            const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+            rightEye.position.set(0.16, 0.12, 0.42);
+            const rightPupil = new THREE.Mesh(pupilGeo, pupilMat);
+            rightPupil.position.set(0, 0, 0.09);
+            rightEye.add(rightPupil);
+            germ.add(rightEye);
+
+            germ.position.set(x, y, z);
+            germ.userData = {
+                isGerm: true,
+                health: 100,
+                maxHealth: 100,
+                pulseOffset: Math.random() * Math.PI * 2,
+                baseScale: 1.0,
+                bodyMesh: body,
+                leftEye: leftEye,
+                rightEye: rightEye
+            };
+
+            germsGroup.add(germ);
+        }
+
+        // Mega Boss
+        function spawnBoss() {
+            const boss = new THREE.Group();
+            const bodyGeo = new THREE.IcosahedronGeometry(1.6, 3);
+            const bodyMat = new THREE.MeshStandardMaterial({
+                color: 0xef4444,
+                roughness: 0.3,
+                metalness: 0.2
+            });
+            const body = new THREE.Mesh(bodyGeo, bodyMat);
+            boss.add(body);
+
+            // Mega tentáculos
+            for (let i = 0; i < 20; i++) {
+                const spikeGeo = new THREE.ConeGeometry(0.2, 0.8, 8);
+                const spikeMat = new THREE.MeshStandardMaterial({ color: 0x991b1b });
+                const spike = new THREE.Mesh(spikeGeo, spikeMat);
+                const v = new THREE.Vector3((Math.random()-0.5)*2, (Math.random()-0.5)*2, (Math.random()-0.5)*2).normalize();
+                spike.position.copy(v.clone().multiplyScalar(1.5));
+                spike.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v);
+                boss.add(spike);
+            }
+
+            // Mega Olhos zangados
+            const eyeGeo = new THREE.SphereGeometry(0.35, 16, 16);
+            const eyeMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+            const pupilGeo = new THREE.SphereGeometry(0.15, 12, 12);
+            const pupilMat = new THREE.MeshBasicMaterial({ color: 0x7f1d1d });
+
+            const eye1 = new THREE.Mesh(eyeGeo, eyeMat);
+            eye1.position.set(-0.5, 0.4, 1.4);
+            const pupil1 = new THREE.Mesh(pupilGeo, pupilMat);
+            pupil1.position.set(0, 0, 0.28);
+            eye1.add(pupil1);
+            boss.add(eye1);
+
+            const eye2 = new THREE.Mesh(eyeGeo, eyeMat);
+            eye2.position.set(0.5, 0.4, 1.4);
+            const pupil2 = new THREE.Mesh(pupilGeo, pupilMat);
+            pupil2.position.set(0, 0, 0.28);
+            eye2.add(pupil2);
+            boss.add(eye2);
+
+            boss.position.set(0, 0, 0);
+            boss.userData = {
+                isGerm: true,
+                isBoss: true,
+                health: 500,
+                maxHealth: 500,
+                pulseOffset: 0,
+                baseScale: 1.0,
+                bodyMesh: body
+            };
+
+            germsGroup.add(boss);
+        }
+
+        /* ==========================================================
+           INTERAÇÃO E HIGIENIZAÇÃO 3D
+           ========================================================== */
+        function setupInputListeners() {
+            const canvas = document.getElementById('webgl-canvas');
+
+            const handlePointerMove = (e) => {
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                if (clientX === undefined) return;
+
+                pointer.x = (clientX / window.innerWidth) * 2 - 1;
+                pointer.y = -(clientY / window.innerHeight) * 2 + 1;
+
+                if (isPointerDown) {
+                    processHit(clientX, clientY);
+                }
+            };
+
+            const handlePointerDown = (e) => {
+                audio.init();
+                isPointerDown = true;
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                handlePointerMove(e);
+                processHit(clientX, clientY);
+            };
+
+            const handlePointerUp = () => {
+                isPointerDown = false;
+            };
+
+            window.addEventListener('mousedown', handlePointerDown);
+            window.addEventListener('mousemove', handlePointerMove);
+            window.addEventListener('mouseup', handlePointerUp);
+
+            window.addEventListener('touchstart', handlePointerDown, { passive: false });
+            window.addEventListener('touchmove', handlePointerMove, { passive: false });
+            window.addEventListener('touchend', handlePointerUp);
+        }
+
+        function processHit(screenX, screenY) {
+            raycaster.setFromCamera(pointer, camera);
+            const intersects = raycaster.intersectObjects(germsGroup.children, true);
+
+            if (intersects.length > 0) {
+                // Encontra o grupo pai raiz do germe
+                let root = intersects[0].object;
+                while (root.parent && root.parent !== germsGroup) {
+                    root = root.parent;
+                }
+
+                if (root && root.userData && root.userData.isGerm) {
+                    cleanGerm(root, intersects[0].point);
                 }
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                }
+                // Se arrastando no vazio, ainda emite efeito da ferramenta
+                raycaster.ray.at(5, intersects);
+                emitFoam(pointer.x * 4, pointer.y * 3, 0, 3);
             }
         }
+
+        function cleanGerm(germ, hitPoint) {
+            const now = Date.now();
+            if (now - gameState.lastHitTime < 1800) {
+                gameState.combo++;
+            } else {
+                gameState.combo = 1;
+            }
+            gameState.lastHitTime = now;
+
+            showCombo(gameState.combo);
+
+            let damage = 35 * gameState.multipliers.power;
+            if (gameState.activeTool === 'brush') damage *= 1.3;
+            if (gameState.activeTool === 'spray') damage *= 1.1;
+
+            germ.userData.health -= damage;
+
+            // Flash de limpeza e partículas
+            emitFoam(hitPoint.x, hitPoint.y, hitPoint.z, 15);
+            triggerFlash();
+
+            // Reação do germe (escala diminui e treme)
+            const healthRatio = Math.max(0, germ.userData.health / germ.userData.maxHealth);
+            germ.scale.setScalar(germ.userData.baseScale * (0.4 + 0.6 * healthRatio));
+
+            if (germ.userData.isBoss) {
+                audio.playHitBoss();
+            } else {
+                audio.playSplash();
+            }
+
+            if (germ.userData.health <= 0) {
+                // Germe eliminado!
+                audio.playPop();
+                emitFoam(germ.position.x, germ.position.y, germ.position.z, 30);
+                germsGroup.remove(germ);
+
+                const coinsEarned = Math.round(15 * gameState.multipliers.coinBonus * (1 + gameState.combo * 0.1));
+                gameState.coins += coinsEarned;
+                gameState.xp += 25;
+                gameState.score += 100 * (gameState.combo > 1 ? gameState.combo : 1);
+
+                checkLevelUp();
+                checkStageCompletion();
+                updateHUD();
+                saveGame();
+            }
+        }
+
+        function triggerFlash() {
+            const flash = document.getElementById('clean-flash');
+            flash.style.opacity = '1';
+            setTimeout(() => { flash.style.opacity = '0'; }, 140);
+        }
+
+        function showCombo(count) {
+            if (count < 2) return;
+            const comboEl = document.getElementById('combo-display');
+            comboEl.innerText = '🔥 COMBO x' + count + '!';
+            comboEl.classList.add('show');
+            clearTimeout(comboEl._t);
+            comboEl._t = setTimeout(() => comboEl.classList.remove('show'), 1200);
+        }
+
+        function checkLevelUp() {
+            const neededXP = gameState.level * 100;
+            if (gameState.xp >= neededXP) {
+                gameState.level++;
+                gameState.xp -= neededXP;
+                audio.playLevelUp();
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+            }
+        }
+
+        function checkStageCompletion() {
+            const remaining = germsGroup.children.length;
+            if (remaining === 0) {
+                gameState.purity = 100;
+                updateHUD();
+
+                if (gameState.currentPhase < 3) {
+                    audio.playLevelUp();
+                    confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+                    setTimeout(() => {
+                        loadPhase(gameState.currentPhase + 1);
+                    }, 1200);
+                } else {
+                    // Vitória Final
+                    showVictory();
+                }
+            } else {
+                const total = (gameState.currentPhase === 1 ? 12 : gameState.currentPhase === 2 ? 14 : 1);
+                gameState.purity = Math.round(((total - remaining) / total) * 100);
+            }
+        }
+
+        function showVictory() {
+            audio.playLevelUp();
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+
+            document.getElementById('v-score').innerText = gameState.score;
+            document.getElementById('v-coins').innerText = gameState.coins;
+            document.getElementById('v-rank').innerText = getRankTitle();
+
+            document.getElementById('modal-victory').classList.add('open');
+
+            // Notifica sistema de gamificação global Lab Kids se presente
+            if (window.LabKidsGamification && typeof window.LabKidsGamification.recordCompletion === 'function') {
+                try {
+                    window.LabKidsGamification.recordCompletion({
+                        activityId: 12,
+                        slug: 'habitos-de-higiene',
+                        score: gameState.score,
+                        coins: gameState.coins
+                    });
+                } catch(e) {}
+            }
+        }
+
+        function getRankTitle() {
+            if (gameState.level < 2) return 'Recruta';
+            if (gameState.level < 4) return 'Sargento';
+            if (gameState.level < 7) return 'Capitão';
+            return 'Mestre Supremo';
+        }
+
+        function updateHUD() {
+            document.getElementById('player-level').innerText = gameState.level;
+            document.getElementById('player-coins').innerText = gameState.coins;
+            document.getElementById('player-rank').innerText = getRankTitle();
+            document.getElementById('purity-pct').innerText = gameState.purity + '%';
+            document.getElementById('purity-fill').style.width = gameState.purity + '%';
+        }
+
+        /* ==========================================================
+           LOOP PRINCIPAL DE ANIMAÇÃO
+           ========================================================== */
+        let clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            const time = clock.getElapsedTime();
+
+            // Rotação suave do cenário base
+            if (baseMesh) {
+                baseMesh.rotation.y = Math.sin(time * 0.5) * 0.15;
+            }
+
+            // Animação viva dos germes (pulsação, olhos e flutuação)
+            germsGroup.children.forEach((germ) => {
+                if (germ.userData && germ.userData.isGerm) {
+                    const offset = germ.userData.pulseOffset || 0;
+                    const pulse = 1 + Math.sin(time * 4 + offset) * 0.08;
+                    const targetScale = (germ.userData.baseScale || 1.0) * pulse * (0.4 + 0.6 * (germ.userData.health / germ.userData.maxHealth));
+                    germ.scale.setScalar(targetScale);
+
+                    // Pequena movimentação orgânica
+                    germ.position.y += Math.sin(time * 2 + offset) * 0.002;
+                    germ.rotation.z = Math.sin(time * 1.5 + offset) * 0.1;
+                }
+            });
+
+            // Flutuação das bolhas de fundo
+            environmentGroup.children.forEach(b => {
+                b.position.y += b.userData.floatSpeed;
+                b.rotation.x += b.userData.rotSpeed;
+                b.rotation.y += b.userData.rotSpeed;
+                if (b.position.y > 7) {
+                    b.position.y = -7;
+                }
+            });
+
+            updateParticles();
+            renderer.render(scene, camera);
+        }
+
+        /* ==========================================================
+           CONTROLE DA LOJA E MODAIS
+           ========================================================== */
+        function renderShop() {
+            const container = document.getElementById('shop-items-container');
+            container.innerHTML = '';
+
+            SHOP_ITEMS.forEach(item => {
+                const isOwned = gameState.inventory[item.id];
+                const card = document.createElement('div');
+                card.className = 'shop-item';
+                card.innerHTML = `
+                    <div class="shop-item-top">
+                        <div class="shop-item-icon">${item.icon}</div>
+                        <div class="shop-item-info">
+                            <h4>${item.name}</h4>
+                            <p>${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="shop-item-bottom">
+                        <div class="shop-price">💧 ${item.price} Gotas</div>
+                        <button class="btn-buy ${isOwned ? 'equipped' : ''}" data-id="${item.id}">
+                            ${isOwned ? 'Equipado ✓' : 'Comprar'}
+                        </button>
+                    </div>
+                `;
+
+                const btn = card.querySelector('.btn-buy');
+                if (!isOwned) {
+                    btn.addEventListener('click', () => buyShopItem(item));
+                }
+
+                container.appendChild(card);
+            });
+        }
+
+        function buyShopItem(item) {
+            if (gameState.coins >= item.price) {
+                gameState.coins -= item.price;
+                gameState.inventory[item.id] = true;
+                item.apply();
+                saveGame();
+                updateHUD();
+                renderShop();
+                audio.playLevelUp();
+                confetti({ particleCount: 40, spread: 50, origin: { y: 0.5 } });
+            } else {
+                alert('Gotas de Sabão insuficientes! Complete mais fases para ganhar mais.');
+            }
+        }
+
+        function enableGoldenSuit() {
+            // Efeito visual dourado nas bolhas
+            environmentGroup.children.forEach(b => {
+                b.material.color.setHex(0xfacc15);
+            });
+        }
+
+        /* ==========================================================
+           BINDING DE EVENTOS DA UI
+           ========================================================== */
+        document.getElementById('btn-start-game').addEventListener('click', () => {
+            audio.init();
+            document.getElementById('modal-start').classList.remove('open');
+            applyEquippedItems();
+            loadPhase(1);
+        });
+
+        document.getElementById('btn-play-again').addEventListener('click', () => {
+            document.getElementById('modal-victory').classList.remove('open');
+            loadPhase(1);
+        });
+
+        // Loja
+        document.getElementById('btn-open-shop').addEventListener('click', () => {
+            audio.init();
+            renderShop();
+            document.getElementById('modal-shop').classList.add('open');
+        });
+
+        document.getElementById('btn-close-shop').addEventListener('click', () => {
+            document.getElementById('modal-shop').classList.remove('open');
+        });
+
+        // Alternância de Ferramentas
+        const toolButtons = document.querySelectorAll('.tool-btn');
+        toolButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                audio.init();
+                audio.playSplash();
+                toolButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                gameState.activeTool = btn.getAttribute('data-tool');
+            });
+        });
+
+        // Som
+        document.getElementById('btn-toggle-sound').addEventListener('click', () => {
+            audio.init();
+            audio.enabled = !audio.enabled;
+            document.getElementById('sound-icon').innerText = audio.enabled ? '🔊' : '🔇';
+        });
+
+        // Fullscreen
+        document.getElementById('btn-fullscreen').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        });
+
+        // Inicializa Three.js e HUD
+        window.addEventListener('DOMContentLoaded', () => {
+            initThree();
+            updateHUD();
+        });
     </script>
 </body>
 </html>

@@ -51,7 +51,7 @@ try:
 
     def get_coder_llm():
         return LLM(
-            model="openai/claude-sonnet-4-5",
+            model="openai/auto",
             base_url=FREELLM_URL,
             api_key=FREELLM_KEY,
             temperature=0.1
@@ -59,7 +59,7 @@ try:
 
     def get_writer_llm():
         return LLM(
-            model="openai/claude-sonnet-4-5",
+            model="openai/auto",
             base_url=FREELLM_URL,
             api_key=FREELLM_KEY,
             temperature=0.3
@@ -151,7 +151,18 @@ try:
             process=Process.sequential,
             verbose=True
         )
-        return str(equipe.kickoff())
+        max_retries = 3
+        for attempt in range(1, max_retries + 1):
+            try:
+                return str(equipe.kickoff())
+            except Exception as e:
+                if 'RateLimitError' in str(e) and attempt < max_retries:
+                    wait_seconds = 30 * attempt
+                    print(f"⚠️ Rate limit encountered. Retrying in {wait_seconds}s (attempt {attempt}/{max_retries})...")
+                    import time
+                    time.sleep(wait_seconds)
+                else:
+                    raise
 
 except Exception as ex:
     criar_squad_lbkids = None
