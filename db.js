@@ -2281,13 +2281,6 @@ async function initTables() {
           level: "6-9", category: "Jogo Autoral Lab Kids", bncc_code: "EF69LP55, EF07LP14, EF08LP14", subject: "Cidadania & Ética"
         },
         {
-          title: "Hábitos de Higiene & Saúde",
-          description: "Atividade interativa sobre a importância de escovar os dentes, tomar banho e lavar as mãos para prevenir doenças.",
-          activity_url: "/atividades/habitos-de-higiene",
-          icon_url: "https://cdn-icons-png.flaticon.com/512/2913/2913498.png",
-          level: "1-5", category: "Ciências & Saúde", bncc_code: "EF01CI01, EF02CI04", subject: "Ciências"
-        },
-        {
           title: "🕵️ Carta Enigmática & Escape Room [JOGO AUTORAL]",
           description: "⚡ JOGO AUTORAL LAB KIDS! Decifre enigmas rebus somando e subtraindo letras no estilo clássico da revista e Itaú Criança! Destranque as salas secretas e abra o cofre final.",
           activity_url: "/atividades/carta-enigmatica",

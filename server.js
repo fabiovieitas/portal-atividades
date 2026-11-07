@@ -911,7 +911,6 @@ app.get('/api/search-suggest', async (req, res) => {
 });
 
 // Presentation routes for new top-demand games
-app.get('/atividades/habitos-de-higiene', (req, res) => res.render('habitos_higiene_presentation'));
 app.get('/atividades/level-up', (req, res) => res.render('levelup_presentation'));
 app.get('/atividades/segue-o-ritmo', (req, res) => res.render('segue_o_ritmo_presentation', { adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531' }));
 app.get(['/ritmo', '/percussao-corporal'], (req, res) => res.redirect(301, '/atividades/segue-o-ritmo'));
@@ -1049,25 +1048,8 @@ app.get('/atividades/brincando-com-arie-3', async (req, res) => {
   res.render('arie3_presentation');
 });
 
-app.get('/atividades/habitos-de-higiene', async (req, res) => {
-  res.render('habitos_higiene_presentation');
-});
-
-app.get('/atividades/detetive-ortografia', async (req, res) => {
-  res.render('detetive_ortografia_presentation');
-});
-
-app.get('/atividades/fabrica-silabas', (req, res) => res.redirect(301, '/atividades/fabrica-de-silabas'));
-app.get('/atividades/fabrica-de-silabas', async (req, res) => {
-  res.render('fabrica_silabas_presentation');
-});
-
-app.get('/atividades/tabuada-lava', (req, res) => res.redirect(301, '/atividades/tabuada-chao-e-lava'));
-app.get('/atividades/capitao-alberto', (req, res) => res.redirect(301, '/atividades/capitao-alberto-farao'));
-app.get('/atividades/caca-palavras', (req, res) => res.redirect(301, '/atividades/caca-palavras-temas'));
-app.get('/atividades/arie2', (req, res) => res.redirect(301, '/atividades/brincando-com-arie-2'));
 app.get('/atividades/arie3', (req, res) => res.redirect(301, '/atividades/brincando-com-arie-3'));
-app.get('/atividades/habitos-higiene', (req, res) => res.redirect(301, '/atividades/habitos-de-higiene'));
+app.get(['/atividades/habitos-de-higiene', '/atividades/habitos-higiene'], (req, res) => res.redirect(301, '/'));
 app.get('/atividades/missao-respeito', (req, res) => res.redirect(301, '/atividades/level-up'));
 app.get('/atividades/material-dourado', (req, res) => res.redirect(301, '/'));
 app.get('/atividades/desafio-adicao', (req, res) => res.redirect(301, '/'));
