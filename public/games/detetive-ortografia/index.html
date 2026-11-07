@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Detetive da Ortografia 3D: O Mistério dos Dígrafos Perdidos | Lab Kids</title>
+  <title>Detetive da Ortografia 3D: A Grande Operação dos Dígrafos | Lab Kids</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,18 +23,17 @@
     }
 
     :root {
-      --bg-dark: #0a0d18;
+      --bg-dark: #070a14;
       --gold: #f59e0b;
-      --gold-glow: rgba(245, 158, 11, 0.5);
+      --gold-glow: rgba(245, 158, 11, 0.6);
       --amber: #fbbf24;
       --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.5);
       --emerald: #10b981;
       --ruby: #ef4444;
-      --paper: #fef3c7;
-      --ink: #1c1917;
-      --wood-dark: #291809;
-      --glass-panel: rgba(15, 23, 42, 0.88);
-      --border-panel: rgba(245, 158, 11, 0.4);
+      --purple: #a855f7;
+      --glass-panel: rgba(15, 23, 42, 0.92);
+      --border-panel: rgba(245, 158, 11, 0.5);
     }
 
     html, body {
@@ -59,35 +58,40 @@
       display: block;
     }
 
-    /* Top Detective HUD */
+    /* HUD Top Bar - Aproveitamento Total da Largura */
     .hud-top {
       position: fixed;
       top: 14px;
-      left: 16px;
-      right: 16px;
-      z-index: 100;
+      left: 20px;
+      right: 20px;
+      z-index: 80;
       display: flex;
       align-items: center;
       justify-content: space-between;
       pointer-events: none;
     }
 
-    .hud-badge {
+    .hud-left {
+      display: flex;
+      gap: 12px;
       pointer-events: auto;
+    }
+
+    .hud-badge {
       background: var(--glass-panel);
       border: 2px solid var(--border-panel);
       border-radius: 40px;
-      padding: 8px 18px;
+      padding: 8px 20px;
       display: flex;
       align-items: center;
       gap: 12px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.25);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(245, 158, 11, 0.25);
     }
 
     .badge-icon {
-      font-size: 1.6rem;
-      filter: drop-shadow(0 2px 6px rgba(245, 158, 11, 0.6));
+      font-size: 1.8rem;
+      filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.7));
     }
 
     .badge-info h4 {
@@ -99,12 +103,12 @@
     }
 
     .badge-info span {
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       font-weight: 900;
       color: var(--amber);
     }
 
-    .hud-controls {
+    .hud-right {
       display: flex;
       gap: 10px;
       pointer-events: auto;
@@ -112,281 +116,334 @@
 
     .btn-hud {
       background: var(--glass-panel);
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.25);
       color: #fff;
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 40px;
       font-family: inherit;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .btn-hud:hover {
+      transform: scale(1.08) translateY(-2px);
       border-color: var(--amber);
-      transform: scale(1.06) translateY(-2px);
-      box-shadow: 0 8px 24px var(--gold-glow);
+      box-shadow: 0 8px 25px var(--gold-glow);
     }
 
     .btn-hud.shop {
-      background: linear-gradient(135deg, #d97706, #b45309);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
       border-color: #fde68a;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+      color: #fff;
+      font-size: 1.05rem;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.6);
+      animation: pulseShop 2s infinite ease-in-out;
     }
 
-    /* Prancheta / Dossiê do Caso Central */
-    .case-folder {
+    @keyframes pulseShop {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(245, 158, 11, 0.8); }
+    }
+
+    /* Tela de Caso / Painel Operacional Maximizado */
+    .main-case-stage {
       position: fixed;
-      top: 82px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 90px;
+      bottom: 24px;
+      left: 20px;
+      right: 20px;
       z-index: 50;
-      width: 92%;
-      max-width: 640px;
-      background: linear-gradient(145deg, #fef3c7, #fde68a);
-      color: var(--ink);
-      border: 3px solid #b45309;
-      border-radius: 28px;
-      padding: 22px 28px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 35px rgba(245, 158, 11, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .case-folder {
       pointer-events: auto;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .case-header {
+      width: 100%;
+      max-width: 980px;
+      background: linear-gradient(145deg, rgba(254, 243, 199, 0.96), rgba(253, 230, 138, 0.98));
+      border: 4px solid #b45309;
+      border-radius: 36px;
+      padding: 30px 45px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 50px rgba(245, 158, 11, 0.4);
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px dashed #b45309;
-      padding-bottom: 8px;
-      margin-bottom: 14px;
-    }
-
-    .case-stamp {
-      font-family: 'Special Elite', cursive;
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: #b91c1c;
-      border: 2px solid #b91c1c;
-      border-radius: 8px;
-      padding: 2px 10px;
-      transform: rotate(-3deg);
-    }
-
-    .case-progress-text {
-      font-weight: 900;
-      font-size: 0.95rem;
-      color: #78350f;
-    }
-
-    .case-clue-box {
-      text-align: center;
-      margin-bottom: 18px;
-    }
-
-    .case-clue-label {
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #92400e;
-      margin-bottom: 4px;
-    }
-
-    .case-clue-text {
-      font-size: 1.12rem;
-      font-weight: 700;
-      color: #451a03;
-      line-height: 1.4;
-    }
-
-    /* Palavra com Lacuna 3D */
-    .word-enigma-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin: 16px 0 22px 0;
-    }
-
-    .word-part {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #1e1b4b;
-      letter-spacing: 2px;
-    }
-
-    .word-gap-slot {
-      background: #ffffff;
-      border: 3px dashed #b45309;
-      border-radius: 18px;
-      min-width: 90px;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: #b91c1c;
-      box-shadow: inset 0 3px 8px rgba(0,0,0,0.15);
-      animation: pulseGap 2s infinite ease-in-out;
-    }
-
-    @keyframes pulseGap {
-      0%, 100% { transform: scale(1); border-color: #b45309; }
-      50% { transform: scale(1.05); border-color: #f59e0b; box-shadow: 0 0 16px rgba(245, 158, 11, 0.6); }
-    }
-
-    /* Pistas / Maleta de Dígrafos (Bancada de Decisão) */
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .digraph-btn {
-      background: linear-gradient(145deg, #ffffff, #fef08a);
-      border: 3px solid #d97706;
-      border-radius: 20px;
-      padding: 14px 6px;
-      font-family: inherit;
-      font-size: 1.55rem;
-      font-weight: 900;
-      color: #78350f;
-      cursor: pointer;
-      box-shadow: 0 8px 18px rgba(180, 83, 9, 0.25);
-      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-direction: column;
+      gap: 20px;
       position: relative;
     }
 
-    .digraph-btn:hover {
-      transform: translateY(-5px) scale(1.08);
+    .case-folder-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px dashed #b45309;
+      padding-bottom: 12px;
+    }
+
+    .case-stamp-badge {
+      font-family: 'Special Elite', cursive;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #b91c1c;
+      border: 3px solid #b91c1c;
+      border-radius: 12px;
+      padding: 4px 16px;
+      transform: rotate(-3deg);
+      letter-spacing: 1px;
+    }
+
+    .case-mission-tracker {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #78350f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Palavra com Lacuna 3D Grande e Impactante */
+    .word-enigma-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin: 10px 0;
+    }
+
+    .word-text-part {
+      font-size: 3.6rem;
+      font-weight: 900;
+      color: #1c1917;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .word-slot-box {
+      background: #ffffff;
+      border: 4px dashed #b45309;
+      border-radius: 22px;
+      min-width: 140px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.6rem;
+      font-weight: 900;
+      color: #b91c1c;
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.2), 0 8px 24px rgba(180, 83, 9, 0.25);
+      animation: pulseSlot 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseSlot {
+      0%, 100% { transform: scale(1); border-color: #b45309; }
+      50% { transform: scale(1.06); border-color: #f59e0b; box-shadow: 0 0 25px rgba(245, 158, 11, 0.7); }
+    }
+
+    /* Grade de Dígrafos - Peças Grandes e Clicáveis */
+    .digraph-options-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 6px;
+    }
+
+    .btn-digraph-card {
+      background: linear-gradient(145deg, #ffffff, #fef08a);
+      border: 3.5px solid #d97706;
+      border-radius: 24px;
+      padding: 20px 8px;
+      font-family: inherit;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #78350f;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(180, 83, 9, 0.3);
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: center;
+    }
+
+    .btn-digraph-card:hover {
+      transform: translateY(-6px) scale(1.08);
       border-color: #b45309;
-      box-shadow: 0 12px 25px rgba(245, 158, 11, 0.45);
+      box-shadow: 0 16px 35px rgba(245, 158, 11, 0.5);
       background: #fef08a;
     }
 
-    .digraph-btn:active {
+    .btn-digraph-card:active {
       transform: translateY(2px) scale(0.96);
     }
 
-    .digraph-btn.correct-anim {
+    .btn-digraph-card.correct-flash {
       background: linear-gradient(135deg, #10b981, #059669) !important;
       color: #ffffff !important;
       border-color: #34d399 !important;
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.8) !important;
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.85) !important;
       transform: scale(1.15);
     }
 
-    .digraph-btn.wrong-anim {
+    .btn-digraph-card.wrong-flash {
       background: linear-gradient(135deg, #ef4444, #dc2626) !important;
       color: #ffffff !important;
       border-color: #f87171 !important;
-      animation: shake 0.4s;
+      animation: shakeCard 0.4s;
     }
 
-    @keyframes shake {
+    @keyframes shakeCard {
       0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-8px); }
-      40%, 80% { transform: translateX(8px); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
     }
 
-    /* Feedback Pedagógico Instantâneo */
-    .rule-explanation-box {
-      margin-top: 14px;
-      padding: 10px 16px;
-      border-radius: 14px;
-      font-size: 0.92rem;
-      font-weight: 700;
+    /* Regra Pedagógica Revelada */
+    .rule-toast-bar {
+      border-radius: 18px;
+      padding: 12px 20px;
+      font-size: 1.05rem;
+      font-weight: 800;
       display: none;
       align-items: center;
-      gap: 10px;
-      line-height: 1.35;
+      gap: 14px;
+      line-height: 1.4;
     }
 
-    .rule-explanation-box.show-correct {
+    .rule-toast-bar.correct {
       display: flex;
-      background: rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.25);
       border: 2px solid #10b981;
       color: #065f46;
     }
 
-    .rule-explanation-box.show-wrong {
+    .rule-toast-bar.wrong {
       display: flex;
       background: rgba(239, 68, 68, 0.2);
       border: 2px solid #ef4444;
       color: #991b1b;
     }
 
-    /* Barra Inferior com Ferramentas do Detetive */
-    .hud-bottom {
+    /* MODAL 1: BRIEFING INICIAL COM O AGENTE ESPECIAL */
+    .agent-briefing-overlay {
       position: fixed;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(4, 7, 18, 0.92);
+      backdrop-filter: blur(18px);
+      z-index: 500;
       display: flex;
       align-items: center;
-      gap: 14px;
-      background: var(--glass-panel);
-      border: 2px solid var(--border-panel);
-      border-radius: 50px;
-      padding: 8px 20px;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 10px 35px rgba(0,0,0,0.7), 0 0 25px rgba(245, 158, 11, 0.3);
+      justify-content: center;
+      padding: 24px;
+      opacity: 1;
       pointer-events: auto;
+      transition: opacity 0.4s ease;
     }
 
-    .tool-item {
-      background: rgba(30, 41, 59, 0.85);
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      color: #cbd5e1;
-      border-radius: 30px;
-      padding: 8px 16px;
-      font-family: inherit;
-      font-weight: 800;
-      font-size: 0.85rem;
-      cursor: pointer;
+    .agent-briefing-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .briefing-card {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 4px solid #f59e0b;
+      border-radius: 36px;
+      padding: 36px 44px;
+      max-width: 680px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 60px rgba(245, 158, 11, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .agent-avatar-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 4px solid #f59e0b;
+      background: radial-gradient(circle, #38bdf8 0%, #0369a1 100%);
+      font-size: 3.8rem;
       display: flex;
       align-items: center;
-      gap: 8px;
-      transition: all 0.2s;
+      justify-content: center;
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.7);
+      animation: pulseAvatar 2.2s infinite ease-in-out;
     }
 
-    .tool-item .icon {
-      font-size: 1.3rem;
+    @keyframes pulseAvatar {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(245, 158, 11, 0.6); }
+      50% { transform: scale(1.08); box-shadow: 0 0 50px rgba(56, 189, 248, 0.8); }
     }
 
-    .tool-item:hover {
+    .briefing-tag {
+      background: #b91c1c;
       color: #fff;
-      border-color: var(--amber);
-      background: rgba(51, 65, 85, 0.95);
-      transform: translateY(-2px);
+      font-family: 'Special Elite', cursive;
+      font-size: 0.95rem;
+      font-weight: 800;
+      padding: 4px 16px;
+      border-radius: 12px;
+      letter-spacing: 1px;
     }
 
-    .tool-item.active {
-      background: linear-gradient(135deg, #d97706, #f59e0b);
+    .briefing-card h2 {
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: #fbbf24;
+      line-height: 1.2;
+    }
+
+    .briefing-card p {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .btn-start-mission {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: 3px solid #6ee7b7;
       color: #ffffff;
-      border-color: #fde68a;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+      font-family: inherit;
+      font-size: 1.35rem;
+      font-weight: 900;
+      padding: 16px 44px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.6), 0 0 30px rgba(16, 185, 129, 0.4);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    /* Modais */
+    .btn-start-mission:hover {
+      transform: scale(1.08);
+      box-shadow: 0 14px 40px rgba(16, 185, 129, 0.8), 0 0 45px rgba(56, 189, 248, 0.6);
+    }
+
+    /* MODAL 2: LOJA DE EQUIPAMENTOS IMPACTANTE */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(5, 8, 20, 0.85);
-      backdrop-filter: blur(14px);
-      z-index: 200;
+      background: rgba(4, 7, 18, 0.88);
+      backdrop-filter: blur(16px);
+      z-index: 600;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -401,338 +458,328 @@
       pointer-events: auto;
     }
 
-    .modal-window {
+    .shop-modal-window {
       background: linear-gradient(145deg, #1e293b, #0f172a);
-      border: 3px solid #f59e0b;
-      border-radius: 34px;
+      border: 4px solid #f59e0b;
+      border-radius: 36px;
       padding: 34px;
       width: 100%;
-      max-width: 620px;
+      max-width: 840px;
       max-height: 85vh;
       overflow-y: auto;
-      box-shadow: 0 25px 65px rgba(0,0,0,0.85), 0 0 50px rgba(245, 158, 11, 0.4);
-      transform: scale(0.9);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 60px rgba(245, 158, 11, 0.4);
     }
 
-    .modal-overlay.open .modal-window {
-      transform: scale(1);
-    }
-
-    .modal-header {
+    .shop-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.12);
-      padding-bottom: 12px;
-      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+      padding-bottom: 14px;
+      margin-bottom: 22px;
     }
 
-    .modal-title {
-      font-size: 1.6rem;
+    .shop-title {
+      font-size: 1.8rem;
       font-weight: 900;
       color: #f59e0b;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .modal-close {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: #fff;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-close:hover {
-      background: #ef4444;
-    }
-
-    /* Loja / Galeria de Conquistas */
-    .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-
-    .shop-item {
-      background: rgba(15, 23, 42, 0.7);
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      transition: all 0.2s;
-    }
-
-    .shop-item:hover {
-      border-color: #f59e0b;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
-    }
-
-    .shop-item-top {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .shop-item-icon {
-      font-size: 2.2rem;
-      background: rgba(245, 158, 11, 0.15);
-      border: 2px solid rgba(245, 158, 11, 0.35);
-      border-radius: 16px;
-      width: 52px;
-      height: 52px;
+    .shop-close-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.4rem;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    .shop-item-info h4 {
-      font-size: 1rem;
-      font-weight: 800;
-      color: #f8fafc;
-    }
-
-    .shop-item-info p {
-      font-size: 0.8rem;
-      color: #94a3b8;
-      line-height: 1.3;
-    }
-
-    .btn-buy {
-      background: linear-gradient(135deg, #10b981, #059669);
-      border: none;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-family: inherit;
-      font-weight: 800;
-      font-size: 0.85rem;
-      cursor: pointer;
       transition: all 0.2s;
+    }
+
+    .shop-close-btn:hover {
+      background: #ef4444;
+      transform: scale(1.1);
+    }
+
+    .shop-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .shop-card-item {
+      background: rgba(15, 23, 42, 0.85);
+      border: 3px solid rgba(245, 158, 11, 0.3);
+      border-radius: 24px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shop-card-item:hover {
+      border-color: #f59e0b;
+      transform: translateY(-6px);
+      box-shadow: 0 12px 35px rgba(245, 158, 11, 0.35);
+    }
+
+    .shop-card-icon {
+      font-size: 3.4rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      border-radius: 22px;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));
+    }
+
+    .shop-card-item h4 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .shop-card-item p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+
+    .shop-card-benefit {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 4px 12px;
+      border-radius: 12px;
+    }
+
+    .shop-card-price {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #facc15;
       margin-top: auto;
     }
 
-    .btn-buy:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+    .btn-buy-equip {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: none;
+      color: #fff;
+      padding: 10px;
+      border-radius: 20px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s;
     }
 
-    .btn-buy.equipped {
+    .btn-buy-equip:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.7);
+    }
+
+    .btn-buy-equip.equipped {
       background: #475569;
+      box-shadow: none;
       cursor: default;
     }
 
-    /* Modal de Vitória / Dossiê Solucionado */
-    .victory-card {
-      text-align: center;
-    }
-
-    .victory-stamp {
-      font-family: 'Special Elite', cursive;
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: #10b981;
+    /* Modal Vitória Final */
+    .victory-modal-card {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
       border: 4px solid #10b981;
-      display: inline-block;
-      padding: 8px 24px;
-      border-radius: 16px;
-      margin-bottom: 18px;
-      transform: rotate(-4deg);
-      text-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+      border-radius: 36px;
+      padding: 40px;
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 60px rgba(16, 185, 129, 0.5);
     }
 
     /* Responsividade */
-    @media (max-width: 640px) {
-      .hud-top { top: 8px; left: 8px; right: 8px; }
-      .case-folder { top: 70px; padding: 16px; width: 95%; }
-      .word-part { font-size: 1.6rem; }
-      .word-gap-slot { min-width: 70px; height: 50px; font-size: 1.6rem; }
-      .options-grid { gap: 8px; }
-      .digraph-btn { padding: 10px 4px; font-size: 1.3rem; }
-      .hud-bottom { padding: 6px 14px; bottom: 10px; width: 94%; justify-content: center; }
+    @media (max-width: 768px) {
+      .hud-top { left: 10px; right: 10px; top: 10px; }
+      .case-folder { padding: 20px 18px; }
+      .word-text-part { font-size: 2.3rem; letter-spacing: 2px; }
+      .word-slot-box { min-width: 90px; height: 64px; font-size: 2.3rem; }
+      .digraph-options-grid { gap: 10px; }
+      .btn-digraph-card { padding: 12px 4px; font-size: 1.6rem; }
       .badge-info h4 { display: none; }
+      .briefing-card { padding: 24px 20px; }
+      .briefing-card h2 { font-size: 1.6rem; }
+      .briefing-card p { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Canvas 3D Three.js -->
+  <!-- Trilha 3D Three.js -->
   <canvas id="webgl-canvas"></canvas>
 
-  <!-- HUD Superior do Detetive -->
+  <!-- HUD Superior -->
   <div class="hud-top">
-    <div class="hud-badge">
-      <div class="badge-icon">🕵️‍♂️</div>
-      <div class="badge-info">
-        <h4>PATENTE DO INVESTIGADOR</h4>
-        <span id="rank-name">Detetive Mirim</span>
+    <div class="hud-left">
+      <div class="hud-badge">
+        <div class="badge-icon" id="player-avatar-icon">🕵️‍♂️</div>
+        <div class="badge-info">
+          <h4>PATENTE INVESTIGATIVA</h4>
+          <span id="rank-title">Agente Novato</span>
+        </div>
+      </div>
+
+      <div class="hud-badge" style="border-color: #38bdf8;">
+        <div class="badge-icon">⭐</div>
+        <div class="badge-info">
+          <h4>PONTUAÇÃO</h4>
+          <span id="score-text" style="color:#38bdf8;">0 pts</span>
+        </div>
       </div>
     </div>
 
-    <div class="hud-badge" style="border-color: #38bdf8;">
-      <div class="badge-icon">⭐</div>
-      <div class="badge-info">
-        <h4>CASOS SOLUCIONADOS</h4>
-        <span id="score-cases" style="color:#38bdf8;">0 pts</span>
+    <div class="hud-right">
+      <div class="hud-badge" style="border-color:#f59e0b;">
+        <span style="font-size:1.4rem;">🪙</span>
+        <span id="coins-display" style="color:#facc15; font-size:1.2rem; font-weight:900;">100</span>
       </div>
-    </div>
 
-    <div class="hud-controls">
-      <div class="hud-badge" style="border-color:#f59e0b; padding:8px 14px;">
-        <span style="font-size:1.2rem;">🪙</span>
-        <span id="coins-count" style="color:#facc15; font-weight:900;">100</span>
-      </div>
       <button class="btn-hud shop" id="btn-open-shop">
         <span>💼</span>
-        <span>Equipamentos</span>
+        <span>Loja de Itens</span>
       </button>
-      <button class="btn-hud" id="btn-sound">
+
+      <button class="btn-hud" id="btn-toggle-sound">
         <span id="sound-icon">🔊</span>
       </button>
     </div>
   </div>
 
-  <!-- Prancheta / Dossiê do Caso Aberto -->
-  <div class="case-folder" id="case-folder">
-    <div class="case-header">
-      <div class="case-stamp">CASO CONFIDENCIAL</div>
-      <div class="case-progress-text">ENIGMA <span id="current-case-num">1</span> DE <span id="total-cases-num">15</span></div>
-    </div>
+  <!-- Cenário Central: Dossiê Maximizado -->
+  <div class="main-case-stage">
+    <div class="case-folder" id="case-folder">
+      <div class="case-folder-header">
+        <div class="case-stamp-badge">ARQUIVO CONFIDENCIAL</div>
+        <div class="case-mission-tracker">
+          <span>CASO</span>
+          <strong id="case-num-display" style="color:#b45309; font-size:1.4rem;">1</strong>
+          <span>DE 15</span>
+        </div>
+      </div>
 
-    <div class="case-clue-box">
-      <div class="case-clue-label">📜 Pista do Arquivo Secreto:</div>
-      <div class="case-clue-text" id="clue-text">Carregando enigma...</div>
-    </div>
+      <!-- Lacuna da Palavra Investigada -->
+      <div class="word-enigma-display">
+        <span class="word-text-part" id="word-prefix">GALI</span>
+        <div class="word-slot-box" id="word-slot-box">?</div>
+        <span class="word-text-part" id="word-suffix">A</span>
+      </div>
 
-    <!-- Lacuna da Palavra Investigada -->
-    <div class="word-enigma-container">
-      <span class="word-part" id="word-prefix">GA</span>
-      <div class="word-gap-slot" id="word-slot">?</div>
-      <span class="word-part" id="word-suffix">A</span>
-    </div>
+      <!-- Grade dos 4 Dígrafos (Peças Grandes) -->
+      <div class="digraph-options-grid" id="digraph-options-container">
+        <!-- Injetado dinamicamente via JS -->
+      </div>
 
-    <!-- Maleta de Dígrafos (Opções) -->
-    <div class="options-grid" id="options-container">
-      <!-- Injetado dinamicamente via JS -->
-    </div>
-
-    <!-- Regra Ortográfica Revelada Instantaneamente -->
-    <div class="rule-explanation-box" id="rule-box">
-      <span id="rule-icon" style="font-size:1.5rem;">💡</span>
-      <span id="rule-text">Explicação pedagógica</span>
+      <!-- Regra Ortográfica Revelada Instantaneamente -->
+      <div class="rule-toast-bar" id="rule-toast">
+        <span id="rule-icon" style="font-size:1.8rem;">💡</span>
+        <span id="rule-msg">Regra ortográfica revelada</span>
+      </div>
     </div>
   </div>
 
-  <!-- HUD Inferior com Ferramentas do Detetive -->
-  <div class="hud-bottom">
-    <div class="tool-item active" data-tool="magnifier" id="tool-magnifier">
-      <span class="icon">🔍</span>
-      <span>Lupa de Pistas</span>
-    </div>
-    <div class="tool-item" data-tool="lamp" id="tool-lamp">
-      <span class="icon">💡</span>
-      <span>Lanterna UV</span>
-    </div>
-    <div class="tool-item" data-tool="notebook" id="tool-notebook">
-      <span class="icon">📓</span>
-      <span>Caderno de Regras</span>
+  <!-- MODAL: BRIEFING INICIAL COM O AGENTE ESPECIAL -->
+  <div class="agent-briefing-overlay" id="briefing-modal">
+    <div class="briefing-card">
+      <div class="briefing-tag">TRANSMISSÃO ULTRA-SECRETA</div>
+      <div class="agent-avatar-circle">🕵️‍♂️</div>
+      <h2>OLÁ, SUPER AGENTE!</h2>
+      <p>
+        Um vilão misterioso invadiu o <strong>Grande Dicionário da Cidade</strong> e roubou todos os dígrafos essenciais (<strong>CH, NH, LH, RR, SS, Ç</strong>)!
+      </p>
+      <p>
+        As palavras estão incompletas e o mundo precisa da sua agilidade ortográfica para restaurar a ordem. Desvende os 15 casos, colete Moedas de Ouro e equipe seu detetive com itens lendários na nossa Central!
+      </p>
+      <button class="btn-start-mission" id="btn-start-briefing">
+        <span>🚀 ACEITAR A MISSÃO</span>
+      </button>
     </div>
   </div>
 
-  <!-- Modal: Equipamentos & Loja do Detetive -->
-  <div class="modal-overlay" id="modal-shop">
-    <div class="modal-window">
-      <div class="modal-header">
-        <div class="modal-title">
+  <!-- MODAL: LOJA DE EQUIPAMENTOS IMPACTANTE -->
+  <div class="modal-overlay" id="shop-modal">
+    <div class="shop-modal-window">
+      <div class="shop-header">
+        <div class="shop-title">
           <span>💼</span>
-          <span>MALETA DE EQUIPAMENTOS DO DETETIVE</span>
+          <span>ARSENAL & EQUIPAMENTOS DO DETETIVE</span>
         </div>
-        <button class="modal-close" id="btn-close-shop">✕</button>
+        <button class="shop-close-btn" id="btn-close-shop">✕</button>
       </div>
-      <p style="color:#cbd5e1; font-size:0.95rem;">
-        Use suas <strong>Moedas da Investigação 🪙</strong> conquistadas ao desvendar palavras corretas para desbloquear melhorias e itens raros de detetive!
+
+      <p style="color:#cbd5e1; font-size:1rem; margin-bottom:20px;">
+        Turbine seu Agente com ferramentas especiais que multiplicam pontos e concedem auras 3D reluzentes!
       </p>
 
-      <div class="shop-grid" id="shop-container">
-        <!-- Itens injetados via JS -->
+      <div class="shop-cards-grid" id="shop-cards-container">
+        <!-- Injetado via JS -->
       </div>
     </div>
   </div>
 
-  <!-- Modal: Caderno de Regras Ortográficas (BNCC) -->
-  <div class="modal-overlay" id="modal-rules">
-    <div class="modal-window">
-      <div class="modal-header">
-        <div class="modal-title">
-          <span>📓</span>
-          <span>MANUAL DO DETETIVE ORTOGRÁFICO (BNCC)</span>
-        </div>
-        <button class="modal-close" id="btn-close-rules">✕</button>
+  <!-- MODAL: VITÓRIA FINAL -->
+  <div class="modal-overlay" id="victory-modal">
+    <div class="victory-modal-card">
+      <div style="font-size:4rem; margin-bottom:12px;">🏆🎖️✨</div>
+      <div style="font-family:'Special Elite', cursive; font-size:2rem; color:#10b981; border:3px solid #10b981; display:inline-block; padding:6px 20px; border-radius:14px; transform:rotate(-3deg); margin-bottom:14px;">
+        MISSÃO CUMPRIDA!
       </div>
-      <div style="display:flex; flex-direction:column; gap:14px; color:#e2e8f0; font-size:0.95rem; line-height:1.5;">
-        <div style="background:rgba(245, 158, 11, 0.15); border-left:4px solid #f59e0b; padding:12px 16px; border-radius:0 14px 14px 0;">
-          <h4 style="color:#fbbf24; margin-bottom:4px;">🔍 O que é um Dígrafo?</h4>
-          <p>É quando duas letras representam um <strong>único fonema</strong> (um só som). Exemplos: <strong>CH, NH, LH, RR, SS, QU, GU</strong>.</p>
-        </div>
-        <div style="background:rgba(56, 189, 248, 0.15); border-left:4px solid #38bdf8; padding:12px 16px; border-radius:0 14px 14px 0;">
-          <h4 style="color:#38bdf8; margin-bottom:4px;">⚡ Regra do RR e SS</h4>
-          <p>Nunca iniciamos palavras com <strong>RR</strong> ou <strong>SS</strong>! Eles são usados entre vogais para preservar o som forte.</p>
-        </div>
-        <div style="background:rgba(16, 185, 129, 0.15); border-left:4px solid #10b981; padding:12px 16px; border-radius:0 14px 14px 0;">
-          <h4 style="color:#10b981; margin-bottom:4px;">🎯 Regra do Ç (C-Cedilha)</h4>
-          <p>O <strong>Ç</strong> só é usado antes de <strong>A, O, U</strong> com som de /S/. Nunca antes de E ou I, e nunca no começo de palavras!</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Vitória / Caso Solucionado -->
-  <div class="modal-overlay" id="modal-victory">
-    <div class="modal-window victory-card">
-      <div class="victory-stamp">CASO ENCERRADO!</div>
-      <h2 style="font-size:2rem; font-weight:900; color:#fbbf24; margin-bottom:8px;">MEDALHA SHERLOCK HOLMES DA ORTOGRAFIA</h2>
-      <p style="color:#cbd5e1; font-size:1.05rem; margin-bottom:20px;">
-        Você desvendou todos os enigmas ortográficos sem deixar escapar nenhum dígrafo! Sua dedicação restaurou o dicionário da cidade!
+      <h2 style="font-size:2.2rem; font-weight:900; color:#fbbf24; margin-bottom:12px;">MESTRE SUPREMO DA ORTOGRAFIA</h2>
+      <p style="color:#e2e8f0; font-size:1.15rem; line-height:1.6; margin-bottom:24px;">
+        Você recuperou todos os dígrafos perdidos e solucionou 100% dos enigmas! Seu nome agora está gravado no Hall da Fama dos Grandes Investigadores!
       </p>
 
-      <div style="background:rgba(15,23,42,0.8); border:2px solid #f59e0b; border-radius:20px; padding:18px; margin-bottom:24px; display:flex; justify-content:space-around;">
+      <div style="background:rgba(15,23,42,0.85); border:2px solid #f59e0b; border-radius:24px; padding:20px; display:flex; justify-content:space-around; margin-bottom:26px;">
         <div>
-          <div style="font-size:1.8rem; font-weight:900; color:#10b981;" id="v-score">0</div>
-          <div style="font-size:0.75rem; color:#94a3b8; font-weight:800;">PONTOS FINAIS</div>
+          <div style="font-size:2rem; font-weight:900; color:#10b981;" id="final-score">0</div>
+          <div style="font-size:0.8rem; color:#94a3b8; font-weight:800;">PONTOS TOTAIS</div>
         </div>
         <div>
-          <div style="font-size:1.8rem; font-weight:900; color:#fbbf24;" id="v-coins">0</div>
-          <div style="font-size:0.75rem; color:#94a3b8; font-weight:800;">MOEDAS GANHAS</div>
+          <div style="font-size:2rem; font-weight:900; color:#fbbf24;" id="final-coins">0</div>
+          <div style="font-size:0.8rem; color:#94a3b8; font-weight:800;">MOEDAS COLETADAS</div>
         </div>
         <div>
-          <div style="font-size:1.8rem; font-weight:900; color:#38bdf8;">Mestre Supremo</div>
-          <div style="font-size:0.75rem; color:#94a3b8; font-weight:800;">TÍTULO</div>
+          <div style="font-size:2rem; font-weight:900; color:#38bdf8;">Sherlock 3D</div>
+          <div style="font-size:0.8rem; color:#94a3b8; font-weight:800;">PATENTE MÁXIMA</div>
         </div>
       </div>
 
-      <button class="btn-hud" id="btn-play-again" style="margin:0 auto; background:linear-gradient(135deg, #d97706, #b45309); font-size:1.2rem; padding:14px 36px; border-radius:50px;">
-        <span>🔄 INVESTIGAR NOVO CASO</span>
+      <button class="btn-start-mission" id="btn-restart-all" style="font-size:1.2rem; padding:14px 38px;">
+        <span>🔄 JOGAR NOVAMENTE</span>
       </button>
     </div>
   </div>
 
   <script>
     /* ==========================================================
-       ÁUDIO SINTETIZADO (SEM BIPS 8-BIT, SOM NOBRE DE INVESTIGAÇÃO)
+       ÁUDIO SINTETIZADO (SEM BIPS 8-BIT)
        ========================================================== */
-    class DetectiveAudioEngine {
+    class AudioEngine {
       constructor() {
         this.ctx = null;
         this.enabled = true;
@@ -748,21 +795,20 @@
         }
       }
 
-      playPaper() {
+      paper() {
         if (!this.enabled || !this.ctx) return;
         try {
-          const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 0.12, this.ctx.sampleRate);
+          const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 0.14, this.ctx.sampleRate);
           const d = buf.getChannelData(0);
           for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
           const src = this.ctx.createBufferSource();
           src.buffer = buf;
           const filter = this.ctx.createBiquadFilter();
           filter.type = 'bandpass';
-          filter.frequency.setValueAtTime(1200, this.ctx.currentTime);
-          filter.Q.setValueAtTime(2.0, this.ctx.currentTime);
+          filter.frequency.setValueAtTime(1400, this.ctx.currentTime);
           const gain = this.ctx.createGain();
-          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.11);
+          gain.gain.setValueAtTime(0.14, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.13);
           src.connect(filter);
           filter.connect(gain);
           gain.connect(this.ctx.destination);
@@ -770,35 +816,35 @@
         } catch(e) {}
       }
 
-      playCorrect() {
+      success() {
         if (!this.enabled || !this.ctx) return;
         try {
-          const notes = [440, 554, 659, 880];
+          const notes = [523, 659, 784, 1046];
           notes.forEach((freq, idx) => {
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
-            osc.type = 'sine';
-            const t = this.ctx.currentTime + idx * 0.07;
+            osc.type = 'triangle';
+            const t = this.ctx.currentTime + idx * 0.08;
             osc.frequency.setValueAtTime(freq, t);
             gain.gain.setValueAtTime(0.2, t);
-            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
             osc.connect(gain);
             gain.connect(this.ctx.destination);
             osc.start(t);
-            osc.stop(t + 0.22);
+            osc.stop(t + 0.25);
           });
         } catch(e) {}
       }
 
-      playWrong() {
+      error() {
         if (!this.enabled || !this.ctx) return;
         try {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = 'sawtooth';
           const now = this.ctx.currentTime;
-          osc.frequency.setValueAtTime(180, now);
-          osc.frequency.linearRampToValueAtTime(120, now + 0.2);
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.linearRampToValueAtTime(140, now + 0.2);
           gain.gain.setValueAtTime(0.2, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
           osc.connect(gain);
@@ -809,20 +855,19 @@
       }
     }
 
-    const audio = new DetectiveAudioEngine();
+    const audio = new AudioEngine();
 
     /* ==========================================================
-       BASE DE CASOS ORTOGRÁFICOS BNCC (EF02LP04, EF03LP01)
+       BANCO DE CASOS ORTOGRÁFICOS (15 ENIGMAS DIRETOS SEM DICAS)
        ========================================================== */
-    const CASES_DATABASE = [
+    const CASES = [
       {
         word: "GALINHA",
         prefix: "GALI",
         suffix: "A",
         correct: "NH",
         distractors: ["LH", "N", "MI"],
-        clue: "Ave da fazenda que bota ovos fresquinhos e adora ciscar no galinheiro!",
-        rule: "O dígrafo NH produz som nasal palatal suave, como em ninho e carinho."
+        rule: "O dígrafo NH produz som nasal palatal suave (galinha, ninho, carinho)."
       },
       {
         word: "COELHO",
@@ -830,8 +875,7 @@
         suffix: "O",
         correct: "LH",
         distractors: ["LI", "NH", "CH"],
-        clue: "Animalzinho fofinho de orelhas compridas que dá saltinhos e ama cenoura!",
-        rule: "O dígrafo LH representa o som lateral palatal (lhama, milho, filho)."
+        rule: "O dígrafo LH representa o som palatal lateral (coelho, milho, filho)."
       },
       {
         word: "CARROÇA",
@@ -839,8 +883,7 @@
         suffix: "A",
         correct: "Ç",
         distractors: ["SS", "S", "C"],
-        clue: "Veículo antigo de madeira com rodas puxado por animais no campo!",
-        rule: "Usa-se Ç antes de A, O, U para manter som de /S/ sem usar dois 'esses'."
+        rule: "Usa-se Ç antes de A, O, U para manter som de /S/ (carroça, laço, açúcar)."
       },
       {
         word: "CHAVE",
@@ -848,8 +891,7 @@
         suffix: "AVE",
         correct: "CH",
         distractors: ["X", "QU", "J"],
-        clue: "Pequeno objeto de metal com dentes que usamos para trancar e abrir portas!",
-        rule: "A palavra 'chave' inicia com o dígrafo CH, com som de /X/."
+        rule: "A palavra 'chave' inicia com o dígrafo CH (chave, chaveiro)."
       },
       {
         word: "GIRASSOL",
@@ -857,8 +899,7 @@
         suffix: "OL",
         correct: "SS",
         distractors: ["S", "Ç", "C"],
-        clue: "Flor alta e reluzente de pétalas amarelas que acompanha a luz do sol!",
-        rule: "Entre vogais, dobramos o S (SS) para manter o som forte de /S/."
+        rule: "Entre vogais, dobramos o S (SS) para preservar o som forte de /S/."
       },
       {
         word: "TERRA",
@@ -866,8 +907,7 @@
         suffix: "A",
         correct: "RR",
         distractors: ["R", "SS", "RH"],
-        clue: "O nosso planeta azul ou o solo fértil onde brotam as plantinhas!",
-        rule: "Entre vogais, usamos RR para garantir o som forte de /R/ vibrante."
+        rule: "Entre vogais, usa-se RR para obter o som forte de /R/ vibrante."
       },
       {
         word: "CHOCOLATE",
@@ -875,7 +915,6 @@
         suffix: "OCOLATE",
         correct: "CH",
         distractors: ["X", "SH", "TX"],
-        clue: "Doce mundialmente famoso e delicioso produzido a partir das sementes de cacau!",
         rule: "'Chocolate' escreve-se historicamente com o dígrafo CH."
       },
       {
@@ -884,8 +923,7 @@
         suffix: "AÇO",
         correct: "LH",
         distractors: ["LI", "CH", "NH"],
-        clue: "Artista de circo com nariz vermelho e roupas coloridas que faz todo mundo rir!",
-        rule: "Palhaço deriva da palavra 'palha', mantendo a raiz com LH."
+        rule: "Palhaço deriva de palha, mantendo a raiz com LH."
       },
       {
         word: "SONHO",
@@ -893,7 +931,6 @@
         suffix: "O",
         correct: "NH",
         distractors: ["N", "LH", "M"],
-        clue: "O que nossa mente cria enquanto dormimos ou um bolinho frito com creme!",
         rule: "A terminação de sonho leva o dígrafo NH (sonho, sonhador)."
       },
       {
@@ -902,8 +939,7 @@
         suffix: "ARINHO",
         correct: "SS",
         distractors: ["S", "Ç", "C"],
-        clue: "Criaturinha com penas e asas que canta lindas melodias no início do dia!",
-        rule: "Em 'passarinho', usa-se SS entre vogais para preservar o som de /S/."
+        rule: "Em 'passarinho', usa-se SS entre vogais para som de /S/."
       },
       {
         word: "CHUVA",
@@ -911,7 +947,6 @@
         suffix: "UVA",
         correct: "CH",
         distractors: ["X", "J", "QU"],
-        clue: "Gotículas de água que descem das nuvens para regar as plantas e rios!",
         rule: "'Chuva' é grafada com CH, da mesma família de chuvisco e chover."
       },
       {
@@ -920,7 +955,6 @@
         suffix: "A",
         correct: "LH",
         distractors: ["LI", "NH", "CH"],
-        clue: "Parte verde das plantas que faz a fotossíntese e cai dos galhos no outono!",
         rule: "'Folha' utiliza o dígrafo LH (folhagem, folheto)."
       },
       {
@@ -929,8 +963,7 @@
         suffix: "ÃO",
         correct: "Ç",
         distractors: ["SS", "S", "C"],
-        clue: "Órgão do peito que bombeia sangue para todo o corpo e bate com alegria!",
-        rule: "Usa-se Ç antes do ditongo ÃO para preservar o som de /S/."
+        rule: "Usa-se Ç antes de ditongo ÃO para som de /S/ (coração, ação)."
       },
       {
         word: "MINHOCA",
@@ -938,7 +971,6 @@
         suffix: "OCA",
         correct: "NH",
         distractors: ["N", "LH", "M"],
-        clue: "Pequeno ser subterrâneo que rasteja na horta e areja a terra fértil!",
         rule: "A palavra 'minhoca' possui o dígrafo nasal NH."
       },
       {
@@ -947,101 +979,122 @@
         suffix: "O",
         correct: "RR",
         distractors: ["R", "SS", "X"],
-        clue: "O melhor amigo de quatro patas que abana o rabo com lealdade e late!",
-        rule: "Em 'cachorro', usa-se RR entre vogais para som de /R/ forte."
+        rule: "Em 'cachorro', usa-se RR entre vogais para som forte de /R/."
       }
     ];
 
     /* ==========================================================
-       ESTADO DO JOGADOR, PROGRESSÃO & LOJA
+       LOJA DE EQUIPAMENTOS IMPACTANTE
+       ========================================================== */
+    const SHOP_ITEMS = [
+      {
+        id: 'gold_badge',
+        name: 'Distintivo de Ouro da Interpol',
+        desc: 'Distintivo oficial supremo. Concede aura holográfica e +50% de moedas!',
+        icon: '🎖️',
+        benefit: '+50% Moedas por Caso',
+        price: 80,
+        apply: () => {
+          document.getElementById('player-avatar-icon').innerText = '🎖️';
+        }
+      },
+      {
+        id: 'cyber_coat',
+        name: 'Sobretudo Cyberpunk Invisível',
+        desc: 'Traje de espionagem de alta tecnologia com efeito de partículas neon 3D.',
+        icon: '🧥',
+        benefit: 'Aura Neon 3D na Mesa',
+        price: 150,
+        apply: () => {
+          if (lampLight) lampLight.color.setHex(0x38bdf8);
+        }
+      },
+      {
+        id: 'laser_pen',
+        name: 'Caneta Decodificadora Quântica',
+        desc: 'Instrumento que ilumina os acertos com explosão de laser verde.',
+        icon: '🖊️',
+        benefit: 'Dobro de Pontos de XP',
+        price: 220,
+        apply: () => {
+          gameState.multiplier = 2.0;
+        }
+      },
+      {
+        id: 'sherlock_trophy',
+        name: 'Troféu Sherlock Holmes Dourado',
+        desc: 'Estatua clássica que desbloqueia a patente de Lenda da Investigação.',
+        icon: '🏆',
+        benefit: 'Patente Lendária Imediata',
+        price: 350,
+        apply: () => {
+          document.getElementById('rank-title').innerText = 'Lenda da Investigação 🏆';
+        }
+      }
+    ];
+
+    /* ==========================================================
+       ESTADO DO JOGO
        ========================================================== */
     const gameState = {
-      caseIndex: 0,
+      currentIndex: 0,
       score: 0,
       coins: 100,
+      multiplier: 1.0,
       inventory: {
-        uv_magnifier: false,
-        golden_badge: false,
-        leather_hat: false
+        gold_badge: false,
+        cyber_coat: false,
+        laser_pen: false,
+        sherlock_trophy: false
       }
     };
 
-    const SHOP_ITEMS = [
-      {
-        id: 'uv_magnifier',
-        name: 'Super Lupa UV 3D',
-        desc: 'Destaca as pistas com brilho néon violeta holográfico.',
-        icon: '🔬',
-        price: 80
-      },
-      {
-        id: 'leather_hat',
-        name: 'Chapéu Sherlock Clássico',
-        desc: 'Aumenta em 50% as moedas conquistadas em cada enigma.',
-        icon: '🕵️',
-        price: 150
-      },
-      {
-        id: 'golden_badge',
-        name: 'Distintivo de Ouro da Polícia Federal',
-        desc: 'Concede aura reluzente e patente especial de Investigador Chefe.',
-        icon: '⭐',
-        price: 250
-      }
-    ];
-
     /* ==========================================================
-       CENÁRIO 3D: ESCRITÓRIO MISTERIOSO DO DETETIVE (THREE.JS)
+       MOTOR 3D (THREE.JS): ESCRITÓRIO DO INVESTIGADOR
        ========================================================== */
-    let scene, camera, renderer;
-    let deskMesh, lampLight, dustParticles, floatingLettersGroup;
+    let scene, camera, renderer, lampLight, dustParticles, floatingOrbs;
 
     function initThree() {
       const canvas = document.getElementById('webgl-canvas');
       scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x0a0d18, 0.04);
+      scene.fog = new THREE.FogExp2(0x070a14, 0.035);
 
       camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-      camera.position.set(0, 1.2, 6.5);
+      camera.position.set(0, 1.2, 7.2);
 
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.1;
 
-      // Luz Ambiente Misteriosa
-      const ambLight = new THREE.AmbientLight(0x312e81, 0.6);
+      // Luz Ambiente
+      const ambLight = new THREE.AmbientLight(0x312e81, 0.7);
       scene.add(ambLight);
 
-      // Abajur de Investigação Verde/Âmbar
-      lampLight = new THREE.PointLight(0xf59e0b, 2.4, 18);
-      lampLight.position.set(2.2, 2.5, 1.5);
+      // Abajur de Investigação Âmbar
+      lampLight = new THREE.PointLight(0xf59e0b, 2.8, 20);
+      lampLight.position.set(2.4, 2.8, 2);
       scene.add(lampLight);
 
-      const blueBackLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+      const blueBackLight = new THREE.DirectionalLight(0x38bdf8, 1.3);
       blueBackLight.position.set(-5, 6, -3);
       scene.add(blueBackLight);
 
-      // Mesa de Madeira do Detetive
-      const deskGeo = new THREE.BoxGeometry(10, 0.6, 6);
+      // Grande Mesa de Investigação
+      const deskGeo = new THREE.BoxGeometry(14, 0.8, 8);
       const deskMat = new THREE.MeshStandardMaterial({
-        color: 0x3f220f,
-        roughness: 0.4,
-        metalness: 0.1
+        color: 0x271406,
+        roughness: 0.35,
+        metalness: 0.15
       });
-      deskMesh = new THREE.Mesh(deskGeo, deskMat);
-      deskMesh.position.set(0, -1.8, 0);
-      scene.add(deskMesh);
+      const desk = new THREE.Mesh(deskGeo, deskMat);
+      desk.position.set(0, -2.2, 0);
+      scene.add(desk);
 
-      // Lupa 3D decorativa na mesa
-      build3DMagnifier();
+      // Poeira suspensa na luz
+      buildDust();
 
-      // Partículas de poeira suspensa na luz do abajur
-      buildDustAtmosphere();
-
-      // Letras flutuantes mágicas no fundo
-      buildFloatingLetters();
+      // Orbes brilhantes flutuantes
+      buildFloatingOrbs();
 
       window.addEventListener('resize', onResize);
       animate();
@@ -1053,85 +1106,49 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    function build3DMagnifier() {
-      const magGroup = new THREE.Group();
-      
-      const rimGeo = new THREE.TorusGeometry(0.7, 0.08, 16, 32);
-      const rimMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.8, roughness: 0.2 });
-      const rim = new THREE.Mesh(rimGeo, rimMat);
-      magGroup.add(rim);
-
-      const glassGeo = new THREE.CircleGeometry(0.68, 32);
-      const glassMat = new THREE.MeshPhysicalMaterial({
-        color: 0x38bdf8,
-        transmission: 0.9,
-        transparent: true,
-        opacity: 0.6,
-        roughness: 0.1
-      });
-      const glass = new THREE.Mesh(glassGeo, glassMat);
-      magGroup.add(glass);
-
-      const handleGeo = new THREE.CylinderGeometry(0.08, 0.1, 1.2, 16);
-      const handleMat = new THREE.MeshStandardMaterial({ color: 0x1c1917, roughness: 0.6 });
-      const handle = new THREE.Mesh(handleGeo, handleMat);
-      handle.position.set(0, -1.1, 0);
-      magGroup.add(handle);
-
-      magGroup.position.set(-2.8, -0.6, 2.2);
-      magGroup.rotation.x = -Math.PI / 3;
-      magGroup.rotation.z = Math.PI / 6;
-      magGroup.userData = { initialY: -0.6 };
-      scene.add(magGroup);
-      magMeshRef = magGroup;
-    }
-    let magMeshRef = null;
-
-    function buildDustAtmosphere() {
-      const count = 120;
+    function buildDust() {
+      const count = 140;
       const geo = new THREE.BufferGeometry();
       const pos = new Float32Array(count * 3);
       for (let i = 0; i < count; i++) {
-        pos[i * 3] = (Math.random() - 0.5) * 14;
-        pos[i * 3 + 1] = (Math.random() - 0.5) * 8 + 1;
-        pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
+        pos[i * 3] = (Math.random() - 0.5) * 16;
+        pos[i * 3 + 1] = (Math.random() - 0.5) * 10 + 1;
+        pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
       }
       geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
       const mat = new THREE.PointsMaterial({
         color: 0xfef08a,
-        size: 0.12,
+        size: 0.14,
         transparent: true,
-        opacity: 0.75,
+        opacity: 0.8,
         blending: THREE.AdditiveBlending
       });
       dustParticles = new THREE.Points(geo, mat);
       scene.add(dustParticles);
     }
 
-    function buildFloatingLetters() {
-      floatingLettersGroup = new THREE.Group();
-      scene.add(floatingLettersGroup);
+    function buildFloatingOrbs() {
+      floatingOrbs = new THREE.Group();
+      scene.add(floatingOrbs);
 
-      // 10 orbes luminosos representando pistas
-      const sphereGeo = new THREE.SphereGeometry(0.18, 16, 16);
+      const sphereGeo = new THREE.SphereGeometry(0.2, 16, 16);
       const sphereMat = new THREE.MeshStandardMaterial({
         color: 0x38bdf8,
         emissive: 0x0284c7,
-        emissiveIntensity: 0.8
+        emissiveIntensity: 0.9
       });
 
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 14; i++) {
         const mesh = new THREE.Mesh(sphereGeo, sphereMat);
         mesh.position.set(
-          (Math.random() - 0.5) * 12,
-          Math.random() * 4 - 0.5,
-          (Math.random() - 0.5) * 6 - 2
+          (Math.random() - 0.5) * 14,
+          Math.random() * 5 - 1,
+          (Math.random() - 0.5) * 8 - 2
         );
         mesh.userData = {
-          speedY: 0.008 + Math.random() * 0.015,
           offset: Math.random() * Math.PI * 2
         };
-        floatingLettersGroup.add(mesh);
+        floatingOrbs.add(mesh);
       }
     }
 
@@ -1141,31 +1158,22 @@
       requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
 
-      // Oscilação suave da lâmpada
       if (lampLight) {
-        lampLight.intensity = 2.4 + Math.sin(time * 3) * 0.15;
+        lampLight.intensity = 2.8 + Math.sin(time * 3) * 0.2;
       }
 
-      // Flutuação da Lupa
-      if (magMeshRef) {
-        magMeshRef.position.y = magMeshRef.userData.initialY + Math.sin(time * 2) * 0.08;
-        magMeshRef.rotation.y = Math.sin(time * 1.5) * 0.2;
-      }
-
-      // Movimento de poeira luminosa
       if (dustParticles) {
         const pos = dustParticles.geometry.attributes.position.array;
         for (let i = 0; i < pos.length; i += 3) {
           pos[i + 1] += 0.003;
-          if (pos[i + 1] > 5) pos[i + 1] = -3;
+          if (pos[i + 1] > 6) pos[i + 1] = -3;
         }
         dustParticles.geometry.attributes.position.needsUpdate = true;
       }
 
-      // Orbes flutuantes
-      if (floatingLettersGroup) {
-        floatingLettersGroup.children.forEach(orb => {
-          orb.position.y += Math.sin(time * 2 + orb.userData.offset) * 0.004;
+      if (floatingOrbs) {
+        floatingOrbs.children.forEach(orb => {
+          orb.position.y += Math.sin(time * 2 + orb.userData.offset) * 0.005;
         });
       }
 
@@ -1173,121 +1181,122 @@
     }
 
     /* ==========================================================
-       LÓGICA PEDAGÓGICA E PROGRESSÃO DO DETETIVE
+       LÓGICA OPERACIONAL DOS CASOS
        ========================================================== */
     function loadCase(idx) {
-      const caseData = CASES_DATABASE[idx];
-      if (!caseData) return;
+      const c = CASES[idx];
+      if (!c) return;
 
-      audio.playPaper();
+      audio.paper();
 
-      document.getElementById('current-case-num').innerText = idx + 1;
-      document.getElementById('total-cases-num').innerText = CASES_DATABASE.length;
-      document.getElementById('clue-text').innerText = caseData.clue;
+      document.getElementById('case-num-display').innerText = idx + 1;
+      document.getElementById('word-prefix').innerText = c.prefix;
+      document.getElementById('word-suffix').innerText = c.suffix;
 
-      document.getElementById('word-prefix').innerText = caseData.prefix;
-      document.getElementById('word-suffix').innerText = caseData.suffix;
-      const slot = document.getElementById('word-slot');
+      const slot = document.getElementById('word-slot-box');
       slot.innerText = '?';
       slot.style.color = '#b91c1c';
 
-      // Esconde explicação anterior
-      const ruleBox = document.getElementById('rule-box');
-      ruleBox.className = 'rule-explanation-box';
+      const ruleToast = document.getElementById('rule-toast');
+      ruleToast.className = 'rule-toast-bar';
 
-      // Monta as 4 opções de dígrafos
-      const optionsContainer = document.getElementById('options-container');
-      optionsContainer.innerHTML = '';
+      const container = document.getElementById('digraph-options-container');
+      container.innerHTML = '';
 
-      // Embaralha correta + distratores
-      const allOptions = [caseData.correct, ...caseData.distractors];
-      allOptions.sort(() => Math.random() - 0.5);
+      const all = [c.correct, ...c.distractors];
+      all.sort(() => Math.random() - 0.5);
 
-      allOptions.forEach(opt => {
+      all.forEach(opt => {
         const btn = document.createElement('button');
-        btn.className = 'digraph-btn';
+        btn.className = 'btn-digraph-card';
         btn.innerText = opt;
-        btn.addEventListener('click', () => handleAnswer(opt, btn, caseData));
-        optionsContainer.appendChild(btn);
+        btn.addEventListener('click', () => handlePick(opt, btn, c));
+        container.appendChild(btn);
       });
 
       updateHUD();
     }
 
-    let isProcessing = false;
+    let isBusy = false;
 
-    function handleAnswer(selected, buttonEl, caseData) {
-      if (isProcessing) return;
+    function handlePick(selected, btnEl, c) {
+      if (isBusy) return;
       audio.init();
 
-      const ruleBox = document.getElementById('rule-box');
-      const ruleText = document.getElementById('rule-text');
+      const ruleToast = document.getElementById('rule-toast');
+      const ruleMsg = document.getElementById('rule-msg');
       const ruleIcon = document.getElementById('rule-icon');
-      const slot = document.getElementById('word-slot');
+      const slot = document.getElementById('word-slot-box');
 
-      if (selected === caseData.correct) {
+      if (selected === c.correct) {
         // ACERTOU
-        isProcessing = true;
-        buttonEl.classList.add('correct-anim');
-        audio.playCorrect();
+        isBusy = true;
+        btnEl.classList.add('correct-flash');
+        audio.success();
 
         slot.innerText = selected;
         slot.style.color = '#10b981';
 
-        ruleBox.className = 'rule-explanation-box show-correct';
-        ruleIcon.innerText = '✅ PISTA CORRETA!';
-        ruleText.innerText = caseData.rule;
+        ruleToast.className = 'rule-toast-bar correct';
+        ruleIcon.innerText = '✅ DÍGRAFO IDENTIFICADO:';
+        ruleMsg.innerText = c.rule;
 
-        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+        confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
 
-        gameState.score += 100;
-        gameState.coins += 20;
+        const pts = Math.round(100 * gameState.multiplier);
+        const coins = Math.round(25 * (gameState.inventory.gold_badge ? 1.5 : 1.0));
+        gameState.score += pts;
+        gameState.coins += coins;
         updateHUD();
 
         setTimeout(() => {
-          isProcessing = false;
-          if (gameState.caseIndex < CASES_DATABASE.length - 1) {
-            gameState.caseIndex++;
-            loadCase(gameState.caseIndex);
+          isBusy = false;
+          if (gameState.currentIndex < CASES.length - 1) {
+            gameState.currentIndex++;
+            loadCase(gameState.currentIndex);
           } else {
             showVictory();
           }
-        }, 1800);
+        }, 1700);
 
       } else {
         // ERROU
-        buttonEl.classList.add('wrong-anim');
-        audio.playWrong();
+        btnEl.classList.add('wrong-flash');
+        audio.error();
 
-        ruleBox.className = 'rule-explanation-box show-wrong';
-        ruleIcon.innerText = '❌ PISTA FALSA!';
-        ruleText.innerText = 'Dica: ' + caseData.clue;
+        ruleToast.className = 'rule-toast-bar wrong';
+        ruleIcon.innerText = '❌ DÍGRAFO INCORRETO:';
+        ruleMsg.innerText = 'Pense na regra fonética! Tente outra combinação.';
 
         setTimeout(() => {
-          buttonEl.classList.remove('wrong-anim');
+          btnEl.classList.remove('wrong-flash');
         }, 500);
       }
     }
 
     function updateHUD() {
-      document.getElementById('score-cases').innerText = gameState.score + ' pts';
-      document.getElementById('coins-count').innerText = gameState.coins;
+      document.getElementById('score-text').innerText = gameState.score + ' pts';
+      document.getElementById('coins-display').innerText = gameState.coins;
 
-      // Atualiza Patente
-      const rankEl = document.getElementById('rank-name');
-      if (gameState.score >= 1000) rankEl.innerText = 'Investigador Lendário 🏆';
-      else if (gameState.score >= 600) rankEl.innerText = 'Perito Chefe ⭐';
-      else if (gameState.score >= 300) rankEl.innerText = 'Agente Especial 🔍';
-      else rankEl.innerText = 'Detetive Mirim 🕵️';
+      const rank = document.getElementById('rank-title');
+      if (gameState.inventory.sherlock_trophy) {
+        rank.innerText = 'Lenda da Investigação 🏆';
+      } else if (gameState.score >= 1200) {
+        rank.innerText = 'Perito Supremo ⭐';
+      } else if (gameState.score >= 600) {
+        rank.innerText = 'Agente Especial 🕵️';
+      } else {
+        rank.innerText = 'Agente Novato 🔍';
+      }
     }
 
     function showVictory() {
-      audio.playCorrect();
-      confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
+      audio.success();
+      confetti({ particleCount: 160, spread: 100, origin: { y: 0.5 } });
 
-      document.getElementById('v-score').innerText = gameState.score;
-      document.getElementById('v-coins').innerText = gameState.coins;
-      document.getElementById('modal-victory').classList.add('open');
+      document.getElementById('final-score').innerText = gameState.score;
+      document.getElementById('final-coins').innerText = gameState.coins;
+      document.getElementById('victory-modal').classList.add('open');
 
       if (window.LabKidsGamification && typeof window.LabKidsGamification.recordCompletion === 'function') {
         try {
@@ -1302,44 +1311,40 @@
     }
 
     /* ==========================================================
-       LOJA E EQUIPAMENTOS DO DETETIVE
+       LOJA DE EQUIPAMENTOS
        ========================================================== */
     function renderShop() {
-      const container = document.getElementById('shop-container');
+      const container = document.getElementById('shop-cards-container');
       container.innerHTML = '';
 
       SHOP_ITEMS.forEach(item => {
         const isOwned = gameState.inventory[item.id];
         const card = document.createElement('div');
-        card.className = 'shop-item';
+        card.className = 'shop-card-item';
         card.innerHTML = `
-          <div class="shop-item-top">
-            <div class="shop-item-icon">${item.icon}</div>
-            <div class="shop-item-info">
-              <h4>${item.name}</h4>
-              <p>${item.desc}</p>
-            </div>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
-            <span style="color:#facc15; font-weight:800; font-size:0.95rem;">🪙 ${item.price} Moedas</span>
-            <button class="btn-buy ${isOwned ? 'equipped' : ''}" data-id="${item.id}">
-              ${isOwned ? 'Equipado ✓' : 'Comprar'}
-            </button>
-          </div>
+          <div class="shop-card-icon">${item.icon}</div>
+          <h4>${item.name}</h4>
+          <p>${item.desc}</p>
+          <div class="shop-card-benefit">✨ ${item.benefit}</div>
+          <div class="shop-card-price">🪙 ${item.price} Moedas</div>
+          <button class="btn-buy-equip ${isOwned ? 'equipped' : ''}" data-id="${item.id}">
+            ${isOwned ? 'Equipado ✓' : 'Comprar Item'}
+          </button>
         `;
 
-        const btn = card.querySelector('.btn-buy');
+        const btn = card.querySelector('.btn-buy-equip');
         if (!isOwned) {
           btn.addEventListener('click', () => {
             if (gameState.coins >= item.price) {
               gameState.coins -= item.price;
               gameState.inventory[item.id] = true;
-              audio.playCorrect();
-              confetti({ particleCount: 40, spread: 50, origin: { y: 0.6 } });
+              item.apply();
+              audio.success();
+              confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
               updateHUD();
               renderShop();
             } else {
-              alert('Moedas da Investigação insuficientes! Resolva mais enigmas ortográficos.');
+              alert('Moedas insuficientes! Solucione mais casos para ganhar moedas.');
             }
           });
         }
@@ -1351,56 +1356,38 @@
     /* ==========================================================
        EVENT BINDINGS
        ========================================================== */
+    document.getElementById('btn-start-briefing').addEventListener('click', () => {
+      audio.init();
+      audio.paper();
+      document.getElementById('briefing-modal').classList.add('hidden');
+      loadCase(0);
+    });
+
     document.getElementById('btn-open-shop').addEventListener('click', () => {
       audio.init();
       renderShop();
-      document.getElementById('modal-shop').classList.add('open');
+      document.getElementById('shop-modal').classList.add('open');
     });
 
     document.getElementById('btn-close-shop').addEventListener('click', () => {
-      document.getElementById('modal-shop').classList.remove('open');
+      document.getElementById('shop-modal').classList.remove('open');
     });
 
-    document.getElementById('tool-notebook').addEventListener('click', () => {
-      audio.init();
-      document.getElementById('modal-rules').classList.add('open');
-    });
-
-    document.getElementById('btn-close-rules').addEventListener('click', () => {
-      document.getElementById('modal-rules').classList.remove('open');
-    });
-
-    document.getElementById('btn-sound').addEventListener('click', () => {
+    document.getElementById('btn-toggle-sound').addEventListener('click', () => {
       audio.init();
       audio.enabled = !audio.enabled;
       document.getElementById('sound-icon').innerText = audio.enabled ? '🔊' : '🔇';
     });
 
-    document.getElementById('btn-play-again').addEventListener('click', () => {
-      document.getElementById('modal-victory').classList.remove('open');
-      gameState.caseIndex = 0;
+    document.getElementById('btn-restart-all').addEventListener('click', () => {
+      document.getElementById('victory-modal').classList.remove('open');
+      gameState.currentIndex = 0;
       gameState.score = 0;
       loadCase(0);
     });
 
-    // Ferramentas interativas
-    document.getElementById('tool-magnifier').addEventListener('click', () => {
-      audio.init();
-      audio.playPaper();
-      const current = CASES_DATABASE[gameState.caseIndex];
-      alert('🔍 LUPA DO DETETIVE: ' + current.clue);
-    });
-
-    document.getElementById('tool-lamp').addEventListener('click', () => {
-      audio.init();
-      audio.playPaper();
-      const current = CASES_DATABASE[gameState.caseIndex];
-      alert('💡 LANTERNA UV: Revelou a regra ortográfica oculta: ' + current.rule);
-    });
-
     window.addEventListener('DOMContentLoaded', () => {
       initThree();
-      loadCase(0);
     });
   </script>
 </body>
