@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Super Agente da Saúde: Hábitos de Higiene 3D | Lab Kids</title>
+    <title>Laboratório do Autocuidado & Higiene | Lab Kids</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
-    <!-- Three.js r128 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * {
@@ -18,407 +15,559 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
-            -webkit-touch-callout: none;
+            touch-action: none;
         }
 
         :root {
-            --primary: #06b6d4;
-            --primary-dark: #0891b2;
+            --primary: #0284c7;
             --accent: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --purple: #8b5cf6;
-            --dark-card: rgba(15, 23, 42, 0.94);
-            --border-glow: 0 0 25px rgba(6, 182, 212, 0.45);
+            --bg-tile: #e2e8f0;
+            --card-glass: rgba(15, 23, 42, 0.92);
         }
 
         html, body {
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            background: radial-gradient(circle at 50% 30%, #0f172a 0%, #020617 100%);
+            background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 50%, #f8fafc 100%);
             font-family: 'Fredoka', 'Outfit', sans-serif;
-            color: #ffffff;
+            color: #1e293b;
             position: fixed;
             top: 0;
             left: 0;
-        }
-
-        #webgl-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            display: block;
-            touch-action: none;
         }
 
         /* Top HUD Bar */
-        .hud-top {
+        .top-bar {
             position: fixed;
             top: 14px;
             left: 14px;
             right: 14px;
-            z-index: 30;
+            z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
             pointer-events: none;
         }
 
-        .hud-pill {
+        .hud-badge {
             pointer-events: auto;
-            background: var(--dark-card);
-            border: 2px solid rgba(6, 182, 212, 0.5);
-            border-radius: 40px;
-            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #38bdf8;
+            border-radius: 30px;
+            padding: 8px 18px;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), var(--border-glow);
-            backdrop-filter: blur(14px);
-            transition: all 0.25s ease;
-        }
-
-        .hud-pill:hover {
-            border-color: #38bdf8;
-            transform: translateY(-2px);
-        }
-
-        .hud-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .step-progress-dots {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .step-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            transition: all 0.3s;
-        }
-
-        .step-dot.active {
-            background: #38bdf8;
-            border-color: #ffffff;
-            box-shadow: 0 0 10px #38bdf8;
-            transform: scale(1.3);
-        }
-
-        .step-dot.done {
-            background: #10b981;
-            border-color: #6ee7b7;
-        }
-
-        .purity-container {
-            width: 240px;
-            height: 16px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 12px;
-            border: 2px solid rgba(56, 189, 248, 0.4);
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.6);
-        }
-
-        .purity-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #10b981, #06b6d4, #38bdf8);
-            border-radius: 10px;
-            transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 14px #38bdf8;
+            font-weight: 800;
+            font-size: 1rem;
+            color: #0369a1;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.2);
         }
 
         .hud-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             pointer-events: auto;
         }
 
-        .btn-icon {
-            height: 44px;
-            border-radius: 40px;
-            border: 2px solid rgba(6, 182, 212, 0.5);
-            background: var(--dark-card);
-            color: #fff;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            font-family: inherit;
+        .hud-btn {
+            background: #ffffff;
+            border: 3px solid #38bdf8;
+            color: #0369a1;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            padding: 0 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.15s, background 0.15s;
+            display: flex;
+            align-items: center;
             gap: 6px;
         }
 
-        .btn-icon:hover {
-            transform: scale(1.08);
-            border-color: #38bdf8;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+        .hud-btn:hover {
+            transform: scale(1.06);
+            background: #f0f9ff;
         }
 
-        .btn-shop {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            border: 2px solid #fde68a;
-            color: #fff;
-            font-weight: 800;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
-        }
-
-        /* Banner de Instrução Pedagógica Superior */
-        .instruction-card {
+        /* Tab Seletor de Estações */
+        .station-tabs {
             position: fixed;
-            top: 78px;
+            top: 68px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 28;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.96));
-            border: 2.5px solid #38bdf8;
-            border-radius: 28px;
-            padding: 12px 28px;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.7), 0 0 25px rgba(56, 189, 248, 0.4);
+            z-index: 90;
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #bae6fd;
+            border-radius: 40px;
+            padding: 6px;
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.15);
+        }
+
+        .station-tab {
+            border: none;
+            background: transparent;
+            color: #64748b;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 14px;
-            max-width: 680px;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .station-tab.active {
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+        }
+
+        /* Guia Pedagógico Dinâmico */
+        .guide-banner {
+            position: fixed;
+            top: 125px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 85;
+            background: #ffffff;
+            border: 3px solid #0284c7;
+            border-radius: 24px;
+            padding: 12px 24px;
+            text-align: center;
+            max-width: 640px;
             width: 90%;
-            backdrop-filter: blur(16px);
-            animation: pulseBanner 2.5s infinite ease-in-out;
-        }
-
-        @keyframes pulseBanner {
-            0%, 100% { transform: translateX(-50%) scale(1); }
-            50% { transform: translateX(-50%) scale(1.02); }
-        }
-
-        .instruction-icon {
-            font-size: 2.4rem;
-            background: rgba(56, 189, 248, 0.2);
-            border-radius: 18px;
-            padding: 6px;
+            box-shadow: 0 8px 25px rgba(2, 132, 199, 0.18);
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 12px;
+        }
+
+        .guide-icon {
+            font-size: 2rem;
             flex-shrink: 0;
+            animation: bounce 2s infinite ease-in-out;
         }
 
-        .instruction-content {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
-        .instruction-tag {
-            font-size: 0.75rem;
+        .guide-text h3 {
+            font-size: 1.15rem;
+            color: #0369a1;
             font-weight: 900;
-            letter-spacing: 0.5px;
-            color: #facc15;
-            text-transform: uppercase;
         }
 
-        .instruction-text {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.3;
-        }
-
-        .instruction-tip {
-            font-size: 0.8rem;
-            color: #94a3b8;
+        .guide-text p {
+            font-size: 0.9rem;
+            color: #475569;
             font-weight: 600;
         }
 
-        /* HUD Bottom: Passos de Higiene Interativos */
-        .hud-bottom {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 30;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(15, 23, 42, 0.94);
-            border: 2px solid rgba(56, 189, 248, 0.5);
-            border-radius: 50px;
-            padding: 10px 22px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 35px rgba(6, 182, 212, 0.35);
-            backdrop-filter: blur(16px);
-            pointer-events: auto;
-            max-width: 92vw;
-            overflow-x: auto;
-        }
-
-        .action-step-btn {
-            background: rgba(30, 41, 59, 0.85);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            color: #cbd5e1;
-            border-radius: 40px;
-            padding: 10px 20px;
-            font-family: inherit;
-            font-weight: 800;
-            font-size: 0.95rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            white-space: nowrap;
-        }
-
-        .action-step-btn .icon {
-            font-size: 1.4rem;
-        }
-
-        .action-step-btn:hover {
-            color: #fff;
-            background: rgba(51, 65, 85, 0.95);
-            transform: translateY(-2px);
-        }
-
-        .action-step-btn.current {
-            background: linear-gradient(135deg, #0284c7, #10b981);
-            color: #ffffff;
-            border-color: #7dd3fc;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
-            transform: scale(1.08);
-            animation: pulseCurrent 1.5s infinite;
-        }
-
-        @keyframes pulseCurrent {
-            0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.5); }
-            50% { box-shadow: 0 0 28px rgba(16, 185, 129, 0.8); }
-        }
-
-        .action-step-btn.completed {
-            background: rgba(16, 185, 129, 0.25);
-            border-color: #10b981;
-            color: #6ee7b7;
-        }
-
-        /* Missões / Troca de Etapas */
-        .mission-selector-bar {
-            position: fixed;
-            bottom: 84px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 25;
-            pointer-events: auto;
-        }
-
-        .mission-tab {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1.5px solid rgba(56, 189, 248, 0.4);
-            border-radius: 30px;
-            padding: 6px 14px;
-            font-size: 0.85rem;
-            font-weight: 800;
-            color: #94a3b8;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .mission-tab.active {
-            background: #0284c7;
-            color: #fff;
-            border-color: #38bdf8;
-            box-shadow: 0 0 15px rgba(2, 132, 199, 0.6);
-        }
-
-        /* Banner de Transição de Missão */
-        .stage-announcement {
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.6);
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
-            border: 3px solid #38bdf8;
-            border-radius: 32px;
-            padding: 30px 48px;
-            text-align: center;
-            z-index: 60;
-            pointer-events: none;
-            opacity: 0;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.85), 0 0 50px rgba(56, 189, 248, 0.6);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .stage-announcement.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .stage-announcement h2 {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: #facc15;
-            margin-bottom: 8px;
-        }
-
-        .stage-announcement p {
-            font-size: 1.15rem;
-            color: #7dd3fc;
-            font-weight: 700;
-            line-height: 1.4;
-        }
-
-        /* Flash de Limpeza */
-        #clean-flash {
+        /* Área Central de Simulação */
+        .simulation-canvas-area {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(16, 185, 129, 0.15) 70%, transparent 100%);
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
 
-        /* Modais */
+        #hand-stage {
+            position: relative;
+            width: 360px;
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mão SVG com 5 dedos e palma detalhada */
+        .hand-svg {
+            width: 320px;
+            height: 420px;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
+        }
+
+        /* Canvas de Sujeira / Espuma sobreposto */
+        #interactive-overlay {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+            width: 320px;
+            height: 420px;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+
+        /* Água caindo da torneira */
+        .water-stream {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 28px;
+            height: 220px;
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.8), rgba(2, 132, 199, 0.4));
+            border-radius: 14px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            filter: blur(1px);
+        }
+
+        .water-stream.flowing {
+            opacity: 1;
+            animation: waterFlow 0.3s infinite linear;
+        }
+
+        @keyframes waterFlow {
+            0% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-52%) translateY(3px); }
+            100% { transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Torneira Superior */
+        .faucet-box {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            cursor: pointer;
+            z-index: 25;
+            transition: transform 0.15s;
+        }
+
+        .faucet-box:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* Bancada Inferior de Ferramentas */
+        .tools-shelf {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: #ffffff;
+            border: 3px solid #38bdf8;
+            border-radius: 50px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 12px 35px rgba(2, 132, 199, 0.25);
+        }
+
+        .shelf-label {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #0284c7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tool-draggable {
+            background: #f0f9ff;
+            border: 3px solid #7dd3fc;
+            border-radius: 24px;
+            width: 72px;
+            height: 72px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .tool-draggable .icon {
+            font-size: 2.2rem;
+        }
+
+        .tool-draggable .name {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #0369a1;
+            margin-top: 2px;
+        }
+
+        .tool-draggable:hover {
+            transform: scale(1.1) translateY(-4px);
+            border-color: #0284c7;
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.3);
+        }
+
+        .tool-draggable.active-holding {
+            transform: scale(1.2);
+            border-color: #10b981;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+            background: #ecfdf5;
+        }
+
+        /* Medidor de Espuma e Fricção */
+        .foam-meter-container {
+            position: absolute;
+            right: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .foam-glass {
+            width: 24px;
+            height: 240px;
+            background: #e2e8f0;
+            border: 3px solid #0284c7;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .foam-glass-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: linear-gradient(180deg, #ffffff, #e0f2fe);
+            border-radius: 12px;
+            transition: height 0.15s ease-out;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .foam-meter-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #0284c7;
+            text-align: center;
+            width: 80px;
+            line-height: 1.2;
+        }
+
+        /* Alerta Educativo de Erro Construtivo */
+        .pedagogical-toast {
+            position: fixed;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: #ffffff;
+            border: 3px solid #f59e0b;
+            border-radius: 24px;
+            padding: 14px 28px;
+            z-index: 200;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 540px;
+            width: 90%;
+        }
+
+        .pedagogical-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .toast-icon {
+            font-size: 2.2rem;
+            flex-shrink: 0;
+        }
+
+        .toast-msg h4 {
+            font-size: 1.05rem;
+            color: #d97706;
+            font-weight: 900;
+        }
+
+        .toast-msg p {
+            font-size: 0.9rem;
+            color: #475569;
+            font-weight: 700;
+        }
+
+        /* Estação 2: Dentes */
+        #teeth-stage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .mouth-frame {
+            width: 380px;
+            height: 300px;
+            background: #fda4af;
+            border: 12px solid #f43f5e;
+            border-radius: 180px 180px 140px 140px;
+            position: relative;
+            box-shadow: inset 0 20px 40px rgba(0,0,0,0.2), 0 20px 50px rgba(244, 63, 94, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        .teeth-row {
+            display: flex;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .tooth {
+            width: 32px;
+            height: 48px;
+            background: #ffffff;
+            border-radius: 8px 8px 16px 16px;
+            border: 2px solid #cbd5e1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .tooth.dirty::after {
+            content: '🦠';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.1rem;
+        }
+
+        .tooth.clean {
+            background: #ffffff !important;
+            box-shadow: 0 0 15px #38bdf8;
+        }
+
+        .tooth.clean::after {
+            content: '✨';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1rem;
+        }
+
+        .tongue {
+            width: 160px;
+            height: 80px;
+            background: #f43f5e;
+            border-radius: 80px 80px 20px 20px;
+            box-shadow: inset 0 6px 12px rgba(0,0,0,0.15);
+            z-index: 1;
+        }
+
+        /* Estação 3: Desafio da Rotina */
+        #routine-stage {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            max-width: 620px;
+            width: 90%;
+            background: #ffffff;
+            border: 3px solid #38bdf8;
+            border-radius: 32px;
+            padding: 28px;
+            box-shadow: 0 15px 40px rgba(2, 132, 199, 0.2);
+            z-index: 50;
+        }
+
+        .routine-situation {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #0369a1;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .routine-options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+        }
+
+        .routine-btn {
+            background: #f8fafc;
+            border: 3px solid #cbd5e1;
+            border-radius: 20px;
+            padding: 16px 22px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #334155;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.2s;
+        }
+
+        .routine-btn:hover {
+            border-color: #0284c7;
+            background: #f0f9ff;
+            transform: translateX(6px);
+        }
+
+        .routine-btn.correct {
+            background: #ecfdf5 !important;
+            border-color: #10b981 !important;
+            color: #047857 !important;
+        }
+
+        .routine-btn.wrong {
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c !important;
+        }
+
+        /* Modal Vitória */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(5, 8, 20, 0.85);
-            backdrop-filter: blur(14px);
-            z-index: 100;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 300;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s;
         }
 
         .modal-overlay.open {
@@ -426,375 +575,198 @@
             pointer-events: auto;
         }
 
-        .modal-window {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98));
-            border: 3px solid #38bdf8;
-            border-radius: 34px;
-            padding: 34px;
+        .modal-card {
+            background: #ffffff;
+            border: 4px solid #38bdf8;
+            border-radius: 36px;
+            padding: 36px;
+            text-align: center;
+            max-width: 520px;
             width: 100%;
-            max-width: 680px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 25px 65px rgba(0,0,0,0.85), 0 0 50px rgba(56, 189, 248, 0.45);
-            transform: scale(0.9);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .modal-overlay.open .modal-window {
-            transform: scale(1);
-        }
-
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.12);
-            padding-bottom: 12px;
-        }
-
-        .modal-title {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #38bdf8;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .modal-close {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .modal-close:hover {
-            background: rgba(239, 68, 68, 0.85);
-            transform: scale(1.1);
-        }
-
-        /* Loja Pedagógica */
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 16px;
-            margin-top: 18px;
-        }
-
-        .shop-item {
-            background: rgba(15, 23, 42, 0.75);
-            border: 2px solid rgba(255, 255, 255, 0.12);
-            border-radius: 22px;
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: all 0.25s ease;
-        }
-
-        .shop-item:hover {
-            border-color: #38bdf8;
-            background: rgba(30, 41, 59, 0.9);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.35);
-        }
-
-        .shop-item-top {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .shop-item-icon {
-            font-size: 2.3rem;
-            background: rgba(56, 189, 248, 0.15);
-            border: 2px solid rgba(56, 189, 248, 0.35);
-            border-radius: 18px;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .shop-item-info h4 {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #f1f5f9;
-        }
-
-        .shop-item-info p {
-            font-size: 0.82rem;
-            color: #94a3b8;
-            line-height: 1.35;
-        }
-
-        .shop-item-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: auto;
-        }
-
-        .shop-price {
-            font-weight: 800;
-            color: #facc15;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .btn-buy {
-            background: linear-gradient(135deg, #10b981, #059669);
-            border: none;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 22px;
-            font-family: inherit;
-            font-weight: 800;
-            font-size: 0.85rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-            transition: all 0.2s ease;
-        }
-
-        .btn-buy:hover {
-            transform: scale(1.06);
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
-        }
-
-        .btn-buy.equipped {
-            background: #475569;
-            box-shadow: none;
-            cursor: default;
-        }
-
-        /* Quiz Pedagógico Interativo */
-        .quiz-card {
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px solid #38bdf8;
-            border-radius: 22px;
-            padding: 20px;
-            margin: 15px 0;
-            text-align: left;
-        }
-
-        .quiz-question {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #facc15;
-            margin-bottom: 14px;
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .quiz-btn {
-            background: rgba(30, 41, 59, 0.9);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 12px 18px;
-            color: #ffffff;
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .quiz-btn:hover {
-            border-color: #38bdf8;
-            background: rgba(2, 132, 199, 0.3);
-            transform: translateX(4px);
-        }
-
-        .quiz-btn.correct {
-            background: linear-gradient(135deg, #10b981, #059669) !important;
-            border-color: #6ee7b7 !important;
-        }
-
-        .quiz-btn.wrong {
-            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-            border-color: #fca5a5 !important;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
         }
 
         /* Responsividade */
         @media (max-width: 640px) {
-            .hud-top { top: 8px; left: 8px; right: 8px; }
-            .hud-pill { padding: 6px 10px; font-size: 0.8rem; }
-            .purity-container { width: 120px; height: 12px; }
-            .instruction-card { top: 68px; padding: 10px 16px; width: 94%; gap: 10px; }
-            .instruction-icon { font-size: 1.8rem; padding: 4px; }
-            .instruction-text { font-size: 0.9rem; }
-            .instruction-tip { display: none; }
-            .hud-bottom { padding: 6px 12px; gap: 8px; bottom: 10px; width: 96%; }
-            .action-step-btn { padding: 8px 14px; font-size: 0.8rem; }
-            .mission-selector-bar { bottom: 74px; }
-            .btn-shop span.txt { display: none; }
+            .station-tabs { top: 60px; width: 94%; justify-content: center; }
+            .station-tab { padding: 6px 12px; font-size: 0.8rem; }
+            .guide-banner { top: 110px; padding: 10px 14px; }
+            .guide-text h3 { font-size: 1rem; }
+            .guide-text p { font-size: 0.8rem; }
+            #hand-stage { transform: scale(0.85); }
+            .tools-shelf { padding: 8px 16px; gap: 10px; bottom: 12px; }
+            .tool-draggable { width: 62px; height: 62px; }
+            .tool-draggable .icon { font-size: 1.8rem; }
+            .foam-meter-container { right: -50px; }
+            .mouth-frame { transform: scale(0.85); }
         }
     </style>
 </head>
 <body>
-    <!-- Three.js Canvas -->
-    <canvas id="webgl-canvas"></canvas>
-    <div id="clean-flash"></div>
 
-    <!-- HUD Superior -->
-    <div class="hud-top">
-        <div class="hud-pill">
-            <span style="font-size:1.3rem;">🛡️</span>
-            <div>
-                <span id="player-rank">Agente Mirim</span>
-                <span style="color:#38bdf8; font-size:0.8rem; margin-left:4px;">Nv.<span id="player-level">1</span></span>
-            </div>
-        </div>
-
-        <div class="hud-center">
-            <div class="step-progress-dots" id="step-dots">
-                <div class="step-dot active"></div>
-                <div class="step-dot"></div>
-                <div class="step-dot"></div>
-                <div class="step-dot"></div>
-            </div>
-            <div class="purity-container">
-                <div class="purity-fill" id="purity-fill"></div>
-            </div>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="hud-badge">
+            <span style="font-size:1.4rem;">🌟</span>
+            <span>Estrelas de Higiene: <strong id="star-count" style="color:#0284c7;">0</strong></span>
         </div>
 
         <div class="hud-actions">
-            <div class="hud-pill" style="border-color:#f59e0b;">
-                <span style="font-size:1.3rem;">💧</span>
-                <span id="player-coins" style="color:#facc15;">100</span>
-            </div>
-            <button class="btn-icon btn-shop" id="btn-open-shop">
-                <span>🛒</span>
-                <span class="txt">Kit Saúde</span>
-            </button>
-            <button class="btn-icon" id="btn-toggle-sound" title="Alternar Som">
-                <span id="sound-icon">🔊</span>
-            </button>
-            <button class="btn-icon" id="btn-fullscreen" title="Tela Cheia">
-                <span>⛶</span>
-            </button>
+            <button class="hud-btn" id="btn-sound">🔊 Som</button>
+            <button class="hud-btn" id="btn-restart">🔄 Reiniciar</button>
         </div>
     </div>
 
-    <!-- Guia Pedagógico do Passo Atual -->
-    <div class="instruction-card" id="instruction-card">
-        <div class="instruction-icon" id="inst-icon">🚰</div>
-        <div class="instruction-content">
-            <div class="instruction-tag" id="inst-tag">MISSÃO 1 • PASSO 1 DE 4</div>
-            <div class="instruction-text" id="inst-title">Abra a torneira e molhe as mãos com água limpa!</div>
-            <div class="instruction-tip" id="inst-tip">💡 Molhar as mãos primeiro ajuda o sabonete a espalhar e criar espuma protetora.</div>
+    <!-- Seletor de Estações -->
+    <div class="station-tabs">
+        <button class="station-tab active" data-station="hand">🧼 1. Lavagem das Mãos</button>
+        <button class="station-tab" data-station="teeth">🦷 2. Escovação Dental</button>
+        <button class="station-tab" data-station="routine">🧠 3. Decisões do Dia</button>
+    </div>
+
+    <!-- Banner Pedagógico Dinâmico -->
+    <div class="guide-banner" id="guide-banner">
+        <div class="guide-icon" id="guide-icon">🔍</div>
+        <div class="guide-text">
+            <h3 id="guide-title">Pegue a Lupa e examine as mãos!</h3>
+            <p id="guide-desc">Arraste a lupa sobre a palma da mão para descobrir os germes invisíveis.</p>
         </div>
     </div>
 
-    <!-- Seletor de Missões -->
-    <div class="mission-selector-bar">
-        <button class="mission-tab active" data-mission="1">🥪 1. Lavar Mãos</button>
-        <button class="mission-tab" data-mission="2">🦷 2. Escovação 3D</button>
-        <button class="mission-tab" data-mission="3">🚿 3. Banho Completo</button>
-        <button class="mission-tab" data-mission="4">❓ 4. Quiz do Dia</button>
+    <!-- Alerta Educativo de Erro Construtivo -->
+    <div class="pedagogical-toast" id="pedagogical-toast">
+        <div class="toast-icon" id="toast-icon">⚠️</div>
+        <div class="toast-msg">
+            <h4 id="toast-title">Opa! Quase lá!</h4>
+            <p id="toast-text">Se você usar a toalha agora na mão suja, ela vai pegar germes. Primeiro use a água e o sabonete!</p>
+        </div>
     </div>
 
-    <!-- Barra Inferior de Passos Guiados -->
-    <div class="hud-bottom" id="action-steps-container">
-        <!-- Injetado dinamicamente via JS de acordo com a missão -->
-    </div>
+    <!-- Área Principal de Simulação -->
+    <div class="simulation-canvas-area">
+        
+        <!-- ESTAÇÃO 1: LAVAGEM DAS MÃOS -->
+        <div id="hand-stage">
+            <div class="faucet-box" id="faucet-box" title="Toque na torneira para abrir a água">🚰</div>
+            <div class="water-stream" id="water-stream"></div>
 
-    <!-- Anúncio de Missão -->
-    <div class="stage-announcement" id="stage-banner">
-        <h2 id="stage-title">MISSÃO: A HORA DO LANCHE</h2>
-        <p id="stage-desc">Aprenda os 4 passos da OMS para remover todos os germes antes de comer!</p>
-    </div>
+            <!-- Ilustração SVG de Mão -->
+            <svg class="hand-svg" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+                <!-- Braço -->
+                <path d="M 65 240 L 65 260 L 135 260 L 135 240 Z" fill="#fdba74" />
+                <!-- Palma da Mão -->
+                <path d="M 50 130 C 40 160 55 240 100 240 C 145 240 160 160 150 130 Z" fill="#fed7aa" stroke="#fb923c" stroke-width="4" />
+                <!-- Polegar -->
+                <path d="M 50 150 C 25 140 15 110 30 95 C 45 80 58 110 60 130 Z" fill="#fed7aa" stroke="#fb923c" stroke-width="4" />
+                <!-- Indicador -->
+                <path d="M 55 125 C 45 70 50 40 68 40 C 85 40 85 70 80 120 Z" fill="#fed7aa" stroke="#fb923c" stroke-width="4" />
+                <!-- Médio -->
+                <path d="M 80 120 C 78 50 82 25 98 25 C 115 25 115 50 110 120 Z" fill="#fed7aa" stroke="#fb923c" stroke-width="4" />
+                <!-- Anelar -->
+                <path d="M 110 120 C 110 60 115 35 130 35 C 145 35 142 60 135 125 Z" fill="#fed7aa" stroke="#fb923c" stroke-width="4" />
+                <!-- Mínimo -->
+                <path d="M 135 125 C 140 80 150 65 162 65 C 175 65 170 85 155 135 Z" fill="#fed7aa" stroke="#fb923c" stroke-width="4" />
+            </svg>
 
-    <!-- Modal: Kit de Saúde (Loja Pedagógica) -->
-    <div class="modal-overlay" id="modal-shop">
-        <div class="modal-window">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span>🧴</span>
-                    <span>KIT DO SUPER AGENTE DA SAÚDE</span>
+            <!-- Canvas Interativo de Pintura de Espuma e Remoção de Germes -->
+            <canvas id="interactive-overlay" width="320" height="420"></canvas>
+
+            <!-- Medidor de Espuma (Fricção Obrigatória) -->
+            <div class="foam-meter-container">
+                <div class="foam-glass">
+                    <div class="foam-glass-fill" id="foam-fill"></div>
                 </div>
-                <button class="modal-close" id="btn-close-shop">✕</button>
+                <div class="foam-meter-label">ESPUMA DE SABÃO: <span id="foam-pct">0%</span></div>
             </div>
-            <p style="color:#94a3b8; font-size:0.92rem;">
-                Adquira ferramentas reais de higiene que aumentam a proteção contra bactérias e ensinam o autocuidado diário!
+        </div>
+
+        <!-- ESTAÇÃO 2: ESCOVAÇÃO DENTAL -->
+        <div id="teeth-stage">
+            <div class="mouth-frame">
+                <!-- Dentes Superiores -->
+                <div class="teeth-row" id="upper-teeth">
+                    <div class="tooth dirty" data-idx="0"></div>
+                    <div class="tooth dirty" data-idx="1"></div>
+                    <div class="tooth dirty" data-idx="2"></div>
+                    <div class="tooth dirty" data-idx="3"></div>
+                    <div class="tooth dirty" data-idx="4"></div>
+                    <div class="tooth dirty" data-idx="5"></div>
+                    <div class="tooth dirty" data-idx="6"></div>
+                    <div class="tooth dirty" data-idx="7"></div>
+                </div>
+
+                <!-- Língua -->
+                <div class="tongue" id="tongue-el"></div>
+
+                <!-- Dentes Inferiores -->
+                <div class="teeth-row" id="lower-teeth">
+                    <div class="tooth dirty" data-idx="8"></div>
+                    <div class="tooth dirty" data-idx="9"></div>
+                    <div class="tooth dirty" data-idx="10"></div>
+                    <div class="tooth dirty" data-idx="11"></div>
+                    <div class="tooth dirty" data-idx="12"></div>
+                    <div class="tooth dirty" data-idx="13"></div>
+                    <div class="tooth dirty" data-idx="14"></div>
+                    <div class="tooth dirty" data-idx="15"></div>
+                </div>
+            </div>
+
+            <div style="margin-top:15px; font-weight:800; color:#0369a1; text-align:center;">
+                Dentes limpos: <strong id="clean-teeth-count">0</strong> / 16
+            </div>
+        </div>
+
+        <!-- ESTAÇÃO 3: DECISÕES DA ROTINA -->
+        <div id="routine-stage">
+            <div style="font-size:3rem; margin-bottom:10px;" id="routine-emoji">🚻</div>
+            <div class="routine-situation" id="routine-question">O Pedrinho acabou de usar o sanitário. O que ele deve fazer antes de ir brincar?</div>
+            <div class="routine-options" id="routine-options">
+                <!-- Injetado via JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bancada de Ferramentas Inferior -->
+    <div class="tools-shelf" id="tools-shelf">
+        <span class="shelf-label">Ferramentas:</span>
+        <div class="tool-draggable" data-tool="magnifier" title="Lupa Reveladora">
+            <span class="icon">🔍</span>
+            <span class="name">Lupa</span>
+        </div>
+        <div class="tool-draggable" data-tool="soap" title="Sabonete">
+            <span class="icon">🧼</span>
+            <span class="name">Sabonete</span>
+        </div>
+        <div class="tool-draggable" data-tool="water" title="Água da Torneira">
+            <span class="icon">🚰</span>
+            <span class="name">Água</span>
+        </div>
+        <div class="tool-draggable" data-tool="towel" title="Toalha Limpa">
+            <span class="icon">🧻</span>
+            <span class="name">Toalha</span>
+        </div>
+    </div>
+
+    <!-- Modal de Vitória com Certificado -->
+    <div class="modal-overlay" id="victory-modal">
+        <div class="modal-card">
+            <div style="font-size:4rem; margin-bottom:12px;">🏆✨</div>
+            <h2 style="font-size:2rem; font-weight:900; color:#0284c7; margin-bottom:8px;">SUPER AGENTE DA SAÚDE!</h2>
+            <p style="color:#475569; font-size:1.1rem; line-height:1.5; margin-bottom:24px;">
+                Você aprendeu de verdade! Lavou com fricção real, escovou todos os cantinhos e sabe tomar as decisões certas na rotina diária.
             </p>
-
-            <div class="shop-grid" id="shop-items-container">
-                <!-- Injetado via JS -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal: Quiz Educativo -->
-    <div class="modal-overlay" id="modal-quiz">
-        <div class="modal-window">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span>🧠</span>
-                    <span>DESAFIO DO DIA A DIA: VOCÊ SABIA?</span>
-                </div>
-                <button class="modal-close" id="btn-close-quiz">✕</button>
-            </div>
-            <div id="quiz-container">
-                <!-- Injetado via JS -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal: Vitória / Certificado de Saúde -->
-    <div class="modal-overlay" id="modal-victory">
-        <div class="modal-window" style="text-align:center;">
-            <div style="font-size:3.5rem; margin-bottom:12px;">🏆🧼✨</div>
-            <h2 style="font-size:2rem; font-weight:900; color:#38bdf8; margin-bottom:6px;">PARABÉNS, SUPER AGENTE!</h2>
-            <p style="color:#cbd5e1; font-size:1.1rem;" id="victory-msg">Você dominou todos os hábitos de higiene e manteve seu corpo 100% protegido!</p>
-
-            <div style="background:rgba(15,23,42,0.7); border-radius:20px; padding:18px; margin:20px 0; display:flex; justify-content:space-around;">
-                <div>
-                    <div style="font-size:1.8rem; font-weight:900; color:#10b981;" id="v-score">0</div>
-                    <div style="font-size:0.8rem; color:#94a3b8; font-weight:700;">XP TOTAL</div>
-                </div>
-                <div>
-                    <div style="font-size:1.8rem; font-weight:900; color:#facc15;" id="v-coins">0</div>
-                    <div style="font-size:0.8rem; color:#94a3b8; font-weight:700;">GOTAS DE SABÃO</div>
-                </div>
-                <div>
-                    <div style="font-size:1.8rem; font-weight:900; color:#38bdf8;">Mestre da Saúde</div>
-                    <div style="font-size:0.8rem; color:#94a3b8; font-weight:700;">CERTIFICADO</div>
-                </div>
-            </div>
-
-            <button class="btn-icon" id="btn-play-again" style="background:linear-gradient(135deg, #0284c7, #10b981); padding:14px 34px; font-weight:900; border-radius:40px; font-size:1.15rem;">
-                <span>🔄 REPETIR MISSÃO</span>
+            <button class="hud-btn" id="btn-modal-restart" style="margin:0 auto; background:#0284c7; color:#fff; font-size:1.2rem; padding:12px 32px; border-color:#0284c7;">
+                Jogar Novamente 🚀
             </button>
         </div>
     </div>
 
     <script>
         /* ==========================================================
-           ÁUDIO SINTETIZADO COM WEB AUDIO API
+           ÁUDIO SINTETIZADO (SEM SONS IRRITANTES)
            ========================================================== */
-        class HealthAudioEngine {
+        class AudioEngine {
             constructor() {
                 this.ctx = null;
                 this.enabled = true;
@@ -802,889 +774,537 @@
 
             init() {
                 if (!this.ctx) {
-                    const AudioContext = window.AudioContext || window.webkitAudioContext;
-                    if (AudioContext) {
-                        this.ctx = new AudioContext();
-                    }
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
                 }
                 if (this.ctx && this.ctx.state === 'suspended') {
                     this.ctx.resume();
                 }
             }
 
-            playWater() {
+            water() {
                 if (!this.enabled || !this.ctx) return;
                 try {
-                    const bufferSize = this.ctx.sampleRate * 0.25;
-                    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-                    const data = buffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) {
-                        data[i] = Math.random() * 2 - 1;
-                    }
-                    const noise = this.ctx.createBufferSource();
-                    noise.buffer = buffer;
+                    const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 0.2, this.ctx.sampleRate);
+                    const data = buf.getChannelData(0);
+                    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+                    const src = this.ctx.createBufferSource();
+                    src.buffer = buf;
                     const filter = this.ctx.createBiquadFilter();
                     filter.type = 'lowpass';
-                    filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+                    filter.frequency.setValueAtTime(600, this.ctx.currentTime);
                     const gain = this.ctx.createGain();
-                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.24);
-                    noise.connect(filter);
+                    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.18);
+                    src.connect(filter);
                     filter.connect(gain);
                     gain.connect(this.ctx.destination);
-                    noise.start();
+                    src.start();
                 } catch(e) {}
             }
 
-            playSoap() {
+            foam() {
                 if (!this.enabled || !this.ctx) return;
                 try {
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     osc.type = 'sine';
                     const now = this.ctx.currentTime;
-                    osc.frequency.setValueAtTime(400, now);
-                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.09);
+                    osc.frequency.setValueAtTime(450, now);
+                    osc.frequency.exponentialRampToValueAtTime(850, now + 0.06);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.07);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
                     osc.start(now);
-                    osc.stop(now + 0.1);
+                    osc.stop(now + 0.08);
                 } catch(e) {}
             }
 
-            playBrush() {
+            sparkle() {
+                if (!this.enabled || !this.ctx) return;
+                try {
+                    const notes = [523, 659, 784, 1046];
+                    notes.forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        const t = this.ctx.currentTime + idx * 0.08;
+                        osc.frequency.setValueAtTime(freq, t);
+                        gain.gain.setValueAtTime(0.2, t);
+                        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(t);
+                        osc.stop(t + 0.22);
+                    });
+                } catch(e) {}
+            }
+
+            alert() {
                 if (!this.enabled || !this.ctx) return;
                 try {
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
-                    osc.type = 'triangle';
+                    osc.type = 'sawtooth';
                     const now = this.ctx.currentTime;
-                    osc.frequency.setValueAtTime(600, now);
-                    osc.frequency.setValueAtTime(900, now + 0.04);
+                    osc.frequency.setValueAtTime(280, now);
+                    osc.frequency.linearRampToValueAtTime(220, now + 0.15);
                     gain.gain.setValueAtTime(0.18, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.16);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
                     osc.start(now);
-                    osc.stop(now + 0.09);
+                    osc.stop(now + 0.18);
                 } catch(e) {}
             }
+        }
 
-            playSuccess() {
-                if (!this.enabled || !this.ctx) return;
-                try {
-                    const notes = [523, 659, 784, 1046];
-                    notes.forEach((freq, i) => {
-                        const osc = this.ctx.createOscillator();
-                        const gain = this.ctx.createGain();
-                        osc.type = 'triangle';
-                        const startTime = this.ctx.currentTime + i * 0.09;
-                        osc.frequency.setValueAtTime(freq, startTime);
-                        gain.gain.setValueAtTime(0.22, startTime);
-                        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.22);
-                        osc.connect(gain);
-                        gain.connect(this.ctx.destination);
-                        osc.start(startTime);
-                        osc.stop(startTime + 0.25);
+        const audio = new AudioEngine();
+
+        /* ==========================================================
+           ESTADO GERAL DA SESSÃO PEDAGÓGICA
+           ========================================================== */
+        const state = {
+            currentStation: 'hand',
+            stars: 0,
+            activeTool: 'magnifier',
+            // Estação da Mão:
+            handState: {
+                magnified: false,
+                wet: false,
+                foamAmount: 0, // 0 a 100
+                rinsed: false,
+                dried: false,
+                germsRevealed: false
+            },
+            // Estação dos Dentes:
+            teethState: {
+                cleanedCount: 0,
+                brushingMode: 'circle'
+            },
+            // Estação de Rotina:
+            routineState: {
+                currentIdx: 0
+            }
+        };
+
+        const ROUTINE_QUESTIONS = [
+            {
+                emoji: '🚻',
+                q: 'O Pedrinho acabou de usar o sanitário. O que ele deve fazer antes de sair do banheiro?',
+                options: [
+                    { text: 'Sair correndo para jogar videogame', correct: false, tip: 'Se não lavar, os germes do banheiro vão para o controle do videogame!' },
+                    { text: 'Lavar as mãos na pia com água e sabonete', correct: true, tip: 'Perfeito! Lavar após o banheiro é regra de ouro de saúde!' },
+                    { text: 'Apenas limpar a mão na bermuda', correct: false, tip: 'Limpar na roupa não elimina os micróbios!' }
+                ]
+            },
+            {
+                emoji: '🤧',
+                q: 'A Júlia espirrou e cobriu a boca com a mão. Ela vai pegar uma fruta agora. O que fazer?',
+                options: [
+                    { text: 'Comer a fruta imediatamente com a mesma mão', correct: false, tip: 'Os germes do espirro iriam direto para a fruta que ela vai mastigar!' },
+                    { text: 'Lavar as mãos antes de tocar na fruta', correct: true, tip: 'Muito bem! Lavar as mãos impede a transmissão de vírus para os alimentos!' },
+                    { text: 'Assoprar a fruta para espantar os germes', correct: false, tip: 'Assoprar espalha ainda mais bactérias!' }
+                ]
+            },
+            {
+                emoji: '⚽',
+                q: 'Depois de jogar bola na terra na pracinha, como devemos agir antes de almoçar?',
+                options: [
+                    { text: 'Esfregar as mãos com sabão e água corrente por 20 segundos', correct: true, tip: 'Isso aí! A terra da pracinha carrega ovos de parasitas e bactérias invisíveis.' },
+                    { text: 'Passar só um pouquinho de água fria sem esfregar', correct: false, tip: 'Água sem sabão não remove a gordura onde os germes se agarram!' }
+                ]
+            }
+        ];
+
+        /* ==========================================================
+           CANVAS DE SUJEIRA & ESPUMA DA MÃO
+           ========================================================== */
+        const canvas = document.getElementById('interactive-overlay');
+        const ctx = canvas.getContext('2d');
+
+        // Posição de 14 colônias de germes sobre a mão
+        const germSpots = [
+            { x: 160, y: 240, clean: false, size: 28, emoji: '🦠' },
+            { x: 120, y: 220, clean: false, size: 26, emoji: '🦠' },
+            { x: 200, y: 230, clean: false, size: 26, emoji: '🦠' },
+            { x: 160, y: 170, clean: false, size: 30, emoji: '🦠' },
+            { x: 90, y: 140, clean: false, size: 24, emoji: '🦠' }, // polegar
+            { x: 110, y: 90, clean: false, size: 24, emoji: '🦠' }, // indicador
+            { x: 155, y: 70, clean: false, size: 24, emoji: '🦠' }, // médio
+            { x: 205, y: 85, clean: false, size: 24, emoji: '🦠' }, // anelar
+            { x: 250, y: 120, clean: false, size: 22, emoji: '🦠' }, // mínimo
+            { x: 140, y: 310, clean: false, size: 28, emoji: '🦠' } // pulso
+        ];
+
+        // Partículas de espuma desenhadas
+        let foamBubbles = [];
+
+        function renderHandOverlay() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Desenha germes se revelados pela lupa
+            if (state.handState.germsRevealed && !state.handState.rinsed) {
+                germSpots.forEach(g => {
+                    if (!g.clean) {
+                        ctx.font = `${g.size}px sans-serif`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(g.emoji, g.x, g.y);
+                    }
+                });
+            }
+
+            // 2. Desenha a espuma gerada por fricção
+            foamBubbles.forEach(b => {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${b.alpha})`;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(224, 242, 254, 0.8)';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            });
+
+            // 3. Efeito brilhante quando seca
+            if (state.handState.dried) {
+                ctx.font = '34px sans-serif';
+                ctx.fillText('✨', 160, 200);
+                ctx.fillText('✨', 110, 100);
+                ctx.fillText('✨', 220, 120);
+            }
+        }
+
+        /* ==========================================================
+           CONTROLE DE INTERAÇÃO MOTORA E VALIDAÇÃO DIDÁTICA
+           ========================================================== */
+        let isDrawing = false;
+        let lastPos = { x: 0, y: 0 };
+
+        function getCanvasPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        canvas.addEventListener('mousedown', onPointerStart);
+        canvas.addEventListener('mousemove', onPointerMove);
+        window.addEventListener('mouseup', onPointerEnd);
+
+        canvas.addEventListener('touchstart', onPointerStart, { passive: false });
+        canvas.addEventListener('touchmove', onPointerMove, { passive: false });
+        window.addEventListener('touchend', onPointerEnd);
+
+        function onPointerStart(e) {
+            audio.init();
+            isDrawing = true;
+            lastPos = getCanvasPos(e);
+            handleFriction(lastPos.x, lastPos.y);
+        }
+
+        function onPointerMove(e) {
+            if (!isDrawing) return;
+            const pos = getCanvasPos(e);
+            const dist = Math.hypot(pos.x - lastPos.x, pos.y - lastPos.y);
+            if (dist > 8) {
+                handleFriction(pos.x, pos.y);
+                lastPos = pos;
+            }
+        }
+
+        function onPointerEnd() {
+            isDrawing = false;
+        }
+
+        // Fricção de ação real
+        function handleFriction(x, y) {
+            const tool = state.activeTool;
+
+            // 1. Usou a Lupa
+            if (tool === 'magnifier') {
+                state.handState.germsRevealed = true;
+                audio.foam();
+                renderHandOverlay();
+                setGuide('🔍 Germes encontrados!', 'Eles são invisíveis a olho nu, mas estão aí! Agora abra a torneira para molhar as mãos com água limpa.');
+                return;
+            }
+
+            // 2. Tentou usar Toalha antes da hora?
+            if (tool === 'towel' && !state.handState.rinsed) {
+                showToast('⚠️ Cuidado!', 'Se você secar agora, os germes vão sujar a toalha! Primeiro molhe, ensaboe e enxágue!');
+                audio.alert();
+                return;
+            }
+
+            // 3. Tentou passar sabonete sem molhar?
+            if (tool === 'soap' && !state.handState.wet) {
+                showToast('🚰 Dica Pedagógica', 'Molhe as mãos primeiro na água! Mãos úmidas ajudam o sabonete a espalhar e formar espuma.');
+                audio.alert();
+                return;
+            }
+
+            // 4. Ensaboando com Sabonete (Exige movimento contínuo)
+            if (tool === 'soap' && state.handState.wet && !state.handState.rinsed) {
+                audio.foam();
+                // Gera bolhas de espuma onde passou o sabão
+                for (let i = 0; i < 3; i++) {
+                    foamBubbles.push({
+                        x: x + (Math.random() - 0.5) * 25,
+                        y: y + (Math.random() - 0.5) * 25,
+                        radius: 8 + Math.random() * 14,
+                        alpha: 0.85
                     });
-                } catch(e) {}
-            }
-        }
-
-        const audio = new HealthAudioEngine();
-
-        /* ==========================================================
-           DEFINIÇÃO INTENCIONAL DAS MISSÕES PEDAGÓGICAS (BNCC)
-           ========================================================== */
-        const MISSIONS = {
-            1: {
-                id: 1,
-                name: 'A Hora do Lanche',
-                subtitle: 'Passo a Passo da OMS para Lavar as Mãos',
-                context: 'Antes de comer a maçã, precisamos eliminar bactérias das mãos!',
-                steps: [
-                    {
-                        id: 1,
-                        name: '1. Molhar Mãos',
-                        icon: '🚰',
-                        action: 'water',
-                        tag: 'PASSO 1 • ABERTURA DA TORNEIRA',
-                        title: 'Abra a torneira e molhe as mãos com água limpa!',
-                        tip: '💡 Molhar as mãos primeiro ajuda o sabonete a espalhar uniformemente.',
-                        targetProgress: 25
-                    },
-                    {
-                        id: 2,
-                        name: '2. Ensaboar 20s',
-                        icon: '🧼',
-                        action: 'soap',
-                        tag: 'PASSO 2 • ESPUMA EM AÇÃO',
-                        title: 'Esfregue as palmas, dorso e entre os dedos até formar espuma!',
-                        tip: '💡 O sabão quebra a camada protetora dos vírus e bactérias.',
-                        targetProgress: 50
-                    },
-                    {
-                        id: 3,
-                        name: '3. Enxaguar',
-                        icon: '🚿',
-                        action: 'rinse',
-                        tag: 'PASSO 3 • ENXÁGUE COMPLETO',
-                        title: 'Enxágue toda a espuma com água corrente!',
-                        tip: '💡 A água corrente leva os microrganismos embora pelo ralo.',
-                        targetProgress: 75
-                    },
-                    {
-                        id: 4,
-                        name: '4. Secar e Proteger',
-                        icon: '🧻',
-                        action: 'dry',
-                        tag: 'PASSO 4 • SECAGEM SEGURA',
-                        title: 'Seque bem com uma toalha limpa ou papel descartável!',
-                        tip: '💡 Mãos secas evitam a proliferação de novas bactérias.',
-                        targetProgress: 100
-                    }
-                ]
-            },
-            2: {
-                id: 2,
-                name: 'Guardião do Sorriso',
-                subtitle: 'Técnica Correta de Escovação Dental',
-                context: 'Após as refeições, os restos de alimentos atraem cáries. Vamos escovar!',
-                steps: [
-                    {
-                        id: 1,
-                        name: '1. Movimento Bolinha',
-                        icon: '🪥',
-                        action: 'brush_circle',
-                        tag: 'PASSO 1 • DENTES DA FRENTE',
-                        title: 'Faça movimentos circulares de bolinha nos dentes da frente!',
-                        tip: '💡 Movimentos suaves em círculo massageiam a gengiva sem machucar.',
-                        targetProgress: 33
-                    },
-                    {
-                        id: 2,
-                        name: '2. Movimento Trenzinho',
-                        icon: '🚂',
-                        action: 'brush_train',
-                        tag: 'PASSO 2 • DENTES DO FUNDO',
-                        title: 'Escove em vai-e-vem (trenzinho) nos dentes de mastigar!',
-                        tip: '💡 Os dentes do fundo acumulam restos de comida nos sulcos.',
-                        targetProgress: 66
-                    },
-                    {
-                        id: 3,
-                        name: '3. Limpar a Língua',
-                        icon: '👅',
-                        action: 'brush_tongue',
-                        tag: 'PASSO 3 • LÍNGUA LIMPINHA',
-                        title: 'Escove suavemente a superfície da língua para hálito puro!',
-                        tip: '💡 A língua retém bactérias que causam mau hálito se não for limpa.',
-                        targetProgress: 100
-                    }
-                ]
-            },
-            3: {
-                id: 3,
-                name: 'O Escudo do Banho',
-                subtitle: 'Higiene Corporal Completa Diária',
-                context: 'Depois de um dia cheio de brincadeiras e suor, o corpo merece um banho!',
-                steps: [
-                    {
-                        id: 1,
-                        name: '1. Lavar Cabelos',
-                        icon: '🧴',
-                        action: 'shampoo',
-                        tag: 'PASSO 1 • COURO CABELUDO',
-                        title: 'Lave os cabelos com xampu massageando a raiz com a ponta dos dedos!',
-                        tip: '💡 Evita oleosidade, caspa e mantém a cabeça fresca e saudável.',
-                        targetProgress: 33
-                    },
-                    {
-                        id: 2,
-                        name: '2. Atrás das Orelhas',
-                        icon: '🧼',
-                        action: 'ears',
-                        tag: 'PASSO 2 • ÁREAS ESQUECIDAS',
-                        title: 'Ensaboe atrás das orelhas, pescoço e debaixo dos braços!',
-                        tip: '💡 Dobrinhas do corpo acumulam suor e precisam de atenção especial.',
-                        targetProgress: 66
-                    },
-                    {
-                        id: 3,
-                        name: '3. Cortar Unhas & Roupas',
-                        icon: '✂️',
-                        action: 'nails',
-                        tag: 'PASSO 3 • PREVENÇÃO FINAL',
-                        title: 'Mantenha as unhas cortadas e vista roupas limpas e arejadas!',
-                        tip: '💡 Unhas limpas não guardam sujeiras invisíveis quando colocamos a mão no rosto.',
-                        targetProgress: 100
-                    }
-                ]
-            }
-        };
-
-        // Quiz BNCC de Fixação
-        const QUIZ_QUESTIONS = [
-            {
-                q: 'Em qual momento é OBRIGATÓRIO lavar as mãos?',
-                options: [
-                    { text: 'Apenas quando elas estiverem visivelmente sujas de lama', correct: false },
-                    { text: 'Antes de comer e sempre após usar o banheiro', correct: true },
-                    { text: 'Apenas uma vez por semana aos sábados', correct: false }
-                ],
-                explanation: 'Excelente! Germes são invisíveis. Lavar antes das refeições e após ir ao banheiro impede a transmissão de doenças!'
-            },
-            {
-                q: 'Por quanto tempo devemos esfregar as mãos com sabão?',
-                options: [
-                    { text: 'Por apenas 2 segundos correndo', correct: false },
-                    { text: 'Pelo menos 20 segundos (tempo de cantar parabéns 2x)', correct: true },
-                    { text: 'Não precisa de sabão, só água basta', correct: false }
-                ],
-                explanation: 'Correto! Vinte segundos é o tempo necessário para o sabonete quebrar a gordura dos germes.'
-            },
-            {
-                q: 'Quantas vezes ao dia devemos escovar os dentes no mínimo?',
-                options: [
-                    { text: '3 vezes ao dia (após o café, almoço e antes de dormir)', correct: true },
-                    { text: 'Apenas uma vez ao mês', correct: false },
-                    { text: 'Somente quando doer algum dente', correct: false }
-                ],
-                explanation: 'Muito bem! A escovação após as refeições e antes de dormir evita a formação de cáries.'
-            }
-        ];
-
-        /* ==========================================================
-           ESTADO DO JOGO E PROGRESSÃO
-           ========================================================== */
-        const gameState = {
-            currentMission: 1,
-            currentStepIndex: 0,
-            progress: 0,
-            coins: 100,
-            xp: 0,
-            level: 1,
-            inventory: {
-                liquid_soap: false,
-                soft_brush: false,
-                floss: false,
-                healthy_apple: false
-            }
-        };
-
-        // Itens Pedagógicos da Loja
-        const SHOP_ITEMS = [
-            {
-                id: 'liquid_soap',
-                name: 'Sabonete Líquido Bactericida',
-                desc: 'Espuma rica que elimina 99,9% dos microrganismos com suavidade.',
-                icon: '🧴',
-                price: 80,
-                benefit: '+50% de velocidade na lavagem das mãos'
-            },
-            {
-                id: 'soft_brush',
-                name: 'Escova Dental de Cerdas Macias',
-                desc: 'Alcança o cantinho dos dentes sem agredir a gengiva infantil.',
-                icon: '🪥',
-                price: 120,
-                benefit: '+50% de eficácia contra a placa bacteriana'
-            },
-            {
-                id: 'floss',
-                name: 'Fio Dental com Cheirinho de Menta',
-                desc: 'Remove resíduos entre os dentes onde a escova não consegue chegar.',
-                icon: '🧵',
-                price: 150,
-                benefit: 'Proteção total contra cáries ocultas'
-            },
-            {
-                id: 'healthy_apple',
-                name: 'Maçã Crocante Imunológica',
-                desc: 'Alimento rico em fibras e vitaminas que fortalece as defesas do organismo.',
-                icon: '🍎',
-                price: 200,
-                benefit: 'Imunidade máxima para o Super Agente'
-            }
-        ];
-
-        /* ==========================================================
-           MOTOR 3D (THREE.JS)
-           ========================================================== */
-        let scene, camera, renderer, raycaster, pointer;
-        let mainObjectGroup, germsGroup, bubblesGroup, particles;
-        let isPointerDown = false;
-
-        function initThree() {
-            const canvas = document.getElementById('webgl-canvas');
-            scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x060919, 0.035);
-
-            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
-            camera.position.set(0, 0, 9);
-
-            renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            raycaster = new THREE.Raycaster();
-            pointer = new THREE.Vector2();
-
-            const ambLight = new THREE.AmbientLight(0xffffff, 0.95);
-            scene.add(ambLight);
-
-            const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.4);
-            dirLight.position.set(5, 8, 6);
-            scene.add(dirLight);
-
-            const fillLight = new THREE.PointLight(0x10b981, 1.2, 16);
-            fillLight.position.set(-5, -3, 4);
-            scene.add(fillLight);
-
-            mainObjectGroup = new THREE.Group();
-            scene.add(mainObjectGroup);
-
-            germsGroup = new THREE.Group();
-            scene.add(germsGroup);
-
-            bubblesGroup = new THREE.Group();
-            scene.add(bubblesGroup);
-
-            createAtmosphereBubbles();
-            createParticles();
-
-            window.addEventListener('resize', onWindowResize);
-            setupInput();
-            animate();
-
-            // Carrega Missão 1
-            loadMission(1);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function createAtmosphereBubbles() {
-            const geo = new THREE.SphereGeometry(0.25, 16, 16);
-            const mat = new THREE.MeshPhysicalMaterial({
-                color: 0x38bdf8,
-                transmission: 0.9,
-                transparent: true,
-                opacity: 0.8,
-                roughness: 0.1
-            });
-            for (let i = 0; i < 35; i++) {
-                const b = new THREE.Mesh(geo, mat);
-                b.position.set(
-                    (Math.random() - 0.5) * 16,
-                    (Math.random() - 0.5) * 12,
-                    (Math.random() - 0.5) * 8 - 2
-                );
-                const s = 0.4 + Math.random() * 1.4;
-                b.scale.set(s, s, s);
-                b.userData = { speed: 0.01 + Math.random() * 0.02 };
-                bubblesGroup.add(b);
-            }
-        }
-
-        // Partículas 3D para água e espuma
-        let particlePos, particleLifes;
-        const P_COUNT = 200;
-
-        function createParticles() {
-            const geo = new THREE.BufferGeometry();
-            particlePos = new Float32Array(P_COUNT * 3);
-            particleLifes = new Float32Array(P_COUNT);
-
-            for (let i = 0; i < P_COUNT; i++) {
-                particlePos[i * 3 + 1] = -9999;
-                particleLifes[i] = 0;
-            }
-
-            geo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
-            const mat = new THREE.PointsMaterial({
-                color: 0x7dd3fc,
-                size: 0.4,
-                transparent: true,
-                opacity: 0.85,
-                blending: THREE.AdditiveBlending
-            });
-            particles = new THREE.Points(geo, mat);
-            scene.add(particles);
-        }
-
-        function emitEffect(x, y, z, colorHex = 0x7dd3fc, count = 10) {
-            particles.material.color.setHex(colorHex);
-            let emitted = 0;
-            for (let i = 0; i < P_COUNT && emitted < count; i++) {
-                if (particleLifes[i] <= 0) {
-                    particlePos[i * 3] = x + (Math.random() - 0.5) * 0.6;
-                    particlePos[i * 3 + 1] = y + (Math.random() - 0.5) * 0.6;
-                    particlePos[i * 3 + 2] = z + (Math.random() - 0.5) * 0.6;
-                    particleLifes[i] = 1.0;
-                    emitted++;
                 }
+
+                // Limpa os germes sob a área esfregada
+                germSpots.forEach(g => {
+                    if (Math.hypot(g.x - x, g.y - y) < 40) {
+                        g.clean = true;
+                    }
+                });
+
+                // Aumenta o medidor de espuma com fricção motora real
+                if (state.handState.foamAmount < 100) {
+                    state.handState.foamAmount += 1.8;
+                    if (state.handState.foamAmount > 100) state.handState.foamAmount = 100;
+                    document.getElementById('foam-fill').style.height = state.handState.foamAmount + '%';
+                    document.getElementById('foam-pct').innerText = Math.round(state.handState.foamAmount) + '%';
+                }
+
+                if (state.handState.foamAmount >= 100) {
+                    setGuide('🚿 Hora de Enxaguar!', 'Excelente! Mãos 100% cobertas de espuma protetora. Agora abra a torneira para enxaguar tudo!');
+                }
+
+                renderHandOverlay();
+                return;
             }
-            particles.geometry.attributes.position.needsUpdate = true;
+
+            // 5. Secando com a Toalha após o enxágue
+            if (tool === 'towel' && state.handState.rinsed && !state.handState.dried) {
+                audio.sparkle();
+                state.handState.dried = true;
+                renderHandOverlay();
+                addStar();
+                confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+                setGuide('🎉 Mãos 100% Limpas & Seguras!', 'Incrível! Você seguiu os 4 passos da OMS. Agora avance para a Estação dos Dentes!');
+                showToast('🌟 Parabéns!', 'Você completou a lavagem das mãos de verdade!');
+            }
         }
 
-        function updateParticles() {
-            if (!particles) return;
-            for (let i = 0; i < P_COUNT; i++) {
-                if (particleLifes[i] > 0) {
-                    particlePos[i * 3 + 1] += 0.03;
-                    particleLifes[i] -= 0.03;
-                    if (particleLifes[i] <= 0) {
-                        particlePos[i * 3 + 1] = -9999;
+        // Clique na Torneira
+        document.getElementById('faucet-box').addEventListener('click', toggleWater);
+
+        function toggleWater() {
+            audio.init();
+            audio.water();
+            const stream = document.getElementById('water-stream');
+            stream.classList.add('flowing');
+
+            if (!state.handState.wet) {
+                state.handState.wet = true;
+                setGuide('🧼 Agora use o Sabonete!', 'Mãos molhadas! Pegue o sabonete na bancada e esfregue em círculos até a barra de espuma atingir 100%!');
+            } else if (state.handState.foamAmount >= 100 && !state.handState.rinsed) {
+                // Enxaguando a espuma
+                setTimeout(() => {
+                    state.handState.rinsed = true;
+                    foamBubbles = [];
+                    renderHandOverlay();
+                    setGuide('🧻 Pegue a Toalha!', 'Toda a espuma e os germes foram pelo ralo! Agora pegue a toalha para secar as mãos.');
+                }, 800);
+            }
+
+            setTimeout(() => {
+                stream.classList.remove('flowing');
+            }, 1200);
+        }
+
+        /* ==========================================================
+           ESTAÇÃO 2: ESCOVAÇÃO DENTAL
+           ========================================================== */
+        const teethElements = document.querySelectorAll('.tooth');
+        teethElements.forEach(tooth => {
+            const cleanTooth = () => {
+                audio.init();
+                if (tooth.classList.contains('dirty')) {
+                    audio.foam();
+                    tooth.classList.remove('dirty');
+                    tooth.classList.add('clean');
+                    state.teethState.cleanedCount++;
+                    document.getElementById('clean-teeth-count').innerText = state.teethState.cleanedCount;
+
+                    if (state.teethState.cleanedCount === 16) {
+                        audio.sparkle();
+                        addStar();
+                        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+                        setGuide('✨ Sorriso Brilhante!', 'Você removeu 100% dos restos de comida e da placa bacteriana! Agora responda ao Quiz de Rotina.');
                     }
                 }
-            }
-            particles.geometry.attributes.position.needsUpdate = true;
-        }
+            };
+
+            tooth.addEventListener('mouseenter', (e) => { if (isDrawing) cleanTooth(); });
+            tooth.addEventListener('click', cleanTooth);
+            tooth.addEventListener('touchmove', cleanTooth);
+        });
+
+        // Escovação da Língua
+        document.getElementById('tongue-el').addEventListener('click', () => {
+            audio.init();
+            audio.sparkle();
+            document.getElementById('tongue-el').style.background = '#fb7185';
+            showToast('👅 Língua Limpa!', 'Escovar a língua remove bactérias que causam mau hálito!');
+        });
 
         /* ==========================================================
-           CONSTRUÇÃO DOS CENÁRIOS PEDAGÓGICOS 3D
+           ESTAÇÃO 3: DECISÕES DA ROTINA
            ========================================================== */
-        function loadMission(missionId) {
-            gameState.currentMission = missionId;
-            gameState.currentStepIndex = 0;
-            gameState.progress = 0;
-
-            // Limpa grupos 3D
-            while (mainObjectGroup.children.length > 0) mainObjectGroup.remove(mainObjectGroup.children[0]);
-            while (germsGroup.children.length > 0) germsGroup.remove(germsGroup.children[0]);
-
-            const mission = MISSIONS[missionId];
-            if (!mission) return;
-
-            // Atualiza Anúncio de Missão
-            const banner = document.getElementById('stage-banner');
-            document.getElementById('stage-title').innerText = 'MISSÃO ' + missionId + ': ' + mission.name.toUpperCase();
-            document.getElementById('stage-desc').innerText = mission.context;
-            banner.classList.add('show');
-            setTimeout(() => banner.classList.remove('show'), 2600);
-
-            // Constrói o modelo 3D correspondente
-            if (missionId === 1) {
-                buildHandModel();
-                spawnGermsOnObject(10, 0x10b981);
-            } else if (missionId === 2) {
-                buildTeethModel();
-                spawnGermsOnObject(12, 0xd97706);
-            } else if (missionId === 3) {
-                buildBodyCareModel();
-                spawnGermsOnObject(8, 0x8b5cf6);
+        function renderRoutineQuestion(idx) {
+            const data = ROUTINE_QUESTIONS[idx];
+            if (!data) {
+                // Fim da atividade com vitória completa
+                document.getElementById('victory-modal').classList.add('open');
+                audio.sparkle();
+                confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
+                return;
             }
 
-            renderStepButtons();
-            updateStepInstruction();
-            updateHUD();
-        }
-
-        // Modelo 3D: Mão Estilizada
-        function buildHandModel() {
-            const handMat = new THREE.MeshStandardMaterial({ color: 0xffdfba, roughness: 0.5 });
-            const palmGeo = new THREE.CylinderGeometry(2.3, 2.7, 0.55, 32);
-            const palm = new THREE.Mesh(palmGeo, handMat);
-            palm.rotation.x = Math.PI / 2.7;
-            palm.position.set(0, -0.4, 0);
-            mainObjectGroup.add(palm);
-
-            for (let i = -2; i <= 2; i++) {
-                const fGeo = new THREE.CylinderGeometry(0.35, 0.35, 1.6, 16);
-                const finger = new THREE.Mesh(fGeo, handMat);
-                finger.position.set(i * 0.9, 2.2 - Math.abs(i) * 0.25, 0.1);
-                finger.rotation.z = -i * 0.1;
-                palm.add(finger);
-            }
-        }
-
-        // Modelo 3D: Dentes e Boca
-        function buildTeethModel() {
-            const toothMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.2 });
-            for (let i = -4; i <= 4; i++) {
-                const tGeo = new THREE.BoxGeometry(0.75, 1.1, 0.75);
-                const tooth = new THREE.Mesh(tGeo, toothMat);
-                const ang = (i / 5) * 1.1;
-                tooth.position.set(Math.sin(ang) * 3.5, Math.cos(ang) * 0.8 - 0.5, -Math.cos(ang) * 1.5 + 1.2);
-                tooth.rotation.y = ang;
-                mainObjectGroup.add(tooth);
-            }
-        }
-
-        // Modelo 3D: Chuveiro e Cuidado Corporal
-        function buildBodyCareModel() {
-            const showerMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.2 });
-            const pipeGeo = new THREE.CylinderGeometry(0.2, 0.2, 3, 16);
-            const pipe = new THREE.Mesh(pipeGeo, showerMat);
-            pipe.position.set(0, 2.2, -1);
-            mainObjectGroup.add(pipe);
-
-            const headGeo = new THREE.ConeGeometry(1.4, 0.8, 24);
-            const head = new THREE.Mesh(headGeo, showerMat);
-            head.rotation.x = Math.PI;
-            head.position.set(0, 0.8, -1);
-            mainObjectGroup.add(head);
-
-            // Esponja de Banho
-            const spongeGeo = new THREE.DodecahedronGeometry(1.2, 1);
-            const spongeMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.8 });
-            const sponge = new THREE.Mesh(spongeGeo, spongeMat);
-            sponge.position.set(0, -1.2, 0.5);
-            mainObjectGroup.add(sponge);
-        }
-
-        // Spawna Germes com Expressão
-        function spawnGermsOnObject(count, colorHex) {
-            for (let i = 0; i < count; i++) {
-                const g = new THREE.Group();
-                const body = new THREE.Mesh(
-                    new THREE.DodecahedronGeometry(0.48, 1),
-                    new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.4 })
-                );
-                g.add(body);
-
-                // Olhos
-                const eyeGeo = new THREE.SphereGeometry(0.1, 8, 8);
-                const pupilGeo = new THREE.SphereGeometry(0.04, 8, 8);
-                const eyeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-                const pupilMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
-
-                const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
-                eyeL.position.set(-0.14, 0.1, 0.4);
-                const pL = new THREE.Mesh(pupilGeo, pupilMat);
-                pL.position.set(0, 0, 0.08);
-                eyeL.add(pL);
-                g.add(eyeL);
-
-                const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
-                eyeR.position.set(0.14, 0.1, 0.4);
-                const pR = new THREE.Mesh(pupilGeo, pupilMat);
-                pR.position.set(0, 0, 0.08);
-                eyeR.add(pR);
-                g.add(eyeR);
-
-                const angle = (i / count) * Math.PI * 2;
-                const dist = 1.0 + Math.random() * 1.6;
-                g.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist - 0.2, 0.6);
-                g.userData = { isGerm: true, health: 100, initialY: g.position.y };
-                germsGroup.add(g);
-            }
-        }
-
-        /* ==========================================================
-           CONTROLE DE PASSOS E INTERAÇÃO INTENCIONAL
-           ========================================================== */
-        function renderStepButtons() {
-            const container = document.getElementById('action-steps-container');
+            document.getElementById('routine-emoji').innerText = data.emoji;
+            document.getElementById('routine-question').innerText = data.q;
+            const container = document.getElementById('routine-options');
             container.innerHTML = '';
 
-            const mission = MISSIONS[gameState.currentMission];
-            if (!mission) return;
-
-            mission.steps.forEach((step, idx) => {
+            data.options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = 'action-step-btn' + (idx === gameState.currentStepIndex ? ' current' : idx < gameState.currentStepIndex ? ' completed' : '');
-                btn.innerHTML = `<span class="icon">${step.icon}</span><span>${step.name}</span>`;
+                btn.className = 'routine-btn';
+                btn.innerText = opt.text;
                 btn.addEventListener('click', () => {
-                    executeStep(idx);
+                    audio.init();
+                    if (opt.correct) {
+                        btn.classList.add('correct');
+                        audio.sparkle();
+                        addStar();
+                        showToast('✅ Muito Bem!', opt.tip);
+                        setTimeout(() => {
+                            state.routineState.currentIdx++;
+                            renderRoutineQuestion(state.routineState.currentIdx);
+                        }, 1600);
+                    } else {
+                        btn.classList.add('wrong');
+                        audio.alert();
+                        showToast('❌ Pense Melhor!', opt.tip);
+                    }
                 });
                 container.appendChild(btn);
             });
-
-            // Atualiza Dots
-            const dotsContainer = document.getElementById('step-dots');
-            dotsContainer.innerHTML = '';
-            mission.steps.forEach((_, idx) => {
-                const dot = document.createElement('div');
-                dot.className = 'step-dot' + (idx === gameState.currentStepIndex ? ' active' : idx < gameState.currentStepIndex ? ' done' : '');
-                dotsContainer.appendChild(dot);
-            });
-        }
-
-        function updateStepInstruction() {
-            const mission = MISSIONS[gameState.currentMission];
-            if (!mission) return;
-            const step = mission.steps[gameState.currentStepIndex];
-            if (!step) return;
-
-            document.getElementById('inst-icon').innerText = step.icon;
-            document.getElementById('inst-tag').innerText = `MISSÃO ${mission.id} • PASSO ${step.id} DE ${mission.steps.length}`;
-            document.getElementById('inst-title').innerText = step.title;
-            document.getElementById('inst-tip').innerText = step.tip;
-        }
-
-        function executeStep(stepIndex) {
-            audio.init();
-            const mission = MISSIONS[gameState.currentMission];
-            const step = mission.steps[stepIndex];
-            if (!step) return;
-
-            // Sons e partículas específicas do hábito real
-            if (step.action === 'water' || step.action === 'rinse') {
-                audio.playWater();
-                emitEffect(0, 0, 1, 0x38bdf8, 25);
-            } else if (step.action === 'soap' || step.action === 'shampoo' || step.action === 'ears') {
-                audio.playSoap();
-                emitEffect(0, 0, 1, 0xffffff, 30);
-            } else if (step.action.includes('brush')) {
-                audio.playBrush();
-                emitEffect(0, 0, 1, 0x10b981, 20);
-            } else {
-                audio.playSuccess();
-                emitEffect(0, 0, 1, 0xfacc15, 25);
-            }
-
-            triggerFlash();
-
-            // Reduz germes progressivamente com a intenção pedagógica
-            if (germsGroup.children.length > 0) {
-                const toRemove = Math.ceil(germsGroup.children.length / (mission.steps.length - stepIndex));
-                for (let i = 0; i < toRemove && germsGroup.children.length > 0; i++) {
-                    germsGroup.remove(germsGroup.children[0]);
-                }
-            }
-
-            // Progresso
-            gameState.currentStepIndex = stepIndex + 1;
-            gameState.progress = Math.round((gameState.currentStepIndex / mission.steps.length) * 100);
-            gameState.coins += 25;
-            gameState.xp += 30;
-
-            updateHUD();
-
-            if (gameState.currentStepIndex >= mission.steps.length) {
-                // Concluiu a missão com sucesso
-                setTimeout(() => {
-                    audio.playSuccess();
-                    confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
-                    showVictory();
-                }, 600);
-            } else {
-                renderStepButtons();
-                updateStepInstruction();
-            }
-        }
-
-        function triggerFlash() {
-            const flash = document.getElementById('clean-flash');
-            flash.style.opacity = '1';
-            setTimeout(() => { flash.style.opacity = '0'; }, 130);
-        }
-
-        function updateHUD() {
-            document.getElementById('player-coins').innerText = gameState.coins;
-            document.getElementById('purity-fill').style.width = gameState.progress + '%';
-        }
-
-        function showVictory() {
-            document.getElementById('v-score').innerText = gameState.xp;
-            document.getElementById('v-coins').innerText = gameState.coins;
-            document.getElementById('modal-victory').classList.add('open');
         }
 
         /* ==========================================================
-           QUIZ PEDAGÓGICO INTERATIVO
+           TROCA DE ESTAÇÕES E NAVEGAÇÃO
            ========================================================== */
-        function openQuiz() {
-            const container = document.getElementById('quiz-container');
-            container.innerHTML = '';
-
-            QUIZ_QUESTIONS.forEach((qObj, qIdx) => {
-                const card = document.createElement('div');
-                card.className = 'quiz-card';
-                card.innerHTML = `
-                    <div class="quiz-question">${qIdx + 1}. ${qObj.q}</div>
-                    <div class="quiz-options">
-                        ${qObj.options.map((opt, oIdx) => `
-                            <button class="quiz-btn" data-qid="${qIdx}" data-oid="${oIdx}">
-                                <span>${String.fromCharCode(65 + oIdx)})</span>
-                                <span>${opt.text}</span>
-                            </button>
-                        `).join('')}
-                    </div>
-                    <div class="quiz-feedback" style="display:none; margin-top:10px; font-weight:700; font-size:0.9rem;"></div>
-                `;
-
-                const btns = card.querySelectorAll('.quiz-btn');
-                btns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        audio.init();
-                        const opt = qObj.options[parseInt(btn.getAttribute('data-oid'))];
-                        const feedback = card.querySelector('.quiz-feedback');
-                        feedback.style.display = 'block';
-
-                        if (opt.correct) {
-                            btn.classList.add('correct');
-                            audio.playSuccess();
-                            feedback.style.color = '#10b981';
-                            feedback.innerText = '✅ ' + qObj.explanation;
-                            gameState.coins += 40;
-                            gameState.xp += 50;
-                            updateHUD();
-                        } else {
-                            btn.classList.add('wrong');
-                            feedback.style.color = '#ef4444';
-                            feedback.innerText = '❌ Tente novamente! Pense na prevenção de germes.';
-                        }
-                    });
-                });
-
-                container.appendChild(card);
-            });
-
-            document.getElementById('modal-quiz').classList.add('open');
-        }
-
-        /* ==========================================================
-           LOJA PEDAGÓGICA (KIT DE SAÚDE)
-           ========================================================== */
-        function renderShop() {
-            const container = document.getElementById('shop-items-container');
-            container.innerHTML = '';
-
-            SHOP_ITEMS.forEach(item => {
-                const isOwned = gameState.inventory[item.id];
-                const card = document.createElement('div');
-                card.className = 'shop-item';
-                card.innerHTML = `
-                    <div class="shop-item-top">
-                        <div class="shop-item-icon">${item.icon}</div>
-                        <div class="shop-item-info">
-                            <h4>${item.name}</h4>
-                            <p>${item.desc}</p>
-                            <span style="color:#38bdf8; font-size:0.75rem; font-weight:800;">✨ ${item.benefit}</span>
-                        </div>
-                    </div>
-                    <div class="shop-item-bottom">
-                        <div class="shop-price">💧 ${item.price} Gotas</div>
-                        <button class="btn-buy ${isOwned ? 'equipped' : ''}" data-id="${item.id}">
-                            ${isOwned ? 'Equipado ✓' : 'Comprar'}
-                        </button>
-                    </div>
-                `;
-
-                const btn = card.querySelector('.btn-buy');
-                if (!isOwned) {
-                    btn.addEventListener('click', () => {
-                        if (gameState.coins >= item.price) {
-                            gameState.coins -= item.price;
-                            gameState.inventory[item.id] = true;
-                            audio.playSuccess();
-                            confetti({ particleCount: 40, spread: 60, origin: { y: 0.6 } });
-                            updateHUD();
-                            renderShop();
-                        } else {
-                            alert('Gotas de Sabão insuficientes! Complete mais passos de higiene para ganhar.');
-                        }
-                    });
-                }
-
-                container.appendChild(card);
-            });
-        }
-
-        /* ==========================================================
-           INTERAÇÃO 3D DIRETA
-           ========================================================== */
-        function setupInput() {
-            const handleTouch = (e) => {
-                if (e.target && (e.target.closest('.hud-top') || e.target.closest('.hud-bottom') || e.target.closest('.instruction-card') || e.target.closest('.modal-overlay') || e.target.closest('.mission-selector-bar'))) {
-                    return;
-                }
-                audio.init();
-                // Avança o passo atual ao interagir diretamente com o objeto 3D
-                executeStep(gameState.currentStepIndex);
-            };
-
-            window.addEventListener('click', handleTouch);
-            window.addEventListener('touchstart', handleTouch, { passive: true });
-        }
-
-        /* ==========================================================
-           LOOP PRINCIPAL DE ANIMAÇÃO
-           ========================================================== */
-        let clock = new THREE.Clock();
-
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
-
-            if (mainObjectGroup) {
-                mainObjectGroup.rotation.y = Math.sin(time * 0.4) * 0.15;
-            }
-
-            germsGroup.children.forEach(g => {
-                g.rotation.z = Math.sin(time * 2) * 0.1;
-                g.position.y = g.userData.initialY + Math.sin(time * 3) * 0.05;
-            });
-
-            bubblesGroup.children.forEach(b => {
-                b.position.y += b.userData.speed;
-                if (b.position.y > 7) b.position.y = -7;
-            });
-
-            updateParticles();
-            renderer.render(scene, camera);
-        }
-
-        /* ==========================================================
-           EVENT BINDINGS
-           ========================================================== */
-        document.querySelectorAll('.mission-tab').forEach(tab => {
+        const tabs = document.querySelectorAll('.station-tab');
+        tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 audio.init();
-                document.querySelectorAll('.mission-tab').forEach(t => t.classList.remove('active'));
+                tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                const mId = parseInt(tab.getAttribute('data-mission'));
-                if (mId === 4) {
-                    openQuiz();
-                } else {
-                    loadMission(mId);
+                const st = tab.getAttribute('data-station');
+                switchStation(st);
+            });
+        });
+
+        function switchStation(stationName) {
+            state.currentStation = stationName;
+            document.getElementById('hand-stage').style.display = 'none';
+            document.getElementById('teeth-stage').style.display = 'none';
+            document.getElementById('routine-stage').style.display = 'none';
+            document.getElementById('tools-shelf').style.display = 'none';
+
+            if (stationName === 'hand') {
+                document.getElementById('hand-stage').style.display = 'flex';
+                document.getElementById('tools-shelf').style.display = 'flex';
+                setGuide('🔍 Pegue a Lupa e examine as mãos!', 'Arraste a lupa sobre a palma da mão para descobrir os germes invisíveis.');
+            } else if (stationName === 'teeth') {
+                document.getElementById('teeth-stage').style.display = 'flex';
+                setGuide('🪥 Escove todos os dentes!', 'Arraste o dedo ou o mouse sobre cada um dos 16 dentes para remover a sujeira amarela até brilharem.');
+            } else if (stationName === 'routine') {
+                document.getElementById('routine-stage').style.display = 'flex';
+                renderRoutineQuestion(state.routineState.currentIdx);
+                setGuide('🧠 Desafio do Dia a Dia', 'Escolha a atitude saudável correta para cada situação da rotina.');
+            }
+        }
+
+        /* ==========================================================
+           SELEÇÃO DE FERRAMENTAS DA BANCADA
+           ========================================================== */
+        const toolButtons = document.querySelectorAll('.tool-draggable');
+        toolButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                audio.init();
+                toolButtons.forEach(b => b.classList.remove('active-holding'));
+                btn.classList.add('active-holding');
+                state.activeTool = btn.getAttribute('data-tool');
+                
+                if (state.activeTool === 'magnifier') {
+                    setGuide('🔍 Lupa Ativa!', 'Arraste sobre a mão para enxergar os microrganismos.');
+                } else if (state.activeTool === 'soap') {
+                    setGuide('🧼 Sabonete Ativo!', 'Esfregue bastante a palma e os dedos para encher a barra de espuma até 100%!');
+                } else if (state.activeTool === 'water') {
+                    toggleWater();
+                } else if (state.activeTool === 'towel') {
+                    setGuide('🧻 Toalha Ativa!', 'Passe a toalha para secar as mãos enxaguadas.');
                 }
             });
         });
 
-        document.getElementById('btn-open-shop').addEventListener('click', () => {
-            audio.init();
-            renderShop();
-            document.getElementById('modal-shop').classList.add('open');
-        });
+        // Seleciona lupa por padrão
+        document.querySelector('[data-tool="magnifier"]').classList.add('active-holding');
 
-        document.getElementById('btn-close-shop').addEventListener('click', () => {
-            document.getElementById('modal-shop').classList.remove('open');
-        });
+        /* ==========================================================
+           HELPERS VISUAIS E FEEDBACKS
+           ========================================================== */
+        function setGuide(title, desc) {
+            document.getElementById('guide-title').innerText = title;
+            document.getElementById('guide-desc').innerText = desc;
+        }
 
-        document.getElementById('btn-close-quiz').addEventListener('click', () => {
-            document.getElementById('modal-quiz').classList.remove('open');
-        });
+        let toastTimer = null;
+        function showToast(title, msg) {
+            const toast = document.getElementById('pedagogical-toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-text').innerText = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
 
-        document.getElementById('btn-play-again').addEventListener('click', () => {
-            document.getElementById('modal-victory').classList.remove('open');
-            loadMission(gameState.currentMission);
-        });
+        function addStar() {
+            state.stars++;
+            document.getElementById('star-count').innerText = state.stars;
+        }
 
-        document.getElementById('btn-toggle-sound').addEventListener('click', () => {
+        document.getElementById('btn-sound').addEventListener('click', () => {
             audio.init();
             audio.enabled = !audio.enabled;
-            document.getElementById('sound-icon').innerText = audio.enabled ? '🔊' : '🔇';
+            document.getElementById('btn-sound').innerText = audio.enabled ? '🔊 Som' : '🔇 Mudo';
         });
 
-        document.getElementById('btn-fullscreen').addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(() => {});
-            } else {
-                document.exitFullscreen().catch(() => {});
-            }
+        document.getElementById('btn-restart').addEventListener('click', () => {
+            window.location.reload();
         });
 
+        document.getElementById('btn-modal-restart').addEventListener('click', () => {
+            window.location.reload();
+        });
+
+        // Inicialização
         window.addEventListener('DOMContentLoaded', () => {
-            initThree();
+            renderHandOverlay();
         });
     </script>
 </body>
