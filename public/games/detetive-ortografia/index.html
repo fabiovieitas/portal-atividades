@@ -2,588 +2,1406 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Detetive da Ortografia: Caça aos Dígrafos | Lab Kids</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Detetive da Ortografia 3D: O Mistério dos Dígrafos Perdidos | Lab Kids</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700;800;900&family=Outfit:wght@500;700;800;900&family=Special+Elite&display=swap" rel="stylesheet">
+  <!-- Three.js r128 & Confetti -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
     :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #a855f7;
-      --accent-light: #c084fc;
-      --accent-dark: #7e22ce;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --correct: #10b981;
-      --wrong: #ef4444;
+      --bg-dark: #0a0d18;
       --gold: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.5);
+      --amber: #fbbf24;
+      --cyan: #38bdf8;
+      --emerald: #10b981;
+      --ruby: #ef4444;
+      --paper: #fef3c7;
+      --ink: #1c1917;
+      --wood-dark: #291809;
+      --glass-panel: rgba(15, 23, 42, 0.88);
+      --border-panel: rgba(245, 158, 11, 0.4);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-    body {
-      background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 100%);
-      color: var(--text);
-      font-family: 'Fredoka', sans-serif;
-      min-height: 100vh;
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg-dark);
+      font-family: 'Fredoka', 'Outfit', sans-serif;
+      color: #f8fafc;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    #webgl-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      display: block;
+    }
+
+    /* Top Detective HUD */
+    .hud-top {
+      position: fixed;
+      top: 14px;
+      left: 16px;
+      right: 16px;
+      z-index: 100;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      overflow-x: hidden;
-      padding: 12px;
+      justify-content: space-between;
+      pointer-events: none;
     }
-    /* Top floating bar */
-    .top-bar {
-      width: 100%;
-      max-width: 820px;
+
+    .hud-badge {
+      pointer-events: auto;
+      background: var(--glass-panel);
+      border: 2px solid var(--border-panel);
+      border-radius: 40px;
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.25);
+    }
+
+    .badge-icon {
+      font-size: 1.6rem;
+      filter: drop-shadow(0 2px 6px rgba(245, 158, 11, 0.6));
+    }
+
+    .badge-info h4 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #94a3b8;
+      font-weight: 800;
+    }
+
+    .badge-info span {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--amber);
+    }
+
+    .hud-controls {
+      display: flex;
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    .btn-hud {
+      background: var(--glass-panel);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .btn-hud:hover {
+      border-color: var(--amber);
+      transform: scale(1.06) translateY(-2px);
+      box-shadow: 0 8px 24px var(--gold-glow);
+    }
+
+    .btn-hud.shop {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      border-color: #fde68a;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Prancheta / Dossiê do Caso Central */
+    .case-folder {
+      position: fixed;
+      top: 82px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      width: 92%;
+      max-width: 640px;
+      background: linear-gradient(145deg, #fef3c7, #fde68a);
+      color: var(--ink);
+      border: 3px solid #b45309;
+      border-radius: 28px;
+      padding: 22px 28px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 35px rgba(245, 158, 11, 0.35);
+      pointer-events: auto;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .case-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 12px;
-      margin-bottom: 12px;
-      z-index: 100;
+      border-bottom: 2px dashed #b45309;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
     }
-    .btn-portal {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
-      text-decoration: none;
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-weight: 700;
+
+    .case-stamp {
+      font-family: 'Special Elite', cursive;
       font-size: 0.9rem;
-      border: 2px solid rgba(255,255,255,0.3);
-      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-      transition: transform 0.2s;
-    }
-    .btn-portal:hover { transform: scale(1.05); }
-    .top-tools { display: flex; gap: 8px; }
-    .btn-tool {
-      background: rgba(30, 41, 59, 0.8);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      font-family: 'Fredoka', sans-serif;
-    }
-    .btn-tool:hover { background: rgba(51, 65, 85, 0.9); }
-
-    /* Game Container */
-    .game-box {
-      width: 100%;
-      max-width: 760px;
-      background: var(--card-bg);
-      border: 3px solid rgba(168, 85, 247, 0.5);
-      border-radius: 28px;
-      padding: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-    /* Stats Bar */
-    .stats-bar {
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .stat-pill {
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      border-radius: 14px;
-      padding: 8px 10px;
-    }
-    .stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
-    .stat-val { font-size: 1.25rem; font-weight: 800; color: #fbbf24; font-family: 'Outfit', sans-serif; }
-
-    /* Detective Clue Card */
-    .case-card {
-      background: linear-gradient(135deg, rgba(88, 28, 135, 0.3) 0%, rgba(30, 41, 59, 0.8) 100%);
-      border: 2px dashed rgba(168, 85, 247, 0.6);
-      border-radius: 20px;
-      padding: 20px;
-      width: 100%;
-      margin-bottom: 24px;
-      position: relative;
-    }
-    .case-badge {
-      display: inline-block;
-      background: #7e22ce;
-      color: white;
-      padding: 4px 14px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: 0.5px;
-    }
-    .case-hint {
-      font-size: 1.15rem;
-      color: #e2e8f0;
-      margin-bottom: 16px;
-      min-height: 30px;
-    }
-    .mystery-word {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(2.2rem, 6vw, 3.4rem);
       font-weight: 800;
-      letter-spacing: 4px;
-      color: #ffffff;
-      margin: 15px 0;
-      text-shadow: 0 4px 20px rgba(168, 85, 247, 0.6);
-    }
-    .mystery-blank {
-      color: #fbbf24;
-      border-bottom: 4px solid #fbbf24;
-      display: inline-block;
-      min-width: 60px;
-      text-align: center;
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.04); }
+      color: #b91c1c;
+      border: 2px solid #b91c1c;
+      border-radius: 8px;
+      padding: 2px 10px;
+      transform: rotate(-3deg);
     }
 
-    /* Option Buttons */
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      width: 100%;
-      max-width: 580px;
+    .case-progress-text {
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: #78350f;
+    }
+
+    .case-clue-box {
+      text-align: center;
       margin-bottom: 18px;
     }
-    @media(min-width: 600px) {
-      .options-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-    .opt-btn {
-      background: linear-gradient(135deg, #1e293b, #334155);
-      border: 2px solid rgba(168, 85, 247, 0.4);
-      color: white;
-      padding: 16px 12px;
-      border-radius: 18px;
-      font-size: 1.8rem;
+
+    .case-clue-label {
+      font-size: 0.8rem;
       font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #92400e;
+      margin-bottom: 4px;
+    }
+
+    .case-clue-text {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #451a03;
+      line-height: 1.4;
+    }
+
+    /* Palavra com Lacuna 3D */
+    .word-enigma-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0 22px 0;
+    }
+
+    .word-part {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #1e1b4b;
+      letter-spacing: 2px;
+    }
+
+    .word-gap-slot {
+      background: #ffffff;
+      border: 3px dashed #b45309;
+      border-radius: 18px;
+      min-width: 90px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #b91c1c;
+      box-shadow: inset 0 3px 8px rgba(0,0,0,0.15);
+      animation: pulseGap 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseGap {
+      0%, 100% { transform: scale(1); border-color: #b45309; }
+      50% { transform: scale(1.05); border-color: #f59e0b; box-shadow: 0 0 16px rgba(245, 158, 11, 0.6); }
+    }
+
+    /* Pistas / Maleta de Dígrafos (Bancada de Decisão) */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .digraph-btn {
+      background: linear-gradient(145deg, #ffffff, #fef08a);
+      border: 3px solid #d97706;
+      border-radius: 20px;
+      padding: 14px 6px;
+      font-family: inherit;
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #78350f;
       cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      transition: transform 0.15s, border-color 0.15s, background 0.15s;
+      box-shadow: 0 8px 18px rgba(180, 83, 9, 0.25);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
     }
-    .opt-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      border-color: #c084fc;
-      background: linear-gradient(135deg, #334155, #475569);
+
+    .digraph-btn:hover {
+      transform: translateY(-5px) scale(1.08);
+      border-color: #b45309;
+      box-shadow: 0 12px 25px rgba(245, 158, 11, 0.45);
+      background: #fef08a;
     }
-    .opt-btn.correct-anim {
+
+    .digraph-btn:active {
+      transform: translateY(2px) scale(0.96);
+    }
+
+    .digraph-btn.correct-anim {
       background: linear-gradient(135deg, #10b981, #059669) !important;
+      color: #ffffff !important;
       border-color: #34d399 !important;
-      transform: scale(1.08);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.8) !important;
+      transform: scale(1.15);
     }
-    .opt-btn.wrong-anim {
+
+    .digraph-btn.wrong-anim {
       background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+      color: #ffffff !important;
       border-color: #f87171 !important;
       animation: shake 0.4s;
     }
+
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-8px); }
       40%, 80% { transform: translateX(8px); }
     }
 
-    /* Feedback Box */
-    .feedback-box {
-      min-height: 48px;
-      font-size: 1.15rem;
+    /* Feedback Pedagógico Instantâneo */
+    .rule-explanation-box {
+      margin-top: 14px;
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-size: 0.92rem;
       font-weight: 700;
-      color: #94a3b8;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.35;
+    }
+
+    .rule-explanation-box.show-correct {
+      display: flex;
+      background: rgba(16, 185, 129, 0.2);
+      border: 2px solid #10b981;
+      color: #065f46;
+    }
+
+    .rule-explanation-box.show-wrong {
+      display: flex;
+      background: rgba(239, 68, 68, 0.2);
+      border: 2px solid #ef4444;
+      color: #991b1b;
+    }
+
+    /* Barra Inferior com Ferramentas do Detetive */
+    .hud-bottom {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--glass-panel);
+      border: 2px solid var(--border-panel);
+      border-radius: 50px;
+      padding: 8px 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.7), 0 0 25px rgba(245, 158, 11, 0.3);
+      pointer-events: auto;
+    }
+
+    .tool-item {
+      background: rgba(30, 41, 59, 0.85);
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      border-radius: 30px;
+      padding: 8px 16px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .tool-item .icon {
+      font-size: 1.3rem;
+    }
+
+    .tool-item:hover {
+      color: #fff;
+      border-color: var(--amber);
+      background: rgba(51, 65, 85, 0.95);
+      transform: translateY(-2px);
+    }
+
+    .tool-item.active {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+      color: #ffffff;
+      border-color: #fde68a;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+    }
+
+    /* Modais */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 8, 20, 0.85);
+      backdrop-filter: blur(14px);
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
     }
 
-    /* Game Over / Victory Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-window {
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 3px solid #f59e0b;
+      border-radius: 34px;
+      padding: 34px;
+      width: 100%;
+      max-width: 620px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 65px rgba(0,0,0,0.85), 0 0 50px rgba(245, 158, 11, 0.4);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-overlay.open .modal-window {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #f59e0b;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
     }
-    .modal-overlay.active { display: flex; }
-    .modal-card {
-      background: #1e293b;
-      border: 3px solid #a855f7;
-      border-radius: 26px;
-      padding: 32px 24px;
-      max-width: 460px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    .modal-close:hover {
+      background: #ef4444;
     }
-    @keyframes popIn {
-      from { transform: scale(0.8); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+
+    /* Loja / Galeria de Conquistas */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
     }
-    .modal-card h2 { font-size: 2rem; color: #c084fc; margin-bottom: 12px; }
-    .modal-card p { color: #cbd5e1; margin-bottom: 20px; line-height: 1.5; }
-    .btn-play-again {
-      background: linear-gradient(135deg, #a855f7, #7e22ce);
-      color: white;
-      border: none;
-      padding: 14px 32px;
-      border-radius: 50px;
-      font-size: 1.2rem;
+
+    .shop-item {
+      background: rgba(15, 23, 42, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .shop-item:hover {
+      border-color: #f59e0b;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
+    }
+
+    .shop-item-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shop-item-icon {
+      font-size: 2.2rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 2px solid rgba(245, 158, 11, 0.35);
+      border-radius: 16px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .shop-item-info h4 {
+      font-size: 1rem;
       font-weight: 800;
-      cursor: pointer;
-      font-family: 'Fredoka', sans-serif;
-      box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+      color: #f8fafc;
     }
-    .btn-play-again:hover { transform: scale(1.05); }
+
+    .shop-item-info p {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      line-height: 1.3;
+    }
+
+    .btn-buy {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: auto;
+    }
+
+    .btn-buy:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+    }
+
+    .btn-buy.equipped {
+      background: #475569;
+      cursor: default;
+    }
+
+    /* Modal de Vitória / Dossiê Solucionado */
+    .victory-card {
+      text-align: center;
+    }
+
+    .victory-stamp {
+      font-family: 'Special Elite', cursive;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #10b981;
+      border: 4px solid #10b981;
+      display: inline-block;
+      padding: 8px 24px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      transform: rotate(-4deg);
+      text-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Responsividade */
+    @media (max-width: 640px) {
+      .hud-top { top: 8px; left: 8px; right: 8px; }
+      .case-folder { top: 70px; padding: 16px; width: 95%; }
+      .word-part { font-size: 1.6rem; }
+      .word-gap-slot { min-width: 70px; height: 50px; font-size: 1.6rem; }
+      .options-grid { gap: 8px; }
+      .digraph-btn { padding: 10px 4px; font-size: 1.3rem; }
+      .hud-bottom { padding: 6px 14px; bottom: 10px; width: 94%; justify-content: center; }
+      .badge-info h4 { display: none; }
+    }
   </style>
-  <script src="/js/labkids-gamification.js"></script>
 </head>
 <body>
 
-  <!-- Top bar -->
-  <div class="top-bar">
-    <a href="/atividades/detetive-ortografia" class="btn-portal">⬅️ Guia do Jogo</a>
-    <div class="top-tools">
-      <button class="btn-tool" onclick="toggleMute()" id="mute-btn">🔊 Som</button>
-      <button class="btn-tool" onclick="restartGame()">🔄 Reiniciar</button>
+  <!-- Canvas 3D Three.js -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- HUD Superior do Detetive -->
+  <div class="hud-top">
+    <div class="hud-badge">
+      <div class="badge-icon">🕵️‍♂️</div>
+      <div class="badge-info">
+        <h4>PATENTE DO INVESTIGADOR</h4>
+        <span id="rank-name">Detetive Mirim</span>
+      </div>
+    </div>
+
+    <div class="hud-badge" style="border-color: #38bdf8;">
+      <div class="badge-icon">⭐</div>
+      <div class="badge-info">
+        <h4>CASOS SOLUCIONADOS</h4>
+        <span id="score-cases" style="color:#38bdf8;">0 pts</span>
+      </div>
+    </div>
+
+    <div class="hud-controls">
+      <div class="hud-badge" style="border-color:#f59e0b; padding:8px 14px;">
+        <span style="font-size:1.2rem;">🪙</span>
+        <span id="coins-count" style="color:#facc15; font-weight:900;">100</span>
+      </div>
+      <button class="btn-hud shop" id="btn-open-shop">
+        <span>💼</span>
+        <span>Equipamentos</span>
+      </button>
+      <button class="btn-hud" id="btn-sound">
+        <span id="sound-icon">🔊</span>
+      </button>
     </div>
   </div>
 
-  <!-- Game Box -->
-  <div class="game-box">
-    <!-- Header Stats -->
-    <div class="stats-bar">
-      <div class="stat-pill">
-        <div class="stat-label">Pontos</div>
-        <div class="stat-val" id="score-val">0</div>
-      </div>
-      <div class="stat-pill">
-        <div class="stat-label">Caso Atual</div>
-        <div class="stat-val" id="case-val">1/12</div>
-      </div>
-      <div class="stat-pill">
-        <div class="stat-label">Combo</div>
-        <div class="stat-val" id="combo-val">0x</div>
-      </div>
-      <div class="stat-pill">
-        <div class="stat-label">Distintivo</div>
-        <div class="stat-val" id="badge-val" style="font-size:1rem; color:#c084fc;">Novato</div>
-      </div>
+  <!-- Prancheta / Dossiê do Caso Aberto -->
+  <div class="case-folder" id="case-folder">
+    <div class="case-header">
+      <div class="case-stamp">CASO CONFIDENCIAL</div>
+      <div class="case-progress-text">ENIGMA <span id="current-case-num">1</span> DE <span id="total-cases-num">15</span></div>
     </div>
 
-    <!-- Case Card -->
-    <div class="case-card">
-      <div class="case-badge" id="category-badge">🕵️ CASO ORTOGRÁFICO</div>
-      <div class="case-hint" id="case-hint">Dica do Detetive: Um animal que late e protege a casa!</div>
-      <div class="mystery-word" id="mystery-display">CA<span class="mystery-blank">__</span>ORRO</div>
+    <div class="case-clue-box">
+      <div class="case-clue-label">📜 Pista do Arquivo Secreto:</div>
+      <div class="case-clue-text" id="clue-text">Carregando enigma...</div>
     </div>
 
-    <!-- Options Buttons -->
-    <div class="options-grid" id="options-grid"></div>
+    <!-- Lacuna da Palavra Investigada -->
+    <div class="word-enigma-container">
+      <span class="word-part" id="word-prefix">GA</span>
+      <div class="word-gap-slot" id="word-slot">?</div>
+      <span class="word-part" id="word-suffix">A</span>
+    </div>
 
-    <!-- Feedback -->
-    <div class="feedback-box" id="feedback-box">Analise a palavra e selecione o dígrafo correto!</div>
+    <!-- Maleta de Dígrafos (Opções) -->
+    <div class="options-grid" id="options-container">
+      <!-- Injetado dinamicamente via JS -->
+    </div>
+
+    <!-- Regra Ortográfica Revelada Instantaneamente -->
+    <div class="rule-explanation-box" id="rule-box">
+      <span id="rule-icon" style="font-size:1.5rem;">💡</span>
+      <span id="rule-text">Explicação pedagógica</span>
+    </div>
   </div>
 
-  <!-- End Modal -->
-  <div class="modal-overlay" id="end-modal">
-    <div class="modal-card">
-      <div style="font-size: 4rem; margin-bottom: 10px;" id="modal-emoji">🏆</div>
-      <h2 id="modal-title">Investigação Concluída!</h2>
-      <p id="modal-desc">Você resolveu todos os mistérios ortográficos e garantiu a escrita perfeita da língua portuguesa!</p>
-      <div style="margin-bottom: 22px; font-size: 1.4rem; font-weight: 800; color: #fbbf24;" id="final-score">Pontuação: 1200</div>
-      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-        <button class="btn-play-again" onclick="restartGame()">🎮 Jogar Novamente</button>
-        <a href="/" class="btn-portal" style="padding: 14px 24px; font-size: 1.1rem;">🏠 Voltar ao Portal</a>
+  <!-- HUD Inferior com Ferramentas do Detetive -->
+  <div class="hud-bottom">
+    <div class="tool-item active" data-tool="magnifier" id="tool-magnifier">
+      <span class="icon">🔍</span>
+      <span>Lupa de Pistas</span>
+    </div>
+    <div class="tool-item" data-tool="lamp" id="tool-lamp">
+      <span class="icon">💡</span>
+      <span>Lanterna UV</span>
+    </div>
+    <div class="tool-item" data-tool="notebook" id="tool-notebook">
+      <span class="icon">📓</span>
+      <span>Caderno de Regras</span>
+    </div>
+  </div>
+
+  <!-- Modal: Equipamentos & Loja do Detetive -->
+  <div class="modal-overlay" id="modal-shop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>💼</span>
+          <span>MALETA DE EQUIPAMENTOS DO DETETIVE</span>
+        </div>
+        <button class="modal-close" id="btn-close-shop">✕</button>
       </div>
+      <p style="color:#cbd5e1; font-size:0.95rem;">
+        Use suas <strong>Moedas da Investigação 🪙</strong> conquistadas ao desvendar palavras corretas para desbloquear melhorias e itens raros de detetive!
+      </p>
+
+      <div class="shop-grid" id="shop-container">
+        <!-- Itens injetados via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Caderno de Regras Ortográficas (BNCC) -->
+  <div class="modal-overlay" id="modal-rules">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📓</span>
+          <span>MANUAL DO DETETIVE ORTOGRÁFICO (BNCC)</span>
+        </div>
+        <button class="modal-close" id="btn-close-rules">✕</button>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px; color:#e2e8f0; font-size:0.95rem; line-height:1.5;">
+        <div style="background:rgba(245, 158, 11, 0.15); border-left:4px solid #f59e0b; padding:12px 16px; border-radius:0 14px 14px 0;">
+          <h4 style="color:#fbbf24; margin-bottom:4px;">🔍 O que é um Dígrafo?</h4>
+          <p>É quando duas letras representam um <strong>único fonema</strong> (um só som). Exemplos: <strong>CH, NH, LH, RR, SS, QU, GU</strong>.</p>
+        </div>
+        <div style="background:rgba(56, 189, 248, 0.15); border-left:4px solid #38bdf8; padding:12px 16px; border-radius:0 14px 14px 0;">
+          <h4 style="color:#38bdf8; margin-bottom:4px;">⚡ Regra do RR e SS</h4>
+          <p>Nunca iniciamos palavras com <strong>RR</strong> ou <strong>SS</strong>! Eles são usados entre vogais para preservar o som forte.</p>
+        </div>
+        <div style="background:rgba(16, 185, 129, 0.15); border-left:4px solid #10b981; padding:12px 16px; border-radius:0 14px 14px 0;">
+          <h4 style="color:#10b981; margin-bottom:4px;">🎯 Regra do Ç (C-Cedilha)</h4>
+          <p>O <strong>Ç</strong> só é usado antes de <strong>A, O, U</strong> com som de /S/. Nunca antes de E ou I, e nunca no começo de palavras!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Vitória / Caso Solucionado -->
+  <div class="modal-overlay" id="modal-victory">
+    <div class="modal-window victory-card">
+      <div class="victory-stamp">CASO ENCERRADO!</div>
+      <h2 style="font-size:2rem; font-weight:900; color:#fbbf24; margin-bottom:8px;">MEDALHA SHERLOCK HOLMES DA ORTOGRAFIA</h2>
+      <p style="color:#cbd5e1; font-size:1.05rem; margin-bottom:20px;">
+        Você desvendou todos os enigmas ortográficos sem deixar escapar nenhum dígrafo! Sua dedicação restaurou o dicionário da cidade!
+      </p>
+
+      <div style="background:rgba(15,23,42,0.8); border:2px solid #f59e0b; border-radius:20px; padding:18px; margin-bottom:24px; display:flex; justify-content:space-around;">
+        <div>
+          <div style="font-size:1.8rem; font-weight:900; color:#10b981;" id="v-score">0</div>
+          <div style="font-size:0.75rem; color:#94a3b8; font-weight:800;">PONTOS FINAIS</div>
+        </div>
+        <div>
+          <div style="font-size:1.8rem; font-weight:900; color:#fbbf24;" id="v-coins">0</div>
+          <div style="font-size:0.75rem; color:#94a3b8; font-weight:800;">MOEDAS GANHAS</div>
+        </div>
+        <div>
+          <div style="font-size:1.8rem; font-weight:900; color:#38bdf8;">Mestre Supremo</div>
+          <div style="font-size:0.75rem; color:#94a3b8; font-weight:800;">TÍTULO</div>
+        </div>
+      </div>
+
+      <button class="btn-hud" id="btn-play-again" style="margin:0 auto; background:linear-gradient(135deg, #d97706, #b45309); font-size:1.2rem; padding:14px 36px; border-radius:50px;">
+        <span>🔄 INVESTIGAR NOVO CASO</span>
+      </button>
     </div>
   </div>
 
   <script>
-    // Audio Synthesizer (Zero dependências externas)
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    let audioCtx = null;
-    let soundEnabled = true;
+    /* ==========================================================
+       ÁUDIO SINTETIZADO (SEM BIPS 8-BIT, SOM NOBRE DE INVESTIGAÇÃO)
+       ========================================================== */
+    class DetectiveAudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
 
-    function initAudio() {
-      if (!audioCtx) audioCtx = new AudioCtx();
-    }
-    function playBeep(freq, type = 'sine', duration = 0.15) {
-      if (!soundEnabled) return;
-      initAudio();
-      try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch(e){}
-    }
-    function playSuccessSound() {
-      playBeep(523.25, 'triangle', 0.1);
-      setTimeout(() => playBeep(659.25, 'triangle', 0.1), 100);
-      setTimeout(() => playBeep(783.99, 'triangle', 0.2), 200);
-    }
-    function playErrorSound() {
-      playBeep(220, 'sawtooth', 0.15);
-      setTimeout(() => playBeep(180, 'sawtooth', 0.2), 120);
-    }
-    function toggleMute() {
-      soundEnabled = !soundEnabled;
-      document.getElementById('mute-btn').textContent = soundEnabled ? '🔊 Som' : '🔇 Mudo';
+      init() {
+        if (!this.ctx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) this.ctx = new AC();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playPaper() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const buf = this.ctx.createBuffer(1, this.ctx.sampleRate * 0.12, this.ctx.sampleRate);
+          const d = buf.getChannelData(0);
+          for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+          const src = this.ctx.createBufferSource();
+          src.buffer = buf;
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(1200, this.ctx.currentTime);
+          filter.Q.setValueAtTime(2.0, this.ctx.currentTime);
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.11);
+          src.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+          src.start();
+        } catch(e) {}
+      }
+
+      playCorrect() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const notes = [440, 554, 659, 880];
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            const t = this.ctx.currentTime + idx * 0.07;
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.2, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.22);
+          });
+        } catch(e) {}
+      }
+
+      playWrong() {
+        if (!this.enabled || !this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          const now = this.ctx.currentTime;
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.linearRampToValueAtTime(120, now + 0.2);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } catch(e) {}
+      }
     }
 
-    // Base de Questões com Dígrafos e Regularidades BNCC (EF02LP01, EF03LP01)
-    const CASES = [
-      {
-        word: "CACHORRO",
-        display: "CA{__}ORRO",
-        correct: "CH",
-        distractors: ["X", "SH", "RR"],
-        hint: "Amigo fiel de quatro patas que late e brinca!",
-        rule: "Usa-se CH com som de /X/ em palavras de origem específica."
-      },
-      {
-        word: "PÁSSARO",
-        display: "PÁ{__}ARO",
-        correct: "SS",
-        distractors: ["S", "Ç", "C"],
-        hint: "Animal com asas, bico e penas que voa pelo céu!",
-        rule: "Usa-se SS entre duas vogais para manter o som de /S/ forte."
-      },
+    const audio = new DetectiveAudioEngine();
+
+    /* ==========================================================
+       BASE DE CASOS ORTOGRÁFICOS BNCC (EF02LP04, EF03LP01)
+       ========================================================== */
+    const CASES_DATABASE = [
       {
         word: "GALINHA",
-        display: "GALI{__}A",
+        prefix: "GALI",
+        suffix: "A",
         correct: "NH",
         distractors: ["LH", "N", "MI"],
-        hint: "Ave da fazenda que põe ovos e cacareja!",
-        rule: "O dígrafo NH produz som nasal específico na língua portuguesa."
+        clue: "Ave da fazenda que bota ovos fresquinhos e adora ciscar no galinheiro!",
+        rule: "O dígrafo NH produz som nasal palatal suave, como em ninho e carinho."
       },
       {
         word: "COELHO",
-        display: "COE{__}O",
+        prefix: "COE",
+        suffix: "O",
         correct: "LH",
         distractors: ["LI", "NH", "CH"],
-        hint: "Animal fofinho de orelhas compridas que adora cenoura!",
-        rule: "O dígrafo LH representa a consoante lateral palatal."
+        clue: "Animalzinho fofinho de orelhas compridas que dá saltinhos e ama cenoura!",
+        rule: "O dígrafo LH representa o som lateral palatal (lhama, milho, filho)."
       },
       {
         word: "CARROÇA",
-        display: "CARRO{__}A",
+        prefix: "CARRO",
+        suffix: "A",
         correct: "Ç",
         distractors: ["SS", "S", "C"],
-        hint: "Veículo de madeira com rodas puxado por cavalos!",
-        rule: "Usa-se Ç antes de A, O, U para som de /S/ (nunca no início de palavras)."
+        clue: "Veículo antigo de madeira com rodas puxado por animais no campo!",
+        rule: "Usa-se Ç antes de A, O, U para manter som de /S/ sem usar dois 'esses'."
       },
       {
         word: "CHAVE",
-        display: "{__}AVE",
+        prefix: "",
+        suffix: "AVE",
         correct: "CH",
         distractors: ["X", "QU", "J"],
-        hint: "Objeto de metal que usamos para abrir e trancar portas!",
-        rule: "A palavra 'chave' é grafada com CH inicial."
-      },
-      {
-        word: "TERRA",
-        display: "TE{__}A",
-        correct: "RR",
-        distractors: ["R", "SS", "RH"],
-        hint: "O nosso planeta azul ou o solo fértil onde plantamos!",
-        rule: "Usa-se RR entre vogais para obter o som forte de /R/."
-      },
-      {
-        word: "CHOCOLATE",
-        display: "{__}OCOLATE",
-        correct: "CH",
-        distractors: ["X", "SH", "TX"],
-        hint: "Doce delicioso feito a partir das sementes do cacau!",
-        rule: "'Chocolate' escreve-se com CH."
-      },
-      {
-        word: "PALHAÇO",
-        display: "PA{__}AÇO",
-        correct: "LH",
-        distractors: ["LI", "CH", "NH"],
-        hint: "Artista circense alegre com nariz vermelho que faz todos rirem!",
-        rule: "Palhaço deriva de palha, grafado com LH."
-      },
-      {
-        word: "SONHO",
-        display: "SO{__}O",
-        correct: "NH",
-        distractors: ["N", "LH", "M"],
-        hint: "O que imaginamos enquanto dormimos ou um delicioso doce recheado!",
-        rule: "A terminação de sonho leva o dígrafo NH."
+        clue: "Pequeno objeto de metal com dentes que usamos para trancar e abrir portas!",
+        rule: "A palavra 'chave' inicia com o dígrafo CH, com som de /X/."
       },
       {
         word: "GIRASSOL",
-        display: "GIRA{__}OL",
+        prefix: "GIRA",
+        suffix: "OL",
         correct: "SS",
         distractors: ["S", "Ç", "C"],
-        hint: "Flor amarela que gira acompanhando a luz do sol!",
-        rule: "Ao unir gira + sol, dobra-se o S (girassol) para manter o som /S/."
+        clue: "Flor alta e reluzente de pétalas amarelas que acompanha a luz do sol!",
+        rule: "Entre vogais, dobramos o S (SS) para manter o som forte de /S/."
+      },
+      {
+        word: "TERRA",
+        prefix: "TE",
+        suffix: "A",
+        correct: "RR",
+        distractors: ["R", "SS", "RH"],
+        clue: "O nosso planeta azul ou o solo fértil onde brotam as plantinhas!",
+        rule: "Entre vogais, usamos RR para garantir o som forte de /R/ vibrante."
+      },
+      {
+        word: "CHOCOLATE",
+        prefix: "",
+        suffix: "OCOLATE",
+        correct: "CH",
+        distractors: ["X", "SH", "TX"],
+        clue: "Doce mundialmente famoso e delicioso produzido a partir das sementes de cacau!",
+        rule: "'Chocolate' escreve-se historicamente com o dígrafo CH."
+      },
+      {
+        word: "PALHAÇO",
+        prefix: "PA",
+        suffix: "AÇO",
+        correct: "LH",
+        distractors: ["LI", "CH", "NH"],
+        clue: "Artista de circo com nariz vermelho e roupas coloridas que faz todo mundo rir!",
+        rule: "Palhaço deriva da palavra 'palha', mantendo a raiz com LH."
+      },
+      {
+        word: "SONHO",
+        prefix: "SO",
+        suffix: "O",
+        correct: "NH",
+        distractors: ["N", "LH", "M"],
+        clue: "O que nossa mente cria enquanto dormimos ou um bolinho frito com creme!",
+        rule: "A terminação de sonho leva o dígrafo NH (sonho, sonhador)."
+      },
+      {
+        word: "PASSARINHO",
+        prefix: "PA",
+        suffix: "ARINHO",
+        correct: "SS",
+        distractors: ["S", "Ç", "C"],
+        clue: "Criaturinha com penas e asas que canta lindas melodias no início do dia!",
+        rule: "Em 'passarinho', usa-se SS entre vogais para preservar o som de /S/."
+      },
+      {
+        word: "CHUVA",
+        prefix: "",
+        suffix: "UVA",
+        correct: "CH",
+        distractors: ["X", "J", "QU"],
+        clue: "Gotículas de água que descem das nuvens para regar as plantas e rios!",
+        rule: "'Chuva' é grafada com CH, da mesma família de chuvisco e chover."
+      },
+      {
+        word: "FOLHA",
+        prefix: "FO",
+        suffix: "A",
+        correct: "LH",
+        distractors: ["LI", "NH", "CH"],
+        clue: "Parte verde das plantas que faz a fotossíntese e cai dos galhos no outono!",
+        rule: "'Folha' utiliza o dígrafo LH (folhagem, folheto)."
       },
       {
         word: "CORAÇÃO",
-        display: "CORA{__}ÃO",
+        prefix: "CORA",
+        suffix: "ÃO",
         correct: "Ç",
         distractors: ["SS", "S", "C"],
-        hint: "Órgão vital que bate no peito e simboliza o carinho!",
-        rule: "Coração usa Ç com som de /S/ antes de Ã."
+        clue: "Órgão do peito que bombeia sangue para todo o corpo e bate com alegria!",
+        rule: "Usa-se Ç antes do ditongo ÃO para preservar o som de /S/."
+      },
+      {
+        word: "MINHOCA",
+        prefix: "MI",
+        suffix: "OCA",
+        correct: "NH",
+        distractors: ["N", "LH", "M"],
+        clue: "Pequeno ser subterrâneo que rasteja na horta e areja a terra fértil!",
+        rule: "A palavra 'minhoca' possui o dígrafo nasal NH."
+      },
+      {
+        word: "CACHORRO",
+        prefix: "CACHO",
+        suffix: "O",
+        correct: "RR",
+        distractors: ["R", "SS", "X"],
+        clue: "O melhor amigo de quatro patas que abana o rabo com lealdade e late!",
+        rule: "Em 'cachorro', usa-se RR entre vogais para som de /R/ forte."
       }
     ];
 
-    let currentCaseIndex = 0;
-    let score = 0;
-    let combo = 0;
-    let maxCombo = 0;
-    let answered = false;
+    /* ==========================================================
+       ESTADO DO JOGADOR, PROGRESSÃO & LOJA
+       ========================================================== */
+    const gameState = {
+      caseIndex: 0,
+      score: 0,
+      coins: 100,
+      inventory: {
+        uv_magnifier: false,
+        golden_badge: false,
+        leather_hat: false
+      }
+    };
 
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
+    const SHOP_ITEMS = [
+      {
+        id: 'uv_magnifier',
+        name: 'Super Lupa UV 3D',
+        desc: 'Destaca as pistas com brilho néon violeta holográfico.',
+        icon: '🔬',
+        price: 80
+      },
+      {
+        id: 'leather_hat',
+        name: 'Chapéu Sherlock Clássico',
+        desc: 'Aumenta em 50% as moedas conquistadas em cada enigma.',
+        icon: '🕵️',
+        price: 150
+      },
+      {
+        id: 'golden_badge',
+        name: 'Distintivo de Ouro da Polícia Federal',
+        desc: 'Concede aura reluzente e patente especial de Investigador Chefe.',
+        icon: '⭐',
+        price: 250
+      }
+    ];
+
+    /* ==========================================================
+       CENÁRIO 3D: ESCRITÓRIO MISTERIOSO DO DETETIVE (THREE.JS)
+       ========================================================== */
+    let scene, camera, renderer;
+    let deskMesh, lampLight, dustParticles, floatingLettersGroup;
+
+    function initThree() {
+      const canvas = document.getElementById('webgl-canvas');
+      scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x0a0d18, 0.04);
+
+      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.set(0, 1.2, 6.5);
+
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.1;
+
+      // Luz Ambiente Misteriosa
+      const ambLight = new THREE.AmbientLight(0x312e81, 0.6);
+      scene.add(ambLight);
+
+      // Abajur de Investigação Verde/Âmbar
+      lampLight = new THREE.PointLight(0xf59e0b, 2.4, 18);
+      lampLight.position.set(2.2, 2.5, 1.5);
+      scene.add(lampLight);
+
+      const blueBackLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+      blueBackLight.position.set(-5, 6, -3);
+      scene.add(blueBackLight);
+
+      // Mesa de Madeira do Detetive
+      const deskGeo = new THREE.BoxGeometry(10, 0.6, 6);
+      const deskMat = new THREE.MeshStandardMaterial({
+        color: 0x3f220f,
+        roughness: 0.4,
+        metalness: 0.1
+      });
+      deskMesh = new THREE.Mesh(deskGeo, deskMat);
+      deskMesh.position.set(0, -1.8, 0);
+      scene.add(deskMesh);
+
+      // Lupa 3D decorativa na mesa
+      build3DMagnifier();
+
+      // Partículas de poeira suspensa na luz do abajur
+      buildDustAtmosphere();
+
+      // Letras flutuantes mágicas no fundo
+      buildFloatingLetters();
+
+      window.addEventListener('resize', onResize);
+      animate();
     }
 
-    function getBadgeName(points) {
-      if (points >= 1200) return 'Mestre 🌟';
-      if (points >= 800) return 'Inspetor 🔎';
-      if (points >= 400) return 'Agente 🕵️';
-      return 'Novato 🌱';
+    function onResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    function renderCase() {
-      answered = false;
-      const c = CASES[currentCaseIndex];
+    function build3DMagnifier() {
+      const magGroup = new THREE.Group();
       
-      document.getElementById('case-val').textContent = `${currentCaseIndex + 1}/${CASES.length}`;
-      document.getElementById('case-hint').textContent = `Dica: ${c.hint}`;
-      
-      const displayHtml = c.display.replace('{__}', '<span class="mystery-blank">__</span>');
-      document.getElementById('mystery-display').innerHTML = displayHtml;
-      
-      document.getElementById('feedback-box').innerHTML = 'Qual dígrafo ou letra completa a palavra corretamente?';
-      document.getElementById('feedback-box').style.color = '#94a3b8';
+      const rimGeo = new THREE.TorusGeometry(0.7, 0.08, 16, 32);
+      const rimMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.8, roughness: 0.2 });
+      const rim = new THREE.Mesh(rimGeo, rimMat);
+      magGroup.add(rim);
 
-      // Montar opções
-      const allOpts = shuffle([c.correct, ...c.distractors]);
-      const grid = document.getElementById('options-grid');
-      grid.innerHTML = '';
+      const glassGeo = new THREE.CircleGeometry(0.68, 32);
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x38bdf8,
+        transmission: 0.9,
+        transparent: true,
+        opacity: 0.6,
+        roughness: 0.1
+      });
+      const glass = new THREE.Mesh(glassGeo, glassMat);
+      magGroup.add(glass);
 
-      allOpts.forEach(opt => {
+      const handleGeo = new THREE.CylinderGeometry(0.08, 0.1, 1.2, 16);
+      const handleMat = new THREE.MeshStandardMaterial({ color: 0x1c1917, roughness: 0.6 });
+      const handle = new THREE.Mesh(handleGeo, handleMat);
+      handle.position.set(0, -1.1, 0);
+      magGroup.add(handle);
+
+      magGroup.position.set(-2.8, -0.6, 2.2);
+      magGroup.rotation.x = -Math.PI / 3;
+      magGroup.rotation.z = Math.PI / 6;
+      magGroup.userData = { initialY: -0.6 };
+      scene.add(magGroup);
+      magMeshRef = magGroup;
+    }
+    let magMeshRef = null;
+
+    function buildDustAtmosphere() {
+      const count = 120;
+      const geo = new THREE.BufferGeometry();
+      const pos = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++) {
+        pos[i * 3] = (Math.random() - 0.5) * 14;
+        pos[i * 3 + 1] = (Math.random() - 0.5) * 8 + 1;
+        pos[i * 3 + 2] = (Math.random() - 0.5) * 8;
+      }
+      geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const mat = new THREE.PointsMaterial({
+        color: 0xfef08a,
+        size: 0.12,
+        transparent: true,
+        opacity: 0.75,
+        blending: THREE.AdditiveBlending
+      });
+      dustParticles = new THREE.Points(geo, mat);
+      scene.add(dustParticles);
+    }
+
+    function buildFloatingLetters() {
+      floatingLettersGroup = new THREE.Group();
+      scene.add(floatingLettersGroup);
+
+      // 10 orbes luminosos representando pistas
+      const sphereGeo = new THREE.SphereGeometry(0.18, 16, 16);
+      const sphereMat = new THREE.MeshStandardMaterial({
+        color: 0x38bdf8,
+        emissive: 0x0284c7,
+        emissiveIntensity: 0.8
+      });
+
+      for (let i = 0; i < 12; i++) {
+        const mesh = new THREE.Mesh(sphereGeo, sphereMat);
+        mesh.position.set(
+          (Math.random() - 0.5) * 12,
+          Math.random() * 4 - 0.5,
+          (Math.random() - 0.5) * 6 - 2
+        );
+        mesh.userData = {
+          speedY: 0.008 + Math.random() * 0.015,
+          offset: Math.random() * Math.PI * 2
+        };
+        floatingLettersGroup.add(mesh);
+      }
+    }
+
+    let clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+
+      // Oscilação suave da lâmpada
+      if (lampLight) {
+        lampLight.intensity = 2.4 + Math.sin(time * 3) * 0.15;
+      }
+
+      // Flutuação da Lupa
+      if (magMeshRef) {
+        magMeshRef.position.y = magMeshRef.userData.initialY + Math.sin(time * 2) * 0.08;
+        magMeshRef.rotation.y = Math.sin(time * 1.5) * 0.2;
+      }
+
+      // Movimento de poeira luminosa
+      if (dustParticles) {
+        const pos = dustParticles.geometry.attributes.position.array;
+        for (let i = 0; i < pos.length; i += 3) {
+          pos[i + 1] += 0.003;
+          if (pos[i + 1] > 5) pos[i + 1] = -3;
+        }
+        dustParticles.geometry.attributes.position.needsUpdate = true;
+      }
+
+      // Orbes flutuantes
+      if (floatingLettersGroup) {
+        floatingLettersGroup.children.forEach(orb => {
+          orb.position.y += Math.sin(time * 2 + orb.userData.offset) * 0.004;
+        });
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    /* ==========================================================
+       LÓGICA PEDAGÓGICA E PROGRESSÃO DO DETETIVE
+       ========================================================== */
+    function loadCase(idx) {
+      const caseData = CASES_DATABASE[idx];
+      if (!caseData) return;
+
+      audio.playPaper();
+
+      document.getElementById('current-case-num').innerText = idx + 1;
+      document.getElementById('total-cases-num').innerText = CASES_DATABASE.length;
+      document.getElementById('clue-text').innerText = caseData.clue;
+
+      document.getElementById('word-prefix').innerText = caseData.prefix;
+      document.getElementById('word-suffix').innerText = caseData.suffix;
+      const slot = document.getElementById('word-slot');
+      slot.innerText = '?';
+      slot.style.color = '#b91c1c';
+
+      // Esconde explicação anterior
+      const ruleBox = document.getElementById('rule-box');
+      ruleBox.className = 'rule-explanation-box';
+
+      // Monta as 4 opções de dígrafos
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      // Embaralha correta + distratores
+      const allOptions = [caseData.correct, ...caseData.distractors];
+      allOptions.sort(() => Math.random() - 0.5);
+
+      allOptions.forEach(opt => {
         const btn = document.createElement('button');
-        btn.className = 'opt-btn';
-        btn.textContent = opt;
-        btn.onclick = () => handleChoice(opt, btn);
-        grid.appendChild(btn);
+        btn.className = 'digraph-btn';
+        btn.innerText = opt;
+        btn.addEventListener('click', () => handleAnswer(opt, btn, caseData));
+        optionsContainer.appendChild(btn);
+      });
+
+      updateHUD();
+    }
+
+    let isProcessing = false;
+
+    function handleAnswer(selected, buttonEl, caseData) {
+      if (isProcessing) return;
+      audio.init();
+
+      const ruleBox = document.getElementById('rule-box');
+      const ruleText = document.getElementById('rule-text');
+      const ruleIcon = document.getElementById('rule-icon');
+      const slot = document.getElementById('word-slot');
+
+      if (selected === caseData.correct) {
+        // ACERTOU
+        isProcessing = true;
+        buttonEl.classList.add('correct-anim');
+        audio.playCorrect();
+
+        slot.innerText = selected;
+        slot.style.color = '#10b981';
+
+        ruleBox.className = 'rule-explanation-box show-correct';
+        ruleIcon.innerText = '✅ PISTA CORRETA!';
+        ruleText.innerText = caseData.rule;
+
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+
+        gameState.score += 100;
+        gameState.coins += 20;
+        updateHUD();
+
+        setTimeout(() => {
+          isProcessing = false;
+          if (gameState.caseIndex < CASES_DATABASE.length - 1) {
+            gameState.caseIndex++;
+            loadCase(gameState.caseIndex);
+          } else {
+            showVictory();
+          }
+        }, 1800);
+
+      } else {
+        // ERROU
+        buttonEl.classList.add('wrong-anim');
+        audio.playWrong();
+
+        ruleBox.className = 'rule-explanation-box show-wrong';
+        ruleIcon.innerText = '❌ PISTA FALSA!';
+        ruleText.innerText = 'Dica: ' + caseData.clue;
+
+        setTimeout(() => {
+          buttonEl.classList.remove('wrong-anim');
+        }, 500);
+      }
+    }
+
+    function updateHUD() {
+      document.getElementById('score-cases').innerText = gameState.score + ' pts';
+      document.getElementById('coins-count').innerText = gameState.coins;
+
+      // Atualiza Patente
+      const rankEl = document.getElementById('rank-name');
+      if (gameState.score >= 1000) rankEl.innerText = 'Investigador Lendário 🏆';
+      else if (gameState.score >= 600) rankEl.innerText = 'Perito Chefe ⭐';
+      else if (gameState.score >= 300) rankEl.innerText = 'Agente Especial 🔍';
+      else rankEl.innerText = 'Detetive Mirim 🕵️';
+    }
+
+    function showVictory() {
+      audio.playCorrect();
+      confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
+
+      document.getElementById('v-score').innerText = gameState.score;
+      document.getElementById('v-coins').innerText = gameState.coins;
+      document.getElementById('modal-victory').classList.add('open');
+
+      if (window.LabKidsGamification && typeof window.LabKidsGamification.recordCompletion === 'function') {
+        try {
+          window.LabKidsGamification.recordCompletion({
+            activityId: 10,
+            slug: 'detetive-ortografia',
+            score: gameState.score,
+            coins: gameState.coins
+          });
+        } catch(e) {}
+      }
+    }
+
+    /* ==========================================================
+       LOJA E EQUIPAMENTOS DO DETETIVE
+       ========================================================== */
+    function renderShop() {
+      const container = document.getElementById('shop-container');
+      container.innerHTML = '';
+
+      SHOP_ITEMS.forEach(item => {
+        const isOwned = gameState.inventory[item.id];
+        const card = document.createElement('div');
+        card.className = 'shop-item';
+        card.innerHTML = `
+          <div class="shop-item-top">
+            <div class="shop-item-icon">${item.icon}</div>
+            <div class="shop-item-info">
+              <h4>${item.name}</h4>
+              <p>${item.desc}</p>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
+            <span style="color:#facc15; font-weight:800; font-size:0.95rem;">🪙 ${item.price} Moedas</span>
+            <button class="btn-buy ${isOwned ? 'equipped' : ''}" data-id="${item.id}">
+              ${isOwned ? 'Equipado ✓' : 'Comprar'}
+            </button>
+          </div>
+        `;
+
+        const btn = card.querySelector('.btn-buy');
+        if (!isOwned) {
+          btn.addEventListener('click', () => {
+            if (gameState.coins >= item.price) {
+              gameState.coins -= item.price;
+              gameState.inventory[item.id] = true;
+              audio.playCorrect();
+              confetti({ particleCount: 40, spread: 50, origin: { y: 0.6 } });
+              updateHUD();
+              renderShop();
+            } else {
+              alert('Moedas da Investigação insuficientes! Resolva mais enigmas ortográficos.');
+            }
+          });
+        }
+
+        container.appendChild(card);
       });
     }
 
-    function handleChoice(chosen, btn) {
-      if (answered) return;
-      answered = true;
-      initAudio();
+    /* ==========================================================
+       EVENT BINDINGS
+       ========================================================== */
+    document.getElementById('btn-open-shop').addEventListener('click', () => {
+      audio.init();
+      renderShop();
+      document.getElementById('modal-shop').classList.add('open');
+    });
 
-      const c = CASES[currentCaseIndex];
-      const isCorrect = (chosen === c.correct);
+    document.getElementById('btn-close-shop').addEventListener('click', () => {
+      document.getElementById('modal-shop').classList.remove('open');
+    });
 
-      if (isCorrect) {
-        combo++;
-        if (combo > maxCombo) maxCombo = combo;
-        const pts = 100 + (combo * 10);
-        score += pts;
-        
-        btn.classList.add('correct-anim');
-        playSuccessSound();
+    document.getElementById('tool-notebook').addEventListener('click', () => {
+      audio.init();
+      document.getElementById('modal-rules').classList.add('open');
+    });
 
-        const fullWordHtml = c.display.replace('{__}', `<span style="color:#10b981; text-decoration: underline;">${c.correct}</span>`);
-        document.getElementById('mystery-display').innerHTML = fullWordHtml;
+    document.getElementById('btn-close-rules').addEventListener('click', () => {
+      document.getElementById('modal-rules').classList.remove('open');
+    });
 
-        document.getElementById('feedback-box').innerHTML = `🎉 <strong>Excelente!</strong> ${c.rule} (+${pts} pts)`;
-        document.getElementById('feedback-box').style.color = '#10b981';
-      } else {
-        combo = 0;
-        btn.classList.add('wrong-anim');
-        playErrorSound();
+    document.getElementById('btn-sound').addEventListener('click', () => {
+      audio.init();
+      audio.enabled = !audio.enabled;
+      document.getElementById('sound-icon').innerText = audio.enabled ? '🔊' : '🔇';
+    });
 
-        // Destacar o correto
-        const buttons = document.querySelectorAll('.opt-btn');
-        buttons.forEach(b => {
-          if (b.textContent === c.correct) b.classList.add('correct-anim');
-        });
+    document.getElementById('btn-play-again').addEventListener('click', () => {
+      document.getElementById('modal-victory').classList.remove('open');
+      gameState.caseIndex = 0;
+      gameState.score = 0;
+      loadCase(0);
+    });
 
-        document.getElementById('feedback-box').innerHTML = `❌ <strong>Atenção!</strong> A grafia correta é <strong>${c.word}</strong>. ${c.rule}`;
-        document.getElementById('feedback-box').style.color = '#ef4444';
-      }
+    // Ferramentas interativas
+    document.getElementById('tool-magnifier').addEventListener('click', () => {
+      audio.init();
+      audio.playPaper();
+      const current = CASES_DATABASE[gameState.caseIndex];
+      alert('🔍 LUPA DO DETETIVE: ' + current.clue);
+    });
 
-      document.getElementById('score-val').textContent = score;
-      document.getElementById('combo-val').textContent = `${combo}x`;
-      document.getElementById('badge-val').textContent = getBadgeName(score);
+    document.getElementById('tool-lamp').addEventListener('click', () => {
+      audio.init();
+      audio.playPaper();
+      const current = CASES_DATABASE[gameState.caseIndex];
+      alert('💡 LANTERNA UV: Revelou a regra ortográfica oculta: ' + current.rule);
+    });
 
-      setTimeout(() => {
-        currentCaseIndex++;
-        if (currentCaseIndex < CASES.length) {
-          renderCase();
-        } else {
-          showGameOver();
-        }
-      }, 2200);
-    }
-
-    function showGameOver() {
-      document.getElementById('final-score').textContent = `Pontuação Final: ${score} pontos!`;
-      if (window.LabKidsGamification) {
-        window.LabKidsGamification.recordCompletion({
-          activityId: 11,
-          slug: 'detetive-ortografia',
-          title: 'Detetive da Ortografia',
-          subject: 'Português',
-          score: score
-        });
-      }
-      document.getElementById('modal-title').textContent = score >= 900 ? 'Distintivo de Ouro Conquistado! 🌟' : 'Missão Finalizada! 🕵️';
-      document.getElementById('modal-desc').textContent = `Você completou os 12 casos ortográficos com Combo Máximo de ${maxCombo}x. Seu distintivo: ${getBadgeName(score)}.`;
-      document.getElementById('end-modal').classList.add('active');
-    }
-
-    function restartGame() {
-      currentCaseIndex = 0;
-      score = 0;
-      combo = 0;
-      maxCombo = 0;
-      document.getElementById('score-val').textContent = '0';
-      document.getElementById('combo-val').textContent = '0x';
-      document.getElementById('badge-val').textContent = 'Novato';
-      document.getElementById('end-modal').classList.remove('active');
-      renderCase();
-    }
-
-    // Iniciar jogo
-    renderCase();
+    window.addEventListener('DOMContentLoaded', () => {
+      initThree();
+      loadCase(0);
+    });
   </script>
 </body>
 </html>
-
