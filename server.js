@@ -1123,6 +1123,15 @@ app.get('/atividades/simulado-campos-2ano', async (req, res) => {
 });
 
 // --- 3º ANO ---
+app.get(['/atividades/simulado-campos-5ano-outubro', '/simulado/campos-5ano-outubro-2026', '/simulados/5ano-outubro', '/simulado-5ano-outubro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_5ano_outubro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_5ano_outubro', { schools: [] });
+  }
+});
+
 app.get(['/atividades/simulado-campos-3ano-outubro', '/simulado/campos-3ano-outubro-2026', '/simulados/3ano-outubro', '/simulado-3ano-outubro'], async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
@@ -1247,6 +1256,8 @@ app.get('/simulado/4-ano-agosto', (req, res) => res.redirect(301, '/atividades/s
 
 app.get('/simulado/5-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
 app.get('/simulado/5-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-setembro'));
+app.get('/simulado/5-ano-outubro', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-outubro'));
+app.get('/simulado/5ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-5ano-outubro'));
 
 // Atalho direto para o jogo Ninja Math
 app.get(['/ninja-math', '/jogos/ninja-math'], (req, res) => res.redirect('/atividades/ninja-math'));
@@ -1505,6 +1516,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
         s.simulado_id === 'campos-2ano-setembro-2026' ? 10 :
@@ -1577,6 +1589,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
         s.simulado_id === 'campos-2ano-setembro-2026' ? 10 :

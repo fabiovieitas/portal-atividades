@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 5º Ano — Blocos 1 e 2 (Outubro/2026) | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="/js/simulado-vault.js"></script>
+
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --accent: #10b981;
+      --accent-dark: #059669;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 16px 36px rgba(2, 132, 199, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 5rem;
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+    }
+
+    /* Top Navigation Header */
+    .top-header {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      padding: 1.25rem 1rem;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .top-header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge-cycle {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .vault-status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .vault-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    .vault-dot.syncing {
+      background: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+    }
+
+    .vault-dot.offline {
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+    }
+
+    /* Container Principal */
+    .container {
+      max-width: 900px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Card de Identificação do Aluno */
+    .student-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 1.5rem;
+      border: 1px solid #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .student-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--accent));
+    }
+
+    .student-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .student-card-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .form-control {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Card de Instruções e Tema */
+    .theme-card {
+      background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .theme-card h3 {
+      font-family: 'Fredoka', cursive;
+      color: #1e3a8a;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .theme-card p {
+      color: #334155;
+      font-size: 0.95rem;
+    }
+
+    /* Texto Base Box */
+    .reading-box {
+      background: #ffffff;
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      border-top: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .reading-box-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-dark);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .reading-box-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+
+    .reading-box-text {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #1e293b;
+      text-align: justify;
+    }
+
+    .reading-box-text p {
+      margin-bottom: 0.85rem;
+    }
+
+    .reading-box-source {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 1rem;
+      font-style: italic;
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 0.5rem;
+    }
+
+    /* Questão Card */
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .question-card.answered {
+      border-color: #a7f3d0;
+    }
+
+    .question-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-tag {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+
+    .question-enunciation {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .question-img-container {
+      text-align: center;
+      margin: 1.25rem 0;
+    }
+
+    .question-img-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      border: 2px solid #e2e8f0;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .option-item:hover {
+      border-color: #93c5fd;
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+
+    .option-item.selected {
+      border-color: var(--primary);
+      background: #f0f9ff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
+    }
+
+    .option-letter {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      background: #f1f5f9;
+      color: #334155;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .option-item.selected .option-letter {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+    }
+
+    .option-text {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    /* Redação Box - Questão 3 */
+    .essay-box {
+      background: #fffbeb;
+      border: 2px solid #fef3c7;
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .essay-box h4 {
+      font-family: 'Fredoka', cursive;
+      color: #92400e;
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .essay-textarea {
+      width: 100%;
+      min-height: 160px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid #cbd5e1;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.2s ease;
+    }
+
+    .essay-textarea:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    }
+
+    /* Cartão de Respostas Rápido / Espelho Lateral ou Topo */
+    .cartao-respostas-box {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid #e2e8f0;
+      margin-bottom: 2rem;
+    }
+
+    .cartao-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .cr-item {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 0.4rem 0.2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+      transition: all 0.2s ease;
+    }
+
+    .cr-item.filled {
+      background: #dbeafe;
+      border-color: #60a5fa;
+      color: #1e40af;
+    }
+
+    /* Barra Fixa Inferior */
+    .floating-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 99;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .progress-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      width: 50%;
+    }
+
+    .progress-track {
+      background: #e2e8f0;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #0284c7, #10b981);
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .progress-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .btn-submit-exam {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-family: 'Fredoka', cursive;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-submit-exam:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Modal de Conclusão */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-card h2 {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.85rem;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-circle {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 4px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem auto;
+      box-shadow: 0 8px 24px rgba(2, 132, 199, 0.2);
+    }
+
+    .score-num {
+      font-family: 'Fredoka', cursive;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-return {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 0.75rem 1.75rem;
+      border-radius: 999px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+
+    .btn-return:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="top-header-inner">
+      <div class="brand-title">
+        <span>🌟</span>
+        <span>Simulado 5º Ano — Outubro</span>
+        <span class="badge-cycle">SEDUCT</span>
+      </div>
+      <div class="header-actions">
+        <div class="vault-status-indicator" id="vaultIndicator">
+          <div class="vault-dot" id="vaultDot"></div>
+          <span id="vaultStatusText">Vault Ativo</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Card de Identificação do Aluno -->
+    <div class="student-card">
+      <!-- Banner de Aluno Identificado com Cabeçalho Automático -->
+      <div id="verifiedStudentBanner" style="display: none; background: #f0fdf4; border: 2px solid #86efac; border-radius: 14px; padding: 14px 18px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 2rem;">🎓</span>
+            <div>
+              <div style="font-weight: 800; color: #166534; font-size: 1.1rem;" id="bannerStudentName">Nome do Aluno</div>
+              <div style="font-size: 0.88rem; color: #15803d; font-weight: 600;" id="bannerStudentInfo">Turma • Escola</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: #dcfce7; color: #15803d; padding: 5px 12px; border-radius: 20px; font-weight: 800; font-size: 0.8rem;">
+              ✓ Cabeçalho Preenchido Automaticamente
+            </span>
+            <button onclick="logoutStudentAndSwitch()" style="background: transparent; border: 1px solid #86efac; color: #15803d; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+              Trocar Aluno
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="student-card-header">
+        <div class="student-card-title">
+          <span>📝</span> <span>Identificação do(a) Estudante</span>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="studentName">Nome Completo do Aluno(a):</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo" required>
+        </div>
+
+        <div class="form-group">
+          <label for="schoolSelect">Escola Municipal:</label>
+          <select id="schoolSelect" class="form-control" required>
+            <option value="">-- Selecione sua Escola --</option>
+            <% if (typeof schools !== 'undefined' && schools.length > 0) { %>
+              <% schools.forEach(function(school) { %>
+                <option value="<%= school.name || school %>"><%= school.name || school %></option>
+              <% }); %>
+            <% } else { %>
+              <option value="Escola Municipal Padrão SEDUCT">Escola Municipal Padrão SEDUCT</option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="classSelect">Turma / Ano:</label>
+          <input type="text" id="classSelect" class="form-control" value="5º Ano" placeholder="Ex: 5º Ano A" required>
+        </div>
+
+        <div class="form-group">
+          <label for="shiftSelect">Turno:</label>
+          <select id="shiftSelect" class="form-control" required>
+            <option value="Manhã">Manhã</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Integral">Integral</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner Ilustrativo do Simulado -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <img src="/img/simulados/5ano_outubro_header.png" alt="Simulado 5º Ano Blocos 1 e 2 - Outubro 2026" style="max-width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid #e2e8f0;">
+    </div>
+
+    <!-- Card de Tema e Instruções -->
+    <div class="theme-card">
+      <h3><span>🕊️</span> Tema do Mês: Criança Também Tem Voz (ECA & Cidadania)</h3>
+      <p>Leia cada texto e questão com muita atenção. Este simulado contém 12 questões que avaliam Língua Portuguesa, Matemática, História, Geografia, Ciências e Arte, além de uma proposta especial de produção de texto na Questão 03.</p>
+    </div>
+
+    <!-- Espelho Rápido de Respostas -->
+    <div class="cartao-respostas-box">
+      <div class="cartao-title">
+        <span>📋</span> <span>Espelho do Gabarito (Acompanhamento em Tempo Real)</span>
+      </div>
+      <div class="cr-grid" id="crGrid">
+        <!-- Itens preenchidos via JS -->
+      </div>
+    </div>
+
+    <!-- ==================== BLOCO 1: LÍNGUA PORTUGUESA ==================== -->
+
+    <!-- TEXTO BASE 1 -->
+    <div class="reading-box">
+      <div class="reading-box-tag"><span>📖</span> Leia o texto para responder às questões 01, 02 e 03</div>
+      <h2 class="reading-box-title">CRIANÇA TAMBÉM TEM VOZ</h2>
+      <div class="reading-box-text">
+        <p>Durante as comemorações do Dia das Crianças, a professora Bia organizou uma roda de conversa com Enzo, Mirela e os demais estudantes da turma. O assunto foi o Estatuto da Criança e do Adolescente (ECA).</p>
+        <p>A professora explicou que crianças e adolescentes possuem direitos que devem ser garantidos e respeitados. Entre eles estão os direitos à educação, saúde, alimentação, lazer, liberdade, respeito e convivência familiar e comunitária.</p>
+        <p>Ela também destacou que participar não significa apenas estar presente. As crianças podem expressar suas opiniões, apresentar ideias, fazer escolhas adequadas à sua idade e colaborar com decisões relacionadas à vida escolar.</p>
+        <p>Mirela comentou que gosta quando a turma pode sugerir brincadeiras e atividades. Enzo acrescentou que participar também exige saber ouvir e respeitar as opiniões dos colegas.</p>
+        <p>Assim, a turma compreendeu que conhecer seus direitos contribui para uma convivência baseada no respeito, na participação e na responsabilidade.</p>
+      </div>
+      <div class="reading-box-source">
+        FONTE: TEXTO ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE NA LEI FEDERAL Nº 8.069/1990 – ESTATUTO DA CRIANÇA E DO ADOLESCENTE.
+      </div>
+    </div>
+
+    <!-- QUESTÃO 01 -->
+    <div class="question-card" id="card-q1">
+      <div class="question-badge">
+        <span>Questão 01</span>
+        <span class="skill-tag">EF35LP03</span>
+      </div>
+      <div class="question-enunciation">
+        A principal ideia defendida pelo texto é que
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('1', 'A')">
+          <input type="radio" name="q1" value="A" id="opt-1-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">as crianças devem participar apenas das decisões relacionadas às brincadeiras.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('1', 'B')">
+          <input type="radio" name="q1" value="B" id="opt-1-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">conhecer os direitos é responsabilidade somente dos adultos.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('1', 'C')">
+          <input type="radio" name="q1" value="C" id="opt-1-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">crianças possuem direitos e podem participar, expressar suas opiniões e aprender a respeitar as opiniões dos outros.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('1', 'D')">
+          <input type="radio" name="q1" value="D" id="opt-1-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">participar significa poder decidir sozinho tudo o que acontece na escola.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 02 -->
+    <div class="question-card" id="card-q2">
+      <div class="question-badge">
+        <span>Questão 02</span>
+        <span class="skill-tag">EF05LP07</span>
+      </div>
+      <div class="reading-box" style="margin-bottom: 1rem; background: #f8fafc; border-left-color: #64748b;">
+        <div style="font-weight: 600; color: #334155;">Leia novamente:</div>
+        <p style="font-style: italic; margin-top: 0.25rem; font-size: 1.05rem;">
+          “Assim, a turma compreendeu que conhecer seus direitos contribui para uma convivência baseada no respeito, na participação e na responsabilidade.”
+        </p>
+      </div>
+      <div class="question-enunciation">
+        A palavra “Assim” estabelece uma relação de
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('2', 'A')">
+          <input type="radio" name="q2" value="A" id="opt-2-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">oposição entre as ideias apresentadas.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('2', 'B')">
+          <input type="radio" name="q2" value="B" id="opt-2-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">conclusão a partir das informações apresentadas anteriormente.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('2', 'C')">
+          <input type="radio" name="q2" value="C" id="opt-2-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">indicação do lugar onde ocorreu a conversa.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('2', 'D')">
+          <input type="radio" name="q2" value="D" id="opt-2-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">comparação entre crianças e adultos.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 03 (PRODUÇÃO ESCRITA / DISSERTATIVA) -->
+    <div class="question-card" id="card-q3">
+      <div class="question-badge">
+        <span>Questão 03 — Produção Escrita</span>
+        <span class="skill-tag">EF05LP12</span>
+      </div>
+      <div class="essay-box">
+        <h4>📢 Proposta de Campanha da Escola:</h4>
+        <p style="font-weight: 700; font-size: 1.1rem; color: #78350f; margin-bottom: 0.5rem;">
+          “CRIANÇA TEM DIREITO DE BRINCAR, APRENDER, PARTICIPAR E SER RESPEITADA!”
+        </p>
+        <p style="color: #451a03; font-size: 0.95rem; line-height: 1.6;">
+          Produza um pequeno texto de conscientização para ser apresentado à comunidade escolar.<br>
+          Em seu texto, explique por que os direitos das crianças devem ser respeitados, apresente dois direitos garantidos às crianças e indique duas atitudes que ajudam a construir uma escola onde todas possam participar.<br>
+          Organize suas ideias e procure convencer o leitor sobre a importância de respeitar e proteger os direitos de todas as crianças.
+        </p>
+      </div>
+      <div class="form-group">
+        <label for="q3_text">Escreva seu texto abaixo:</label>
+        <textarea id="q3_text" class="essay-textarea" placeholder="Escreva seu texto de conscientização aqui..." oninput="handleEssayInput(this.value)"></textarea>
+      </div>
+    </div>
+
+    <!-- TEXTO BASE 2 -->
+    <div class="reading-box">
+      <div class="reading-box-tag"><span>📖</span> Leia o texto para responder às questões 04, 05 e 06</div>
+      <h2 class="reading-box-title">UMA ESCOLHA DE TODOS</h2>
+      <div class="reading-box-text">
+        <p>Para comemorar o Dia das Crianças, a professora Bia propôs que a turma escolhesse algumas atividades para realizar na escola.</p>
+        <p>— Podemos fazer uma votação! — sugeriu Mirela.</p>
+        <p>Enzo concordou, mas lembrou:</p>
+        <p>— Todos precisam ter a oportunidade de apresentar suas ideias.</p>
+        <p>A professora explicou que participar significa poder opinar, ouvir os colegas e contribuir para as decisões do grupo. Depois de conversar sobre as propostas, cada estudante registrou seu voto.</p>
+        <p>Ao final, mesmo aqueles que haviam escolhido outras atividades aceitaram o resultado e participaram da programação.</p>
+        <p>— Quando respeitamos as diferentes opiniões, todos podem se sentir parte do grupo — concluiu a professora.</p>
+      </div>
+      <div class="reading-box-source">
+        FONTE: TEXTO ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS COM BASE NA LEI FEDERAL Nº 8.069/1990 – ESTATUTO DA CRIANÇA E DO ADOLESCENTE.
+      </div>
+    </div>
+
+    <!-- QUESTÃO 04 -->
+    <div class="question-card" id="card-q4">
+      <div class="question-badge">
+        <span>Questão 04</span>
+        <span class="skill-tag">EF35LP04</span>
+      </div>
+      <div class="question-enunciation">
+        A fala de Enzo — “Todos precisam ter a oportunidade de apresentar suas ideias” — permite concluir que
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('4', 'A')">
+          <input type="radio" name="q4" value="A" id="opt-4-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">apenas os estudantes mais velhos devem participar das decisões.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('4', 'B')">
+          <input type="radio" name="q4" value="B" id="opt-4-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">a participação envolve garantir espaço para que diferentes pessoas possam se expressar.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('4', 'C')">
+          <input type="radio" name="q4" value="C" id="opt-4-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">todas as crianças precisam apresentar exatamente a mesma opinião.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('4', 'D')">
+          <input type="radio" name="q4" value="D" id="opt-4-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">somente a professora pode escolher as atividades realizadas pela turma.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 05 -->
+    <div class="question-card" id="card-q5">
+      <div class="question-badge">
+        <span>Questão 05</span>
+        <span class="skill-tag">EF35LP03</span>
+      </div>
+      <div class="question-enunciation">
+        O título “Uma escolha de todos” foi utilizado porque
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('5', 'A')">
+          <input type="radio" name="q5" value="A" id="opt-5-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">somente a professora decidiu quais atividades seriam realizadas.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('5', 'B')">
+          <input type="radio" name="q5" value="B" id="opt-5-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">cada estudante realizou uma brincadeira diferente.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('5', 'C')">
+          <input type="radio" name="q5" value="C" id="opt-5-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">os estudantes puderam apresentar ideias e participar democraticamente da escolha.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('5', 'D')">
+          <input type="radio" name="q5" value="D" id="opt-5-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">todas as propostas apresentadas foram obrigatoriamente escolhidas.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 06 (HISTÓRIA) -->
+    <div class="question-card" id="card-q6">
+      <div class="question-badge">
+        <span>Questão 06 — História</span>
+        <span class="skill-tag">EF05HI04</span>
+      </div>
+      <div class="question-enunciation">
+        Qual atitude apresentada no texto demonstra respeito à participação das crianças?
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('6', 'A')">
+          <input type="radio" name="q6" value="A" id="opt-6-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">Impedir que alguns colegas apresentem suas opiniões.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('6', 'B')">
+          <input type="radio" name="q6" value="B" id="opt-6-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">Ouvir diferentes propostas e permitir que todos participem da votação.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('6', 'C')">
+          <input type="radio" name="q6" value="C" id="opt-6-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">Aceitar somente as sugestões dos estudantes que venceram a votação.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('6', 'D')">
+          <input type="radio" name="q6" value="D" id="opt-6-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">Deixar apenas uma pessoa decidir pela turma.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- ==================== BLOCO 2: MATEMÁTICA E CIÊNCIAS DA NATUREZA / HUMANAS ==================== -->
+
+    <!-- QUESTÃO 07 (MATEMÁTICA - GRÁFICO) -->
+    <div class="question-card" id="card-q7">
+      <div class="question-badge">
+        <span>Questão 07 — Matemática</span>
+        <span class="skill-tag">EF05MA24</span>
+      </div>
+      <div class="question-enunciation">
+        Durante a Semana da Criança, quatro turmas participaram de uma votação para escolher uma atividade coletiva.
+      </div>
+      <div class="question-img-container">
+        <img src="/img/simulados/5ano_outubro_q7_grafico.png" alt="Gráfico de votação das atividades coletivas">
+      </div>
+      <div class="question-enunciation" style="margin-top: 1rem;">
+        A escola decidiu realizar as atividades que receberam 30 votos ou mais.<br>
+        <strong>Quais atividades foram escolhidas?</strong>
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('7', 'A')">
+          <input type="radio" name="q7" value="A" id="opt-7-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">Oficina de Arte e Gincana.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('7', 'B')">
+          <input type="radio" name="q7" value="B" id="opt-7-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">Jogos cooperativos e Oficina de Arte.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('7', 'C')">
+          <input type="radio" name="q7" value="C" id="opt-7-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">Contação de histórias e Gincana.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('7', 'D')">
+          <input type="radio" name="q7" value="D" id="opt-7-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">Jogos cooperativos e Contação de histórias.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 08 (MATEMÁTICA - FRAÇÕES) -->
+    <div class="question-card" id="card-q8">
+      <div class="question-badge">
+        <span>Questão 08 — Matemática</span>
+        <span class="skill-tag">EF05MA03</span>
+      </div>
+      <div class="question-enunciation">
+        Durante a Semana da Criança, uma turma realizou uma votação para escolher suas atividades esportivas e culturais preferidas. Ao final da pesquisa, os votos foram representados em frações do total de alunos:
+      </div>
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-bottom: 1.25rem; font-size: 1.05rem;">
+        <ul style="list-style-type: disc; margin-left: 1.5rem;">
+          <li style="margin-bottom: 0.35rem;"><strong>3/10</strong> dos alunos escolheram jogos de tabuleiro;</li>
+          <li style="margin-bottom: 0.35rem;"><strong>5/10</strong> escolheram atividades esportivas;</li>
+          <li><strong>2/10</strong> escolheram atividades artísticas.</li>
+        </ul>
+      </div>
+      <div class="question-enunciation">
+        Observando as frações, qual atividade foi escolhida pela maior parte dos alunos?
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('8', 'A')">
+          <input type="radio" name="q8" value="A" id="opt-8-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">Jogos de tabuleiro.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('8', 'B')">
+          <input type="radio" name="q8" value="B" id="opt-8-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">Atividades esportivas.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('8', 'C')">
+          <input type="radio" name="q8" value="C" id="opt-8-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">Atividades artísticas.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('8', 'D')">
+          <input type="radio" name="q8" value="D" id="opt-8-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">Jogos de tabuleiro e atividades artísticas tiveram a mesma quantidade de votos.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 09 (MATEMÁTICA - GEOMETRIA ESPACIAL) -->
+    <div class="question-card" id="card-q9">
+      <div class="question-badge">
+        <span>Questão 09 — Matemática</span>
+        <span class="skill-tag">EF05MA16</span>
+      </div>
+      <div class="question-enunciation">
+        Durante a Semana da Criança, a turma preparou lembrancinhas para uma gincana. Uma das embalagens tinha o formato de um cubo. Antes de montá-la, a professora mostrou sua planificação aos alunos.
+      </div>
+      <div class="question-img-container">
+        <img src="/img/simulados/5ano_outubro_q9_ilustracao.png" alt="Embalagem cúbica e planificação" style="max-height: 200px;">
+      </div>
+      <div class="question-enunciation">
+        Qual das opções abaixo pode representar a planificação de um cubo?
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('9', 'A')">
+          <input type="radio" name="q9" value="A" id="opt-9-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">6 quadrados.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('9', 'B')">
+          <input type="radio" name="q9" value="B" id="opt-9-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">2 círculos e 1 retângulo.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('9', 'C')">
+          <input type="radio" name="q9" value="C" id="opt-9-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">1 círculo e 1 setor circular.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('9', 'D')">
+          <input type="radio" name="q9" value="D" id="opt-9-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">1 quadrado e 4 triângulos.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 10 (GEOGRAFIA / SOCIEDADE) -->
+    <div class="question-card" id="card-q10">
+      <div class="question-badge">
+        <span>Questão 10 — Geografia</span>
+        <span class="skill-tag">EF05GE02</span>
+      </div>
+      <div class="question-enunciation">
+        Durante uma atividade sobre o Estatuto da Criança e do Adolescente (ECA), a professora Bia explicou que ele é uma lei que protege os direitos das crianças e dos adolescentes. Em seguida, apresentou quatro situações:
+      </div>
+      <div class="question-img-container">
+        <img src="/img/simulados/5ano_outubro_q10_situacoes.png" alt="Quatro situações do cotidiano analisadas sob a perspectiva do ECA">
+      </div>
+      <div class="question-enunciation" style="margin-top: 1rem;">
+        Quais situações representam atitudes relacionadas ao respeito aos direitos das crianças e à participação?
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('10', 'A')">
+          <input type="radio" name="q10" value="A" id="opt-10-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">1 e 2.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('10', 'B')">
+          <input type="radio" name="q10" value="B" id="opt-10-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">1 e 3.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('10', 'C')">
+          <input type="radio" name="q10" value="C" id="opt-10-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">2 e 4.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('10', 'D')">
+          <input type="radio" name="q10" value="D" id="opt-10-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">3 e 4.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 11 (CIÊNCIAS DA NATUREZA - SAÚDE & ALIMENTAÇÃO) -->
+    <div class="question-card" id="card-q11">
+      <div class="question-badge">
+        <span>Questão 11 — Ciências</span>
+        <span class="skill-tag">EF05CI08</span>
+      </div>
+      <div class="question-enunciation">
+        Durante uma atividade sobre os direitos das crianças, a professora Bia explicou que o ECA garante às crianças o direito à saúde e à alimentação. Para cuidar da saúde, é importante manter hábitos alimentares adequados.
+      </div>
+      <div class="question-enunciation" style="font-weight: 700;">
+        Qual opção apresenta uma alimentação mais equilibrada?
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('11', 'A')">
+          <input type="radio" name="q11" value="A" id="opt-11-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">Refrigerante, balas e biscoitos recheados.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('11', 'B')">
+          <input type="radio" name="q11" value="B" id="opt-11-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">Arroz, feijão, legumes, frutas e outros alimentos variados.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('11', 'C')">
+          <input type="radio" name="q11" value="C" id="opt-11-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">Apenas doces e salgadinhos durante o dia.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('11', 'D')">
+          <input type="radio" name="q11" value="D" id="opt-11-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">Somente um tipo de alimento em todas as refeições.</div>
+        </label>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 12 (ARTE - LINGUAGEM VISUAL) -->
+    <div class="question-card" id="card-q12">
+      <div class="question-badge">
+        <span>Questão 12 — Arte</span>
+        <span class="skill-tag">EF15AR02</span>
+      </div>
+      <div class="question-enunciation">
+        Durante as comemorações do Dia das Crianças, a turma produziu um cartaz sobre os direitos garantidos pelo Estatuto da Criança e do Adolescente (ECA).<br>
+        Para transmitir a mensagem “Toda criança tem direito de brincar, aprender, participar e ser respeitada”, os estudantes utilizaram desenhos, formas, linhas, letras e diferentes imagens.
+      </div>
+      <div class="question-img-container">
+        <img src="/img/simulados/5ano_outubro_q12_cartaz.png" alt="Cartaz artístico sobre direitos das crianças" style="max-height: 260px;">
+      </div>
+      <div class="question-enunciation" style="margin-top: 1rem;">
+        Na produção de um cartaz artístico, esses recursos são utilizados principalmente para
+      </div>
+      <div class="options-grid">
+        <label class="option-item" onclick="selectOption('12', 'A')">
+          <input type="radio" name="q12" value="A" id="opt-12-A" style="display:none;">
+          <div class="option-letter">A</div>
+          <div class="option-text">substituir completamente a mensagem que se deseja comunicar.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('12', 'B')">
+          <input type="radio" name="q12" value="B" id="opt-12-B" style="display:none;">
+          <div class="option-letter">B</div>
+          <div class="option-text">organizar visualmente as ideias e ajudar a expressar a mensagem do trabalho.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('12', 'C')">
+          <input type="radio" name="q12" value="C" id="opt-12-C" style="display:none;">
+          <div class="option-letter">C</div>
+          <div class="option-text">fazer com que todos os desenhos sejam exatamente iguais.</div>
+        </label>
+        <label class="option-item" onclick="selectOption('12', 'D')">
+          <input type="radio" name="q12" value="D" id="opt-12-D" style="display:none;">
+          <div class="option-letter">D</div>
+          <div class="option-text">impedir que diferentes formas de expressão sejam utilizadas.</div>
+        </label>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Barra Fixa Inferior -->
+  <div class="floating-bar">
+    <div class="progress-box">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <span class="progress-text" id="progressText">0 de 12 respondidas</span>
+    </div>
+    <button class="btn-submit-exam" onclick="submitExamWithVault()">
+      <span>🚀</span> <span>FINALIZAR E ENVIAR</span>
+    </button>
+  </div>
+
+  <!-- OVERLAY 1: AGUARDANDO LIBERAÇÃO DO PROFESSOR -->
+  <div id="waitingForTeacherOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 24px; max-width: 540px; width: 100%; padding: 40px 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
+      <div style="font-size: 4.5rem; margin-bottom: 15px;">⏳</div>
+      <h2 style="color: #1e3a8a; font-family: 'Fredoka', sans-serif; font-size: 1.9rem; margin: 0 0 10px 0;">Aguardando o Professor Liberar</h2>
+      <p style="color: #475569; font-size: 1.05rem; line-height: 1.5; margin-bottom: 20px;">
+        Olá, <strong id="waitStudentName" style="color: #0284c7;">Estudante</strong>!<br>
+        Você está conectado na turma <strong id="waitClassName">5º Ano</strong>.<br>
+        O professor ainda não autorizou o início desta avaliação oficial. Aguarde as instruções em sala de aula!
+      </p>
+      <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 14px; margin-bottom: 25px; font-size: 0.88rem; color: #1e40af; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span>🔄</span> <span>O sistema verifica automaticamente a cada 4 segundos...</span>
+      </div>
+      <button onclick="checkTeacherReleaseNow()" class="btn-submit-exam" style="width: 100%; padding: 14px; font-size: 1.1rem; font-weight: 800; border-radius: 12px; justify-content: center; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);">
+        🔄 Verificar se o Professor Liberou
+      </button>
+    </div>
+  </div>
+
+  <!-- OVERLAY 2: LOGIN OU IDENTIFICAÇÃO DO ALUNO OBRIGATÓRIA -->
+  <div id="loginRequiredOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99998; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 24px; max-width: 520px; width: 100%; padding: 35px 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
+      <div style="font-size: 3.5rem; margin-bottom: 12px;">🔒</div>
+      <h2 style="color: #1e3a8a; font-family: 'Fredoka', sans-serif; font-size: 1.8rem; margin: 0 0 8px 0;">Avaliação Oficial da Turma</h2>
+      <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 20px;">
+        Para realizar este simulado, você precisa estar conectado à sua turma para que seu cabeçalho e nota sejam registrados com segurança.
+      </p>
+      
+      <div style="background: #f8fafc; border: 2px dashed #93c5fd; border-radius: 16px; padding: 20px; margin-bottom: 16px; text-align: left;">
+        <label style="display: block; font-weight: 800; color: #1e3a8a; font-size: 0.9rem; margin-bottom: 6px;">🔑 Digite o Código da sua Turma (ex: LK1234):</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" id="quickClassCodeInput" placeholder="Ex: LK4829" maxlength="8" style="flex: 1; padding: 12px; font-size: 1.25rem; font-family: monospace; font-weight: 900; text-transform: uppercase; border: 2px solid #cbd5e1; border-radius: 10px; text-align: center;">
+          <button onclick="lookupQuickClassCode()" style="background: #0284c7; color: white; border: none; padding: 0 20px; border-radius: 10px; font-weight: 800; cursor: pointer;">Buscar</button>
+        </div>
+        <div id="quickClassStatus" style="font-size: 0.85rem; margin-top: 8px;"></div>
+      </div>
+
+      <div id="quickStudentSelector" style="display: none; text-align: left; margin-bottom: 18px;">
+        <label style="display: block; font-weight: 800; color: #1e3a8a; font-size: 0.9rem; margin-bottom: 6px;">👧👦 Quem é você na lista da turma?</label>
+        <select id="quickStudentSelect" style="width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #0284c7; font-size: 1rem; font-weight: 700; background: white;" onchange="confirmQuickStudent(this.value)">
+          <option value="">-- Selecione seu Nome --</option>
+        </select>
+      </div>
+
+      <div style="border-top: 1px solid #f1f5f9; padding-top: 15px; margin-top: 15px;">
+        <a href="/aluno" class="btn-submit-exam" style="text-decoration: none; background: #10b981; padding: 12px; border-radius: 10px; font-weight: 800; font-size: 0.95rem; justify-content: center;">
+          👤 Entrar pelo Portal do Aluno Completo
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação & Nota -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-card">
+      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
+      <h2>Parabéns!</h2>
+      <p style="color: #475569; font-size: 1.05rem;">Seu simulado do 5º Ano foi enviado com sucesso e armazenado no cofre offline e online da SEDUCT!</p>
+      
+      <div class="score-circle">
+        <div class="score-num" id="finalScoreDisplay">0</div>
+        <div class="score-label">de 11 acertos</div>
+      </div>
+
+      <p style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+        * A Questão 03 (Redação / Conscientização) será corrigida e pontuada pelo seu professor.
+      </p>
+
+      <a href="/simulados" class="btn-return">Voltar ao Portal de Simulados</a>
+    </div>
+  </div>
+
+  <script>
+    const SIMULADO_ID = 'campos-5ano-outubro-2026';
+    
+    // Gabarito Oficial SEDUCT Outubro 2026 (Página 8 do PDF)
+    // Questões de múltipla escolha: 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12 (Total: 11)
+    // Questão 3: Produção Escrita (Texto dissertativo/campanha)
+    const answerKey = {
+      1: 'C',
+      2: 'B',
+      4: 'B',
+      5: 'C',
+      6: 'B',
+      7: 'A',
+      8: 'B',
+      9: 'A',
+      10: 'C',
+      11: 'B',
+      12: 'B'
+    };
+
+    const questionKeys = ['1', '2', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+    const studentAnswers = {};
+    let isSubmitting = false;
+
+    // Inicialização do espelho de respostas no topo
+    function initCRGrid() {
+      const grid = document.getElementById('crGrid');
+      grid.innerHTML = '';
+      
+      const allDisplayKeys = ['1', '2', '3 (Texto)', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+      allDisplayKeys.forEach(k => {
+        const item = document.createElement('div');
+        item.className = 'cr-item';
+        item.id = `cr-badge-${k.replace(/[^a-zA-Z0-9]/g, '_')}`;
+        item.innerText = `Q${k}: -`;
+        grid.appendChild(item);
+      });
+    }
+
+    // Selecionar Opção com feedback visual
+    function selectOption(qKey, opt) {
+      studentAnswers[qKey] = opt;
+
+      // Desmarcar anteriores
+      ['A', 'B', 'C', 'D'].forEach(letter => {
+        const optEl = document.getElementById(`opt-${qKey}-${letter}`);
+        if (optEl && optEl.parentElement) {
+          optEl.parentElement.classList.remove('selected');
+        }
+      });
+
+      // Marcar atual
+      const activeEl = document.getElementById(`opt-${qKey}-${opt}`);
+      if (activeEl && activeEl.parentElement) {
+        activeEl.parentElement.classList.add('selected');
+        activeEl.checked = true;
+      }
+
+      // Marcar card como respondido
+      const card = document.getElementById(`card-q${qKey}`);
+      if (card) card.classList.add('answered');
+
+      // Atualizar badge no espelho
+      const badge = document.getElementById(`cr-badge-${qKey}`);
+      if (badge) {
+        badge.classList.add('filled');
+        badge.innerText = `Q${qKey}: ${opt}`;
+      }
+
+      updateProgress();
+      saveVaultState();
+    }
+
+    function handleEssayInput(val) {
+      studentAnswers['3'] = val.trim();
+      const badge = document.getElementById('cr-badge-3__Texto_');
+      const card = document.getElementById('card-q3');
+      if (val.trim().length > 10) {
+        if (badge) {
+          badge.classList.add('filled');
+          badge.innerText = 'Q3: Escrita ✍️';
+        }
+        if (card) card.classList.add('answered');
+      } else {
+        if (badge) {
+          badge.classList.remove('filled');
+          badge.innerText = 'Q3: -';
+        }
+        if (card) card.classList.remove('answered');
+      }
+      updateProgress();
+      saveVaultState();
+    }
+
+    // Atualiza Barra de Progresso
+    function updateProgress() {
+      let count = 0;
+      questionKeys.forEach(k => {
+        if (studentAnswers[k]) count++;
+      });
+      if (studentAnswers['3'] && studentAnswers['3'].length > 10) {
+        count++;
+      }
+
+      const total = 12; // 11 objetivas + 1 redação
+      const pct = Math.round((count / total) * 100);
+      document.getElementById('progressFill').style.width = `${pct}%`;
+      document.getElementById('progressText').innerText = `${count} de ${total} respondidas (${pct}%)`;
+    }
+
+    // Persistência com SimuladoVault
+    function saveVaultState() {
+      if (!window.SimuladoVault) return;
+      const data = {
+        answers: studentAnswers,
+        studentName: document.getElementById('studentName').value,
+        school: document.getElementById('schoolSelect').value,
+        className: document.getElementById('classSelect').value,
+        shift: document.getElementById('shiftSelect').value,
+        timestamp: Date.now()
+      };
+      window.SimuladoVault.saveDraft(SIMULADO_ID, data);
+    }
+
+    function restoreVaultState() {
+      if (!window.SimuladoVault) return;
+      const draft = window.SimuladoVault.getDraft(SIMULADO_ID);
+      if (draft) {
+        if (draft.studentName) document.getElementById('studentName').value = draft.studentName;
+        if (draft.school) document.getElementById('schoolSelect').value = draft.school;
+        if (draft.className) document.getElementById('classSelect').value = draft.className;
+        if (draft.shift) document.getElementById('shiftSelect').value = draft.shift;
+
+        if (draft.answers) {
+          Object.keys(draft.answers).forEach(k => {
+            if (k === '3') {
+              const el = document.getElementById('q3_text');
+              if (el) {
+                el.value = draft.answers[k];
+                handleEssayInput(draft.answers[k]);
+              }
+            } else {
+              selectOption(k, draft.answers[k]);
+            }
+          });
+        }
+      }
+    }
+
+    // Envio Final com SimuladoVault
+    async function submitExamWithVault() {
+      if (isSubmitting) return;
+
+      const studentName = document.getElementById('studentName').value.trim();
+      const school = document.getElementById('schoolSelect').value.trim();
+      const className = document.getElementById('classSelect').value.trim();
+      const shift = document.getElementById('shiftSelect').value;
+
+      if (!studentName) {
+        alert('Por favor, informe seu nome completo antes de enviar.');
+        document.getElementById('studentName').focus();
+        return;
+      }
+      if (!school) {
+        alert('Por favor, selecione sua escola municipal.');
+        document.getElementById('schoolSelect').focus();
+        return;
+      }
+
+      // Contagem de não respondidas
+      let answeredCount = 0;
+      questionKeys.forEach(k => { if (studentAnswers[k]) answeredCount++; });
+      if (studentAnswers['3'] && studentAnswers['3'].length > 10) answeredCount++;
+
+      if (answeredCount < 12) {
+        const confirmMsg = `Atenção: você respondeu ${answeredCount} de 12 questões.
+Deseja realmente finalizar o simulado agora?`;
+        if (!confirm(confirmMsg)) return;
+      }
+
+      // Cálculo de nota das objetivas
+      let score = 0;
+      questionKeys.forEach(k => {
+        if (studentAnswers[k] === answerKey[k]) score++;
+      });
+
+      const payload = {
+        simulado_id: SIMULADO_ID,
+        student_name: studentName,
+        school: school,
+        class_name: className,
+        shift: shift,
+        score: score,
+        max_score: 11,
+        answers: studentAnswers,
+        submitted_at: new Date().toISOString()
+      };
+
+      const btn = document.querySelector('.btn-submit-exam');
+      btn.disabled = true;
+      btn.innerText = 'Enviando...';
+      isSubmitting = true;
+
+      const result = await window.SimuladoVault.submit(payload, (attempt, max) => {
+        document.getElementById('vaultStatusText').innerText = `Tentativa ${attempt}/${max}...`;
+      });
+
+      isSubmitting = false;
+      btn.disabled = false;
+      btn.innerHTML = '<span>🚀</span> <span>FINALIZAR E ENVIAR</span>';
+
+      document.getElementById('finalScoreDisplay').innerText = score;
+      document.getElementById('resultModal').classList.add('active');
+
+      if (window.confetti) {
+        window.confetti({
+          particleCount: 120,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+
+    // ==========================================
+    // SISTEMA DE SEGURANÇA E LIBERAÇÃO PELO PROFESSOR
+    // ==========================================
+    let currentStudentProfile = null;
+    let activePollTimer = null;
+    let cachedFoundStudents = [];
+
+    async function checkAndEnforceStudentAuth() {
+      // 1. Tenta pegar perfil salvo no localStorage
+      const savedProfile = localStorage.getItem('lab_student_profile');
+      if (savedProfile) {
+        try {
+          currentStudentProfile = JSON.parse(savedProfile);
+        } catch (e) {
+          currentStudentProfile = null;
+        }
+      }
+
+      // Se não há aluno conectado, exibe modal de autenticação obrigatória
+      if (!currentStudentProfile || !currentStudentProfile.name) {
+        document.getElementById('loginRequiredOverlay').style.display = 'flex';
+        return;
+      }
+
+      // Aluno conectado! Esconde modal de login
+      document.getElementById('loginRequiredOverlay').style.display = 'none';
+
+      // 2. Preenche automaticamente o cabeçalho
+      const sName = currentStudentProfile.name;
+      const sSchool = currentStudentProfile.school_name || currentStudentProfile.school || 'Escola Municipal';
+      const sClass = currentStudentProfile.class_name || currentStudentProfile.class || '5º Ano';
+      const sShift = currentStudentProfile.shift || 'Manhã';
+
+      const sNameEl = document.getElementById('studentName');
+      const scNameEl = document.getElementById('schoolSelect');
+      const cNameEl = document.getElementById('classSelect');
+      const shNameEl = document.getElementById('shiftSelect');
+
+      if (sNameEl) { sNameEl.value = sName; sNameEl.readOnly = true; sNameEl.style.backgroundColor = '#f1f5f9'; }
+      if (cNameEl) { cNameEl.value = sClass; cNameEl.readOnly = true; cNameEl.style.backgroundColor = '#f1f5f9'; }
+      if (scNameEl) {
+        // Se a opção não existir, adiciona
+        let hasOpt = false;
+        for (let i = 0; i < scNameEl.options.length; i++) {
+          if (scNameEl.options[i].value === sSchool) { hasOpt = true; break; }
+        }
+        if (!hasOpt) {
+          const opt = document.createElement('option');
+          opt.value = sSchool;
+          opt.innerText = sSchool;
+          scNameEl.appendChild(opt);
+        }
+        scNameEl.value = sSchool;
+        scNameEl.disabled = true;
+        scNameEl.style.backgroundColor = '#f1f5f9';
+      }
+      if (shNameEl) { shNameEl.value = sShift; }
+
+      // Mostra o banner de estudante identificado
+      const banner = document.getElementById('verifiedStudentBanner');
+      if (banner) {
+        banner.style.display = 'block';
+        document.getElementById('bannerStudentName').innerText = sName;
+        document.getElementById('bannerStudentInfo').innerText = sClass + ' • ' + sSchool;
+      }
+
+      // 3. Checa se o simulado está LIBERADO pelo professor para a turma
+      await verifySimuladoRelease(currentStudentProfile);
+    }
+
+    async function verifySimuladoRelease(st) {
+      const waitOverlay = document.getElementById('waitingForTeacherOverlay');
+      if (!waitOverlay) return;
+      try {
+        const query = new URLSearchParams({
+          simulado_id: SIMULADO_ID,
+          class_id: st.class_id || '',
+          class_name: st.class_name || st.class || '',
+          school_name: st.school_name || st.school || '',
+          student_id: st.id || ''
+        });
+
+        const res = await fetch('/api/simulado/check-access?' + query.toString());
+        const data = await res.json();
+
+        if (data.allowed) {
+          // PROVA LIBERADA!
+          waitOverlay.style.display = 'none';
+          if (activePollTimer) {
+            clearInterval(activePollTimer);
+            activePollTimer = null;
+          }
+        } else {
+          // PROVA BLOQUEADA / AGUARDANDO PROFESSOR
+          document.getElementById('waitStudentName').innerText = st.name;
+          document.getElementById('waitClassName').innerText = st.class_name || '5º Ano';
+          waitOverlay.style.display = 'flex';
+
+          // Inicia verificação periódica a cada 4 segundos
+          if (!activePollTimer) {
+            activePollTimer = setInterval(() => {
+              if (currentStudentProfile) verifySimuladoRelease(currentStudentProfile);
+            }, 4000);
+          }
+        }
+      } catch (err) {
+        console.warn('Erro ao verificar liberação:', err);
+      }
+    }
+
+    async function checkTeacherReleaseNow() {
+      if (currentStudentProfile) {
+        await verifySimuladoRelease(currentStudentProfile);
+      } else {
+        await checkAndEnforceStudentAuth();
+      }
+    }
+
+    async function lookupQuickClassCode() {
+      const codeInput = document.getElementById('quickClassCodeInput');
+      const statusEl = document.getElementById('quickClassStatus');
+      const rawCode = codeInput.value.trim().toUpperCase();
+      if (!rawCode || rawCode.length < 3) {
+        statusEl.innerHTML = '<span style="color:#ef4444; font-weight:700;">Digite o código da turma!</span>';
+        return;
+      }
+
+      statusEl.innerHTML = '<span style="color:#0284c7; font-weight:700;">⏳ Localizando turma...</span>';
+
+      try {
+        const res = await fetch('/api/classes/by-code/' + rawCode);
+        const data = await res.json();
+        if (!data.success || !data.class) {
+          statusEl.innerHTML = '<span style="color:#ef4444; font-weight:700;">❌ ' + (data.error || 'Código não encontrado!') + '</span>';
+          return;
+        }
+
+        const cls = data.class;
+        statusEl.innerHTML = '<span style="color:#15803d; font-weight:800;">✓ Turma encontrada: ' + cls.class_name + ' (' + cls.school_name + ')</span>';
+
+        const stRes = await fetch('/api/classes/' + (cls.teacher_class_id || cls.id) + '/students');
+        const stData = await stRes.json();
+        const students = Array.isArray(stData) ? stData : (stData.students || []);
+        cachedFoundStudents = students;
+
+        const selectEl = document.getElementById('quickStudentSelect');
+        selectEl.innerHTML = '<option value="">-- Clique e selecione seu Nome --</option>';
+
+        students.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.innerText = s.name;
+          selectEl.appendChild(opt);
+        });
+
+        document.getElementById('quickStudentSelector').style.display = 'block';
+      } catch(e) {
+        statusEl.innerHTML = '<span style="color:#ef4444; font-weight:700;">Erro ao buscar turma: ' + e.message + '</span>';
+      }
+    }
+
+    function confirmQuickStudent(studentId) {
+      if (!studentId) return;
+      const found = cachedFoundStudents.find(s => String(s.id) === String(studentId));
+      if (!found) return;
+
+      localStorage.setItem('lab_student_profile', JSON.stringify(found));
+      checkAndEnforceStudentAuth();
+    }
+
+    function logoutStudentAndSwitch() {
+      if (!confirm('Deseja trocar de aluno neste aparelho?')) return;
+      localStorage.removeItem('lab_student_profile');
+      location.reload();
+    }
+
+    // Inicialização ao carregar a página
+    window.addEventListener('DOMContentLoaded', () => {
+      initCRGrid();
+      restoreVaultState();
+      checkAndEnforceStudentAuth();
+
+      // Autocadastro listeners
+      ['studentName', 'schoolSelect', 'classSelect', 'shiftSelect'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('change', saveVaultState);
+      });
+    });
+  </script>
+</body>
+</html>
+
