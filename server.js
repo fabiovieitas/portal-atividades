@@ -1294,7 +1294,10 @@ app.get('/atividades/:slug', async (req, res, next) => {
 
 app.post('/api/simulado/submit', async (req, res) => {
   try {
-    const { simulado_id, student_name, school_name, class_name, shift, answers_json, score, max_score, essay_text } = req.body;
+    const { simulado_id, student_name, school_name, school, class_name, shift, answers_json, answers, score, max_score, essay_text } = req.body;
+    const resolvedSchool = (school_name || school || '').trim();
+    const resolvedAnswers = answers_json || answers || {};
+    const resolvedEssay = (essay_text || (resolvedAnswers && resolvedAnswers['3']) || (resolvedAnswers && resolvedAnswers['5']) || '').trim();
     if (!student_name || !String(student_name).trim()) {
       return res.status(400).json({ success: false, error: 'O nome completo do estudante é obrigatório.' });
     }
