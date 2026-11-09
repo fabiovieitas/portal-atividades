@@ -1296,23 +1296,20 @@
     </div>
   </div>
 
-  <!-- Modal de Confirmação & Nota -->
+  <!-- Modal de Confirmação & Vitória -->
   <div class="modal-overlay" id="resultModal">
     <div class="modal-card">
-      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
-      <h2>Parabéns!</h2>
-      <p style="color: #475569; font-size: 1.05rem;">Seu simulado do 5º Ano foi enviado com sucesso e armazenado no cofre offline e online da SEDUCT!</p>
-      
-      <div class="score-circle">
-        <div class="score-num" id="finalScoreDisplay">0</div>
-        <div class="score-label">de 11 acertos</div>
-      </div>
-
-      <p style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
-        * A Questão 03 (Redação / Conscientização) será corrigida e pontuada pelo seu professor.
+      <div style="font-size: 4rem; margin-bottom: 0.75rem;">🏆</div>
+      <h2 style="font-size: 2.2rem; color: #166534; font-family: 'Fredoka', cursive; margin-bottom: 0.5rem;">Parabéns!</h2>
+      <p style="color: #15803d; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">
+        Missão Cumprida com Sucesso! 🌟
       </p>
-
-      <a href="/simulados" class="btn-return">Voltar ao Portal de Simulados</a>
+      <p style="color: #475569; font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        Seu simulado foi enviado com sucesso! Você concluiu todas as etapas da avaliação com dedicação e empenho.
+      </p>
+      <a href="/" class="btn-return" style="background: linear-gradient(135deg, #10b981, #059669); font-size: 1.1rem; padding: 0.85rem 2rem; border-radius: 999px; text-decoration: none; color: white; font-weight: 800; display: inline-block;">
+        Concluir Atividade ✨
+      </a>
     </div>
   </div>
 
@@ -1527,7 +1524,7 @@ Deseja realmente finalizar o simulado agora?`;
       btn.disabled = false;
       btn.innerHTML = '<span>🚀</span> <span>FINALIZAR E ENVIAR</span>';
 
-      document.getElementById('finalScoreDisplay').innerText = score;
+      // Nota gravada com segurança no banco sem exibição ao aluno
       document.getElementById('resultModal').classList.add('active');
 
       if (window.confetti) {
