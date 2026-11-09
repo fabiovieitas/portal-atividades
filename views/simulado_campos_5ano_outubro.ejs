@@ -1260,7 +1260,7 @@
   </div>
 
   <!-- OVERLAY 1: AGUARDANDO LIBERAÇÃO DO PROFESSOR -->
-  <div id="waitingForTeacherOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99999; align-items: center; justify-content: center; padding: 20px;">
+  <div id="waitingForTeacherOverlay" style="display:none !important;" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99999; align-items: center; justify-content: center; padding: 20px;">
     <div style="background: white; border-radius: 24px; max-width: 540px; width: 100%; padding: 40px 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
       <div style="font-size: 4.5rem; margin-bottom: 15px;">⏳</div>
       <h2 style="color: #1e3a8a; font-family: 'Fredoka', sans-serif; font-size: 1.9rem; margin: 0 0 10px 0;">Aguardando o Professor Liberar</h2>
@@ -1279,7 +1279,7 @@
   </div>
 
   <!-- OVERLAY 2: LOGIN OU IDENTIFICAÇÃO DO ALUNO OBRIGATÓRIA -->
-  <div id="loginRequiredOverlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99998; align-items: center; justify-content: center; padding: 20px;">
+  <div id="loginRequiredOverlay" style="display:none !important;" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(14px); z-index: 99998; align-items: center; justify-content: center; padding: 20px;">
     <div style="background: white; border-radius: 24px; max-width: 520px; width: 100%; padding: 35px 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6);">
       <div style="font-size: 3.5rem; margin-bottom: 12px;">🔒</div>
       <h2 style="color: #1e3a8a; font-family: 'Fredoka', sans-serif; font-size: 1.8rem; margin: 0 0 8px 0;">Avaliação Oficial da Turma</h2>
@@ -1560,7 +1560,7 @@ Deseja realmente finalizar o simulado agora?`;
     let cachedFoundStudents = [];
 
     async function checkAndEnforceStudentAuth() {
-      // 1. Tenta pegar perfil salvo no localStorage
+      // Modo Livre / Teste: libera acesso direto para qualquer aluno sem travas
       const savedProfile = localStorage.getItem('lab_student_profile');
       if (savedProfile) {
         try {
@@ -1568,12 +1568,6 @@ Deseja realmente finalizar o simulado agora?`;
         } catch (e) {
           currentStudentProfile = null;
         }
-      }
-
-      // Se não há aluno conectado, exibe modal de autenticação obrigatória
-      if (!currentStudentProfile || !currentStudentProfile.name) {
-        document.getElementById('loginRequiredOverlay').style.display = 'flex';
-        return;
       }
 
       // Aluno conectado! Esconde modal de login
@@ -1590,7 +1584,7 @@ Deseja realmente finalizar o simulado agora?`;
       const cNameEl = document.getElementById('classSelect');
       const shNameEl = document.getElementById('shiftSelect');
 
-      if (sNameEl) { sNameEl.value = sName; sNameEl.readOnly = true; sNameEl.style.backgroundColor = '#f1f5f9'; }
+      if (sNameEl) { sNameEl.value = sName; // sNameEl.readOnly = true; sNameEl.style.backgroundColor = '#f1f5f9'; }
       if (cNameEl) { cNameEl.value = sClass; cNameEl.readOnly = true; cNameEl.style.backgroundColor = '#f1f5f9'; }
       if (scNameEl) {
         // Se a opção não existir, adiciona
@@ -1605,7 +1599,7 @@ Deseja realmente finalizar o simulado agora?`;
           scNameEl.appendChild(opt);
         }
         scNameEl.value = sSchool;
-        scNameEl.disabled = true;
+        // scNameEl.disabled = true;
         scNameEl.style.backgroundColor = '#f1f5f9';
       }
       if (shNameEl) { shNameEl.value = sShift; }
@@ -1648,7 +1642,7 @@ Deseja realmente finalizar o simulado agora?`;
           // PROVA BLOQUEADA / AGUARDANDO PROFESSOR
           document.getElementById('waitStudentName').innerText = st.name;
           document.getElementById('waitClassName').innerText = st.class_name || '5º Ano';
-          waitOverlay.style.display = 'flex';
+          waitOverlay.style.display = 'none';
 
           // Inicia verificação periódica a cada 4 segundos
           if (!activePollTimer) {
