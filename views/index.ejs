@@ -657,257 +657,35 @@
     </header>
 
     <main class="container">
-        <!-- HUB LAB KIDS: ACESSO ALUNOS & EDUCADORES (COMPACTO, ELEGANTE E SEM REDUNDÂNCIA) -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; margin-bottom: 25px;">
-            <!-- Card Aluno: Studio de Avatares Duolingo & Conquistas -->
-            <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2px solid #38bdf8; border-radius: 20px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2); color: white;">
-                <div style="display: flex; align-items: center; gap: 14px; flex: 1;">
-                    <div style="font-size: 2.6rem; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.4));">🎨</div>
-                    <div>
-                        <div style="background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; color: #38bdf8; display: inline-block; padding: 2px 8px; border-radius: 50px; font-weight: 800; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">
-                            ✨ Studio Duolingo
-                        </div>
-                        <h3 style="margin: 0 0 2px 0; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #ffffff;">Crie seu Avatar do Lab</h3>
-                        <p style="margin: 0; color: #cbd5e1; font-size: 0.88rem;">Personalize óculos, olhos e roupas e ganhe medalhas!</p>
-                    </div>
-                </div>
-                <a href="/aluno?action=avatar" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #38bdf8, #0284c7); color: #ffffff; font-weight: 900; padding: 10px 18px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35); font-size: 0.92rem; white-space: nowrap;">
-                    🎨 Criar Avatar
-                </a>
-            </div>
-
-            <!-- Card Educadores: Leve para sua Turma -->
-            <div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border: 2px solid #818cf8; border-radius: 20px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2); color: white;">
-                <div style="display: flex; align-items: center; gap: 14px; flex: 1;">
-                    <span style="font-size: 2.6rem;">👩‍🏫</span>
-                    <div>
-                        <div style="background: rgba(251, 191, 36, 0.2); border: 1px solid #fbbf24; color: #fbbf24; display: inline-block; padding: 2px 8px; border-radius: 50px; font-weight: 800; font-size: 0.72rem; text-transform: uppercase; margin-bottom: 4px;">
-                            ✨ 100% Gratuito
-                        </div>
-                        <h3 style="margin: 0 0 2px 0; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #ffffff;">Leve o Lab para sua Turma</h3>
-                        <p style="margin: 0; color: #cbd5e1; font-size: 0.88rem;">Cadastre suas turmas e use jogos na lousa digital.</p>
-                    </div>
-                </div>
-                <a href="/professor/login?cadastro=1" class="btn-submit" style="margin: 0; background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; font-weight: 900; padding: 10px 18px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35); font-size: 0.92rem; white-space: nowrap;">
-                    🚀 Cadastrar Turma
-                </a>
-            </div>
-        </div>
-
-        <!-- ================================================================= -->
-        <!-- ⚡ BANNER DINÂMICO DE XP TURBO (NOITES & FINS DE SEMANA) -->
-        <!-- ================================================================= -->
-        <div id="turboXpBanner" style="display: none; background: linear-gradient(135deg, #7c2d12 0%, #b45309 50%, #f59e0b 100%); border: 2.5px solid #fbbf24; border-radius: 20px; padding: 16px 20px; margin-bottom: 25px; color: white; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.35); text-align: center;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
-                <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));">⚡ 🔥</span>
+        <% if (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) { %>
+        <!-- CARD OFICIAL DE SIMULADOS (COMPACTO & DIRETO AO PONTO) -->
+        <div style="background: linear-gradient(135deg, #0284c7 0%, #0f172a 100%); border: 2px solid #38bdf8; border-radius: 20px; padding: 18px 24px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(2, 132, 199, 0.25); color: white; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 15px; flex: 1; min-width: 280px;">
+                <div style="font-size: 2.8rem; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));">📝</div>
                 <div>
-                    <h3 id="turboTitle" style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.35rem; color: #fffbeb;">
-                        MODO TURBO 2X ATIVADO!
-                    </h3>
-                    <p id="turboSubtitle" style="margin: 3px 0 0; font-size: 0.95rem; font-weight: 700; color: #fef3c7;">
-                        Jogue agora e ganhe o DOBRO de XP para subir no Hall da Fama da Temporada 1!
-                    </p>
-                </div>
-                <a href="/aluno" style="background: #ffffff; color: #78350f; font-weight: 900; padding: 10px 22px; border-radius: 50px; text-decoration: none; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
-                    🚀 Jogar Agora
-                </a>
-            </div>
-        </div>
-
-        <!-- ================================================================= -->
-        <!-- 🏆 HALL DA FAMA - TEMPORADA 1 (ANUAL) & CAMPEÕES DO MÊS -->
-        <!-- ================================================================= -->
-        <section id="hall-of-fame-section" style="margin-bottom: 35px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 2.5px solid #e2e8f0; border-radius: 28px; padding: 28px 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.06);">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 20px;">
-                <div>
-                    <div style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; display: inline-block; padding: 4px 14px; border-radius: 50px; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">
-                        👑 Temporada 1 • Rumo às Férias
+                    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.25); border: 1px solid #38bdf8; color: #bae6fd; padding: 2px 10px; border-radius: 50px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+                        <span>🏛️</span> SEDUCT • AVALIAÇÕES DIGITAIS OFICIAIS
                     </div>
-                    <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: #0f172a;">
-                        🏆 Hall da Fama dos Campeões
+                    <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: #ffffff; line-height: 1.2;">
+                        Simulados do 1º ao 5º Ano Liberados
                     </h2>
-                    <p style="margin: 4px 0 0; color: #64748b; font-size: 0.95rem; font-weight: 600;">
-                        O aluno <strong>TOP 1 de cada sala</strong> receberá o <strong>Certificado Oficial Impresso</strong> pelo professor antes das férias!
+                    <p style="margin: 4px 0 0; color: #cbd5e1; font-size: 0.9rem;">
+                        Cadernos interativos oficiais de Língua Portuguesa, Matemática e Cidadania.
                     </p>
                 </div>
-
-                <!-- Tabs de Alternância: Temporada vs Mensal -->
-                <div style="display: flex; gap: 8px; background: #e2e8f0; padding: 5px; border-radius: 50px;">
-                    <button type="button" id="tabHofAnnual" onclick="switchHofTab('annual')" style="background: #ffffff; color: #0f172a; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 900; font-size: 0.88rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                        👑 Temporada 1 (Anual)
-                    </button>
-                    <button type="button" id="tabHofMonthly" onclick="switchHofTab('monthly')" style="background: transparent; color: #64748b; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 900; font-size: 0.88rem; cursor: pointer;">
-                        🔥 Campeões do Mês
-                    </button>
-                    <button type="button" id="tabHofClasses" onclick="switchHofTab('classes')" style="background: transparent; color: #64748b; border: none; padding: 8px 18px; border-radius: 50px; font-weight: 900; font-size: 0.88rem; cursor: pointer;">
-                        🏫 Top 1 por Turma
-                    </button>
-                </div>
             </div>
-
-            <!-- Pódio dos 3 Primeiros -->
-            <div id="hofPodiumContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px;">
-                <!-- Preenchido via Javascript -->
-            </div>
-
-            <!-- Tabela dos demais colocados -->
-            <div id="hofListContainer" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; overflow: hidden;">
-                <!-- Preenchido via Javascript -->
-            </div>
-
-            <!-- Banner Convide Amigos Antifraude -->
-            <div style="margin-top: 22px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 2px dashed #60a5fa; border-radius: 18px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <span style="font-size: 2.2rem;">🤝</span>
-                    <div>
-                        <strong style="color: #1e40af; font-size: 1rem;">Convide Amigos de Fora da Escola!</strong>
-                        <p style="margin: 2px 0 0; color: #3b82f6; font-size: 0.88rem; font-weight: 700;">
-                            Indique um amigo: quando ele completar <strong>5 dias de atividades</strong>, vocês dois ganham <strong>+250 XP</strong>! Com 10 amigos, você ganha <strong>1 SEMANA DE XP TRIPLO!</strong>
-                        </p>
-                    </div>
-                </div>
-                <a href="/aluno" class="btn-submit" style="margin: 0; background: #2563eb; color: #ffffff; font-weight: 900; padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; text-decoration: none;">
-                    📢 Pegar Meu Link de Indicação
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <a href="/simulados/5ano-outubro" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; font-weight: 900; font-family: 'Fredoka', sans-serif; font-size: 0.95rem; padding: 10px 18px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35); transition: transform 0.2s ease;">
+                    🚀 5º Ano (Outubro)
+                </a>
+                <a href="/simulados/3ano-outubro" style="background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; font-weight: 900; font-family: 'Fredoka', sans-serif; font-size: 0.95rem; padding: 10px 18px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35); transition: transform 0.2s ease;">
+                    ⭐ 3º Ano (Outubro)
+                </a>
+                <a href="/simulados" style="background: rgba(255, 255, 255, 0.15); border: 1.5px solid rgba(255, 255, 255, 0.3); color: #ffffff; font-weight: 800; font-size: 0.9rem; padding: 10px 16px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+                    📂 Todos os Anos
                 </a>
             </div>
-        </section>
-
-                <% if (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) { %>
-        <!-- Central de Simulados Oficiais (Controlada pelo Botão do Painel de Admin) -->
-        <section class="simulados-portal-section" id="simulados">
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <span style="background: rgba(2, 132, 199, 0.25); color: #38bdf8; font-weight: 800; font-family: 'Fredoka', sans-serif; padding: 0.4rem 1.2rem; border-radius: 50px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; border: 1px solid #0284c7;">
-                    🏛️ PROJETO CAMPOS DE TODOS NÓS
-                </span>
-                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2.1rem; margin-top: 0.8rem; color: #ffffff;">
-                    📝 Central de Simulados & Avaliações Digitais
-                </h2>
-                <p style="color: #94a3b8; font-family: 'Outfit', sans-serif; font-size: 1rem; max-width: 650px; margin: 0.4rem auto 0 auto;">
-                    Selecione a pasta do mês e o ano escolar do aluno para realizar o simulado digital oficial:
-                </p>
-            </div>
-
-            <!-- Seletor de Pastas de Simulados por Mês -->
-            <div class="simulado-folders-nav">
-                <button type="button" class="simulado-folder-tab-btn active" onclick="switchSimuladoTab('outubro', this)" id="tab-simulado-outubro">
-                    🌟 Pasta de Outubro / 2026 <span class="tab-badge-new">OFICIAL 🔥</span>
-                </button>
-                <button type="button" class="simulado-folder-tab-btn" onclick="switchSimuladoTab('setembro', this)" id="tab-simulado-setembro">
-                    📂 Pasta de Setembro / 2026 <span class="tab-badge-new">NOVO ✨</span>
-                </button>
-                <button type="button" class="simulado-folder-tab-btn" onclick="switchSimuladoTab('agosto', this)" id="tab-simulado-agosto">
-                    📁 Pasta de Agosto / 2026 <span class="tab-badge-prev">1ª EDIÇÃO 🏛️</span>
-                </button>
-                <button type="button" class="simulado-folder-tab-btn" onclick="switchSimuladoTab('todos', this)" id="tab-simulado-todos">
-                    📚 Todos os Meses
-                </button>
-            </div>
-
-            <!-- Painel: Pasta de Outubro / 2026 (ATIVO PADRÃO) -->
-            <div id="panel-simulados-outubro" class="simulado-folder-panel" style="display: block;">
-                <div class="simulado-folder-header" style="background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%); border-left: 5px solid #fbbf24;">
-                    <h3 class="simulado-folder-title">🌟 Pasta de Outubro / 2026 — Edição Oficial SEDUCT (Tema: Criança Também Tem Voz)</h3>
-                    <span class="simulado-folder-count">Edição Oficial Ativa</span>
-                </div>
-                <div class="simulado-cards-grid">
-                    <!-- 5º Ano Outubro -->
-                    <a href="/simulados/5ano-outubro" class="simulado-card-item" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8;">
-                        <div class="simulado-card-emoji">🚀</div>
-                        <h3 class="simulado-card-title">5º Ano</h3>
-                        <p class="simulado-card-desc">Blocos 1 e 2: LP, Matemática, Hist, Geog, Ciências e Arte</p>
-                        <span class="simulado-card-btn" style="background: #fbbf24; color: #000; font-weight: 800;">OUTUBRO OFICIAL 🔥</span>
-                    </a>
-
-                    <!-- 3º Ano Outubro -->
-                    <a href="/simulados/3ano-outubro" class="simulado-card-item" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399;">
-                        <div class="simulado-card-emoji">⭐</div>
-                        <h3 class="simulado-card-title">3º Ano</h3>
-                        <p class="simulado-card-desc">Blocos 1 e 2: LP, Matemática, Geografia, Arte e Produção Textual</p>
-                        <span class="simulado-card-btn" style="background: #34d399; color: #022c22; font-weight: 800;">OUTUBRO OFICIAL 🔥</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Painel: Pasta de Setembro / 2026 -->
-            <div id="panel-simulados-setembro" class="simulado-folder-panel" style="display: none; margin-top: 20px;">
-                <div class="simulado-folder-header">
-                    <h3 class="simulado-folder-title">📂 Pasta de Setembro / 2026 — Edição Pró-SAEB & Matriz Oficial</h3>
-                    <span class="simulado-folder-count">5 cadernos disponíveis</span>
-                </div>
-                <div class="simulado-cards-grid">
-                    <a href="/atividades/simulado-campos-1ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8;">
-                        <div class="simulado-card-emoji">🥇</div>
-                        <h3 class="simulado-card-title">1º Ano</h3>
-                        <p class="simulado-card-desc">Língua Portuguesa & Matemática (11 Questões)</p>
-                        <span class="simulado-card-btn" style="background: #38bdf8; color: #082f49;">SETEMBRO ✨</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-2ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399;">
-                        <div class="simulado-card-emoji">🥈</div>
-                        <h3 class="simulado-card-title">2º Ano</h3>
-                        <p class="simulado-card-desc">LP, Matemática e Ditado de Frases (11 Questões)</p>
-                        <span class="simulado-card-btn" style="background: #fbbf24; color: #000;">SETEMBRO ✨</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-3ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); border: 2px solid #fbbf24;">
-                        <div class="simulado-card-emoji">🥉</div>
-                        <h3 class="simulado-card-title">3º Ano</h3>
-                        <p class="simulado-card-desc">LP, Matemática e Arte (10 Questões)</p>
-                        <span class="simulado-card-btn" style="background: #fbbf24; color: #451a03;">SETEMBRO ✨</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-4ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8;">
-                        <div class="simulado-card-emoji">🎯</div>
-                        <h3 class="simulado-card-title">4º Ano</h3>
-                        <p class="simulado-card-desc">Língua Portuguesa Oficial Pró-SAEB (10 Questões)</p>
-                        <span class="simulado-card-btn" style="background: #38bdf8; color: #082f49;">PRÓ-SAEB ✨</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-5ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); border: 2px solid #a78bfa;">
-                        <div class="simulado-card-emoji">🚀</div>
-                        <h3 class="simulado-card-title">5º Ano</h3>
-                        <p class="simulado-card-desc">LP, Matemática e Redação Narrativa (10 Questões)</p>
-                        <span class="simulado-card-btn" style="background: #c084fc; color: #3b0764;">SETEMBRO ✨</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Painel: Pasta de Agosto / 2026 -->
-            <div id="panel-simulados-agosto" class="simulado-folder-panel" style="display: none; margin-top: 20px;">
-                <div class="simulado-folder-header header-agosto">
-                    <h3 class="simulado-folder-title">📁 Pasta de Agosto / 2026 — 1ª Edição / Avaliação Diagnóstica Municipal</h3>
-                    <span class="simulado-folder-count">5 cadernos disponíveis</span>
-                </div>
-                <div class="simulado-cards-grid">
-                    <a href="/atividades/simulado-campos-1ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); border: 2px solid #60a5fa;">
-                        <div class="simulado-card-emoji">🥇</div>
-                        <h3 class="simulado-card-title">1º Ano</h3>
-                        <p class="simulado-card-desc">Diagnóstica Alfabetização e Matemática</p>
-                        <span class="simulado-card-btn" style="background: #60a5fa; color: #0f172a;">AGOSTO 🏛️</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-2ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #065f46 0%, #047857 100%); border: 2px solid #34d399;">
-                        <div class="simulado-card-emoji">🥈</div>
-                        <h3 class="simulado-card-title">2º Ano</h3>
-                        <p class="simulado-card-desc">Diagnóstica Língua Portuguesa e Redação</p>
-                        <span class="simulado-card-btn" style="background: #34d399; color: #022c22;">AGOSTO 🏛️</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-3ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #92400e 0%, #b45309 100%); border: 2px solid #fbbf24;">
-                        <div class="simulado-card-emoji">🥉</div>
-                        <h3 class="simulado-card-title">3º Ano</h3>
-                        <p class="simulado-card-desc">Diagnóstica LP, Matemática e Ciências</p>
-                        <span class="simulado-card-btn" style="background: #fbbf24; color: #451a03;">AGOSTO 🏛️</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-4ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); border: 2px solid #60a5fa;">
-                        <div class="simulado-card-emoji">🎯</div>
-                        <h3 class="simulado-card-title">4º Ano</h3>
-                        <p class="simulado-card-desc">Diagnóstica Geral (Blocos 1 e 2)</p>
-                        <span class="simulado-card-btn" style="background: #60a5fa; color: #0f172a;">AGOSTO 🏛️</span>
-                    </a>
-                    <a href="/atividades/simulado-campos-5ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #581c87 0%, #6d28d9 100%); border: 2px solid #c084fc;">
-                        <div class="simulado-card-emoji">🚀</div>
-                        <h3 class="simulado-card-title">5º Ano</h3>
-                        <p class="simulado-card-desc">Diagnóstica LP, Matemática e Meio Ambiente</p>
-                        <span class="simulado-card-btn" style="background: #c084fc; color: #3b0764;">AGOSTO 🏛️</span>
-                    </a>
-                </div>
-            </div>
-        </section>
+        </div>
         <% } %>
 
         <section class="challenges" id="atividades">
