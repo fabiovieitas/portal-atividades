@@ -596,6 +596,18 @@
         </div>
 
         <div id="gabaritoContent" style="display: none; margin-top: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+          <!-- 5º Ano (Outubro/2026 - Oficial Blocos 1 e 2) -->
+          <div class="gabarito-item" data-simulado="campos-5ano-outubro-2026" data-grade="5º Ano" style="background: #fdf4ff; border: 1.5px solid #d8b4fe; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #7e22ce; margin-bottom: 0.5rem; border-bottom: 1px solid #f3e8ff; padding-bottom: 0.3rem;">
+              🌟 Gabarito 5º Ano (Outubro/2026 - Oficial Blocos 1 e 2)
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #6b21a8; line-height: 1.7;">
+              Q01: <strong>C</strong> | Q02: <strong>B</strong> | Q03: 📝 <em>Redação</em><br>
+              Q04: <strong>B</strong> | Q05: <strong>C</strong> | Q06: <strong>B</strong><br>
+              Q07: <strong>A</strong> | Q08: <strong>B</strong> | Q09: <strong>A</strong><br>
+              Q10: <strong>C</strong> | Q11: <strong>B</strong> | Q12: <strong>B</strong>
+            </div>
+          </div>
           <!-- 1º Ano (Setembro/2026 - Novo) -->
           <div class="gabarito-item" data-simulado="campos-1ano-setembro-2026" data-grade="1º Ano" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #15803d; margin-bottom: 0.5rem; border-bottom: 1px solid #bbf7d0; padding-bottom: 0.3rem;">
@@ -951,6 +963,8 @@
           <tbody>
             <% 
               const masterAnswerKeys = {
+                'campos-5ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'C', 6:'B', 7:'A', 8:'B', 9:'A', 10:'C', 11:'B', 12:'B' },
+                'campos-3ano-outubro-2026': { 1:'C', 2:'A', 3:'C', 4:'C', 6:'C', 7:'C', 8:'C', 9:'C', '10A':'C', '10B':'C', '10C':'B' },
                 'campos-1ano-setembro-2026': { 1:'A', 2:'A', 3:'A', 4:'B', 5:'A', 6:'A', 7:'B', 8:'B', 9:'C', 10:'A', 11:'A' },
                 'campos-1ano-agosto-2026': { 1:'A', 2:'C', 3:'D', 4:'B', 5:'A', 6:'C', 7:'D', 8:'C', 9:'B', 10:'A' },
                 'campos-2ano-setembro-2026': { 1:'C', 2:'A', 3:'B', 5:'A', 6:'A', 7:'B', 8:'A', 9:'C', 10:'C', 11:'C' },
@@ -985,7 +999,7 @@
                 const simId = s.simulado_id || 'campos-4ano-agosto-2026';
                 const key = masterAnswerKeys[simId] || masterAnswerKeys['campos-4ano-agosto-2026'];
                 const dateISO = new Date(s.created_at).toISOString();
-                const defaultMax = (simId === 'campos-1ano-setembro-2026') ? 11 :
+                const defaultMax = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-3ano-outubro-2026' || simId === 'campos-5ano-outubro-2026') ? 11 :
                                    (simId === 'campos-2ano-setembro-2026' || simId === 'campos-1ano-agosto-2026' || simId === 'campos-4ano-setembro-2026') ? 10 : 9;
               %>
               <tr class="student-row" id="student-row-<%= s.id %>" data-id="<%= s.id %>" data-simulado="<%= simId %>" data-student="<%= s.student_name %>" data-school="<%= s.school_name %>" data-class="<%= s.class_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-score="<%= score %>" data-date="<%= dateISO %>" data-answers='<%= JSON.stringify(parsedAns) %>'>
@@ -1019,27 +1033,40 @@
                   <!-- Respostas do Professor: Azul para Corretas, Vermelho para Erradas -->
                   <div class="q-answers-pill-grid">
                     <% 
-                      const maxQ = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026') ? 11 : 10;
-                      for(let q=1; q<=maxQ; q++) { 
-                    %>
-                      <% 
-                        const isEssay = (simId === 'campos-2ano-setembro-2026' && q === 4) ||
-                                        (simId === 'campos-3ano-setembro-2026' && q === 10) ||
-                                        (simId === 'campos-5ano-setembro-2026' && q === 3) ||
-                                        (simId === 'campos-2ano-agosto-2026' && q === 5) || 
-                                        ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && q === 3);
-                        const essayName = simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Produção Textual');
+                      let tableQList = [];
+                      if (simId === 'campos-3ano-outubro-2026') {
+                        tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10A', '10B', '10C'];
+                      } else if (simId === 'campos-5ano-outubro-2026') {
+                        tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+                      } else if (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026') {
+                        tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+                      } else {
+                        for(let q=1; q<=10; q++) tableQList.push(String(q));
+                      }
+
+                      for(let qi=0; qi<tableQList.length; qi++) { 
+                        const qKey = tableQList[qi];
+                        const isEssay = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
+                                        (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
+                                        (simId === 'campos-2ano-setembro-2026' && qKey === '4') ||
+                                        (simId === 'campos-3ano-setembro-2026' && qKey === '10') ||
+                                        (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
+                                        (simId === 'campos-2ano-agosto-2026' && qKey === '5') || 
+                                        ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
+                        const essayName = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
+                                          (simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Produção Textual'));
+                        const qLabel = qKey.length === 1 ? '0' + qKey : qKey;
                         if (isEssay) { %>
-                          <span class="q-badge q-badge-essay" title="<%= essayName %>">Q<%= q < 10 ? '0'+q : q %>: ✍️</span>
+                          <span class="q-badge q-badge-essay" title="<%= essayName %>">Q<%= qLabel %>: ✍️</span>
                         <% } else { 
-                          const stAns = parsedAns[q];
-                          const correctAns = key[q];
+                          const stAns = parsedAns[qKey];
+                          const correctAns = key[qKey];
                           if (!stAns) { %>
-                            <span class="q-badge q-badge-empty" title="Não Respondida">Q<%= q < 10 ? '0'+q : q %>: —</span>
+                            <span class="q-badge q-badge-empty" title="Não Respondida">Q<%= qLabel %>: —</span>
                           <% } else if (stAns === correctAns) { %>
-                            <span class="q-badge q-badge-correct" title="Correta! Marcado: <%= stAns %>">Q<%= q < 10 ? '0'+q : q %>: <%= stAns %> ✓</span>
+                            <span class="q-badge q-badge-correct" title="Correta! Marcado: <%= stAns %>">Q<%= qLabel %>: <%= stAns %> ✓</span>
                           <% } else { %>
-                            <span class="q-badge q-badge-wrong" title="Incorreta. Aluno: <%= stAns %> | Gabarito: <%= correctAns %>">Q<%= q < 10 ? '0'+q : q %>: <%= stAns %> ✕</span>
+                            <span class="q-badge q-badge-wrong" title="Incorreta. Aluno: <%= stAns %> | Gabarito: <%= correctAns %>">Q<%= qLabel %>: <%= stAns %> ✕</span>
                           <% } %>
                         <% } %>
                     <% } %>
@@ -1072,6 +1099,8 @@
                         let qList = [];
                         if (simId === 'campos-3ano-outubro-2026') {
                           qList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10A', '10B', '10C'];
+                        } else if (simId === 'campos-5ano-outubro-2026') {
+                          qList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
                         } else {
                           const maxQDetail = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026') ? 11 : 10;
                           for(let q=1; q<=maxQDetail; q++) qList.push(String(q));
@@ -1079,12 +1108,14 @@
                         for(let i=0; i<qList.length; i++) { 
                           const qKey = qList[i];
                           const isEssay = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
+                                          (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
                                           (simId === 'campos-2ano-setembro-2026' && qKey === '4') ||
                                           (simId === 'campos-3ano-setembro-2026' && qKey === '10') ||
                                           (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
                                           (simId === 'campos-2ano-agosto-2026' && qKey === '5') || 
                                           ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
                           const essayName = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
+                                            (simId === 'campos-5ano-outubro-2026' && qKey === '3') ? 'Redação: O Segredo da Serra do Mar' :
                                             (simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : 
                                             (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Redação'));
                           const qLabel = qKey.length === 1 ? '0' + qKey : qKey;
@@ -1128,6 +1159,7 @@
 
   <script>
     const allAnswerKeys = {
+      'campos-5ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'C', 6:'B', 7:'A', 8:'B', 9:'A', 10:'C', 11:'B', 12:'B' },
       'campos-3ano-outubro-2026': { 1:'C', 2:'A', 3:'C', 4:'C', 6:'C', 7:'C', 8:'C', 9:'C', '10A':'C', '10B':'C', '10C':'B' },
       'campos-1ano-setembro-2026': { 1:'A', 2:'A', 3:'A', 4:'B', 5:'A', 6:'A', 7:'B', 8:'B', 9:'C', 10:'A', 11:'A' },
       'campos-1ano-agosto-2026': { 1:'A', 2:'C', 3:'D', 4:'B', 5:'A', 6:'C', 7:'D', 8:'C', 9:'B', 10:'A' },
