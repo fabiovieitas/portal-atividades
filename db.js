@@ -929,7 +929,7 @@ const dbHelper = {
     }
 
     // Fail-Safe: Se o Turso falhar ou retornar vazio por instabilidade de rede, resgatar do Master Backup em disco
-    if (!rows || rows.length === 0) {
+    if (rows === null || rows === undefined) {
       try {
         if (fs.existsSync(MASTER_BACKUP_FILE)) {
           const fileData = JSON.parse(fs.readFileSync(MASTER_BACKUP_FILE, 'utf8'));
