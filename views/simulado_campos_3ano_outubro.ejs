@@ -1003,25 +1003,19 @@ ESCOLHA UM LUGAR ONDE VOCÊ GOSTA DE BRINCAR E ESCREVA UM PEQUENO TEXTO CONTANDO
     </button>
   </div>
 
-  <!-- Modal de Confirmação & Nota -->
+  <!-- Modal de Confirmação & Vitória -->
   <div class="modal-overlay" id="resultModal">
     <div class="modal-card">
-      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
-      <h2>Parabéns!</h2>
-      <p style="color: #475569; font-weight: 600;">Seu Simulado Oficial de Outubro foi enviado e gravado com segurança na nuvem!</p>
-      
-      <div class="score-circle">
-        <div class="score-num" id="finalScoreDisplay">0</div>
-        <div class="score-label">de 11 acertos</div>
-      </div>
-
-      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 12px; margin-bottom: 1.5rem; text-align: left; font-size: 0.85rem; color: #166534;">
-        <div><strong>🔒 Comprovante Seguro:</strong> Respostas protegidas e sincronizadas no diário do professor.</div>
-        <div id="receiptTimestamp" style="color: #15803d; margin-top: 4px; font-weight: 700;"></div>
-      </div>
-
-      <a href="/" style="background: #0284c7; color: white; display: block; padding: 14px; border-radius: 50px; text-decoration: none; font-weight: 800; font-family: 'Fredoka', sans-serif; font-size: 1.1rem;">
-        🏠 VOLTAR AO INÍCIO DO LAB
+      <div style="font-size: 4rem; margin-bottom: 0.75rem;">🏆</div>
+      <h2 style="font-size: 2.2rem; color: #166534; font-family: 'Fredoka', cursive; margin-bottom: 0.5rem;">Parabéns!</h2>
+      <p style="color: #15803d; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;">
+        Missão Cumprida com Sucesso! 🌟
+      </p>
+      <p style="color: #475569; font-size: 1.05rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        Seu simulado foi enviado com sucesso! Você concluiu todas as etapas da avaliação com dedicação e empenho.
+      </p>
+      <a href="/" class="btn-return" style="background: linear-gradient(135deg, #10b981, #059669); font-size: 1.1rem; padding: 0.85rem 2rem; border-radius: 999px; text-decoration: none; color: white; font-weight: 800; display: inline-block;">
+        Concluir Atividade ✨
       </a>
     </div>
   </div>
@@ -1233,8 +1227,8 @@ ESCOLHA UM LUGAR ONDE VOCÊ GOSTA DE BRINCAR E ESCREVA UM PEQUENO TEXTO CONTANDO
       btn.style.opacity = '1';
 
       if (result.success) {
-        document.getElementById('finalScoreDisplay').innerText = score;
-        document.getElementById('receiptTimestamp').innerText = `Gravado com sucesso em: ${new Date().toLocaleTimeString('pt-BR')} (ID Cloud)`;
+        // Nota gravada com segurança no banco sem exibição ao aluno
+        
         document.getElementById('resultModal').classList.add('active');
         if (typeof confetti === 'function') {
           confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });

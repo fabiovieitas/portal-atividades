@@ -1019,10 +1019,9 @@
       <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: #059669; margin-bottom: 0.3rem;">Parabéns, Pequeno Campeão!</h3>
       <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1rem;">Suas respostas foram salvas no sistema com sucesso!</p>
       
-      <div style="background: #f0fdf4; border: 2px solid #86efac; border-radius: 16px; padding: 1rem; margin-bottom: 1.2rem;">
-        <div style="font-size: 0.85rem; color: #047857; font-weight: 800; text-transform: uppercase;">Desempenho no Simulado</div>
-        <div id="finalScoreDisplay" style="font-family: 'Fredoka', sans-serif; font-size: 2.6rem; color: #059669; margin: 0.2rem 0;">0 / 11</div>
-        <div style="font-size: 0.82rem; color: #64748b;">1º Ano — Setembro/2026</div>
+      <div style="background: #ecfdf5; border: 2px dashed #a7f3d0; border-radius: 16px; padding: 1.25rem; margin-bottom: 1.2rem; text-align: center;">
+        <div style="font-size: 1.25rem; color: #047857; font-weight: 800; margin-bottom: 0.35rem;">Missão Cumprida com Sucesso! 🌟</div>
+        <div style="font-size: 0.95rem; color: #475569;">Suas respostas foram gravadas e enviadas diretamente para a professora.</div>
       </div>
 
       <!-- Publicidade Educativa Segura (Conforme AdSense) -->
@@ -1209,7 +1208,7 @@
       isSubmitted = true;
       try { localStorage.removeItem(SIMULADO_KEY); } catch(e){}
 
-      document.getElementById('finalScoreDisplay').innerText = `${score} / 11`;
+      // Nota salva no banco sem exibicao
       document.getElementById('resultModal').classList.add('active');
       if (typeof confetti === 'function') confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
     }
