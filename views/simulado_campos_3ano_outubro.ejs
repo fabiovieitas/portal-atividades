@@ -553,15 +553,7 @@
           <label for="studentName">Nome Completo do Aluno:</label>
           <input type="text" id="studentName" class="form-control" placeholder="Ex: Dandara da Silva Santos" oninput="saveVaultDraft()">
         </div>
-        <div class="form-group">
-          <label for="className">Turma:</label>
-          <select id="className" class="form-control" onchange="saveVaultDraft()">
-            <option value="3º Ano A">3º Ano A</option>
-            <option value="3º Ano B">3º Ano B</option>
-            <option value="3º Ano C">3º Ano C</option>
-            <option value="3º Ano Único">3º Ano Único</option>
-          </select>
-        </div>
+        <input type="hidden" id="className" value="3º Ano">
         <div class="form-group">
           <label for="schoolName">Escola Municipal:</label>
           <input type="text" id="schoolName" class="form-control" value="E.M. Profª Eleonora da Silva Pinto" oninput="saveVaultDraft()">
