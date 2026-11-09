@@ -545,6 +545,7 @@
         <label for="filterSimulado">📝 Simulado / Caderno:</label>
         <select id="filterSimulado" class="filter-select" onchange="window.location.href='/admin/simulado/relatorio-op?simulado_id=' + this.value">
           <option value="ALL" <%= simuladoId === 'ALL' ? 'selected' : '' %>>Todos os Simulados (1º ao 5º)</option>
+          <option value="campos-5ano-outubro-2026" <%= simuladoId === "campos-5ano-outubro-2026" ? "selected" : "" %>>🌟 5º Ano (Outubro/2026 - Oficial)</option>
           <option value="campos-3ano-outubro-2026" <%= simuladoId === 'campos-3ano-outubro-2026' ? 'selected' : '' %>>⭐ 3º Ano (Outubro/2026 - Oficial)</option>
           <option value="campos-1ano-setembro-2026" <%= simuladoId === 'campos-1ano-setembro-2026' ? 'selected' : '' %>>🥇 1º Ano (Setembro/2026 - Novo)</option>
           <option value="campos-2ano-setembro-2026" <%= simuladoId === 'campos-2ano-setembro-2026' ? 'selected' : '' %>>🥈 2º Ano (Setembro/2026 - Novo)</option>
