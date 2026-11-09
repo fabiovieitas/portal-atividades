@@ -772,6 +772,144 @@
             </div>
         </section>
 
+                <% if (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) { %>
+        <!-- Central de Simulados Oficiais (Controlada pelo Botão do Painel de Admin) -->
+        <section class="simulados-portal-section" id="simulados">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span style="background: rgba(2, 132, 199, 0.25); color: #38bdf8; font-weight: 800; font-family: 'Fredoka', sans-serif; padding: 0.4rem 1.2rem; border-radius: 50px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; border: 1px solid #0284c7;">
+                    🏛️ PROJETO CAMPOS DE TODOS NÓS
+                </span>
+                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 2.1rem; margin-top: 0.8rem; color: #ffffff;">
+                    📝 Central de Simulados & Avaliações Digitais
+                </h2>
+                <p style="color: #94a3b8; font-family: 'Outfit', sans-serif; font-size: 1rem; max-width: 650px; margin: 0.4rem auto 0 auto;">
+                    Selecione a pasta do mês e o ano escolar do aluno para realizar o simulado digital oficial:
+                </p>
+            </div>
+
+            <!-- Seletor de Pastas de Simulados por Mês -->
+            <div class="simulado-folders-nav">
+                <button type="button" class="simulado-folder-tab-btn active" onclick="switchSimuladoTab('outubro', this)" id="tab-simulado-outubro">
+                    🌟 Pasta de Outubro / 2026 <span class="tab-badge-new">OFICIAL 🔥</span>
+                </button>
+                <button type="button" class="simulado-folder-tab-btn" onclick="switchSimuladoTab('setembro', this)" id="tab-simulado-setembro">
+                    📂 Pasta de Setembro / 2026 <span class="tab-badge-new">NOVO ✨</span>
+                </button>
+                <button type="button" class="simulado-folder-tab-btn" onclick="switchSimuladoTab('agosto', this)" id="tab-simulado-agosto">
+                    📁 Pasta de Agosto / 2026 <span class="tab-badge-prev">1ª EDIÇÃO 🏛️</span>
+                </button>
+                <button type="button" class="simulado-folder-tab-btn" onclick="switchSimuladoTab('todos', this)" id="tab-simulado-todos">
+                    📚 Todos os Meses
+                </button>
+            </div>
+
+            <!-- Painel: Pasta de Outubro / 2026 (ATIVO PADRÃO) -->
+            <div id="panel-simulados-outubro" class="simulado-folder-panel" style="display: block;">
+                <div class="simulado-folder-header" style="background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%); border-left: 5px solid #fbbf24;">
+                    <h3 class="simulado-folder-title">🌟 Pasta de Outubro / 2026 — Edição Oficial SEDUCT (Tema: Criança Também Tem Voz)</h3>
+                    <span class="simulado-folder-count">Edição Oficial Ativa</span>
+                </div>
+                <div class="simulado-cards-grid">
+                    <!-- 5º Ano Outubro -->
+                    <a href="/simulados/5ano-outubro" class="simulado-card-item" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8;">
+                        <div class="simulado-card-emoji">🚀</div>
+                        <h3 class="simulado-card-title">5º Ano</h3>
+                        <p class="simulado-card-desc">Blocos 1 e 2: LP, Matemática, Hist, Geog, Ciências e Arte</p>
+                        <span class="simulado-card-btn" style="background: #fbbf24; color: #000; font-weight: 800;">OUTUBRO OFICIAL 🔥</span>
+                    </a>
+
+                    <!-- 3º Ano Outubro -->
+                    <a href="/simulados/3ano-outubro" class="simulado-card-item" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399;">
+                        <div class="simulado-card-emoji">⭐</div>
+                        <h3 class="simulado-card-title">3º Ano</h3>
+                        <p class="simulado-card-desc">Blocos 1 e 2: LP, Matemática, Geografia, Arte e Produção Textual</p>
+                        <span class="simulado-card-btn" style="background: #34d399; color: #022c22; font-weight: 800;">OUTUBRO OFICIAL 🔥</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Painel: Pasta de Setembro / 2026 -->
+            <div id="panel-simulados-setembro" class="simulado-folder-panel" style="display: none; margin-top: 20px;">
+                <div class="simulado-folder-header">
+                    <h3 class="simulado-folder-title">📂 Pasta de Setembro / 2026 — Edição Pró-SAEB & Matriz Oficial</h3>
+                    <span class="simulado-folder-count">5 cadernos disponíveis</span>
+                </div>
+                <div class="simulado-cards-grid">
+                    <a href="/atividades/simulado-campos-1ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8;">
+                        <div class="simulado-card-emoji">🥇</div>
+                        <h3 class="simulado-card-title">1º Ano</h3>
+                        <p class="simulado-card-desc">Língua Portuguesa & Matemática (11 Questões)</p>
+                        <span class="simulado-card-btn" style="background: #38bdf8; color: #082f49;">SETEMBRO ✨</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-2ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 2px solid #34d399;">
+                        <div class="simulado-card-emoji">🥈</div>
+                        <h3 class="simulado-card-title">2º Ano</h3>
+                        <p class="simulado-card-desc">LP, Matemática e Ditado de Frases (11 Questões)</p>
+                        <span class="simulado-card-btn" style="background: #fbbf24; color: #000;">SETEMBRO ✨</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-3ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); border: 2px solid #fbbf24;">
+                        <div class="simulado-card-emoji">🥉</div>
+                        <h3 class="simulado-card-title">3º Ano</h3>
+                        <p class="simulado-card-desc">LP, Matemática e Arte (10 Questões)</p>
+                        <span class="simulado-card-btn" style="background: #fbbf24; color: #451a03;">SETEMBRO ✨</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-4ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); border: 2px solid #38bdf8;">
+                        <div class="simulado-card-emoji">🎯</div>
+                        <h3 class="simulado-card-title">4º Ano</h3>
+                        <p class="simulado-card-desc">Língua Portuguesa Oficial Pró-SAEB (10 Questões)</p>
+                        <span class="simulado-card-btn" style="background: #38bdf8; color: #082f49;">PRÓ-SAEB ✨</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-5ano-setembro" class="simulado-card-item" style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); border: 2px solid #a78bfa;">
+                        <div class="simulado-card-emoji">🚀</div>
+                        <h3 class="simulado-card-title">5º Ano</h3>
+                        <p class="simulado-card-desc">LP, Matemática e Redação Narrativa (10 Questões)</p>
+                        <span class="simulado-card-btn" style="background: #c084fc; color: #3b0764;">SETEMBRO ✨</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Painel: Pasta de Agosto / 2026 -->
+            <div id="panel-simulados-agosto" class="simulado-folder-panel" style="display: none; margin-top: 20px;">
+                <div class="simulado-folder-header header-agosto">
+                    <h3 class="simulado-folder-title">📁 Pasta de Agosto / 2026 — 1ª Edição / Avaliação Diagnóstica Municipal</h3>
+                    <span class="simulado-folder-count">5 cadernos disponíveis</span>
+                </div>
+                <div class="simulado-cards-grid">
+                    <a href="/atividades/simulado-campos-1ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); border: 2px solid #60a5fa;">
+                        <div class="simulado-card-emoji">🥇</div>
+                        <h3 class="simulado-card-title">1º Ano</h3>
+                        <p class="simulado-card-desc">Diagnóstica Alfabetização e Matemática</p>
+                        <span class="simulado-card-btn" style="background: #60a5fa; color: #0f172a;">AGOSTO 🏛️</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-2ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #065f46 0%, #047857 100%); border: 2px solid #34d399;">
+                        <div class="simulado-card-emoji">🥈</div>
+                        <h3 class="simulado-card-title">2º Ano</h3>
+                        <p class="simulado-card-desc">Diagnóstica Língua Portuguesa e Redação</p>
+                        <span class="simulado-card-btn" style="background: #34d399; color: #022c22;">AGOSTO 🏛️</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-3ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #92400e 0%, #b45309 100%); border: 2px solid #fbbf24;">
+                        <div class="simulado-card-emoji">🥉</div>
+                        <h3 class="simulado-card-title">3º Ano</h3>
+                        <p class="simulado-card-desc">Diagnóstica LP, Matemática e Ciências</p>
+                        <span class="simulado-card-btn" style="background: #fbbf24; color: #451a03;">AGOSTO 🏛️</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-4ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); border: 2px solid #60a5fa;">
+                        <div class="simulado-card-emoji">🎯</div>
+                        <h3 class="simulado-card-title">4º Ano</h3>
+                        <p class="simulado-card-desc">Diagnóstica Geral (Blocos 1 e 2)</p>
+                        <span class="simulado-card-btn" style="background: #60a5fa; color: #0f172a;">AGOSTO 🏛️</span>
+                    </a>
+                    <a href="/atividades/simulado-campos-5ano-agosto" class="simulado-card-item" style="background: linear-gradient(135deg, #581c87 0%, #6d28d9 100%); border: 2px solid #c084fc;">
+                        <div class="simulado-card-emoji">🚀</div>
+                        <h3 class="simulado-card-title">5º Ano</h3>
+                        <p class="simulado-card-desc">Diagnóstica LP, Matemática e Meio Ambiente</p>
+                        <span class="simulado-card-btn" style="background: #c084fc; color: #3b0764;">AGOSTO 🏛️</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
         <section class="challenges" id="atividades">
             <div class="section-header">
                 <div class="header-content">
@@ -1500,16 +1638,24 @@
             document.querySelectorAll('.simulado-folder-tab-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
+            const panelOutubro = document.getElementById('panel-simulados-outubro');
             const panelSetembro = document.getElementById('panel-simulados-setembro');
             const panelAgosto = document.getElementById('panel-simulados-agosto');
 
-            if (month === 'setembro') {
+            if (month === 'outubro') {
+                if (panelOutubro) panelOutubro.style.display = 'block';
+                if (panelSetembro) panelSetembro.style.display = 'none';
+                if (panelAgosto) panelAgosto.style.display = 'none';
+            } else if (month === 'setembro') {
+                if (panelOutubro) panelOutubro.style.display = 'none';
                 if (panelSetembro) panelSetembro.style.display = 'block';
                 if (panelAgosto) panelAgosto.style.display = 'none';
             } else if (month === 'agosto') {
+                if (panelOutubro) panelOutubro.style.display = 'none';
                 if (panelSetembro) panelSetembro.style.display = 'none';
                 if (panelAgosto) panelAgosto.style.display = 'block';
             } else { // 'todos'
+                if (panelOutubro) panelOutubro.style.display = 'block';
                 if (panelSetembro) panelSetembro.style.display = 'block';
                 if (panelAgosto) panelAgosto.style.display = 'block';
             }
@@ -1523,13 +1669,15 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const simMonth = urlParams.get('simulado_mes') || 'setembro';
-            const targetSimBtn = simMonth === 'agosto' 
-                ? document.getElementById('tab-simulado-agosto') 
-                : (simMonth === 'todos' ? document.getElementById('tab-simulado-todos') : document.getElementById('tab-simulado-setembro'));
+            const simMonth = urlParams.get('simulado_mes') || 'outubro';
+            let targetSimBtn = document.getElementById('tab-simulado-outubro');
+            if (simMonth === 'setembro') targetSimBtn = document.getElementById('tab-simulado-setembro');
+            else if (simMonth === 'agosto') targetSimBtn = document.getElementById('tab-simulado-agosto');
+            else if (simMonth === 'todos') targetSimBtn = document.getElementById('tab-simulado-todos');
+
             if (targetSimBtn) {
                 switchSimuladoTab(simMonth, targetSimBtn);
-            }
+            }}
 
             // Busca Inteligente com Sugestões Dinâmicas (Item 19)
             const searchInput = document.getElementById('mainSearchInput');
