@@ -1430,7 +1430,7 @@
       }
     }
 
-    // async function submitExamWithVault() {
+    async function submitExamWithVault() {
       if (isSubmitting) return;
 
       const studentName = document.getElementById('studentName').value.trim();
@@ -1523,10 +1523,13 @@ Deseja realmente finalizar o simulado agora?`;
       }
 
       // Aluno conectado! Esconde modal de login
-      document.getElementById('loginRequiredOverlay').style.display = 'none';
+      const loginOverlay = document.getElementById('loginRequiredOverlay');
+      if (loginOverlay) loginOverlay.style.display = 'none';
 
-      // 2. Preenche automaticamente o cabeçalho
-      const sName = currentStudentProfile.name;
+      if (!currentStudentProfile) return;
+
+      // 2. Preenche automaticamente o cabeçalho se houver perfil salvo
+      const sName = currentStudentProfile.name || '';
       const sSchool = currentStudentProfile.school_name || currentStudentProfile.school || 'Escola Municipal';
       const sClass = currentStudentProfile.class_name || currentStudentProfile.class || '5º Ano';
       const sShift = currentStudentProfile.shift || 'Manhã';
@@ -1536,10 +1539,9 @@ Deseja realmente finalizar o simulado agora?`;
       const cNameEl = document.getElementById('classSelect');
       const shNameEl = document.getElementById('shiftSelect');
 
-      if (sNameEl) { sNameEl.value = sName; // sNameEl.readOnly = true; sNameEl.style.backgroundColor = '#f1f5f9'; }
+      if (sNameEl && sName) { sNameEl.value = sName; }
       if (cNameEl) { cNameEl.value = sClass; cNameEl.readOnly = true; cNameEl.style.backgroundColor = '#f1f5f9'; }
-      if (scNameEl) {
-        // Se a opção não existir, adiciona
+      if (scNameEl && sSchool) {
         let hasOpt = false;
         for (let i = 0; i < scNameEl.options.length; i++) {
           if (scNameEl.options[i].value === sSchool) { hasOpt = true; break; }
@@ -1551,14 +1553,13 @@ Deseja realmente finalizar o simulado agora?`;
           scNameEl.appendChild(opt);
         }
         scNameEl.value = sSchool;
-        // scNameEl.disabled = true;
         scNameEl.style.backgroundColor = '#f1f5f9';
       }
-      if (shNameEl) { shNameEl.value = sShift; }
+      if (shNameEl && sShift) { shNameEl.value = sShift; }
 
       // Mostra o banner de estudante identificado
       const banner = document.getElementById('verifiedStudentBanner');
-      if (banner) {
+      if (banner && sName) {
         banner.style.display = 'block';
         document.getElementById('bannerStudentName').innerText = sName;
         document.getElementById('bannerStudentInfo').innerText = sClass + ' • ' + sSchool;
