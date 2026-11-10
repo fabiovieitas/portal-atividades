@@ -715,7 +715,7 @@
             <option value="">-- Selecione sua Escola --</option>
             <% if (typeof schools !== 'undefined' && schools.length > 0) { %>
               <% schools.forEach(function(school) { %>
-                <option value="<%= school.name || school %>"><%= school.name || school %></option>
+                <option value="<%= school.name || school %>" <%= (school.name || school) === "E.M. José Giró Faísca" ? "selected" : "" %>><%= school.name || school %></option>
               <% }); %>
             <% } else { %>
               <option value="Escola Municipal Padrão SEDUCT">Escola Municipal Padrão SEDUCT</option>
