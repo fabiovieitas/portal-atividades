@@ -1148,6 +1148,15 @@ app.get(['/atividades/simulado-campos-1ano-outubro', '/simulado/campos-1ano-outu
   }
 });
 
+app.get(['/atividades/simulado-campos-4ano-outubro', '/simulado/campos-4ano-outubro-2026', '/simulados/4ano-outubro', '/simulado-4ano-outubro', '/simulado/4ano-outubro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_4ano_outubro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_4ano_outubro', { schools: [] });
+  }
+});
+
 app.get(['/atividades/simulado-campos-3ano-outubro', '/simulado/campos-3ano-outubro-2026', '/simulados/3ano-outubro', '/simulado-3ano-outubro'], async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
@@ -1318,6 +1327,7 @@ app.post('/api/simulado/submit', async (req, res) => {
       return res.status(400).json({ success: false, error: 'O nome completo do estudante é obrigatório.' });
     }
     const resolvedMaxScore = Number(max_score) || (
+      simulado_id === 'campos-4ano-outubro-2026' ? 10 :
       simulado_id === 'campos-1ano-outubro-2026' ? 10 :
       simulado_id === 'campos-3ano-outubro-2026' ? 11 :
       simulado_id === 'campos-1ano-setembro-2026' ? 11 :
@@ -1536,6 +1546,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-4ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
@@ -1610,6 +1621,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-4ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :

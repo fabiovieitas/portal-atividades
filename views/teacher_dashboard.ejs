@@ -547,7 +547,18 @@
 
                                         <!-- Status de Liberação do Simulado Oficial 3º Ano -->
                                         <div style="background: <%= is3AnoOutubroActive ? '#f0fdf4' : '#f8fafc' %>; border: 1.5px solid <%= is3AnoOutubroActive ? '#86efac' : '#cbd5e1' %>; border-radius: 12px; padding: 10px; margin-bottom: 6px;">
-                                            <!-- Simulado 1º Ano (Outubro) -->
+                                            <!-- Simulado 4º Ano (Outubro) -->
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                                <div style="font-size: 0.82rem; font-weight: 800; color: <%= (activeSims.includes('campos-4ano-outubro-2026') || activeSims.includes('ALL')) ? '#15803d' : '#475569' %>;">
+                                                    🏅 Simulado 4º Ano (Outubro)
+                                                </div>
+                                                <button onclick="toggleSimuladoSingle('<%= c.id %>', 'campos-4ano-outubro-2026', <%= (activeSims.includes('campos-4ano-outubro-2026') || activeSims.includes('ALL')) %>, this)" 
+                                                        style="background: <%= (activeSims.includes('campos-4ano-outubro-2026') || activeSims.includes('ALL')) ? '#16a34a' : '#94a3b8' %>; color: white; border: none; padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; cursor: pointer;">
+                                                    <%= (activeSims.includes('campos-4ano-outubro-2026') || activeSims.includes('ALL')) ? '🔓 LIBERADO' : '🔒 BLOQUEADO' %>
+                                                </button>
+                                            </div>
+
+<!-- Simulado 1º Ano (Outubro) -->
                                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                                                 <div style="font-size: 0.82rem; font-weight: 800; color: <%= (activeSims.includes('campos-1ano-outubro-2026') || activeSims.includes('ALL')) ? '#15803d' : '#475569' %>;">
                                                     🎈 Simulado 1º Ano (Outubro)

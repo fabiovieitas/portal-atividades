@@ -796,6 +796,9 @@
                                 <button type="button" class="btn-toggle-sim" id="btn-portal-3ano" onclick="togglePortalSimulado('campos-3ano-outubro-2026', this)" style="padding: 8px 16px; border-radius: 25px; font-weight: 800; font-size: 0.85rem; cursor: pointer; border: 2px solid #10b981; background: #10b981; color: white; box-shadow: 0 2px 8px rgba(16,185,129,0.25); transition: all 0.2s ease;">
                                     ⭐ 3º Ano: CARREGANDO...
                                 </button>
+                                <button type="button" class="btn-toggle-sim" id="btn-portal-4ano" onclick="togglePortalSimulado('campos-4ano-outubro-2026', this)" style="padding: 8px 16px; border-radius: 25px; font-weight: 800; font-size: 0.85rem; cursor: pointer; border: 2px solid #6366f1; background: #6366f1; color: white; box-shadow: 0 2px 8px rgba(99,102,241,0.25); transition: all 0.2s ease;">
+                                    🏅 4º Ano: CARREGANDO...
+                                </button>
                                 <button type="button" class="btn-toggle-sim" id="btn-portal-5ano" onclick="togglePortalSimulado('campos-5ano-outubro-2026', this)" style="padding: 8px 16px; border-radius: 25px; font-weight: 800; font-size: 0.85rem; cursor: pointer; border: 2px solid #f59e0b; background: #f59e0b; color: white; box-shadow: 0 2px 8px rgba(245,158,11,0.25); transition: all 0.2s ease;">
                                     🚀 5º Ano: CARREGANDO...
                                 </button>
@@ -887,6 +890,19 @@
                         </thead>
                         <tbody>
                             <!-- OUTUBRO / 2026 (OFICIAL SEDUCT) -->
+                            <tr class="admin-sim-row" data-month="Outubro">
+                                <td>
+                                    <strong>🏅 Simulado Oficial 4º Ano — Blocos 1 e 2</strong><br>
+                                    <small style="color: #64748b;">10 Questões (LP, Hist, Geog, Mat, Arte + Produção Textual) • Outubro/2026 Oficial</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">4º Ano</span></td>
+                                <td><span class="badge" style="background: #fef08a; color: #854d0e; font-weight: 800;">Outubro / 2026 🌟</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo Oficial 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/simulados/4ano-outubro" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-4ano-outubro-2026" class="btn-icon" title="Ver Resultados do 4º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
                             <tr class="admin-sim-row" data-month="Outubro">
                                 <td>
                                     <strong>🎈 Simulado Oficial 1º Ano — Blocos 1 e 2</strong><br>
@@ -1444,6 +1460,7 @@
                 if (data.success && data.active_simulados) {
                     updateSimBtn('campos-1ano-outubro-2026', 'btn-portal-1ano', '🎈 1º Ano', data.active_simulados.includes('campos-1ano-outubro-2026'), '#0284c7');
                     updateSimBtn('campos-3ano-outubro-2026', 'btn-portal-3ano', '⭐ 3º Ano', data.active_simulados.includes('campos-3ano-outubro-2026'), '#10b981');
+                    updateSimBtn('campos-4ano-outubro-2026', 'btn-portal-4ano', '🏅 4º Ano', data.active_simulados.includes('campos-4ano-outubro-2026'), '#6366f1');
                     updateSimBtn('campos-5ano-outubro-2026', 'btn-portal-5ano', '🚀 5º Ano', data.active_simulados.includes('campos-5ano-outubro-2026'), '#f59e0b');
                 }
             } catch(e) { console.warn('Erro ao carregar simulados ativos:', e); }

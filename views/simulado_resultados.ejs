@@ -598,6 +598,18 @@
         </div>
 
         <div id="gabaritoContent" style="display: none; margin-top: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+          <!-- 4º Ano (Outubro/2026 - Oficial Blocos 1 e 2) -->
+          <div class="gabarito-item" data-simulado="campos-4ano-outubro-2026" data-grade="4º Ano" style="background: #eef2ff; border: 1.5px solid #a5b4fc; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #4338ca; margin-bottom: 0.5rem; border-bottom: 1px solid #c7d2fe; padding-bottom: 0.3rem;">
+              🏅 Gabarito 4º Ano (Outubro/2026 - Oficial Blocos 1 e 2)
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #3730a3; line-height: 1.7;">
+              Q01: <strong>C</strong> | Q02: <strong>B</strong> | Q03: 📝 <em>Redação</em><br>
+              Q04: <strong>B</strong> | Q05: <strong>B</strong> | Q06: <strong>C</strong><br>
+              Q07: <strong>B</strong> | Q08: <strong>C</strong> (75) | Q09: <strong>C</strong> (6)<br>
+              Q10: <strong>C</strong> (Comunicação)
+            </div>
+          </div>
           <!-- 1º Ano (Outubro/2026 - Oficial Blocos 1 e 2) -->
           <div class="gabarito-item" data-simulado="campos-1ano-outubro-2026" data-grade="1º Ano" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #15803d; margin-bottom: 0.5rem; border-bottom: 1px solid #bbf7d0; padding-bottom: 0.3rem;">
@@ -977,6 +989,7 @@
           <tbody>
             <% 
               const masterAnswerKeys = {
+                'campos-4ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'B', 6:'C', 7:'B', 8:'C', 9:'C', 10:'C' },
                 'campos-1ano-outubro-2026': { 1:'D', 2:'B', 3:'C', 4:'A', 5:'A', 6:'C', 7:'C', 8:'D', 9:'B', 10:'D' },
                 'campos-5ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'C', 6:'B', 7:'A', 8:'B', 9:'A', 10:'C', 11:'B', 12:'B' },
                 'campos-3ano-outubro-2026': { 1:'C', 2:'A', 3:'C', 4:'C', 6:'C', 7:'C', 8:'C', 9:'C', '10A':'C', '10B':'C', '10C':'B' },
@@ -1061,14 +1074,16 @@
 
                       for(let qi=0; qi<tableQList.length; qi++) { 
                         const qKey = tableQList[qi];
-                        const isEssay = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
+                        const isEssay = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
+                                        (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                         (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
                                         (simId === 'campos-2ano-setembro-2026' && qKey === '4') ||
                                         (simId === 'campos-3ano-setembro-2026' && qKey === '10') ||
                                         (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
                                         (simId === 'campos-2ano-agosto-2026' && qKey === '5') || 
                                         ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
-                        const essayName = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
+                        const essayName = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
+                                          (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
                                           (simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Produção Textual'));
                         const qLabel = qKey.length === 1 ? '0' + qKey : qKey;
                         if (isEssay) { %>
@@ -1122,14 +1137,16 @@
                         }
                         for(let i=0; i<qList.length; i++) { 
                           const qKey = qList[i];
-                          const isEssay = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
+                          const isEssay = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
+                                        (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                           (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
                                           (simId === 'campos-2ano-setembro-2026' && qKey === '4') ||
                                           (simId === 'campos-3ano-setembro-2026' && qKey === '10') ||
                                           (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
                                           (simId === 'campos-2ano-agosto-2026' && qKey === '5') || 
                                           ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
-                          const essayName = (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
+                          const essayName = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
+                                          (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
                                             (simId === 'campos-5ano-outubro-2026' && qKey === '3') ? 'Redação: O Segredo da Serra do Mar' :
                                             (simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : 
                                             (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Redação'));
