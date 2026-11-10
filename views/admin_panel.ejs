@@ -783,6 +783,24 @@
                         <p style="margin: 0; font-size: 0.9rem; color: #64748b;">
                             Quando desligada, a seção inteira e as provas somem totalmente da página inicial para os alunos.
                         </p>
+
+                        <!-- Botões de Habilitação Individual de Simulados na Área Principal -->
+                        <div style="margin-top: 15px; padding-top: 14px; border-top: 1.5px dashed rgba(0,0,0,0.12);">
+                            <div style="font-weight: 800; font-size: 0.88rem; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+                                <span>🎯</span> <span>Escolha quais simulados aparecem no card da área principal:</span>
+                            </div>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="portalSimuladosButtons">
+                                <button type="button" class="btn-toggle-sim" id="btn-portal-1ano" onclick="togglePortalSimulado('campos-1ano-outubro-2026', this)" style="padding: 8px 16px; border-radius: 25px; font-weight: 800; font-size: 0.85rem; cursor: pointer; border: 2px solid #0284c7; background: #0284c7; color: white; box-shadow: 0 2px 8px rgba(2,132,199,0.25); transition: all 0.2s ease;">
+                                    🎈 1º Ano: CARREGANDO...
+                                </button>
+                                <button type="button" class="btn-toggle-sim" id="btn-portal-3ano" onclick="togglePortalSimulado('campos-3ano-outubro-2026', this)" style="padding: 8px 16px; border-radius: 25px; font-weight: 800; font-size: 0.85rem; cursor: pointer; border: 2px solid #10b981; background: #10b981; color: white; box-shadow: 0 2px 8px rgba(16,185,129,0.25); transition: all 0.2s ease;">
+                                    ⭐ 3º Ano: CARREGANDO...
+                                </button>
+                                <button type="button" class="btn-toggle-sim" id="btn-portal-5ano" onclick="togglePortalSimulado('campos-5ano-outubro-2026', this)" style="padding: 8px 16px; border-radius: 25px; font-weight: 800; font-size: 0.85rem; cursor: pointer; border: 2px solid #f59e0b; background: #f59e0b; color: white; box-shadow: 0 2px 8px rgba(245,158,11,0.25); transition: all 0.2s ease;">
+                                    🚀 5º Ano: CARREGANDO...
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <button type="button" id="btnToggleSimulados" onclick="toggleSimuladosStatus()" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; cursor: pointer; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.2s ease; background: <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '#ef4444' : '#10b981' %>; color: white;">
                         <%= (typeof simuladosEnabled !== 'undefined' && simuladosEnabled) ? '🛑 Desligar / Ocultar Simulados' : '🚀 Ligar / Liberar Simulados' %>
@@ -869,6 +887,19 @@
                         </thead>
                         <tbody>
                             <!-- OUTUBRO / 2026 (OFICIAL SEDUCT) -->
+                            <tr class="admin-sim-row" data-month="Outubro">
+                                <td>
+                                    <strong>🎈 Simulado Oficial 1º Ano — Blocos 1 e 2</strong><br>
+                                    <small style="color: #64748b;">10 Questões (LP, Arte, Geog, Mat, Ciências) • Manhã e Tarde • Outubro/2026 Oficial</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">1º Ano</span></td>
+                                <td><span class="badge" style="background: #fef08a; color: #854d0e; font-weight: 800;">Outubro / 2026 🌟</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo Oficial 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/simulado/campos-1ano-outubro-2026" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-1ano-outubro-2026" class="btn-icon" title="Ver Resultados do 1º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
                             <tr class="admin-sim-row" data-month="Outubro">
                                 <td>
                                     <strong>🚀 Simulado Oficial 5º Ano — Blocos 1 e 2</strong><br>
@@ -1405,6 +1436,68 @@
                 btn.href = `/admin/simulado/resultados${queryString}`;
             }
         }
+
+        async function loadPortalSimuladosStatus() {
+            try {
+                const res = await fetch('/api/admin/portal-simulados');
+                const data = await res.json();
+                if (data.success && data.active_simulados) {
+                    updateSimBtn('campos-1ano-outubro-2026', 'btn-portal-1ano', '🎈 1º Ano', data.active_simulados.includes('campos-1ano-outubro-2026'), '#0284c7');
+                    updateSimBtn('campos-3ano-outubro-2026', 'btn-portal-3ano', '⭐ 3º Ano', data.active_simulados.includes('campos-3ano-outubro-2026'), '#10b981');
+                    updateSimBtn('campos-5ano-outubro-2026', 'btn-portal-5ano', '🚀 5º Ano', data.active_simulados.includes('campos-5ano-outubro-2026'), '#f59e0b');
+                }
+            } catch(e) { console.warn('Erro ao carregar simulados ativos:', e); }
+        }
+
+        function updateSimBtn(id, btnId, label, isEnabled, activeColor) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            if (isEnabled) {
+                btn.style.background = activeColor;
+                btn.style.color = '#ffffff';
+                btn.style.borderColor = activeColor;
+                btn.innerText = label + ': VISÍVEL ✓';
+            } else {
+                btn.style.background = '#f1f5f9';
+                btn.style.color = '#64748b';
+                btn.style.borderColor = '#cbd5e1';
+                btn.innerText = label + ': OCULTO 🔒';
+            }
+        }
+
+        async function togglePortalSimulado(simuladoId, btn) {
+            btn.disabled = true;
+            const originalText = btn.innerText;
+            btn.innerText = 'Salvando...';
+
+            // Verifica estado atual
+            const isCurrentlyActive = !btn.innerText.includes('OCULTO') && btn.style.color === 'rgb(255, 255, 255)';
+            const newState = !isCurrentlyActive;
+
+            try {
+                const res = await fetch('/api/admin/toggle-portal-simulado', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ simulado_id: simuladoId, enabled: newState })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    await loadPortalSimuladosStatus();
+                } else {
+                    alert('Erro: ' + (data.error || 'Falha ao atualizar'));
+                    btn.innerText = originalText;
+                }
+            } catch(e) {
+                alert('Erro de conexão ao salvar: ' + e.message);
+                btn.innerText = originalText;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPortalSimuladosStatus();
+        });
 
         async function toggleSimuladosStatus() {
             const btn = document.getElementById('btnToggleSimulados');

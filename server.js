@@ -768,13 +768,20 @@ app.get('/', async (req, res) => {
   const projects = await dbHelper.getProjects(12);
   const showcaseActivities = await dbHelper.getActivities({});
   const simuladosSetting = await dbHelper.getSetting('simulados_enabled', 'false');
+  const activeSimuladosSetting = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]');
+  let activePortalSimulados = [];
+  try {
+    activePortalSimulados = typeof activeSimuladosSetting === 'string' ? JSON.parse(activeSimuladosSetting) : activeSimuladosSetting;
+  } catch(e) {
+    activePortalSimulados = ["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"];
+  }
   const simuladosEnabled = simuladosSetting === 'true' || simuladosSetting === true;
   const allNews = await dbHelper.getNews();
   const featuredNews = (allNews || []).slice(0, 6);
 
   res.render('index', { 
     activities, showcaseActivities, selectedLevel: level, comments: comments || [], categories: categories || [], subjects: subjects || [], search, 
-    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher, simuladosEnabled, news: featuredNews, adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
+    selectedCategory: category, selectedSubject: subject, bncc, projects: projects || [], teacher, simuladosEnabled, activePortalSimulados, news: featuredNews, adsensePubId: process.env.ADSENSE_PUB_ID || 'ca-pub-4730100335805531'
   });
 });
 
@@ -1132,6 +1139,15 @@ app.get(['/atividades/simulado-campos-5ano-outubro', '/simulado/campos-5ano-outu
   }
 });
 
+app.get(['/atividades/simulado-campos-1ano-outubro', '/simulado/campos-1ano-outubro-2026', '/simulados/1ano-outubro', '/simulado-1ano-outubro', '/simulado/1ano-outubro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_1ano_outubro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_1ano_outubro', { schools: [] });
+  }
+});
+
 app.get(['/atividades/simulado-campos-3ano-outubro', '/simulado/campos-3ano-outubro-2026', '/simulados/3ano-outubro', '/simulado-3ano-outubro'], async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
@@ -1301,7 +1317,8 @@ app.post('/api/simulado/submit', async (req, res) => {
     if (!student_name || !String(student_name).trim()) {
       return res.status(400).json({ success: false, error: 'O nome completo do estudante é obrigatório.' });
     }
-    const resolvedMaxScore = Number(max_score) || (
+    const resolvedMaxScore = Number(max_score) || (
+      simulado_id === 'campos-1ano-outubro-2026' ? 10 :
       simulado_id === 'campos-3ano-outubro-2026' ? 11 :
       simulado_id === 'campos-1ano-setembro-2026' ? 11 :
       simulado_id === 'campos-2ano-setembro-2026' ? 10 :
@@ -1519,6 +1536,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
@@ -1592,6 +1610,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
@@ -3167,6 +3186,41 @@ app.post('/admin/settings', requireAdmin, async (req, res) => {
   const { newPassword, newEmail } = req.body;
   // Implementation for updating admin settings in Supabase if needed
   res.json({ success: true });
+});
+
+app.get('/api/admin/portal-simulados', async (req, res) => {
+  try {
+    const raw = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]');
+    let list = [];
+    try { list = JSON.parse(raw); } catch(e) { list = ["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]; }
+    res.json({ success: true, active_simulados: list });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/admin/toggle-portal-simulado', requireAdmin, async (req, res) => {
+  try {
+    const { simulado_id, enabled } = req.body;
+    if (!simulado_id) return res.status(400).json({ success: false, error: 'simulado_id obrigatório' });
+    
+    const raw = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]');
+    let list = [];
+    try { list = JSON.parse(raw); } catch(e) { list = ["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]; }
+
+    if (enabled) {
+      if (!list.includes(simulado_id)) list.push(simulado_id);
+    } else {
+      list = list.filter(id => id !== simulado_id);
+    }
+
+    await dbHelper.setSetting('active_portal_simulados', JSON.stringify(list));
+    if (typeof clearActivitiesCache === 'function') clearActivitiesCache();
+    res.json({ success: true, active_simulados: list, is_enabled: list.includes(simulado_id) });
+  } catch (err) {
+    console.error('[Admin Toggle Portal Simulado Error]:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 app.post('/api/admin/toggle-simulados', requireAdmin, async (req, res) => {
