@@ -266,14 +266,16 @@
       gap: 0.2rem;
     }
     .q-badge-correct {
-      background: #e0f2fe;
-      color: #0369a1;
-      border: 1px solid #7dd3fc;
+      background: #dcfce7;
+      color: #15803d;
+      border: 1.5px solid #86efac;
+      font-weight: 800;
     }
     .q-badge-wrong {
       background: #fee2e2;
       color: #b91c1c;
-      border: 1px solid #fca5a5;
+      border: 1.5px solid #fca5a5;
+      font-weight: 800;
     }
     .q-badge-essay {
       background: #fef3c7;
@@ -596,6 +598,18 @@
         </div>
 
         <div id="gabaritoContent" style="display: none; margin-top: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+          <!-- 1º Ano (Outubro/2026 - Oficial Blocos 1 e 2) -->
+          <div class="gabarito-item" data-simulado="campos-1ano-outubro-2026" data-grade="1º Ano" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #15803d; margin-bottom: 0.5rem; border-bottom: 1px solid #bbf7d0; padding-bottom: 0.3rem;">
+              🎈 Gabarito 1º Ano (Outubro/2026 - Oficial Blocos 1 e 2)
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #166534; line-height: 1.7;">
+              Q01: <strong>D</strong> (Escola) | Q02: <strong>B</strong> (Pular) | Q03: <strong>C</strong> (Brincadeira)<br>
+              Q04: <strong>A</strong> (Corpo) | Q05: <strong>A</strong> (Ouviu) | Q06: <strong>C</strong> (Caderno)<br>
+              Q07: <strong>C</strong> (8 Bolas) | Q08: <strong>D</strong> (10) | Q09: <strong>B</strong> (Segunda)<br>
+              Q10: <strong>D</strong> (Beber Água)
+            </div>
+          </div>
           <!-- 5º Ano (Outubro/2026 - Oficial Blocos 1 e 2) -->
           <div class="gabarito-item" data-simulado="campos-5ano-outubro-2026" data-grade="5º Ano" style="background: #fdf4ff; border: 1.5px solid #d8b4fe; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #7e22ce; margin-bottom: 0.5rem; border-bottom: 1px solid #f3e8ff; padding-bottom: 0.3rem;">
@@ -963,6 +977,7 @@
           <tbody>
             <% 
               const masterAnswerKeys = {
+                'campos-1ano-outubro-2026': { 1:'D', 2:'B', 3:'C', 4:'A', 5:'A', 6:'C', 7:'C', 8:'D', 9:'B', 10:'D' },
                 'campos-5ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'C', 6:'B', 7:'A', 8:'B', 9:'A', 10:'C', 11:'B', 12:'B' },
                 'campos-3ano-outubro-2026': { 1:'C', 2:'A', 3:'C', 4:'C', 6:'C', 7:'C', 8:'C', 9:'C', '10A':'C', '10B':'C', '10C':'B' },
                 'campos-1ano-setembro-2026': { 1:'A', 2:'A', 3:'A', 4:'B', 5:'A', 6:'A', 7:'B', 8:'B', 9:'C', 10:'A', 11:'A' },
@@ -1129,9 +1144,9 @@
                             const correctAns = key[qKey];
                             const isCorrect = stAns === correctAns;
                           %>
-                            <div style="background: <%= !stAns ? '#f8fafc' : (isCorrect ? '#e0f2fe' : '#fee2e2') %>; border: 1px solid <%= !stAns ? '#e2e8f0' : (isCorrect ? '#7dd3fc' : '#fca5a5') %>; border-radius: 8px; padding: 0.5rem; text-align: center;">
+                            <div style="background: <%= !stAns ? '#f8fafc' : (isCorrect ? '#dcfce7' : '#fee2e2') %>; border: 1px solid <%= !stAns ? '#e2e8f0' : (isCorrect ? '#86efac' : '#fca5a5') %>; border-radius: 8px; padding: 0.5rem; text-align: center;">
                               <div style="font-size: 0.75rem; font-weight: 700; color: #64748b;">Questão <%= qLabel %></div>
-                              <div style="font-size: 0.95rem; font-weight: 800; color: <%= isCorrect ? '#0369a1' : '#b91c1c' %>;">
+                              <div style="font-size: 0.95rem; font-weight: 800; color: <%= isCorrect ? '#15803d' : '#b91c1c' %>;">
                                 <%= stAns || '—' %> <%= isCorrect ? '✓' : '✕' %>
                               </div>
                               <div style="font-size: 0.7rem; color: #64748b;">Gabarito: <strong><%= correctAns || '—' %></strong></div>
