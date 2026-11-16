@@ -16,7 +16,16 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
-            touch-action: none;
+        }
+
+        #game-container, canvas {
+            touch-action: none !important;
+        }
+
+        .modal-screen, .modal-card, .arcade-menu-card, .tux-card, .tux-menu-scroll, .custom-tabuada-box, .chip-grid, .shop-grid-container, .album-scroll-grid, .name-modal-card, .pause-card, .gameover-card, .diploma-modal-card, .blades-grid, .stickers-grid {
+            touch-action: pan-y !important;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
         }
 
         body, html {
@@ -833,14 +842,15 @@
         #start-modal {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 50% 30%, rgba(15, 23, 62, 0.45) 0%, rgba(6, 10, 28, 0.84) 75%, rgba(2, 4, 15, 0.96) 100%), url('dojo-bg.jpg') center/cover no-repeat;
-            backdrop-filter: blur(2px);
+            background-color: #060a1c;
+            background: radial-gradient(circle at 50% 30%, rgba(15, 23, 62, 0.75) 0%, rgba(6, 10, 28, 0.90) 75%, rgba(2, 4, 15, 0.98) 100%), url('dojo-bg.jpg') center/cover no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 200;
-            padding: 16px;
+            padding: 12px;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .arcade-menu-card.tux-card {
@@ -1482,6 +1492,65 @@
         .tux-help-text strong {
             color: #fde047;
             font-size: 0.95rem;
+        }
+
+        /* Responsive Media Queries para Tablets e Telas Menores */
+        @media (max-height: 800px) and (min-width: 861px) {
+            #start-modal {
+                padding: 8px 12px;
+                align-items: flex-start;
+            }
+            .arcade-menu-card.tux-card {
+                max-height: 98vh;
+                gap: 8px;
+            }
+            .tux-brand-stage {
+                margin-bottom: 2px;
+            }
+            .tux-title-3d {
+                font-size: 2.1rem;
+            }
+            .tux-title-katana {
+                font-size: 1.6rem;
+            }
+            .tux-subtitle-ribbon {
+                padding: 2px 10px;
+                font-size: 0.65rem;
+            }
+            .tux-arcade-wrapper {
+                grid-template-columns: 350px 1fr;
+                gap: 12px;
+            }
+            .tux-mascot-badge {
+                width: 68px;
+                height: 68px;
+            }
+            .tux-manga-text {
+                font-size: 0.76rem;
+                line-height: 1.25;
+            }
+            .tux-scroll-card {
+                padding: 6px 10px;
+                margin-bottom: 4px;
+            }
+            .tux-scroll-desc {
+                font-size: 0.74rem;
+                margin: 2px 0 4px;
+            }
+            .tux-btn-play-grand {
+                padding: 10px 16px;
+                font-size: 1.12rem;
+            }
+            .tux-tokens-bar {
+                gap: 6px;
+            }
+            .tux-token-btn {
+                padding: 6px 8px;
+                font-size: 0.74rem;
+            }
+            .tux-menu-scroll {
+                max-height: 52vh;
+            }
         }
 
         /* Responsive Media Queries */
@@ -2141,6 +2210,25 @@
         .trail-ice { background: rgba(56, 189, 248, 0.25); color: #38bdf8; border: 1px solid #0284c7; }
         .trail-dragon { background: linear-gradient(90deg, #f59e0b, #ec4899); color: #fff; }
         .trail-shadow { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid #a855f7; }
+        .trail-spectral { background: linear-gradient(90deg, rgba(56,189,248,0.4), rgba(129,140,248,0.4)); color: #bae6fd; border: 1px solid #38bdf8; }
+        .duel-btn-pulsing { animation: duelPulse 2s infinite ease-in-out; }
+        @keyframes duelPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 5px 0 #3730a3; }
+            50% { transform: scale(1.02); box-shadow: 0 7px 18px rgba(124, 58, 237, 0.55); }
+        }
+        #duel-hud {
+            position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+            display: none; align-items: center; gap: 14px;
+            background: rgba(15, 23, 42, 0.94); border: 2px solid #7c3aed;
+            border-radius: 40px; padding: 6px 20px; z-index: 250;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5); font-family: 'Fredoka', cursive;
+        }
+        #duel-smoke-overlay {
+            position: absolute; inset: 0; pointer-events: none; z-index: 260;
+            display: none; background: radial-gradient(circle, rgba(71,85,105,0.92) 0%, rgba(15,23,42,0.96) 100%);
+            opacity: 0; transition: opacity 0.3s ease;
+            align-items: center; justify-content: center; flex-direction: column; text-align: center;
+        }
 
         .btn-blade-equip {
             background: linear-gradient(135deg, #22c55e, #16a34a);
@@ -2557,13 +2645,27 @@
             <div class="bullet-time-banner">⏳ CÂMERA LENTA NINJA! ⏱️</div>
         </div>
 
+        <!-- HUD de Duelo Online -->
+        <div id="duel-hud">
+            <div style="color: #38bdf8; font-weight: 800; font-size: 0.95rem;"><span id="duel-my-name">Você</span>: <strong id="duel-my-score" style="color:#fde047;">0</strong></div>
+            <div style="background: #e11d48; color: white; padding: 3px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 800;">⏱️ <span id="duel-timer-val">60s</span></div>
+            <div style="color: #f43f5e; font-weight: 800; font-size: 0.95rem;"><span id="duel-rival-name">Adversário</span>: <strong id="duel-rival-score" style="color:#fde047;">0</strong></div>
+        </div>
+
+        <!-- Efeito de Bomba de Fumaça do Duelo -->
+        <div id="duel-smoke-overlay">
+            <div style="font-size: 4rem;">💨</div>
+            <div style="color: #fde047; font-size: 1.5rem; font-weight: 900; margin: 4px 0;">BOMBA DE FUMAÇA!</div>
+            <p style="color: #cbd5e1; font-size: 0.95rem;">O adversário jogou uma bomba ninja para cobrir sua visão!</p>
+        </div>
+
         <!-- Mascote Ninja Interativo em Alta Definição -->
         <div class="mascot-widget" id="mascot-widget" style="display:none;">
             <div class="mascot-speech-bubble" id="mascot-bubble">
                 <span id="mascot-bubble-text">Vamos treinar!</span>
             </div>
             <div class="mascot-avatar-frame" id="mascot-frame">
-                <img src="mascot-panda.jpg" id="mascot-img" alt="Mascote Ninja">
+                <img src="mascot-panda.jpg" id="mascot-img" alt="Mascote Ninja" onerror="this.onerror=null; this.src='cover.jpg';">
                 <div class="mascot-tag" id="mascot-tag">🐼 Panda Po</div>
             </div>
         </div>
@@ -2667,8 +2769,8 @@
                     <div class="tux-left-panel">
                         <!-- Mascote Interativo Showcase com Balão Estilo Mangá -->
                         <div class="tux-mascot-showcase">
-                            <div class="tux-mascot-badge" id="tux-mascot-img-wrap">
-                                <img src="mascot-panda.jpg" id="tux-mascot-img" alt="Mascote Ninja">
+                            <div class="tux-mascot-badge" id="tux-mascot-img-wrap" onclick="handleSenseiSecretClick()" style="cursor: pointer;" title="Toque no Mestre Po para interagir!">
+                                <img src="mascot-panda.jpg" id="tux-mascot-img" alt="Mascote Ninja" onerror="this.onerror=null; this.src='cover.jpg';">
                             </div>
                             <div class="tux-manga-bubble">
                                 <div class="tux-manga-author" id="tux-mascot-name">🐼 Mestre Po diz:</div>
@@ -2701,6 +2803,11 @@
                             <span>⚔️ ENTRAR NO DOJO!</span> 🚀
                         </button>
 
+                        <!-- Botão Modo Duelo 1 vs 1 -->
+                        <button type="button" class="tux-btn-play-grand duel-btn-pulsing" onclick="openDuelModal()" style="margin-top: 8px; background: linear-gradient(135deg, #7c3aed, #4f46e5); box-shadow: 0 5px 0 #3730a3; border: 2px solid #c4b5fd;">
+                            <span>⚔️ MODO DUELO (1 vs 1 ONLINE)</span> 🌐
+                        </button>
+
                         <!-- Arcade Hub Bar (Tokens estilo ficha arcade) -->
                         <div class="tux-tokens-bar">
                             <button type="button" class="tux-token-btn token-shop" onclick="openDojoShop()" title="Loja de Katanas">
@@ -2714,6 +2821,9 @@
                             </button>
                             <button type="button" class="tux-token-btn token-diploma" onclick="openDiplomaModal()" title="Diploma de Honra">
                                 📜 DIPLOMA
+                            </button>
+                            <button type="button" class="tux-token-btn token-haptic" id="haptic-toggle-btn" onclick="haptic.toggle()" title="Alternar Vibração Tátil">
+                                📳 VIBRAÇÃO: ON
                             </button>
                         </div>
                     </div>
@@ -3038,6 +3148,18 @@
                             <button class="btn-blade-buy" onclick="buyBlade('dragon', 1000)">💰 1.000 Moedas</button>
                         </div>
                     </div>
+
+                    <div class="blade-card" id="blade-card-spectral">
+                        <div class="blade-icon-big">🌀</div>
+                        <div class="blade-info">
+                            <h4>Sabre Espectral dos Mestres</h4>
+                            <p>Lâmina mística secreta. Corta o ar com fogo cósmico azul e faíscas estelares cintilantes!</p>
+                            <span class="blade-trail-preview trail-spectral">Rastro Espectral Cósmico ✨</span>
+                        </div>
+                        <div class="blade-action" id="blade-action-spectral">
+                            <span style="font-size:0.8rem; color:#38bdf8; font-weight:800;">🔒 Segredo Oculto do Dojo</span>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="button" class="btn-top" onclick="closeDojoShop()" style="margin-top: 14px; width: 100%; justify-content: center; padding: 12px; font-size: 1rem; border-radius: 50px; background: rgba(255,255,255,0.15);">
@@ -3275,6 +3397,139 @@
                         CONTINUAR TREINO 🥋
                     </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Modal Secreto: Segredo Oculto dos Mestres Ninjas (Easter Egg) -->
+        <div class="modal-screen" id="secret-ninja-modal" style="display:none; z-index: 600;">
+            <div class="modal-card" style="border: 3.5px solid #38bdf8; box-shadow: 0 0 50px rgba(56, 189, 248, 0.65); max-width: 520px; text-align: center; background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0f172a 100%);">
+                <div style="font-size: 4.8rem; filter: drop-shadow(0 0 20px #38bdf8); animation: katanaGlow 2s infinite alternate;">📜🌀✨</div>
+                <h2 style="font-family: 'Fredoka', cursive; font-size: 2.1rem; color: #38bdf8; margin: 8px 0; text-shadow: 0 2px 10px rgba(56, 189, 248, 0.5);">SEGREDO NINJA REVELADO!</h2>
+                <p style="color: #fde047; font-size: 1.05rem; font-weight: 700; margin-bottom: 12px;">
+                    Incrível! Você decifrou o enigma secreto dos Mestres e desbloqueou a Lâmina Oculta!
+                </p>
+                <div style="background: rgba(56, 189, 248, 0.15); border: 2px dashed #38bdf8; border-radius: 14px; padding: 12px; margin-bottom: 16px; text-align: left;">
+                    <div style="color: #fff; font-weight: 800; font-size: 0.95rem; margin-bottom: 6px;">🎁 RECOMPENSAS SECRETAS DESBLOQUEADAS:</div>
+                    <ul style="list-style: none; padding-left: 0; color: #e0f2fe; font-size: 0.9rem; line-height: 1.6;">
+                        <li>💰 <strong>+150 Moedas Ninja</strong> para o seu cofrinho!</li>
+                        <li>🗡️ <strong>Sabre Espectral dos Mestres</strong> equipado e liberado no Dojo!</li>
+                        <li>🎴 <strong>Pergaminho Proibido dos Mestres</strong> adicionado ao seu Álbum!</li>
+                        <li>📜 <strong>Pergaminhos Místicos Bônus (+300 pts)</strong> agora surgem no treino!</li>
+                    </ul>
+                </div>
+                <button type="button" class="btn-play-grand" onclick="closeSecretNinjaModal()" style="background: linear-gradient(135deg, #0284c7, #2563eb); font-size: 1.05rem; padding: 12px 28px; width: 100%; border: 2px solid #93c5fd;">
+                    🥋 EQUIPAR LÂMINA & CONTINUAR!
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal: Modo Duelo 1 vs 1 (Multiplayer Online em Rede Local / Tablets) -->
+        <div class="modal-screen" id="duel-modal" style="display:none; z-index: 550;">
+            <div class="modal-card" style="max-width: 520px; border: 2px solid #7c3aed; background: #0f172a; box-shadow: 0 0 30px rgba(124, 58, 237, 0.35);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                    <h2 class="modal-title" style="margin:0; font-size: 1.6rem; color:#a78bfa;">⚔️ MODO DUELO 1 vs 1</h2>
+                    <button type="button" onclick="closeDuelModal()" style="background:none; border:none; color:#94a3b8; font-size: 1.5rem; cursor:pointer;">✖</button>
+                </div>
+                <p style="color:#cbd5e1; font-size:0.9rem; margin-bottom: 14px;">Desafie um colega de classe em tempo real! Cada um joga na sua máquina ou tablet com as mesmas tabuadas.</p>
+
+                <!-- Abas Criar / Entrar -->
+                <div style="display:flex; gap:8px; margin-bottom: 16px;">
+                    <button type="button" id="tab-btn-create-duel" class="btn-top active" onclick="switchDuelTab('create')" style="flex:1; justify-content:center; padding:10px; font-weight:800; border-radius:12px; background:#7c3aed;">
+                        1. CRIAR SALA 👑
+                    </button>
+                    <button type="button" id="tab-btn-join-duel" class="btn-top" onclick="switchDuelTab('join')" style="flex:1; justify-content:center; padding:10px; font-weight:800; border-radius:12px; background:rgba(255,255,255,0.1);">
+                        2. ENTRAR EM SALA 🚀
+                    </button>
+                </div>
+
+                <!-- Painel Criar Sala -->
+                <div id="duel-panel-create">
+                    <div style="background:rgba(255,255,255,0.05); padding:14px; border-radius:12px; margin-bottom: 14px;">
+                        <label style="color:#e2e8f0; font-size:0.85rem; font-weight:700; display:block; margin-bottom:6px;">DURAÇÃO DA BATALHA:</label>
+                        <div style="display:flex; gap:10px;">
+                            <label style="flex:1; background:#1e293b; padding:8px; border-radius:8px; text-align:center; color:white; font-size:0.9rem; cursor:pointer;">
+                                <input type="radio" name="duel_duration" value="60" checked> 60 Segundos
+                            </label>
+                            <label style="flex:1; background:#1e293b; padding:8px; border-radius:8px; text-align:center; color:white; font-size:0.9rem; cursor:pointer;">
+                                <input type="radio" name="duel_duration" value="90"> 90 Segundos
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="duel-create-idle-view">
+                        <button type="button" class="btn-play-grand" onclick="requestCreateDuel()" style="width:100%; background:linear-gradient(135deg, #7c3aed, #4f46e5); font-size:1.1rem; padding:14px; box-shadow:0 4px 14px rgba(124, 58, 237, 0.4);">
+                            GERAR CÓDIGO DO DUELO ⚡
+                        </button>
+                    </div>
+
+                    <div id="duel-create-waiting-view" style="display:none; text-align:center; padding:12px; background:rgba(124,58,237,0.15); border:2px dashed #7c3aed; border-radius:16px;">
+                        <p style="color:#c4b5fd; font-size:0.95rem; font-weight:700; margin-bottom:6px;">Diga este PIN para seu adversário:</p>
+                        <div id="duel-display-pin" style="font-family:'Fredoka', cursive; font-size:3.5rem; letter-spacing:8px; color:#fde047; font-weight:900; text-shadow:0 0 20px rgba(253,224,71,0.5);">----</div>
+                        <p style="color:#94a3b8; font-size:0.85rem; margin-top:6px;">Aguardando oponente entrar no jogo dele...</p>
+                        <div style="margin-top:12px; display:inline-block; padding:4px 14px; border-radius:20px; background:#1e293b; color:#38bdf8; font-size:0.85rem; font-weight:700;">
+                            📡 Procurando duelista na rede...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Entrar em Sala -->
+                <div id="duel-panel-join" style="display:none;">
+                    <div style="background:rgba(255,255,255,0.05); padding:16px; border-radius:12px; text-align:center; margin-bottom: 14px;">
+                        <label style="color:#e2e8f0; font-size:0.95rem; font-weight:700; display:block; margin-bottom:10px;">DIGITE O PIN DE 4 DÍGITOS DA SALA:</label>
+                        <input type="text" id="duel-join-input" maxlength="4" placeholder="0000" style="width:180px; text-align:center; font-family:'Fredoka', cursive; font-size:2.4rem; letter-spacing:6px; padding:8px; border-radius:12px; border:2px solid #7c3aed; background:#020617; color:#fde047; font-weight:900; outline:none;">
+                        <p style="color:#94a3b8; font-size:0.82rem; margin-top:8px;">Peça o PIN para quem criou a sala.</p>
+                    </div>
+
+                    <button type="button" class="btn-play-grand" onclick="requestJoinDuel()" style="width:100%; background:linear-gradient(135deg, #059669, #10b981); font-size:1.1rem; padding:14px; box-shadow:0 4px 14px rgba(16, 185, 129, 0.4);">
+                        ENTRAR E DUELAR! ⚔️
+                    </button>
+                </div>
+
+                <!-- Painel de Contagem Regressiva Sincronizada -->
+                <div id="duel-panel-countdown" style="display:none; text-align:center; padding:20px;">
+                    <div style="color:#38bdf8; font-size:1.2rem; font-weight:800; margin-bottom:8px;">DUELO ENCONTRADO!</div>
+                    <div style="display:flex; justify-content:center; align-items:center; gap:16px; margin: 16px 0;">
+                        <div style="background:#1e293b; padding:10px 18px; border-radius:12px; border:2px solid #38bdf8;">
+                            <div style="font-size:1.8rem;">🥷</div>
+                            <strong id="duel-cd-p1" style="color:#bae6fd; font-size:0.95rem;">Jogador 1</strong>
+                        </div>
+                        <div style="font-size:1.8rem; font-weight:900; color:#f43f5e;">VS</div>
+                        <div style="background:#1e293b; padding:10px 18px; border-radius:12px; border:2px solid #f43f5e;">
+                            <div style="font-size:1.8rem;">🥷</div>
+                            <strong id="duel-cd-p2" style="color:#fecdd3; font-size:0.95rem;">Jogador 2</strong>
+                        </div>
+                    </div>
+                    <div id="duel-cd-number" style="font-family:'Fredoka', cursive; font-size:4.5rem; color:#fde047; font-weight:900; text-shadow:0 0 25px rgba(253,224,71,0.7); animation: bounce 0.6s infinite alternate;">3</div>
+                    <div style="color:#cbd5e1; font-size:0.95rem;">Preparem suas lâminas!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Resultado do Duelo -->
+        <div class="modal-screen" id="duel-result-modal" style="display:none; z-index: 600;">
+            <div class="modal-card" style="max-width: 480px; text-align: center; border: 3px solid #7c3aed; background: radial-gradient(circle, #1e1b4b, #0f172a); box-shadow: 0 0 35px rgba(124, 58, 237, 0.4);">
+                <div id="duel-result-icon" style="font-size: 4rem; margin-bottom: 8px;">🏆</div>
+                <h2 id="duel-result-title" class="modal-title" style="color: #fde047; font-size: 1.8rem; margin-bottom: 6px;">VITÓRIA NINJA!</h2>
+                <p id="duel-result-subtitle" style="color: #38bdf8; font-size: 1.05rem; font-weight: 800; margin-bottom: 16px;">Você dominou a arte da tabuada!</p>
+                
+                <div style="display:flex; justify-content:center; gap:20px; margin-bottom: 20px;">
+                    <div style="background:#1e293b; padding:12px 20px; border-radius:14px; border:2px solid #38bdf8; flex:1;">
+                        <div style="font-size:0.8rem; color:#94a3b8;">VOCÊ</div>
+                        <div id="duel-res-my-name" style="font-weight:800; color:#bae6fd; font-size:0.95rem; margin-bottom:4px;">Ninja</div>
+                        <div id="duel-res-my-score" style="font-size:1.8rem; font-weight:900; color:#fde047;">0</div>
+                        <div style="font-size:0.75rem; color:#64748b;">PONTOS</div>
+                    </div>
+                    <div style="background:#1e293b; padding:12px 20px; border-radius:14px; border:2px solid #f43f5e; flex:1;">
+                        <div style="font-size:0.8rem; color:#94a3b8;">ADVERSÁRIO</div>
+                        <div id="duel-res-rival-name" style="font-weight:800; color:#fecdd3; font-size:0.95rem; margin-bottom:4px;">Rival</div>
+                        <div id="duel-res-rival-score" style="font-size:1.8rem; font-weight:900; color:#f87171;">0</div>
+                        <div style="font-size:0.75rem; color:#64748b;">PONTOS</div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-play-grand" onclick="closeDuelResultModal()" style="background: linear-gradient(135deg, #7c3aed, #4f46e5); font-size: 1.05rem; padding: 12px 28px; width: 100%; border: 2px solid #c4b5fd;">
+                    VOLTAR AO DOJO 🥋
+                </button>
             </div>
         </div>
     </div>
@@ -3775,14 +4030,15 @@
             { name: "Faixa Preta", minScore: 32000, color: "#18181b", icon: "👑" }
         ];
 
-        // --- Blade Config (5 Lâminas Mágicas do Dojo) ---
+        // --- Blade Config (Lâminas Mágicas do Dojo + Lâmina Secreta do Coelho da Páscoa) ---
         const BLADE_STYLES = {
             steel: { id: 'steel', name: "Katana de Bambu & Aço", color: "#38bdf8", glow: "#bae6fd", width: 7, particleColor: "#e0f2fe", type: 'steel' },
             fire: { id: 'fire', name: "Katana Flamejante do Vulcão", color: "#f97316", glow: "#ef4444", width: 11, particleColor: "#fde047", type: 'fire' },
             lightning: { id: 'lightning', name: "Sabre do Trovão Elétrico", color: "#06b6d4", glow: "#3b82f6", width: 10, particleColor: "#93c5fd", type: 'lightning' },
             shadow: { id: 'shadow', name: "Katana Mística das Sombras", color: "#c084fc", glow: "#7e22ce", width: 11, particleColor: "#e879f9", type: 'shadow' },
             ice: { id: 'ice', name: "Lâmina Glacial do Monte Fuji", color: "#38bdf8", glow: "#0284c7", width: 9, particleColor: "#e0f2fe", type: 'ice' },
-            dragon: { id: 'dragon', name: "Espada Dourada do Dragão Celestial", color: "#fbbf24", glow: "#f59e0b", width: 12, particleColor: "#fef08a", type: 'dragon' }
+            dragon: { id: 'dragon', name: "Espada Dourada do Dragão Celestial", color: "#fbbf24", glow: "#f59e0b", width: 12, particleColor: "#fef08a", type: 'dragon' },
+            spectral: { id: 'spectral', name: "Sabre Espectral", color: "#38bdf8", glow: "#818cf8", width: 14, particleColor: "#67e8f9", type: 'spectral' }
         };
 
         // --- Arenas Dinâmicas ---
@@ -3839,12 +4095,39 @@
             { type: 'grapes', name: 'Uva', color: '#7c3aed', innerColor: '#c084fc', seedColor: '#4c1d95', radius: 52 }
         ];
 
+        // --- Safe Storage Wrapper (Prevenção total contra erros de Quota / SecurityError em Tablets) ---
+        const safeStorage = {
+            _mem: {},
+            getItem(key) {
+                try {
+                    return localStorage.getItem(key);
+                } catch(e) {
+                    return this._mem[key] || null;
+                }
+            },
+            setItem(key, val) {
+                try {
+                    localStorage.setItem(key, String(val));
+                } catch(e) {
+                    this._mem[key] = String(val);
+                }
+            },
+            getJSON(key, defaultVal) {
+                try {
+                    const raw = this.getItem(key);
+                    return raw ? JSON.parse(raw) : defaultVal;
+                } catch(e) {
+                    return defaultVal;
+                }
+            }
+        };
+
         // --- State Variables ---
         let canvas, ctx;
         let width, height;
         let selectedTab = 'bncc'; // 'bncc' or 'custom'
         let selectedLevel = '1';
-        let selectedBlade = localStorage.getItem('ninja_equipped_blade') || 'steel';
+        let selectedBlade = safeStorage.getItem('ninja_equipped_blade') || 'steel';
         let gameMode = 'classic'; // 'classic', 'blitz', 'zen'
         let gameState = 'MENU'; // MENU, PLAYING, PAUSED, BELT_PROMOTION, GAMEOVER
         let score = 0;
@@ -3886,13 +4169,65 @@
         }
 
         // Student Profile & Currency & Blades
-        let studentName = localStorage.getItem('ninja_student_name') || '';
-        let roomPin = localStorage.getItem('ninja_room_pin') || '';
-        let playerCoins = parseInt(localStorage.getItem('ninja_coins') || '0', 10);
-        let unlockedBlades = JSON.parse(localStorage.getItem('ninja_blades') || '["steel"]');
-        let currentBlade = localStorage.getItem('ninja_equipped_blade') || 'steel';
+        let studentName = safeStorage.getItem('ninja_student_name') || '';
+        let roomPin = safeStorage.getItem('ninja_room_pin') || '';
+        let playerCoins = parseInt(safeStorage.getItem('ninja_coins') || '0', 10);
+        let unlockedBlades = safeStorage.getJSON('ninja_blades', ['steel']);
+        let currentBlade = safeStorage.getItem('ninja_equipped_blade') || 'steel';
         let vkBuffer = '';
         let currentLbTab = '1-2';
+
+        // Feedback Háptico Tátil (Vibração)
+        const haptic = {
+            enabled: safeStorage.getJSON('ninja_haptic_enabled', true),
+            vibrate(pattern) {
+                if (!this.enabled || typeof navigator === 'undefined' || !navigator.vibrate) return;
+                try { navigator.vibrate(pattern); } catch(e) {}
+            },
+            slice() { this.vibrate(14); },
+            combo() { this.vibrate([15, 30, 25]); },
+            bomb() { this.vibrate([60, 40, 120]); },
+            wrong() { this.vibrate([35, 40, 35]); },
+            fever() { this.vibrate([20, 20, 20, 20, 35]); },
+            secret() { this.vibrate([30, 40, 50, 40, 70]); },
+            tap() { this.vibrate(10); },
+            toggle() {
+                this.enabled = !this.enabled;
+                safeStorage.setItem('ninja_haptic_enabled', JSON.stringify(this.enabled));
+                if (this.enabled) this.tap();
+                updateHapticBtnUI();
+                return this.enabled;
+            }
+        };
+
+        function updateHapticBtnUI() {
+            const btn = document.getElementById('haptic-toggle-btn');
+            if (btn) {
+                btn.innerHTML = haptic.enabled ? '📳 VIBRAÇÃO: ON' : '📴 VIBRAÇÃO: OFF';
+                btn.style.opacity = haptic.enabled ? '1' : '0.6';
+            }
+        }
+
+        // Segredos Ocultos dos Mestres (Gamer Easter Eggs)
+        let secretNinjaUnlocked = safeStorage.getJSON('ninja_secret_unlocked', false);
+        let secretScrollActiveForMatch = false;
+        let senseiSecretClickCount = 0;
+        let lastSenseiSecretClickTime = 0;
+
+        // Estado do Modo Duelo 1 vs 1 Online
+        const duelState = {
+            active: false,
+            roomCode: null,
+            playerId: null,
+            playerSlot: null,
+            rivalName: 'Adversário',
+            pollInterval: null,
+            syncInterval: null,
+            durationSec: 60,
+            timeLeft: 60,
+            seed: null,
+            isHost: false
+        };
 
         // Bullet Time (Câmera Lenta Ninja)
         let timeScale = 1.0;
@@ -3956,7 +4291,7 @@
         ];
         let activeMatchMissions = [];
 
-        // Item 8: Catálogo de Adesivos Colecionáveis
+        // Item 8: Catálogo de Adesivos Colecionáveis (+ Adesivo Secreto de Páscoa)
         const STICKERS_CATALOG = [
             { id: 's1', name: 'Ninjinha Maçã', rarity: 'common', stars: '★', icon: '🍎', desc: 'Rápido e suculento nos cortes básicos.' },
             { id: 's2', name: 'Melancia Samurai', rarity: 'common', stars: '★', icon: '🍉', desc: 'Resistente e com grande corte diagonal.' },
@@ -3969,9 +4304,10 @@
             { id: 's9', name: 'Floco do Fuji', rarity: 'rare', stars: '★★', icon: '❄️', desc: 'Gelo eterno que desacelera o tempo.' },
             { id: 's10', name: 'Shogun das Contas', rarity: 'legendary', stars: '★★★', icon: '👹', desc: 'O temido senhor samurai dos números.' },
             { id: 's11', name: 'Dragão Cósmico', rarity: 'legendary', stars: '★★★', icon: '🐉', desc: 'Guardião dourado dos maiores ninjas.' },
-            { id: 's12', name: 'Mestre Panda Sensei', rarity: 'legendary', stars: '★★★', icon: '🐼', desc: 'O lendário mestre que guia os campeões.' }
+            { id: 's12', name: 'Mestre Panda Sensei', rarity: 'legendary', stars: '★★★', icon: '🐼', desc: 'O lendário mestre que guia os campeões.' },
+            { id: 's_secret', name: 'Pergaminho Proibido dos Mestres', rarity: 'legendary', stars: '★★★', icon: '📜', desc: 'Segredo oculto guardado a sete chaves no Dojo Lab Kids!' }
         ];
-        let unlockedStickers = JSON.parse(localStorage.getItem('ninja_stickers') || '["s1"]');
+        let unlockedStickers = safeStorage.getJSON('ninja_stickers', ['s1']);
 
         function updateShieldHUD() {
             const pill = document.getElementById('shield-pill');
@@ -4558,12 +4894,15 @@
 
         function resize() {
             const container = document.getElementById('game-container');
-            width = container.clientWidth;
-            height = container.clientHeight;
-            const dpr = window.devicePixelRatio || 1;
+            if (!container || !canvas) return;
+            width = container.clientWidth || window.innerWidth || 800;
+            height = container.clientHeight || (window.innerHeight - 52) || 600;
+            const dpr = Math.min(2, window.devicePixelRatio || 1);
             canvas.width = width * dpr;
             canvas.height = height * dpr;
-            ctx.scale(dpr, dpr);
+            if (ctx) {
+                ctx.scale(dpr, dpr);
+            }
         }
 
         function initPetals() {
@@ -5661,9 +6000,65 @@
             }
         }
 
-        // --- Spawner Logic ---
+        // --- Spawner Logic & Watchdog Anti-Travamento Permanente ---
         let lastSpawnTime = 0;
-        let spawnerWatchdogTime = 0;
+        let lastWaveSpawnTime = Date.now();
+        let waveTransitionTimer = null;
+
+        function scheduleNextWave(delayMs = 800, immediate = false) {
+            if (gameState !== 'PLAYING') return;
+            if (waveTransitionTimer) {
+                clearTimeout(waveTransitionTimer);
+                waveTransitionTimer = null;
+            }
+            waveTimer = Date.now() + delayMs;
+
+            if (immediate || delayMs <= 0) {
+                activeFruits = activeFruits.filter(f => f.isHalf);
+                lastWaveSpawnTime = Date.now();
+                nextTarget();
+                spawnWave();
+            } else {
+                waveTransitionTimer = setTimeout(() => {
+                    waveTransitionTimer = null;
+                    if (gameState === 'PLAYING') {
+                        activeFruits = activeFruits.filter(f => f.isHalf);
+                        lastWaveSpawnTime = Date.now();
+                        nextTarget();
+                        spawnWave();
+                    }
+                }, delayMs);
+            }
+        }
+
+        function checkAntiFreezeWatchdog() {
+            if (gameState !== 'PLAYING') return;
+            const now = Date.now();
+
+            // 1. Remove qualquer fruta com coordenadas NaN, infinitas ou fora dos limites absurdos
+            for (let i = activeFruits.length - 1; i >= 0; i--) {
+                const f = activeFruits[i];
+                if (!f) {
+                    activeFruits.splice(i, 1);
+                    continue;
+                }
+                if (isNaN(f.x) || isNaN(f.y) || isNaN(f.vx) || isNaN(f.vy) ||
+                    f.x < -400 || f.x > (width || 1200) + 400 ||
+                    f.y > (height || 800) + 250) {
+                    activeFruits.splice(i, 1);
+                }
+            }
+
+            // 2. Destravamento automático se a tela ficou vazia ou se passou mais de 6.5s sem nova onda
+            const activeUncut = activeFruits.filter(f => !f.isHalf && !f.sliced);
+            if (activeUncut.length === 0 && !waveTransitionTimer && now > waveTimer + 600) {
+                scheduleNextWave(0, true);
+            } else if (now - lastWaveSpawnTime > 6500) {
+                activeFruits = activeFruits.filter(f => f.isHalf);
+                scheduleNextWave(0, true);
+            }
+        }
+
         function updateSpawner() {
             if (gameState !== 'PLAYING') return;
 
@@ -5683,36 +6078,16 @@
                     }
                     setFrenzyGlow(false);
                     document.getElementById('frenzy-banner').classList.remove('show');
-                    // Remove frutas de frenesi restantes e retoma as contas normais
                     activeFruits = activeFruits.filter(f => !f.isFrenzyBonus);
-                    waveTimer = now + 900;
+                    scheduleNextWave(800);
                 }
                 return;
             }
 
             // Modo Normal: 1 onda pedagógica por vez
-            // Frutas ativas não cortadas da rodada atual
             const activeUncutFruits = activeFruits.filter(f => !f.isHalf && !f.sliced);
-
-            if (activeUncutFruits.length === 0 && now > waveTimer) {
-                activeFruits = activeFruits.filter(f => f.isHalf);
-                spawnerWatchdogTime = 0;
-                waveTimer = now + 900;
-                nextTarget();
-                spawnWave();
-            } else if (activeUncutFruits.length === 0) {
-                // Watchdog de Segurança: se não há nenhuma fruta ativa por mais de 1.8 segundos, destrava e gera nova onda
-                if (!spawnerWatchdogTime) {
-                    spawnerWatchdogTime = now;
-                } else if (now - spawnerWatchdogTime > 1800) {
-                    spawnerWatchdogTime = 0;
-                    activeFruits = activeFruits.filter(f => f.isHalf);
-                    waveTimer = now + 900;
-                    nextTarget();
-                    spawnWave();
-                }
-            } else {
-                spawnerWatchdogTime = 0;
+            if (activeUncutFruits.length === 0 && now > waveTimer && !waveTransitionTimer) {
+                scheduleNextWave(0, true);
             }
         }
 
@@ -5838,6 +6213,14 @@
                 spawnBomb(bombX, bombVx);
             }
 
+            // Fruta Especial: 📜 Pergaminho Sagrado dos Mestres (Segredo Oculto / Easter Egg)
+            if (!frenzyMode && (Math.random() < 0.08 || secretScrollActiveForMatch) && !activeFruits.some(f => f.isSecretScroll)) {
+                const scrollFromLeft = Math.random() < 0.5;
+                const scrollX = scrollFromLeft ? width * 0.22 : width * 0.78;
+                const scrollVx = (scrollFromLeft ? 1 : -1) * (2.0 + Math.random() * 0.8) * mult;
+                spawnSecretScrollFruit(scrollX, scrollVx);
+            }
+
             // Distratores protegidos contra loops infinitos e travamento do jogo
             let distractors = [];
             if (currentTarget.distractors && Array.isArray(currentTarget.distractors)) {
@@ -5876,16 +6259,56 @@
             }
         }
 
+        function spawnSecretScrollFruit(customX = null, customVx = null) {
+            const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
+            const fromLeft = Math.random() < 0.5;
+            const startX = customX !== null ? customX : (fromLeft ? (width || 800) * 0.22 : (width || 800) * 0.78);
+            const startY = (height || 600) + 50;
+            const apexY = (height || 600) * 0.22;
+            const gravity = Math.max(0.04, spd.gravity * 0.85);
+            const timeToApex = Math.sqrt(Math.max(10, startY - apexY) / (0.5 * gravity));
+            const vy = -gravity * timeToApex;
+            const sideBias = (startX < (width || 800) * 0.5) ? 1 : -1;
+            const vx = customVx !== null ? customVx : sideBias * (2.0 + Math.random() * 0.8) * (spd.vxMultiplier || 1.0);
+
+            activeFruits.push({
+                x: startX,
+                y: startY,
+                vx: vx,
+                vy: vy,
+                gravity: gravity,
+                hangFramesLeft: 45,
+                isHanging: false,
+                angle: 0,
+                vAngle: 0.025,
+                radius: 48,
+                template: { type: 'secret_scroll', name: 'Pergaminho Místico', color: '#38bdf8', innerColor: '#e0f2fe', seedColor: '#fde047', radius: 48 },
+                value: '📜',
+                isSecretScroll: true,
+                isGolden: false,
+                isCorrect: false,
+                isMathAnswer: false,
+                isSpecialMulti: false,
+                isPowerUp: null,
+                isFrenzyBonus: false,
+                isMini: false,
+                isBomb: false,
+                sliced: false
+            });
+            spawnFloatingText(width / 2, height * 0.32, '📜 PERGAMINHO MÍSTICO MÁGICO! ✨', '#38bdf8', 24);
+        }
+
         function spawnFruit(isGolden = false, isCorrect = false, customX = null, customVal = null, customTemplate = null, customVx = null, customApexY = null, isMathAnswer = false) {
             const spd = SPEED_MODES[currentSpeed] || SPEED_MODES.calmo;
             const template = customTemplate || FRUIT_TYPES[Math.floor(Math.random() * FRUIT_TYPES.length)];
             
-            const startX = customX !== null ? customX : width * (Math.random() * 0.6 + 0.2);
-            const startY = height + 50;
-            const apexY = customApexY !== null ? customApexY : height * (Math.random() * 0.15 + 0.22);
-            const gravity = spd.gravity * (frenzyMode ? 0.7 : (Date.now() < slowMoUntil ? 0.45 : 1));
+            const startX = customX !== null ? customX : (width || 800) * (Math.random() * 0.6 + 0.2);
+            const startY = (height || 600) + 50;
+            const targetApex = customApexY !== null ? customApexY : (height || 600) * (Math.random() * 0.15 + 0.22);
+            const apexY = Math.max((height || 600) * 0.15, Math.min((height || 600) * 0.45, targetApex));
+            const gravity = Math.max(0.04, spd.gravity * (frenzyMode ? 0.7 : (Date.now() < slowMoUntil ? 0.45 : 1)));
 
-            const timeToApex = Math.sqrt((startY - apexY) / (0.5 * gravity));
+            const timeToApex = Math.sqrt(Math.max(10, startY - apexY) / (0.5 * gravity));
             const vy = -gravity * timeToApex;
             
             // Define velocidade horizontal (vx) diagonal estilo Fruit Ninja
@@ -6155,6 +6578,7 @@
                 isSwiping = true;
                 const pt = getCanvasCoords(e.clientX, e.clientY);
                 addSwipePoint(pt.x, pt.y);
+                sound.init();
                 sound.playSwoosh();
                 tryStartMusic();
             });
@@ -6171,10 +6595,13 @@
             });
 
             container.addEventListener('touchstart', (e) => {
+                if (e.cancelable) e.preventDefault();
                 isSwiping = true;
                 const touch = e.touches[0];
+                if (!touch) return;
                 const pt = getCanvasCoords(touch.clientX, touch.clientY);
                 addSwipePoint(pt.x, pt.y);
+                sound.init();
                 sound.playSwoosh();
                 tryStartMusic();
             }, { passive: false });
@@ -6182,6 +6609,10 @@
             window.addEventListener('touchmove', (e) => {
                 if (!isSwiping) return;
                 const touch = e.touches[0];
+                if (!touch) return;
+                if (e.cancelable && e.target && (e.target.id === 'canvas' || e.target.id === 'game-container')) {
+                    e.preventDefault();
+                }
                 const pt = getCanvasCoords(touch.clientX, touch.clientY);
                 addSwipePoint(pt.x, pt.y);
                 checkSlices();
@@ -6190,6 +6621,11 @@
             window.addEventListener('touchend', () => {
                 isSwiping = false;
             });
+
+            window.addEventListener('touchcancel', () => {
+                isSwiping = false;
+                swipeTrail = [];
+            });
         }
 
         function addSwipePoint(x, y) {
@@ -6197,15 +6633,15 @@
             swipeTrail.push({ x, y, time: now });
 
             const blade = BLADE_STYLES[selectedBlade] || BLADE_STYLES.steel;
-            for (let i = 0; i < 2; i++) {
+            if (particles.length < 50) {
                 particles.push({
                     x: x + (Math.random() - 0.5) * 8,
                     y: y + (Math.random() - 0.5) * 8,
-                    vx: (Math.random() - 0.5) * 3,
-                    vy: (Math.random() - 0.5) * 3,
+                    vx: (Math.random() - 0.5) * 2.5,
+                    vy: (Math.random() - 0.5) * 2.5,
                     life: 1,
-                    decay: 0.07,
-                    size: Math.random() * 4 + 2,
+                    decay: 0.08,
+                    size: Math.random() * 3.5 + 2,
                     color: blade.particleColor,
                     bladeType: blade.type
                 });
@@ -6240,6 +6676,7 @@
                 triggerScreenShake(10, 220);
             } else {
                 sound.playWrong();
+                haptic.wrong();
                 if (gameMode === 'classic') {
                     hearts--;
                     updateHeartsHUD();
@@ -6298,14 +6735,7 @@
                 }
             }
             activeFruits = activeFruits.filter(f => f.isHalf);
-
-            waveTimer = Date.now() + 1100;
-            setTimeout(() => {
-                if (gameState === 'PLAYING' && (gameMode !== 'classic' || hearts > 0)) {
-                    nextTarget();
-                    spawnWave();
-                }
-            }, 1100);
+            scheduleNextWave(1000);
         }
 
         function checkSlices() {
@@ -6392,6 +6822,7 @@
                     score += 200;
                     addCoins(10);
                     sound.playCritical();
+                    haptic.combo();
                     triggerScreenShake(12, 260);
                     spawnFloatingText(p2.x, p2.y - 65, '⚡ GOLPE CRÍTICO! CORTE DUPLO +200 PTS!', '#38bdf8', 30);
                     reportMissionEvent('double_slice', 1);
@@ -6436,6 +6867,7 @@
         function sliceFruit(fruit, p1, p2) {
             fruit.sliced = true;
             sound.playSlice();
+            haptic.slice();
 
             // Clutch near-bottom catch activates Bullet Time!
             if (fruit.y > height - 130 && !fruit.isBomb) {
@@ -6455,6 +6887,7 @@
                     return;
                 }
                 sound.playBomb();
+                haptic.bomb();
                 if (gameMode === 'classic') {
                     hearts--;
                     updateHeartsHUD();
@@ -6466,6 +6899,39 @@
                 createExplosion(fruit.x, fruit.y, '#f97316');
                 if (gameMode === 'classic' && hearts <= 0) {
                     gameOver("Você atingiu uma Bomba Ninja e perdeu todas as 5 vidas!");
+                }
+                return;
+            }
+
+            // Power-Up Especial: 📜 Pergaminho Místico Secreto (Easter Egg dos Mestres)
+            if (fruit.isSecretScroll) {
+                activeFruits = activeFruits.filter(f => f !== fruit);
+                sound.playAchievement();
+                haptic.secret();
+                try { sound.playFever(); } catch(e) {}
+                score += 300;
+                addCoins(50);
+                updateScoreHUD();
+                createExplosion(fruit.x, fruit.y, '#38bdf8');
+                createExplosion(fruit.x, fruit.y, '#fde047');
+                createExplosion(fruit.x, fruit.y, '#818cf8');
+                triggerScreenShake(14, 280);
+                spawnFloatingText(fruit.x, fruit.y, '📜 PERGAMINHO MÍSTICO! +300 PTS +50 MOEDAS! ✨', '#38bdf8', 32);
+                setMascotMood('happy', '📜 Impressionante! O segredo dos mestres foi revelado!');
+                activateBulletTime(3000);
+
+                if (!unlockedBlades.includes('spectral')) {
+                    unlockedBlades.push('spectral');
+                    safeStorage.setItem('ninja_blades', JSON.stringify(unlockedBlades));
+                    updateShopUI();
+                }
+                if (!unlockedStickers.includes('s_secret')) {
+                    unlockedStickers.push('s_secret');
+                    safeStorage.setItem('ninja_stickers', JSON.stringify(unlockedStickers));
+                }
+
+                if (duelState.active) {
+                    sendDuelAttack('smoke');
                 }
                 return;
             }
@@ -6686,32 +7152,23 @@
                     }
                 }
 
-                // IMPORTANTE: NÃO removemos os distratores imediatamente!
-                // Eles continuam na tela para penalizar quem passar o dedo em tudo!
-                // Apenas agendamos a limpeza e a próxima onda se a rodada terminar limpa:
-                waveTimer = Date.now() + 950;
+                // Limpeza suave dos distratores restantes e agendamento da próxima onda
                 setTimeout(() => {
-                    if (gameState === 'PLAYING') {
-                        // Se a onda terminou limpa (sem o jogador ter cortado distrator em seguida):
-                        if (waveCorrectSliced && !waveDistractorSliced) {
-                            questionsInCurrentArena++;
-                            if (questionsInCurrentArena >= 5) {
-                                advanceArena();
-                            }
-
-                            for (let other of activeFruits) {
-                                if (!other.sliced && other !== fruit && !other.isHalf) {
-                                    other.sliced = true;
-                                    createConfettiPoof(other.x, other.y);
-                                }
-                            }
-                            activeFruits = activeFruits.filter(f => f.isHalf);
-
-                            nextTarget();
-                            spawnWave();
+                    if (gameState === 'PLAYING' && waveCorrectSliced && !waveDistractorSliced) {
+                        questionsInCurrentArena++;
+                        if (questionsInCurrentArena >= 5) {
+                            advanceArena();
                         }
+
+                        for (let other of activeFruits) {
+                            if (!other.sliced && other !== fruit && !other.isHalf) {
+                                other.sliced = true;
+                                createConfettiPoof(other.x, other.y);
+                            }
+                        }
+                        scheduleNextWave(300, true);
                     }
-                }, 950);
+                }, 750);
 
             } else {
                 penalizeWrongOrAllCut([fruit], p1, p2, false);
@@ -6757,23 +7214,28 @@
         }
 
         function createJuiceSplash(x, y, color) {
+            if (juiceSplats.length > 12) {
+                juiceSplats.shift();
+            }
             juiceSplats.push({
                 x, y,
-                radius: Math.random() * 35 + 25,
+                radius: Math.random() * 25 + 18,
                 color,
                 alpha: 0.65
             });
 
-            for (let i = 0; i < 20; i++) {
-                const spd = Math.random() * 8 + 3;
+            const pCount = 10;
+            for (let i = 0; i < pCount; i++) {
+                if (particles.length > 60) particles.shift();
+                const spd = Math.random() * 7 + 2.5;
                 const a = Math.random() * Math.PI * 2;
                 particles.push({
                     x, y,
                     vx: Math.cos(a) * spd,
                     vy: Math.sin(a) * spd,
                     life: 1,
-                    decay: Math.random() * 0.04 + 0.03,
-                    size: Math.random() * 6 + 3,
+                    decay: Math.random() * 0.05 + 0.04,
+                    size: Math.random() * 5 + 2.5,
                     color
                 });
             }
@@ -6833,6 +7295,7 @@
             drawJuiceSplats();
 
             if (gameState === 'PLAYING') {
+                checkAntiFreezeWatchdog();
                 updateSpawner();
             }
 
@@ -6902,7 +7365,7 @@
         function drawJuiceSplats() {
             for (let i = juiceSplats.length - 1; i >= 0; i--) {
                 const s = juiceSplats[i];
-                s.alpha -= 0.0015;
+                s.alpha -= 0.005;
                 if (s.alpha <= 0) {
                     juiceSplats.splice(i, 1);
                     continue;
@@ -7193,6 +7656,35 @@
                 ctx.ellipse(0, 0, r * 1.25, r * 0.45, Date.now() / 300, 0, Math.PI * 2);
                 ctx.stroke();
 
+            } else if (type === 'secret_scroll' || f.isSecretScroll) {
+                ctx.save();
+                ctx.shadowColor = '#38bdf8';
+                ctx.shadowBlur = 24;
+                // Pergaminho dourado
+                ctx.fillStyle = '#fef08a';
+                ctx.beginPath();
+                ctx.roundRect(-r * 0.75, -r * 0.9, r * 1.5, r * 1.8, 8);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#eab308';
+                ctx.stroke();
+
+                // Rolos do topo e base
+                ctx.fillStyle = '#b45309';
+                ctx.beginPath();
+                ctx.roundRect(-r * 0.85, -r * 1.05, r * 1.7, r * 0.28, 4);
+                ctx.roundRect(-r * 0.85, r * 0.77, r * 1.7, r * 0.28, 4);
+                ctx.fill();
+
+                // Símbolo Kanji Ninja
+                ctx.fillStyle = '#7c2d12';
+                ctx.font = 'bold 26px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('忍', 0, 0);
+                ctx.restore();
+                return;
             } else {
                 ctx.fillStyle = f.template.color;
                 ctx.beginPath();
@@ -7263,14 +7755,7 @@
                             }
                         }
                         activeFruits = activeFruits.filter(item => item.isHalf);
-
-                        waveTimer = Date.now() + 1000;
-                        setTimeout(() => {
-                            if (gameState === 'PLAYING' && (gameMode !== 'classic' || hearts > 0)) {
-                                nextTarget();
-                                spawnWave();
-                            }
-                        }, 900);
+                        scheduleNextWave(900);
                         break;
                     }
                     activeFruits.splice(i, 1);
@@ -7478,9 +7963,9 @@
                 ctx.lineTo(p2.x, p2.y);
                 ctx.stroke();
 
-                // Núcleo brilhante interno para espadas do trovão, dragão e sombras
-                if (blade.type === 'lightning' || blade.type === 'dragon' || blade.type === 'shadow') {
-                    ctx.strokeStyle = (blade.type === 'shadow') ? '#f3e8ff' : '#ffffff';
+                // Núcleo brilhante interno para espadas especiais
+                if (blade.type === 'lightning' || blade.type === 'dragon' || blade.type === 'shadow' || blade.type === 'spectral') {
+                    ctx.strokeStyle = (blade.type === 'spectral') ? '#67e8f9' : ((blade.type === 'shadow') ? '#f3e8ff' : '#ffffff');
                     ctx.shadowBlur = 0;
                     ctx.lineWidth = Math.max(1, (blade.width * 0.35) * ratio);
                     ctx.beginPath();
@@ -7563,33 +8048,29 @@
         // 1. IDENTIFICAÇÃO DO ALUNO & TECLADO VIRTUAL GIGANTE
         // ====================================================================
         function initStudentName() {
-            studentName = localStorage.getItem('ninja_student_name') || '';
-            roomPin = localStorage.getItem('ninja_room_pin') || '';
+            studentName = safeStorage.getItem('ninja_student_name') || '';
+            roomPin = safeStorage.getItem('ninja_room_pin') || '';
 
             // Auto-integração com o Perfil do Aluno logado no Portal Lab Kids
             if (!studentName) {
                 try {
-                    const rawProfile = localStorage.getItem('lab_student_profile');
+                    const rawProfile = safeStorage.getItem('lab_student_profile');
                     if (rawProfile) {
                         const profile = JSON.parse(rawProfile);
                         if (profile && profile.name) {
                             studentName = profile.name;
-                            localStorage.setItem('ninja_student_name', studentName);
+                            safeStorage.setItem('ninja_student_name', studentName);
                             if (profile.class_code) {
                                 roomPin = profile.class_code;
-                                localStorage.setItem('ninja_room_pin', roomPin);
+                                safeStorage.setItem('ninja_room_pin', roomPin);
                             }
                         }
                     }
                 } catch(e) {}
             }
-            playerCoins = parseInt(localStorage.getItem('ninja_coins') || '0', 10);
-            try {
-                unlockedBlades = JSON.parse(localStorage.getItem('ninja_blades') || '["steel"]');
-            } catch(e) {
-                unlockedBlades = ['steel'];
-            }
-            currentBlade = localStorage.getItem('ninja_equipped_blade') || 'steel';
+            playerCoins = parseInt(safeStorage.getItem('ninja_coins') || '0', 10);
+            unlockedBlades = safeStorage.getJSON('ninja_blades', ['steel']);
+            currentBlade = safeStorage.getItem('ninja_equipped_blade') || 'steel';
             selectedBlade = currentBlade;
 
             updateCoinsDisplays();
@@ -7665,11 +8146,20 @@
                 return;
             }
             studentName = trimmed;
-            localStorage.setItem('ninja_student_name', studentName);
+            safeStorage.setItem('ninja_student_name', studentName);
             const menuNameEl = document.getElementById('menu-student-name');
             if (menuNameEl) menuNameEl.innerText = studentName;
             closeNameEntryModal();
-            sound.playAchievement();
+
+            // Segredos Ninja por Cheat Codes no Nome
+            const upper = trimmed.toUpperCase();
+            if (upper.includes('NINJA') || upper.includes('SENSEI') || upper.includes('SHURIKEN') || upper.includes('KAGE')) {
+                triggerSecretNinjaEasterEgg('code_ninja');
+            } else if (upper.includes('DEV') || upper.includes('LABKIDS') || upper.includes('MATRIX')) {
+                triggerSecretNinjaEasterEgg('code_dev');
+            } else {
+                sound.playAchievement();
+            }
         }
 
         function handlePhysicalKeyboard(e) {
@@ -7697,7 +8187,7 @@
 
         function updateRoomPin(val) {
             roomPin = String(val || '').trim().toUpperCase();
-            localStorage.setItem('ninja_room_pin', roomPin);
+            safeStorage.setItem('ninja_room_pin', roomPin);
             const menuRoom = document.getElementById('menu-room-display');
             if (menuRoom) menuRoom.innerText = roomPin ? `TURMA: ${roomPin}` : 'TURMA: LIVRE';
             const lbPinInput = document.getElementById('lb-pin-input');
@@ -7721,12 +8211,13 @@
             lightning: 300,
             shadow: 400,
             ice: 500,
-            dragon: 1000
+            dragon: 1000,
+            spectral: 0
         };
 
         function addCoins(amount) {
             playerCoins += amount;
-            localStorage.setItem('ninja_coins', playerCoins);
+            safeStorage.setItem('ninja_coins', playerCoins);
             updateCoinsDisplays();
             sound.playCoin();
         }
@@ -7768,6 +8259,8 @@
                     action.innerHTML = `<button type="button" class="btn-blade-equip equipped">✓ EQUIPADA</button>`;
                 } else if (isUnlocked) {
                     action.innerHTML = `<button type="button" class="btn-blade-equip" onclick="equipBlade('${bladeId}')">EQUIPAR</button>`;
+                } else if (bladeId === 'spectral') {
+                    action.innerHTML = `<span style="font-size:0.75rem; color:#38bdf8; font-weight:800;">🔒 Segredo Oculto do Dojo</span>`;
                 } else {
                     const cost = BLADE_PRICES[bladeId];
                     action.innerHTML = `<button type="button" class="btn-blade-buy" onclick="buyBlade('${bladeId}', ${cost})">💰 ${cost} Moedas</button>`;
@@ -7783,10 +8276,10 @@
             }
 
             playerCoins -= cost;
-            localStorage.setItem('ninja_coins', playerCoins);
+            safeStorage.setItem('ninja_coins', playerCoins);
             if (!unlockedBlades.includes(bladeId)) {
                 unlockedBlades.push(bladeId);
-                localStorage.setItem('ninja_blades', JSON.stringify(unlockedBlades));
+                safeStorage.setItem('ninja_blades', JSON.stringify(unlockedBlades));
             }
             equipBlade(bladeId);
             sound.playAchievement();
@@ -7797,10 +8290,425 @@
         function equipBlade(bladeId) {
             currentBlade = bladeId;
             selectedBlade = bladeId;
-            localStorage.setItem('ninja_equipped_blade', bladeId);
+            safeStorage.setItem('ninja_equipped_blade', bladeId);
             updateShopUI();
             sound.playSlice();
         }
+
+
+
+        // ====================================================================
+        // SEGREDO NINJA OCULTO (GAMER EASTER EGGS)
+        // ====================================================================
+        function handleSenseiSecretClick() {
+            const now = Date.now();
+            if (now - lastSenseiSecretClickTime > 3000) {
+                senseiSecretClickCount = 0;
+            }
+            lastSenseiSecretClickTime = now;
+            senseiSecretClickCount++;
+
+            const mascotBubble = document.getElementById('tux-mascot-quote');
+            const wrap = document.getElementById('tux-mascot-img-wrap');
+            if (wrap) {
+                wrap.style.transform = 'scale(1.15) rotate(' + ((senseiSecretClickCount % 2 === 0 ? 1 : -1) * 10) + 'deg)';
+                setTimeout(() => { if (wrap) wrap.style.transform = 'none'; }, 200);
+            }
+
+            if (senseiSecretClickCount === 1) {
+                sound.playKeyPress();
+                if (mascotBubble) mascotBubble.innerText = "🐼 Oho! Você procura pelos pergaminhos proibidos? Toque de novo!";
+            } else if (senseiSecretClickCount === 2) {
+                sound.playKeyPress();
+                if (mascotBubble) mascotBubble.innerText = "🐼 Hihi! Diz a lenda que 5 toques revelam a lâmina dos antigos mestres!";
+            } else if (senseiSecretClickCount === 3) {
+                sound.playSwoosh();
+                if (mascotBubble) mascotBubble.innerText = "🐼 Sinto uma aura espectral azul se aproximando do dojo...";
+            } else if (senseiSecretClickCount === 4) {
+                sound.playSwoosh();
+                if (mascotBubble) mascotBubble.innerText = "🐼 MAIS UM TOQUE PARA LIBERAR O SABRE ESPECTRAL! 📜✨";
+            } else if (senseiSecretClickCount >= 5) {
+                senseiSecretClickCount = 0;
+                triggerSecretNinjaEasterEgg('sensei');
+            }
+        }
+
+        function triggerSecretNinjaEasterEgg(source = 'sensei') {
+            secretScrollActiveForMatch = true;
+            secretNinjaUnlocked = true;
+            safeStorage.setItem('ninja_secret_unlocked', 'true');
+
+            // 1. Concede 150 moedas (ou 300 se for dev)
+            const bonus = source === 'code_dev' ? 300 : 150;
+            addCoins(bonus);
+
+            // 2. Desbloqueia e equipa o Sabre Espectral
+            if (!unlockedBlades.includes('spectral')) {
+                unlockedBlades.push('spectral');
+                safeStorage.setItem('ninja_blades', JSON.stringify(unlockedBlades));
+            }
+            currentBlade = 'spectral';
+            selectedBlade = 'spectral';
+            safeStorage.setItem('ninja_equipped_blade', 'spectral');
+            updateShopUI();
+
+            // 3. Desbloqueia Adesivo Secreto no Álbum
+            if (!unlockedStickers.includes('s_secret')) {
+                unlockedStickers.push('s_secret');
+                safeStorage.setItem('ninja_stickers', JSON.stringify(unlockedStickers));
+            }
+
+            // 4. Efeitos sonoros e visuais
+            sound.playAchievement();
+            haptic.secret();
+            createExplosion(width / 2, height / 2, '#38bdf8');
+            createExplosion(width / 2, height / 2, '#818cf8');
+            createExplosion(width / 2, height / 2, '#fde047');
+            triggerScreenShake(14, 300);
+
+            // 5. Exibe Modal do Segredo
+            const secretModal = document.getElementById('secret-ninja-modal');
+            if (secretModal) secretModal.style.display = 'flex';
+
+            const quote = document.getElementById('tux-mascot-quote');
+            if (quote) quote.innerText = "📜 Parabéns! Você dominou o Segredo Oculto dos Mestres Ninjas!";
+        }
+
+        function closeSecretNinjaModal() {
+            const secretModal = document.getElementById('secret-ninja-modal');
+            if (secretModal) secretModal.style.display = 'none';
+        }
+
+        // ====================================================================
+        // MODO DUELO MULTIPLAYER (1 vs 1 ONLINE EM REDE LOCAL / TABLETS)
+        // ====================================================================
+        function openDuelModal() {
+            haptic.tap();
+            sound.playButton();
+            document.getElementById('duel-modal').style.display = 'flex';
+            switchDuelTab('create');
+        }
+
+        function closeDuelModal() {
+            haptic.tap();
+            if (duelState.pollInterval) {
+                clearInterval(duelState.pollInterval);
+                duelState.pollInterval = null;
+            }
+            document.getElementById('duel-modal').style.display = 'none';
+        }
+
+        function switchDuelTab(tab) {
+            haptic.tap();
+            const tabCreate = document.getElementById('tab-btn-create-duel');
+            const tabJoin = document.getElementById('tab-btn-join-duel');
+            const panelCreate = document.getElementById('duel-panel-create');
+            const panelJoin = document.getElementById('duel-panel-join');
+            const panelCd = document.getElementById('duel-panel-countdown');
+
+            panelCd.style.display = 'none';
+
+            if (tab === 'create') {
+                tabCreate.style.background = '#7c3aed';
+                tabJoin.style.background = 'rgba(255,255,255,0.1)';
+                panelCreate.style.display = 'block';
+                panelJoin.style.display = 'none';
+            } else {
+                tabCreate.style.background = 'rgba(255,255,255,0.1)';
+                tabJoin.style.background = '#10b981';
+                panelCreate.style.display = 'none';
+                panelJoin.style.display = 'block';
+            }
+        }
+
+        async function requestCreateDuel() {
+            haptic.tap();
+            sound.playButton();
+            const dur = document.querySelector('input[name="duel_duration"]:checked')?.value || 60;
+            const pName = studentName || 'Ninja Anônimo';
+
+            try {
+                const res = await fetch('/api/games/ninja-math/duel/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        playerName: pName,
+                        durationSec: parseInt(dur, 10),
+                        difficulty: currentSpeed,
+                        tabuadas: activeCustomTabuadas.length ? activeCustomTabuadas : [2, 3, 4, 5]
+                    })
+                });
+                const data = await res.json();
+                if (!data.success) {
+                    alert('Erro ao criar sala: ' + (data.error || 'Tente novamente.'));
+                    return;
+                }
+
+                duelState.roomCode = data.roomCode;
+                duelState.playerId = data.playerId;
+                duelState.playerSlot = 'p1';
+                duelState.durationSec = data.room.durationSec;
+                duelState.timeLeft = data.room.durationSec;
+                duelState.seed = data.room.seed;
+                duelState.isHost = true;
+
+                document.getElementById('duel-create-idle-view').style.display = 'none';
+                document.getElementById('duel-create-waiting-view').style.display = 'block';
+                document.getElementById('duel-display-pin').innerText = data.roomCode;
+
+                startDuelHostPolling();
+            } catch (err) {
+                alert('Erro de conexão com o servidor do portal: ' + err.message);
+            }
+        }
+
+        function startDuelHostPolling() {
+            if (duelState.pollInterval) clearInterval(duelState.pollInterval);
+            duelState.pollInterval = setInterval(async () => {
+                if (!duelState.roomCode) return;
+                try {
+                    const res = await fetch(`/api/games/ninja-math/duel/poll?roomCode=${duelState.roomCode}&playerId=${duelState.playerId}`);
+                    const data = await res.json();
+                    if (data.success && data.hasRival) {
+                        clearInterval(duelState.pollInterval);
+                        duelState.pollInterval = null;
+                        duelState.rivalName = data.p2Name || 'Adversário';
+                        triggerDuelCountdown(data.p1Name, data.p2Name, data.countdownStart, data.seed);
+                    }
+                } catch(e) {}
+            }, 800);
+        }
+
+        async function requestJoinDuel() {
+            haptic.tap();
+            sound.playButton();
+            const inputCode = document.getElementById('duel-join-input').value.trim();
+            if (!inputCode || inputCode.length !== 4) {
+                alert('Por favor, digite o PIN de 4 dígitos da sala do seu colega.');
+                return;
+            }
+
+            const pName = studentName || 'Ninja Desafiante';
+            try {
+                const res = await fetch('/api/games/ninja-math/duel/join', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ roomCode: inputCode, playerName: pName })
+                });
+                const data = await res.json();
+                if (!data.success) {
+                    alert(data.error || 'Não foi possível entrar na sala de duelo.');
+                    return;
+                }
+
+                duelState.roomCode = data.roomCode;
+                duelState.playerId = data.playerId;
+                duelState.playerSlot = 'p2';
+                duelState.durationSec = data.room.durationSec;
+                duelState.timeLeft = data.room.durationSec;
+                duelState.seed = data.room.seed;
+                duelState.rivalName = data.room.p1Name || 'Anfitrião';
+                duelState.isHost = false;
+
+                triggerDuelCountdown(data.room.p1Name, data.room.p2Name, data.room.countdownStart, data.room.seed);
+            } catch(err) {
+                alert('Erro de conexão ao entrar no duelo: ' + err.message);
+            }
+        }
+
+        function triggerDuelCountdown(p1Name, p2Name, countdownStart, seed) {
+            document.getElementById('duel-panel-create').style.display = 'none';
+            document.getElementById('duel-panel-join').style.display = 'none';
+            const panelCd = document.getElementById('duel-panel-countdown');
+            panelCd.style.display = 'block';
+
+            document.getElementById('duel-cd-p1').innerText = p1Name || 'Ninja 1';
+            document.getElementById('duel-cd-p2').innerText = p2Name || 'Ninja 2';
+
+            let count = 3;
+            const cdNum = document.getElementById('duel-cd-number');
+            cdNum.innerText = count;
+            sound.playKeyPress();
+
+            const interval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    cdNum.innerText = count;
+                    sound.playKeyPress();
+                    haptic.tap();
+                } else if (count === 0) {
+                    cdNum.innerText = "LUTEM! 🥋";
+                    sound.playAchievement();
+                    haptic.fever();
+                } else {
+                    clearInterval(interval);
+                    closeDuelModal();
+                    startDuelMatch();
+                }
+            }, 900);
+        }
+
+        function startDuelMatch() {
+            duelState.active = true;
+            document.getElementById('start-modal').style.display = 'none';
+
+            // Configura HUD de Duelo
+            const hud = document.getElementById('duel-hud');
+            if (hud) hud.style.display = 'flex';
+            document.getElementById('duel-my-name').innerText = studentName || 'Você';
+            document.getElementById('duel-rival-name').innerText = duelState.rivalName || 'Adversário';
+            document.getElementById('duel-my-score').innerText = '0';
+            document.getElementById('duel-rival-score').innerText = '0';
+            document.getElementById('duel-timer-val').innerText = duelState.durationSec + 's';
+
+            // Inicia partida base com tempo
+            startGame();
+
+            // Loop de sincronização em tempo real (a cada 600ms)
+            if (duelState.syncInterval) clearInterval(duelState.syncInterval);
+            duelState.syncInterval = setInterval(syncDuelLoop, 600);
+        }
+
+        async function syncDuelLoop() {
+            if (!duelState.active || !duelState.roomCode) return;
+            try {
+                const res = await fetch('/api/games/ninja-math/duel/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        roomCode: duelState.roomCode,
+                        playerId: duelState.playerId,
+                        score: score,
+                        combo: combo,
+                        hearts: hearts,
+                        isFinished: gameState === 'GAMEOVER'
+                    })
+                });
+                const data = await res.json();
+                if (!data.success) return;
+
+                // Atualiza dados na tela
+                if (data.rival) {
+                    const rivalEl = document.getElementById('duel-rival-score');
+                    if (rivalEl) rivalEl.innerText = data.rival.score || 0;
+                }
+                const myEl = document.getElementById('duel-my-score');
+                if (myEl) myEl.innerText = score;
+
+                const timerEl = document.getElementById('duel-timer-val');
+                if (timerEl && typeof data.timeLeft === 'number') {
+                    timerEl.innerText = data.timeLeft + 's';
+                }
+
+                // Processa ataques recebidos do rival
+                if (data.incomingAttacks && data.incomingAttacks.length > 0) {
+                    data.incomingAttacks.forEach(atk => {
+                        if (atk.type === 'smoke') {
+                            triggerDuelSmokeScreen();
+                        }
+                    });
+                }
+
+                // Fim de partida decretado pelo servidor
+                if (data.status === 'finished') {
+                    endDuelMatch(data.winner, data.rival ? data.rival.score : 0);
+                }
+            } catch(e) {}
+        }
+
+        async function sendDuelAttack(type = 'smoke') {
+            if (!duelState.active || !duelState.roomCode) return;
+            try {
+                await fetch('/api/games/ninja-math/duel/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        roomCode: duelState.roomCode,
+                        playerId: duelState.playerId,
+                        score: score,
+                        combo: combo,
+                        hearts: hearts,
+                        attackToSend: type
+                    })
+                });
+                spawnFloatingText(width / 2, height * 0.45, '💨 BOMBA DE FUMAÇA LANÇADA NO RIVAL!', '#cbd5e1', 20);
+            } catch(e) {}
+        }
+
+        function triggerDuelSmokeScreen() {
+            const smoke = document.getElementById('duel-smoke-overlay');
+            if (!smoke) return;
+            sound.playWrong();
+            haptic.bomb();
+            smoke.style.display = 'flex';
+            smoke.style.opacity = '1';
+
+            setTimeout(() => {
+                smoke.style.opacity = '0';
+                setTimeout(() => { smoke.style.display = 'none'; }, 300);
+            }, 2500);
+        }
+
+        function endDuelMatch(winnerSlot, rivalScore = 0) {
+            if (!duelState.active) return;
+            duelState.active = false;
+            if (duelState.syncInterval) {
+                clearInterval(duelState.syncInterval);
+                duelState.syncInterval = null;
+            }
+
+            const hud = document.getElementById('duel-hud');
+            if (hud) hud.style.display = 'none';
+
+            gameState = 'GAMEOVER';
+
+            const resModal = document.getElementById('duel-result-modal');
+            const resIcon = document.getElementById('duel-result-icon');
+            const resTitle = document.getElementById('duel-result-title');
+            const resSub = document.getElementById('duel-result-subtitle');
+
+            document.getElementById('duel-res-my-name').innerText = studentName || 'Você';
+            document.getElementById('duel-res-my-score').innerText = score;
+            document.getElementById('duel-res-rival-name').innerText = duelState.rivalName || 'Adversário';
+            document.getElementById('duel-res-rival-score').innerText = rivalScore;
+
+            const isWinner = (winnerSlot === duelState.playerSlot);
+            const isDraw = (winnerSlot === 'draw');
+
+            if (isWinner) {
+                resIcon.innerText = '🏆';
+                resTitle.innerText = 'VITÓRIA NINJA!';
+                resTitle.style.color = '#fde047';
+                resSub.innerText = 'Você derrotou seu oponente com maestria na tabuada!';
+                addCoins(100);
+                sound.playAchievement();
+                createExplosion(width / 2, height / 2, '#fde047');
+                createExplosion(width / 2, height / 2, '#38bdf8');
+            } else if (isDraw) {
+                resIcon.innerText = '🤝';
+                resTitle.innerText = 'EMPATE DE MESTRES!';
+                resTitle.style.color = '#38bdf8';
+                resSub.innerText = 'Ambos os guerreiros demonstraram a mesma velocidade!';
+                addCoins(50);
+                sound.playAchievement();
+            } else {
+                resIcon.innerText = '🥋';
+                resTitle.innerText = 'DERROTA HONROSA!';
+                resTitle.style.color = '#f87171';
+                resSub.innerText = 'Seu oponente foi mais veloz desta vez. Treine no dojo para a revanche!';
+                addCoins(30);
+                sound.playWrong();
+            }
+
+            if (resModal) resModal.style.display = 'flex';
+        }
+
+        function closeDuelResultModal() {
+            const resModal = document.getElementById('duel-result-modal');
+            if (resModal) resModal.style.display = 'none';
+            document.getElementById('start-modal').style.display = 'flex';
+        }
+
 
         // ====================================================================
         // 2.5. ÁLBUM NINJA DE ADESIVOS & GACHA COLECIONÁVEL
@@ -7847,7 +8755,7 @@
             }
 
             playerCoins -= PACK_COST;
-            localStorage.setItem('ninja_coins', playerCoins);
+            safeStorage.setItem('ninja_coins', playerCoins);
             updateCoinsDisplays();
 
             // Probabilidades: Comum 60%, Raro 30%, Lendário 10%
@@ -7866,7 +8774,7 @@
 
             if (isNew) {
                 unlockedStickers.push(chosen.id);
-                localStorage.setItem('ninja_stickers', JSON.stringify(unlockedStickers));
+                safeStorage.setItem('ninja_stickers', JSON.stringify(unlockedStickers));
             }
 
             sound.playStickerPack();

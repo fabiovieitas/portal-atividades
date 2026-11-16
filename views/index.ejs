@@ -596,7 +596,15 @@
         </div>
         <div class="showcase-ticker">
             <div class="showcase-content">
-                <% const showcaseList = (typeof showcaseActivities !== 'undefined' && showcaseActivities && showcaseActivities.length > 0) ? showcaseActivities : (activities || []); %>
+                <% 
+                    const rawShowcase = (typeof showcaseActivities !== 'undefined' && showcaseActivities && showcaseActivities.length > 0) ? showcaseActivities : (activities || []);
+                    const showcaseList = rawShowcase.filter(a => {
+                        const t = (a.title || '').toLowerCase();
+                        const u = (a.activity_url || '').toLowerCase();
+                        const c = (a.category || '').toLowerCase();
+                        return !t.includes('simulado') && !u.includes('simulado') && !c.includes('simulado');
+                    });
+                %>
                 <% if (showcaseList && showcaseList.length > 0) { %>
                     <% showcaseList.forEach(act => { %>
                         <a href="/atividade/<%= act.id %>" class="showcase-item" onclick="handleActivityLaunch(event, <%= act.id %>, '<%= act.activity_url || '' %>')">
@@ -658,15 +666,16 @@
 
     <main class="container">
                 <% 
-            // Fallback robusto: se activePortalSimulados não foi informado ou não é array com itens, exibe 1º, 3º e 5º por padrão
+            // Fallback robusto: se activePortalSimulados não foi informado ou não é array com itens, exibe todos os 5 anos por padrão
             const portalSims = (typeof activePortalSimulados !== 'undefined' && Array.isArray(activePortalSimulados) && activePortalSimulados.length > 0) 
                 ? activePortalSimulados 
-                : ['campos-1ano-outubro-2026', 'campos-3ano-outubro-2026', 'campos-5ano-outubro-2026'];
+                : ['campos-1ano-outubro-2026', 'campos-2ano-outubro-2026', 'campos-3ano-outubro-2026', 'campos-4ano-outubro-2026', 'campos-5ano-outubro-2026'];
             const show1Ano = portalSims.includes('campos-1ano-outubro-2026');
+            const show2Ano = portalSims.includes('campos-2ano-outubro-2026');
             const show3Ano = portalSims.includes('campos-3ano-outubro-2026');
             const show4Ano = portalSims.includes('campos-4ano-outubro-2026');
             const show5Ano = portalSims.includes('campos-5ano-outubro-2026');
-            const hasAnyActiveSimulado = show1Ano || show3Ano || show4Ano || show5Ano;
+            const hasAnyActiveSimulado = show1Ano || show2Ano || show3Ano || show4Ano || show5Ano;
         %>
         <% if (typeof simuladosEnabled === 'undefined' || simuladosEnabled) { %>
         <!-- CARD EXCLUSIVO: SIMULADOS OFICIAIS DE OUTUBRO/2026 -->
@@ -689,7 +698,7 @@
                 </div>
             </div>
 
-            <!-- Grade com a Separação das Turmas / Anos Escolares Habilitados -->
+            <!-- Grade com a Separação das Turmas / Anos Escolares Habilitados (Ordem Numérica Rigorosa) -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
                 
                 <% if (show1Ano) { %>
@@ -718,24 +727,28 @@
                 </div>
                 <% } %>
 
-                <% if (show4Ano) { %>
-                <!-- Card 4º Ano -->
-                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #818cf8; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
+                <% if (show2Ano) { %>
+                <!-- Card 2º Ano -->
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #14b8a6; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
                     <div>
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #a5b4fc;">
-                                🏅 4º Ano
+                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #2dd4bf;">
+                                🥈 2º Ano
                             </span>
-                            <span style="background: rgba(129, 140, 248, 0.2); border: 1px solid #818cf8; color: #a5b4fc; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
+                            <span style="background: rgba(45, 212, 191, 0.2); border: 1px solid #2dd4bf; color: #2dd4bf; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
                                 Blocos 1 e 2
                             </span>
                         </div>
-                        <p style="margin: 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
-                            Língua Portuguesa, História, Geografia, Matemática, Arte e Produção Textual.
+                        <p style="margin: 0 0 6px 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                            Língua Portuguesa, Arte, História, Geografia, Matemática e Ditado de Frases.
                         </p>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <span style="background: rgba(254, 240, 138, 0.2); color: #fef08a; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;">☀️ Manhã</span>
+                            <span style="background: rgba(254, 215, 170, 0.2); color: #fed7aa; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;">🌤️ Tarde</span>
+                        </div>
                     </div>
-                    <a href="/simulados/4ano-outubro" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);">
-                        <span>Abrir Prova do 4º Ano</span> <span>➜</span>
+                    <a href="/simulados/2ano-outubro" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(13, 148, 136, 0.35);">
+                        <span>Abrir Prova do 2º Ano</span> <span>➜</span>
                     </a>
                 </div>
                 <% } %>
@@ -758,6 +771,28 @@
                     </div>
                     <a href="/simulados/3ano-outubro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);">
                         <span>Abrir Prova do 3º Ano</span> <span>➜</span>
+                    </a>
+                </div>
+                <% } %>
+
+                <% if (show4Ano) { %>
+                <!-- Card 4º Ano -->
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #818cf8; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #a5b4fc;">
+                                🏅 4º Ano
+                            </span>
+                            <span style="background: rgba(129, 140, 248, 0.2); border: 1px solid #818cf8; color: #a5b4fc; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
+                                Blocos 1 e 2
+                            </span>
+                        </div>
+                        <p style="margin: 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                            Língua Portuguesa, História, Geografia, Matemática, Arte e Produção Textual.
+                        </p>
+                    </div>
+                    <a href="/simulados/4ano-outubro" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);">
+                        <span>Abrir Prova do 4º Ano</span> <span>➜</span>
                     </a>
                 </div>
                 <% } %>
@@ -833,14 +868,22 @@
                         </div>
                     </div>
 
+                    <% 
+                        const filteredActivities = (activities || []).filter(a => {
+                            const t = (a.title || '').toLowerCase();
+                            const u = (a.activity_url || '').toLowerCase();
+                            const c = (a.category || '').toLowerCase();
+                            return !t.includes('simulado') && !u.includes('simulado') && !c.includes('simulado');
+                        });
+                    %>
                     <div class="activity-grid">
-                        <% if (activities.length===0) { %>
+                        <% if (filteredActivities.length === 0) { %>
                             <div class="no-activities">
                                 <p>Nenhuma missão disponível nesta modalidade ainda. O professor está preparando
                                     novidades!</p>
                             </div>
-                            <% } %>
-                                <% activities.forEach((activity, index) => { %>
+                        <% } %>
+                        <% filteredActivities.forEach((activity, index) => { %>
                                     <div class="activity-card <%= selectedLevel === '6-9' ? 'tech-theme' : '' %> animate-up"
                                         style="animation-delay: <%= 0.1 * (index + 1) %>s; opacity: 0;"
                                         data-id="<%= activity.id %>"

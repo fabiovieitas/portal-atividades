@@ -34,7 +34,7 @@ const initialActivities = [
     title: "⚔️ Ninja Math: A Espada da Tabuada [JOGO AUTORAL]",
     description: "Corte as frutas com os resultados corretos das operações matemáticas e avance de faixas no dojô ninja!",
     activity_url: "/atividades/ninja-math",
-    icon_url: "/games/ninja-math/assets/ninja_mascot.png",
+    icon_url: "/img/covers/ninja-math.jpg",
     level: "1-5", category: "Matemática", bncc_code: "EF01MA06, EF02MA05, EF03MA03", subject: "Matemática"
   },
   {

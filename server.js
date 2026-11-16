@@ -768,12 +768,12 @@ app.get('/', async (req, res) => {
   const projects = await dbHelper.getProjects(12);
   const showcaseActivities = await dbHelper.getActivities({});
   const simuladosSetting = await dbHelper.getSetting('simulados_enabled', 'false');
-  const activeSimuladosSetting = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]');
+  const activeSimuladosSetting = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]');
   let activePortalSimulados = [];
   try {
     activePortalSimulados = typeof activeSimuladosSetting === 'string' ? JSON.parse(activeSimuladosSetting) : activeSimuladosSetting;
   } catch(e) {
-    activePortalSimulados = ["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"];
+    activePortalSimulados = ["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"];
   }
   const simuladosEnabled = simuladosSetting === 'true' || simuladosSetting === true;
   const allNews = await dbHelper.getNews();
@@ -1123,9 +1123,21 @@ app.get('/atividades/simulado-campos-2ano', async (req, res) => {
     if (req.query.mes === 'agosto' || req.query.month === 'Agosto') {
       return res.render('simulado_campos_2ano', { schools });
     }
-    res.render('simulado_campos_2ano_setembro', { schools });
+    if (req.query.mes === 'setembro' || req.query.month === 'Setembro') {
+      return res.render('simulado_campos_2ano_setembro', { schools });
+    }
+    res.render('simulado_campos_2ano_outubro', { schools });
   } catch(e) {
-    res.render('simulado_campos_2ano_setembro', { schools: [] });
+    res.render('simulado_campos_2ano_outubro', { schools: [] });
+  }
+});
+
+app.get(['/atividades/simulado-campos-2ano-outubro', '/simulado/campos-2ano-outubro-2026', '/simulados/2ano-outubro', '/simulado-2ano-outubro', '/simulado/2ano-outubro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_2ano_outubro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_2ano_outubro', { schools: [] });
   }
 });
 
@@ -1267,7 +1279,9 @@ app.get('/simulado/1-ano', (req, res) => res.redirect(301, '/atividades/simulado
 app.get('/simulado/1-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano-setembro'));
 app.get('/simulado/1-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-1ano-agosto'));
 
-app.get('/simulado/2-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-setembro'));
+app.get('/simulado/2-ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-outubro'));
+app.get('/simulado/2-ano-outubro', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-outubro'));
+app.get('/simulado/2ano', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-outubro'));
 app.get('/simulado/2-ano-setembro', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-setembro'));
 app.get('/simulado/2-ano-agosto', (req, res) => res.redirect(301, '/atividades/simulado-campos-2ano-agosto'));
 
@@ -1326,7 +1340,8 @@ app.post('/api/simulado/submit', async (req, res) => {
     if (!student_name || !String(student_name).trim()) {
       return res.status(400).json({ success: false, error: 'O nome completo do estudante é obrigatório.' });
     }
-    const resolvedMaxScore = Number(max_score) || (
+    const resolvedMaxScore = Number(max_score) || (
+      simulado_id === 'campos-2ano-outubro-2026' ? 10 :
       simulado_id === 'campos-4ano-outubro-2026' ? 10 :
       simulado_id === 'campos-1ano-outubro-2026' ? 10 :
       simulado_id === 'campos-3ano-outubro-2026' ? 11 :
@@ -1546,8 +1561,10 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-2ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-4ano-outubro-2026' ? 10 :
-        s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
+        s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
+
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
@@ -1621,8 +1638,10 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-2ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-4ano-outubro-2026' ? 10 :
-        s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
+        s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
+
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
@@ -2119,6 +2138,274 @@ app.get('/api/games/ninja-math/leaderboard', async (req, res) => {
     res.json({ success: true, data: rows });
   } catch (err) {
     console.error('[Ninja Math Leaderboard Error]:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ============================================================================
+// NINJA MATH: MODO DUELO MULTIPLAYER (1 vs 1 ONLINE EM REDE LOCAL / TABLETS)
+// ============================================================================
+const ninjaDuelRooms = new Map();
+
+// Limpeza automatica de salas inativas (> 20 minutos)
+setInterval(() => {
+  const now = Date.now();
+  for (const [code, room] of ninjaDuelRooms.entries()) {
+    if (now - (room.updatedAt || room.createdAt) > 20 * 60 * 1000) {
+      ninjaDuelRooms.delete(code);
+    }
+  }
+}, 5 * 60 * 1000);
+
+function generateDuelRoomCode() {
+  for (let i = 0; i < 20; i++) {
+    const code = String(Math.floor(1000 + Math.random() * 9000));
+    if (!ninjaDuelRooms.has(code)) return code;
+  }
+  return String(Date.now()).slice(-4);
+}
+
+// 1. Criar sala de duelo
+app.post('/api/games/ninja-math/duel/create', (req, res) => {
+  try {
+    const { playerName, difficulty, tabuadas, durationSec } = req.body;
+    const name = String(playerName || 'Ninja 1').trim().slice(0, 24) || 'Ninja 1';
+    const roomCode = generateDuelRoomCode();
+    const now = Date.now();
+
+    const room = {
+      code: roomCode,
+      createdAt: now,
+      updatedAt: now,
+      status: 'waiting',
+      countdownStart: null,
+      gameStartTime: null,
+      durationSec: Math.min(180, Math.max(30, Number(durationSec) || 60)),
+      difficulty: difficulty || 'medio',
+      tabuadas: Array.isArray(tabuadas) && tabuadas.length ? tabuadas : [2, 3, 4, 5],
+      seed: Math.floor(Math.random() * 100000),
+      winner: null,
+      p1: {
+        id: 'p1_' + Math.random().toString(36).slice(2, 8),
+        name,
+        score: 0,
+        combo: 0,
+        hearts: 3,
+        attacksPending: [],
+        lastPing: now,
+        isFinished: false
+      },
+      p2: null
+    };
+
+    ninjaDuelRooms.set(roomCode, room);
+    res.json({
+      success: true,
+      roomCode,
+      playerId: room.p1.id,
+      playerSlot: 'p1',
+      room: {
+        code: roomCode,
+        status: room.status,
+        durationSec: room.durationSec,
+        difficulty: room.difficulty,
+        tabuadas: room.tabuadas,
+        seed: room.seed
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 2. Entrar em sala de duelo
+app.post('/api/games/ninja-math/duel/join', (req, res) => {
+  try {
+    const { roomCode, playerName } = req.body;
+    const cleanCode = String(roomCode || '').trim();
+    const room = ninjaDuelRooms.get(cleanCode);
+
+    if (!room) {
+      return res.status(404).json({ success: false, error: 'Sala de duelo nao encontrada ou codigo incorreto.' });
+    }
+    if (room.p2 && room.status !== 'waiting') {
+      return res.status(400).json({ success: false, error: 'Esta sala ja esta cheia com 2 duelistas!' });
+    }
+
+    const name = String(playerName || 'Ninja 2').trim().slice(0, 24) || 'Ninja 2';
+    const now = Date.now();
+
+    room.p2 = {
+      id: 'p2_' + Math.random().toString(36).slice(2, 8),
+      name,
+      score: 0,
+      combo: 0,
+      hearts: 3,
+      attacksPending: [],
+      lastPing: now,
+      isFinished: false
+    };
+
+    room.status = 'countdown';
+    room.countdownStart = now + 3500;
+    room.updatedAt = now;
+
+    res.json({
+      success: true,
+      roomCode: cleanCode,
+      playerId: room.p2.id,
+      playerSlot: 'p2',
+      room: {
+        code: cleanCode,
+        status: room.status,
+        countdownStart: room.countdownStart,
+        durationSec: room.durationSec,
+        difficulty: room.difficulty,
+        tabuadas: room.tabuadas,
+        seed: room.seed,
+        p1Name: room.p1.name,
+        p2Name: room.p2.name
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 3. Sincronizacao em tempo real de pontos e ataques
+app.post('/api/games/ninja-math/duel/sync', (req, res) => {
+  try {
+    const { roomCode, playerId, score, combo, hearts, attackToSend, isFinished } = req.body;
+    const room = ninjaDuelRooms.get(String(roomCode || '').trim());
+    if (!room) return res.status(404).json({ success: false, error: 'Sala nao encontrada.' });
+
+    const now = Date.now();
+    room.updatedAt = now;
+
+    if (room.status === 'countdown' && now >= room.countdownStart) {
+      room.status = 'playing';
+      room.gameStartTime = now;
+    }
+
+    const isP1 = room.p1 && room.p1.id === playerId;
+    const isP2 = room.p2 && room.p2.id === playerId;
+
+    if (!isP1 && !isP2) {
+      return res.status(403).json({ success: false, error: 'Jogador invalido para esta sala.' });
+    }
+
+    const myPlayer = isP1 ? room.p1 : room.p2;
+    const rivalPlayer = isP1 ? room.p2 : room.p1;
+
+    myPlayer.lastPing = now;
+    if (typeof score === 'number') myPlayer.score = score;
+    if (typeof combo === 'number') myPlayer.combo = combo;
+    if (typeof hearts === 'number') myPlayer.hearts = hearts;
+    if (isFinished) myPlayer.isFinished = true;
+
+    if (attackToSend && rivalPlayer) {
+      rivalPlayer.attacksPending.push({
+        id: Math.random().toString(36).slice(2, 6),
+        type: attackToSend,
+        from: myPlayer.name,
+        timestamp: now
+      });
+    }
+
+    const incomingAttacks = [...myPlayer.attacksPending];
+    myPlayer.attacksPending = [];
+
+    if (room.status === 'playing') {
+      const elapsedSec = (now - room.gameStartTime) / 1000;
+      if (elapsedSec >= room.durationSec || (myPlayer.hearts <= 0 && rivalPlayer && rivalPlayer.hearts <= 0) || (myPlayer.isFinished && rivalPlayer && rivalPlayer.isFinished)) {
+        room.status = 'finished';
+        if (room.p1.score > (room.p2 ? room.p2.score : 0)) room.winner = 'p1';
+        else if ((room.p2 ? room.p2.score : 0) > room.p1.score) room.winner = 'p2';
+        else room.winner = 'draw';
+      }
+    }
+
+    res.json({
+      success: true,
+      status: room.status,
+      countdownStart: room.countdownStart,
+      gameStartTime: room.gameStartTime,
+      durationSec: room.durationSec,
+      timeLeft: room.gameStartTime ? Math.max(0, Math.ceil(room.durationSec - ((now - room.gameStartTime) / 1000))) : room.durationSec,
+      winner: room.winner,
+      me: {
+        score: myPlayer.score,
+        combo: myPlayer.combo,
+        hearts: myPlayer.hearts
+      },
+      rival: rivalPlayer ? {
+        name: rivalPlayer.name,
+        score: rivalPlayer.score,
+        combo: rivalPlayer.combo,
+        hearts: rivalPlayer.hearts,
+        isFinished: rivalPlayer.isFinished,
+        isOnline: (now - rivalPlayer.lastPing) < 8000
+      } : null,
+      incomingAttacks
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 4. Polling de status da sala
+app.get('/api/games/ninja-math/duel/poll', (req, res) => {
+  try {
+    const { roomCode, playerId } = req.query;
+    const room = ninjaDuelRooms.get(String(roomCode || '').trim());
+    if (!room) return res.status(404).json({ success: false, error: 'Sala nao encontrada.' });
+
+    const now = Date.now();
+    const isP1 = room.p1 && room.p1.id === playerId;
+    const isP2 = room.p2 && room.p2.id === playerId;
+    const myPlayer = isP1 ? room.p1 : (isP2 ? room.p2 : null);
+    const rivalPlayer = isP1 ? room.p2 : (isP2 ? room.p1 : null);
+
+    if (myPlayer) myPlayer.lastPing = now;
+
+    if (room.status === 'countdown' && now >= room.countdownStart) {
+      room.status = 'playing';
+      room.gameStartTime = now;
+    }
+
+    res.json({
+      success: true,
+      status: room.status,
+      countdownStart: room.countdownStart,
+      gameStartTime: room.gameStartTime,
+      durationSec: room.durationSec,
+      seed: room.seed,
+      tabuadas: room.tabuadas,
+      difficulty: room.difficulty,
+      p1Name: room.p1 ? room.p1.name : '',
+      p2Name: room.p2 ? room.p2.name : '',
+      hasRival: !!rivalPlayer,
+      rivalName: rivalPlayer ? rivalPlayer.name : null
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 5. Abandonar sala de duelo
+app.post('/api/games/ninja-math/duel/leave', (req, res) => {
+  try {
+    const { roomCode, playerId } = req.body;
+    const cleanCode = String(roomCode || '').trim();
+    const room = ninjaDuelRooms.get(cleanCode);
+    if (room) {
+      room.status = 'finished';
+      const isP1 = room.p1 && room.p1.id === playerId;
+      room.winner = isP1 ? 'p2' : 'p1';
+      setTimeout(() => ninjaDuelRooms.delete(cleanCode), 30000);
+    }
+    res.json({ success: true });
+  } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
@@ -3202,9 +3489,9 @@ app.post('/admin/settings', requireAdmin, async (req, res) => {
 
 app.get('/api/admin/portal-simulados', async (req, res) => {
   try {
-    const raw = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]');
+    const raw = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]');
     let list = [];
-    try { list = JSON.parse(raw); } catch(e) { list = ["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]; }
+    try { list = JSON.parse(raw); } catch(e) { list = ["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]; }
     res.json({ success: true, active_simulados: list });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -3216,9 +3503,9 @@ app.post('/api/admin/toggle-portal-simulado', requireAdmin, async (req, res) => 
     const { simulado_id, enabled } = req.body;
     if (!simulado_id) return res.status(400).json({ success: false, error: 'simulado_id obrigatório' });
     
-    const raw = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]');
+    const raw = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]');
     let list = [];
-    try { list = JSON.parse(raw); } catch(e) { list = ["campos-1ano-outubro-2026", "campos-3ano-outubro-2026", "campos-5ano-outubro-2026"]; }
+    try { list = JSON.parse(raw); } catch(e) { list = ["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]; }
 
     if (enabled) {
       if (!list.includes(simulado_id)) list.push(simulado_id);

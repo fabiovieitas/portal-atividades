@@ -372,19 +372,14 @@ const dbHelper = {
     }
 
     if (!adminMode && rows && rows.length > 0) {
-      let isSimuladosEnabled = false;
-      try {
-        const setting = await this.getSetting('simulados_enabled', 'false');
-        isSimuladosEnabled = setting === 'true' || setting === true;
-      } catch (e) {}
-
-      if (!isSimuladosEnabled) {
-        rows = rows.filter(r => {
-          const t = (r.title || '').toLowerCase();
-          const u = (r.activity_url || '').toLowerCase();
-          return !t.includes('simulado') && !u.includes('simulado');
-        });
-      }
+      // REGRA: A grade de jogos e missões do portal é EXCLUSIVA para jogos educativos.
+      // Simulados e avaliações oficiais são exibidos exclusivamente no card superior ou painéis dedicados.
+      rows = rows.filter(r => {
+        const t = (r.title || '').toLowerCase();
+        const u = (r.activity_url || '').toLowerCase();
+        const c = (r.category || '').toLowerCase();
+        return !t.includes('simulado') && !u.includes('simulado') && !c.includes('simulado');
+      });
 
       // REGRA DE OURO: Todo jogo novo (lançado nos últimos 21 dias) DEVE estar no TOPO absoluto!
       const now = Date.now();
@@ -609,8 +604,12 @@ const dbHelper = {
     const catRows = await queryAll("SELECT DISTINCT category FROM activities WHERE category IS NOT NULL AND category != ''");
     const subRows = await queryAll("SELECT DISTINCT subject FROM activities WHERE subject IS NOT NULL AND subject != '' AND subject != 'Geral'");
     
-    const categories = catRows.map(r => r.category);
-    const subjects = subRows.map(r => r.subject);
+    const categories = catRows
+      .map(r => r.category)
+      .filter(c => c && !c.toLowerCase().includes('simulado'));
+    const subjects = subRows
+      .map(r => r.subject)
+      .filter(s => s && !s.toLowerCase().includes('simulado'));
 
     cachedMeta = { categories, subjects };
     cachedMetaTime = now;
@@ -2349,7 +2348,8 @@ async function initTables() {
         await queryRun("UPDATE activities SET icon_url = '/img/covers/chapeuzinho-enigma.jpg' WHERE activity_url LIKE '%chapeuzinho%' OR title LIKE '%Chapeuzinho%'");
         await queryRun("UPDATE activities SET icon_url = '/img/covers/capitao-alberto-farao.jpg' WHERE activity_url LIKE '%capitao-alberto%' OR title LIKE '%Capitão Alberto%'");
         await queryRun("UPDATE activities SET icon_url = '/img/covers/arie-colorir.jpg' WHERE activity_url LIKE '%arie-colorir%' OR title LIKE '%Ariê Colorir%'");
-        await queryRun("UPDATE activities SET icon_url = '/img/covers/tabuada-chao-e-lava.jpg' WHERE activity_url LIKE '%tabuada%' OR title LIKE '%Tabuada%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/tabuada-chao-e-lava.jpg' WHERE (activity_url LIKE '%tabuada%' OR title LIKE '%Tabuada%') AND activity_url NOT LIKE '%ninja%'");
+        await queryRun("UPDATE activities SET icon_url = '/img/covers/ninja-math.jpg' WHERE activity_url LIKE '%ninja%' OR title LIKE '%Ninja%'");
         await queryRun("UPDATE activities SET icon_url = '/img/covers/caca-palavras-temas.jpg' WHERE activity_url LIKE '%caca-palavras%' OR title LIKE '%Caça-Palavras%'");
 
         await queryRun("UPDATE news SET image_url = '/img/covers/brincando-com-arie-1.jpg' WHERE activity_url LIKE '%arie-1%'");
