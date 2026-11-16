@@ -30,6 +30,7 @@ Disallow: /qr/
 Disallow: /downloads/
 
 User-agent: Google-adstxt
+Allow: /
 Allow: /ads.txt
 
 User-agent: AdsBot-Google
