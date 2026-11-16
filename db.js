@@ -960,16 +960,18 @@ const dbHelper = {
     };
   },
 
-  async updateSimuladoSubmission(id, { student_name, school_name, class_name, shift }) {
-    await queryRun(
-      "UPDATE simulado_submissions SET student_name = ?, school_name = ?, class_name = ?, shift = ? WHERE id = ?",
-      [student_name, school_name, class_name, shift, id]
-    );
-    if (supabase) {
-      try {
-        await supabase.from('simulado_submissions').update({ student_name, school_name, class_name, shift }).eq('id', id);
-      } catch(e){}
-    }
+  async updateSimuladoSubmission(id, { student_name, school_name, class_name, shift, score, max_score }) {
+    const fields = [];
+    const args = [];
+    if (student_name !== undefined) { fields.push('student_name = ?'); args.push(student_name); }
+    if (school_name !== undefined) { fields.push('school_name = ?'); args.push(school_name); }
+    if (class_name !== undefined) { fields.push('class_name = ?'); args.push(class_name); }
+    if (shift !== undefined) { fields.push('shift = ?'); args.push(shift); }
+    if (score !== undefined) { fields.push('score = ?'); args.push(score); }
+    if (max_score !== undefined) { fields.push('max_score = ?'); args.push(max_score); }
+    if (fields.length === 0) return;
+    args.push(id);
+    await queryRun(`UPDATE simulado_submissions SET ${fields.join(', ')} WHERE id = ?`, args);
     await syncAutoBackupJSON();
   },
 

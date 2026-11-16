@@ -1041,6 +1041,7 @@
                 const key = masterAnswerKeys[simId] || masterAnswerKeys['campos-4ano-agosto-2026'];
                 const dateISO = new Date(s.created_at).toISOString();
                 const defaultMax = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-3ano-outubro-2026' || simId === 'campos-5ano-outubro-2026') ? 11 :
+                                   (simId === 'campos-2ano-outubro-2026') ? 8 :
                                    (simId === 'campos-2ano-setembro-2026' || simId === 'campos-1ano-agosto-2026' || simId === 'campos-4ano-setembro-2026') ? 10 : 9;
               %>
               <tr class="student-row" id="student-row-<%= s.id %>" data-id="<%= s.id %>" data-simulado="<%= simId %>" data-student="<%= s.student_name %>" data-school="<%= s.school_name %>" data-class="<%= s.class_name %>" data-shift="<%= s.shift || 'Manhã' %>" data-score="<%= score %>" data-date="<%= dateISO %>" data-answers='<%= JSON.stringify(parsedAns) %>'>
@@ -1079,7 +1080,7 @@
                         tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10A', '10B', '10C'];
                       } else if (simId === 'campos-5ano-outubro-2026') {
                         tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-                      } else if (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026') {
+                      } else if (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026' || simId === 'campos-2ano-outubro-2026') {
                         tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
                       } else {
                         for(let q=1; q<=10; q++) tableQList.push(String(q));
@@ -1087,9 +1088,11 @@
 
                       for(let qi=0; qi<tableQList.length; qi++) { 
                         const qKey = tableQList[qi];
+                        const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11'));
                         const isEssay = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
                                         (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                         (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
+                                        (simId === 'campos-2ano-outubro-2026' && qKey === '4') ||
                                         (simId === 'campos-2ano-setembro-2026' && qKey === '4') ||
                                         (simId === 'campos-3ano-setembro-2026' && qKey === '10') ||
                                         (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
@@ -1097,9 +1100,11 @@
                                         ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
                         const essayName = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
                                           (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
-                                          (simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Produção Textual'));
+                                          (simId === 'campos-2ano-outubro-2026' || simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Produção Textual'));
                         const qLabel = qKey.length === 1 ? '0' + qKey : qKey;
-                        if (isEssay) { %>
+                        if (isAnulada) { %>
+                          <span class="q-badge" style="background: #f1f5f9; color: #475569; border: 1.5px dashed #94a3b8; font-weight: 800;" title="Questão <%= qLabel %> Anulada pelo Professor">Q<%= qLabel %>: Anulada</span>
+                        <% } else if (isEssay) { %>
                           <span class="q-badge q-badge-essay" title="<%= essayName %>">Q<%= qLabel %>: ✍️</span>
                         <% } else { 
                           const stAns = parsedAns[qKey];
@@ -1145,26 +1150,34 @@
                         } else if (simId === 'campos-5ano-outubro-2026') {
                           qList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
                         } else {
-                          const maxQDetail = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026') ? 11 : 10;
+                          const maxQDetail = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026' || simId === 'campos-2ano-outubro-2026') ? 11 : 10;
                           for(let q=1; q<=maxQDetail; q++) qList.push(String(q));
                         }
                         for(let i=0; i<qList.length; i++) { 
                           const qKey = qList[i];
+                          const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11'));
                           const isEssay = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
-                                        (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
+                                          (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                           (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
+                                          (simId === 'campos-2ano-outubro-2026' && qKey === '4') ||
                                           (simId === 'campos-2ano-setembro-2026' && qKey === '4') ||
                                           (simId === 'campos-3ano-setembro-2026' && qKey === '10') ||
                                           (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
                                           (simId === 'campos-2ano-agosto-2026' && qKey === '5') || 
                                           ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
                           const essayName = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
-                                          (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
+                                            (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
                                             (simId === 'campos-5ano-outubro-2026' && qKey === '3') ? 'Redação: O Segredo da Serra do Mar' :
-                                            (simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : 
+                                            (simId === 'campos-2ano-outubro-2026' || simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : 
                                             (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Redação'));
                           const qLabel = qKey.length === 1 ? '0' + qKey : qKey;
-                          if (isEssay) { %>
+                          if (isAnulada) { %>
+                            <div style="background: #f8fafc; border: 1.5px dashed #94a3b8; border-radius: 8px; padding: 0.5rem; text-align: center;">
+                              <div style="font-size: 0.75rem; font-weight: 700; color: #64748b;">Questão <%= qLabel %></div>
+                              <div style="font-size: 0.85rem; font-weight: 800; color: #475569;">🚫 ANULADA</div>
+                              <div style="font-size: 0.7rem; color: #94a3b8;">Desconsiderada do cálculo</div>
+                            </div>
+                          <% } else if (isEssay) { %>
                             <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 0.5rem; text-align: center;">
                               <div style="font-size: 0.75rem; font-weight: 700; color: #b45309;">Questão <%= qLabel %></div>
                               <div style="font-size: 0.85rem; font-weight: 800; color: #78350f;">✍️ <%= essayName %></div>
@@ -1204,6 +1217,7 @@
 
   <script>
     const allAnswerKeys = {
+      'campos-2ano-outubro-2026': { 1:'C', 2:'C', 3:'A', 5:'A', 6:'C', 7:'C', 8:'B', 9:'C', 10:'C', 11:'B' },
       'campos-5ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'C', 6:'B', 7:'A', 8:'B', 9:'A', 10:'C', 11:'B', 12:'B' },
       'campos-3ano-outubro-2026': { 1:'C', 2:'A', 3:'C', 4:'C', 6:'C', 7:'C', 8:'C', 9:'C', '10A':'C', '10B':'C', '10C':'B' },
       'campos-1ano-setembro-2026': { 1:'A', 2:'A', 3:'A', 4:'B', 5:'A', 6:'A', 7:'B', 8:'B', 9:'C', 10:'A', 11:'A' },
