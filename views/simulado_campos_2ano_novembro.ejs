@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 2º Ano — Novembro/2026 | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="/js/simulado-vault.js"></script>
+
+  <style>
+    :root {
+      --primary: #0d9488;
+      --primary-dark: #0f766e;
+      --primary-light: #ccfbf1;
+      --accent: #2dd4bf;
+      --accent-warm: #f59e0b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(13, 148, 136, 0.08);
+      --shadow-lg: 0 16px 36px rgba(13, 148, 136, 0.14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 5.5rem;
+      overflow-x: hidden;
+    }
+    .top-header {
+      background: white;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 0.75rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .header-content {
+      max-width: 920px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .brand-link { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; }
+    .brand-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1.2;
+    }
+    .simulado-badge {
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 10px rgba(13, 148, 136, 0.25);
+    }
+    .main-layout {
+      max-width: 920px;
+      margin: 2rem auto 0;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .simulado-pdf-titlecard {
+      background: linear-gradient(135deg, #0f766e 0%, #0f172a 100%);
+      color: white;
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 3px solid #5eead4;
+      position: relative;
+      overflow: hidden;
+    }
+    .gov-tag {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      margin-bottom: 0.5rem;
+    }
+    .simulado-pdf-titlecard h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: 0.5px;
+    }
+    .simulado-pdf-titlecard h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #2dd4bf;
+      margin-bottom: 0.75rem;
+    }
+    .simulado-pdf-titlecard .sub-theme {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .student-card {
+      background: var(--card-bg);
+      padding: 1.5rem 1.75rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+    }
+    .student-card h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .student-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: all 0.2s;
+      background: #f8fafc;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+    .cartao-resposta-card {
+      background: var(--card-bg);
+      border: 2px dashed var(--primary);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .cartao-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .cartao-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .cr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.75rem;
+    }
+    .cr-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      background: #f8fafc;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid #e2e8f0;
+    }
+    .cr-q-num { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); }
+    .cr-bubbles { display: flex; gap: 0.25rem; }
+    .cr-bubble {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: white;
+      color: #64748b;
+      transition: all 0.15s;
+    }
+    .cr-bubble:hover { border-color: var(--primary); color: var(--primary); }
+    .cr-bubble.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      transform: scale(1.1);
+    }
+    .block-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 0.85rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      scroll-margin-top: 5rem;
+    }
+    .question-tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.35rem 0.85rem;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .question-bncc {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: #f1f5f9;
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+    }
+    .question-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      color: #1e293b;
+      line-height: 1.35;
+    }
+    .question-text-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .question-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      margin: 0.5rem auto;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+    .tts-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      padding: 0.4rem 0.85rem;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tts-btn:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-color: var(--primary);
+    }
+    .tts-btn.speaking {
+      background: #fef08a;
+      color: #854d0e;
+      border-color: #facc15;
+    }
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.25rem;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+      user-select: none;
+    }
+    .option-item:hover { border-color: var(--primary); background: #f0fdf4; }
+    .option-item.selected { border-color: var(--primary); background: var(--primary-light); }
+    .option-letter {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .option-item.selected .option-letter {
+      background: var(--primary);
+      color: white;
+    }
+    .option-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1e293b;
+      flex: 1;
+    }
+    .ditado-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: #f8fafc;
+      padding: 1.25rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid #e2e8f0;
+    }
+    .ditado-item { display: flex; flex-direction: column; gap: 0.4rem; }
+    .ditado-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .ditado-label { font-weight: 800; color: var(--primary-dark); font-size: 0.95rem; }
+    .ditado-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      outline: none;
+      background: white;
+      transition: border-color 0.2s;
+    }
+    .ditado-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+    .floating-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 2px solid #e2e8f0;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      z-index: 99;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+    }
+    .progress-box { flex: 1; max-width: 500px; }
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 50px;
+      overflow: hidden;
+      margin-bottom: 0.35rem;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+      transition: width 0.3s ease;
+    }
+    .progress-text { font-size: 0.82rem; font-weight: 700; color: var(--text-muted); }
+    .btn-submit-exam {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      padding: 0.85rem 1.75rem;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(13, 148, 136, 0.25);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-submit-exam:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(13, 148, 136, 0.35);
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      max-width: 480px;
+      width: 100%;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      border: 3px solid var(--accent);
+    }
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 4px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem auto;
+    }
+    .score-num {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+    .score-max { font-size: 0.85rem; font-weight: 800; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Header -->
+  <header class="top-header">
+    <div class="header-content">
+      <a href="/aluno" class="brand-link">
+        <span style="font-size: 1.6rem;">📚</span>
+        <div class="brand-title">Portal de Atividades<br><span style="font-size: 0.8rem; color: #64748b; font-family: 'Outfit';">Campos dos Goytacazes</span></div>
+      </a>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span class="simulado-badge">🥈 2º ANO • NOVEMBRO/2026</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-layout">
+
+    <!-- Card de Título Oficial -->
+    <div class="simulado-pdf-titlecard">
+      <div class="gov-tag">Prefeitura Municipal de Campos dos Goytacazes • SEDUCT</div>
+      <h1>SIMULADO OFICIAL • 2º ANO</h1>
+      <h2>NOVEMBRO / 2026</h2>
+      <div class="sub-theme">🌟 Tema: Consciência Negra: Respeito, Igualdade e Boas Escolhas (Lei 11.645/2008)</div>
+    </div>
+
+    <!-- Identificação do Aluno -->
+    <div class="student-card">
+      <h3><span>👤</span> Dados do Estudante</h3>
+      <div class="student-form-grid">
+        <div class="form-group">
+          <label for="studentName">Nome Completo do Aluno:</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo...">
+        </div>
+        <div class="form-group">
+          <label for="schoolName">Escola Municipal:</label>
+          <input type="text" id="schoolName" class="form-control" value="E.M. José Giró Faísca">
+        </div>
+        <div class="form-group">
+          <label for="className">Turma:</label>
+          <select id="className" class="form-control">
+            <option value="2º Ano A">2º Ano A</option>
+            <option value="2º Ano B" selected>2º Ano B</option>
+            <option value="2º Ano C">2º Ano C</option>
+            <option value="2º Manhã">2º Manhã</option>
+            <option value="2º Tarde">2º Tarde</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="shiftName">Turno:</label>
+          <select id="shiftName" class="form-control">
+            <option value="Manhã" selected>Manhã</option>
+            <option value="Tarde">Tarde</option>
+            <option value="Integral">Integral</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartão-Resposta Interativo -->
+    <div class="cartao-resposta-card">
+      <div class="cartao-header">
+        <div class="cartao-title"><span>📋</span> Cartão-Resposta da Avaliação</div>
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);" id="crProgressIndicator">0 de 11 preenchidas</span>
+      </div>
+      <div class="cr-grid" id="cartaoGrid"></div>
+    </div>
+
+    <!-- BLOCO 1: LÍNGUA PORTUGUESA / HISTÓRIA / ARTE -->
+    <div class="block-header">
+      <span>📖</span> BLOCO 1: LÍNGUA PORTUGUESA, HISTÓRIA E ARTE
+    </div>
+
+    <!-- TEXTO BASE 1 -->
+    <div class="question-card" style="border-left: 6px solid var(--primary);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.75rem;">
+        <span class="question-tag">Texto Base</span>
+        <button type="button" class="tts-btn" onclick="speakText('texto-base-1')">🔊 Ouvir Texto com a Professora Sara</button>
+      </div>
+      <h3 class="question-title" style="color: var(--primary-dark);">CONSCIÊNCIA NEGRA, IGUALDADE RACIAL E EDUCAÇÃO FINANCEIRA</h3>
+      
+      <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin: 1rem 0;">
+        <img src="/img/simulados/novembro-2ano/cover_consciencia.png" alt="Consciência Negra e Educação Financeira" class="question-img" style="max-height: 240px; object-fit: contain; margin: 0 auto;">
+        <div id="texto-base-1" class="question-text-box" style="flex: 1; min-width: 280px; font-size: 1.05rem; line-height: 1.8; background: white; margin-bottom: 0;">
+          A TURMA DA PROFESSORA SARA APRENDEU SOBRE A CONSCIÊNCIA NEGRA E DESCOBRIU QUE CONHECER A HISTÓRIA E A CULTURA AFRO-BRASILEIRA AJUDA A COMPREENDER MELHOR A FORMAÇÃO DO NOSSO PAÍS.<br>
+          DURANTE O PROJETO, AS CRIANÇAS CONVERSARAM SOBRE O RESPEITO ÀS DIFERENÇAS, A IMPORTÂNCIA DA IGUALDADE DE OPORTUNIDADES E O COMBATE AO PRECONCEITO.<br>
+          ALÉM DISSO, A TURMA PARTICIPOU DE ATIVIDADES DE EDUCAÇÃO FINANCEIRA, APRENDENDO QUE CUIDAR DOS RECURSOS, EVITAR O DESPERDÍCIO E FAZER ESCOLHAS CONSCIENTES TAMBÉM CONTRIBUEM PARA UM FUTURO MELHOR.<br>
+          VALORIZAR A DIVERSIDADE E AGIR COM RESPONSABILIDADE SÃO ATITUDES FUNDAMENTAIS PARA VIVER BEM EM SOCIEDADE!
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 1 -->
+    <div class="question-card" id="card-q1">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 01</span>
+          <span class="question-bncc">EF15LP03 / EF02GE02 • Língua Portuguesa e Geografia</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q1-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Compreensão do Texto: Valorização das Diferenças</h3>
+      <div id="q1-text">
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          DE ACORDO COM O TEXTO, O QUE A TURMA APRENDEU SOBRE AS DIFERENÇAS ENTRE AS PESSOAS?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(1, 'A')">
+          <div class="option-letter" id="opt-1-A">A</div>
+          <div class="option-text">DEVEM SER CONHECIDAS, VALORIZADAS E RESPEITADAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'B')">
+          <div class="option-letter" id="opt-1-B">B</div>
+          <div class="option-text">DEVEM SER MOTIVO PARA SEPARAR AS PESSOAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'C')">
+          <div class="option-letter" id="opt-1-C">C</div>
+          <div class="option-text">SOMENTE ALGUMAS CULTURAS DEVEM SER ESTUDADAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'D')">
+          <div class="option-letter" id="opt-1-D">D</div>
+          <div class="option-text">TODAS AS PESSOAS PRECISAM TER OS MESMOS COSTUMES.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 2 -->
+    <div class="question-card" id="card-q2">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 02</span>
+          <span class="question-bncc">EF02HI01 / EF15AR25 • História e Arte</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q2-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Exposição da Professora Sara e Convivência Respeitosa</h3>
+      <div id="q2-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q02_exposicao_sara.png" alt="Professora Sara e alunos na exposição" class="question-img" style="max-height: 220px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          A PROFESSORA SARA ORGANIZOU UMA EXPOSIÇÃO. CADA GRUPO APRESENTOU HISTÓRIAS, PERSONALIDADES, COSTUMES E EXPRESSÕES CULTURAIS RELACIONADAS À CULTURA AFRO-BRASILEIRA. DURANTE AS APRESENTAÇÕES, TODOS PUDERAM FALAR E FORAM OUVIDOS COM ATENÇÃO.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL ATITUDE DA TURMA CONTRIBUIU PARA UMA CONVIVÊNCIA RESPEITOSA?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(2, 'A')">
+          <div class="option-letter" id="opt-2-A">A</div>
+          <div class="option-text">ESCOLHER SOMENTE UMA HISTÓRIA PARA SER VALORIZADA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'B')">
+          <div class="option-letter" id="opt-2-B">B</div>
+          <div class="option-text">COMPARAR AS CRIANÇAS PARA DESCOBRIR QUAL ERA MELHOR.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'C')">
+          <div class="option-letter" id="opt-2-C">C</div>
+          <div class="option-text">OUVIR AS APRESENTAÇÕES E RESPEITAR AS DIFERENTES HISTÓRIAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'D')">
+          <div class="option-letter" id="opt-2-D">D</div>
+          <div class="option-text">DEIXAR APENAS ALGUNS ESTUDANTES PARTICIPAREM.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 3 -->
+    <div class="question-card" id="card-q3">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 03</span>
+          <span class="question-bncc">EF12LP19 • Língua Portuguesa</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q3-text')">🔊 Ouvir Versos e Questão</button>
+      </div>
+      <h3 class="question-title">Identificação de Rimas nos Versos da Turma</h3>
+      <div id="q3-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q03_rimas.png" alt="Versos e crianças" class="question-img" style="max-height: 220px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white; font-style: italic;">
+          NOSSA HISTÓRIA VAMOS VALORIZAR,<br>
+          COM RESPEITO VAMOS CAMINHAR.<br>
+          APRENDER, CUIDAR E CONHECER,<br>
+          PARA JUNTOS PODERMOS CRESCER.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL PAR DE PALAVRAS RIMA?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(3, 'A')">
+          <div class="option-letter" id="opt-3-A">A</div>
+          <div class="option-text">HISTÓRIA – RESPEITO.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'B')">
+          <div class="option-letter" id="opt-3-B">B</div>
+          <div class="option-text">VALORIZAR – CAMINHAR.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'C')">
+          <div class="option-letter" id="opt-3-C">C</div>
+          <div class="option-text">CUIDAR – CONHECER.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'D')">
+          <div class="option-letter" id="opt-3-D">D</div>
+          <div class="option-text">JUNTOS – CRESCER.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 4 (DITADO DE FRASES) -->
+    <div class="question-card" id="card-q4" style="border-left: 6px solid var(--accent-warm);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag" style="background: #fef3c7; color: #b45309;">Questão 04</span>
+          <span class="question-bncc">EF02LP01 • Ditado de Frases</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakDitado2AnoCompleto()">🔊 Ouvir Todas as Frases</button>
+      </div>
+      <h3 class="question-title">Ditado de Frases com a Professora Sara</h3>
+      
+      <p style="font-weight: 800; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e293b;">
+        VAMOS PRATICAR A ESCRITA! OUÇA COM ATENÇÃO AS FRASES DITADAS PELA PROFESSORA SARA E ESCREVA-AS NOS ESPAÇOS ABAIXO:
+      </p>
+
+      <div class="ditado-box">
+        <div class="ditado-item">
+          <div class="ditado-item-header">
+            <span class="ditado-label">1. Primeira Frase (Nível Fácil):</span>
+            <button type="button" class="tts-btn" onclick="speakSingleSentence('Respeitar é muito importante.')">🔊 Ouvir Frase 1</button>
+          </div>
+          <input type="text" id="ditado1" class="ditado-input" placeholder="Escreva a primeira frase aqui..." oninput="syncDitado2Ano()">
+        </div>
+        <div class="ditado-item">
+          <div class="ditado-item-header">
+            <span class="ditado-label">2. Segunda Frase (Nível Médio):</span>
+            <button type="button" class="tts-btn" onclick="speakSingleSentence('Toda pessoa tem direito ao respeito.')">🔊 Ouvir Frase 2</button>
+          </div>
+          <input type="text" id="ditado2" class="ditado-input" placeholder="Escreva a segunda frase aqui..." oninput="syncDitado2Ano()">
+        </div>
+        <div class="ditado-item">
+          <div class="ditado-item-header">
+            <span class="ditado-label">3. Terceira Frase (Nível Desafio):</span>
+            <button type="button" class="tts-btn" onclick="speakSingleSentence('Todas as pessoas devem ser respeitadas sem preconceito.')">🔊 Ouvir Frase 3</button>
+          </div>
+          <input type="text" id="ditado3" class="ditado-input" placeholder="Escreva a terceira frase aqui..." oninput="syncDitado2Ano()">
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 5 -->
+    <div class="question-card" id="card-q5">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 05</span>
+          <span class="question-bncc">EF02HI01 • História</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q5-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Respeito às Manifestações Culturais</h3>
+      <div id="q5-text">
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          DURANTE A FEIRA CULTURAL, A TURMA CONHECEU HISTÓRIAS, MÚSICAS E BRINCADEIRAS DE DIFERENTES CULTURAS.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL ATITUDE DEMONSTRA RESPEITO ÀS DIFERENÇAS?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(5, 'A')">
+          <div class="option-letter" id="opt-5-A">A</div>
+          <div class="option-text">DIZER QUE APENAS A SUA PRÓPRIA CULTURA É BOA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'B')">
+          <div class="option-letter" id="opt-5-B">B</div>
+          <div class="option-text">OUVIR E VALORIZAR AS DIFERENTES MANIFESTAÇÕES CULTURAIS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'C')">
+          <div class="option-letter" id="opt-5-C">C</div>
+          <div class="option-text">EVITAR CONVERSAR COM COLEGAS QUE PENSAM DIFERENTE.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'D')">
+          <div class="option-letter" id="opt-5-D">D</div>
+          <div class="option-text">RIR DE COSTUMES DIFERENTES DOS SEUS.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCO 2: MATEMÁTICA E EDUCAÇÃO FINANCEIRA -->
+    <div class="block-header">
+      <span>🔢</span> BLOCO 2: MATEMÁTICA E EDUCAÇÃO FINANCEIRA
+    </div>
+
+    <!-- QUESTÃO 6 -->
+    <div class="question-card" id="card-q6">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 06</span>
+          <span class="question-bncc">EF02MA18 • Matemática</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q6-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Calendário: Contagem dos Dias de Atividades</h3>
+      <div id="q6-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q06_semana_atividades.png" alt="Semana de atividades no calendário" class="question-img" style="max-height: 220px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          EM NOVEMBRO, A ESCOLA ORGANIZOU UMA SEMANA DE ATIVIDADES.<br>
+          A PROGRAMAÇÃO COMEÇOU NO DIA <strong>16 DE NOVEMBRO</strong> E TERMINOU NO DIA <strong>20 DE NOVEMBRO</strong>.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          CONTANDO O DIA 16 E O DIA 20, QUANTOS DIAS DE ATIVIDADES FORAM REALIZADOS?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(6, 'A')">
+          <div class="option-letter" id="opt-6-A">A</div>
+          <div class="option-text">5 DIAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'B')">
+          <div class="option-letter" id="opt-6-B">B</div>
+          <div class="option-text">4 DIAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'C')">
+          <div class="option-letter" id="opt-6-C">C</div>
+          <div class="option-text">3 DIAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'D')">
+          <div class="option-letter" id="opt-6-D">D</div>
+          <div class="option-text">2 DIAS.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 7 -->
+    <div class="question-card" id="card-q7">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 07</span>
+          <span class="question-bncc">EF02MA06 • Matemática</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q7-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Venda de Marcadores de Livro</h3>
+      <div id="q7-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q07_marcadores_livro.png" alt="Marcadores de livro" class="question-img" style="max-height: 220px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          PARA A FEIRA, A TURMA PRODUZIU <strong>28 MARCADORES DE LIVRO</strong>.<br>
+          PELA MANHÃ, FORAM VENDIDOS <strong>9 MARCADORES</strong>. À TARDE, FORAM VENDIDOS MAIS <strong>7</strong>.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUANTOS MARCADORES RESTARAM?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(7, 'A')">
+          <div class="option-letter" id="opt-7-A">A</div>
+          <div class="option-text">10</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'B')">
+          <div class="option-letter" id="opt-7-B">B</div>
+          <div class="option-text">11</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'C')">
+          <div class="option-letter" id="opt-7-C">C</div>
+          <div class="option-text">12</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'D')">
+          <div class="option-letter" id="opt-7-D">D</div>
+          <div class="option-text">13</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 8 -->
+    <div class="question-card" id="card-q8">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 08</span>
+          <span class="question-bncc">EF02MA06 • Matemática</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q8-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Economia para Comprar o Livro</h3>
+      <div id="q8-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q08_livro_dandara_cedulas.png" alt="Cédulas e economia de Dandara" class="question-img" style="max-height: 180px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          DANDARA QUER COMPRAR UM LIVRO QUE CUSTA <strong>R$ 25,00</strong>.<br>
+          ELA JÁ GUARDOU <strong>R$ 17,00</strong>.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUANTO AINDA PRECISA ECONOMIZAR PARA CONSEGUIR COMPRAR O LIVRO?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(8, 'A')">
+          <div class="option-letter" id="opt-8-A">A</div>
+          <div class="option-text">R$ 8,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'B')">
+          <div class="option-letter" id="opt-8-B">B</div>
+          <div class="option-text">R$ 7,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'C')">
+          <div class="option-letter" id="opt-8-C">C</div>
+          <div class="option-text">R$ 6,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'D')">
+          <div class="option-letter" id="opt-8-D">D</div>
+          <div class="option-text">R$ 5,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 9 -->
+    <div class="question-card" id="card-q9">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 09</span>
+          <span class="question-bncc">EF02MA19 • Matemática</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q9-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Horário da Apresentação da Turma</h3>
+      <div id="q9-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q09_relogio_feira.png" alt="Horário da apresentação e feira" class="question-img" style="max-height: 220px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          DURANTE A FEIRA CULTURAL, A TURMA PARTICIPOU DE DIFERENTES ATIVIDADES SOBRE A HISTÓRIA E A CULTURA AFRO-BRASILEIRA.<br>
+          A FEIRA COMEÇOU ÀS <strong>9h30</strong>. A APRESENTAÇÃO DA TURMA ESTAVA PROGRAMADA PARA COMEÇAR <strong>1 HORA DEPOIS</strong>.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          EM QUE HORÁRIO COMEÇOU A APRESENTAÇÃO?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(9, 'A')">
+          <div class="option-letter" id="opt-9-A">A</div>
+          <div class="option-text">11h30</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'B')">
+          <div class="option-letter" id="opt-9-B">B</div>
+          <div class="option-text">10h30</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'C')">
+          <div class="option-letter" id="opt-9-C">C</div>
+          <div class="option-text">10h</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'D')">
+          <div class="option-letter" id="opt-9-D">D</div>
+          <div class="option-text">9h30</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 10 -->
+    <div class="question-card" id="card-q10">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 10</span>
+          <span class="question-bncc">Consumo Consciente • Educação Financeira</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q10-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Economia e Reaproveitamento de Materiais</h3>
+      <div id="q10-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q10_folhas_cartaz.png" alt="Cartazes e folhas limpas" class="question-img" style="max-height: 220px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          PARA PRODUZIR CARTAZES SOBRE CONSCIÊNCIA NEGRA, A PROFESSORA ENTREGOU FOLHAS ÀS CRIANÇAS. DEPOIS DA ATIVIDADE, ALGUMAS FOLHAS AINDA ESTAVAM LIMPAS E PODERIAM SER USADAS.
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL ATITUDE UNE ECONOMIA E CUIDADO COM OS RECURSOS?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(10, 'A')">
+          <div class="option-letter" id="opt-10-A">A</div>
+          <div class="option-text">JOGAR TODAS AS FOLHAS FORA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'B')">
+          <div class="option-letter" id="opt-10-B">B</div>
+          <div class="option-text">PEDIR NOVAS FOLHAS E DESCARTAR AS ANTIGAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'C')">
+          <div class="option-letter" id="opt-10-C">C</div>
+          <div class="option-text">RASGAR AS FOLHAS QUE SOBRARAM.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'D')">
+          <div class="option-letter" id="opt-10-D">D</div>
+          <div class="option-text">GUARDAR AS FOLHAS LIMPAS PARA OUTRA ATIVIDADE.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 11 -->
+    <div class="question-card" id="card-q11">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 11</span>
+          <span class="question-bncc">EF02MA22 / EF02MA06 • Matemática</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q11-text')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Interpretação de Dados da Pesquisa</h3>
+      <div id="q11-text">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-2ano/q11_grafico_pesquisa.png" alt="Pesquisa sobre temas favoritos" class="question-img" style="max-height: 240px; object-fit: contain;">
+        </div>
+        <div class="question-text-box" style="margin-bottom: 1rem; background: white;">
+          A TURMA FEZ UMA PESQUISA SOBRE OS TEMAS QUE OS ESTUDANTES MAIS GOSTARAM DE CONHECER NA EXPOSIÇÃO:<br>
+          • <strong>HISTÓRIAS:</strong> 8 VOTOS<br>
+          • <strong>MÚSICA:</strong> 5 VOTOS<br>
+          • <strong>ARTE:</strong> 7 VOTOS
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUANTOS VOTOS RECEBERAM HISTÓRIAS E ARTE JUNTAS?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(11, 'A')">
+          <div class="option-letter" id="opt-11-A">A</div>
+          <div class="option-text">16</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'B')">
+          <div class="option-letter" id="opt-11-B">B</div>
+          <div class="option-text">15</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'C')">
+          <div class="option-letter" id="opt-11-C">C</div>
+          <div class="option-text">14</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'D')">
+          <div class="option-letter" id="opt-11-D">D</div>
+          <div class="option-text">13</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Sticky Bottom Floating Bar -->
+  <footer class="floating-bar">
+    <div class="progress-box">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-text" id="progressText">0 de 11 respondidas</div>
+    </div>
+    <button type="button" class="btn-submit-exam" onclick="submitExamWithVault()">
+      <span>🚀</span>
+      <span>FINALIZAR E ENVIAR</span>
+    </button>
+  </footer>
+
+  <!-- MODAL DE SUCESSO -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-card">
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 0.5rem;">Parabéns pelo Esforço!</h2>
+      <p style="color: #64748b; font-size: 1rem;">Você completou o Simulado Oficial do 2º Ano com sucesso!</p>
+      <div class="score-circle">
+        <span class="score-num" id="modalScore">0</span>
+        <span class="score-max">de 10 pts</span>
+      </div>
+      <div id="modalDitadoFeedback" style="background: #ccfbf1; border: 1.5px solid #5eead4; border-radius: 12px; padding: 0.85rem; font-size: 0.9rem; color: #0f766e; margin-bottom: 1.5rem;">
+        ✍️ <strong>Ditado de Frases:</strong> 3 frases registradas para avaliação da professora Sara!
+      </div>
+      <button type="button" class="btn-submit-exam" style="width: 100%; justify-content: center;" onclick="window.location.href='/aluno'">
+        Voltar ao Portal do Aluno
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const SIMULADO_ID = 'campos-2ano-novembro-2026';
+    const DRAFT_KEY = 'lab_simulado_2ano_novembro_draft';
+
+    // 10 questões objetivas (Questão 4 é Ditado de Frases)
+    const answerKey = {
+      1: 'A',
+      2: 'C',
+      3: 'B',
+      5: 'B',
+      6: 'A',
+      7: 'C',
+      8: 'A',
+      9: 'B',
+      10: 'D',
+      11: 'B'
+    };
+
+    const questionKeys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    let studentAnswers = {};
+    let isSubmitting = false;
+
+    // Pre-seleção do turno via query param (?shift=manha ou ?shift=tarde)
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const shiftParam = urlParams.get('shift');
+      if (shiftParam) {
+        const shiftEl = document.getElementById('shiftName');
+        if (shiftEl) {
+          if (shiftParam.toLowerCase().includes('tarde')) shiftEl.value = 'Tarde';
+          else if (shiftParam.toLowerCase().includes('manha') || shiftParam.toLowerCase().includes('manhã')) shiftEl.value = 'Manhã';
+          else if (shiftParam.toLowerCase().includes('integral')) shiftEl.value = 'Integral';
+        }
+      }
+      initCRGrid();
+      restoreDraft();
+    });
+
+    function initCRGrid() {
+      const grid = document.getElementById('cartaoGrid');
+      grid.innerHTML = '';
+      questionKeys.forEach(k => {
+        const row = document.createElement('div');
+        row.className = 'cr-row';
+        row.id = `cr-row-${k}`;
+        if (k === 4) {
+          row.innerHTML = `
+            <span class="cr-q-num">Questão 04 (Ditado):</span>
+            <span id="cr-status-q4" style="font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 50px; background: #f1f5f9; color: #64748b;">
+              Aguardando Ditado
+            </span>
+          `;
+        } else {
+          const qNumFormatted = k < 10 ? '0' + k : k;
+          row.innerHTML = `
+            <span class="cr-q-num">Questão ${qNumFormatted}:</span>
+            <div class="cr-bubbles">
+              <div class="cr-bubble" id="cr-bubble-${k}-A" onclick="selectOption(${k}, 'A')">A</div>
+              <div class="cr-bubble" id="cr-bubble-${k}-B" onclick="selectOption(${k}, 'B')">B</div>
+              <div class="cr-bubble" id="cr-bubble-${k}-C" onclick="selectOption(${k}, 'C')">C</div>
+              <div class="cr-bubble" id="cr-bubble-${k}-D" onclick="selectOption(${k}, 'D')">D</div>
+            </div>
+          `;
+        }
+        grid.appendChild(row);
+      });
+    }
+
+    function selectOption(qNum, letter) {
+      if (qNum === 4) return;
+      studentAnswers[qNum] = letter;
+
+      ['A', 'B', 'C', 'D'].forEach(l => {
+        const optEl = document.getElementById(`opt-${qNum}-${l}`);
+        if (optEl && optEl.parentElement) {
+          if (l === letter) optEl.parentElement.classList.add('selected');
+          else optEl.parentElement.classList.remove('selected');
+        }
+      });
+
+      ['A', 'B', 'C', 'D'].forEach(l => {
+        const b = document.getElementById(`cr-bubble-${qNum}-${l}`);
+        if (b) {
+          if (l === letter) b.classList.add('selected');
+          else b.classList.remove('selected');
+        }
+      });
+
+      updateProgress();
+      saveDraft();
+    }
+
+    function syncDitado2Ano(shouldSave = true) {
+      const d1 = document.getElementById('ditado1')?.value.trim() || '';
+      const d2 = document.getElementById('ditado2')?.value.trim() || '';
+      const d3 = document.getElementById('ditado3')?.value.trim() || '';
+      const badge = document.getElementById('cr-status-q4');
+
+      if (d1 || d2 || d3) {
+        studentAnswers[4] = `1: ${d1} | 2: ${d2} | 3: ${d3}`;
+        if (badge) {
+          badge.innerText = '✓ Ditado Preenchido';
+          badge.style.background = '#dcfce7';
+          badge.style.color = '#15803d';
+        }
+      } else {
+        delete studentAnswers[4];
+        if (badge) {
+          badge.innerText = 'Aguardando Ditado';
+          badge.style.background = '#f1f5f9';
+          badge.style.color = '#64748b';
+        }
+      }
+      updateProgress();
+      if (shouldSave) saveDraft();
+    }
+
+    function updateProgress() {
+      const totalAnswered = Object.keys(studentAnswers).length;
+      const progressPercent = Math.round((totalAnswered / 11) * 100);
+      const fill = document.getElementById('progressFill');
+      const text = document.getElementById('progressText');
+      const crInd = document.getElementById('crProgressIndicator');
+
+      if (fill) fill.style.width = `${progressPercent}%`;
+      if (text) text.innerText = `${totalAnswered} de 11 respondidas`;
+      if (crInd) crInd.innerText = `${totalAnswered} de 11 preenchidas`;
+    }
+
+    function saveDraft() {
+      if (isSubmitting) return;
+      const draft = {
+        studentName: document.getElementById('studentName')?.value || '',
+        schoolName: document.getElementById('schoolName')?.value || '',
+        className: document.getElementById('className')?.value || '',
+        shiftName: document.getElementById('shiftName')?.value || '',
+        ditado1: document.getElementById('ditado1')?.value || '',
+        ditado2: document.getElementById('ditado2')?.value || '',
+        ditado3: document.getElementById('ditado3')?.value || '',
+        answers: studentAnswers
+      };
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch(e){}
+    }
+
+    function restoreDraft() {
+      try {
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (draft.studentName && !document.getElementById('studentName').value) document.getElementById('studentName').value = draft.studentName;
+        if (draft.className) document.getElementById('className').value = draft.className;
+        if (draft.shiftName && !new URLSearchParams(window.location.search).get('shift')) document.getElementById('shiftName').value = draft.shiftName;
+
+        if (draft.ditado1) document.getElementById('ditado1').value = draft.ditado1;
+        if (draft.ditado2) document.getElementById('ditado2').value = draft.ditado2;
+        if (draft.ditado3) document.getElementById('ditado3').value = draft.ditado3;
+        syncDitado2Ano(false);
+
+        if (draft.answers) {
+          for (let q in draft.answers) {
+            if (q == '4') continue;
+            selectOption(parseInt(q), draft.answers[q]);
+          }
+        }
+      } catch(e){}
+    }
+
+    function speakText(elementId) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const textToSpeak = el.innerText || el.textContent;
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 0.92;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakSingleSentence(sentence) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(sentence);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 0.88;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakDitado2AnoCompleto() {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const text = "Atenção ao ditado da professora Sara. Primeira frase: Respeitar é muito importante. Segunda frase: Toda pessoa tem direito ao respeito. Terceira frase: Todas as pessoas devem ser respeitadas sem preconceito.";
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 0.88;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    async function submitExamWithVault() {
+      if (isSubmitting) return;
+
+      const studentName = document.getElementById('studentName').value.trim();
+      if (!studentName) {
+        alert('⚠️ Por favor, informe seu Nome Completo antes de finalizar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      const missing = [];
+      questionKeys.forEach(k => {
+        if (!studentAnswers[k]) {
+          if (k === 4) missing.push('Questão 04 (Ditado de Frases)');
+          else missing.push(`Questão ${k < 10 ? '0' + k : k}`);
+        }
+      });
+
+      if (missing.length > 0) {
+        const confirmSend = confirm(`⚠️ Atenção: você ainda não respondeu:
+
+${missing.join('\n')}
+
+Deseja enviar a avaliação mesmo assim?`);
+        if (!confirmSend) return;
+      }
+
+      let score = 0;
+      for (let k in answerKey) {
+        if (studentAnswers[k] === answerKey[k]) score++;
+      }
+
+      const ditadoText = studentAnswers[4] || '';
+
+      const payload = {
+        simulado_id: SIMULADO_ID,
+        student_name: studentName,
+        school_name: document.getElementById('schoolName').value.trim() || 'E.M. José Giró Faísca',
+        class_name: document.getElementById('className').value || '2º Ano B',
+        shift: document.getElementById('shiftName').value || 'Manhã',
+        answers_json: studentAnswers,
+        score: score,
+        max_score: 10,
+        essay_text: ditadoText
+      };
+
+      const btn = document.querySelector('.btn-submit-exam');
+      btn.innerHTML = '<span>⏳</span> <span>GRAVANDO NA NUVEM...</span>';
+      btn.style.opacity = '0.7';
+      isSubmitting = true;
+
+      let result = { success: true };
+      if (window.SimuladoVault) {
+        result = await window.SimuladoVault.submit(payload);
+      } else {
+        try {
+          const res = await fetch('/api/simulado/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          result.success = res.ok;
+        } catch(e) {
+          result.success = false;
+        }
+      }
+
+      isSubmitting = false;
+      btn.innerHTML = '<span>🚀</span> <span>FINALIZAR E ENVIAR</span>';
+      btn.style.opacity = '1';
+
+      if (result.success) {
+        try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
+        document.getElementById('modalScore').innerText = score;
+        document.getElementById('resultModal').classList.add('active');
+        if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+      } else {
+        alert('⚠️ ATENÇÃO: Falha temporária na internet da escola! Suas respostas foram salvas com total segurança na memória deste aparelho.');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -768,12 +768,16 @@ app.get('/', async (req, res) => {
   const projects = await dbHelper.getProjects(12);
   const showcaseActivities = await dbHelper.getActivities({});
   const simuladosSetting = await dbHelper.getSetting('simulados_enabled', 'false');
-  const activeSimuladosSetting = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]');
+  const defaultSims = JSON.stringify([
+    "campos-1ano-novembro-2026", "campos-2ano-novembro-2026", "campos-3ano-novembro-2026", "campos-4ano-novembro-2026",
+    "campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"
+  ]);
+  const activeSimuladosSetting = await dbHelper.getSetting('active_portal_simulados', defaultSims);
   let activePortalSimulados = [];
   try {
     activePortalSimulados = typeof activeSimuladosSetting === 'string' ? JSON.parse(activeSimuladosSetting) : activeSimuladosSetting;
   } catch(e) {
-    activePortalSimulados = ["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"];
+    activePortalSimulados = JSON.parse(defaultSims);
   }
   const simuladosEnabled = simuladosSetting === 'true' || simuladosSetting === true;
   const allNews = await dbHelper.getNews();
@@ -1148,6 +1152,43 @@ app.get(['/atividades/simulado-campos-5ano-outubro', '/simulado/campos-5ano-outu
     res.render('simulado_campos_5ano_outubro', { schools });
   } catch(e) {
     res.render('simulado_campos_5ano_outubro', { schools: [] });
+  }
+});
+
+// --- SIMULADOS DE NOVEMBRO/2026 (OFICIAL SEDUCT/CAMPOS) ---
+app.get(['/atividades/simulado-campos-1ano-novembro', '/simulado/campos-1ano-novembro-2026', '/simulados/1ano-novembro', '/simulado-1ano-novembro', '/simulado/1ano-novembro', '/simulado/1-ano-novembro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_1ano_novembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_1ano_novembro', { schools: [] });
+  }
+});
+
+app.get(['/atividades/simulado-campos-2ano-novembro', '/simulado/campos-2ano-novembro-2026', '/simulados/2ano-novembro', '/simulado-2ano-novembro', '/simulado/2ano-novembro', '/simulado/2-ano-novembro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_2ano_novembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_2ano_novembro', { schools: [] });
+  }
+});
+
+app.get(['/atividades/simulado-campos-3ano-novembro', '/simulado/campos-3ano-novembro-2026', '/simulados/3ano-novembro', '/simulado-3ano-novembro', '/simulado/3ano-novembro', '/simulado/3-ano-novembro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_3ano_novembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_3ano_novembro', { schools: [] });
+  }
+});
+
+app.get(['/atividades/simulado-campos-4ano-novembro', '/simulado/campos-4ano-novembro-2026', '/simulados/4ano-novembro', '/simulado-4ano-novembro', '/simulado/4ano-novembro', '/simulado/4-ano-novembro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_4ano_novembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_4ano_novembro', { schools: [] });
   }
 });
 

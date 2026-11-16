@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 4º Ano — Novembro/2026 | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=DynaPuff:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --primary-light: #e0e7ff;
+      --accent: #6366f1;
+      --accent-warm: #f59e0b;
+      --bg-page: #eef2ff;
+      --card-bg: #ffffff;
+      --text-main: #1e1b4b;
+      --text-muted: #4b5563;
+      --border-color: #c7d2fe;
+      --shadow-sm: 0 2px 4px rgba(79, 70, 229, 0.08);
+      --shadow-md: 0 4px 12px rgba(79, 70, 229, 0.12);
+      --shadow-lg: 0 10px 25px rgba(79, 70, 229, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 5rem;
+    }
+
+    .top-banner {
+      background: linear-gradient(135deg, #312e81 0%, #3730a3 50%, #4f46e5 100%);
+      color: #ffffff;
+      padding: 1.5rem 1rem;
+      border-bottom: 6px solid #6366f1;
+      box-shadow: var(--shadow-md);
+    }
+
+    .top-banner-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .banner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .banner-title {
+      font-family: 'DynaPuff', cursive;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .banner-sub {
+      font-size: 1.05rem;
+      font-weight: 500;
+      opacity: 0.95;
+      max-width: 680px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .student-info-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .banner-title { font-size: 1.7rem; }
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      border: 2px solid #c7d2fe;
+      border-radius: 12px;
+      background: #f5f7ff;
+      color: #1e1b4b;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .theme-card {
+      background: #ffffff;
+      border: 3px solid #a5b4fc;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .theme-img {
+      max-width: 100%;
+      max-height: 280px;
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      object-fit: contain;
+      margin: 0.5rem auto;
+      display: block;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.2s;
+    }
+
+    .question-tag {
+      background: #e0e7ff;
+      color: #3730a3;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .question-bncc {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .question-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+      margin: 0.5rem 0 1rem;
+    }
+
+    .tts-btn {
+      background: #f5f7ff;
+      border: 2px solid #c7d2fe;
+      color: #3730a3;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .tts-btn:hover {
+      background: #c7d2fe;
+      color: #1e1b4b;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.15rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      cursor: pointer;
+      background: #fafaf9;
+      transition: all 0.2s;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .option-item:hover {
+      background: #f5f7ff;
+      border-color: #a5b4fc;
+      transform: translateX(4px);
+    }
+
+    .option-item.selected {
+      background: #e0e7ff;
+      border-color: #4f46e5;
+      color: #1e1b4b;
+      box-shadow: 0 0 0 2px #4f46e5;
+    }
+
+    .option-letter {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #475569;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .option-item.selected .option-letter {
+      background: #4f46e5;
+      color: #ffffff;
+    }
+
+    .q-image-box {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .q-image {
+      max-width: 100%;
+      max-height: 280px;
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .redacao-textarea {
+      width: 100%;
+      min-height: 220px;
+      padding: 1rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      border: 2px solid #c7d2fe;
+      border-radius: 12px;
+      background: #f5f7ff;
+      color: #1e1b4b;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    .redacao-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .submit-container {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 1.1rem 2.8rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.25s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(79, 70, 229, 0.35);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      padding: 2.2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      border: 4px solid var(--accent);
+      animation: modalPop 0.3s ease-out;
+    }
+
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 4px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem auto;
+    }
+
+    .score-num {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+
+    .score-max {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-banner">
+    <div class="top-banner-inner">
+      <div class="banner-badge">
+        <span>⭐ Edição Oficial</span> • <span>Novembro/2026</span> • <span>Blocos 1 e 2</span>
+      </div>
+      <h1 class="banner-title">Simulado Oficial do 4º Ano</h1>
+      <p class="banner-sub">
+        Tema: Consciência Negra, Igualdade Racial e Educação Financeira • SEDUCT / Campos dos Goytacazes
+      </p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Card de Identificação -->
+    <div class="student-info-card">
+      <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+        📝 Identificação do Estudante
+      </h2>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="studentName">Nome Completo do Aluno(a):</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo aqui..." required>
+        </div>
+        <div class="form-group">
+          <label for="schoolName">Escola Municipal:</label>
+          <input type="text" id="schoolName" class="form-control" value="E.M. José Giró Faísca" required>
+        </div>
+        <div class="form-group">
+          <label for="shiftName">Turno:</label>
+          <select id="shiftName" class="form-control">
+            <option value="Manhã">☀️ Manhã</option>
+            <option value="Tarde">🌤️ Tarde</option>
+            <option value="Integral">🏫 Integral</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="className">Turma:</label>
+          <input type="text" id="className" class="form-control" value="4º Ano" placeholder="Ex: 401, 402...">
+        </div>
+        <div class="form-group">
+          <label for="examDate">Data de Realização:</label>
+          <input type="text" id="examDate" class="form-control" value="<%= new Date().toLocaleDateString('pt-BR') %>">
+        </div>
+      </div>
+    </div>
+
+    <!-- Tema Geral e Capa -->
+    <div class="theme-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <span class="question-tag" style="background: #e0e7ff; color: #3730a3;">Tema Central</span>
+        <button type="button" class="tts-btn" onclick="speakText('theme-text')">🔊 Ouvir Introdução</button>
+      </div>
+      <div id="theme-text">
+        <h3 style="font-family: 'Fredoka', sans-serif; color: #312e81; font-size: 1.4rem; margin-bottom: 0.5rem;">
+          Consciência Negra e Igualdade Racial (Lei Federal 11.645/2008)
+        </h3>
+        <p style="font-size: 1.05rem; font-weight: 500; color: #1e1b4b;">
+          Diferentes histórias, iguais direitos, um futuro melhor! A turma da Professora Bia, com os estudantes Enzo e Mirela, explorou as grandes contribuições culturais da população negra e aprendeu valiosas lições de planejamento financeiro consciente!
+        </p>
+      </div>
+      <img src="/img/simulados/novembro-4ano/intro_consciencia_4ano.png" alt="Consciência Negra 4º Ano" class="theme-img">
+    </div>
+
+    <!-- Questão 01 -->
+    <div class="question-card" id="card-q1">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 01</span>
+          <span class="question-bncc">EF35LP03 / EF04HI10 • Língua Portuguesa e História</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q1-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Histórias que Precisam ser Conhecidas</h3>
+      <div id="q1-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p><strong>LEIA O TEXTO:</strong></p>
+          <p>Durante o mês de novembro, a Professora Bia propôs à turma um projeto sobre Consciência Negra e Igualdade Racial. Enzo e Mirela começaram pesquisando histórias, manifestações culturais e contribuições da população negra para a formação da sociedade brasileira.</p>
+          <p>A professora explicou que essas contribuições podem ser percebidas em diferentes aspectos da vida brasileira, como na música, na culinária, na literatura, nas artes, nas palavras que utilizamos e em muitos conhecimentos transmitidos entre gerações.</p>
+          <p>— Então, estudar essas histórias também nos ajuda a compreender melhor o Brasil? — perguntou Enzo.</p>
+          <p>— Exatamente! — respondeu a professora. — Conhecer diferentes histórias nos ajuda a compreender a sociedade e também a refletir sobre respeito, igualdade e combate ao preconceito. Mirela percebeu que conhecer uma cultura não significa apenas observar suas festas ou manifestações artísticas. É também reconhecer as pessoas, suas histórias, conhecimentos e contribuições.</p>
+          <p>A turma decidiu organizar uma exposição para compartilhar suas descobertas com a comunidade escolar.</p>
+        </div>
+        <div class="q-image-box">
+          <img src="/img/simulados/novembro-4ano/q01_prof_bia.png" alt="Professora Bia e a turma" class="q-image">
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          A principal ideia desenvolvida no texto é que:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(1, 'A')">
+          <div class="option-letter" id="opt-1-A">A</div>
+          <div class="option-text">estudar a cultura afro-brasileira significa conhecer apenas manifestações artísticas.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'B')">
+          <div class="option-letter" id="opt-1-B">B</div>
+          <div class="option-text">conhecer diferentes histórias e contribuições ajuda a compreender a sociedade e refletir sobre respeito e igualdade.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'C')">
+          <div class="option-letter" id="opt-1-C">C</div>
+          <div class="option-text">somente acontecimentos antigos devem ser estudados durante o mês de novembro.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'D')">
+          <div class="option-letter" id="opt-1-D">D</div>
+          <div class="option-text">todas as culturas possuem exatamente as mesmas histórias e manifestações.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 02 -->
+    <div class="question-card" id="card-q2">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 02</span>
+          <span class="question-bncc">EF35LP04 / EF04GE01 • Língua Portuguesa e Geografia</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q2-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Compreensão e Inferência Cultural</h3>
+      <div id="q2-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1.05rem; color: #1e293b;">
+          <p>Mirela concluiu que conhecer uma cultura <em>“não significa apenas observar suas festas ou manifestações artísticas”</em>.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          Essa afirmação permite compreender que:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(2, 'A')">
+          <div class="option-letter" id="opt-2-A">A</div>
+          <div class="option-text">as manifestações artísticas não possuem importância cultural.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'B')">
+          <div class="option-letter" id="opt-2-B">B</div>
+          <div class="option-text">festas e manifestações artísticas devem ser retiradas dos estudos.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'C')">
+          <div class="option-letter" id="opt-2-C">C</div>
+          <div class="option-text">compreender uma cultura envolve também conhecer pessoas, histórias, saberes e contribuições.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'D')">
+          <div class="option-letter" id="opt-2-D">D</div>
+          <div class="option-text">somente os conhecimentos escritos devem ser valorizados.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 03 -->
+    <div class="question-card" id="card-q3" style="border-left: 6px solid var(--accent-warm);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag" style="background: #fef3c7; color: #b45309;">Questão 03</span>
+          <span class="question-bncc">EF35LP25 / EF04HI10 • Produção de Texto Narrativo</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q3-full')">🔊 Ouvir Proposta</button>
+      </div>
+      <h3 class="question-title">Produção Textual: Uma Escola que Valoriza Histórias e Culturas</h3>
+      <div id="q3-full">
+        <div style="background: #fef9c3; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #78350f;">
+          <p><strong>PROPOSTA DE REDAÇÃO:</strong></p>
+          <p>Imagine que você faz parte da turma da Professora Bia e ajudará Enzo e Mirela a organizar uma exposição sobre Consciência Negra e Igualdade Racial.</p>
+          <p>Produza uma <strong>narrativa</strong> contando como aconteceu esse dia.</p>
+          <p><strong>Seu texto deverá:</strong></p>
+          <ul style="margin-left: 1.5rem; margin-top: 0.3rem;">
+            <li>Apresentar a Professora Bia, Enzo e Mirela;</li>
+            <li>Contar como a exposição foi organizada;</li>
+            <li>Apresentar algo que a turma aprendeu sobre a cultura afro-brasileira;</li>
+            <li>Mostrar uma situação de respeito, cooperação ou valorização das diferenças;</li>
+            <li>Apresentar um problema ocorrido durante a organização e explicar como ele foi resolvido;</li>
+            <li>Escrever um final emocionante para a narrativa;</li>
+            <li>Dar um título ao texto.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <label for="q3-titulo" style="display: block; font-weight: 800; color: var(--primary-dark); margin-bottom: 0.4rem;">
+          📌 Título da sua história:
+        </label>
+        <input type="text" id="q3-titulo" class="form-control" placeholder="Dê um título criativo para a sua narrativa..." oninput="syncRedacao4Ano()" style="margin-bottom: 1rem;">
+
+        <label for="q3-redacao" style="display: block; font-weight: 800; color: var(--primary-dark); margin-bottom: 0.4rem;">
+          ✍️ Sua Narrativa:
+        </label>
+        <textarea id="q3-redacao" class="redacao-textarea" placeholder="Era uma vez um dia especial na escola com a Professora Bia, Enzo e Mirela..." oninput="syncRedacao4Ano()"></textarea>
+      </div>
+    </div>
+
+    <!-- Questão 04 -->
+    <div class="question-card" id="card-q4">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 04</span>
+          <span class="question-bncc">EF04MA25 • Educação Financeira</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q4-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Planejar Antes de Escolher</h3>
+      <div id="q4-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p><strong>LEIA O TEXTO:</strong></p>
+          <p>Para organizar a exposição, a turma recebeu R$ 300,00. Antes de comprar os materiais, a Professora Bia explicou que o dinheiro disponível deveria ser utilizado com responsabilidade. Enzo sugeriu comprar imediatamente os materiais da primeira loja visitada. Mirela discordou:</p>
+          <p>— <em>Podemos pesquisar os preços antes. Talvez encontremos os mesmos materiais por valores menores.</em></p>
+          <p>Depois da pesquisa, a turma percebeu que comparar preços poderia gerar economia. O dinheiro economizado poderia ser utilizado em outras necessidades do projeto.</p>
+          <p>A professora explicou que <strong>planejar não significa deixar de comprar tudo aquilo de que precisamos, mas analisar as possibilidades antes de decidir.</strong></p>
+        </div>
+        <div class="q-image-box">
+          <img src="/img/simulados/novembro-4ano/q04_planejar.png" alt="Planejando os gastos da exposição" class="q-image">
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          A atitude de Mirela demonstra principalmente:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(4, 'A')">
+          <div class="option-letter" id="opt-4-A">A</div>
+          <div class="option-text">indecisão diante da compra.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(4, 'B')">
+          <div class="option-letter" id="opt-4-B">B</div>
+          <div class="option-text">planejamento antes de utilizar o dinheiro.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(4, 'C')">
+          <div class="option-letter" id="opt-4-C">C</div>
+          <div class="option-text">desejo de impedir a realização da exposição.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(4, 'D')">
+          <div class="option-letter" id="opt-4-D">D</div>
+          <div class="option-text">preferência pelos produtos de maior preço.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 05 -->
+    <div class="question-card" id="card-q5">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 05</span>
+          <span class="question-bncc">EF04MA25 • Educação Financeira</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q5-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Conceito de Planejamento Financeiro</h3>
+      <div id="q5-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>Durante a atividade sobre <strong>educação financeira</strong>, a professora explicou que fazer boas escolhas não significa deixar de gastar, mas pensar antes de usar o dinheiro. Ela destacou a importância de observar o que realmente é necessário, comparar preços e verificar quanto se pode gastar.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          De acordo com a explicação da professora, o que significa fazer um bom planejamento financeiro?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(5, 'A')">
+          <div class="option-letter" id="opt-5-A">A</div>
+          <div class="option-text">evitar qualquer tipo de gasto, mesmo quando necessário.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'B')">
+          <div class="option-letter" id="opt-5-B">B</div>
+          <div class="option-text">comprar sempre o produto que apresentar o menor preço.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'C')">
+          <div class="option-letter" id="opt-5-C">C</div>
+          <div class="option-text">analisar as necessidades, as possibilidades e os preços antes de tomar uma decisão.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'D')">
+          <div class="option-letter" id="opt-5-D">D</div>
+          <div class="option-text">guardar todo o dinheiro e nunca utilizá-lo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 06 -->
+    <div class="question-card" id="card-q6">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 06</span>
+          <span class="question-bncc">EF04MA01 / EF04GE01 • Matemática e Geografia</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q6-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Valor Posicional dos Algarismos</h3>
+      <div id="q6-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.75rem;">
+          Durante a <strong>Feira da Consciência Negra</strong>, os estudantes participaram de atividades sobre a valorização da cultura afro-brasileira e também aprenderam sobre educação financeira. Em uma atividade sobre organização de recursos, a turma analisou o valor fictício de <strong>R$ 28.475,00</strong>.
+        </p>
+        <div class="q-image-box">
+          <img src="/img/simulados/novembro-4ano/q06_feira_recursos.png" alt="Feira de Recursos e Cultura" class="q-image">
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          Nesse valor, quanto representa o algarismo 8 de acordo com a posição que ocupa?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(6, 'A')">
+          <div class="option-letter" id="opt-6-A">A</div>
+          <div class="option-text">R$ 8,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'B')">
+          <div class="option-letter" id="opt-6-B">B</div>
+          <div class="option-text">R$ 80,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'C')">
+          <div class="option-letter" id="opt-6-C">C</div>
+          <div class="option-text">R$ 800,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'D')">
+          <div class="option-letter" id="opt-6-D">D</div>
+          <div class="option-text">R$ 8.000,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 07 -->
+    <div class="question-card" id="card-q7">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 07</span>
+          <span class="question-bncc">EF04MA09 / EF04HI10 • Fração de Quantidade</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q7-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Cálculo de Fração de uma Quantidade</h3>
+      <div id="q7-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>Durante a <strong>Feira da Consciência Negra</strong>, a turma produziu <strong>120 cartões</strong> com mensagens sobre respeito, igualdade e valorização da cultura afro-brasileira.</p>
+          <p>Pela manhã, os estudantes utilizaram <strong>1/4 do total de cartões</strong> para organizar a exposição.</p>
+        </div>
+        <div class="q-image-box">
+          <img src="/img/simulados/novembro-4ano/q07_leitura_livros.png" alt="Cartões da Consciência Negra" class="q-image">
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          Quantos cartões foram utilizados pela manhã?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(7, 'A')">
+          <div class="option-letter" id="opt-7-A">A</div>
+          <div class="option-text">20</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'B')">
+          <div class="option-letter" id="opt-7-B">B</div>
+          <div class="option-text">25</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'C')">
+          <div class="option-letter" id="opt-7-C">C</div>
+          <div class="option-text">30</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'D')">
+          <div class="option-letter" id="opt-7-D">D</div>
+          <div class="option-text">40</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 08 -->
+    <div class="question-card" id="card-q8">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 08</span>
+          <span class="question-bncc">EF04MA25 • Compras e Troco</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q8-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Cálculo de Gastos e Troco de Mirela</h3>
+      <div id="q8-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>Durante a <strong>Feira da Consciência Negra</strong>, Mirela visitou um espaço com livros e materiais produzidos para valorizar a história e a cultura afro-brasileira. Antes de fazer suas compras, ela aprendeu sobre a importância de planejar os gastos e utilizar o dinheiro de forma consciente.</p>
+          <p>Mirela tinha <strong>R$ 100,00</strong> e comprou:</p>
+          <ul style="margin-left: 1.5rem; margin-top: 0.3rem;">
+            <li>Um livro por <strong>R$ 37,00</strong>;</li>
+            <li>Um caderno por <strong>R$ 24,00</strong>;</li>
+            <li>Um marcador de página por <strong>R$ 8,00</strong>.</li>
+          </ul>
+        </div>
+        <div class="q-image-box">
+          <img src="/img/simulados/novembro-4ano/q08_compras_mirela.png" alt="Compras e cédula de Mirela" class="q-image">
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          Após pagar todas as compras, quanto Mirela recebeu de troco?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(8, 'A')">
+          <div class="option-letter" id="opt-8-A">A</div>
+          <div class="option-text">R$ 21,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'B')">
+          <div class="option-letter" id="opt-8-B">B</div>
+          <div class="option-text">R$ 29,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'C')">
+          <div class="option-letter" id="opt-8-C">C</div>
+          <div class="option-text">R$ 31,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'D')">
+          <div class="option-letter" id="opt-8-D">D</div>
+          <div class="option-text">R$ 39,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 09 -->
+    <div class="question-card" id="card-q9">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 09</span>
+          <span class="question-bncc">EF04MA01 / EF04GE01 • Composição Numérica</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q9-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Composição Numérica na Feira</h3>
+      <div id="q9-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.75rem;">
+          Durante a <strong>Feira da Consciência Negra</strong>, os estudantes organizaram uma exposição sobre a história e a cultura afro-brasileira. Para uma das atividades, eles registraram a quantidade de materiais utilizados por meio da seguinte decomposição:
+        </p>
+        <div style="background: #e0e7ff; padding: 1.2rem; border-radius: 12px; text-align: center; font-family: 'Fredoka', sans-serif; font-size: 1.5rem; font-weight: 700; color: #312e81; margin-bottom: 1rem;">
+          30.000 + 4.000 + 500 + 20 + 7
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          Marque a alternativa que apresenta o número correspondente à decomposição:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(9, 'A')">
+          <div class="option-letter" id="opt-9-A">A</div>
+          <div class="option-text">30.457</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'B')">
+          <div class="option-letter" id="opt-9-B">B</div>
+          <div class="option-text">34.257</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'C')">
+          <div class="option-letter" id="opt-9-C">C</div>
+          <div class="option-text">34.527</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'D')">
+          <div class="option-letter" id="opt-9-D">D</div>
+          <div class="option-text">35.427</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 10 -->
+    <div class="question-card" id="card-q10">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 10</span>
+          <span class="question-bncc">EF15LP04 / EF15AR04 • Linguagem Gráfico-Visual</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q10-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Interpretação e Recursos Visuais do Cartaz</h3>
+      <div id="q10-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.75rem;">
+          A Professora Bia pediu que Enzo e Mirela produzissem um cartaz com a mensagem: <em>“CONHECER HISTÓRIAS, VALORIZAR CULTURAS E RESPEITAR AS DIFERENÇAS”</em>.
+        </p>
+        <div class="q-image-box">
+          <img src="/img/simulados/novembro-4ano/q10_cartaz_respeito.png" alt="Cartaz Conhecer Histórias e Valorizar Culturas" class="q-image" style="max-height: 350px;">
+        </div>
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>No cartaz, os estudantes utilizaram <strong>desenhos, fotografias, diferentes tamanhos de letras, símbolos e pequenas frases.</strong> A frase principal foi escrita com letras maiores e colocada no centro.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          Por que essa organização contribui para a comunicação da mensagem?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(10, 'A')">
+          <div class="option-letter" id="opt-10-A">A</div>
+          <div class="option-text">Porque os elementos visuais substituem completamente a necessidade de leitura.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'B')">
+          <div class="option-letter" id="opt-10-B">B</div>
+          <div class="option-text">Porque letras maiores servem apenas para preencher espaços vazios.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'C')">
+          <div class="option-letter" id="opt-10-C">C</div>
+          <div class="option-text">Porque a combinação de elementos verbais e visuais pode destacar informações e orientar a atenção do leitor.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'D')">
+          <div class="option-letter" id="opt-10-D">D</div>
+          <div class="option-text">Porque todos os elementos de um cartaz devem possuir exatamente o mesmo tamanho.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão de Finalização -->
+    <div class="submit-container">
+      <button type="button" class="btn-submit" onclick="submitSimulado()">
+        🚀 Finalizar e Enviar Simulado
+      </button>
+    </div>
+  </main>
+
+  <!-- Modal de Resultados -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-card">
+      <div style="font-size: 3rem;">🎉</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: var(--primary-dark); margin-top: 0.5rem;">
+        Parabéns pelo Esforço!
+      </h2>
+      <p style="font-size: 1.05rem; color: #475569; margin-top: 0.5rem;">
+        Suas respostas foram salvas e enviadas com sucesso para a rede municipal!
+      </p>
+
+      <div class="score-circle">
+        <div class="score-num" id="modalScore">0</div>
+        <div class="score-max">de 10 acertos</div>
+      </div>
+
+      <div id="modalDetails" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; font-size: 0.95rem; margin-bottom: 1.5rem;">
+      </div>
+
+      <button type="button" class="btn-submit" style="padding: 0.8rem 2rem; font-size: 1.1rem;" onclick="window.location.href='/'">
+        Voltar ao Portal LabKids
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Gabarito Oficial 4º Ano Novembro/2026
+    const correctAnswers = {
+      1: 'B',
+      2: 'C',
+      3: 'PESSOAL', // Q3 Narrativa
+      4: 'B',
+      5: 'C',
+      6: 'D',
+      7: 'C',
+      8: 'C',
+      9: 'C',
+      10: 'C'
+    };
+
+    const userAnswers = {};
+
+    // Auto-detect turno via URL ?shift=manha ou ?shift=tarde
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const shiftParam = urlParams.get('shift');
+      if (shiftParam) {
+        const shiftEl = document.getElementById('shiftName');
+        if (shiftEl) {
+          if (shiftParam.toLowerCase().includes('tarde')) shiftEl.value = 'Tarde';
+          else if (shiftParam.toLowerCase().includes('manha') || shiftParam.toLowerCase().includes('manhã')) shiftEl.value = 'Manhã';
+          else if (shiftParam.toLowerCase().includes('integral')) shiftEl.value = 'Integral';
+        }
+      }
+
+      // Restore local draft if exists
+      const savedDraft = localStorage.getItem('simulado_4ano_novembro_draft');
+      if (savedDraft) {
+        try {
+          const draft = JSON.parse(savedDraft);
+          if (draft.studentName) document.getElementById('studentName').value = draft.studentName;
+          if (draft.className) document.getElementById('className').value = draft.className;
+          if (draft.shiftName && !shiftParam) document.getElementById('shiftName').value = draft.shiftName;
+          if (draft.answers) {
+            for (const [q, val] of Object.entries(draft.answers)) {
+              if (q == '3') {
+                if (typeof val === 'object') {
+                  document.getElementById('q3-titulo').value = val.titulo || '';
+                  document.getElementById('q3-redacao').value = val.texto || '';
+                }
+                userAnswers[3] = val;
+              } else {
+                selectOption(parseInt(q), val, false);
+              }
+            }
+          }
+        } catch(e) {}
+      }
+    });
+
+    function saveDraft() {
+      const draft = {
+        studentName: document.getElementById('studentName')?.value || '',
+        schoolName: document.getElementById('schoolName')?.value || '',
+        shiftName: document.getElementById('shiftName')?.value || '',
+        className: document.getElementById('className')?.value || '',
+        answers: userAnswers
+      };
+      localStorage.setItem('simulado_4ano_novembro_draft', JSON.stringify(draft));
+    }
+
+    function selectOption(qNum, letter, save = true) {
+      userAnswers[qNum] = letter;
+      const letters = ['A', 'B', 'C', 'D'];
+      letters.forEach(l => {
+        const el = document.getElementById(`opt-${qNum}-${l}`);
+        if (el && el.parentElement) {
+          if (l === letter) {
+            el.parentElement.classList.add('selected');
+          } else {
+            el.parentElement.classList.remove('selected');
+          }
+        }
+      });
+      if (save) saveDraft();
+    }
+
+    function syncRedacao4Ano() {
+      const titulo = document.getElementById('q3-titulo').value.trim();
+      const texto = document.getElementById('q3-redacao').value.trim();
+      userAnswers[3] = { titulo, texto };
+      saveDraft();
+    }
+
+    // TTS Web Speech API
+    function speakText(elementId) {
+      if (!('speechSynthesis' in window)) {
+        alert('Seu navegador não suporta leitura em voz alta.');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    async function submitSimulado() {
+      const studentName = document.getElementById('studentName').value.trim();
+      const schoolName = document.getElementById('schoolName').value.trim();
+      const shift = document.getElementById('shiftName').value || 'Manhã';
+      const className = document.getElementById('className').value.trim() || '4º Ano';
+
+      if (!studentName) {
+        alert('Por favor, preencha o Nome do Aluno(a) antes de finalizar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      // Verifica preenchimento
+      const missing = [];
+      for (let i = 1; i <= 10; i++) {
+        if (!userAnswers[i]) missing.push(i);
+      }
+      if (missing.length > 0) {
+        const confirmSend = confirm(`Você ainda não respondeu as seguintes questões: ${missing.join(', ')}.\n\nDeseja enviar mesmo assim?`);
+        if (!confirmSend) return;
+      }
+
+      // Calcula pontuação (Q3 conta como pontuada se a narrativa tiver sido produzida)
+      let score = 0;
+      for (let i = 1; i <= 10; i++) {
+        if (i === 3) {
+          const red = userAnswers[3];
+          if (red && (red.texto?.length > 10 || typeof red === 'string')) score++;
+        } else {
+          if (userAnswers[i] && userAnswers[i].toUpperCase() === correctAnswers[i]) {
+            score++;
+          }
+        }
+      }
+
+      const payload = {
+        studentName,
+        schoolName,
+        shift,
+        className,
+        grade: '4º Ano',
+        simuladoId: 'simulado-campos-4ano-novembro-2026',
+        simuladoTitle: 'Simulado Oficial 4º Ano — Novembro/2026',
+        answers: userAnswers,
+        score,
+        totalQuestions: 10,
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        const res = await fetch('/api/simulados/respostas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        console.log('Submission result:', result);
+      } catch (err) {
+        console.warn('Fallback offline save:', err);
+      }
+
+      // Limpa rascunho local
+      localStorage.removeItem('simulado_4ano_novembro_draft');
+
+      // Exibe Modal
+      document.getElementById('modalScore').innerText = score;
+      document.getElementById('modalDetails').innerHTML = `
+        <strong>Aluno(a):</strong> ${studentName}<br>
+        <strong>Escola:</strong> ${schoolName}<br>
+        <strong>Turno:</strong> ${shift} • <strong>Turma:</strong> ${className}<br>
+        <strong>Aproveitamento:</strong> ${Math.round((score / 10) * 100)}%
+      `;
+      document.getElementById('resultModal').classList.add('active');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

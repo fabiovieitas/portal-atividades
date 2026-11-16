@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 3º Ano — Novembro/2026 | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=DynaPuff:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-dark: #047857;
+      --primary-light: #d1fae5;
+      --accent: #10b981;
+      --accent-warm: #f59e0b;
+      --bg-page: #ecfdf5;
+      --card-bg: #ffffff;
+      --text-main: #064e3b;
+      --text-muted: #4b5563;
+      --border-color: #a7f3d0;
+      --shadow-sm: 0 2px 4px rgba(5, 150, 105, 0.08);
+      --shadow-md: 0 4px 12px rgba(5, 150, 105, 0.12);
+      --shadow-lg: 0 10px 25px rgba(5, 150, 105, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 5rem;
+    }
+
+    .top-banner {
+      background: linear-gradient(135deg, #065f46 0%, #047857 50%, #059669 100%);
+      color: #ffffff;
+      padding: 1.5rem 1rem;
+      border-bottom: 6px solid #10b981;
+      box-shadow: var(--shadow-md);
+    }
+
+    .top-banner-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .banner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .banner-title {
+      font-family: 'DynaPuff', cursive;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .banner-sub {
+      font-size: 1.05rem;
+      font-weight: 500;
+      opacity: 0.95;
+      max-width: 680px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .student-info-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .banner-title { font-size: 1.7rem; }
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      border: 2px solid #a7f3d0;
+      border-radius: 12px;
+      background: #f0fdf4;
+      color: #064e3b;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .theme-card {
+      background: #ffffff;
+      border: 3px solid #6ee7b7;
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .theme-images-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .theme-img {
+      max-width: 100%;
+      max-height: 240px;
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid #e2e8f0;
+      object-fit: contain;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.2s;
+    }
+
+    .question-tag {
+      background: #d1fae5;
+      color: #065f46;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+
+    .question-bncc {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .question-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+      margin: 0.5rem 0 1rem;
+    }
+
+    .tts-btn {
+      background: #f0fdf4;
+      border: 2px solid #a7f3d0;
+      color: #047857;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .tts-btn:hover {
+      background: #a7f3d0;
+      color: #065f46;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1.15rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      cursor: pointer;
+      background: #fafaf9;
+      transition: all 0.2s;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .option-item:hover {
+      background: #f0fdf4;
+      border-color: #6ee7b7;
+      transform: translateX(4px);
+    }
+
+    .option-item.selected {
+      background: #d1fae5;
+      border-color: #059669;
+      color: #064e3b;
+      box-shadow: 0 0 0 2px #059669;
+    }
+
+    .option-letter {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #475569;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .option-item.selected .option-letter {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #a7f3d0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .custom-table th {
+      background: #059669;
+      color: white;
+      padding: 0.75rem 1rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    .custom-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      background: #ffffff;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .custom-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .drawing-box {
+      border: 2px dashed #059669;
+      border-radius: 14px;
+      padding: 1rem;
+      background: #ffffff;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .drawing-canvas {
+      width: 100%;
+      max-width: 600px;
+      height: 280px;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      background: #ffffff;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .drawing-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+
+    .color-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px #cbd5e1;
+      cursor: pointer;
+    }
+
+    .color-btn.active {
+      box-shadow: 0 0 0 3px #059669;
+      transform: scale(1.1);
+    }
+
+    .submit-container {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 1.1rem 2.8rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.25s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 28px rgba(5, 150, 105, 0.35);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      padding: 2.2rem;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      border: 4px solid var(--accent);
+      animation: modalPop 0.3s ease-out;
+    }
+
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      border: 4px solid var(--primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem auto;
+    }
+
+    .score-num {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+
+    .score-max {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-banner">
+    <div class="top-banner-inner">
+      <div class="banner-badge">
+        <span>⭐ Edição Oficial</span> • <span>Novembro/2026</span> • <span>Blocos 1 e 2</span>
+      </div>
+      <h1 class="banner-title">Simulado Oficial do 3º Ano</h1>
+      <p class="banner-sub">
+        Tema: Consciência Negra, Igualdade Racial e Educação Financeira • SEDUCT / Campos dos Goytacazes
+      </p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Card de Identificação -->
+    <div class="student-info-card">
+      <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+        📝 Identificação do Estudante
+      </h2>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label for="studentName">Nome Completo do Aluno(a):</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo aqui..." required>
+        </div>
+        <div class="form-group">
+          <label for="schoolName">Escola Municipal:</label>
+          <input type="text" id="schoolName" class="form-control" value="E.M. José Giró Faísca" required>
+        </div>
+        <div class="form-group">
+          <label for="shiftName">Turno:</label>
+          <select id="shiftName" class="form-control">
+            <option value="Manhã">☀️ Manhã</option>
+            <option value="Tarde">🌤️ Tarde</option>
+            <option value="Integral">🏫 Integral</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="className">Turma:</label>
+          <input type="text" id="className" class="form-control" value="3º Ano" placeholder="Ex: 301, 302...">
+        </div>
+        <div class="form-group">
+          <label for="examDate">Data de Realização:</label>
+          <input type="text" id="examDate" class="form-control" value="<%= new Date().toLocaleDateString('pt-BR') %>">
+        </div>
+      </div>
+    </div>
+
+    <!-- Tema Geral e Capa -->
+    <div class="theme-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <span class="question-tag" style="background: #d1fae5; color: #047857;">Tema Central</span>
+        <button type="button" class="tts-btn" onclick="speakText('theme-text')">🔊 Ouvir Introdução</button>
+      </div>
+      <div id="theme-text">
+        <h3 style="font-family: 'Fredoka', sans-serif; color: #065f46; font-size: 1.4rem; margin-bottom: 0.5rem;">
+          Consciência Negra e Igualdade Racial
+        </h3>
+        <p style="font-size: 1.05rem; font-weight: 500; color: #1e293b;">
+          Dandara e Educaré participaram com muita dedicação de um projeto sobre a Consciência Negra e a Igualdade Racial.
+          Eles pesquisaram histórias, manifestações artísticas, tradições e aprenderam a organizar recursos com responsabilidade para a grande Feira Cultural da escola!
+        </p>
+      </div>
+      <div class="theme-images-row">
+        <img src="/img/simulados/novembro-3ano/cover_consciencia.png" alt="Consciência Negra 3º Ano" class="theme-img">
+        <img src="/img/simulados/novembro-3ano/cover_criancas.png" alt="Crianças celebrando cultura afro-brasileira" class="theme-img">
+      </div>
+    </div>
+
+    <!-- Questão 01 -->
+    <div class="question-card" id="card-q1">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 01</span>
+          <span class="question-bncc">EF03LP12 • Língua Portuguesa</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q1-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Assunto Principal do Texto</h3>
+      <div id="q1-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p><strong>LEIA O TEXTO:</strong></p>
+          <p>DURANTE O MÊS DE NOVEMBRO, DANDARA E EDUCARÉ PARTICIPARAM DE UM PROJETO SOBRE A CONSCIÊNCIA NEGRA E A IGUALDADE RACIAL.</p>
+          <p>A TURMA PESQUISOU HISTÓRIAS, COSTUMES, MANIFESTAÇÕES ARTÍSTICAS E CONTRIBUIÇÕES DA POPULAÇÃO NEGRA PARA A SOCIEDADE BRASILEIRA. OS ESTUDANTES COMPREENDERAM QUE CONHECER DIFERENTES HISTÓRIAS AJUDA A COMBATER O PRECONCEITO E A FORTALECER O RESPEITO E A IGUALDADE.</p>
+          <p>COMO PARTE DO PROJETO, A ESCOLA TAMBÉM ORGANIZOU UMA FEIRA CULTURAL. OS ESTUDANTES PRODUZIRAM LIVROS, MARCADORES, CARTÕES E OUTROS TRABALHOS. DURANTE A PREPARAÇÃO, APRENDERAM A PESQUISAR PREÇOS, PLANEJAR GASTOS, ECONOMIZAR, EVITAR DESPERDÍCIOS E UTILIZAR OS RECURSOS DE MANEIRA RESPONSÁVEL.</p>
+          <p>DANDARA PERCEBEU QUE OS DOIS ASSUNTOS TRAZIAM IMPORTANTES APRENDIZAGENS: <em>“VALORIZAR AS PESSOAS E UTILIZAR OS RECURSOS COM RESPONSABILIDADE SÃO ATITUDES QUE AJUDAM A CONSTRUIR UM FUTURO MELHOR!”</em></p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL É O ASSUNTO PRINCIPAL DO TEXTO?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(1, 'A')">
+          <div class="option-letter" id="opt-1-A">A</div>
+          <div class="option-text">A ORGANIZAÇÃO DE UMA LOJA PARA VENDER MATERIAIS ESCOLARES.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'B')">
+          <div class="option-letter" id="opt-1-B">B</div>
+          <div class="option-text">A VALORIZAÇÃO DA CULTURA AFRO-BRASILEIRA E A APRENDIZAGEM DE ATITUDES RELACIONADAS AO USO RESPONSÁVEL DOS RECURSOS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'C')">
+          <div class="option-letter" id="opt-1-C">C</div>
+          <div class="option-text">AS BRINCADEIRAS REALIZADAS POR DANDARA E EDUCARÉ DURANTE O MÊS DE NOVEMBRO.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'D')">
+          <div class="option-letter" id="opt-1-D">D</div>
+          <div class="option-text">A ESCOLHA DOS PRODUTOS MAIS CAROS DE UMA FEIRA.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 02 -->
+    <div class="question-card" id="card-q2">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 02</span>
+          <span class="question-bncc">EF35LP04 • Língua Portuguesa</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q2-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Inferência e Compreensão</h3>
+      <div id="q2-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1.05rem; color: #1e293b;">
+          <p><strong>LEIA NOVAMENTE:</strong></p>
+          <p><em>“OS ESTUDANTES COMPREENDERAM QUE CONHECER DIFERENTES HISTÓRIAS AJUDA A COMBATER O PRECONCEITO E A FORTALECER O RESPEITO E A IGUALDADE.”</em></p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          A PARTIR DESSE TRECHO, PODEMOS CONCLUIR QUE:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(2, 'A')">
+          <div class="option-letter" id="opt-2-A">A</div>
+          <div class="option-text">CONHECER DIFERENTES HISTÓRIAS PODE CONTRIBUIR PARA UMA CONVIVÊNCIA MAIS RESPEITOSA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'B')">
+          <div class="option-letter" id="opt-2-B">B</div>
+          <div class="option-text">SOMENTE ALGUMAS HISTÓRIAS DEVEM SER ESTUDADAS NA ESCOLA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'C')">
+          <div class="option-letter" id="opt-2-C">C</div>
+          <div class="option-text">TODAS AS FAMÍLIAS PRECISAM POSSUIR OS MESMOS COSTUMES.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'D')">
+          <div class="option-letter" id="opt-2-D">D</div>
+          <div class="option-text">RESPEITAR AS DIFERENÇAS SIGNIFICA NÃO CONVERSAR SOBRE ELAS.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 03 -->
+    <div class="question-card" id="card-q3">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 03</span>
+          <span class="question-bncc">EF03LP01 • Ortografia</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q3-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Ortografia e Escrita Correta</h3>
+      <div id="q3-full">
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          DURANTE A PRODUÇÃO DOS CARTAZES SOBRE A CONSCIÊNCIA NEGRA, DANDARA ESCREVEU ALGUMAS PALAVRAS.<br>
+          MARQUE A ALTERNATIVA EM QUE TODAS AS PALAVRAS ESTÃO ESCRITAS CORRETAMENTE:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(3, 'A')">
+          <div class="option-letter" id="opt-3-A">A</div>
+          <div class="option-text">RESPEITO – CULTURA – IGUALDADE – HISTÓRIA</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'B')">
+          <div class="option-letter" id="opt-3-B">B</div>
+          <div class="option-text">RESPEITO – CULTURRA – IGUALDADE – HISTÓRIA</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'C')">
+          <div class="option-letter" id="opt-3-C">C</div>
+          <div class="option-text">RESPEITO – CULTURA – IGUALDADE – HISTORRIA</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'D')">
+          <div class="option-letter" id="opt-3-D">D</div>
+          <div class="option-text">RESPEITO – CULTURRA – IGUALDADE – HISTORRIA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 04 -->
+    <div class="question-card" id="card-q4">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 04</span>
+          <span class="question-bncc">EF03LP18 • Gênero Jornalístico</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q4-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Manchete de Jornal</h3>
+      <div id="q4-full">
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--primary-dark);">
+          EDUCARÉ ENCONTROU A SEGUINTE MANCHETE NO JORNAL DA ESCOLA:
+        </p>
+        <div style="text-align: center; margin: 1rem 0;">
+          <img src="/img/simulados/novembro-3ano/q04_manchete_jornal.png" alt="Manchete do Jornal Escolar" style="max-width: 100%; max-height: 250px; border-radius: 12px; border: 2px solid #cbd5e1;">
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL É O PRINCIPAL ASSUNTO DA NOTÍCIA ANUNCIADA NESSA MANCHETE?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(4, 'A')">
+          <div class="option-letter" id="opt-4-A">A</div>
+          <div class="option-text">UMA COMPETIÇÃO PARA DESCOBRIR QUAL TURMA ARRECADOU MAIS DINHEIRO.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(4, 'B')">
+          <div class="option-letter" id="opt-4-B">B</div>
+          <div class="option-text">UMA FEIRA EM QUE OS ESTUDANTES DESENVOLVEM APRENDIZAGENS CULTURAIS E FINANCEIRAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(4, 'C')">
+          <div class="option-letter" id="opt-4-C">C</div>
+          <div class="option-text">UMA LOJA QUE COMEÇOU A FUNCIONAR DENTRO DA ESCOLA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(4, 'D')">
+          <div class="option-letter" id="opt-4-D">D</div>
+          <div class="option-text">UMA VIAGEM REALIZADA PELOS ESTUDANTES DURANTE O MÊS DE NOVEMBRO.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 05 -->
+    <div class="question-card" id="card-q5" style="border-left: 6px solid var(--accent-warm);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag" style="background: #fef3c7; color: #b45309;">Questão 05</span>
+          <span class="question-bncc">EF03HI03 / EF03GE02 / EF15AR04 • Produção Artística e Frase</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q5-full')">🔊 Ouvir Proposta</button>
+      </div>
+      <h3 class="question-title">Histórias e Culturas do Nosso Lugar: Cartaz e Frase</h3>
+      <div id="q5-full">
+        <div style="background: #fef9c3; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #78350f;">
+          <p>DANDARA E EDUCARÉ APRENDERAM QUE AS PESSOAS E OS GRUPOS SOCIAIS AJUDAM A CONSTRUIR A HISTÓRIA DOS LUGARES ONDE VIVEM. SUAS HISTÓRIAS, MANIFESTAÇÕES CULTURAIS, FORMAS DE TRABALHO E CONHECIMENTOS FAZEM PARTE DA COMUNIDADE.</p>
+          <p>A TURMA DECIDIU CRIAR UM CARTAZ SOBRE <strong>CONSCIÊNCIA NEGRA, IGUALDADE RACIAL E VALORIZAÇÃO DA CULTURA AFRO-BRASILEIRA</strong>.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e293b;">
+          AGORA É A SUA VEZ! FAÇA UM DESENHO E ESCREVA UMA FRASE INCENTIVANDO O RESPEITO E A VALORIZAÇÃO DA CULTURA AFRO-BRASILEIRA:
+        </p>
+      </div>
+
+      <div class="drawing-box">
+        <p style="font-weight: 700; color: #047857; margin-bottom: 0.5rem;">🎨 Desenhe seu Cartaz no espaço abaixo (com o dedo ou mouse):</p>
+        <canvas id="drawingCanvas" class="drawing-canvas" width="600" height="280"></canvas>
+        <div class="drawing-tools">
+          <span style="font-weight: 700; font-size: 0.9rem; color: #475569;">Cores:</span>
+          <div class="color-btn active" style="background: #0f172a;" onclick="setDrawingColor('#0f172a', this)"></div>
+          <div class="color-btn" style="background: #dc2626;" onclick="setDrawingColor('#dc2626', this)"></div>
+          <div class="color-btn" style="background: #059669;" onclick="setDrawingColor('#059669', this)"></div>
+          <div class="color-btn" style="background: #2563eb;" onclick="setDrawingColor('#2563eb', this)"></div>
+          <div class="color-btn" style="background: #d97706;" onclick="setDrawingColor('#d97706', this)"></div>
+          <div class="color-btn" style="background: #7c3aed;" onclick="setDrawingColor('#7c3aed', this)"></div>
+          <button type="button" class="tts-btn" style="margin-left: 10px;" onclick="clearCanvas()">🗑️ Limpar Desenho</button>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.25rem;">
+        <label for="q5-frase" style="display: block; font-weight: 800; color: var(--primary-dark); margin-bottom: 0.4rem;">
+          ✍️ Escreva aqui a sua frase para o cartaz:
+        </label>
+        <input type="text" id="q5-frase" class="form-control" placeholder="Digite uma frase linda sobre respeito e igualdade..." oninput="syncQ5Response()">
+      </div>
+    </div>
+
+    <!-- Questão 06 -->
+    <div class="question-card" id="card-q6">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 06</span>
+          <span class="question-bncc">EF03HI03 • História</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q6-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Tradições e Transmissão de Saberes entre Gerações</h3>
+      <div id="q6-full">
+        <div style="text-align: center; margin: 0.75rem 0;">
+          <img src="/img/simulados/novembro-3ano/q06_dandara_avo.png" alt="Dandara conversando com sua avó" style="max-width: 100%; max-height: 250px; border-radius: 12px; border: 2px solid #cbd5e1;">
+        </div>
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>DURANTE A FEIRA CULTURAL, DANDARA CONVERSOU COM SUA AVÓ SOBRE OS COSTUMES E AS TRADIÇÕES DE QUANDO ELA ERA CRIANÇA. A AVÓ CONTOU QUE, COM SUA FAMÍLIA, APRENDEU HISTÓRIAS, MÚSICAS, BRINCADEIRAS E OUTRAS MANIFESTAÇÕES DA CULTURA AFRO-BRASILEIRA, QUE CONTINUA COMPARTILHANDO COM AS NOVAS GERAÇÕES.</p>
+          <p>DANDARA PERCEBEU QUE MUITAS DESSAS TRADIÇÕES CONTINUAM SENDO CONHECIDAS E VALORIZADAS PELAS CRIANÇAS DE HOJE.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          ESSA SITUAÇÃO MOSTRA QUE:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(6, 'A')">
+          <div class="option-letter" id="opt-6-A">A</div>
+          <div class="option-text">AS TRADIÇÕES CULTURAIS DEIXAM DE EXISTIR QUANDO AS PESSOAS FICAM ADULTAS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'B')">
+          <div class="option-letter" id="opt-6-B">B</div>
+          <div class="option-text">AS BRINCADEIRAS ANTIGAS NÃO POSSUEM NENHUM VALOR PARA AS NOVAS GERAÇÕES.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'C')">
+          <div class="option-letter" id="opt-6-C">C</div>
+          <div class="option-text">OS CONHECIMENTOS E AS TRADIÇÕES PODEM SER TRANSMITIDOS ENTRE DIFERENTES GERAÇÕES.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'D')">
+          <div class="option-letter" id="opt-6-D">D</div>
+          <div class="option-text">AS HISTÓRIAS ENSINADAS PELAS FAMÍLIAS NÃO FAZEM PARTE DA CULTURA DE UM LUGAR.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 07 -->
+    <div class="question-card" id="card-q7">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 07</span>
+          <span class="question-bncc">EF03MA02 • Matemática</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q7-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Decomposição Numérica</h3>
+      <div id="q7-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">
+          DURANTE A FEIRA CULTURAL, OS ESTUDANTES ORGANIZARAM UMA EXPOSIÇÃO PARA VALORIZAR A HISTÓRIA E A CULTURA AFRO-BRASILEIRA. AO LONGO DAS ATIVIDADES, FORAM REGISTRADOS <strong>3.672 VISITANTES</strong>.
+        </p>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL É A DECOMPOSIÇÃO CORRETA DO NÚMERO 3.672?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(7, 'A')">
+          <div class="option-letter" id="opt-7-A">A</div>
+          <div class="option-text">3.000 + 600 + 70 + 2</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'B')">
+          <div class="option-letter" id="opt-7-B">B</div>
+          <div class="option-text">3.000 + 60 + 70 + 2</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'C')">
+          <div class="option-letter" id="opt-7-C">C</div>
+          <div class="option-text">300 + 600 + 70 + 2</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'D')">
+          <div class="option-letter" id="opt-7-D">D</div>
+          <div class="option-text">3.000 + 600 + 7 + 2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 08 -->
+    <div class="question-card" id="card-q8">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 08</span>
+          <span class="question-bncc">EF03MA24 • Sistema Monetário</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q8-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Sistema Monetário: Compra do Livro de Dandara</h3>
+      <div id="q8-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.75rem;">
+          DURANTE A FEIRA CULTURAL, DANDARA ENCONTROU UM LIVRO SOBRE A HISTÓRIA E A CULTURA AFRO-BRASILEIRA QUE CUSTAVA <strong>R$ 28,00</strong>. PARA SABER SE PODERIA COMPRÁ-LO, ELA CONTOU O DINHEIRO QUE HAVIA LEVADO:
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; background: #f0fdf4; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+          <div style="text-align: center;">
+            <img src="/img/simulados/novembro-3ano/q08_livro.png" alt="Livro Dandara" style="max-height: 110px; border-radius: 8px;">
+            <div style="font-weight: 700; font-size: 0.9rem; color: #047857;">Preço: R$ 28,00</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <img src="/img/simulados/novembro-3ano/q08_nota20.png" alt="Nota de 20 reais" style="max-height: 55px; border-radius: 6px;">
+              <span style="font-weight: 700;">1 nota de R$ 20,00</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <img src="/img/simulados/novembro-3ano/q08_nota5.png" alt="Nota de 5 reais" style="max-height: 55px; border-radius: 6px;">
+              <span style="font-weight: 700;">1 nota de R$ 5,00</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <img src="/img/simulados/novembro-3ano/q08_moedas1.png" alt="Moedas de 1 real" style="max-height: 55px; border-radius: 6px;">
+              <span style="font-weight: 700;">3 moedas de R$ 1,00</span>
+            </div>
+          </div>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          DEPOIS DE CONTAR SEU DINHEIRO, DANDARA CONCLUIU QUE:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(8, 'A')">
+          <div class="option-letter" id="opt-8-A">A</div>
+          <div class="option-text">O DINHEIRO É INSUFICIENTE, POIS FALTAM R$ 2,00.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'B')">
+          <div class="option-letter" id="opt-8-B">B</div>
+          <div class="option-text">O DINHEIRO É INSUFICIENTE, POIS FALTAM R$ 3,00.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'C')">
+          <div class="option-letter" id="opt-8-C">C</div>
+          <div class="option-text">O DINHEIRO É SUFICIENTE E NÃO HAVERÁ TROCO.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'D')">
+          <div class="option-letter" id="opt-8-D">D</div>
+          <div class="option-text">O DINHEIRO É SUFICIENTE E SOBRARÃO R$ 2,00.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 09 -->
+    <div class="question-card" id="card-q9">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 09</span>
+          <span class="question-bncc">EF03MA06 • Adição e Subtração</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q9-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Cálculo de Compras e Troco de Educaré</h3>
+      <div id="q9-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>DURANTE A FEIRA CULTURAL, EDUCARÉ VISITOU UMA BARRACA DE LIVROS E MATERIAIS PRODUZIDOS PELOS ESTUDANTES. ELE LEVOU <strong>R$ 50,00</strong> E DECIDIU COMPRAR:</p>
+          <p>• 1 LIVRO SOBRE A CULTURA AFRO-BRASILEIRA – <strong>R$ 24,00</strong></p>
+          <p>• 1 MARCADOR DE PÁGINA – <strong>R$ 7,00</strong></p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          DEPOIS DE PAGAR PELAS DUAS COMPRAS, QUANTO DINHEIRO SOBROU PARA EDUCARÉ?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(9, 'A')">
+          <div class="option-letter" id="opt-9-A">A</div>
+          <div class="option-text">R$ 17,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'B')">
+          <div class="option-letter" id="opt-9-B">B</div>
+          <div class="option-text">R$ 18,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'C')">
+          <div class="option-letter" id="opt-9-C">C</div>
+          <div class="option-text">R$ 19,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'D')">
+          <div class="option-letter" id="opt-9-D">D</div>
+          <div class="option-text">R$ 21,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 10 -->
+    <div class="question-card" id="card-q10">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 10</span>
+          <span class="question-bncc">EF03MA23 • Medida de Tempo</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q10-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Duração de Tempo nos Relógios</h3>
+      <div id="q10-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.75rem;">
+          A EXPOSIÇÃO SOBRE CULTURA AFRO-BRASILEIRA COMEÇOU ÀS <strong>9 HORAS E 15 MINUTOS</strong> E TERMINOU ÀS <strong>10 HORAS E 45 MINUTOS</strong>.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; align-items: center; margin: 1rem 0;">
+          <div style="text-align: center;">
+            <img src="/img/simulados/novembro-3ano/q10_relogio_inicio.png" alt="Relógio Início 9h15" style="max-height: 160px; border-radius: 50%; border: 3px solid #059669;">
+            <div style="font-weight: 700; margin-top: 0.4rem; color: #047857;">Início: 9h15</div>
+          </div>
+          <div style="font-size: 2rem; font-weight: 800; color: #059669;">➔</div>
+          <div style="text-align: center;">
+            <img src="/img/simulados/novembro-3ano/q10_relogio_fim.png" alt="Relógio Término 10h45" style="max-height: 160px; border-radius: 50%; border: 3px solid #059669;">
+            <div style="font-weight: 700; margin-top: 0.4rem; color: #047857;">Término: 10h45</div>
+          </div>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUANTO TEMPO DUROU A EXPOSIÇÃO?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(10, 'A')">
+          <div class="option-letter" id="opt-10-A">A</div>
+          <div class="option-text">1 HORA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'B')">
+          <div class="option-letter" id="opt-10-B">B</div>
+          <div class="option-text">1 HORA E 15 MINUTOS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'C')">
+          <div class="option-letter" id="opt-10-C">C</div>
+          <div class="option-text">1 HORA E 30 MINUTOS.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'D')">
+          <div class="option-letter" id="opt-10-D">D</div>
+          <div class="option-text">2 HORAS E 30 MINUTOS.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 11 -->
+    <div class="question-card" id="card-q11">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 11</span>
+          <span class="question-bncc">EF03MA26 • Leitura de Tabela</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q11-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Leitura e Interpretação de Tabela</h3>
+      <div id="q11-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">
+          DURANTE A FEIRA CULTURAL, OS ESTUDANTES ORGANIZARAM UMA PEQUENA EXPOSIÇÃO PARA VALORIZAR A HISTÓRIA E A CULTURA AFRO-BRASILEIRA. ALGUNS PRODUTOS PRODUZIDOS PELA TURMA FORAM VENDIDOS NOS PERÍODOS DA MANHÃ E DA TARDE.
+        </p>
+        <p style="font-weight: 700; color: #047857; margin-bottom: 0.4rem;">OBSERVE A TABELA:</p>
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>PRODUTO</th>
+              <th>MANHÃ</th>
+              <th>TARDE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>MARCADORES</strong></td>
+              <td>128</td>
+              <td>146</td>
+            </tr>
+            <tr>
+              <td><strong>CARTÕES</strong></td>
+              <td>115</td>
+              <td>137</td>
+            </tr>
+            <tr>
+              <td><strong>CADERNOS</strong></td>
+              <td>94</td>
+              <td>108</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          CONSIDERANDO AS VENDAS DOS DOIS PERÍODOS, QUANTOS MARCADORES FORAM VENDIDOS AO TODO?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(11, 'A')">
+          <div class="option-letter" id="opt-11-A">A</div>
+          <div class="option-text">264</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'B')">
+          <div class="option-letter" id="opt-11-B">B</div>
+          <div class="option-text">268</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'C')">
+          <div class="option-letter" id="opt-11-C">C</div>
+          <div class="option-text">274</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'D')">
+          <div class="option-letter" id="opt-11-D">D</div>
+          <div class="option-text">284</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 12 -->
+    <div class="question-card" id="card-q12">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 12</span>
+          <span class="question-bncc">EF03MA06 • Resolução de Problemas</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q12-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Economia para Compra do Livro</h3>
+      <div id="q12-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>DURANTE A FEIRA CULTURAL, DANDARA ENCONTROU UM LIVRO SOBRE A HISTÓRIA E A CULTURA AFRO-BRASILEIRA QUE GOSTARIA DE COMPRAR. O LIVRO CUSTA <strong>R$ 45,00</strong>.</p>
+          <p>DANDARA JÁ HAVIA ECONOMIZADO <strong>R$ 27,00</strong> E DECIDIU GUARDAR MAIS <strong>R$ 6,00</strong> PARA ALCANÇAR SEU OBJETIVO.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          DEPOIS DE GUARDAR ESSE VALOR, QUANTO AINDA FALTARÁ PARA DANDARA CONSEGUIR COMPRAR O LIVRO?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(12, 'A')">
+          <div class="option-letter" id="opt-12-A">A</div>
+          <div class="option-text">R$ 10,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(12, 'B')">
+          <div class="option-letter" id="opt-12-B">B</div>
+          <div class="option-text">R$ 12,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(12, 'C')">
+          <div class="option-letter" id="opt-12-C">C</div>
+          <div class="option-text">R$ 14,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(12, 'D')">
+          <div class="option-letter" id="opt-12-D">D</div>
+          <div class="option-text">R$ 18,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 13 -->
+    <div class="question-card" id="card-q13">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 13</span>
+          <span class="question-bncc">EF03MA06 • Comparação e Economia</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q13-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Pesquisa de Preços e Economia</h3>
+      <div id="q13-full">
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">
+          DURANTE A PREPARAÇÃO DA FEIRA CULTURAL, A TURMA PRECISOU COMPRAR PACOTES DE PAPEL PARA PRODUZIR CARTAZES SOBRE A HISTÓRIA E A CULTURA AFRO-BRASILEIRA. ANTES DA COMPRA, OS ESTUDANTES PESQUISARAM O PREÇO DO MESMO PACOTE EM TRÊS PAPELARIAS:
+        </p>
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>PAPELARIA</th>
+              <th>PREÇO DE 1 PACOTE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PAPELARIA A</strong></td>
+              <td>R$ 32,00</td>
+            </tr>
+            <tr>
+              <td><strong>PAPELARIA B</strong></td>
+              <td>R$ 27,00</td>
+            </tr>
+            <tr>
+              <td><strong>PAPELARIA C</strong></td>
+              <td>R$ 30,00</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 1.05rem; font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">
+          A ESCOLA PRECISA COMPRAR <strong>2 PACOTES DE PAPEL</strong> E DECIDIU COMPARAR OS PREÇOS PARA FAZER UMA ESCOLHA MAIS ECONÔMICA.
+        </p>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUANTO A ESCOLA ECONOMIZARÁ AO COMPRAR OS 2 PACOTES NA PAPELARIA B, EM VEZ DE COMPRÁ-LOS NA PAPELARIA A?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(13, 'A')">
+          <div class="option-letter" id="opt-13-A">A</div>
+          <div class="option-text">R$ 5,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(13, 'B')">
+          <div class="option-letter" id="opt-13-B">B</div>
+          <div class="option-text">R$ 8,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(13, 'C')">
+          <div class="option-letter" id="opt-13-C">C</div>
+          <div class="option-text">R$ 10,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(13, 'D')">
+          <div class="option-letter" id="opt-13-D">D</div>
+          <div class="option-text">R$ 12,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 14 -->
+    <div class="question-card" id="card-q14">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 14</span>
+          <span class="question-bncc">EF35LP03 • Finalidade Textual</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q14-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">Finalidade do Texto</h3>
+      <div id="q14-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>CONHECER A HISTÓRIA E A CULTURA DE DIFERENTES GRUPOS AJUDA A COMPREENDER COMO A SOCIEDADE FOI CONSTRUÍDA. VALORIZAR A CULTURA AFRO-BRASILEIRA SIGNIFICA RECONHECER HISTÓRIAS, CONHECIMENTOS E CONTRIBUIÇÕES QUE FAZEM PARTE DA FORMAÇÃO DO BRASIL.</p>
+          <p>NA ESCOLA, APRENDER SOBRE ESSAS CONTRIBUIÇÕES TAMBÉM É UMA OPORTUNIDADE DE REFLETIR SOBRE RESPEITO E IGUALDADE.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          QUAL É A PRINCIPAL FINALIDADE DESSE TEXTO?
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(14, 'A')">
+          <div class="option-letter" id="opt-14-A">A</div>
+          <div class="option-text">ENSINAR COMO CALCULAR O PREÇO DE UM PRODUTO.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(14, 'B')">
+          <div class="option-letter" id="opt-14-B">B</div>
+          <div class="option-text">EXPLICAR A IMPORTÂNCIA DE CONHECER E VALORIZAR A CULTURA AFRO-BRASILEIRA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(14, 'C')">
+          <div class="option-letter" id="opt-14-C">C</div>
+          <div class="option-text">DIVULGAR OS PRODUTOS VENDIDOS PELA ESCOLA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(14, 'D')">
+          <div class="option-letter" id="opt-14-D">D</div>
+          <div class="option-text">CONTAR UMA HISTÓRIA ENGRAÇADA SOBRE OS ESTUDANTES.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questão 15 -->
+    <div class="question-card" id="card-q15">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.5rem;">
+        <div>
+          <span class="question-tag">Questão 15</span>
+          <span class="question-bncc">EF03HI03 / EF03GE02 • Sociedade e Cultura</span>
+        </div>
+        <button type="button" class="tts-btn" onclick="speakText('q15-full')">🔊 Ouvir Questão</button>
+      </div>
+      <h3 class="question-title">A Cultura Afro-Brasileira na Sociedade</h3>
+      <div id="q15-full">
+        <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 1rem; color: #1e293b;">
+          <p>A CULTURA AFRO-BRASILEIRA FAZ PARTE DA FORMAÇÃO DA SOCIEDADE BRASILEIRA. AO LONGO DO TEMPO, OS POVOS AFRICANOS E SEUS DESCENDENTES CONTRIBUÍRAM PARA DIFERENTES ASPECTOS DA NOSSA CULTURA, PRESENTES NAS MÚSICAS, DANÇAS, COMIDAS, FESTAS, PALAVRAS E COSTUMES DE DIFERENTES LUGARES DO BRASIL.</p>
+          <p>ESSAS MANIFESTAÇÕES PODEM SER OBSERVADAS NAS COMUNIDADES E FAZEM PARTE DA HISTÓRIA E DA IDENTIDADE DE MUITAS PESSOAS.</p>
+        </div>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-dark);">
+          O TEXTO MOSTRA QUE A CULTURA AFRO-BRASILEIRA:
+        </p>
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(15, 'A')">
+          <div class="option-letter" id="opt-15-A">A</div>
+          <div class="option-text">ESTÁ PRESENTE SOMENTE EM ALGUMAS REGIÕES DISTANTES DO BRASIL.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(15, 'B')">
+          <div class="option-letter" id="opt-15-B">B</div>
+          <div class="option-text">FAZ PARTE DA HISTÓRIA E PODE SER PERCEBIDA EM DIFERENTES LUGARES E COSTUMES DA SOCIEDADE BRASILEIRA.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(15, 'C')">
+          <div class="option-letter" id="opt-15-C">C</div>
+          <div class="option-text">PERTENCE APENAS AO PASSADO E NÃO ESTÁ PRESENTE NA VIDA DAS PESSOAS ATUALMENTE.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(15, 'D')">
+          <div class="option-letter" id="opt-15-D">D</div>
+          <div class="option-text">ESTÁ RELACIONADA SOMENTE ÀS FESTAS E ÀS MÚSICAS REALIZADAS NAS ESCOLAS.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão de Finalização -->
+    <div class="submit-container">
+      <button type="button" class="btn-submit" onclick="submitSimulado()">
+        🚀 Finalizar e Enviar Simulado
+      </button>
+    </div>
+  </main>
+
+  <!-- Modal de Resultados -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal-card">
+      <div style="font-size: 3rem;">🎉</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: var(--primary-dark); margin-top: 0.5rem;">
+        Parabéns pelo Esforço!
+      </h2>
+      <p style="font-size: 1.05rem; color: #475569; margin-top: 0.5rem;">
+        Suas respostas foram salvas e enviadas com sucesso para a rede municipal!
+      </p>
+
+      <div class="score-circle">
+        <div class="score-num" id="modalScore">0</div>
+        <div class="score-max">de 15 acertos</div>
+      </div>
+
+      <div id="modalDetails" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; font-size: 0.95rem; margin-bottom: 1.5rem;">
+      </div>
+
+      <button type="button" class="btn-submit" style="padding: 0.8rem 2rem; font-size: 1.1rem;" onclick="window.location.href='/'">
+        Voltar ao Portal LabKids
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Gabarito Oficial 3º Ano Novembro/2026
+    const correctAnswers = {
+      1: 'B',
+      2: 'A',
+      3: 'A',
+      4: 'B',
+      5: 'PESSOAL', // Q5 Produção cartaz/frase
+      6: 'C',
+      7: 'A',
+      8: 'C',
+      9: 'C',
+      10: 'C',
+      11: 'C',
+      12: 'B',
+      13: 'C',
+      14: 'B',
+      15: 'B'
+    };
+
+    const userAnswers = {};
+
+    // Auto-detect turno via URL ?shift=manha ou ?shift=tarde
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const shiftParam = urlParams.get('shift');
+      if (shiftParam) {
+        const shiftEl = document.getElementById('shiftName');
+        if (shiftEl) {
+          if (shiftParam.toLowerCase().includes('tarde')) shiftEl.value = 'Tarde';
+          else if (shiftParam.toLowerCase().includes('manha') || shiftParam.toLowerCase().includes('manhã')) shiftEl.value = 'Manhã';
+          else if (shiftParam.toLowerCase().includes('integral')) shiftEl.value = 'Integral';
+        }
+      }
+
+      // Restore local draft if exists
+      const savedDraft = localStorage.getItem('simulado_3ano_novembro_draft');
+      if (savedDraft) {
+        try {
+          const draft = JSON.parse(savedDraft);
+          if (draft.studentName) document.getElementById('studentName').value = draft.studentName;
+          if (draft.className) document.getElementById('className').value = draft.className;
+          if (draft.shiftName && !shiftParam) document.getElementById('shiftName').value = draft.shiftName;
+          if (draft.answers) {
+            for (const [q, val] of Object.entries(draft.answers)) {
+              if (q == '5') {
+                document.getElementById('q5-frase').value = val;
+                userAnswers[5] = val;
+              } else {
+                selectOption(parseInt(q), val, false);
+              }
+            }
+          }
+        } catch(e) {}
+      }
+
+      initCanvas();
+    });
+
+    function saveDraft() {
+      const draft = {
+        studentName: document.getElementById('studentName')?.value || '',
+        schoolName: document.getElementById('schoolName')?.value || '',
+        shiftName: document.getElementById('shiftName')?.value || '',
+        className: document.getElementById('className')?.value || '',
+        answers: userAnswers
+      };
+      localStorage.setItem('simulado_3ano_novembro_draft', JSON.stringify(draft));
+    }
+
+    function selectOption(qNum, letter, save = true) {
+      userAnswers[qNum] = letter;
+      const letters = ['A', 'B', 'C', 'D'];
+      letters.forEach(l => {
+        const el = document.getElementById(`opt-${qNum}-${l}`);
+        if (el && el.parentElement) {
+          if (l === letter) {
+            el.parentElement.classList.add('selected');
+          } else {
+            el.parentElement.classList.remove('selected');
+          }
+        }
+      });
+      if (save) saveDraft();
+    }
+
+    function syncQ5Response() {
+      const val = document.getElementById('q5-frase').value.trim();
+      userAnswers[5] = val || 'PRODUÇÃO REALIZADA';
+      saveDraft();
+    }
+
+    // TTS Web Speech API
+    function speakText(elementId) {
+      if (!('speechSynthesis' in window)) {
+        alert('Seu navegador não suporta leitura em voz alta.');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Canvas de Desenho da Q5
+    let canvas, ctx, isDrawing = false, currentColor = '#0f172a';
+
+    function initCanvas() {
+      canvas = document.getElementById('drawingCanvas');
+      if (!canvas) return;
+      ctx = canvas.getContext('2d');
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = currentColor;
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (canvas.width / rect.width),
+          y: (clientY - rect.top) * (canvas.height / rect.height)
+        };
+      }
+
+      canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      });
+      canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+      });
+      window.addEventListener('mouseup', () => { isDrawing = false; });
+
+      canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        isDrawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }, { passive: false });
+      canvas.addEventListener('touchmove', (e) => {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+      }, { passive: false });
+      window.addEventListener('touchend', () => { isDrawing = false; });
+    }
+
+    function setDrawingColor(color, btn) {
+      currentColor = color;
+      if (ctx) ctx.strokeStyle = color;
+      document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    function clearCanvas() {
+      if (ctx && canvas) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    async function submitSimulado() {
+      const studentName = document.getElementById('studentName').value.trim();
+      const schoolName = document.getElementById('schoolName').value.trim();
+      const shift = document.getElementById('shiftName').value || 'Manhã';
+      const className = document.getElementById('className').value.trim() || '3º Ano';
+
+      if (!studentName) {
+        alert('Por favor, preencha o Nome do Aluno(a) antes de finalizar!');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      // Verifica preenchimento
+      const missing = [];
+      for (let i = 1; i <= 15; i++) {
+        if (!userAnswers[i]) missing.push(i);
+      }
+      if (missing.length > 0) {
+        const confirmSend = confirm(`Você ainda não respondeu as seguintes questões: ${missing.join(', ')}.\n\nDeseja enviar mesmo assim?`);
+        if (!confirmSend) return;
+      }
+
+      // Calcula pontuação (Q5 conta como pontuada se a frase ou desenho tiver sido produzido)
+      let score = 0;
+      for (let i = 1; i <= 15; i++) {
+        if (i === 5) {
+          if (userAnswers[5] && userAnswers[5].trim().length > 0) score++;
+        } else {
+          if (userAnswers[i] && userAnswers[i].toUpperCase() === correctAnswers[i]) {
+            score++;
+          }
+        }
+      }
+
+      const payload = {
+        studentName,
+        schoolName,
+        shift,
+        className,
+        grade: '3º Ano',
+        simuladoId: 'simulado-campos-3ano-novembro-2026',
+        simuladoTitle: 'Simulado Oficial 3º Ano — Novembro/2026',
+        answers: userAnswers,
+        score,
+        totalQuestions: 15,
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        const res = await fetch('/api/simulados/respostas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        console.log('Submission result:', result);
+      } catch (err) {
+        console.warn('Fallback offline save:', err);
+      }
+
+      // Limpa rascunho local
+      localStorage.removeItem('simulado_3ano_novembro_draft');
+
+      // Exibe Modal
+      document.getElementById('modalScore').innerText = score;
+      document.getElementById('modalDetails').innerHTML = `
+        <strong>Aluno(a):</strong> ${studentName}<br>
+        <strong>Escola:</strong> ${schoolName}<br>
+        <strong>Turno:</strong> ${shift} • <strong>Turma:</strong> ${className}<br>
+        <strong>Aproveitamento:</strong> ${Math.round((score / 15) * 100)}%
+      `;
+      document.getElementById('resultModal').classList.add('active');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
