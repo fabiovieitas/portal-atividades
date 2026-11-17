@@ -656,7 +656,7 @@
             <div style="font-family: monospace; font-size: 0.85rem; color: #3730a3; line-height: 1.7;">
               Q01: <strong>C</strong> | Q02: <strong>B</strong> | Q03: 📝 <em>Redação</em><br>
               Q04: <strong>B</strong> | Q05: <strong>B</strong> | Q06: <strong>C</strong><br>
-              Q07: <strong>B</strong> | Q08: <strong>C</strong> (75) | Q09: <strong>C</strong> (6)<br>
+              Q07: <strong>B</strong> <span style="color:#dc2626; font-size:0.75rem; font-weight:800;">(Anulada para Turno Manhã)</span> | Q08: <strong>C</strong> (75) | Q09: <strong>C</strong> (6)<br>
               Q10: <strong>C</strong> (Comunicação)
             </div>
           </div>
@@ -1162,7 +1162,8 @@
 
                       for(let qi=0; qi<tableQList.length; qi++) { 
                         const qKey = tableQList[qi];
-                        const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11'));
+                        const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11')) ||
+                                          (simId === 'campos-4ano-outubro-2026' && qKey === '7' && (s.shift || 'Manhã').includes('Manhã'));
                         const isEssay = (simId.includes('1ano-novembro') && qKey === '1') ||
                                         (simId.includes('2ano-novembro') && qKey === '4') ||
                                         (simId.includes('3ano-novembro') && qKey === '5') ||
@@ -1239,7 +1240,8 @@
                         }
                         for(let i=0; i<qList.length; i++) { 
                           const qKey = qList[i];
-                          const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11'));
+                          const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11')) ||
+                                            (simId === 'campos-4ano-outubro-2026' && qKey === '7' && (s.shift || 'Manhã').includes('Manhã'));
                           const isEssay = (simId.includes('1ano-novembro') && qKey === '1') ||
                                           (simId.includes('2ano-novembro') && qKey === '4') ||
                                           (simId.includes('3ano-novembro') && qKey === '5') ||
@@ -1267,7 +1269,7 @@
                             <div style="background: #f8fafc; border: 1.5px dashed #94a3b8; border-radius: 8px; padding: 0.5rem; text-align: center;">
                               <div style="font-size: 0.75rem; font-weight: 700; color: #64748b;">Questão <%= qLabel %></div>
                               <div style="font-size: 0.85rem; font-weight: 800; color: #475569;">🚫 ANULADA</div>
-                              <div style="font-size: 0.7rem; color: #94a3b8;">Desconsiderada do cálculo</div>
+                              <div style="font-size: 0.7rem; color: #94a3b8;"><%= (simId === 'campos-4ano-outubro-2026') ? 'Pontuada para Turno Manhã' : 'Desconsiderada do cálculo' %></div>
                             </div>
                           <% } else if (isEssay) { %>
                             <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 0.5rem; text-align: center;">
@@ -1526,7 +1528,11 @@
           const targetKey = allAnswerKeys[rowSimulado] || allAnswerKeys[normRowSim] || allAnswerKeys['campos-1ano-novembro-2026'];
           if (targetKey) {
             for (let q in questionCorrect) {
-              if (targetKey[q] && answersObj[q] === targetKey[q]) {
+              const isQAnulada = (rowSimulado === 'campos-4ano-outubro-2026' && q === '7' && rowShift.includes('Manhã')) ||
+                                 (rowSimulado === 'campos-2ano-outubro-2026' && (q === '9' || q === '10' || q === '11'));
+              if (isQAnulada) {
+                questionCorrect[q]++;
+              } else if (targetKey[q] && answersObj[q] === targetKey[q]) {
                 questionCorrect[q]++;
               }
             }

@@ -601,7 +601,7 @@
         </div>
         <div class="form-group">
           <label for="shiftName">Turno:</label>
-          <select id="shiftName" class="form-control" onchange="saveVaultDraft()">
+          <select id="shiftName" class="form-control" onchange="saveVaultDraft(); checkQ7Anulada();">
             <option value="Manhã" selected>☀️ 4º Ano — Manhã</option>
             <option value="Tarde">🌤️ 4º Ano — Tarde</option>
           </select>
@@ -908,8 +908,15 @@
           <span class="question-tag">Questão 07</span>
           <span class="question-bncc">EF04MA27 • Matemática</span>
         </div>
+        <div id="q7-anulada-badge" style="display: none; background: #fee2e2; border: 1.5px dashed #ef4444; color: #b91c1c; font-weight: 800; font-size: 0.8rem; padding: 0.25rem 0.6rem; border-radius: 999px;">
+          🚫 Questão Anulada pelo Professor (Turno Manhã)
+        </div>
       </div>
       <h3 class="question-title">Interpretação de Gráfico: Brincadeiras Preferidas</h3>
+      
+      <div id="q7-anulada-notice" style="display: none; background: #fff1f2; border: 1.5px dashed #f43f5e; border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 1rem; color: #9f1239; font-weight: 700; font-size: 0.95rem;">
+        📢 <strong>Aviso aos Estudantes do Turno da Manhã:</strong> Esta questão foi anulada pela coordenação pedagógica. O ponto desta questão é concedido automaticamente a todos os alunos da manhã!
+      </div>
       
       <div id="q7-text">
         <div class="question-text-box" style="font-size: 1.05rem; background: white; margin-bottom: 1rem;">
@@ -1259,6 +1266,16 @@
           }
         });
       }
+      checkQ7Anulada();
+    }
+
+    function checkQ7Anulada() {
+      const sh = (document.getElementById('shiftName')?.value || 'Manhã').toLowerCase();
+      const isManha = sh.includes('manhã') || sh.includes('manha');
+      const badge = document.getElementById('q7-anulada-badge');
+      const notice = document.getElementById('q7-anulada-notice');
+      if (badge) badge.style.display = isManha ? 'inline-flex' : 'none';
+      if (notice) notice.style.display = isManha ? 'block' : 'none';
     }
 
     // Envio Ultra-Resiliente com SimuladoVault
@@ -1283,9 +1300,15 @@
         if (!confirmSend) return;
       }
 
+      const studentShift = document.getElementById('shiftName').value || 'Manhã';
+      const isManha = studentShift.toLowerCase().includes('manhã') || studentShift.toLowerCase().includes('manha');
       let score = 0;
       questionKeys.forEach(k => {
-        if (studentAnswers[k] === answerKey[k]) score++;
+        if (isManha && k === '7') {
+          score++; // Questão 7 anulada para o turno Manhã: ponto garantido
+        } else if (studentAnswers[k] === answerKey[k]) {
+          score++;
+        }
       });
 
       const payload = {
@@ -1293,7 +1316,7 @@
         student_name: studentName,
         school_name: document.getElementById('schoolName').value.trim(),
         class_name: document.getElementById('className').value || '4º Ano',
-        shift: document.getElementById('shiftName').value || 'Manhã',
+        shift: studentShift,
         answers_json: studentAnswers,
         score: score,
         max_score: 10,
@@ -1326,6 +1349,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       initCRGrid();
       restoreDraft();
+      checkQ7Anulada();
       updateProgress();
     });
   </script>
