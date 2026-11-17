@@ -713,7 +713,6 @@
     <div class="question-card" style="border-left: 6px solid var(--primary);">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.75rem;">
         <span class="question-tag">Texto Base 1</span>
-        <button type="button" class="tts-btn" onclick="speakText('poema-crianca-texto')">🔊 Ouvir Poema com a Professora Sara</button>
       </div>
       <h3 class="question-title" style="color: var(--primary-dark);">CRIANÇA TEM DIREITO!</h3>
       
@@ -737,7 +736,6 @@
           <span class="question-tag">Questão 01</span>
           <span class="question-bncc">EF15LP03 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q1-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Compreensão do Poema</h3>
       
@@ -774,7 +772,6 @@
           <span class="question-tag">Questão 02</span>
           <span class="question-bncc">EF15LP03 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q2-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Respeito aos Direitos da Criança</h3>
       
@@ -814,7 +811,6 @@
           <span class="question-tag">Questão 03</span>
           <span class="question-bncc">EF12LP19 • EF15AR14 • Arte e Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q3-text')">🔊 Ouvir Música e Questão</button>
       </div>
       <h3 class="question-title">Música e Rimas da Infância</h3>
       
@@ -861,7 +857,6 @@
           <span class="question-tag" style="background: #fef3c7; color: #b45309;">Questão 04</span>
           <span class="question-bncc">EF02LP01 • Ditado de Frases</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakDitadoCompleto()">🔊 Ouvir Todas as Frases em Sequência</button>
       </div>
       <h3 class="question-title">Ditado de Frases da Professora Sara</h3>
       
@@ -876,7 +871,6 @@
             <span class="ditado-label">1. Primeira Frase:</span>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span class="ditado-badge">Nível Fácil</span>
-              <button type="button" class="tts-btn" onclick="speakSingleSentence('A criança tem direito de brincar.')">🔊 Ouvir Frase 1</button>
             </div>
           </div>
           <input type="text" id="ditado1" class="ditado-input" placeholder="Escreva a primeira frase aqui..." oninput="syncDitadoAnswers()">
@@ -888,7 +882,6 @@
             <span class="ditado-label">2. Segunda Frase:</span>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span class="ditado-badge">Nível Médio</span>
-              <button type="button" class="tts-btn" onclick="speakSingleSentence('Toda criança tem direito de estudar e brincar.')">🔊 Ouvir Frase 2</button>
             </div>
           </div>
           <input type="text" id="ditado2" class="ditado-input" placeholder="Escreva a segunda frase aqui..." oninput="syncDitadoAnswers()">
@@ -900,7 +893,6 @@
             <span class="ditado-label">3. Terceira Frase:</span>
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span class="ditado-badge">Nível Desafio</span>
-              <button type="button" class="tts-btn" onclick="speakSingleSentence('Toda criança deve ser cuidada respeitada e protegida.')">🔊 Ouvir Frase 3</button>
             </div>
           </div>
           <input type="text" id="ditado3" class="ditado-input" placeholder="Escreva a terceira frase aqui..." oninput="syncDitadoAnswers()">
@@ -915,7 +907,6 @@
           <span class="question-tag">Questão 05</span>
           <span class="question-bncc">EF02LP03 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q5-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Troca de Letras e Novas Palavras</h3>
       
@@ -961,7 +952,6 @@
           <span class="question-tag">Questão 06</span>
           <span class="question-bncc">EF02HI01 • História</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q6-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Direitos e Participação na Comunidade</h3>
       
@@ -1005,7 +995,6 @@
           <span class="question-tag">Questão 07</span>
           <span class="question-bncc">EF02GE02 • Geografia</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q7-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Cuidado e Respeito no Pátio Escolar</h3>
       
@@ -1295,32 +1284,7 @@
     }
 
     // Leitura por Síntese de Voz (TTS)
-    function speakText(elementId) {
-      if (!('speechSynthesis' in window)) {
-        alert('Seu navegador não suporta leitura em áudio.');
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const el = document.getElementById(elementId);
-      if (!el) return;
-
-      const textToSpeak = el.innerText || el.textContent;
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.95;
-
-      const btn = event?.currentTarget;
-      if (btn) btn.classList.add('speaking');
-
-      utterance.onend = () => {
-        if (btn) btn.classList.remove('speaking');
-      };
-      utterance.onerror = () => {
-        if (btn) btn.classList.remove('speaking');
-      };
-
-      window.speechSynthesis.speak(utterance);
-    }
+    function speakText() {}
 
     function speakSingleSentence(text) {
       if (!('speechSynthesis' in window)) {
@@ -1340,29 +1304,7 @@
       window.speechSynthesis.speak(utterance);
     }
 
-    function speakDitadoCompleto() {
-      if (!('speechSynthesis' in window)) {
-        alert('Seu navegador não suporta leitura em áudio.');
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const frases = [
-        "Atenção ao ditado da professora Sara. Primeira frase: A criança tem direito de brincar.",
-        "Segunda frase: Toda criança tem direito de estudar e brincar.",
-        "Terceira frase: Toda criança deve ser cuidada respeitada e protegida."
-      ];
-      const textToSpeak = frases.join(". ... ");
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.88;
-
-      const btn = event?.currentTarget;
-      if (btn) btn.classList.add('speaking');
-      utterance.onend = () => { if (btn) btn.classList.remove('speaking'); };
-      utterance.onerror = () => { if (btn) btn.classList.remove('speaking'); };
-
-      window.speechSynthesis.speak(utterance);
-    }
+    function speakDitadoCompleto() {}
 
     // Envio Ultra-Resiliente com SimuladoVault
     async function submitExamWithVault() {

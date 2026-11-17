@@ -637,7 +637,6 @@
     <div class="question-card" style="border: 2px solid #818cf8; background: #f5f3ff;">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.75rem;">
         <span class="question-tag" style="background: #4f46e5;">Texto Base 1 • Língua Portuguesa</span>
-        <button type="button" class="tts-btn" onclick="speakText('texto-base-eca')">🔊 Ouvir Texto</button>
       </div>
       <h3 class="question-title" style="color: #3730a3;">CRIANÇA, BRINCADEIRA E PROTAGONISMO — ECA</h3>
       
@@ -673,7 +672,6 @@
           <span class="question-tag">Questão 01</span>
           <span class="question-bncc">EF04LP15 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q1-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">O Direito de Participar</h3>
       
@@ -715,7 +713,6 @@
           <span class="question-tag">Questão 02</span>
           <span class="question-bncc">EF04LP15 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q2-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Respeito às Decisões Coletivas</h3>
       
@@ -756,7 +753,6 @@
           <span class="question-tag" style="background: #f59e0b;">Questão 03 • Resposta Escrita</span>
           <span class="question-bncc">EF35LP25 • Produção Textual</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q3-text')">🔊 Ouvir Proposta</button>
       </div>
       <h3 class="question-title" style="color: #b45309;">Produção de Texto: Uma Comemoração Especial</h3>
       
@@ -801,7 +797,6 @@
           <span class="question-tag">Questão 04</span>
           <span class="question-bncc">EF35LP03 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q4-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Finalidade do ECA</h3>
       
@@ -847,7 +842,6 @@
           <span class="question-tag">Questão 05</span>
           <span class="question-bncc">EF35LP03 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q5-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Dia das Crianças na Escola</h3>
       
@@ -894,7 +888,6 @@
           <span class="question-tag">Questão 06</span>
           <span class="question-bncc">EF04HI05 / EF04GE03 • História / Geografia</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q6-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Cuidado com Espaços Públicos de Convivência</h3>
       
@@ -939,7 +932,6 @@
           <span class="question-tag">Questão 07</span>
           <span class="question-bncc">EF04MA27 • Matemática</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q7-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Interpretação de Gráfico: Brincadeiras Preferidas</h3>
       
@@ -983,7 +975,6 @@
           <span class="question-tag">Questão 08</span>
           <span class="question-bncc">EF04MA03 • Matemática</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q8-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Resolução de Problema: Materiais para as Brincadeiras</h3>
       
@@ -1024,7 +1015,6 @@
           <span class="question-tag">Questão 09</span>
           <span class="question-bncc">EF04MA01 • Matemática</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q9-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Sistema de Numeração Decimal: Valor Posicional</h3>
       
@@ -1068,7 +1058,6 @@
           <span class="question-tag">Questão 10</span>
           <span class="question-bncc">EF15AR04 • Arte</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q10-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Recursos Visuais e Comunicação em Cartaz</h3>
       
@@ -1168,32 +1157,7 @@
     let isSubmitting = false;
 
     // Sintetizador de voz
-    function speakText(elementId) {
-      if (!('speechSynthesis' in window)) {
-        alert('Seu navegador não suporta leitura em áudio.');
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      
-      const textToSpeak = el.innerText || el.textContent;
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 1.0;
-
-      const btn = event?.currentTarget;
-      if (btn) btn.classList.add('speaking');
-
-      utterance.onend = () => {
-        if (btn) btn.classList.remove('speaking');
-      };
-      utterance.onerror = () => {
-        if (btn) btn.classList.remove('speaking');
-      };
-
-      window.speechSynthesis.speak(utterance);
-    }
+    function speakText() {}
 
     // Inicialização do espelho
     function initCRGrid() {

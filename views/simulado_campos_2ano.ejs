@@ -756,7 +756,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number">QUESTÃO 1 -</span>
-            <button class="audio-btn" onclick="readAloud(1)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
@@ -783,7 +782,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number">QUESTÃO 2 -</span>
-            <button class="audio-btn" onclick="readAloud(2)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
@@ -809,7 +807,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number">QUESTÃO 3 -</span>
-            <button class="audio-btn" onclick="readAloud(3)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
@@ -835,7 +832,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number">QUESTÃO 4 -</span>
-            <button class="audio-btn" onclick="readAloud(4)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge">Língua Portuguesa</span>
         </div>
@@ -866,7 +862,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number" style="background: #dcfce7; color: var(--primary-dark);">QUESTÃO 5 -</span>
-            <button class="audio-btn" onclick="readAloud(5)"><span class="spk-icon">🔊</span> Ouvir Instruções</button>
           </div>
           <span class="q-subject-badge" style="background: #dcfce7; color: var(--primary-dark);">✍️ Produção de Texto (Convite)</span>
         </div>
@@ -923,7 +918,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number">QUESTÃO 6 -</span>
-            <button class="audio-btn" onclick="readAloud(6)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Língua Portuguesa e Ciências Humanas</span>
         </div>
@@ -956,7 +950,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number" style="background: #fef3c7; color: #b45309;">QUESTÃO 7 -</span>
-            <button class="audio-btn" onclick="readAloud(7)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Matemática</span>
         </div>
@@ -988,7 +981,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number" style="background: #fef3c7; color: #b45309;">QUESTÃO 8 -</span>
-            <button class="audio-btn" onclick="readAloud(8)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Matemática</span>
         </div>
@@ -1019,7 +1011,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number" style="background: #fef3c7; color: #b45309;">QUESTÃO 9 -</span>
-            <button class="audio-btn" onclick="readAloud(9)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge" style="background: #fef3c7; color: #b45309;">Matemática</span>
         </div>
@@ -1049,7 +1040,6 @@
         <div class="question-header">
           <div class="q-number-box">
             <span class="q-number" style="background: #e0f2fe; color: #0369a1;">QUESTÃO 10 -</span>
-            <button class="audio-btn" onclick="readAloud(10)"><span class="spk-icon">🔊</span> Ouvir Questão</button>
           </div>
           <span class="q-subject-badge" style="background: #e0f2fe; color: #0369a1;">Ciências da Natureza</span>
         </div>
@@ -1367,41 +1357,7 @@
 
     /* Web Speech API Text-to-Speech (Leitura da Questão em Voz Alta) */
     let currentUtterance = null;
-    function readAloud(qNum) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        
-        let textToRead = "";
-        if (qNum === 1) textToRead = "Questão 1. " + document.getElementById('text-q1').innerText + " Qual é o assunto do texto?";
-        else if (qNum === 2) textToRead = "Questão 2. " + document.getElementById('text-q2').innerText + " Na frase, a palavra animado indica que Goytaré estava?";
-        else if (qNum === 3) textToRead = "Questão 3. Leia a tirinha abaixo. O que deixa a tirinha engraçada é?";
-        else if (qNum === 4) textToRead = "Questão 4. " + document.getElementById('text-q4').innerText + " Quem é o personagem que aparece no início desse trecho?";
-        else if (qNum === 5) textToRead = "Questão 5. " + document.getElementById('text-q5').innerText;
-        else if (qNum === 6) textToRead = "Questão 6. A lenda do Ururau da Lapa. " + document.getElementById('text-q6').innerText + " De acordo com o texto, a história apresentada refere-se a qual lenda?";
-        else if (qNum === 7) textToRead = "Questão 7. " + document.getElementById('text-q7').innerText + " Qual estação recebeu mais visitantes?";
-        else if (qNum === 8) textToRead = "Questão 8. " + document.getElementById('text-q8').innerText + " Quantas bandeirinhas eles têm ao todo?";
-        else if (qNum === 9) textToRead = "Questão 9. " + document.getElementById('text-q9').innerText + " Qual número completa a sequência: 110, 120, 130, espaço, 150?";
-        else if (qNum === 10) textToRead = "Questão 10. " + document.getElementById('text-q10').innerText + " Qual atitude mostra que Lucas está cuidando da saúde?";
-
-        const utterance = new SpeechSynthesisUtterance(textToRead);
-        utterance.lang = 'pt-BR';
-        utterance.rate = 0.95;
-
-        const btns = document.querySelectorAll('.audio-btn');
-        btns.forEach(b => b.classList.remove('speaking'));
-
-        const targetBtn = document.querySelector(`#q-card-${qNum} .audio-btn`);
-        if(targetBtn) targetBtn.classList.add('speaking');
-
-        utterance.onend = () => {
-          if(targetBtn) targetBtn.classList.remove('speaking');
-        };
-
-        window.speechSynthesis.speak(utterance);
-      } else {
-        alert("O seu navegador não suporta leitura de áudio em voz alta.");
-      }
-    }
+    function readAloud() {}
 
     async function submitSimulado() {
       const nameInput = document.getElementById('studentName').value.trim();

@@ -572,7 +572,6 @@
     <div class="question-card" style="border-left: 6px solid var(--primary);">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 0.75rem;">
         <span class="question-tag">Texto Base</span>
-        <button type="button" class="tts-btn" onclick="speakText('texto-base-1')">🔊 Ouvir Texto com o Professor</button>
       </div>
       <h3 class="question-title" style="color: var(--primary-dark);">RESPEITO, IGUALDADE E BOAS ESCOLHAS</h3>
       
@@ -596,7 +595,6 @@
           <span class="question-tag" style="background: #fef3c7; color: #b45309;">Questão 01</span>
           <span class="question-bncc">EF01LP02 • Ditado de Palavras</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakDitadoCompleto()">🔊 Ouvir Todas as Palavras</button>
       </div>
       <h3 class="question-title">Ditado de Palavras com o Professor</h3>
       
@@ -608,35 +606,30 @@
         <div class="ditado-item">
           <div class="ditado-item-header">
             <span class="ditado-label">A) Primeira Palavra:</span>
-            <button type="button" class="tts-btn" onclick="speakSingleWord('Raça')">🔊 Ouvir Palavra 1</button>
           </div>
           <input type="text" id="ditado_p1" class="ditado-input" placeholder="Escreva a palavra 1 aqui..." oninput="syncDitado1Ano()">
         </div>
         <div class="ditado-item">
           <div class="ditado-item-header">
             <span class="ditado-label">B) Segunda Palavra:</span>
-            <button type="button" class="tts-btn" onclick="speakSingleWord('União')">🔊 Ouvir Palavra 2</button>
           </div>
           <input type="text" id="ditado_p2" class="ditado-input" placeholder="Escreva a palavra 2 aqui..." oninput="syncDitado1Ano()">
         </div>
         <div class="ditado-item">
           <div class="ditado-item-header">
             <span class="ditado-label">C) Terceira Palavra:</span>
-            <button type="button" class="tts-btn" onclick="speakSingleWord('Valor')">🔊 Ouvir Palavra 3</button>
           </div>
           <input type="text" id="ditado_p3" class="ditado-input" placeholder="Escreva a palavra 3 aqui..." oninput="syncDitado1Ano()">
         </div>
         <div class="ditado-item">
           <div class="ditado-item-header">
             <span class="ditado-label">D) Quarta Palavra:</span>
-            <button type="button" class="tts-btn" onclick="speakSingleWord('Nota')">🔊 Ouvir Palavra 4</button>
           </div>
           <input type="text" id="ditado_p4" class="ditado-input" placeholder="Escreva a palavra 4 aqui..." oninput="syncDitado1Ano()">
         </div>
         <div class="ditado-item">
           <div class="ditado-item-header">
             <span class="ditado-label">E) Quinta Palavra:</span>
-            <button type="button" class="tts-btn" onclick="speakSingleWord('Moeda')">🔊 Ouvir Palavra 5</button>
           </div>
           <input type="text" id="ditado_p5" class="ditado-input" placeholder="Escreva a palavra 5 aqui..." oninput="syncDitado1Ano()">
         </div>
@@ -650,7 +643,6 @@
           <span class="question-tag">Questão 02</span>
           <span class="question-bncc">EF01LP10 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q2-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Ordem Alfabética no Cartaz</h3>
       <div id="q2-text">
@@ -689,7 +681,6 @@
           <span class="question-tag">Questão 03</span>
           <span class="question-bncc">EF01LP13 • Língua Portuguesa</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q3-text')">🔊 Ouvir Versos e Questão</button>
       </div>
       <h3 class="question-title">Identificação de Rimas nos Versos</h3>
       <div id="q3-text">
@@ -733,7 +724,6 @@
           <span class="question-tag">Questão 04</span>
           <span class="question-bncc">EF15LP03 / EF01HI04 • Língua Portuguesa e História</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q4-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Visita à Exposição Cultural</h3>
       <div id="q4-text">
@@ -774,7 +764,6 @@
           <span class="question-tag">Questão 05</span>
           <span class="question-bncc">EF15LP01 / EF15AR04 • Língua Portuguesa e Arte</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q5-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Finalidade do Cartaz da Feira</h3>
       <div id="q5-text">
@@ -812,7 +801,6 @@
           <span class="question-tag">Questão 06</span>
           <span class="question-bncc">EF15LP03 / EF01HI04 • Língua Portuguesa e História</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q6-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Igualdade e Respeito na Feira</h3>
       <div id="q6-text">
@@ -858,7 +846,6 @@
           <span class="question-tag">Questão 07</span>
           <span class="question-bncc">EF01MA08 / EF15AR04 • Matemática e Arte</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q7-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Produção de Marcadores de Livro</h3>
       <div id="q7-text">
@@ -899,7 +886,6 @@
           <span class="question-tag">Questão 08</span>
           <span class="question-bncc">EF01MA08 / EF01GE04 • Matemática e Geografia</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q8-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Contagem de Crianças na Exposição</h3>
       <div id="q8-text">
@@ -940,7 +926,6 @@
           <span class="question-tag">Questão 09</span>
           <span class="question-bncc">EF01MA19 • Matemática</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q9-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Sistema Monetário: Compra e Troco</h3>
       <div id="q9-text">
@@ -982,7 +967,6 @@
           <span class="question-tag">Questão 10</span>
           <span class="question-bncc">EF15LP03 / EF01HI04 / EF01GE04 / EF15AR04 • Interdisciplinar</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q10-text')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Aprendizado e Escolhas Responsáveis</h3>
       <div id="q10-text">
@@ -1223,36 +1207,11 @@
       } catch(e){}
     }
 
-    function speakText(elementId) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      const textToSpeak = el.innerText || el.textContent;
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.92;
-      window.speechSynthesis.speak(utterance);
-    }
+    function speakText() {}
 
-    function speakSingleWord(word) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(`Atenção à palavra: ${word}. Repetindo: ${word}.`);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.88;
-      window.speechSynthesis.speak(utterance);
-    }
+    function speakSingleWord() {}
 
-    function speakDitadoCompleto() {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const text = "Atenção ao ditado de palavras do primeiro ano. Palavra um: Raça. Palavra dois: União. Palavra três: Valor. Palavra quatro: Nota. Palavra cinco: Moeda.";
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.88;
-      window.speechSynthesis.speak(utterance);
-    }
+    function speakDitadoCompleto() {}
 
     async function submitExamWithVault() {
       if (isSubmitting) return;

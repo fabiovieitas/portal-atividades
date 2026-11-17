@@ -439,7 +439,6 @@
     <div class="theme-card">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
         <span class="question-tag" style="background: #e0e7ff; color: #3730a3;">Tema Central</span>
-        <button type="button" class="tts-btn" onclick="speakText('theme-text')">🔊 Ouvir Introdução</button>
       </div>
       <div id="theme-text">
         <h3 style="font-family: 'Fredoka', sans-serif; color: #312e81; font-size: 1.4rem; margin-bottom: 0.5rem;">
@@ -459,7 +458,6 @@
           <span class="question-tag">Questão 01</span>
           <span class="question-bncc">EF35LP03 / EF04HI10 • Língua Portuguesa e História</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q1-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Histórias que Precisam ser Conhecidas</h3>
       <div id="q1-full">
@@ -505,7 +503,6 @@
           <span class="question-tag">Questão 02</span>
           <span class="question-bncc">EF35LP04 / EF04GE01 • Língua Portuguesa e Geografia</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q2-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Compreensão e Inferência Cultural</h3>
       <div id="q2-full">
@@ -543,7 +540,6 @@
           <span class="question-tag" style="background: #fef3c7; color: #b45309;">Questão 03</span>
           <span class="question-bncc">EF35LP25 / EF04HI10 • Produção de Texto Narrativo</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q3-full')">🔊 Ouvir Proposta</button>
       </div>
       <h3 class="question-title">Produção Textual: Uma Escola que Valoriza Histórias e Culturas</h3>
       <div id="q3-full">
@@ -584,7 +580,6 @@
           <span class="question-tag">Questão 04</span>
           <span class="question-bncc">EF04MA25 • Educação Financeira</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q4-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Planejar Antes de Escolher</h3>
       <div id="q4-full">
@@ -629,7 +624,6 @@
           <span class="question-tag">Questão 05</span>
           <span class="question-bncc">EF04MA25 • Educação Financeira</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q5-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Conceito de Planejamento Financeiro</h3>
       <div id="q5-full">
@@ -667,7 +661,6 @@
           <span class="question-tag">Questão 06</span>
           <span class="question-bncc">EF04MA01 / EF04GE01 • Matemática e Geografia</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q6-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Valor Posicional dos Algarismos</h3>
       <div id="q6-full">
@@ -708,7 +701,6 @@
           <span class="question-tag">Questão 07</span>
           <span class="question-bncc">EF04MA09 / EF04HI10 • Fração de Quantidade</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q7-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Cálculo de Fração de uma Quantidade</h3>
       <div id="q7-full">
@@ -750,7 +742,6 @@
           <span class="question-tag">Questão 08</span>
           <span class="question-bncc">EF04MA25 • Compras e Troco</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q8-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Cálculo de Gastos e Troco de Mirela</h3>
       <div id="q8-full">
@@ -797,7 +788,6 @@
           <span class="question-tag">Questão 09</span>
           <span class="question-bncc">EF04MA01 / EF04GE01 • Composição Numérica</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q9-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Composição Numérica na Feira</h3>
       <div id="q9-full">
@@ -838,7 +828,6 @@
           <span class="question-tag">Questão 10</span>
           <span class="question-bncc">EF15LP04 / EF15AR04 • Linguagem Gráfico-Visual</span>
         </div>
-        <button type="button" class="tts-btn" onclick="speakText('q10-full')">🔊 Ouvir Questão</button>
       </div>
       <h3 class="question-title">Interpretação e Recursos Visuais do Cartaz</h3>
       <div id="q10-full">
@@ -998,20 +987,7 @@
     }
 
     // TTS Web Speech API
-    function speakText(elementId) {
-      if (!('speechSynthesis' in window)) {
-        alert('Seu navegador não suporta leitura em voz alta.');
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      const text = el.innerText;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.95;
-      window.speechSynthesis.speak(utterance);
-    }
+    function speakText() {}
 
     async function submitSimulado() {
       const studentName = document.getElementById('studentName').value.trim();
