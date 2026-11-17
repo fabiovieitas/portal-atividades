@@ -815,6 +815,148 @@
 
             </div>
         </div>
+
+        <!-- CARD EXCLUSIVO: SIMULADOS OFICIAIS DE OUTUBRO/2026 -->
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: 2.5px solid #0284c7; border-radius: 24px; padding: 22px 26px; margin-bottom: 28px; box-shadow: 0 15px 35px rgba(2, 132, 199, 0.2); color: white;">
+            <!-- Cabeçalho do Card -->
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 2.2rem; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));">🍂</span>
+                    <div>
+                        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; color: #38bdf8; padding: 2px 10px; border-radius: 50px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                            🌟 EDIÇÃO OFICIAL • OUTUBRO/2026
+                        </div>
+                        <h2 style="margin: 4px 0 0; font-family: 'Fredoka', sans-serif; font-size: 1.45rem; color: #ffffff;">
+                            Simulados Municipais de Outubro
+                        </h2>
+                    </div>
+                </div>
+                <div style="font-size: 0.88rem; color: #94a3b8; font-weight: 600;">
+                    Tema: <em>Criança, Brincadeira e Protagonismo (SEDUCT/Campos)</em>
+                </div>
+            </div>
+
+            <!-- Grade com a Separação das Turmas / Anos Escolares Habilitados (Ordem Numérica Rigorosa: 1º, 2º, 3º, 4º, 5º) -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                
+                <!-- Card 1º Ano Outubro (Manhã e Tarde) -->
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #38bdf8; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #38bdf8;">
+                                🎈 1º Ano
+                            </span>
+                            <span style="background: rgba(56, 189, 248, 0.2); border: 1px solid #38bdf8; color: #38bdf8; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
+                                Blocos 1 e 2
+                            </span>
+                        </div>
+                        <p style="margin: 0 0 8px 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                            Português, Arte, Geografia, Matemática e Ciências • Com leitura em áudio 🔊
+                        </p>
+                        <div style="font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 8px;">
+                            🏫 E.M. José Giró Faísca • Selecione o turno:
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <a href="/simulados/1ano-outubro?shift=manha" style="flex: 1; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 0.92rem; padding: 11px 6px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);">
+                            <span>☀️ Manhã</span> <span>➜</span>
+                        </a>
+                        <a href="/simulados/1ano-outubro?shift=tarde" style="flex: 1; background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 0.92rem; padding: 11px 6px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 15px rgba(234, 88, 12, 0.35);">
+                            <span>🌤️ Tarde</span> <span>➜</span>
+                        </a>
+                    </div>
+                </div>
+
+                <% if (show2Ano) { %>
+                <!-- Card 2º Ano Outubro -->
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #14b8a6; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #2dd4bf;">
+                                🥈 2º Ano
+                            </span>
+                            <span style="background: rgba(45, 212, 191, 0.2); border: 1px solid #2dd4bf; color: #2dd4bf; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
+                                Blocos 1 e 2
+                            </span>
+                        </div>
+                        <p style="margin: 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                            Língua Portuguesa, Arte, História, Geografia e Ditado de Frases.
+                        </p>
+                    </div>
+                    <a href="/simulados/2ano-outubro" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(13, 148, 136, 0.35);">
+                        <span>Abrir Prova do 2º Ano</span> <span>➜</span>
+                    </a>
+                </div>
+                <% } %>
+
+                <% if (show3Ano) { %>
+                <!-- Card 3º Ano Outubro -->
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #10b981; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #34d399;">
+                                ⭐ 3º Ano
+                            </span>
+                            <span style="background: rgba(52, 211, 153, 0.2); border: 1px solid #34d399; color: #34d399; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
+                                Blocos 1 e 2
+                            </span>
+                        </div>
+                        <p style="margin: 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                            Língua Portuguesa, Matemática, Geografia, Arte e Produção Textual.
+                        </p>
+                    </div>
+                    <a href="/simulados/3ano-outubro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);">
+                        <span>Abrir Prova do 3º Ano</span> <span>➜</span>
+                    </a>
+                </div>
+                <% } %>
+
+                <% if (show4Ano) { %>
+                <!-- Card 4º Ano Outubro -->
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #818cf8; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #a5b4fc;">
+                                🏅 4º Ano
+                            </span>
+                            <span style="background: rgba(129, 140, 248, 0.2); border: 1px solid #818cf8; color: #a5b4fc; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
+                                Blocos 1 e 2
+                            </span>
+                        </div>
+                        <p style="margin: 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                            Língua Portuguesa, História, Geografia, Matemática, Arte e Produção Textual.
+                        </p>
+                    </div>
+                    <a href="/simulados/4ano-outubro" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);">
+                        <span>Abrir Prova do 4º Ano</span> <span>➜</span>
+                    </a>
+                </div>
+                <% } %>
+
+                <% if (show5Ano) { %>
+                <!-- Card 5º Ano Outubro -->
+                <div style="background: rgba(30, 41, 59, 0.7); border: 1.5px solid #f59e0b; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; transition: transform 0.2s ease;">
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700; color: #fbbf24;">
+                                🚀 5º Ano
+                            </span>
+                            <span style="background: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; color: #fbbf24; font-size: 0.72rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
+                                Blocos 1 e 2
+                            </span>
+                        </div>
+                        <p style="margin: 0; font-size: 0.88rem; color: #cbd5e1; line-height: 1.5;">
+                            Língua Portuguesa, Matemática, História, Geografia, Ciências, Arte e Redação.
+                        </p>
+                    </div>
+                    <a href="/simulados/5ano-outubro" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #ffffff; font-family: 'Fredoka', sans-serif; font-weight: 900; font-size: 1rem; padding: 12px; border-radius: 12px; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);">
+                        <span>Abrir Prova do 5º Ano</span> <span>➜</span>
+                    </a>
+                </div>
+                <% } %>
+
+            </div>
+        </div>
         <% } %>
         
         <section class="challenges" id="atividades">

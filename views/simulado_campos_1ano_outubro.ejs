@@ -1366,6 +1366,16 @@
     window.addEventListener('DOMContentLoaded', () => {
       initCRGrid();
       restoreDraft();
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramShift = urlParams.get('shift');
+      if (paramShift) {
+        const shEl = document.getElementById('shiftName');
+        if (shEl) {
+          shEl.value = (paramShift.toLowerCase() === 'tarde') ? 'Tarde' : 'Manhã';
+        }
+      }
+      
       updateProgress();
     });
   </script>
