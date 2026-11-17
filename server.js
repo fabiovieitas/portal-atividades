@@ -1372,35 +1372,46 @@ app.get('/atividades/:slug', async (req, res, next) => {
   }
 });
 
-app.post('/api/simulado/submit', async (req, res) => {
+app.post(['/api/simulado/submit', '/api/simulados/respostas', '/api/simulados/submit'], async (req, res) => {
   try {
-    const { simulado_id, student_name, school_name, school, class_name, shift, answers_json, answers, score, max_score, essay_text } = req.body;
-    const resolvedSchool = (school_name || school || '').trim();
+    const { simulado_id, simuladoId, student_name, studentName, school_name, schoolName, school, class_name, className, shift, answers_json, answers, score, max_score, totalQuestions, essay_text } = req.body;
+    const rawSimId = simulado_id || simuladoId || 'campos-1ano-novembro-2026';
+    const cleanSimId = String(rawSimId).trim().replace(/^simulado-/, '');
+    const resolvedStudent = (student_name || studentName || '').trim();
+    const resolvedSchool = (school_name || schoolName || school || 'E.M. José Giró Faísca').trim();
+    const resolvedClass = (class_name || className || '').trim();
+    const resolvedShift = (shift || 'Manhã').trim();
     const resolvedAnswers = answers_json || answers || {};
-    const resolvedEssay = (essay_text || (resolvedAnswers && resolvedAnswers['3']) || (resolvedAnswers && resolvedAnswers['5']) || '').trim();
-    if (!student_name || !String(student_name).trim()) {
+    const resolvedEssay = (essay_text || (resolvedAnswers && (resolvedAnswers['1'] || resolvedAnswers['3'] || resolvedAnswers['4'] || resolvedAnswers['5'])) || '').trim();
+
+    if (!resolvedStudent) {
       return res.status(400).json({ success: false, error: 'O nome completo do estudante é obrigatório.' });
     }
-    const resolvedMaxScore = Number(max_score) || (
-      simulado_id === 'campos-2ano-outubro-2026' ? 10 :
-      simulado_id === 'campos-4ano-outubro-2026' ? 10 :
-      simulado_id === 'campos-1ano-outubro-2026' ? 10 :
-      simulado_id === 'campos-3ano-outubro-2026' ? 11 :
-      simulado_id === 'campos-1ano-setembro-2026' ? 11 :
-      simulado_id === 'campos-2ano-setembro-2026' ? 10 :
-      simulado_id === 'campos-4ano-setembro-2026' ? 10 :
-      simulado_id === 'campos-1ano-agosto-2026' ? 10 : 9
+    const resolvedMaxScore = Number(max_score || totalQuestions) || (
+      cleanSimId === 'campos-3ano-novembro-2026' ? 15 :
+      cleanSimId === 'campos-1ano-novembro-2026' ? 9 :
+      cleanSimId === 'campos-2ano-novembro-2026' ? 10 :
+      cleanSimId === 'campos-4ano-novembro-2026' ? 10 :
+      cleanSimId === 'campos-2ano-outubro-2026' ? 10 :
+      cleanSimId === 'campos-4ano-outubro-2026' ? 10 :
+      cleanSimId === 'campos-1ano-outubro-2026' ? 10 :
+      cleanSimId === 'campos-5ano-outubro-2026' ? 11 :
+      cleanSimId === 'campos-3ano-outubro-2026' ? 11 :
+      cleanSimId === 'campos-1ano-setembro-2026' ? 11 :
+      cleanSimId === 'campos-2ano-setembro-2026' ? 10 :
+      cleanSimId === 'campos-4ano-setembro-2026' ? 10 :
+      cleanSimId === 'campos-1ano-agosto-2026' ? 10 : 9
     );
     const result = await dbHelper.saveSimuladoSubmission({
-      simulado_id: simulado_id || 'campos-3ano-outubro-2026',
-      student_name,
-      school_name,
-      class_name,
-      shift: shift || 'Manhã',
-      answers_json,
-      score,
+      simulado_id: cleanSimId,
+      student_name: resolvedStudent,
+      school_name: resolvedSchool,
+      class_name: resolvedClass,
+      shift: resolvedShift,
+      answers_json: resolvedAnswers,
+      score: Number(score) || 0,
       max_score: resolvedMaxScore,
-      essay_text
+      essay_text: resolvedEssay
     });
     res.json({ 
       success: true, 
@@ -1602,10 +1613,13 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-3ano-novembro-2026' ? 15 :
+        s.simulado_id === 'campos-1ano-novembro-2026' ? 9 :
+        s.simulado_id === 'campos-2ano-novembro-2026' ? 10 :
+        s.simulado_id === 'campos-4ano-novembro-2026' ? 10 :
         s.simulado_id === 'campos-2ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-4ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
-
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
@@ -1679,10 +1693,13 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-3ano-novembro-2026' ? 15 :
+        s.simulado_id === 'campos-1ano-novembro-2026' ? 9 :
+        s.simulado_id === 'campos-2ano-novembro-2026' ? 10 :
+        s.simulado_id === 'campos-4ano-novembro-2026' ? 10 :
         s.simulado_id === 'campos-2ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-4ano-outubro-2026' ? 10 :
         s.simulado_id === 'campos-1ano-outubro-2026' ? 10 :
-
         s.simulado_id === 'campos-5ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-3ano-outubro-2026' ? 11 :
         s.simulado_id === 'campos-1ano-setembro-2026' ? 11 :
@@ -3530,9 +3547,10 @@ app.post('/admin/settings', requireAdmin, async (req, res) => {
 
 app.get('/api/admin/portal-simulados', async (req, res) => {
   try {
-    const raw = await dbHelper.getSetting('active_portal_simulados', '["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]');
+    const defaultList = '["campos-1ano-novembro-2026", "campos-2ano-novembro-2026", "campos-3ano-novembro-2026", "campos-4ano-novembro-2026", "campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]';
+    const raw = await dbHelper.getSetting('active_portal_simulados', defaultList);
     let list = [];
-    try { list = JSON.parse(raw); } catch(e) { list = ["campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]; }
+    try { list = JSON.parse(raw); } catch(e) { list = JSON.parse(defaultList); }
     res.json({ success: true, active_simulados: list });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

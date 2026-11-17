@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=DynaPuff:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="/js/simulado_vault.js"></script>
 
   <style>
     :root {
@@ -1008,30 +1009,42 @@
         }
       }
 
+      const narrativeText = typeof userAnswers[3] === 'string' ? userAnswers[3] : (userAnswers[3]?.texto || '');
+
       const payload = {
-        studentName,
-        schoolName,
-        shift,
-        className,
+        simulado_id: 'campos-4ano-novembro-2026',
+        simuladoId: 'campos-4ano-novembro-2026',
+        student_name: studentName,
+        studentName: studentName,
+        school_name: schoolName,
+        schoolName: schoolName,
+        shift: shift,
+        class_name: className,
+        className: className,
         grade: '4º Ano',
-        simuladoId: 'simulado-campos-4ano-novembro-2026',
-        simuladoTitle: 'Simulado Oficial 4º Ano — Novembro/2026',
+        answers_json: userAnswers,
         answers: userAnswers,
-        score,
+        score: score,
+        max_score: 10,
         totalQuestions: 10,
+        essay_text: narrativeText,
         submittedAt: new Date().toISOString()
       };
 
-      try {
-        const res = await fetch('/api/simulados/respostas', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const result = await res.json();
-        console.log('Submission result:', result);
-      } catch (err) {
-        console.warn('Fallback offline save:', err);
+      if (window.SimuladoVault) {
+        await window.SimuladoVault.submit(payload);
+      } else {
+        try {
+          const res = await fetch('/api/simulado/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const result = await res.json();
+          console.log('Submission result:', result);
+        } catch (err) {
+          console.warn('Fallback offline save:', err);
+        }
       }
 
       // Limpa rascunho local

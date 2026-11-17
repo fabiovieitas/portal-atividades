@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= (typeof simuladoId !== 'undefined' && simuladoId && simuladoId !== 'ALL') ? ('Resultados Simulado - ' + (simuladoId.includes('1ano') ? '1º Ano' : (simuladoId.includes('2ano') ? '2º Ano' : (simuladoId.includes('3ano') ? '3º Ano' : (simuladoId.includes('4ano') ? '4º Ano' : (simuladoId.includes('5ano') ? '5º Ano' : 'Geral'))))) + ' - ' + (simuladoId.includes('setembro') ? 'Setembro' : 'Agosto')) : 'Resultados Simulado - 1º Ano - Agosto' %></title>
+  <title><%= (typeof simuladoId !== 'undefined' && simuladoId && simuladoId !== 'ALL') ? ('Resultados Simulado - ' + (simuladoId.includes('1ano') ? '1º Ano' : (simuladoId.includes('2ano') ? '2º Ano' : (simuladoId.includes('3ano') ? '3º Ano' : (simuladoId.includes('4ano') ? '4º Ano' : (simuladoId.includes('5ano') ? '5º Ano' : 'Geral'))))) + ' - ' + (simuladoId.includes('novembro') ? 'Novembro' : (simuladoId.includes('outubro') ? 'Outubro' : (simuladoId.includes('setembro') ? 'Setembro' : 'Agosto')))) : 'Resultados Simulado - Geral' %></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -513,6 +513,7 @@
     ];
     const dynamicClasses = [...new Set(submissions.map(s => s.class_name).filter(Boolean))];
     const classesList = [...new Set([...dynamicClasses, ...defaultClassesList])].sort();
+    const pageEditionTitle = (typeof simuladoId !== 'undefined' && simuladoId && simuladoId !== 'ALL') ? ('Resultados Simulado - ' + (simuladoId.includes('1ano') ? '1º Ano' : (simuladoId.includes('2ano') ? '2º Ano' : (simuladoId.includes('3ano') ? '3º Ano' : (simuladoId.includes('4ano') ? '4º Ano' : (simuladoId.includes('5ano') ? '5º Ano' : 'Geral'))))) + ' - ' + (simuladoId.includes('novembro') ? 'Novembro' : (simuladoId.includes('outubro') ? 'Outubro' : (simuladoId.includes('setembro') ? 'Setembro' : 'Agosto')))) : 'Resultados Simulado - Geral';
   %>
 
   <div class="container">
@@ -522,7 +523,7 @@
       <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center;">
         <span id="pdfFilenameBadge" style="background: #e0f2fe; border: 1.5px solid #7dd3fc; color: #0369a1; padding: 0.45rem 0.85rem; border-radius: 10px; font-weight: 700; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(2,132,199,0.08);" title="Nome sugerido automaticamente pelo navegador ao salvar em PDF">
           <span>💾 PDF:</span>
-          <strong id="pdfFilenamePreview" style="color: #0c4a6e;">Resultados Simulado - 1º Ano - Agosto.pdf</strong>
+          <strong id="pdfFilenamePreview" style="color: #0c4a6e;"><%= pageEditionTitle %>.pdf</strong>
         </span>
         <button class="print-btn" onclick="refreshData()" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
           ⚡ Atualizar em Tempo Real
@@ -549,7 +550,7 @@
     <div class="print-header">
       <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0f172a; padding-bottom: 6px; margin-bottom: 8px;">
         <h2 id="printDocTitle" style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">
-          Resultados Simulado - 1º Ano - Agosto
+          <%= pageEditionTitle %>
         </h2>
         <span style="font-size: 0.8rem; font-weight: 700; color: #475569;">
           SEDUCT • Município de Campos dos Goytacazes
@@ -599,7 +600,7 @@
 
         <div id="gabaritoContent" style="display: none; margin-top: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
           <!-- 1º Ano (Novembro/2026 - Oficial Consciência Negra) -->
-          <div class="gabarito-item" data-simulado="simulado-campos-1ano-novembro-2026" data-grade="1º Ano" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-1ano-novembro-2026" data-grade="1º Ano" style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #15803d; margin-bottom: 0.5rem; border-bottom: 1px solid #bbf7d0; padding-bottom: 0.3rem;">
               🎈 Gabarito 1º Ano (Novembro/2026 - Oficial)
             </div>
@@ -611,7 +612,7 @@
             </div>
           </div>
           <!-- 2º Ano (Novembro/2026 - Oficial Consciência Negra) -->
-          <div class="gabarito-item" data-simulado="simulado-campos-2ano-novembro-2026" data-grade="2º Ano" style="background: #f0fdf4; border: 1.5px solid #6ee7b7; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-2ano-novembro-2026" data-grade="2º Ano" style="background: #f0fdf4; border: 1.5px solid #6ee7b7; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #047857; margin-bottom: 0.5rem; border-bottom: 1px solid #a7f3d0; padding-bottom: 0.3rem;">
               🥈 Gabarito 2º Ano (Novembro/2026 - Oficial)
             </div>
@@ -623,7 +624,7 @@
             </div>
           </div>
           <!-- 3º Ano (Novembro/2026 - Oficial Consciência Negra) -->
-          <div class="gabarito-item" data-simulado="simulado-campos-3ano-novembro-2026" data-grade="3º Ano" style="background: #ecfdf5; border: 1.5px solid #34d399; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-3ano-novembro-2026" data-grade="3º Ano" style="background: #ecfdf5; border: 1.5px solid #34d399; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #065f46; margin-bottom: 0.5rem; border-bottom: 1px solid #a7f3d0; padding-bottom: 0.3rem;">
               ⭐ Gabarito 3º Ano (Novembro/2026 - Oficial)
             </div>
@@ -636,7 +637,7 @@
             </div>
           </div>
           <!-- 4º Ano (Novembro/2026 - Oficial Consciência Negra) -->
-          <div class="gabarito-item" data-simulado="simulado-campos-4ano-novembro-2026" data-grade="4º Ano" style="background: #eef2ff; border: 1.5px solid #818cf8; border-radius: 12px; padding: 1rem;">
+          <div class="gabarito-item" data-simulado="campos-4ano-novembro-2026" data-grade="4º Ano" style="background: #eef2ff; border: 1.5px solid #818cf8; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #3730a3; margin-bottom: 0.5rem; border-bottom: 1px solid #c7d2fe; padding-bottom: 0.3rem;">
               🏅 Gabarito 4º Ano (Novembro/2026 - Oficial)
             </div>
@@ -846,14 +847,19 @@
           <label for="filterSimulado">📝 Simulado / Caderno:</label>
           <select id="filterSimulado" class="filter-select" onchange="applyFilters()">
             <optgroup label="🌟 Edição Oficial Novembro/2026">
-              <option value="simulado-campos-1ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "simulado-campos-1ano-novembro-2026" || simuladoId === "campos-1ano-novembro-2026")) ? "selected" : "" %>>🎈 1º Ano (Novembro/2026 - Oficial)</option>
-              <option value="simulado-campos-2ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "simulado-campos-2ano-novembro-2026" || simuladoId === "campos-2ano-novembro-2026")) ? "selected" : "" %>>🥈 2º Ano (Novembro/2026 - Oficial)</option>
-              <option value="simulado-campos-3ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "simulado-campos-3ano-novembro-2026" || simuladoId === "campos-3ano-novembro-2026")) ? "selected" : "" %>>⭐ 3º Ano (Novembro/2026 - Oficial)</option>
-              <option value="simulado-campos-4ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "simulado-campos-4ano-novembro-2026" || simuladoId === "campos-4ano-novembro-2026")) ? "selected" : "" %>>🏅 4º Ano (Novembro/2026 - Oficial)</option>
+              <option value="campos-1ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-1ano-novembro-2026" || simuladoId === "simulado-campos-1ano-novembro-2026")) ? "selected" : "" %>>🎈 1º Ano (Novembro/2026 - Oficial)</option>
+              <option value="campos-2ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-2ano-novembro-2026" || simuladoId === "simulado-campos-2ano-novembro-2026")) ? "selected" : "" %>>🥈 2º Ano (Novembro/2026 - Oficial)</option>
+              <option value="campos-3ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-3ano-novembro-2026" || simuladoId === "simulado-campos-3ano-novembro-2026")) ? "selected" : "" %>>⭐ 3º Ano (Novembro/2026 - Oficial)</option>
+              <option value="campos-4ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-4ano-novembro-2026" || simuladoId === "simulado-campos-4ano-novembro-2026")) ? "selected" : "" %>>🏅 4º Ano (Novembro/2026 - Oficial)</option>
             </optgroup>
             <option value="ALL" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'ALL') ? 'selected' : '' %>>Todos os Simulados (1º ao 5º)</option>
-            <option value="campos-5ano-outubro-2026" <%= (typeof simuladoId !== "undefined" && simuladoId === "campos-5ano-outubro-2026") ? "selected" : "" %>>🌟 5º Ano (Outubro/2026 - Oficial)</option>
-            <option value="campos-3ano-outubro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-3ano-outubro-2026') ? 'selected' : '' %>>⭐ 3º Ano (Outubro/2026 - Oficial)</option>
+            <optgroup label="🌟 Edição Oficial Outubro/2026">
+              <option value="campos-1ano-outubro-2026" <%= (typeof simuladoId !== "undefined" && simuladoId === "campos-1ano-outubro-2026") ? "selected" : "" %>>🎈 1º Ano (Outubro/2026 - Oficial)</option>
+              <option value="campos-2ano-outubro-2026" <%= (typeof simuladoId !== "undefined" && simuladoId === "campos-2ano-outubro-2026") ? "selected" : "" %>>🥈 2º Ano (Outubro/2026 - Oficial)</option>
+              <option value="campos-3ano-outubro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-3ano-outubro-2026') ? 'selected' : '' %>>⭐ 3º Ano (Outubro/2026 - Oficial)</option>
+              <option value="campos-4ano-outubro-2026" <%= (typeof simuladoId !== "undefined" && simuladoId === "campos-4ano-outubro-2026") ? "selected" : "" %>>🏅 4º Ano (Outubro/2026 - Oficial)</option>
+              <option value="campos-5ano-outubro-2026" <%= (typeof simuladoId !== "undefined" && simuladoId === "campos-5ano-outubro-2026") ? "selected" : "" %>>🌟 5º Ano (Outubro/2026 - Oficial)</option>
+            </optgroup>
             <option value="campos-1ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-1ano-setembro-2026') ? 'selected' : '' %>>🥇 1º Ano (Setembro/2026 - Novo)</option>
             <option value="campos-2ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-2ano-setembro-2026') ? 'selected' : '' %>>🥈 2º Ano (Setembro/2026 - Novo)</option>
             <option value="campos-3ano-setembro-2026" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'campos-3ano-setembro-2026') ? 'selected' : '' %>>🥉 3º Ano (Setembro/2026 - Novo)</option>
@@ -1056,6 +1062,14 @@
           <tbody>
             <% 
               const masterAnswerKeys = {
+                'campos-1ano-novembro-2026': { 2:'A', 3:'A', 4:'A', 5:'A', 6:'B', 7:'D', 8:'B', 9:'A', 10:'A' },
+                'campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
+                'campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
+                'campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
+                'simulado-campos-1ano-novembro-2026': { 2:'A', 3:'A', 4:'A', 5:'A', 6:'B', 7:'D', 8:'B', 9:'A', 10:'A' },
+                'simulado-campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
+                'simulado-campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
+                'simulado-campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
                 'campos-2ano-outubro-2026': { 1:'C', 2:'C', 3:'A', 5:'A', 6:'C', 7:'C', 8:'B', 9:'C', 10:'C', 11:'B' },
                 'campos-4ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'B', 6:'C', 7:'B', 8:'C', 9:'C', 10:'C' },
                 'campos-1ano-outubro-2026': { 1:'D', 2:'B', 3:'C', 4:'A', 5:'A', 6:'C', 7:'C', 8:'D', 9:'B', 10:'D' },
@@ -1092,10 +1106,13 @@
                 if (score >= 8) badgeClass = 'score-high';
                 else if (score >= 5) badgeClass = 'score-med';
 
-                const simId = s.simulado_id || 'campos-4ano-agosto-2026';
-                const key = masterAnswerKeys[simId] || masterAnswerKeys['campos-4ano-agosto-2026'];
+                const simId = s.simulado_id || 'campos-1ano-novembro-2026';
+                const key = masterAnswerKeys[simId] || masterAnswerKeys[simId.replace(/^simulado-/, '')] || masterAnswerKeys['campos-1ano-novembro-2026'];
                 const dateISO = new Date(s.created_at).toISOString();
-                const defaultMax = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-3ano-outubro-2026' || simId === 'campos-5ano-outubro-2026') ? 11 :
+                const defaultMax = (simId.includes('3ano-novembro')) ? 15 :
+                                   (simId.includes('1ano-novembro')) ? 9 :
+                                   (simId.includes('2ano-novembro') || simId.includes('4ano-novembro')) ? 10 :
+                                   (simId === 'campos-1ano-setembro-2026' || simId === 'campos-3ano-outubro-2026' || simId === 'campos-5ano-outubro-2026') ? 11 :
                                    (simId === 'campos-2ano-outubro-2026') ? 8 :
                                    (simId === 'campos-2ano-setembro-2026' || simId === 'campos-1ano-agosto-2026' || simId === 'campos-4ano-setembro-2026') ? 10 : 9;
               %>
@@ -1131,11 +1148,13 @@
                   <div class="q-answers-pill-grid">
                     <% 
                       let tableQList = [];
-                      if (simId === 'campos-3ano-outubro-2026') {
+                      if (simId.includes('3ano-novembro')) {
+                        for(let q=1; q<=15; q++) tableQList.push(String(q));
+                      } else if (simId === 'campos-3ano-outubro-2026') {
                         tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10A', '10B', '10C'];
                       } else if (simId === 'campos-5ano-outubro-2026') {
                         tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-                      } else if (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026' || simId === 'campos-2ano-outubro-2026') {
+                      } else if (simId.includes('2ano-novembro') || simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026' || simId === 'campos-2ano-outubro-2026') {
                         tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
                       } else {
                         for(let q=1; q<=10; q++) tableQList.push(String(q));
@@ -1144,7 +1163,11 @@
                       for(let qi=0; qi<tableQList.length; qi++) { 
                         const qKey = tableQList[qi];
                         const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11'));
-                        const isEssay = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
+                        const isEssay = (simId.includes('1ano-novembro') && qKey === '1') ||
+                                        (simId.includes('2ano-novembro') && qKey === '4') ||
+                                        (simId.includes('3ano-novembro') && qKey === '5') ||
+                                        (simId.includes('4ano-novembro') && qKey === '3') ||
+                                        (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
                                         (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                         (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
                                         (simId === 'campos-2ano-outubro-2026' && qKey === '4') ||
@@ -1153,7 +1176,11 @@
                                         (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
                                         (simId === 'campos-2ano-agosto-2026' && qKey === '5') || 
                                         ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
-                        const essayName = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
+                        const essayName = (simId.includes('1ano-novembro') && qKey === '1') ? 'Ditado: 5 Palavras' :
+                                          (simId.includes('2ano-novembro') && qKey === '4') ? 'Ditado: 3 Frases' :
+                                          (simId.includes('3ano-novembro') && qKey === '5') ? 'Produção: Cartaz e Frase' :
+                                          (simId.includes('4ano-novembro') && qKey === '3') ? 'Produção Textual: Narrativa' :
+                                          (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
                                           (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
                                           (simId === 'campos-2ano-outubro-2026' || simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Produção Textual'));
                         const qLabel = qKey.length === 1 ? '0' + qKey : qKey;
@@ -1200,18 +1227,24 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.5rem; margin-bottom: 1rem;">
                       <% 
                         let qList = [];
-                        if (simId === 'campos-3ano-outubro-2026') {
+                        if (simId.includes('3ano-novembro')) {
+                          for(let q=1; q<=15; q++) qList.push(String(q));
+                        } else if (simId === 'campos-3ano-outubro-2026') {
                           qList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10A', '10B', '10C'];
                         } else if (simId === 'campos-5ano-outubro-2026') {
                           qList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
                         } else {
-                          const maxQDetail = (simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026' || simId === 'campos-2ano-outubro-2026') ? 11 : 10;
+                          const maxQDetail = (simId.includes('2ano-novembro') || simId === 'campos-1ano-setembro-2026' || simId === 'campos-2ano-setembro-2026' || simId === 'campos-2ano-outubro-2026') ? 11 : 10;
                           for(let q=1; q<=maxQDetail; q++) qList.push(String(q));
                         }
                         for(let i=0; i<qList.length; i++) { 
                           const qKey = qList[i];
                           const isAnulada = (simId === 'campos-2ano-outubro-2026' && (qKey === '9' || qKey === '10' || qKey === '11'));
-                          const isEssay = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
+                          const isEssay = (simId.includes('1ano-novembro') && qKey === '1') ||
+                                          (simId.includes('2ano-novembro') && qKey === '4') ||
+                                          (simId.includes('3ano-novembro') && qKey === '5') ||
+                                          (simId.includes('4ano-novembro') && qKey === '3') ||
+                                          (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
                                           (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                           (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
                                           (simId === 'campos-2ano-outubro-2026' && qKey === '4') ||
@@ -1220,7 +1253,11 @@
                                           (simId === 'campos-5ano-setembro-2026' && qKey === '3') ||
                                           (simId === 'campos-2ano-agosto-2026' && qKey === '5') || 
                                           ((simId === 'campos-3ano-agosto-2026' || simId === 'campos-4ano-agosto-2026' || simId === 'campos-5ano-agosto-2026') && qKey === '3');
-                          const essayName = (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
+                          const essayName = (simId.includes('1ano-novembro') && qKey === '1') ? 'Ditado: 5 Palavras' :
+                                            (simId.includes('2ano-novembro') && qKey === '4') ? 'Ditado: 3 Frases' :
+                                            (simId.includes('3ano-novembro') && qKey === '5') ? 'Produção: Cartaz e Frase' :
+                                            (simId.includes('4ano-novembro') && qKey === '3') ? 'Produção Textual: Narrativa' :
+                                            (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
                                             (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
                                             (simId === 'campos-5ano-outubro-2026' && qKey === '3') ? 'Redação: O Segredo da Serra do Mar' :
                                             (simId === 'campos-2ano-outubro-2026' || simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : 
@@ -1272,7 +1309,17 @@
 
   <script>
     const allAnswerKeys = {
+      'campos-1ano-novembro-2026': { 2:'A', 3:'A', 4:'A', 5:'A', 6:'B', 7:'D', 8:'B', 9:'A', 10:'A' },
+      'campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
+      'campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
+      'campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
+      'simulado-campos-1ano-novembro-2026': { 2:'A', 3:'A', 4:'A', 5:'A', 6:'B', 7:'D', 8:'B', 9:'A', 10:'A' },
+      'simulado-campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
+      'simulado-campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
+      'simulado-campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
+      'campos-1ano-outubro-2026': { 1:'D', 2:'B', 3:'C', 4:'A', 5:'A', 6:'C', 7:'C', 8:'D', 9:'B', 10:'D' },
       'campos-2ano-outubro-2026': { 1:'C', 2:'C', 3:'A', 5:'A', 6:'C', 7:'C', 8:'B', 9:'C', 10:'C', 11:'B' },
+      'campos-4ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'B', 6:'C', 7:'B', 8:'C', 9:'C', 10:'C' },
       'campos-5ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'C', 6:'B', 7:'A', 8:'B', 9:'A', 10:'C', 11:'B', 12:'B' },
       'campos-3ano-outubro-2026': { 1:'C', 2:'A', 3:'C', 4:'C', 6:'C', 7:'C', 8:'C', 9:'C', '10A':'C', '10B':'C', '10C':'B' },
       'campos-1ano-setembro-2026': { 1:'A', 2:'A', 3:'A', 4:'B', 5:'A', 6:'A', 7:'B', 8:'B', 9:'C', 10:'A', 11:'A' },
@@ -1346,7 +1393,7 @@
       } else if (sLow.includes('dezembro')) {
         mes = 'Dezembro';
       } else {
-        mes = 'Agosto';
+        mes = 'Novembro';
       }
 
       // 3. Montar a nomenclatura padronizada
@@ -1398,10 +1445,12 @@
       // Filter Gabarito Cards based on selectedSimulado and selectedClass
       const gabaritoItems = document.querySelectorAll('.gabarito-item');
       gabaritoItems.forEach(item => {
-        const itemSimulado = item.getAttribute('data-simulado');
+        const itemSimulado = item.getAttribute('data-simulado') || '';
         const itemGrade = item.getAttribute('data-grade');
 
-        const simMatch = (selectedSimulado === 'ALL' || itemSimulado === selectedSimulado);
+        const normSelected = (selectedSimulado || '').replace(/^simulado-/, '');
+        const normItemSim = itemSimulado.replace(/^simulado-/, '');
+        const simMatch = (selectedSimulado === 'ALL' || itemSimulado === selectedSimulado || normItemSim === normSelected);
         const classMatch = (selectedClass === 'ALL' || itemGrade === selectedClass || (selectedClass && selectedClass.includes(itemGrade)));
 
         if (simMatch && classMatch) {
@@ -1417,7 +1466,7 @@
         'Tarde': { count: 0, sumScore: 0 }
       };
       const schoolData = {};
-      const questionCorrect = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0 };
+      const questionCorrect = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0 };
 
       const rowPairs = [];
 
@@ -1435,7 +1484,9 @@
 
         const detailRow = document.getElementById(`details-row-${rowId}`) || document.getElementById(`details-row-${idx}`);
 
-        const simuladoMatch = (selectedSimulado === 'ALL' || !selectedSimulado || rowSimulado === selectedSimulado);
+        const normSelected = (selectedSimulado || '').replace(/^simulado-/, '');
+        const normRowSim = (rowSimulado || '').replace(/^simulado-/, '');
+        const simuladoMatch = (selectedSimulado === 'ALL' || !selectedSimulado || rowSimulado === selectedSimulado || normRowSim === normSelected);
         const classMatch = (selectedClass === 'ALL' || !selectedClass || rowClass === selectedClass || rowClass.toLowerCase().includes(selectedClass.toLowerCase()) || selectedClass.toLowerCase().includes(rowClass.toLowerCase()));
         const schoolMatch = (selectedSchool === 'ALL' || !selectedSchool || rowSchool === selectedSchool || rowSchool.toLowerCase().includes(selectedSchool.toLowerCase()) || selectedSchool.toLowerCase().includes(rowSchool.toLowerCase()));
         const shiftMatch = (selectedShift === 'ALL' || !selectedShift || rowShift === selectedShift || rowShift.toLowerCase().includes(selectedShift.toLowerCase()));
@@ -1456,7 +1507,7 @@
           totalScore += score;
           
           if (detailRow) {
-            const essayText = detailRow.querySelector('.essay-box p').innerText;
+            const essayText = detailRow.querySelector('.essay-box p')?.innerText || '';
             if (essayText && !essayText.includes('Nenhum texto')) visibleEssays++;
           }
 
@@ -1472,10 +1523,12 @@
           schoolData[rowSchool].sumScore += score;
 
           // Accumulate Question Correctness dynamically per simulado
-          const targetKey = allAnswerKeys[rowSimulado] || allAnswerKeys['campos-5ano-agosto-2026'];
-          for (let q in questionCorrect) {
-            if (answersObj[q] === targetKey[q]) {
-              questionCorrect[q]++;
+          const targetKey = allAnswerKeys[rowSimulado] || allAnswerKeys[normRowSim] || allAnswerKeys['campos-1ano-novembro-2026'];
+          if (targetKey) {
+            for (let q in questionCorrect) {
+              if (targetKey[q] && answersObj[q] === targetKey[q]) {
+                questionCorrect[q]++;
+              }
             }
           }
         } else {
@@ -1571,17 +1624,23 @@
         }
       }
 
+      // Max score dynamically computed for active filter
+      const activeMaxScore = (selectedSimulado.includes('3ano-novembro')) ? 15 :
+                             (selectedSimulado.includes('1ano-novembro')) ? 9 :
+                             (selectedSimulado.includes('2ano-novembro') || selectedSimulado.includes('4ano-novembro')) ? 10 :
+                             (selectedSimulado.includes('3ano-outubro') || selectedSimulado.includes('5ano-outubro')) ? 11 : 10;
+
       // Update Comparative Panel: Turno (Manhã vs Tarde)
       const mCount = shiftData['Manhã'].count;
       const mAvg = mCount > 0 ? (shiftData['Manhã'].sumScore / mCount).toFixed(1) : 0;
-      const mPct = (mAvg / 9) * 100;
-      document.getElementById('shiftManhaStats').innerText = `${mCount} aluno(s) • Média: ${mAvg} / 9`;
+      const mPct = (mAvg / activeMaxScore) * 100;
+      document.getElementById('shiftManhaStats').innerText = `${mCount} aluno(s) • Média: ${mAvg} / ${activeMaxScore}`;
       document.getElementById('shiftManhaBar').style.width = `${mPct}%`;
 
       const tCount = shiftData['Tarde'].count;
       const tAvg = tCount > 0 ? (shiftData['Tarde'].sumScore / tCount).toFixed(1) : 0;
-      const tPct = (tAvg / 9) * 100;
-      document.getElementById('shiftTardeStats').innerText = `${tCount} aluno(s) • Média: ${tAvg} / 9`;
+      const tPct = (tAvg / activeMaxScore) * 100;
+      document.getElementById('shiftTardeStats').innerText = `${tCount} aluno(s) • Média: ${tAvg} / ${activeMaxScore}`;
       document.getElementById('shiftTardeBar').style.width = `${tPct}%`;
 
       // Update Comparative Panel: Escolas
@@ -1595,7 +1654,7 @@
           schoolKeys.forEach(sch => {
             const cnt = schoolData[sch].count;
             const schAvg = cnt > 0 ? (schoolData[sch].sumScore / cnt).toFixed(1) : 0;
-            const schPct = (schAvg / 9) * 100;
+            const schPct = (schAvg / activeMaxScore) * 100;
             schoolHTML += `
               <div>
                 <div style="display:flex; justify-content:space-between; font-size:0.85rem; font-weight:700; color:#334155; margin-bottom:0.2rem;">
@@ -1617,9 +1676,16 @@
       if (qGrid) {
         let qHTML = '';
         let qNums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const normSelected = (selectedSimulado || '').replace(/^simulado-/, '');
         if (selectedSimulado && allAnswerKeys[selectedSimulado]) {
           qNums = Object.keys(allAnswerKeys[selectedSimulado]);
-        } else if (selectedSimulado === 'campos-1ano-setembro-2026' || selectedSimulado === 'campos-2ano-setembro-2026') {
+        } else if (normSelected && allAnswerKeys[normSelected]) {
+          qNums = Object.keys(allAnswerKeys[normSelected]);
+        } else if (normSelected.includes('3ano-novembro')) {
+          qNums = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'];
+        } else if (normSelected.includes('2ano-novembro') || normSelected.includes('2ano-outubro') || normSelected === 'campos-1ano-setembro-2026' || normSelected === 'campos-2ano-setembro-2026') {
+          qNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+        }
           qNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
         }
         qNums.forEach(q => {
@@ -1658,7 +1724,15 @@
       const paramDate = urlParams.get('date');
 
       if (paramSimulado && document.getElementById('filterSimulado')) {
-        document.getElementById('filterSimulado').value = paramSimulado;
+        const cleanParam = paramSimulado.replace(/^simulado-/, '');
+        const selectEl = document.getElementById('filterSimulado');
+        if (selectEl.querySelector(`option[value="${paramSimulado}"]`)) {
+          selectEl.value = paramSimulado;
+        } else if (selectEl.querySelector(`option[value="${cleanParam}"]`)) {
+          selectEl.value = cleanParam;
+        } else if (selectEl.querySelector(`option[value="simulado-${cleanParam}"]`)) {
+          selectEl.value = `simulado-${cleanParam}`;
+        }
       }
       if (paramSchool && document.getElementById('filterSchool')) {
         document.getElementById('filterSchool').value = paramSchool;

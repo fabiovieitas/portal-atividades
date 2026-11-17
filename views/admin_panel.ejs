@@ -814,9 +814,19 @@
                 </div>
 
                 <!-- Cascading Filter Form -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; background: #f8fafc; padding: 20px; border-radius: 14px; border: 1px solid #e2e8f0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; background: #f8fafc; padding: 20px; border-radius: 14px; border: 1px solid #e2e8f0;">
                     <div class="input-group">
-                        <label style="font-weight: 700; color: #475569;">1. Escolha a Escola Municipal</label>
+                        <label style="font-weight: 700; color: #475569;">1. Edição / Mês</label>
+                        <select id="simEditionSelect" onchange="updateSimuladoResultsUrl()" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
+                            <option value="novembro-2026" selected>🌟 Novembro / 2026 (Oficial)</option>
+                            <option value="outubro-2026">🌟 Outubro / 2026 (Oficial)</option>
+                            <option value="setembro-2026">📂 Setembro / 2026</option>
+                            <option value="agosto-2026">📁 Agosto / 2026</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label style="font-weight: 700; color: #475569;">2. Escola Municipal</label>
                         <select id="simSchoolSelect" onchange="updateSimuladoResultsUrl()" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
                             <option value="ALL">Todas as Escolas</option>
                             <% (schools || []).forEach(s => { %>
@@ -826,7 +836,7 @@
                     </div>
 
                     <div class="input-group">
-                        <label style="font-weight: 700; color: #475569;">2. Escolha o Ano Escolar</label>
+                        <label style="font-weight: 700; color: #475569;">3. Ano Escolar</label>
                         <select id="simGradeSelect" onchange="onSimGradeChange()" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
                             <option value="ALL">Todos os Anos (1º ao 5º)</option>
                             <option value="1º Ano">1º Ano (Ensino Fundamental)</option>
@@ -838,7 +848,7 @@
                     </div>
 
                     <div class="input-group">
-                        <label style="font-weight: 700; color: #475569;">3. Escolha a Turma</label>
+                        <label style="font-weight: 700; color: #475569;">4. Turma</label>
                         <select id="simClassSelect" onchange="updateSimuladoResultsUrl()" style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700;">
                             <option value="ALL">Todas as Turmas (1º ao 5º)</option>
                         </select>
@@ -868,10 +878,13 @@
                 </div>
                 <div style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
                     <button type="button" class="admin-sim-filter-btn" onclick="filterAdminSimulados('ALL', this)" style="padding: 6px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: #0284c7; color: #ffffff;">
-                        📚 Todos os Simulados (12)
+                        📚 Todos os Simulados (16)
+                    </button>
+                    <button type="button" class="admin-sim-filter-btn" onclick="filterAdminSimulados('Novembro', this)" style="padding: 6px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: #f1f5f9; color: #334155;">
+                        🌟 Pasta de Novembro / 2026 (4) 🔥
                     </button>
                     <button type="button" class="admin-sim-filter-btn" onclick="filterAdminSimulados('Outubro', this)" style="padding: 6px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: #f1f5f9; color: #334155;">
-                        🌟 Pasta de Outubro / 2026 (2) 🔥
+                        🌟 Pasta de Outubro / 2026 (2)
                     </button>
                     <button type="button" class="admin-sim-filter-btn" onclick="filterAdminSimulados('Setembro', this)" style="padding: 6px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-weight: 700; cursor: pointer; background: #f1f5f9; color: #334155;">
                         📂 Pasta de Setembro / 2026 (5) ✨
@@ -892,6 +905,59 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- NOVEMBRO / 2026 (OFICIAL CONSCIÊNCIA NEGRA) -->
+                            <tr class="admin-sim-row" data-month="Novembro">
+                                <td>
+                                    <strong>🎈 Simulado Oficial 1º Ano — Consciência Negra</strong><br>
+                                    <small style="color: #64748b;">10 Questões (LP, Arte, Geog, Mat, Ciências + Ditado) • Manhã e Tarde • Novembro/2026 Oficial</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">1º Ano</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d; font-weight: 800;">Novembro / 2026 🌟</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo Oficial 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/simulado/campos-1ano-novembro-2026" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-1ano-novembro-2026" class="btn-icon" title="Ver Resultados do 1º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <tr class="admin-sim-row" data-month="Novembro">
+                                <td>
+                                    <strong>🥈 Simulado Oficial 2º Ano — Consciência Negra</strong><br>
+                                    <small style="color: #64748b;">11 Questões (LP, Arte, Hist, Geog, Mat + Ditado de Frases) • Novembro/2026 Oficial</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">2º Ano</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d; font-weight: 800;">Novembro / 2026 🌟</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo Oficial 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/simulado/campos-2ano-novembro-2026" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-2ano-novembro-2026" class="btn-icon" title="Ver Resultados do 2º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <tr class="admin-sim-row" data-month="Novembro">
+                                <td>
+                                    <strong>⭐ Simulado Oficial 3º Ano — Consciência Negra</strong><br>
+                                    <small style="color: #64748b;">15 Questões (LP, Mat, Geog, Arte + Produção Cartaz e Frase) • Novembro/2026 Oficial</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">3º Ano</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d; font-weight: 800;">Novembro / 2026 🌟</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo Oficial 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/simulado/campos-3ano-novembro-2026" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-3ano-novembro-2026" class="btn-icon" title="Ver Resultados do 3º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
+                            <tr class="admin-sim-row" data-month="Novembro">
+                                <td>
+                                    <strong>🏅 Simulado Oficial 4º Ano — Consciência Negra</strong><br>
+                                    <small style="color: #64748b;">10 Questões (LP, Hist, Geog, Mat, Arte + Narrativa) • Novembro/2026 Oficial</small>
+                                </td>
+                                <td><span class="badge" style="background: #e0f2fe; color: #0369a1;">4º Ano</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d; font-weight: 800;">Novembro / 2026 🌟</span></td>
+                                <td><span class="badge" style="background: #dcfce7; color: #15803d;">Ativo Oficial 🔥</span></td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="/simulado/campos-4ano-novembro-2026" target="_blank" class="btn-icon" title="Abrir Prova como Aluno" style="display: inline-flex; background: #e0f2fe; color: #0284c7;">👁️ Abrir Prova</a>
+                                    <a href="/admin/simulado/resultados?simulado_id=campos-4ano-novembro-2026" class="btn-icon" title="Ver Resultados do 4º Ano" style="display: inline-flex; background: #dcfce7; color: #15803d; font-weight: 700;">📊 Resultados</a>
+                                </td>
+                            </tr>
                             <!-- OUTUBRO / 2026 (OFICIAL SEDUCT) -->
                             <tr class="admin-sim-row" data-month="Outubro">
                                 <td>
@@ -1442,6 +1508,7 @@
         }
 
         function updateSimuladoResultsUrl() {
+            const edition = document.getElementById('simEditionSelect')?.value || 'novembro-2026';
             const school = document.getElementById('simSchoolSelect')?.value || 'ALL';
             const grade = document.getElementById('simGradeSelect')?.value || 'ALL';
             const classVal = document.getElementById('simClassSelect')?.value || 'ALL';
@@ -1450,14 +1517,8 @@
                 const params = new URLSearchParams();
                 if (school !== 'ALL') params.set('school', school);
                 if (grade !== 'ALL') {
-                    const gradeToSimId = {
-                        '1º Ano': 'campos-1ano-agosto-2026',
-                        '2º Ano': 'campos-2ano-agosto-2026',
-                        '3º Ano': 'campos-3ano-agosto-2026',
-                        '4º Ano': 'campos-4ano-agosto-2026',
-                        '5º Ano': 'campos-5ano-agosto-2026'
-                    };
-                    if (gradeToSimId[grade]) params.set('simulado_id', gradeToSimId[grade]);
+                    const gradeNum = grade.includes('1') ? '1ano' : (grade.includes('2') ? '2ano' : (grade.includes('3') ? '3ano' : (grade.includes('4') ? '4ano' : '5ano')));
+                    params.set('simulado_id', `campos-${gradeNum}-${edition}`);
                 }
                 if (classVal !== 'ALL') {
                     params.set('class', classVal);
