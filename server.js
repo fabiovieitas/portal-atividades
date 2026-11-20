@@ -4147,8 +4147,37 @@ const RESERVED_PAD_ROUTES = new Set([
 ]);
 
 // 1. Home do Bloco de Notas: /pad ou /p
-app.get(['/pad', '/p'], (req, res) => {
-  res.render('quick_pad_home');
+app.get(['/pad', '/p'], async (req, res) => {
+  try {
+    const pads = await dbHelper.listQuickPads(100);
+    res.render('quick_pad_home', { pads: pads || [] });
+  } catch(err) {
+    res.render('quick_pad_home', { pads: [] });
+  }
+});
+
+// 2. API GET: /api/pads (lista de todos os blocos criados)
+app.get('/api/pads', async (req, res) => {
+  try {
+    const limit = Number(req.query.limit) || 100;
+    const pads = await dbHelper.listQuickPads(limit);
+    res.json({ success: true, pads: pads || [] });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 3. API DELETE: /api/pad/:id (apaga um bloco)
+app.delete('/api/pad/:id', async (req, res) => {
+  try {
+    const rawId = req.params.id;
+    const cleanId = String(rawId || '').trim().toLowerCase().slice(0, 100);
+    if (!cleanId) return res.status(400).json({ success: false, error: 'ID inválido' });
+    await dbHelper.deleteQuickPad(cleanId);
+    res.json({ success: true, message: 'Bloco excluído com sucesso!' });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // 2. API GET: /api/pad/:id (recupera conteúdo e versão para polling)

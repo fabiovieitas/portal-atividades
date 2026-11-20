@@ -17,6 +17,8 @@
       --primary-hover: #0284c7;
       --text: #f8fafc;
       --subtext: #94a3b8;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
     }
 
     * {
@@ -33,46 +35,51 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 24px;
+      padding: 30px 16px;
     }
 
-    .container {
-      max-width: 520px;
+    .main-wrap {
+      max-width: 720px;
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .hero-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 24px;
-      padding: 36px 28px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+      padding: 32px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
       text-align: center;
     }
 
     .icon-box {
-      font-size: 3.5rem;
-      margin-bottom: 12px;
+      font-size: 3.2rem;
+      margin-bottom: 10px;
       display: inline-block;
       animation: float 3s ease-in-out infinite;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-5px); }
     }
 
     h1 {
-      font-size: 1.9rem;
+      font-size: 1.85rem;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       letter-spacing: -0.5px;
     }
 
     p {
       color: var(--subtext);
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       line-height: 1.5;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .input-box {
@@ -82,7 +89,7 @@
       border: 2px solid var(--card-border);
       border-radius: 14px;
       padding: 4px 6px 4px 14px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       transition: border-color 0.2s ease;
     }
 
@@ -93,24 +100,24 @@
     .url-prefix {
       color: var(--subtext);
       font-family: 'Fira Code', monospace;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       user-select: none;
     }
 
-    input {
+    input.main-input {
       flex: 1;
       background: transparent;
       border: none;
       outline: none;
       color: #ffffff;
       font-family: 'Fira Code', monospace;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       padding: 10px 8px;
     }
 
-    input::placeholder {
+    input.main-input::placeholder {
       color: #475569;
     }
 
@@ -138,9 +145,9 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 18px;
+      margin-top: 14px;
       border-top: 1px solid var(--card-border);
-      padding-top: 20px;
+      padding-top: 16px;
     }
 
     .chip {
@@ -161,40 +168,236 @@
       color: #ffffff;
     }
 
-    .footer-note {
-      margin-top: 24px;
-      font-size: 0.82rem;
-      color: #64748b;
+    /* Lista de Blocos Criados */
+    .pads-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-count {
+      background: #0f172a;
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid #334155;
+    }
+
+    .search-input {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      width: 220px;
+      transition: border-color 0.15s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .pads-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .pad-card {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .pad-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.1);
+    }
+
+    .pad-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .pad-name {
+      font-family: 'Fira Code', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pad-date {
+      font-size: 0.78rem;
+      color: var(--subtext);
+    }
+
+    .pad-preview {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 70px;
+      overflow: hidden;
+      opacity: 0.9;
+    }
+
+    .pad-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--subtext);
+      padding-top: 4px;
+    }
+
+    .btn-delete-pad {
+      background: transparent;
+      color: #94a3b8;
+      border: none;
+      cursor: pointer;
+      font-size: 0.88rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-delete-pad:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--subtext);
+    }
+
+    .empty-state span {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="icon-box">📝</div>
-    <h1>Bloco de Notas Online</h1>
-    <p>
-      Digite qualquer caminho para abrir um bloco de notas em tempo real. O que você digita no PC aparece instantaneamente no celular!
-    </p>
+  <div class="main-wrap">
+    <!-- Hero Box -->
+    <div class="hero-card">
+      <div class="icon-box">📝</div>
+      <h1>Bloco de Notas Online</h1>
+      <p>
+        Digite qualquer caminho para abrir um bloco de notas em tempo real. O que você digita no PC aparece instantaneamente no celular!
+      </p>
 
-    <form onsubmit="openPad(event)">
-      <div class="input-box">
-        <span class="url-prefix">labkids.online/</span>
-        <input type="text" id="padNameInput" placeholder="ex: 123" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-        <button type="submit" class="btn-open">Abrir 🚀</button>
+      <form onsubmit="openPad(event)">
+        <div class="input-box">
+          <span class="url-prefix">labkids.online/</span>
+          <input type="text" id="padNameInput" class="main-input" placeholder="ex: 123" autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <button type="submit" class="btn-open">Abrir 🚀</button>
+        </div>
+      </form>
+
+      <div class="quick-examples">
+        <span style="width: 100%; font-size: 0.82rem; color: #64748b; margin-bottom: 4px;">Atalhos rápidos:</span>
+        <a href="/123" class="chip">/123</a>
+        <a href="/celular" class="chip">/celular</a>
+        <a href="/notas" class="chip">/notas</a>
+        <a href="/clip" class="chip">/clip</a>
+        <a href="javascript:void(0)" onclick="openRandomPad()" class="chip" style="color: #4ade80;">🎲 Gerar Aleatório</a>
       </div>
-    </form>
-
-    <div class="quick-examples">
-      <span style="width: 100%; font-size: 0.82rem; color: #64748b; margin-bottom: 4px;">Atalhos rápidos:</span>
-      <a href="/123" class="chip">/123</a>
-      <a href="/celular" class="chip">/celular</a>
-      <a href="/notas" class="chip">/notas</a>
-      <a href="/clip" class="chip">/clip</a>
-      <a href="javascript:void(0)" onclick="openRandomPad()" class="chip" style="color: #4ade80;">🎲 Gerar Aleatório</a>
     </div>
 
-    <div class="footer-note">
-      ⚡ Inspirado no Dontpad • Sincronização ultra-rápida entre dispositivos
+    <!-- Lista de Páginas / Blocos Criados -->
+    <div class="pads-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📑 Blocos Criados</span>
+          <span class="badge-count" id="padCountBadge"><%= (typeof pads !== 'undefined' ? pads.length : 0) %></span>
+        </div>
+        <input type="text" class="search-input" id="searchPads" placeholder="🔍 Buscar bloco..." oninput="filterPads()">
+      </div>
+
+      <div class="pads-grid" id="padsGrid">
+        <% if (typeof pads !== 'undefined' && pads && pads.length > 0) { %>
+          <% pads.forEach(p => { 
+            const d = p.updated_at ? new Date(p.updated_at) : null;
+            const formattedDate = d ? d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Recentemente';
+            const cleanPreview = (p.preview || 'Bloco vazio...').trim();
+          %>
+            <div class="pad-card" id="pad-item-<%= p.id %>" data-name="<%= p.id %>">
+              <div class="pad-card-header">
+                <a href="/<%= p.id %>" class="pad-name" title="Abrir /<%= p.id %>">
+                  <span>📝</span>
+                  <span>/<%= p.id %></span>
+                </a>
+                <span class="pad-date">🕒 <%= formattedDate %></span>
+              </div>
+
+              <a href="/<%= p.id %>" style="text-decoration: none;">
+                <div class="pad-preview"><%= cleanPreview %></div>
+              </a>
+
+              <div class="pad-card-footer">
+                <span>📏 <%= p.length || 0 %> caracteres</span>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <a href="/<%= p.id %>" style="color: var(--primary); text-decoration: none; font-weight: 700; font-size: 0.85rem;">Abrir ↗</a>
+                  <button class="btn-delete-pad" onclick="deletePad('<%= p.id %>')" title="Excluir este bloco permanentemente">🗑️ Excluir</button>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <div class="empty-state" id="emptyState">
+            <span>✨</span>
+            <p>Nenhum bloco de notas criado ainda.<br>Digite um nome acima para criar seu primeiro bloco!</p>
+          </div>
+        <% } %>
+      </div>
     </div>
   </div>
 
@@ -217,6 +420,43 @@
         rand += chars.charAt(Math.floor(Math.random() * chars.length));
       }
       window.location.href = '/' + rand;
+    }
+
+    function filterPads() {
+      const query = (document.getElementById('searchPads').value || '').trim().toLowerCase();
+      const cards = document.querySelectorAll('.pad-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const name = (card.getAttribute('data-name') || '').toLowerCase();
+        const text = (card.innerText || '').toLowerCase();
+        if (!query || name.includes(query) || text.includes(query)) {
+          card.style.display = 'flex';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById('padCountBadge').innerText = visible;
+    }
+
+    async function deletePad(id) {
+      if (!confirm(`Tem certeza que deseja apagar o bloco /${id}?`)) return;
+
+      try {
+        const res = await fetch('/api/pad/' + encodeURIComponent(id), {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (data.success) {
+          const item = document.getElementById('pad-item-' + id);
+          if (item) item.remove();
+          filterPads();
+        } else {
+          alert('Erro ao excluir: ' + (data.error || 'Falha na requisição'));
+        }
+      } catch (err) {
+        alert('Erro ao excluir bloco: ' + err.message);
+      }
     }
   </script>
 </body>

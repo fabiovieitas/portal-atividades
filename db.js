@@ -1703,6 +1703,30 @@ const dbHelper = {
       console.error('[DB saveQuickPad Error]:', err.message);
       throw err;
     }
+  },
+
+  async listQuickPads(limit = 100) {
+    try {
+      const rows = await queryAll(
+        'SELECT id, SUBSTR(content, 1, 120) AS preview, LENGTH(content) AS length, version, updated_at FROM quick_pads ORDER BY updated_at DESC LIMIT ?',
+        [Number(limit) || 100]
+      );
+      return rows || [];
+    } catch(err) {
+      console.error('[DB listQuickPads Error]:', err.message);
+      return [];
+    }
+  },
+
+  async deleteQuickPad(id) {
+    try {
+      const cleanId = String(id || '').trim().toLowerCase().slice(0, 100);
+      await queryRun('DELETE FROM quick_pads WHERE id = ?', [cleanId]);
+      return true;
+    } catch(err) {
+      console.error('[DB deleteQuickPad Error]:', err.message);
+      return false;
+    }
   }
 };
 

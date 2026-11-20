@@ -27,6 +27,8 @@
       --status-sync: #2563eb;
       --subtext: #64748b;
       --highlight: #f8fafc;
+      --drawer-bg: #ffffff;
+      --danger: #ef4444;
     }
 
     [data-theme="dark"] {
@@ -46,6 +48,8 @@
       --status-sync: #60a5fa;
       --subtext: #94a3b8;
       --highlight: #1e293b;
+      --drawer-bg: #1e293b;
+      --danger: #f87171;
     }
 
     * {
@@ -70,6 +74,7 @@
       width: 100%;
       height: 100vh;
       height: 100dvh;
+      position: relative;
     }
 
     /* Top Bar */
@@ -252,6 +257,7 @@
       pointer-events: auto;
     }
 
+    /* Toast */
     .toast-popup {
       position: fixed;
       bottom: 50px;
@@ -282,6 +288,201 @@
       opacity: 1;
       transform: translateY(0);
       pointer-events: auto;
+    }
+
+    /* Drawer Lateral (Lista de Blocos Criados) */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 9998;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 380px;
+      max-width: 90vw;
+      background: var(--drawer-bg);
+      color: var(--text);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+    }
+
+    .drawer-panel.active {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drawer-header h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-count {
+      background: var(--btn-bg);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-close-drawer {
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-close-drawer:hover {
+      background: var(--btn-hover);
+      color: var(--text);
+    }
+
+    .drawer-search-box {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drawer-search-input {
+      width: 100%;
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .drawer-search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .drawer-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .drawer-pad-item {
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .drawer-pad-item:hover {
+      border-color: var(--primary);
+      transform: translateX(-3px);
+    }
+
+    .drawer-pad-item.current {
+      border-color: var(--primary);
+      background: rgba(2, 132, 199, 0.08);
+    }
+
+    .drawer-pad-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .drawer-pad-name {
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .drawer-pad-preview {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: var(--subtext);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .drawer-pad-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--subtext);
+      padding-top: 2px;
+    }
+
+    .btn-delete-small {
+      background: transparent;
+      border: none;
+      color: var(--subtext);
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
+    .btn-delete-small:hover {
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .drawer-footer {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--header-bg);
     }
 
     /* Responsive */
@@ -329,6 +530,12 @@
       </div>
 
       <div class="actions-group">
+        <!-- Drawer de Lista de Blocos -->
+        <button class="btn-action" onclick="togglePadsDrawer(true)" title="Ver todas as páginas/blocos criados">
+          <span>📑</span>
+          <span class="label-text">Meus Blocos</span>
+        </button>
+
         <!-- Font Size Controls -->
         <button class="btn-action" onclick="adjustFontSize(-2)" title="Diminuir Fonte (A-)">
           <strong>A-</strong>
@@ -377,11 +584,40 @@
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
           <span id="syncDeviceTime" style="opacity: 0.8;">Sincronizado</span>
+          <a href="/pad" style="color: var(--primary); text-decoration: none; font-weight: 700;">ver todos</a>
+          <span>•</span>
           <a href="/<%= padId %>/raw" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 700;">raw/txt</a>
         </div>
       </footer>
     </main>
   </div>
+
+  <!-- Drawer Lateral: Lista de Blocos Criados -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="togglePadsDrawer(false)"></div>
+  <aside class="drawer-panel" id="drawerPanel">
+    <div class="drawer-header">
+      <h3>
+        <span>📑</span>
+        <span>Páginas Criadas</span>
+        <span class="badge-count" id="drawerCount">0</span>
+      </h3>
+      <button class="btn-close-drawer" onclick="togglePadsDrawer(false)">✕</button>
+    </div>
+
+    <div class="drawer-search-box">
+      <input type="text" id="drawerSearch" placeholder="🔍 Filtrar blocos..." class="drawer-search-input" oninput="filterDrawerPads()">
+    </div>
+
+    <div class="drawer-content" id="drawerPadsList">
+      <div style="text-align:center; padding:30px; color:var(--subtext);">Carregando blocos...</div>
+    </div>
+
+    <div class="drawer-footer">
+      <button class="btn-action btn-primary" onclick="createNewPadPrompt()" style="width:100%; padding:10px;">
+        <span>➕</span> Criar Novo Bloco
+      </button>
+    </div>
+  </aside>
 
   <!-- Toast Notification -->
   <div class="toast-popup" id="toast">
@@ -397,6 +633,7 @@
     let lastContent = <%- JSON.stringify(pad.content || '') %>;
     let isUserTyping = false;
     let pollInterval = null;
+    let cachedPadsList = [];
 
     const editor = document.getElementById('padEditor');
     const statusBadge = document.getElementById('statusBadge');
@@ -568,7 +805,6 @@
           if (data.version > localVersion && data.content !== editor.value) {
             setStatus('syncing', 'Atualizando...');
             
-            // Preserva seleção se focado
             const start = editor.selectionStart;
             const end = editor.selectionEnd;
             const wasFocused = (document.activeElement === editor);
@@ -594,7 +830,110 @@
       }
     }
 
-    // 11. Eventos do Editor
+    // 11. Drawer Lateral de Páginas Criadas
+    function togglePadsDrawer(open) {
+      const overlay = document.getElementById('drawerOverlay');
+      const panel = document.getElementById('drawerPanel');
+      const willOpen = (typeof open === 'boolean') ? open : !panel.classList.contains('active');
+
+      if (willOpen) {
+        overlay.classList.add('active');
+        panel.classList.add('active');
+        loadDrawerPads();
+      } else {
+        overlay.classList.remove('active');
+        panel.classList.remove('active');
+      }
+    }
+
+    async function loadDrawerPads() {
+      const container = document.getElementById('drawerPadsList');
+      try {
+        const res = await fetch('/api/pads?limit=100');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.pads)) {
+          cachedPadsList = data.pads;
+          renderDrawerPads(data.pads);
+        } else {
+          container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--subtext);">Nenhum bloco encontrado.</div>';
+        }
+      } catch(err) {
+        container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--subtext);">Erro ao carregar blocos.</div>';
+      }
+    }
+
+    function renderDrawerPads(list) {
+      const container = document.getElementById('drawerPadsList');
+      document.getElementById('drawerCount').innerText = list.length;
+
+      if (!list || list.length === 0) {
+        container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--subtext);">Nenhum bloco encontrado.</div>';
+        return;
+      }
+
+      container.innerHTML = list.map(p => {
+        const isCurrent = (p.id === PAD_ID);
+        const d = p.updated_at ? new Date(p.updated_at) : null;
+        const timeStr = d ? d.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }) : '';
+        const preview = (p.preview || 'Bloco vazio...').trim();
+
+        return `
+          <div class="drawer-pad-item ${isCurrent ? 'current' : ''}" onclick="window.location.href='/${p.id}'">
+            <div class="drawer-pad-header">
+              <span class="drawer-pad-name">
+                <span>📝</span>
+                <span>/${p.id}</span>
+                ${isCurrent ? '<span style="font-size:0.7rem; color:var(--status-saved); font-weight:800;">(Atual)</span>' : ''}
+              </span>
+              <span style="font-size:0.72rem; color:var(--subtext);">${timeStr}</span>
+            </div>
+            <div class="drawer-pad-preview">${escapeHtml(preview)}</div>
+            <div class="drawer-pad-footer">
+              <span>${p.length || 0} caracteres</span>
+              <button class="btn-delete-small" onclick="deletePadFromDrawer('${p.id}', event)" title="Excluir bloco">🗑️ Excluir</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterDrawerPads() {
+      const q = (document.getElementById('drawerSearch').value || '').trim().toLowerCase();
+      if (!q) {
+        renderDrawerPads(cachedPadsList);
+        return;
+      }
+      const filtered = cachedPadsList.filter(p => p.id.toLowerCase().includes(q) || (p.preview || '').toLowerCase().includes(q));
+      renderDrawerPads(filtered);
+    }
+
+    async function deletePadFromDrawer(id, e) {
+      if (e) e.stopPropagation();
+      if (!confirm(`Deseja apagar permanentemente o bloco /${id}?`)) return;
+
+      try {
+        const res = await fetch('/api/pad/' + encodeURIComponent(id), { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+          cachedPadsList = cachedPadsList.filter(p => p.id !== id);
+          renderDrawerPads(cachedPadsList);
+          showToast(`Bloco /${id} excluído!`, '🗑️');
+          if (id === PAD_ID) {
+            window.location.href = '/pad';
+          }
+        }
+      } catch(err) {
+        alert('Erro ao excluir: ' + err.message);
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    // 12. Eventos do Editor
     editor.addEventListener('input', () => {
       isUserTyping = true;
       setStatus('saving', 'Digitando...');
@@ -607,7 +946,6 @@
       }, 400);
     });
 
-    // Suporte à tecla TAB para indentar ao invés de perder o foco
     editor.addEventListener('keydown', (e) => {
       if (e.key === 'Tab') {
         e.preventDefault();
@@ -617,7 +955,6 @@
         editor.selectionStart = editor.selectionEnd = start + 2;
         editor.dispatchEvent(new Event('input'));
       }
-      // Ctrl+S / Cmd+S manual save
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
         e.preventDefault();
         clearTimeout(saveTimeout);
@@ -626,7 +963,7 @@
       }
     });
 
-    // 12. Sincronização Imediata ao Focar ou Retornar para a Aba
+    // 13. Sincronização Imediata ao Focar ou Retornar para a Aba
     window.addEventListener('focus', () => {
       checkForRemoteUpdates();
     });
@@ -643,17 +980,14 @@
 
     // Inicialização
     window.addEventListener('DOMContentLoaded', () => {
-      // Carrega preferências salvas
       const savedTheme = localStorage.getItem('quickpad_theme') || 
         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       applyTheme(savedTheme);
       applyFontSize(currentFontSize);
       updateCounters();
 
-      // Inicia polling a cada 2.5 segundos
       pollInterval = setInterval(checkForRemoteUpdates, 2500);
 
-      // Foca no editor suavemente se não for mobile muito pequeno
       if (window.innerWidth > 768) {
         editor.focus();
         editor.selectionStart = editor.selectionEnd = editor.value.length;
