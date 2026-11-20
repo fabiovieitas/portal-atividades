@@ -4072,15 +4072,6 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-  });
-}
-
-module.exports = app;
-
 
 // ============================================================================
 // CONTROLE INTERNO: HEARTBEAT DE TEMPO ONLINE & GESTÃO DE TABLETS DA TURMA
@@ -4137,3 +4128,140 @@ app.get('/api/classes/:id/check-session', async (req, res) => {
     res.json({ shouldLogout: false });
   }
 });
+
+// ============================================================================
+// BLOCO DE NOTAS EM TEMPO REAL ESTILO DONTPAD (CELULAR <-> PC)
+// ============================================================================
+
+// Conjunto de rotas reservadas do sistema que NÃO devem ser tratadas como bloco de notas
+const RESERVED_PAD_ROUTES = new Set([
+  'admin', 'ads.txt', 'aluno', 'api', 'atividade', 'atividades',
+  'bncc', 'certificado', 'colecao', 'contato', 'cookies', 'cyber-bot',
+  'download', 'favicon.ico', 'folha-registro', 'games', 'imprimir-qrcodes',
+  'manifest.json', 'ninja-math', 'noticia', 'noticias', 'pesquisa',
+  'ping', 'privacidade', 'professor', 'prova', 'qr', 'quem-somos',
+  'ritmo', 'robots.txt', 'simulado', 'simulados', 'sitemap.xml',
+  'sobre', 'sw.js', 'termos', 'termos-de-uso', 'css', 'js', 'img', 'images',
+  'fonts', 'uploads', 'assets', 'vendor', 'service-worker.js', 'public',
+  'login', 'logout'
+]);
+
+// 1. Home do Bloco de Notas: /pad ou /p
+app.get(['/pad', '/p'], (req, res) => {
+  res.render('quick_pad_home');
+});
+
+// 2. API GET: /api/pad/:id (recupera conteúdo e versão para polling)
+app.get('/api/pad/:id', async (req, res) => {
+  try {
+    const rawId = req.params.id;
+    const cleanId = String(rawId || '').trim().toLowerCase().slice(0, 100);
+    if (!cleanId) return res.status(400).json({ success: false, error: 'ID inválido' });
+    const pad = await dbHelper.getQuickPad(cleanId);
+    res.json({
+      success: true,
+      id: cleanId,
+      content: pad.content || '',
+      version: pad.version || 0,
+      updated_at: pad.updated_at
+    });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 3. API POST: /api/pad/:id (salva conteúdo digitado)
+app.post('/api/pad/:id', async (req, res) => {
+  try {
+    const rawId = req.params.id;
+    const cleanId = String(rawId || '').trim().toLowerCase().slice(0, 100);
+    if (!cleanId) return res.status(400).json({ success: false, error: 'ID inválido' });
+    const { content } = req.body;
+    const updated = await dbHelper.saveQuickPad(cleanId, content);
+    res.json({
+      success: true,
+      id: cleanId,
+      version: updated.version,
+      updated_at: updated.updated_at
+    });
+  } catch(err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 4. Raw/TXT endpoint: /pad/:id/raw ou /:id/raw
+app.get(['/pad/:id/raw', '/p/:id/raw', '/:id/raw'], async (req, res, next) => {
+  try {
+    const rawId = req.params.id.replace(/\.(txt|raw)$/i, '');
+    const cleanId = String(rawId || '').trim().toLowerCase().slice(0, 100);
+    if (RESERVED_PAD_ROUTES.has(cleanId)) return next();
+    const pad = await dbHelper.getQuickPad(cleanId);
+    res.type('text/plain; charset=utf-8').send(pad.content || '');
+  } catch(err) {
+    next(err);
+  }
+});
+
+// 5. Rota com prefixo: /pad/:id ou /p/:id
+app.get(['/pad/:id', '/p/:id'], async (req, res, next) => {
+  try {
+    const rawId = req.params.id;
+    const cleanId = String(rawId || '').trim().toLowerCase().slice(0, 100);
+    if (cleanId.endsWith('.txt')) {
+      const realId = cleanId.replace(/\.txt$/, '');
+      const pad = await dbHelper.getQuickPad(realId);
+      return res.type('text/plain; charset=utf-8').send(pad.content || '');
+    }
+    const pad = await dbHelper.getQuickPad(cleanId);
+    res.render('quick_pad', { padId: cleanId, pad });
+  } catch(err) {
+    next(err);
+  }
+});
+
+// 6. Rota Direta Ultra-Curta: /:padId (ex: labkids.online/123, labkids.online/celular)
+app.get('/:padId', async (req, res, next) => {
+  const rawId = req.params.padId;
+  if (!rawId) return next();
+
+  // Se tiver extensão de arquivo estático (.js, .css, .png, etc.), passa para os próximos middlewares
+  if (/\.(png|jpe?g|gif|svg|ico|css|js|map|json|webp|mp3|wav|pdf|woff2?|ttf|eot)$/i.test(rawId)) {
+    return next();
+  }
+
+  const cleanId = String(rawId).trim().toLowerCase().slice(0, 100);
+
+  // Se terminar com .txt (ex: /123.txt), serve em texto puro
+  if (cleanId.endsWith('.txt')) {
+    const realId = cleanId.replace(/\.txt$/, '');
+    if (RESERVED_PAD_ROUTES.has(realId)) return next();
+    const pad = await dbHelper.getQuickPad(realId);
+    return res.type('text/plain; charset=utf-8').send(pad.content || '');
+  }
+
+  // Se for uma das rotas reservadas do portal, não intercepta!
+  if (RESERVED_PAD_ROUTES.has(cleanId)) {
+    return next();
+  }
+
+  // Permite apenas nomes alfanuméricos com traço ou underline (ex: 123, notas, clip_1)
+  if (!/^[a-z0-9_-]+$/i.test(cleanId)) {
+    return next();
+  }
+
+  try {
+    const pad = await dbHelper.getQuickPad(cleanId);
+    res.render('quick_pad', { padId: cleanId, pad });
+  } catch(err) {
+    next(err);
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

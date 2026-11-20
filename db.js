@@ -96,6 +96,12 @@ try {
       key TEXT PRIMARY KEY,
       value TEXT
     );
+    CREATE TABLE IF NOT EXISTS quick_pads (
+      id TEXT PRIMARY KEY,
+      content TEXT DEFAULT '',
+      version INTEGER DEFAULT 1,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
     CREATE TABLE IF NOT EXISTS teachers (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
@@ -1662,6 +1668,41 @@ const dbHelper = {
       console.error('[DB Engine] getGameLeaderboard error:', e.message);
       return [];
     }
+  },
+
+  async getQuickPad(id) {
+    try {
+      const cleanId = String(id || '').trim().toLowerCase().slice(0, 100);
+      const row = await queryGet('SELECT id, content, version, updated_at FROM quick_pads WHERE id = ?', [cleanId]);
+      if (row) {
+        return row;
+      }
+      return { id: cleanId, content: '', version: 0, updated_at: null };
+    } catch(err) {
+      console.error('[DB getQuickPad Error]:', err.message);
+      return { id, content: '', version: 0, updated_at: null };
+    }
+  },
+
+  async saveQuickPad(id, content) {
+    try {
+      const cleanId = String(id || '').trim().toLowerCase().slice(0, 100);
+      const text = typeof content === 'string' ? content : String(content || '');
+      await queryRun(`
+        INSERT INTO quick_pads (id, content, version, updated_at)
+        VALUES (?, ?, 1, CURRENT_TIMESTAMP)
+        ON CONFLICT(id) DO UPDATE SET
+          content = excluded.content,
+          version = quick_pads.version + 1,
+          updated_at = CURRENT_TIMESTAMP;
+      `, [cleanId, text]);
+      
+      const updated = await queryGet('SELECT id, content, version, updated_at FROM quick_pads WHERE id = ?', [cleanId]);
+      return updated || { id: cleanId, content: text, version: 1, updated_at: new Date().toISOString() };
+    } catch(err) {
+      console.error('[DB saveQuickPad Error]:', err.message);
+      throw err;
+    }
   }
 };
 
@@ -1765,6 +1806,12 @@ async function initTables() {
     `CREATE TABLE IF NOT EXISTS system_settings (
       key TEXT PRIMARY KEY,
       value TEXT
+    );`,
+    `CREATE TABLE IF NOT EXISTS quick_pads (
+      id TEXT PRIMARY KEY,
+      content TEXT DEFAULT '',
+      version INTEGER DEFAULT 1,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );`
   ];
 

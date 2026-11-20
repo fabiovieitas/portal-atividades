@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="theme-color" content="#ffffff" id="metaThemeColor">
+  <title><%= padId %> — Bloco de Notas Online</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1e293b;
+      --textarea-bg: #ffffff;
+      --border: #e2e8f0;
+      --header-bg: rgba(255, 255, 255, 0.95);
+      --header-border: #e2e8f0;
+      --btn-bg: #f1f5f9;
+      --btn-hover: #e2e8f0;
+      --btn-text: #334155;
+      --primary: #0284c7;
+      --primary-hover: #0369a1;
+      --status-saved: #16a34a;
+      --status-saving: #d97706;
+      --status-sync: #2563eb;
+      --subtext: #64748b;
+      --highlight: #f8fafc;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --text: #f1f5f9;
+      --textarea-bg: #0f172a;
+      --border: #334155;
+      --header-bg: rgba(15, 23, 42, 0.95);
+      --header-border: #1e293b;
+      --btn-bg: #1e293b;
+      --btn-hover: #334155;
+      --btn-text: #e2e8f0;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --status-saved: #4ade80;
+      --status-saving: #fbbf24;
+      --status-sync: #60a5fa;
+      --subtext: #94a3b8;
+      --highlight: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--header-border);
+      gap: 12px;
+      flex-wrap: wrap;
+      z-index: 10;
+    }
+
+    .pad-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .pad-title-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--btn-bg);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .pad-title-btn:hover {
+      background: var(--btn-hover);
+      transform: translateY(-1px);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--btn-bg);
+      color: var(--status-saved);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .status-badge.saving {
+      color: var(--status-saving);
+    }
+
+    .status-badge.syncing {
+      color: var(--status-sync);
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.6; }
+      to { opacity: 1; }
+    }
+
+    .actions-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .btn-action:hover {
+      background: var(--btn-hover);
+      color: var(--text);
+    }
+
+    .btn-action:active {
+      transform: scale(0.96);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      color: #ffffff;
+    }
+
+    /* Editor Box */
+    .editor-wrapper {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+    }
+
+    #padEditor {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 18px 24px 70px 24px;
+      background: var(--textarea-bg);
+      color: var(--text);
+      font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, monospace;
+      font-size: 19px;
+      line-height: 1.65;
+      letter-spacing: 0.2px;
+      tab-size: 2;
+      -moz-tab-size: 2;
+      overflow-y: auto;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      transition: font-size 0.1s ease;
+    }
+
+    #padEditor::placeholder {
+      color: var(--subtext);
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    /* Bottom Bar */
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 16px;
+      background: var(--header-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 1px solid var(--header-border);
+      font-size: 0.78rem;
+      color: var(--subtext);
+      font-weight: 600;
+      gap: 12px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .bottom-bar * {
+      pointer-events: auto;
+    }
+
+    .toast-popup {
+      position: fixed;
+      bottom: 50px;
+      right: 20px;
+      background: #1e293b;
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      z-index: 9999;
+    }
+
+    [data-theme="dark"] .toast-popup {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .toast-popup.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .top-bar {
+        padding: 6px 10px;
+        gap: 8px;
+      }
+
+      .pad-title-btn {
+        font-size: 0.88rem;
+        padding: 5px 8px;
+      }
+
+      .btn-action span.label-text {
+        display: none;
+      }
+
+      #padEditor {
+        padding: 12px 14px 60px 14px;
+        font-size: 18px;
+      }
+
+      .bottom-bar {
+        padding: 4px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Control Bar -->
+    <header class="top-bar">
+      <div class="pad-info">
+        <button class="pad-title-btn" onclick="copyPadUrl()" title="Clique para copiar o link deste bloco">
+          <span>📝</span>
+          <span style="letter-spacing: -0.3px;">/<%= padId %></span>
+          <span style="opacity: 0.6; font-size: 0.75rem;">📋</span>
+        </button>
+
+        <div class="status-badge" id="statusBadge">
+          <span id="statusIcon">🟢</span>
+          <span id="statusText">Salvo</span>
+        </div>
+      </div>
+
+      <div class="actions-group">
+        <!-- Font Size Controls -->
+        <button class="btn-action" onclick="adjustFontSize(-2)" title="Diminuir Fonte (A-)">
+          <strong>A-</strong>
+        </button>
+        <button class="btn-action" onclick="adjustFontSize(2)" title="Aumentar Fonte (A+)">
+          <strong>A+</strong>
+        </button>
+
+        <!-- Copy All Button -->
+        <button class="btn-action btn-primary" onclick="copyAllText()" title="Copiar todo o texto para a área de transferência">
+          <span>📋</span>
+          <span class="label-text">Copiar Tudo</span>
+        </button>
+
+        <!-- Dark/Light Mode -->
+        <button class="btn-action" onclick="toggleTheme()" id="themeBtn" title="Alternar Modo Escuro / Claro">
+          <span id="themeIcon">🌙</span>
+        </button>
+
+        <!-- Clear Text -->
+        <button class="btn-action" onclick="clearPadText()" title="Limpar todo o texto deste bloco">
+          <span>🗑️</span>
+        </button>
+
+        <!-- New Pad Button -->
+        <button class="btn-action" onclick="createNewPadPrompt()" title="Abrir ou criar outro bloco">
+          <span>➕</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Full Screen Editor -->
+    <main class="editor-wrapper">
+      <textarea 
+        id="padEditor" 
+        placeholder="Digite ou cole qualquer texto aqui...&#10;&#10;✨ Sincroniza em tempo real entre Celular e Computador!&#10;Basta acessar este mesmo link em qualquer aparelho." 
+        spellcheck="false" 
+        autocapitalize="off" 
+        autocomplete="off" 
+        autocorrect="off"><%= pad.content || '' %></textarea>
+
+      <!-- Bottom Info Bar -->
+      <footer class="bottom-bar">
+        <div>
+          <span id="counterStats">0 caracteres • 0 palavras</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span id="syncDeviceTime" style="opacity: 0.8;">Sincronizado</span>
+          <a href="/<%= padId %>/raw" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 700;">raw/txt</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-popup" id="toast">
+    <span id="toastIcon">📋</span>
+    <span id="toastMsg">Copiado com sucesso!</span>
+  </div>
+
+  <script>
+    const PAD_ID = <%- JSON.stringify(padId) %>;
+    let localVersion = Number(<%- JSON.stringify(pad.version || 0) %>);
+    let isSaving = false;
+    let saveTimeout = null;
+    let lastContent = <%- JSON.stringify(pad.content || '') %>;
+    let isUserTyping = false;
+    let pollInterval = null;
+
+    const editor = document.getElementById('padEditor');
+    const statusBadge = document.getElementById('statusBadge');
+    const statusIcon = document.getElementById('statusIcon');
+    const statusText = document.getElementById('statusText');
+    const counterStats = document.getElementById('counterStats');
+    const syncDeviceTime = document.getElementById('syncDeviceTime');
+    const toast = document.getElementById('toast');
+    const themeIcon = document.getElementById('themeIcon');
+    const metaThemeColor = document.getElementById('metaThemeColor');
+
+    // 1. Contador de Caracteres e Palavras
+    function updateCounters() {
+      const val = editor.value || '';
+      const chars = val.length;
+      const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+      const lines = val ? val.split('\n').length : 0;
+      counterStats.innerText = `${chars} caracteres • ${words} palavras • ${lines} linhas`;
+    }
+
+    // 2. Ajuste de Tamanho de Fonte (A- / A+)
+    let currentFontSize = parseInt(localStorage.getItem('quickpad_fontsize')) || 19;
+    function applyFontSize(size) {
+      currentFontSize = Math.max(13, Math.min(38, size));
+      editor.style.fontSize = currentFontSize + 'px';
+      localStorage.setItem('quickpad_fontsize', currentFontSize);
+    }
+    function adjustFontSize(delta) {
+      applyFontSize(currentFontSize + delta);
+      showToast(`Tamanho da fonte: ${currentFontSize}px`, '📏');
+    }
+
+    // 3. Tema Claro / Escuro
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.innerText = '☀️';
+        metaThemeColor.setAttribute('content', '#0f172a');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        themeIcon.innerText = '🌙';
+        metaThemeColor.setAttribute('content', '#ffffff');
+      }
+      localStorage.setItem('quickpad_theme', theme);
+    }
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      applyTheme(isDark ? 'light' : 'dark');
+    }
+
+    // 4. Copiar Link do Pad
+    function copyPadUrl() {
+      const url = window.location.origin + '/' + PAD_ID;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('Link do bloco copiado! Abra no celular ou envie para alguém.', '🔗');
+      }).catch(() => {
+        prompt('Copie o link abaixo:', url);
+      });
+    }
+
+    // 5. Copiar Todo o Conteúdo
+    function copyAllText() {
+      const text = editor.value;
+      if (!text) {
+        showToast('O bloco está vazio!', '⚠️');
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Todo o texto foi copiado com sucesso!', '📋');
+      }).catch(() => {
+        editor.select();
+        document.execCommand('copy');
+        showToast('Todo o texto foi copiado!', '📋');
+      });
+    }
+
+    // 6. Limpar Texto
+    function clearPadText() {
+      if (!editor.value) return;
+      if (confirm('Tem certeza que deseja apagar todo o texto deste bloco?')) {
+        editor.value = '';
+        triggerSave(true);
+        updateCounters();
+        showToast('Bloco limpo!', '🗑️');
+      }
+    }
+
+    // 7. Criar / Abrir Outro Pad
+    function createNewPadPrompt() {
+      const name = prompt('Digite o nome do bloco que deseja abrir ou criar (ex: celular, notas, 123):');
+      if (name) {
+        const clean = name.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+        if (clean) window.location.href = '/' + clean;
+      }
+    }
+
+    // 8. Toast Helper
+    let toastTimeout = null;
+    function showToast(msg, icon = '📋') {
+      document.getElementById('toastMsg').innerText = msg;
+      document.getElementById('toastIcon').innerText = icon;
+      toast.classList.add('active');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('active');
+      }, 3000);
+    }
+
+    // 9. Salvamento com Debounce & Status
+    function setStatus(type, msg) {
+      statusBadge.className = 'status-badge ' + (type || '');
+      if (type === 'saving') {
+        statusIcon.innerText = '⏳';
+        statusText.innerText = msg || 'Salvando...';
+      } else if (type === 'syncing') {
+        statusIcon.innerText = '🔄';
+        statusText.innerText = msg || 'Sincronizando...';
+      } else if (type === 'error') {
+        statusIcon.innerText = '⚠️';
+        statusText.innerText = msg || 'Offline';
+      } else {
+        statusIcon.innerText = '🟢';
+        statusText.innerText = msg || 'Salvo';
+      }
+    }
+
+    async function triggerSave(force = false) {
+      const content = editor.value;
+      if (!force && content === lastContent) return;
+
+      setStatus('saving');
+      isSaving = true;
+
+      try {
+        const res = await fetch('/api/pad/' + encodeURIComponent(PAD_ID), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: content, version: localVersion })
+        });
+        const data = await res.json();
+        if (data.success) {
+          lastContent = content;
+          localVersion = data.version;
+          setStatus('saved', 'Salvo');
+          syncDeviceTime.innerText = 'Salvo às ' + new Date().toLocaleTimeString('pt-BR');
+        } else {
+          setStatus('error', 'Falha ao salvar');
+        }
+      } catch (err) {
+        console.warn('[QuickPad Save Warn]:', err);
+        setStatus('error', 'Sem conexão');
+      } finally {
+        isSaving = false;
+      }
+    }
+
+    // 10. Polling Inteligente de Atualizações Remotas (Celular <-> PC)
+    async function checkForRemoteUpdates() {
+      if (isSaving || isUserTyping) return;
+
+      try {
+        const res = await fetch('/api/pad/' + encodeURIComponent(PAD_ID) + '?v=' + localVersion, {
+          cache: 'no-store'
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (data && data.success) {
+          if (data.version > localVersion && data.content !== editor.value) {
+            setStatus('syncing', 'Atualizando...');
+            
+            // Preserva seleção se focado
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const wasFocused = (document.activeElement === editor);
+
+            editor.value = data.content || '';
+            lastContent = data.content || '';
+            localVersion = data.version;
+
+            if (wasFocused) {
+              try {
+                editor.setSelectionRange(Math.min(start, editor.value.length), Math.min(end, editor.value.length));
+              } catch(e) {}
+            }
+
+            updateCounters();
+            setStatus('saved', 'Sincronizado');
+            syncDeviceTime.innerText = 'Recebido às ' + new Date().toLocaleTimeString('pt-BR');
+            showToast('⚡ Atualizado do outro aparelho!', '🔄');
+          }
+        }
+      } catch (err) {
+        // Silêncio em polling de background
+      }
+    }
+
+    // 11. Eventos do Editor
+    editor.addEventListener('input', () => {
+      isUserTyping = true;
+      setStatus('saving', 'Digitando...');
+      updateCounters();
+
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        isUserTyping = false;
+        triggerSave();
+      }, 400);
+    });
+
+    // Suporte à tecla TAB para indentar ao invés de perder o foco
+    editor.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end);
+        editor.selectionStart = editor.selectionEnd = start + 2;
+        editor.dispatchEvent(new Event('input'));
+      }
+      // Ctrl+S / Cmd+S manual save
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        clearTimeout(saveTimeout);
+        isUserTyping = false;
+        triggerSave(true);
+      }
+    });
+
+    // 12. Sincronização Imediata ao Focar ou Retornar para a Aba
+    window.addEventListener('focus', () => {
+      checkForRemoteUpdates();
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        checkForRemoteUpdates();
+      }
+    });
+
+    window.addEventListener('online', () => {
+      checkForRemoteUpdates();
+    });
+
+    // Inicialização
+    window.addEventListener('DOMContentLoaded', () => {
+      // Carrega preferências salvas
+      const savedTheme = localStorage.getItem('quickpad_theme') || 
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      applyTheme(savedTheme);
+      applyFontSize(currentFontSize);
+      updateCounters();
+
+      // Inicia polling a cada 2.5 segundos
+      pollInterval = setInterval(checkForRemoteUpdates, 2500);
+
+      // Foca no editor suavemente se não for mobile muito pequeno
+      if (window.innerWidth > 768) {
+        editor.focus();
+        editor.selectionStart = editor.selectionEnd = editor.value.length;
+      }
+    });
+  </script>
+</body>
+</html>
