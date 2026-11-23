@@ -648,6 +648,18 @@
               Q10: <strong>C</strong> (Cartaz / Atenção)
             </div>
           </div>
+          <!-- 5º Ano (Novembro/2026 - Oficial Consciência Negra) -->
+          <div class="gabarito-item" data-simulado="campos-5ano-novembro-2026" data-grade="5º Ano" style="background: #faf5ff; border: 1.5px solid #a855f7; border-radius: 12px; padding: 1rem;">
+            <div style="font-weight: 800; color: #581c87; margin-bottom: 0.5rem; border-bottom: 1px solid #d8b4fe; padding-bottom: 0.3rem;">
+              🚀 Gabarito 5º Ano (Novembro/2026 - Oficial)
+            </div>
+            <div style="font-family: monospace; font-size: 0.85rem; color: #4c1d95; line-height: 1.7;">
+              Q01: <strong>C</strong> | Q02: <strong>B</strong> | Q03: <strong>C</strong> | Q04: 📝 <em>Redação</em><br>
+              Q05: <strong>C</strong> | Q06: <strong>B</strong> | Q07: <strong>B</strong> (R$ 46,00) | Q08: <strong>C</strong> (48)<br>
+              Q09: <strong>D</strong> (75%) | Q10: <strong>C</strong> (R$ 255,00) | Q11: <strong>C</strong> (60) | Q12: <strong>B</strong> (R$ 74,00)<br>
+              Q13: <strong>B</strong> | Q14: <strong>A</strong>
+            </div>
+          </div>
           <!-- 4º Ano (Outubro/2026 - Oficial Blocos 1 e 2) -->
           <div class="gabarito-item" data-simulado="campos-4ano-outubro-2026" data-grade="4º Ano" style="background: #eef2ff; border: 1.5px solid #a5b4fc; border-radius: 12px; padding: 1rem;">
             <div style="font-weight: 800; color: #4338ca; margin-bottom: 0.5rem; border-bottom: 1px solid #c7d2fe; padding-bottom: 0.3rem;">
@@ -851,6 +863,7 @@
               <option value="campos-2ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-2ano-novembro-2026" || simuladoId === "simulado-campos-2ano-novembro-2026")) ? "selected" : "" %>>🥈 2º Ano (Novembro/2026 - Oficial)</option>
               <option value="campos-3ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-3ano-novembro-2026" || simuladoId === "simulado-campos-3ano-novembro-2026")) ? "selected" : "" %>>⭐ 3º Ano (Novembro/2026 - Oficial)</option>
               <option value="campos-4ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-4ano-novembro-2026" || simuladoId === "simulado-campos-4ano-novembro-2026")) ? "selected" : "" %>>🏅 4º Ano (Novembro/2026 - Oficial)</option>
+              <option value="campos-5ano-novembro-2026" <%= (typeof simuladoId !== "undefined" && (simuladoId === "campos-5ano-novembro-2026" || simuladoId === "simulado-campos-5ano-novembro-2026")) ? "selected" : "" %>>🚀 5º Ano (Novembro/2026 - Oficial)</option>
             </optgroup>
             <option value="ALL" <%= (typeof simuladoId !== 'undefined' && simuladoId === 'ALL') ? 'selected' : '' %>>Todos os Simulados (1º ao 5º)</option>
             <optgroup label="🌟 Edição Oficial Outubro/2026">
@@ -1066,10 +1079,12 @@
                 'campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
                 'campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
                 'campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
+                'campos-5ano-novembro-2026': { 1:'C', 2:'B', 3:'C', 5:'C', 6:'B', 7:'B', 8:'C', 9:'D', 10:'C', 11:'C', 12:'B', 13:'B', 14:'A' },
                 'simulado-campos-1ano-novembro-2026': { 2:'A', 3:'A', 4:'A', 5:'A', 6:'B', 7:'D', 8:'B', 9:'A', 10:'A' },
                 'simulado-campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
                 'simulado-campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
                 'simulado-campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
+                'simulado-campos-5ano-novembro-2026': { 1:'C', 2:'B', 3:'C', 5:'C', 6:'B', 7:'B', 8:'C', 9:'D', 10:'C', 11:'C', 12:'B', 13:'B', 14:'A' },
                 'campos-2ano-outubro-2026': { 1:'C', 2:'C', 3:'A', 5:'A', 6:'C', 7:'C', 8:'B', 9:'C', 10:'C', 11:'B' },
                 'campos-4ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'B', 6:'C', 7:'B', 8:'C', 9:'C', 10:'C' },
                 'campos-1ano-outubro-2026': { 1:'D', 2:'B', 3:'C', 4:'A', 5:'A', 6:'C', 7:'C', 8:'D', 9:'B', 10:'D' },
@@ -1150,6 +1165,8 @@
                       let tableQList = [];
                       if (simId.includes('3ano-novembro')) {
                         for(let q=1; q<=15; q++) tableQList.push(String(q));
+                      } else if (simId.includes('5ano-novembro')) {
+                        for(let q=1; q<=14; q++) tableQList.push(String(q));
                       } else if (simId === 'campos-3ano-outubro-2026') {
                         tableQList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10A', '10B', '10C'];
                       } else if (simId === 'campos-5ano-outubro-2026') {
@@ -1168,6 +1185,7 @@
                                         (simId.includes('2ano-novembro') && qKey === '4') ||
                                         (simId.includes('3ano-novembro') && qKey === '5') ||
                                         (simId.includes('4ano-novembro') && qKey === '3') ||
+                                        (simId.includes('5ano-novembro') && qKey === '4') ||
                                         (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
                                         (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                         (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
@@ -1181,6 +1199,7 @@
                                           (simId.includes('2ano-novembro') && qKey === '4') ? 'Ditado: 3 Frases' :
                                           (simId.includes('3ano-novembro') && qKey === '5') ? 'Produção: Cartaz e Frase' :
                                           (simId.includes('4ano-novembro') && qKey === '3') ? 'Produção Textual: Narrativa' :
+                                          (simId.includes('5ano-novembro') && qKey === '4') ? 'Redação: Conscientização' :
                                           (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
                                           (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
                                           (simId === 'campos-2ano-outubro-2026' || simId === 'campos-2ano-setembro-2026' ? 'Ditado de Frases' : (simId === 'campos-3ano-setembro-2026' ? 'Produção Artística/Textual' : 'Produção Textual'));
@@ -1230,6 +1249,8 @@
                         let qList = [];
                         if (simId.includes('3ano-novembro')) {
                           for(let q=1; q<=15; q++) qList.push(String(q));
+                        } else if (simId.includes('5ano-novembro')) {
+                          for(let q=1; q<=14; q++) qList.push(String(q));
                         } else if (simId === 'campos-3ano-outubro-2026') {
                           qList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10A', '10B', '10C'];
                         } else if (simId === 'campos-5ano-outubro-2026') {
@@ -1246,6 +1267,7 @@
                                           (simId.includes('2ano-novembro') && qKey === '4') ||
                                           (simId.includes('3ano-novembro') && qKey === '5') ||
                                           (simId.includes('4ano-novembro') && qKey === '3') ||
+                                          (simId.includes('5ano-novembro') && qKey === '4') ||
                                           (simId === 'campos-4ano-outubro-2026' && qKey === '3') ||
                                           (simId === 'campos-3ano-outubro-2026' && qKey === '5') ||
                                           (simId === 'campos-5ano-outubro-2026' && qKey === '3') ||
@@ -1259,6 +1281,7 @@
                                             (simId.includes('2ano-novembro') && qKey === '4') ? 'Ditado: 3 Frases' :
                                             (simId.includes('3ano-novembro') && qKey === '5') ? 'Produção: Cartaz e Frase' :
                                             (simId.includes('4ano-novembro') && qKey === '3') ? 'Produção Textual: Narrativa' :
+                                            (simId.includes('5ano-novembro') && qKey === '4') ? 'Redação: Conscientização' :
                                             (simId === 'campos-4ano-outubro-2026' && qKey === '3') ? 'Redação: Uma Comemoração Especial' :
                                             (simId === 'campos-3ano-outubro-2026' && qKey === '5') ? 'Redação: Lugar de Brincar' :
                                             (simId === 'campos-5ano-outubro-2026' && qKey === '3') ? 'Redação: O Segredo da Serra do Mar' :
@@ -1315,10 +1338,12 @@
       'campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
       'campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
       'campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
+      'campos-5ano-novembro-2026': { 1:'C', 2:'B', 3:'C', 5:'C', 6:'B', 7:'B', 8:'C', 9:'D', 10:'C', 11:'C', 12:'B', 13:'B', 14:'A' },
       'simulado-campos-1ano-novembro-2026': { 2:'A', 3:'A', 4:'A', 5:'A', 6:'B', 7:'D', 8:'B', 9:'A', 10:'A' },
       'simulado-campos-2ano-novembro-2026': { 1:'A', 2:'C', 3:'B', 5:'B', 6:'A', 7:'C', 8:'A', 9:'B', 10:'D', 11:'B' },
       'simulado-campos-3ano-novembro-2026': { 1:'B', 2:'A', 3:'A', 4:'B', 6:'C', 7:'A', 8:'C', 9:'C', 10:'C', 11:'C', 12:'B', 13:'C', 14:'B', 15:'B' },
       'simulado-campos-4ano-novembro-2026': { 1:'B', 2:'C', 4:'B', 5:'C', 6:'D', 7:'C', 8:'C', 9:'C', 10:'C' },
+      'simulado-campos-5ano-novembro-2026': { 1:'C', 2:'B', 3:'C', 5:'C', 6:'B', 7:'B', 8:'C', 9:'D', 10:'C', 11:'C', 12:'B', 13:'B', 14:'A' },
       'campos-1ano-outubro-2026': { 1:'D', 2:'B', 3:'C', 4:'A', 5:'A', 6:'C', 7:'C', 8:'D', 9:'B', 10:'D' },
       'campos-2ano-outubro-2026': { 1:'C', 2:'C', 3:'A', 5:'A', 6:'C', 7:'C', 8:'B', 9:'C', 10:'C', 11:'B' },
       'campos-4ano-outubro-2026': { 1:'C', 2:'B', 4:'B', 5:'B', 6:'C', 7:'B', 8:'C', 9:'C', 10:'C' },

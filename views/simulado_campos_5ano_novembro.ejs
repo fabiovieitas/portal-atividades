@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Simulado Oficial 5º Ano — Novembro/2026 | Projeto Campos de Todos Nós</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=DynaPuff:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="/js/simulado_vault.js"></script>
+
+  <style>
+    :root {
+      --primary: #7e22ce;
+      --primary-dark: #581c87;
+      --primary-light: #f3e8ff;
+      --accent: #9333ea;
+      --accent-warm: #f59e0b;
+      --bg-page: #faf5ff;
+      --card-bg: #ffffff;
+      --text-main: #1e1b4b;
+      --text-muted: #4b5563;
+      --border-color: #d8b4fe;
+      --shadow-sm: 0 2px 4px rgba(126, 34, 206, 0.08);
+      --shadow-md: 0 4px 12px rgba(126, 34, 206, 0.12);
+      --shadow-lg: 0 10px 25px rgba(126, 34, 206, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 5rem;
+    }
+
+    .top-banner {
+      background: linear-gradient(135deg, #4c1d95 0%, #581c87 50%, #7e22ce 100%);
+      color: #ffffff;
+      padding: 1.5rem 1rem;
+      border-bottom: 6px solid #a855f7;
+      box-shadow: var(--shadow-md);
+    }
+
+    .top-banner-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+
+    .banner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .banner-title {
+      font-family: 'DynaPuff', cursive;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .banner-sub {
+      font-size: 1.05rem;
+      font-weight: 500;
+      opacity: 0.95;
+      max-width: 680px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .student-info-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .form-control {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      transition: all 0.2s;
+      background: #f8fafc;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.15);
+    }
+
+    .block-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 16px;
+      margin: 2.5rem 0 1.5rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .reading-card {
+      background: #ffffff;
+      border: 2px solid #e9d5ff;
+      border-left: 8px solid var(--primary);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .reading-badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+
+    .reading-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.4rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    .reading-body {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #334155;
+    }
+
+    .reading-body p {
+      margin-bottom: 0.75rem;
+    }
+
+    .reading-source {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 0.5rem;
+      text-align: right;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border: 2px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s;
+    }
+
+    .question-card.answered {
+      border-color: #c084fc;
+      background: #faf5ff;
+    }
+
+    .question-tag {
+      background: var(--primary);
+      color: white;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.25rem 0.75rem;
+      border-radius: 8px;
+    }
+
+    .question-bncc {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-left: 0.5rem;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0.75rem 0 0.5rem;
+      color: #0f172a;
+    }
+
+    .question-text-box {
+      background: #f8fafc;
+      border-left: 4px solid var(--accent);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 1.02rem;
+      line-height: 1.6;
+    }
+
+    .question-img-container {
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .question-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 4px;
+      border: 1px solid #e2e8f0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 1rem;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      cursor: pointer;
+      background: #ffffff;
+      transition: all 0.15s ease-in-out;
+      user-select: none;
+    }
+
+    .option-item:hover {
+      border-color: #c084fc;
+      background: #fdf4ff;
+    }
+
+    .option-item.selected {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .option-letter {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .option-item.selected .option-letter {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .option-text {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1e293b;
+      line-height: 1.4;
+    }
+
+    /* Redação Box */
+    .essay-box {
+      border: 2px dashed #c084fc;
+      background: #faf5ff;
+      border-radius: 14px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .essay-textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 1rem;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      resize: vertical;
+      background: #ffffff;
+    }
+
+    .essay-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.15);
+    }
+
+    .essay-counter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-top: 0.5rem;
+    }
+
+    /* Cartão-Resposta Flutuante */
+    .cr-container {
+      background: #ffffff;
+      border: 3px solid var(--border-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: 2.5rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .cr-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .cr-cell {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .cr-cell:hover {
+      border-color: #c084fc;
+      background: #fdf4ff;
+    }
+
+    .cr-cell.answered {
+      border-color: #8b5cf6;
+      background: #f5f3ff;
+    }
+
+    .cr-cell-q {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    .cr-cell-ans {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #cbd5e1;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #7e22ce 0%, #581c87 100%);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 1.2rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 15px rgba(126, 34, 206, 0.4);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(126, 34, 206, 0.5);
+    }
+
+    .submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Modal de Conclusão */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border-radius: 24px;
+      max-width: 500px;
+      width: 100%;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes modalPop {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-score {
+      font-family: 'DynaPuff', cursive;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 1rem 0;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPO / BANNER OFICIAL -->
+  <header class="top-banner">
+    <div class="top-banner-inner">
+      <div class="banner-badge">
+        <span>🏛️</span> PREFEITURA DE CAMPOS • SEDUCT / PAE
+      </div>
+      <h1 class="banner-title">Simulado Oficial — 5º Ano</h1>
+      <p class="banner-sub">
+        Edição Oficial de Novembro/2026 • Blocos 1 e 2<br>
+        <strong>Consciência Negra, Igualdade Racial, Educação Financeira e Cidadania</strong>
+      </p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- IDENTIFICAÇÃO DO ESTUDANTE -->
+    <section class="student-info-card">
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; color: var(--primary-dark); display: flex; align-items: center; gap: 0.5rem;">
+        <span>👤</span> Dados do Estudante
+      </h2>
+      <div class="info-grid">
+        <div class="form-group" style="grid-column: span 2;">
+          <label for="studentName">Nome Completo do Aluno(a): *</label>
+          <input type="text" id="studentName" class="form-control" placeholder="Digite seu nome completo..." required>
+        </div>
+        <div class="form-group">
+          <label for="schoolName">Escola Municipal: *</label>
+          <select id="schoolName" class="form-control" required>
+            <option value="E.M. José Giró Faísca" selected>E.M. José Giró Faísca</option>
+            <% if (typeof schools !== 'undefined' && schools && schools.length) { %>
+              <% schools.forEach(function(sc) { %>
+                <% const sName = typeof sc === 'string' ? sc : sc.name; %>
+                <% if (sName && sName !== 'E.M. José Giró Faísca') { %>
+                  <option value="<%= sName %>"><%= sName %></option>
+                <% } %>
+              <% }); %>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="className">Turma: *</label>
+          <input type="text" id="className" class="form-control" placeholder="Ex: 501, 502..." value="501" required>
+        </div>
+        <div class="form-group">
+          <label for="shift">Turno: *</label>
+          <select id="shift" class="form-control" required>
+            <option value="Manhã">☀️ Manhã</option>
+            <option value="Tarde">🌤️ Tarde</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCO 1: LÍNGUA PORTUGUESA E PRODUÇÃO TEXTUAL -->
+    <div class="block-header">
+      <span>📖</span> BLOCO 1: LÍNGUA PORTUGUESA E PRODUÇÃO TEXTUAL
+    </div>
+
+    <!-- TEXTO 1 -->
+    <div class="reading-card">
+      <span class="reading-badge">Texto 1 • Para responder às questões 1 a 3</span>
+      <h3 class="reading-title">CONHECER O PASSADO, TRANSFORMAR O PRESENTE</h3>
+      <div class="reading-body" id="text-1">
+        <p>A sociedade brasileira foi construída com a participação de diferentes povos. Entre eles, as populações africanas e afro-brasileiras contribuíram de maneira significativa para a formação histórica e cultural do país. Essas contribuições estão presentes na língua, na música, na culinária, nas artes, nos conhecimentos e em muitas outras dimensões da vida social.</p>
+        <p>Estudar a história e a cultura afro-brasileira <strong>não significa apenas</strong> conhecer acontecimentos do passado. Esse estudo também possibilita compreender situações do presente, reconhecer contribuições historicamente construídas e refletir sobre a importância do respeito e da igualdade racial.</p>
+        <p>A Lei Federal nº 11.645/2008 determina a inclusão, no currículo escolar, do estudo da história e cultura afro-brasileira e indígena. Nesse sentido, a escola constitui um espaço importante para ampliar conhecimentos, questionar preconceitos e promover atitudes de respeito.</p>
+        <p><strong>Por isso</strong>, conhecer diferentes histórias contribui para compreender melhor a sociedade em que vivemos e reconhecer que o respeito à diversidade deve fazer parte das relações cotidianas.</p>
+      </div>
+      <div class="reading-source">FONTE: TEXTO ELABORADO PARA FINS PEDAGÓGICOS COM BASE NA LEI FEDERAL Nº 11.645/2008</div>
+    </div>
+
+    <!-- QUESTÃO 1 -->
+    <div class="question-card" id="card-q1">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag">Questão 01</span>
+          <span class="question-bncc">EF35LP03 • Língua Portuguesa</span>
+        </div>
+      </div>
+      <h3 class="question-title">A ideia central defendida pelo texto é que:</h3>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(1, 'A')">
+          <div class="option-letter" id="opt-1-A">A</div>
+          <div class="option-text">estudar a cultura afro-brasileira é importante apenas para conhecer acontecimentos antigos.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'B')">
+          <div class="option-letter" id="opt-1-B">B</div>
+          <div class="option-text">as contribuições africanas para o Brasil estão presentes somente na música e na culinária.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'C')">
+          <div class="option-letter" id="opt-1-C">C</div>
+          <div class="option-text">conhecer a história e a cultura afro-brasileira contribui para compreender a sociedade e refletir sobre respeito e igualdade racial.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(1, 'D')">
+          <div class="option-letter" id="opt-1-D">D</div>
+          <div class="option-text">estudar diferentes culturas significa considerar que todas possuem exatamente os mesmos costumes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 2 -->
+    <div class="question-card" id="card-q2">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag">Questão 02</span>
+          <span class="question-bncc">EF35LP05 • Língua Portuguesa</span>
+        </div>
+      </div>
+      <h3 class="question-title">Sentido da Expressão no Contexto</h3>
+      <div class="question-text-box">
+        Leia novamente:<br>
+        <em>"Estudar a história e a cultura afro-brasileira <strong>não significa apenas</strong> conhecer acontecimentos do passado."</em>
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        A expressão destacada indica que:
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(2, 'A')">
+          <div class="option-letter" id="opt-2-A">A</div>
+          <div class="option-text">conhecer o passado não possui importância.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'B')">
+          <div class="option-letter" id="opt-2-B">B</div>
+          <div class="option-text">esse estudo possui uma finalidade mais ampla do que somente conhecer fatos históricos.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'C')">
+          <div class="option-letter" id="opt-2-C">C</div>
+          <div class="option-text">somente acontecimentos atuais devem ser estudados.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(2, 'D')">
+          <div class="option-letter" id="opt-2-D">D</div>
+          <div class="option-text">a cultura afro-brasileira pertence exclusivamente ao passado.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 3 -->
+    <div class="question-card" id="card-q3">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag">Questão 03</span>
+          <span class="question-bncc">EF05LP07 • Língua Portuguesa</span>
+        </div>
+      </div>
+      <h3 class="question-title">Relação Estabelecida pelo Conectivo</h3>
+      <div class="question-text-box">
+        No último parágrafo, a expressão <strong>"Por isso"</strong> estabelece uma relação de:
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(3, 'A')">
+          <div class="option-letter" id="opt-3-A">A</div>
+          <div class="option-text">oposição.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'B')">
+          <div class="option-letter" id="opt-3-B">B</div>
+          <div class="option-text">dúvida.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'C')">
+          <div class="option-letter" id="opt-3-C">C</div>
+          <div class="option-text">conclusão.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(3, 'D')">
+          <div class="option-letter" id="opt-3-D">D</div>
+          <div class="option-text">comparação.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 4 (PRODUÇÃO TEXTUAL / REDAÇÃO) -->
+    <div class="question-card" id="card-q4">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #f59e0b;">Questão 04 • Produção Textual</span>
+          <span class="question-bncc">EF15LP05 / EF35LP07 / EF05HI04 • Língua Portuguesa e História</span>
+        </div>
+      </div>
+      <h3 class="question-title" style="color: #b45309;">A escola realizará a campanha:</h3>
+      <div class="question-img-container">
+        <img src="/img/simulados/novembro-5ano/q4_campanha_respeito.png?v=20261123" alt="Campanha: Conhecer Histórias, Valorizar Culturas e Respeitar as Diferenças" class="question-img" style="max-height: 280px;">
+      </div>
+      <div class="question-text-box" style="background: #fffbeb; border-color: #f59e0b;">
+        <h4 style="font-family: 'Fredoka', sans-serif; font-size: 1.15rem; color: #92400e; margin-bottom: 0.5rem; text-align: center;">
+          RESPEITO, IGUALDADE E ESCOLHAS CONSCIENTES
+        </h4>
+        <p style="font-size: 1rem; color: #78350f; margin-bottom: 0.5rem;">
+          Produza um pequeno texto de conscientização para a comunidade escolar. Em seu texto:
+        </p>
+        <ul style="margin-left: 1.5rem; color: #78350f; font-size: 0.95rem; line-height: 1.6;">
+          <li>explique por que conhecer e valorizar a cultura afro-brasileira é importante;</li>
+          <li>apresente uma atitude que contribua para relações baseadas no respeito e na igualdade;</li>
+          <li>explique por que devemos planejar antes de gastar dinheiro;</li>
+          <li>apresente um exemplo de consumo consciente;</li>
+          <li>finalize com uma frase que incentive o leitor a agir.</li>
+        </ul>
+      </div>
+
+      <div class="essay-box">
+        <label for="essayText" style="font-weight: 700; color: #581c87; display: block; margin-bottom: 0.5rem;">
+          ✍️ Digite aqui seu texto de conscientização:
+        </label>
+        <textarea id="essayText" class="essay-textarea" placeholder="Escreva seu texto aqui com suas próprias palavras..." oninput="handleEssayInput(this)"></textarea>
+        <div class="essay-counter">
+          <span id="essayWordCount">0 palavras</span>
+          <span id="essayLineCount">0 linhas preenchidas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEXTO 2 -->
+    <div class="reading-card" style="border-left-color: #9333ea;">
+      <span class="reading-badge" style="background: #fae8ff; color: #86198f;">Texto 2 • Para responder às questões 5 e 6</span>
+      <h3 class="reading-title" style="color: #86198f;">ESCOLHAS QUE FAZEM DIFERENÇA</h3>
+      <div class="reading-body" id="text-2">
+        <p>Como parte do projeto sobre <strong>Consciência Negra</strong>, os estudantes organizaram uma feira cultural. Os grupos produziram marcadores de livros, cadernos artesanais e cartões inspirados nos conteúdos estudados.</p>
+        <p>Antes de produzir os materiais, <strong>porém</strong>, a professora propôs um desafio: cada grupo deveria elaborar um pequeno orçamento. Era necessário calcular quanto seria gasto, comparar preços e evitar desperdícios.</p>
+        <p>Dandara percebeu que o produto de menor preço nem sempre representava a melhor escolha. Era preciso considerar a quantidade, a qualidade, a necessidade e o dinheiro disponível.</p>
+        <p>— <em>Então, fazer uma boa escolha não significa simplesmente comprar o produto mais barato!</em> — concluiu Dandara.</p>
+        <p>A atividade ajudou a turma a perceber que planejamento financeiro envolve analisar informações antes de tomar decisões.</p>
+      </div>
+      <div class="reading-source">FONTE: TEXTO ELABORADO E ADAPTADO PARA FINS PEDAGÓGICOS</div>
+    </div>
+
+    <!-- QUESTÃO 5 -->
+    <div class="question-card" id="card-q5">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag">Questão 05</span>
+          <span class="question-bncc">EF35LP04 • Língua Portuguesa</span>
+        </div>
+      </div>
+      <h3 class="question-title">Critérios para uma Compra Consciente</h3>
+      <div class="question-text-box">
+        A conclusão de Dandara mostra que, para fazer uma compra consciente, é importante:
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(5, 'A')">
+          <div class="option-letter" id="opt-5-A">A</div>
+          <div class="option-text">escolher sempre o produto de menor preço.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'B')">
+          <div class="option-letter" id="opt-5-B">B</div>
+          <div class="option-text">comprar a maior quantidade possível.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'C')">
+          <div class="option-letter" id="opt-5-C">C</div>
+          <div class="option-text">considerar diferentes informações antes de decidir.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(5, 'D')">
+          <div class="option-letter" id="opt-5-D">D</div>
+          <div class="option-text">gastar todo o dinheiro disponível.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 6 -->
+    <div class="question-card" id="card-q6">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag">Questão 06</span>
+          <span class="question-bncc">EF05LP07 • Língua Portuguesa</span>
+        </div>
+      </div>
+      <h3 class="question-title">Sentido do Conectivo no Trecho</h3>
+      <div class="question-text-box">
+        No trecho <em>"Antes de produzir os materiais, <strong>porém</strong>, a professora propôs um desafio"</em>, a palavra <strong>"porém"</strong> mostra que a informação apresentada:
+      </div>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(6, 'A')">
+          <div class="option-letter" id="opt-6-A">A</div>
+          <div class="option-text">completa uma conclusão.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'B')">
+          <div class="option-letter" id="opt-6-B">B</div>
+          <div class="option-text">apresenta uma ideia diferente da anterior.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'C')">
+          <div class="option-letter" id="opt-6-C">C</div>
+          <div class="option-text">explica o motivo da feira cultural.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(6, 'D')">
+          <div class="option-letter" id="opt-6-D">D</div>
+          <div class="option-text">indica o objetivo da atividade.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCO 2: MATEMÁTICA, EDUCAÇÃO FINANCEIRA, HISTÓRIA, GEOGRAFIA E ARTE -->
+    <div class="block-header" style="background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);">
+      <span>🔢</span> BLOCO 2: MATEMÁTICA, HISTÓRIA, GEOGRAFIA E ARTE
+    </div>
+
+    <!-- QUESTÃO 7 -->
+    <div class="question-card" id="card-q7">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #0d9488;">Questão 07</span>
+          <span class="question-bncc" style="color: #0d9488;">EF05MA07 • Matemática e Educação Financeira</span>
+        </div>
+      </div>
+      <h3 class="question-title">Pesquisa de Preços para a Feira Cultural</h3>
+      <div class="question-text-box">
+        Para produzir os <strong>materiais da feira</strong>, os estudantes pesquisaram os preços em três lojas:
+      </div>
+      <div class="question-img-container">
+        <img src="/img/simulados/novembro-5ano/q7_tabela_materiais.png?v=20261123" alt="Tabela de Materiais: 100 folhas, Tinta e Fita nas Lojas A, B e C" class="question-img" style="max-height: 220px;">
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        Se o grupo comprar <strong>um item de cada tipo</strong> sempre na loja em que ele estiver mais barato, quanto gastará?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(7, 'A')">
+          <div class="option-letter" id="opt-7-A">A</div>
+          <div class="option-text">R$ 44,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'B')">
+          <div class="option-letter" id="opt-7-B">B</div>
+          <div class="option-text">R$ 46,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'C')">
+          <div class="option-letter" id="opt-7-C">C</div>
+          <div class="option-text">R$ 48,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(7, 'D')">
+          <div class="option-letter" id="opt-7-D">D</div>
+          <div class="option-text">R$ 50,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 8 -->
+    <div class="question-card" id="card-q8">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #0d9488;">Questão 08</span>
+          <span class="question-bncc" style="color: #0d9488;">EF05MA08 • Matemática</span>
+        </div>
+      </div>
+      <h3 class="question-title">Cálculo de Fração de uma Quantidade</h3>
+      <div class="question-text-box">
+        Para a feira cultural, os estudantes produziram <strong>120 itens</strong>, entre marcadores de livros, cartões e cadernos artesanais. Desse total, <strong>1/4</strong> eram marcadores e <strong>2/5</strong> eram cartões. Os demais itens eram cadernos.
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        De acordo com essas informações, quantos cartões foram produzidos para a feira?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(8, 'A')">
+          <div class="option-letter" id="opt-8-A">A</div>
+          <div class="option-text">30 cartões</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'B')">
+          <div class="option-letter" id="opt-8-B">B</div>
+          <div class="option-text">40 cartões</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'C')">
+          <div class="option-letter" id="opt-8-C">C</div>
+          <div class="option-text">48 cartões</div>
+        </div>
+        <div class="option-item" onclick="selectOption(8, 'D')">
+          <div class="option-letter" id="opt-8-D">D</div>
+          <div class="option-text">60 cartões</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 9 -->
+    <div class="question-card" id="card-q9">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #0d9488;">Questão 09</span>
+          <span class="question-bncc" style="color: #0d9488;">EF05MA06 • Matemática e Educação Financeira</span>
+        </div>
+      </div>
+      <h3 class="question-title">Porcentagem da Meta de Arrecadação</h3>
+      <div class="question-text-box">
+        Durante a feira cultural, a turma estabeleceu como meta arrecadar <strong>R$ 800,00</strong> com a venda dos produtos produzidos pelos estudantes. Ao final da manhã, já havia arrecadado <strong>R$ 600,00</strong>.
+      </div>
+      <div class="question-img-container">
+        <img src="/img/simulados/novembro-5ano/q9_jacare_cartaz.png?v=20261123" alt="Mascote segurando cartaz da Consciência Negra" class="question-img" style="max-height: 200px;">
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        Qual porcentagem da meta de arrecadação a turma já havia alcançado?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(9, 'A')">
+          <div class="option-letter" id="opt-9-A">A</div>
+          <div class="option-text">60%</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'B')">
+          <div class="option-letter" id="opt-9-B">B</div>
+          <div class="option-text">65%</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'C')">
+          <div class="option-letter" id="opt-9-C">C</div>
+          <div class="option-text">70%</div>
+        </div>
+        <div class="option-item" onclick="selectOption(9, 'D')">
+          <div class="option-letter" id="opt-9-D">D</div>
+          <div class="option-text">75%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 10 -->
+    <div class="question-card" id="card-q10">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #0d9488;">Questão 10</span>
+          <span class="question-bncc" style="color: #0d9488;">EF05MA08 • Matemática</span>
+        </div>
+      </div>
+      <h3 class="question-title">Divisão Igualitária dos Recursos Arrecadados</h3>
+      <div class="question-text-box">
+        Durante a feira cultural, a turma arrecadou <strong>R$ 1.275,00</strong> com a venda dos produtos. Após a atividade, os estudantes decidiram distribuir esse valor igualmente entre <strong>5 ações</strong> planejadas pela turma.
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        Qual será o valor destinado a cada uma dessas ações?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(10, 'A')">
+          <div class="option-letter" id="opt-10-A">A</div>
+          <div class="option-text">R$ 245,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'B')">
+          <div class="option-letter" id="opt-10-B">B</div>
+          <div class="option-text">R$ 250,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'C')">
+          <div class="option-letter" id="opt-10-C">C</div>
+          <div class="option-text">R$ 255,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(10, 'D')">
+          <div class="option-letter" id="opt-10-D">D</div>
+          <div class="option-text">R$ 265,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 11 -->
+    <div class="question-card" id="card-q11">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #0d9488;">Questão 11</span>
+          <span class="question-bncc" style="color: #0d9488;">EF05MA12 • Matemática</span>
+        </div>
+      </div>
+      <h3 class="question-title">Proporcionalidade Direta na Confecção de Cadernos</h3>
+      <div class="question-text-box">
+        Para a feira cultural, um grupo de estudantes está produzindo cadernos artesanais. Para confeccionar <strong>8 cadernos</strong>, são utilizadas <strong>24 folhas especiais</strong>. Todos os cadernos são feitos com a mesma quantidade de folhas.
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        Quantas folhas especiais serão necessárias para produzir 20 cadernos?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(11, 'A')">
+          <div class="option-letter" id="opt-11-A">A</div>
+          <div class="option-text">48 folhas</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'B')">
+          <div class="option-letter" id="opt-11-B">B</div>
+          <div class="option-text">54 folhas</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'C')">
+          <div class="option-letter" id="opt-11-C">C</div>
+          <div class="option-text">60 folhas</div>
+        </div>
+        <div class="option-item" onclick="selectOption(11, 'D')">
+          <div class="option-letter" id="opt-11-D">D</div>
+          <div class="option-text">72 folhas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 12 -->
+    <div class="question-card" id="card-q12">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #0d9488;">Questão 12</span>
+          <span class="question-bncc" style="color: #0d9488;">EF05MA08 / EF05MA07 • Matemática e Educação Financeira</span>
+        </div>
+      </div>
+      <h3 class="question-title">Compra de Livros para o Acervo da Biblioteca</h3>
+      <div class="question-text-box">
+        Durante a organização da Feira da Consciência Negra, a escola decidiu ampliar o acervo da biblioteca com livros sobre história e cultura afro-brasileira.<br>
+        Para isso, serão comprados <strong>18 livros</strong>, e cada exemplar custa <strong>R$ 32,00</strong>. A escola reservou <strong>R$ 650,00</strong> para realizar essa compra.
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        Após pagar pelos 18 livros, quanto restará do valor reservado?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(12, 'A')">
+          <div class="option-letter" id="opt-12-A">A</div>
+          <div class="option-text">R$ 64,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(12, 'B')">
+          <div class="option-letter" id="opt-12-B">B</div>
+          <div class="option-text">R$ 74,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(12, 'C')">
+          <div class="option-letter" id="opt-12-C">C</div>
+          <div class="option-text">R$ 84,00</div>
+        </div>
+        <div class="option-item" onclick="selectOption(12, 'D')">
+          <div class="option-letter" id="opt-12-D">D</div>
+          <div class="option-text">R$ 94,00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 13 -->
+    <div class="question-card" id="card-q13">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #0284c7;">Questão 13</span>
+          <span class="question-bncc" style="color: #0284c7;">EF05GE02 • Geografia</span>
+        </div>
+      </div>
+      <h3 class="question-title">Diversidade Étnico-Cultural e Tradições</h3>
+      <div class="question-text-box">
+        A cultura afro-brasileira faz parte da história do Brasil e está presente em diferentes aspectos da nossa sociedade, como <strong>na música, na dança, na culinária, nas festas e nas tradições</strong>.
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        Por que é importante conhecer e valorizar a cultura afro-brasileira?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(13, 'A')">
+          <div class="option-letter" id="opt-13-A">A</div>
+          <div class="option-text">porque somente algumas pessoas fazem parte da história do Brasil.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(13, 'B')">
+          <div class="option-letter" id="opt-13-B">B</div>
+          <div class="option-text">porque ajuda a reconhecer a contribuição dos povos africanos e afro-brasileiros para a formação da sociedade brasileira.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(13, 'C')">
+          <div class="option-letter" id="opt-13-C">C</div>
+          <div class="option-text">porque as tradições antigas não fazem parte da vida atual.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(13, 'D')">
+          <div class="option-letter" id="opt-13-D">D</div>
+          <div class="option-text">porque todas as culturas brasileiras possuem a mesma história.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUESTÃO 14 -->
+    <div class="question-card" id="card-q14">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span class="question-tag" style="background: #ea580c;">Questão 14</span>
+          <span class="question-bncc" style="color: #ea580c;">EF05HI04 / EF15AR25 • História e Arte</span>
+        </div>
+      </div>
+      <h3 class="question-title">Feira Cultural: Expressões e Reconhecimento da Diversidade</h3>
+      <div class="question-text-box">
+        Durante a <strong>Feira da Consciência Negra</strong>, os estudantes apresentaram trabalhos sobre a história, as tradições e as contribuições da população negra para a formação do Brasil:
+      </div>
+      <div class="question-img-container">
+        <img src="/img/simulados/novembro-5ano/q14_feira_cultural.png?v=20261123" alt="Tirinha dos 4 quadrinhos da Feira Cultural da Consciência Negra" class="question-img" style="max-height: 380px;">
+      </div>
+      <p style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e1b4b;">
+        Qual é a importância de realizar atividades como essa na escola?
+      </p>
+      <div class="options-grid">
+        <div class="option-item" onclick="selectOption(14, 'A')">
+          <div class="option-letter" id="opt-14-A">A</div>
+          <div class="option-text">conhecer e valorizar a cultura afro-brasileira e sua participação na história do Brasil.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(14, 'B')">
+          <div class="option-letter" id="opt-14-B">B</div>
+          <div class="option-text">estudar somente os costumes que existem atualmente.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(14, 'C')">
+          <div class="option-letter" id="opt-14-C">C</div>
+          <div class="option-text">mostrar que apenas um grupo contribuiu para a formação da sociedade brasileira.</div>
+        </div>
+        <div class="option-item" onclick="selectOption(14, 'D')">
+          <div class="option-letter" id="opt-14-D">D</div>
+          <div class="option-text">substituir o estudo da História por apresentações culturais.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARTÃO-RESPOSTA INTERATIVO (ESPELHO) -->
+    <section class="cr-container" id="gabarito-section">
+      <div class="cr-title">
+        <span>📋</span> Cartão-Resposta • Espelho de Envio
+      </div>
+      <p style="font-size: 0.95rem; color: #64748b;">
+        Confira abaixo o preenchimento de cada uma das 14 questões antes de finalizar:
+      </p>
+      <div class="cr-grid" id="crGrid">
+        <!-- Gerado via JavaScript para as 14 questões -->
+      </div>
+
+      <button type="button" class="submit-btn" id="submitBtn" onclick="submitSimulado()">
+        <span>🚀</span> Finalizar e Enviar Simulado
+      </button>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE SUCESSO -->
+  <div class="modal-backdrop" id="resultModal">
+    <div class="modal-content">
+      <div style="font-size: 3.5rem;">🎉</div>
+      <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem; color: var(--primary-dark); margin: 0.5rem 0;">
+        Simulado Enviado com Sucesso!
+      </h2>
+      <p style="color: #64748b; font-size: 1.05rem;">
+        Parabéns por concluir sua avaliação oficial com dedicação e empenho!
+      </p>
+      <div class="modal-score" id="modalScore">14</div>
+      <p style="font-weight: 700; color: #475569; margin-bottom: 1rem;">
+        questões registradas com aproveitamento
+      </p>
+      <div id="modalDetails" style="background: #f8fafc; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.95rem; color: #334155; text-align: left; line-height: 1.6;">
+      </div>
+      <button type="button" onclick="window.location.href='/'" style="background: var(--primary); color: white; border: none; border-radius: 12px; padding: 0.85rem 1.75rem; font-family: 'Fredoka', sans-serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%;">
+        Voltar para a Página Inicial
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Gabarito Oficial SEDUCT (14 Questões: Q4 é Redação)
+    const correctAnswers = {
+      1: 'C',
+      2: 'B',
+      3: 'C',
+      4: 'DISSERTATIVA', // Redação / Produção Textual
+      5: 'C',
+      6: 'B',
+      7: 'B',
+      8: 'C',
+      9: 'D',
+      10: 'C',
+      11: 'C',
+      12: 'B',
+      13: 'B',
+      14: 'A'
+    };
+
+    const userAnswers = {};
+    let isSubmitting = false;
+
+    // Inicialização da grade do Cartão-Resposta
+    function initCRGrid() {
+      const grid = document.getElementById('crGrid');
+      grid.innerHTML = '';
+      for (let i = 1; i <= 14; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cr-cell';
+        cell.id = `cr-cell-${i}`;
+        cell.onclick = () => scrollToCard(i);
+
+        if (i === 4) {
+          cell.innerHTML = `
+            <span class="cr-cell-q">Q04 (Redação)</span>
+            <span class="cr-cell-ans" id="cr-ans-4" style="font-size: 0.9rem;">✍️</span>
+          `;
+        } else {
+          const numStr = i < 10 ? `0${i}` : `${i}`;
+          cell.innerHTML = `
+            <span class="cr-cell-q">Questão ${numStr}</span>
+            <span class="cr-cell-ans" id="cr-ans-${i}">-</span>
+          `;
+        }
+        grid.appendChild(cell);
+      }
+    }
+
+    function scrollToCard(qNum) {
+      const card = document.getElementById(`card-q${qNum}`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // Seleção de alternativa
+    function selectOption(qNum, letter) {
+      userAnswers[qNum] = letter;
+
+      // Atualiza interface do card
+      const card = document.getElementById(`card-q${qNum}`);
+      if (card) {
+        card.classList.add('answered');
+        const items = card.querySelectorAll('.option-item');
+        items.forEach(it => it.classList.remove('selected'));
+        const optLetter = card.querySelector(`#opt-${qNum}-${letter}`);
+        if (optLetter && optLetter.parentElement) {
+          optLetter.parentElement.classList.add('selected');
+        }
+      }
+
+      // Atualiza cartão-resposta
+      const crAns = document.getElementById(`cr-ans-${qNum}`);
+      const crCell = document.getElementById(`cr-cell-${qNum}`);
+      if (crAns) crAns.innerText = letter;
+      if (crCell) crCell.classList.add('answered');
+
+      saveDraft();
+    }
+
+    // Gerenciamento da Redação (Q4)
+    function handleEssayInput(el) {
+      const val = el.value || '';
+      userAnswers[4] = val;
+
+      const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+      const lines = val.split('\n').filter(l => l.trim().length > 0).length;
+
+      document.getElementById('essayWordCount').innerText = `${words} palavras`;
+      document.getElementById('essayLineCount').innerText = `${lines} linhas preenchidas`;
+
+      const crCell = document.getElementById('cr-cell-4');
+      const crAns = document.getElementById('cr-ans-4');
+      const card = document.getElementById('card-q4');
+
+      if (val.trim().length >= 15) {
+        if (crCell) crCell.classList.add('answered');
+        if (crAns) {
+          crAns.style.color = '#16a34a';
+          crAns.innerText = '✓';
+        }
+        if (card) card.classList.add('answered');
+      } else {
+        if (crCell) crCell.classList.remove('answered');
+        if (crAns) {
+          crAns.style.color = 'var(--primary)';
+          crAns.innerText = '✍️';
+        }
+        if (card) card.classList.remove('answered');
+      }
+
+      saveDraft();
+    }
+
+    // Salvar rascunho local
+    function saveDraft() {
+      try {
+        const draft = {
+          studentName: document.getElementById('studentName')?.value || '',
+          schoolName: document.getElementById('schoolName')?.value || '',
+          className: document.getElementById('className')?.value || '',
+          shift: document.getElementById('shift')?.value || '',
+          answers: userAnswers,
+          timestamp: Date.now()
+        };
+        localStorage.setItem('simulado_5ano_novembro_draft', JSON.stringify(draft));
+      } catch(e) {}
+    }
+
+    // Recuperar rascunho
+    function loadDraft() {
+      try {
+        const raw = localStorage.getItem('simulado_5ano_novembro_draft');
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (draft.studentName) document.getElementById('studentName').value = draft.studentName;
+        if (draft.schoolName) document.getElementById('schoolName').value = draft.schoolName;
+        if (draft.className) document.getElementById('className').value = draft.className;
+        if (draft.shift) document.getElementById('shift').value = draft.shift;
+
+        if (draft.answers) {
+          Object.keys(draft.answers).forEach(qStr => {
+            const q = parseInt(qStr);
+            const val = draft.answers[q];
+            if (q === 4) {
+              const ta = document.getElementById('essayText');
+              if (ta && val) {
+                ta.value = val;
+                handleEssayInput(ta);
+              }
+            } else if (val) {
+              selectOption(q, val);
+            }
+          });
+        }
+      } catch(e) {}
+    }
+
+    // Submissão do simulado
+    async function submitSimulado() {
+      if (isSubmitting) return;
+
+      const studentName = document.getElementById('studentName')?.value.trim();
+      const schoolName = document.getElementById('schoolName')?.value.trim();
+      const className = document.getElementById('className')?.value.trim();
+      const shift = document.getElementById('shift')?.value.trim();
+
+      if (!studentName) {
+        alert('Por favor, informe seu Nome Completo antes de enviar o simulado.');
+        document.getElementById('studentName').focus();
+        return;
+      }
+
+      // Verificação de preenchimento
+      const missing = [];
+      for (let i = 1; i <= 14; i++) {
+        if (i === 4) {
+          const essay = userAnswers[4];
+          if (!essay || essay.trim().length < 15) {
+            missing.push('Questão 04 (Redação)');
+          }
+        } else {
+          if (!userAnswers[i]) {
+            missing.push(`Questão ${i < 10 ? '0' + i : i}`);
+          }
+        }
+      }
+
+      if (missing.length > 0) {
+        const confirmSend = confirm(
+          `Atenção: As seguintes questões ainda não foram respondidas:\n\n${missing.join(', ')}\n\nDeseja enviar o simulado mesmo assim?`
+        );
+        if (!confirmSend) return;
+      }
+
+      isSubmitting = true;
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>⏳</span> Gravando respostas com segurança...';
+
+      // Cálculo de nota
+      let score = 0;
+      for (let i = 1; i <= 14; i++) {
+        if (i === 4) {
+          const red = userAnswers[4];
+          if (red && red.trim().length >= 15) score++;
+        } else {
+          if (userAnswers[i] && userAnswers[i].toUpperCase() === correctAnswers[i]) {
+            score++;
+          }
+        }
+      }
+
+      const essayText = typeof userAnswers[4] === 'string' ? userAnswers[4] : '';
+
+      const payload = {
+        simulado_id: 'campos-5ano-novembro-2026',
+        simuladoId: 'campos-5ano-novembro-2026',
+        student_name: studentName,
+        studentName: studentName,
+        school_name: schoolName,
+        schoolName: schoolName,
+        shift: shift,
+        class_name: className,
+        className: className,
+        grade: '5º Ano',
+        answers_json: userAnswers,
+        answers: userAnswers,
+        score: score,
+        max_score: 14,
+        totalQuestions: 14,
+        essay_text: essayText,
+        submittedAt: new Date().toISOString()
+      };
+
+      if (window.SimuladoVault) {
+        await window.SimuladoVault.submit(payload);
+      } else {
+        try {
+          await fetch('/api/simulado/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } catch(e) {
+          console.warn('Fallback offline save:', e);
+        }
+      }
+
+      // Limpar rascunho
+      localStorage.removeItem('simulado_5ano_novembro_draft');
+
+      // Exibir Modal
+      document.getElementById('modalScore').innerText = score;
+      document.getElementById('modalDetails').innerHTML = `
+        <strong>Aluno(a):</strong> ${studentName}<br>
+        <strong>Escola:</strong> ${schoolName}<br>
+        <strong>Turno:</strong> ${shift} • <strong>Turma:</strong> ${className}<br>
+        <strong>Total de Acertos:</strong> ${score} de 14 questões (${Math.round((score / 14) * 100)}%)
+      `;
+      document.getElementById('resultModal').classList.add('active');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    // Inicialização
+    window.addEventListener('DOMContentLoaded', () => {
+      initCRGrid();
+
+      // Checa parâmetro shift na URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlShift = urlParams.get('shift');
+      if (urlShift && (urlShift.toLowerCase() === 'manha' || urlShift.toLowerCase() === 'tarde')) {
+        const selectShift = document.getElementById('shift');
+        if (selectShift) {
+          selectShift.value = urlShift.toLowerCase() === 'manha' ? 'Manhã' : 'Tarde';
+        }
+      }
+
+      loadDraft();
+    });
+  </script>
+</body>
+</html>

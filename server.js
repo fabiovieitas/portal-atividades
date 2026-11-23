@@ -769,7 +769,7 @@ app.get('/', async (req, res) => {
   const showcaseActivities = await dbHelper.getActivities({});
   const simuladosSetting = await dbHelper.getSetting('simulados_enabled', 'false');
   const defaultSims = JSON.stringify([
-    "campos-1ano-novembro-2026", "campos-2ano-novembro-2026", "campos-3ano-novembro-2026", "campos-4ano-novembro-2026",
+    "campos-1ano-novembro-2026", "campos-2ano-novembro-2026", "campos-3ano-novembro-2026", "campos-4ano-novembro-2026", "campos-5ano-novembro-2026",
     "campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"
   ]);
   const activeSimuladosSetting = await dbHelper.getSetting('active_portal_simulados', defaultSims);
@@ -1192,6 +1192,15 @@ app.get(['/atividades/simulado-campos-4ano-novembro', '/simulado/campos-4ano-nov
   }
 });
 
+app.get(['/atividades/simulado-campos-5ano-novembro', '/simulado/campos-5ano-novembro-2026', '/simulados/5ano-novembro', '/simulado-5ano-novembro', '/simulado/5ano-novembro', '/simulado/5-ano-novembro'], async (req, res) => {
+  try {
+    const schools = await dbHelper.getSchools();
+    res.render('simulado_campos_5ano_novembro', { schools });
+  } catch(e) {
+    res.render('simulado_campos_5ano_novembro', { schools: [] });
+  }
+});
+
 app.get(['/atividades/simulado-campos-1ano-outubro', '/simulado/campos-1ano-outubro-2026', '/simulados/1ano-outubro', '/simulado-1ano-outubro', '/simulado/1ano-outubro'], async (req, res) => {
   try {
     const schools = await dbHelper.getSchools();
@@ -1388,6 +1397,7 @@ app.post(['/api/simulado/submit', '/api/simulados/respostas', '/api/simulados/su
       return res.status(400).json({ success: false, error: 'O nome completo do estudante é obrigatório.' });
     }
     const resolvedMaxScore = Number(max_score || totalQuestions) || (
+      cleanSimId === 'campos-5ano-novembro-2026' ? 14 :
       cleanSimId === 'campos-3ano-novembro-2026' ? 15 :
       cleanSimId === 'campos-1ano-novembro-2026' ? 9 :
       cleanSimId === 'campos-2ano-novembro-2026' ? 10 :
@@ -1613,6 +1623,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
       const shift = (s.shift || 'Manhã').includes('Tarde') ? 'Tarde' : 'Manhã';
       const score = Number(s.score) || 0;
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-5ano-novembro-2026' ? 14 :
         s.simulado_id === 'campos-3ano-novembro-2026' ? 15 :
         s.simulado_id === 'campos-1ano-novembro-2026' ? 9 :
         s.simulado_id === 'campos-2ano-novembro-2026' ? 10 :
@@ -1693,6 +1704,7 @@ app.get('/admin/simulado/relatorio-op', requireAdmin, async (req, res) => {
     const totalStudents = submissions.length;
     const avgGlobalScoreNorm = totalStudents > 0 ? (submissions.reduce((acc, s) => {
       const maxScore = Number(s.max_score) || (
+        s.simulado_id === 'campos-5ano-novembro-2026' ? 14 :
         s.simulado_id === 'campos-3ano-novembro-2026' ? 15 :
         s.simulado_id === 'campos-1ano-novembro-2026' ? 9 :
         s.simulado_id === 'campos-2ano-novembro-2026' ? 10 :
@@ -3547,7 +3559,7 @@ app.post('/admin/settings', requireAdmin, async (req, res) => {
 
 app.get('/api/admin/portal-simulados', async (req, res) => {
   try {
-    const defaultList = '["campos-1ano-novembro-2026", "campos-2ano-novembro-2026", "campos-3ano-novembro-2026", "campos-4ano-novembro-2026", "campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]';
+    const defaultList = '["campos-1ano-novembro-2026", "campos-2ano-novembro-2026", "campos-3ano-novembro-2026", "campos-4ano-novembro-2026", "campos-5ano-novembro-2026", "campos-1ano-outubro-2026", "campos-2ano-outubro-2026", "campos-3ano-outubro-2026", "campos-4ano-outubro-2026", "campos-5ano-outubro-2026"]';
     const raw = await dbHelper.getSetting('active_portal_simulados', defaultList);
     let list = [];
     try { list = JSON.parse(raw); } catch(e) { list = JSON.parse(defaultList); }
