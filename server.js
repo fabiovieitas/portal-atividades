@@ -1537,8 +1537,8 @@ app.post('/api/admin/simulado/backup/import', requireAdmin, async (req, res) => 
   }
 });
 
-// Editar registro de aluno no simulado
-app.put('/api/admin/simulado/submission/:id', requireAdmin, async (req, res) => {
+// Editar registro de aluno no simulado (Suporte a PUT e POST)
+const handleSimuladoSubmissionUpdate = async (req, res) => {
   try {
     const { id } = req.params;
     const { student_name, school_name, class_name, shift } = req.body;
@@ -1547,18 +1547,30 @@ app.put('/api/admin/simulado/submission/:id', requireAdmin, async (req, res) => 
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
-});
+};
 
-// Apagar registro de aluno no simulado (Individual)
-app.delete('/api/admin/simulado/submission/:id', requireAdmin, async (req, res) => {
+app.put('/api/admin/simulado/submission/:id', requireAdmin, handleSimuladoSubmissionUpdate);
+app.post('/api/admin/simulado/submission/update/:id', requireAdmin, handleSimuladoSubmissionUpdate);
+app.post('/api/admin/simulado/submission/:id/update', requireAdmin, handleSimuladoSubmissionUpdate);
+
+// Apagar registro de aluno no simulado (Individual - Suporte a DELETE e POST)
+const handleSimuladoSubmissionDelete = async (req, res) => {
   try {
     const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ success: false, error: 'ID da avaliação não fornecido.' });
+    }
     await dbHelper.deleteSimuladoSubmission(id);
     res.json({ success: true, message: 'Registro do estudante apagado com sucesso!' });
   } catch(err) {
+    console.error('[Simulado Delete Route Error]:', err.message);
     res.status(500).json({ success: false, error: err.message });
   }
-});
+};
+
+app.delete('/api/admin/simulado/submission/:id', requireAdmin, handleSimuladoSubmissionDelete);
+app.post('/api/admin/simulado/submission/delete/:id', requireAdmin, handleSimuladoSubmissionDelete);
+app.post('/api/admin/simulado/submission/:id/delete', requireAdmin, handleSimuladoSubmissionDelete);
 
 // Ação em Lote: Apagar múltiplos alunos
 app.post('/api/admin/simulado/submissions/bulk-delete', requireAdmin, async (req, res) => {

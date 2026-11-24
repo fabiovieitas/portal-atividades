@@ -1228,7 +1228,7 @@
                 <td class="no-print" style="white-space: nowrap;">
                   <button class="btn-toggle-answers" onclick="toggleDetails('<%= s.id %>')">👁️ Ver Detalhes</button>
                   <button class="btn-edit" onclick="openEditModal(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`, `<%= s.school_name.replace(/`/g, '') %>`, `<%= s.class_name %>`, `<%= s.shift || 'Manhã' %>`)" style="background:#0284c7; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">✏️ Editar / Mover</button>
-                  <button class="btn-delete" onclick="deleteStudentSubmission(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`)" style="background:#ef4444; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;" title="Apagar esta avaliação permanentemente">🗑️ Apagar</button>
+                  <button class="btn-delete" onclick="deleteStudentSubmission(<%= s.id %>)" style="background:#ef4444; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;" title="Apagar esta avaliação permanentemente">🗑️ Apagar</button>
                 </td>
               </tr>
 
@@ -1811,8 +1811,11 @@
 
     async function deleteSelectedSubmissions() {
       const checked = document.querySelectorAll('.student-checkbox:checked');
-      const ids = Array.from(checked).map(cb => parseInt(cb.value));
-      if (ids.length === 0) return;
+      const ids = Array.from(checked).map(cb => parseInt(cb.value, 10)).filter(n => !isNaN(n));
+      if (ids.length === 0) {
+        alert('Selecione pelo menos um estudante para apagar.');
+        return;
+      }
 
       if (!confirm(`⚠️ Tem certeza que deseja APAGAR permanentemente os ${ids.length} estudante(s) selecionado(s)?\nEsta ação não poderá ser desfeita.`)) {
         return;
@@ -1822,9 +1825,16 @@
         const res = await fetch('/api/admin/simulado/submissions/bulk-delete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ ids })
         });
-        const data = await res.json();
+        let data;
+        try {
+          data = await res.json();
+        } catch(pe) {
+          const text = await res.text();
+          throw new Error(`Falha do servidor (${res.status}): ${text.substring(0, 100)}`);
+        }
         if (data.success) {
           ids.forEach(id => {
             const row = document.getElementById(`student-row-${id}`);
@@ -1836,7 +1846,7 @@
           applyFilters();
           alert(`🗑️ ${ids.length} registro(s) apagado(s) com sucesso!`);
         } else {
-          alert('Erro ao apagar: ' + data.error);
+          alert('Erro ao apagar: ' + (data.error || 'Erro não identificado'));
         }
       } catch(err) {
         alert('Erro ao se comunicar com o servidor: ' + err.message);
@@ -1886,6 +1896,7 @@
         const res = await fetch('/api/admin/simulado/submissions/bulk-move', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({
             ids,
             class_name: targetClass !== 'NO_CHANGE' ? targetClass : undefined,
@@ -1971,6 +1982,7 @@
         const res = await fetch(`/api/admin/simulado/submission/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ student_name, school_name, class_name, shift })
         });
         const data = await res.json();
@@ -2009,14 +2021,37 @@
     }
 
     async function deleteStudentSubmission(id, studentName) {
+      if (!studentName) {
+        const row = document.getElementById(`student-row-${id}`);
+        const nameEl = row ? row.querySelector('.student-name-text') : null;
+        studentName = nameEl ? nameEl.innerText.trim() : `ID #${id}`;
+      }
+
       if (!confirm(`⚠️ Tem certeza que deseja APAGAR permanentemente o registro de "${studentName}"?\nEsta ação não poderá ser desfeita.`)) {
         return;
       }
       try {
-        const res = await fetch(`/api/admin/simulado/submission/${id}`, {
-          method: 'DELETE'
+        let res = await fetch(`/api/admin/simulado/submission/delete/${id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include'
         });
-        const data = await res.json();
+
+        if (res.status === 404 || res.status === 405) {
+          res = await fetch(`/api/admin/simulado/submission/${id}`, {
+            method: 'DELETE',
+            credentials: 'include'
+          });
+        }
+
+        let data;
+        try {
+          data = await res.json();
+        } catch(pe) {
+          const text = await res.text();
+          throw new Error(`Falha do servidor (${res.status}): ${text.substring(0, 100)}`);
+        }
+
         if (data.success) {
           const row = document.getElementById(`student-row-${id}`);
           if (row) row.remove();
@@ -2025,7 +2060,7 @@
           applyFilters();
           alert('🗑️ Registro apagado com sucesso!');
         } else {
-          alert('Erro ao apagar: ' + data.error);
+          alert('Erro ao apagar: ' + (data.error || 'Erro não identificado'));
         }
       } catch(err) {
         alert('Erro ao se comunicar com o servidor: ' + err.message);

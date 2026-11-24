@@ -983,7 +983,12 @@ const dbHelper = {
 
   async deleteSimuladoSubmission(id) {
     try {
-      await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
+      const numId = parseInt(id, 10);
+      if (!isNaN(numId)) {
+        await queryRun("DELETE FROM simulado_submissions WHERE id = ? OR id = ?", [numId, String(id)]);
+      } else {
+        await queryRun("DELETE FROM simulado_submissions WHERE id = ?", [id]);
+      }
       if (supabase) {
         try {
           await supabase.from('simulado_submissions').delete().eq('id', id);
@@ -1002,11 +1007,21 @@ const dbHelper = {
   async bulkDeleteSimuladoSubmissions(ids) {
     if (!Array.isArray(ids) || ids.length === 0) return true;
     try {
-      const placeholders = ids.map(() => '?').join(',');
-      await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, ids);
+      const cleanIds = ids.map(x => parseInt(x, 10)).filter(n => !isNaN(n));
+      const strIds = ids.map(x => String(x).trim()).filter(Boolean);
+      if (cleanIds.length === 0 && strIds.length === 0) return true;
+
+      if (cleanIds.length > 0) {
+        const placeholders = cleanIds.map(() => '?').join(',');
+        await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, cleanIds);
+      }
+      if (strIds.length > 0) {
+        const placeholders = strIds.map(() => '?').join(',');
+        await queryRun(`DELETE FROM simulado_submissions WHERE id IN (${placeholders})`, strIds);
+      }
       if (supabase) {
         try {
-          await supabase.from('simulado_submissions').delete().in('id', ids);
+          await supabase.from('simulado_submissions').delete().in('id', cleanIds.length > 0 ? cleanIds : strIds);
         } catch(e) {
           console.warn('[Supabase Bulk Delete Warn]:', e.message);
         }

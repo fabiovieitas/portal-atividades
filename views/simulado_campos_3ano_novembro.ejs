@@ -1164,9 +1164,12 @@
         Suas respostas foram salvas e enviadas com sucesso para a rede municipal!
       </p>
 
-      <div class="score-circle">
-        <div class="score-num" id="modalScore">0</div>
-        <div class="score-max">de 15 acertos</div>
+      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 1rem; margin: 1.2rem 0; display: flex; align-items: center; gap: 0.8rem; text-align: left;">
+        <span style="font-size: 1.8rem;">✅</span>
+        <div style="font-size: 0.95rem; color: #166534; font-weight: 600;">
+          Comprovante de Envio Registrado!<br>
+          <span style="font-size: 0.85rem; font-weight: 400; color: #15803d;">A avaliação foi salva no sistema com segurança.</span>
+        </div>
       </div>
 
       <div id="modalDetails" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; font-size: 0.95rem; margin-bottom: 1.5rem;">
@@ -1411,13 +1414,12 @@
       // Limpa rascunho local
       localStorage.removeItem('simulado_3ano_novembro_draft');
 
-      // Exibe Modal
-      document.getElementById('modalScore').innerText = score;
+      // Exibe Modal de Confirmação (Sem nota para o aluno)
       document.getElementById('modalDetails').innerHTML = `
-        <strong>Aluno(a):</strong> ${studentName}<br>
-        <strong>Escola:</strong> ${schoolName}<br>
-        <strong>Turno:</strong> ${shift} • <strong>Turma:</strong> ${className}<br>
-        <strong>Aproveitamento:</strong> ${Math.round((score / 15) * 100)}%
+        <div><strong>👤 Estudante:</strong> ${studentName}</div>
+        <div><strong>🏫 Escola:</strong> ${schoolName}</div>
+        <div><strong>🎒 Turma:</strong> ${className} • <strong>Turno:</strong> ${shift}</div>
+        <div style="margin-top: 0.35rem; font-size: 0.85rem; color: #64748b;">🕒 Concluído em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}</div>
       `;
       document.getElementById('resultModal').classList.add('active');
 

@@ -1021,9 +1021,8 @@
       <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
       <h2 style="font-family: 'Fredoka', sans-serif; color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 0.5rem;">Parabéns pelo Esforço!</h2>
       <p style="color: #64748b; font-size: 1rem;">Você completou o Simulado Oficial do 2º Ano com sucesso!</p>
-      <div class="score-circle">
-        <span class="score-num" id="modalScore">0</span>
-        <span class="score-max">de 10 pts</span>
+      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 0.85rem; margin: 1rem 0; font-size: 0.95rem; color: #166534; font-weight: 600;">
+        ✅ Suas respostas foram salvas e enviadas com sucesso!
       </div>
       <div id="modalDitadoFeedback" style="background: #ccfbf1; border: 1.5px solid #5eead4; border-radius: 12px; padding: 0.85rem; font-size: 0.9rem; color: #0f766e; margin-bottom: 1.5rem;">
         ✍️ <strong>Ditado de Frases:</strong> 3 frases registradas para avaliação da professora Sara!
@@ -1295,7 +1294,8 @@ Deseja enviar a avaliação mesmo assim?`);
 
       if (result.success) {
         try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
-        document.getElementById('modalScore').innerText = score;
+        const modalScoreEl = document.getElementById('modalScore');
+        if (modalScoreEl) modalScoreEl.innerText = score;
         document.getElementById('resultModal').classList.add('active');
         if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
       } else {
