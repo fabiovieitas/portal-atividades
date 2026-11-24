@@ -1714,9 +1714,9 @@
           qNums = Object.keys(allAnswerKeys[normSelected]);
         } else if (normSelected.includes('3ano-novembro')) {
           qNums = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'];
+        } else if (normSelected.includes('5ano-novembro')) {
+          qNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
         } else if (normSelected.includes('2ano-novembro') || normSelected.includes('2ano-outubro') || normSelected === 'campos-1ano-setembro-2026' || normSelected === 'campos-2ano-setembro-2026') {
-          qNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
-        }
           qNums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
         }
         qNums.forEach(q => {
@@ -2057,6 +2057,7 @@
           if (row) row.remove();
           const detailRow = document.getElementById(`details-row-${id}`);
           if (detailRow) detailRow.remove();
+          updateBulkActionsBar();
           applyFilters();
           alert('🗑️ Registro apagado com sucesso!');
         } else {
