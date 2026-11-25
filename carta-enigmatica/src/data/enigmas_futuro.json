@@ -15,7 +15,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para liberar a carta.",
             "codigo": "1-3-2"
           },
-          "texto": "O alarme soa! [NOME] precisa encontrar a saída. [E1] [E2] [E3] [E4] parecem ser as chaves para abrir a porta de energia.",
+          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1] (GALÁXIA)! Nossa energia [E2] (SOLAR) caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] (PORTAL) de emergência com um código [E4] (VELOZ)!",
           "enigmas": [
             {
               "id": 1,
@@ -69,7 +69,7 @@
             "instrucao": "Digite o código 3025 no teclado para acessar os arquivos.",
             "codigo": "3025"
           },
-          "texto": "Os dados estão criptografados. [NOME] deve decifrar as palavras para revelar o caminho. [E1] [E2] [E3] [E4] são as peças do quebra-cabeça.",
+          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] (MÁQUINA) do tempo está apitando! Tenha muita [E2] (CORAGEM) para apertar o [E3] (BOTÃO) principal e registrar a [E4] (DATA) de hoje!",
           "enigmas": [
             {
               "id": 1,
@@ -123,7 +123,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para ativar o portal.",
             "codigo": "3"
           },
-          "texto": "A porta está trancada. [NOME] precisa do último código. [E1] [E2] [E3] [E4] formam a palavra final para a fuga.",
+          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] (RADAR) detectou a nave inimiga! Nosso [E2] (PILOTO) viu uma [E3] (CHAMA) azul perto da saída. Até o nosso robô [E4] (CACHORRO) está pronto para voltar para casa!",
           "enigmas": [
             {
               "id": 1,
@@ -167,7 +167,8 @@
             }
           ]
         }
-      ]
+      ],
+      "respostaFinalMestra": "PORTAL DO TEMPO"
     },
     "quartoAno": {
       "titulo": "4º Ano — Código da Nave Temporal",
@@ -184,7 +185,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para estabilizar a nave.",
             "codigo": "1-3-2"
           },
-          "texto": "Os controles estão desligados. [NOME] precisa reativar o sistema. [E1] [E2] [E3] [E4] são as palavras-chave para o primeiro setor.",
+          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1] (GALÁXIA)! Nossa energia [E2] (SOLAR) caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] (PORTAL) de emergência com um código [E4] (VELOZ)!",
           "enigmas": [
             {
               "id": 1,
@@ -238,7 +239,7 @@
             "instrucao": "Digite o código 3025 para abastecer a nave.",
             "codigo": "3025"
           },
-          "texto": "O tanque está vazio. [NOME] deve encontrar o código de abastecimento. [E1] [E2] [E3] [E4] revelam a sequência correta.",
+          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] (MÁQUINA) do tempo está apitando! Tenha muita [E2] (CORAGEM) para apertar o [E3] (BOTÃO) principal e registrar a [E4] (DATA) de hoje!",
           "enigmas": [
             {
               "id": 1,
@@ -292,7 +293,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a identidade.",
             "codigo": "3"
           },
-          "texto": "A nave está pronta. [NOME] precisa confirmar o destino. [E1] [E2] [E3] [E4] formam a palavra final: CASA.",
+          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] (RADAR) detectou a nave inimiga! Nosso [E2] (PILOTO) viu uma [E3] (CHAMA) azul perto da saída. Até o nosso robô [E4] (CACHORRO) está pronto para voltar para casa!",
           "enigmas": [
             {
               "id": 1,
@@ -336,7 +337,8 @@
             }
           ]
         }
-      ]
+      ],
+      "respostaFinalMestra": "VOLTAR PARA CASA"
     },
     "quintoAno": {
       "titulo": "5º Ano — O Núcleo da IA Central",
@@ -353,7 +355,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para acessar o núcleo.",
             "codigo": "1-3-2"
           },
-          "texto": "A IA está monitorando [NOME]. Ele precisa passar pelos servidores. [E1] [E2] [E3] [E4] são as chaves de acesso.",
+          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1] (GALÁXIA)! Nossa energia [E2] (SOLAR) caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] (PORTAL) de emergência com um código [E4] (VELOZ)!",
           "enigmas": [
             {
               "id": 1,
@@ -407,7 +409,7 @@
             "instrucao": "Digite o código 3025 para desligar a IA.",
             "codigo": "3025"
           },
-          "texto": "O processador está quente. [NOME] precisa inserir o código de desligamento. [E1] [E2] [E3] [E4] formam a sequência final.",
+          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] (MÁQUINA) do tempo está apitando! Tenha muita [E2] (CORAGEM) para apertar o [E3] (BOTÃO) principal e registrar a [E4] (DATA) de hoje!",
           "enigmas": [
             {
               "id": 1,
@@ -461,7 +463,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a missão cumprida.",
             "codigo": "3"
           },
-          "texto": "A IA está desligando. [NOME] precisa confirmar a missão. [E1] [E2] [E3] [E4] formam a palavra final: MISSAO.",
+          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] (RADAR) detectou a nave inimiga! Nosso [E2] (PILOTO) viu uma [E3] (CHAMA) azul perto da saída. Até o nosso robô [E4] (CACHORRO) está pronto para voltar para casa!",
           "enigmas": [
             {
               "id": 1,
@@ -505,7 +507,8 @@
             }
           ]
         }
-      ]
+      ],
+      "respostaFinalMestra": "MISSAO CUMPRIDA"
     }
   }
 }
