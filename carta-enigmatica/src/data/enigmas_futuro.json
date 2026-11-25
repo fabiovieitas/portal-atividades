@@ -189,12 +189,12 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "sapo",
-              "sufixo": "- po + a",
-              "operacao": "Adicione 'a' ao final de 'sapo' e remova 'po'.",
-              "resposta": "SAPA",
-              "nome": "SAPO",
-              "dica": "Anfíbio que salta."
+              "imagem": "pato",
+              "sufixo": "- to + ra",
+              "operacao": "PATO - to + ra",
+              "resposta": "PARA",
+              "nome": "PATO",
+              "dica": "PATO sem TO (PA) + RA = PARA"
             },
             {
               "id": 2,
@@ -219,12 +219,12 @@
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "lua",
-              "sufixo": "- ua + a",
-              "operacao": "Adicione 'a' ao final de 'lua' e remova 'ua'.",
-              "resposta": "LUA",
-              "nome": "LUA",
-              "dica": "Brilha à noite."
+              "imagem": "sol",
+              "sufixo": "+ ar",
+              "operacao": "SOL + ar",
+              "resposta": "SOLAR",
+              "nome": "SOL",
+              "dica": "SOL + AR = SOLAR"
             }
           ]
         },
@@ -243,32 +243,32 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "rio",
-              "sufixo": "- io + a",
-              "operacao": "Adicione 'a' ao final de 'rio' e remova 'io'.",
-              "resposta": "RIA",
-              "nome": "RIO",
-              "dica": "Corpo de água doce."
+              "imagem": "vela",
+              "sufixo": "- la + loz",
+              "operacao": "VELA - la + loz",
+              "resposta": "VELOZ",
+              "nome": "VELA",
+              "dica": "VELA sem LA (VE) + LOZ = VELOZ"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "mar",
-              "sufixo": "- ar + a",
-              "operacao": "Adicione 'a' ao final de 'mar' e remova 'ar'.",
-              "resposta": "MAR",
-              "nome": "MAR",
-              "dica": "Água salgada."
+              "imagem": "chave",
+              "sufixo": "- ve + ma",
+              "operacao": "CHAVE - ve + ma",
+              "resposta": "CHAMA",
+              "nome": "CHAVE",
+              "dica": "CHAVE sem VE (CHA) + MA = CHAMA"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "flor",
-              "sufixo": "- or + a",
-              "operacao": "Adicione 'a' ao final de 'flor' e remova 'or'.",
-              "resposta": "FLORA",
-              "nome": "FLOR",
-              "dica": "Planta colorida."
+              "imagem": "porta",
+              "sufixo": "- a + al",
+              "operacao": "PORTA - a + al",
+              "resposta": "PORTAL",
+              "nome": "PORTA",
+              "dica": "PORTA sem A (PORT) + AL = PORTAL"
             },
             {
               "id": 4,
