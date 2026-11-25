@@ -15,7 +15,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para liberar a carta.",
             "codigo": "1-3-2"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1] (GALÁXIA)! Nossa energia [E2] (SOLAR) caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] (PORTAL) de emergência com um código [E4] (VELOZ)!",
+          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1]! Nossa energia [E2] caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] de emergência com um código [E4]!",
           "enigmas": [
             {
               "id": 1,
@@ -69,7 +69,7 @@
             "instrucao": "Digite o código 3025 no teclado para acessar os arquivos.",
             "codigo": "3025"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] (MÁQUINA) do tempo está apitando! Tenha muita [E2] (CORAGEM) para apertar o [E3] (BOTÃO) principal e registrar a [E4] (DATA) de hoje!",
+          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] do tempo está apitando! Tenha muita [E2] para apertar o [E3] principal e registrar a [E4] de hoje!",
           "enigmas": [
             {
               "id": 1,
@@ -123,7 +123,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para ativar o portal.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] (RADAR) detectou a nave inimiga! Nosso [E2] (PILOTO) viu uma [E3] (CHAMA) azul perto da saída. Até o nosso robô [E4] (CACHORRO) está pronto para voltar para casa!",
+          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] detectou a nave inimiga! Nosso [E2] viu uma [E3] azul perto da saída. Até o nosso robô [E4] está pronto para voltar para casa!",
           "enigmas": [
             {
               "id": 1,
@@ -185,7 +185,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para estabilizar a nave.",
             "codigo": "1-3-2"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1] (GALÁXIA)! Nossa energia [E2] (SOLAR) caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] (PORTAL) de emergência com um código [E4] (VELOZ)!",
+          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1]! Nossa energia [E2] caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] de emergência com um código [E4]!",
           "enigmas": [
             {
               "id": 1,
@@ -239,7 +239,7 @@
             "instrucao": "Digite o código 3025 para abastecer a nave.",
             "codigo": "3025"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] (MÁQUINA) do tempo está apitando! Tenha muita [E2] (CORAGEM) para apertar o [E3] (BOTÃO) principal e registrar a [E4] (DATA) de hoje!",
+          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] do tempo está apitando! Tenha muita [E2] para apertar o [E3] principal e registrar a [E4] de hoje!",
           "enigmas": [
             {
               "id": 1,
@@ -293,7 +293,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a identidade.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] (RADAR) detectou a nave inimiga! Nosso [E2] (PILOTO) viu uma [E3] (CHAMA) azul perto da saída. Até o nosso robô [E4] (CACHORRO) está pronto para voltar para casa!",
+          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] detectou a nave inimiga! Nosso [E2] viu uma [E3] azul perto da saída. Até o nosso robô [E4] está pronto para voltar para casa!",
           "enigmas": [
             {
               "id": 1,
@@ -355,7 +355,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para acessar o núcleo.",
             "codigo": "1-3-2"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1] (GALÁXIA)! Nossa energia [E2] (SOLAR) caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] (PORTAL) de emergência com um código [E4] (VELOZ)!",
+          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1]! Nossa energia [E2] caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] de emergência com um código [E4]!",
           "enigmas": [
             {
               "id": 1,
@@ -409,7 +409,7 @@
             "instrucao": "Digite o código 3025 para desligar a IA.",
             "codigo": "3025"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] (MÁQUINA) do tempo está apitando! Tenha muita [E2] (CORAGEM) para apertar o [E3] (BOTÃO) principal e registrar a [E4] (DATA) de hoje!",
+          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] do tempo está apitando! Tenha muita [E2] para apertar o [E3] principal e registrar a [E4] de hoje!",
           "enigmas": [
             {
               "id": 1,
@@ -463,7 +463,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a missão cumprida.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] (RADAR) detectou a nave inimiga! Nosso [E2] (PILOTO) viu uma [E3] (CHAMA) azul perto da saída. Até o nosso robô [E4] (CACHORRO) está pronto para voltar para casa!",
+          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] detectou a nave inimiga! Nosso [E2] viu uma [E3] azul perto da saída. Até o nosso robô [E4] está pronto para voltar para casa!",
           "enigmas": [
             {
               "id": 1,
