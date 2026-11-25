@@ -11,8 +11,8 @@
           "pistaFinal": "PORTAL",
           "escapePuzzle": {
             "tipo": "switches",
-            "titulo": "Ative os Interruptores",
-            "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para liberar a carta.",
+            "titulo": "Ep. 1: Energia do Laboratório",
+            "instrucao": "Episódio 1: Ligue os disjuntores na ordem 1-3-2 para abrir a gaveta.",
             "codigo": "1-3-2"
           },
           "texto": "DIÁRIO DE BORDO (FÁCIL) — DIA 1: Agente [NOME], nossa nave pousou na [E1]! Precisamos de energia [E2] para abrir o [E3] de saída bem [E4]!",
@@ -65,9 +65,10 @@
           "pistaFinal": "DO",
           "escapePuzzle": {
             "tipo": "keypad",
-            "titulo": "Código de Acesso",
+            "titulo": "Ep. 1: Cofre do Diário",
             "instrucao": "Clique no bilhete da mesa e resolva a conta matemática para descobrir o código secreto do cofre!",
-            "codigo": "3025"
+            "codigo": "3025",
+            "conta": "2000 + 1025 = ?"
           },
           "texto": "DIÁRIO DE BORDO (FÁCIL) — DIA 2: Agente [NOME], a [E1] do tempo apitou! Tenha [E2] para apertar o [E3] e salvar a [E4] de hoje!",
           "enigmas": [
@@ -182,9 +183,9 @@
           "pistaFinal": "VOLTAR",
           "escapePuzzle": {
             "tipo": "switches",
-            "titulo": "Sequência de Controles",
-            "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para estabilizar a nave.",
-            "codigo": "1-3-2"
+            "titulo": "Ep. 2: Propulsores da Nave",
+            "instrucao": "Episódio 2: Ligue os propulsores na ordem 3-1-2 para destrancar o painel.",
+            "codigo": "3-1-2"
           },
           "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR ALFA: Agente [NOME], um meteoro atingiu a [E1] vizinha! O painel [E2] desligou e trancou o [E3] principal. Seja [E4]!",
           "enigmas": [
@@ -236,9 +237,10 @@
           "pistaFinal": "PARA",
           "escapePuzzle": {
             "tipo": "keypad",
-            "titulo": "Código do Combustível",
+            "titulo": "Ep. 2: Cofre da Cabine",
             "instrucao": "Clique no bilhete da mesa e resolva a conta matemática para descobrir o código secreto do cofre!",
-            "codigo": "3025"
+            "codigo": "2025",
+            "conta": "1500 + 525 = ?"
           },
           "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR BETA: Agente [NOME], a [E1] central precisa de reparo! Com [E2], aperte o [E3] vermelho e confira a [E4] no visor!",
           "enigmas": [
@@ -353,9 +355,9 @@
           "pistaFinal": "MISSAO",
           "escapePuzzle": {
             "tipo": "switches",
-            "titulo": "Ative os Servidores",
-            "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para acessar o núcleo.",
-            "codigo": "1-3-2"
+            "titulo": "Ep. 3: Escudo da IA Central",
+            "instrucao": "Episódio 3: Desative os nós na ordem 2-3-1 para acessar o núcleo.",
+            "codigo": "2-3-1"
           },
           "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 1: Agente [NOME], a IA bloqueou toda a [E1]! Sem bateria [E2], o [E3] quântico não abre. Aja de modo [E4]!",
           "enigmas": [
@@ -407,9 +409,10 @@
           "pistaFinal": "CUMPRIDA",
           "escapePuzzle": {
             "tipo": "keypad",
-            "titulo": "Código de Desligamento",
+            "titulo": "Ep. 3: Cofre Quântico",
             "instrucao": "Clique no bilhete da mesa e resolva a conta matemática para descobrir o código secreto do cofre!",
-            "codigo": "3025"
+            "codigo": "4999",
+            "conta": "4500 + 499 = ?"
           },
           "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 2: Agente [NOME], a [E1] de dobra espacial travou! Reúna [E2], acione o [E3] mestre e valide a [E4] estelar!",
           "enigmas": [
