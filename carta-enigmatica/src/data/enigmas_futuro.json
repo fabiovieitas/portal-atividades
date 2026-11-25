@@ -1,0 +1,511 @@
+{
+  "niveis": {
+    "terceiroAno": {
+      "titulo": "3º Ano — Fuga do Laboratório 3025",
+      "descricao": "Ajude [NOME] a escapar do laboratório ativando os portais de energia.",
+      "fraseMestra": "PORTAL DO TEMPO",
+      "salas": [
+        {
+          "sala": 1,
+          "nomeSala": "Laboratório de Energia",
+          "pistaFinal": "PORTAL",
+          "escapePuzzle": {
+            "tipo": "switches",
+            "titulo": "Ative os Interruptores",
+            "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para liberar a carta.",
+            "codigo": "1-3-2"
+          },
+          "texto": "O alarme soa! [NOME] precisa encontrar a saída. [E1] [E2] [E3] [E4] parecem ser as chaves para abrir a porta de energia.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "casa",
+              "sufixo": "- sa + do",
+              "operacao": "Adicione 'do' ao final de 'casa' e remova 'sa'.",
+              "resposta": "CASADO",
+              "nome": "CASA",
+              "dica": "Onde moramos."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "pato",
+              "sufixo": "- to + a",
+              "operacao": "Adicione 'a' ao final de 'pato' e remova 'to'.",
+              "resposta": "PATA",
+              "nome": "PATO",
+              "dica": "Ave aquática."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "bola",
+              "sufixo": "- la + o",
+              "operacao": "Adicione 'o' ao final de 'bola' e remova 'la'.",
+              "resposta": "BOLO",
+              "nome": "BOLA",
+              "dica": "Usada no futebol."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "gato",
+              "sufixo": "- to + a",
+              "operacao": "Adicione 'a' ao final de 'gato' e remova 'to'.",
+              "resposta": "GATA",
+              "nome": "GATO",
+              "dica": "Animal de estimação."
+            }
+          ]
+        },
+        {
+          "sala": 2,
+          "nomeSala": "Arquivo Holográfico",
+          "pistaFinal": "DO",
+          "escapePuzzle": {
+            "tipo": "keypad",
+            "titulo": "Código de Acesso",
+            "instrucao": "Digite o código 3025 no teclado para acessar os arquivos.",
+            "codigo": "3025"
+          },
+          "texto": "Os dados estão criptografados. [NOME] deve decifrar as palavras para revelar o caminho. [E1] [E2] [E3] [E4] são as peças do quebra-cabeça.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "cama",
+              "sufixo": "- ma + a",
+              "operacao": "Adicione 'a' ao final de 'cama' e remova 'ma'.",
+              "resposta": "CAMA",
+              "nome": "CAMA",
+              "dica": "Onde dormimos."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "galo",
+              "sufixo": "- lo + a",
+              "operacao": "Adicione 'a' ao final de 'galo' e remova 'lo'.",
+              "resposta": "GALA",
+              "nome": "GALO",
+              "dica": "Ave que canta de manhã."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "copo",
+              "sufixo": "- po + a",
+              "operacao": "Adicione 'a' ao final de 'copo' e remova 'po'.",
+              "resposta": "COPA",
+              "nome": "COPO",
+              "dica": "Usado para beber."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "bolo",
+              "sufixo": "- lo + a",
+              "operacao": "Adicione 'a' ao final de 'bolo' e remova 'lo'.",
+              "resposta": "BOLA",
+              "nome": "BOLO",
+              "dica": "Comida doce."
+            }
+          ]
+        },
+        {
+          "sala": 3,
+          "nomeSala": "Câmara do Portal",
+          "pistaFinal": "TEMPO",
+          "escapePuzzle": {
+            "tipo": "scanner",
+            "titulo": "Escaneamento Final",
+            "instrucao": "Escaneie o objeto 3 vezes para ativar o portal.",
+            "codigo": "3"
+          },
+          "texto": "A porta está trancada. [NOME] precisa do último código. [E1] [E2] [E3] [E4] formam a palavra final para a fuga.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "mala",
+              "sufixo": "- la + a",
+              "operacao": "Adicione 'a' ao final de 'mala' e remova 'la'.",
+              "resposta": "MALA",
+              "nome": "MALA",
+              "dica": "Usada para viajar."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "mesa",
+              "sufixo": "- sa + a",
+              "operacao": "Adicione 'a' ao final de 'mesa' e remova 'sa'.",
+              "resposta": "MESA",
+              "nome": "MESA",
+              "dica": "Móvel para comer."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "vela",
+              "sufixo": "- la + a",
+              "operacao": "Adicione 'a' ao final de 'vela' e remova 'la'.",
+              "resposta": "VELA",
+              "nome": "VELA",
+              "dica": "Ilumina o bolo."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "dado",
+              "sufixo": "- do + a",
+              "operacao": "Adicione 'a' ao final de 'dado' e remova 'do'.",
+              "resposta": "DADA",
+              "nome": "DADO",
+              "dica": "Usado em jogos de tabuleiro."
+            }
+          ]
+        }
+      ]
+    },
+    "quartoAno": {
+      "titulo": "4º Ano — Código da Nave Temporal",
+      "descricao": "Decifre o código da nave para voltar para casa.",
+      "fraseMestra": "VOLTAR PARA CASA",
+      "salas": [
+        {
+          "sala": 1,
+          "nomeSala": "Sala de Controles",
+          "pistaFinal": "VOLTAR",
+          "escapePuzzle": {
+            "tipo": "switches",
+            "titulo": "Sequência de Controles",
+            "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para estabilizar a nave.",
+            "codigo": "1-3-2"
+          },
+          "texto": "Os controles estão desligados. [NOME] precisa reativar o sistema. [E1] [E2] [E3] [E4] são as palavras-chave para o primeiro setor.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "sapo",
+              "sufixo": "- po + a",
+              "operacao": "Adicione 'a' ao final de 'sapo' e remova 'po'.",
+              "resposta": "SAPA",
+              "nome": "SAPO",
+              "dica": "Anfíbio que salta."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "pipa",
+              "sufixo": "- pa + a",
+              "operacao": "Adicione 'a' ao final de 'pipa' e remova 'pa'.",
+              "resposta": "PIPA",
+              "nome": "PIPA",
+              "dica": "Brinca-se no vento."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "sol",
+              "sufixo": "- ol + a",
+              "operacao": "Adicione 'a' ao final de 'sol' e remova 'ol'.",
+              "resposta": "SOLA",
+              "nome": "SOL",
+              "dica": "Estrela do dia."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "lua",
+              "sufixo": "- ua + a",
+              "operacao": "Adicione 'a' ao final de 'lua' e remova 'ua'.",
+              "resposta": "LUA",
+              "nome": "LUA",
+              "dica": "Brilha à noite."
+            }
+          ]
+        },
+        {
+          "sala": 2,
+          "nomeSala": "Câmara de Combustível",
+          "pistaFinal": "PARA",
+          "escapePuzzle": {
+            "tipo": "keypad",
+            "titulo": "Código do Combustível",
+            "instrucao": "Digite o código 3025 para abastecer a nave.",
+            "codigo": "3025"
+          },
+          "texto": "O tanque está vazio. [NOME] deve encontrar o código de abastecimento. [E1] [E2] [E3] [E4] revelam a sequência correta.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "rio",
+              "sufixo": "- io + a",
+              "operacao": "Adicione 'a' ao final de 'rio' e remova 'io'.",
+              "resposta": "RIA",
+              "nome": "RIO",
+              "dica": "Corpo de água doce."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "mar",
+              "sufixo": "- ar + a",
+              "operacao": "Adicione 'a' ao final de 'mar' e remova 'ar'.",
+              "resposta": "MAR",
+              "nome": "MAR",
+              "dica": "Água salgada."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "flor",
+              "sufixo": "- or + a",
+              "operacao": "Adicione 'a' ao final de 'flor' e remova 'or'.",
+              "resposta": "FLORA",
+              "nome": "FLOR",
+              "dica": "Planta colorida."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "rato",
+              "sufixo": "- to + a",
+              "operacao": "Adicione 'a' ao final de 'rato' e remova 'to'.",
+              "resposta": "RATA",
+              "nome": "RATO",
+              "dica": "Roedor pequeno."
+            }
+          ]
+        },
+        {
+          "sala": 3,
+          "nomeSala": "Ponte de Comando",
+          "pistaFinal": "CASA",
+          "escapePuzzle": {
+            "tipo": "scanner",
+            "titulo": "Escaneamento de Identidade",
+            "instrucao": "Escaneie o objeto 3 vezes para confirmar a identidade.",
+            "codigo": "3"
+          },
+          "texto": "A nave está pronta. [NOME] precisa confirmar o destino. [E1] [E2] [E3] [E4] formam a palavra final: CASA.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "casa",
+              "sufixo": "- sa + a",
+              "operacao": "Adicione 'a' ao final de 'casa' e remova 'sa'.",
+              "resposta": "CASA",
+              "nome": "CASA",
+              "dica": "Lar."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "pato",
+              "sufixo": "- to + a",
+              "operacao": "Adicione 'a' ao final de 'pato' e remova 'to'.",
+              "resposta": "PATA",
+              "nome": "PATO",
+              "dica": "Ave."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "bola",
+              "sufixo": "- la + a",
+              "operacao": "Adicione 'a' ao final de 'bola' e remova 'la'.",
+              "resposta": "BOLA",
+              "nome": "BOLA",
+              "dica": "Esporte."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "gato",
+              "sufixo": "- to + a",
+              "operacao": "Adicione 'a' ao final de 'gato' e remova 'to'.",
+              "resposta": "GATA",
+              "nome": "GATO",
+              "dica": "Pet."
+            }
+          ]
+        }
+      ]
+    },
+    "quintoAno": {
+      "titulo": "5º Ano — O Núcleo da IA Central",
+      "descricao": "Desligue a IA Central para cumprir a missão.",
+      "fraseMestra": "MISSAO CUMPRIDA",
+      "salas": [
+        {
+          "sala": 1,
+          "nomeSala": "Corredor de Dados",
+          "pistaFinal": "MISSAO",
+          "escapePuzzle": {
+            "tipo": "switches",
+            "titulo": "Ative os Servidores",
+            "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para acessar o núcleo.",
+            "codigo": "1-3-2"
+          },
+          "texto": "A IA está monitorando [NOME]. Ele precisa passar pelos servidores. [E1] [E2] [E3] [E4] são as chaves de acesso.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "casa",
+              "sufixo": "- sa + a",
+              "operacao": "Adicione 'a' ao final de 'casa' e remova 'sa'.",
+              "resposta": "CASA",
+              "nome": "CASA",
+              "dica": "Lar."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "pato",
+              "sufixo": "- to + a",
+              "operacao": "Adicione 'a' ao final de 'pato' e remova 'to'.",
+              "resposta": "PATA",
+              "nome": "PATO",
+              "dica": "Ave."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "bola",
+              "sufixo": "- la + a",
+              "operacao": "Adicione 'a' ao final de 'bola' e remova 'la'.",
+              "resposta": "BOLA",
+              "nome": "BOLA",
+              "dica": "Esporte."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "gato",
+              "sufixo": "- to + a",
+              "operacao": "Adicione 'a' ao final de 'gato' e remova 'to'.",
+              "resposta": "GATA",
+              "nome": "GATO",
+              "dica": "Pet."
+            }
+          ]
+        },
+        {
+          "sala": 2,
+          "nomeSala": "Sala de Processamento",
+          "pistaFinal": "CUMPRIDA",
+          "escapePuzzle": {
+            "tipo": "keypad",
+            "titulo": "Código de Desligamento",
+            "instrucao": "Digite o código 3025 para desligar a IA.",
+            "codigo": "3025"
+          },
+          "texto": "O processador está quente. [NOME] precisa inserir o código de desligamento. [E1] [E2] [E3] [E4] formam a sequência final.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "cama",
+              "sufixo": "- ma + a",
+              "operacao": "Adicione 'a' ao final de 'cama' e remova 'ma'.",
+              "resposta": "CAMA",
+              "nome": "CAMA",
+              "dica": "Dormir."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "galo",
+              "sufixo": "- lo + a",
+              "operacao": "Adicione 'a' ao final de 'galo' e remova 'lo'.",
+              "resposta": "GALA",
+              "nome": "GALO",
+              "dica": "Cantar."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "copo",
+              "sufixo": "- po + a",
+              "operacao": "Adicione 'a' ao final de 'copo' e remova 'po'.",
+              "resposta": "COPA",
+              "nome": "COPO",
+              "dica": "Beber."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "bolo",
+              "sufixo": "- lo + a",
+              "operacao": "Adicione 'a' ao final de 'bolo' e remova 'lo'.",
+              "resposta": "BOLA",
+              "nome": "BOLO",
+              "dica": "Doce."
+            }
+          ]
+        },
+        {
+          "sala": 3,
+          "nomeSala": "Núcleo Central",
+          "pistaFinal": "MISSAO",
+          "escapePuzzle": {
+            "tipo": "scanner",
+            "titulo": "Escaneamento de Missão",
+            "instrucao": "Escaneie o objeto 3 vezes para confirmar a missão cumprida.",
+            "codigo": "3"
+          },
+          "texto": "A IA está desligando. [NOME] precisa confirmar a missão. [E1] [E2] [E3] [E4] formam a palavra final: MISSAO.",
+          "enigmas": [
+            {
+              "id": 1,
+              "prefixo": "",
+              "imagem": "mala",
+              "sufixo": "- la + a",
+              "operacao": "Adicione 'a' ao final de 'mala' e remova 'la'.",
+              "resposta": "MALA",
+              "nome": "MALA",
+              "dica": "Viagem."
+            },
+            {
+              "id": 2,
+              "prefixo": "",
+              "imagem": "mesa",
+              "sufixo": "- sa + a",
+              "operacao": "Adicione 'a' ao final de 'mesa' e remova 'sa'.",
+              "resposta": "MESA",
+              "nome": "MESA",
+              "dica": "Comer."
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "vela",
+              "sufixo": "- la + a",
+              "operacao": "Adicione 'a' ao final de 'vela' e remova 'la'.",
+              "resposta": "VELA",
+              "nome": "VELA",
+              "dica": "Luz."
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "dado",
+              "sufixo": "- do + a",
+              "operacao": "Adicione 'a' ao final de 'dado' e remova 'do'.",
+              "resposta": "DADA",
+              "nome": "DADO",
+              "dica": "Jogo."
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

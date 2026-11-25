@@ -4,6 +4,7 @@ import { Lock, Unlock, ArrowRight, CheckCircle2, Search, Check, Sparkles, HelpCi
 import confetti from 'canvas-confetti';
 import NotebookPage from '../components/NotebookPage';
 import EnigmaModal from '../components/EnigmaModal';
+import EscapeRoomPuzzle from '../components/EscapeRoomPuzzle';
 import RebusFormulaBadge from '../components/RebusFormulaBadge';
 import { getEnigmaIllustration } from '../components/illustrations/EnigmaIcons';
 import { sounds } from '../audio/soundEffects';
@@ -22,6 +23,7 @@ export default function RoomGameplayScreen({
   const [solvedEnigmas, setSolvedEnigmas] = useState({});
   const [selectedEnigmaForModal, setSelectedEnigmaForModal] = useState(null);
   const [roomUnlocked, setRoomUnlocked] = useState(false);
+  const [puzzleCleared, setPuzzleCleared] = useState(!room.escapePuzzle);
   const [hintsAvailable, setHintsAvailable] = useState(1); // Estritamente 1 dica por fase!
 
   // Reset when roomIndex changes
@@ -29,8 +31,9 @@ export default function RoomGameplayScreen({
     setSolvedEnigmas({});
     setSelectedEnigmaForModal(null);
     setRoomUnlocked(false);
+    setPuzzleCleared(!room.escapePuzzle);
     setHintsAvailable(1); // 1 nova dica concedida para a nova fase
-  }, [roomIndex]);
+  }, [roomIndex, room.escapePuzzle]);
 
   // When an enigma is solved inside the big popup
   const handleSolveEnigma = (enigmaId, word) => {
@@ -179,6 +182,20 @@ export default function RoomGameplayScreen({
   };
 
   const solvedCount = Object.keys(solvedEnigmas).length;
+
+  if (!puzzleCleared && room.escapePuzzle) {
+    return (
+      <div className="w-full max-w-4xl mx-auto p-2 sm:p-4">
+        <EscapeRoomPuzzle
+          puzzle={room.escapePuzzle}
+          onUnlock={() => {
+            sounds.playUnlockRoom();
+            setPuzzleCleared(true);
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-4xl mx-auto p-2 sm:p-4">

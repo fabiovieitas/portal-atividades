@@ -7,12 +7,14 @@ import RoomGameplayScreen from './screens/RoomGameplayScreen';
 import FinalChallengeScreen from './screens/FinalChallengeScreen';
 import CertificateModal from './components/CertificateModal';
 import enigmasData from './data/enigmas.json';
+import enigmasFuturoData from './data/enigmas_futuro.json';
 import { sounds } from './audio/soundEffects';
 
 export default function App() {
   // Screen flow: 'welcome' (Tela 1) -> 'levelSelect' (Tela 2) -> 'gameplay' (Tela 3: Salas) -> 'finalChallenge' (Tela 4)
   const [screen, setScreen] = useState('welcome');
   const [investigatorName, setInvestigatorName] = useState('');
+  const [missionId, setMissionId] = useState('futuro'); // 'vintage' | 'futuro'
   const [selectedLevelKey, setSelectedLevelKey] = useState('terceiroAno'); // 'terceiroAno' | 'quartoAno' | 'quintoAno'
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
   const [inventoryClues, setInventoryClues] = useState([]);
@@ -44,8 +46,9 @@ export default function App() {
     }
   };
 
-  // Selected level data
-  const currentLevelData = enigmasData.niveis[selectedLevelKey] || enigmasData.niveis['terceiroAno'];
+  // Selected mission & level data
+  const activeDataset = missionId === 'futuro' ? enigmasFuturoData : enigmasData;
+  const currentLevelData = activeDataset.niveis[selectedLevelKey] || activeDataset.niveis['terceiroAno'];
   const totalRooms = currentLevelData?.salas?.length || 0;
   const currentRoom = currentLevelData?.salas?.[currentRoomIndex];
 
@@ -177,6 +180,8 @@ export default function App() {
         {screen === 'levelSelect' && (
           <LevelSelectScreen
             investigatorName={investigatorName}
+            missionId={missionId}
+            onSelectMission={setMissionId}
             onSelectLevel={handleSelectLevel}
             onChangeName={() => setScreen('welcome')}
           />

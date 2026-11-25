@@ -12,9 +12,36 @@
     background-attachment: fixed;
     min-height: 100vh;
   }
+
+  /* Foco acessível universal com contorno âmbar elegante */
+  *:focus-visible {
+    outline: 2px solid #f59e0b !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.3) !important;
+  }
 }
 
-/* Aged Parchment Paper Texture */
+/* Transições globais suaves e microinterações para elementos interativos */
+button, 
+a, 
+input, 
+select, 
+textarea, 
+[role="button"] {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease,
+              color 0.2s ease,
+              opacity 0.2s ease;
+}
+
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Textura de Pergaminho Envelhecido */
 .parchment-texture {
   background-color: #f6efe2;
   background-image: 
@@ -27,6 +54,7 @@
     0 12px 35px rgba(15, 10, 5, 0.45);
 }
 
+/* Textura de Mesa de Madeira */
 .wood-desk-texture {
   background-color: #1f140e;
   background-image: 
@@ -34,7 +62,7 @@
     repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 12px);
 }
 
-/* Stamp border styling */
+/* Estilização de Bordas de Carimbo (Vermelho e Verde) */
 .stamp-border {
   border: 2px dashed #b91c1c;
   outline: 2px solid #b91c1c;
@@ -47,7 +75,7 @@
   outline-offset: 3px;
 }
 
-/* Blinking typewriter cursor */
+/* Cursor Piscante de Máquina de Escrever */
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -57,7 +85,7 @@
   animation: blink 0.9s infinite;
 }
 
-/* Vintage notebook lines */
+/* Linhas Vintage de Caderno */
 .notebook-ruled {
   background-image: repeating-linear-gradient(
     transparent,
@@ -68,7 +96,7 @@
   line-height: 32px;
 }
 
-/* Custom subtle scrollbar */
+/* Barra de Rolagem Sutil e Personalizada */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -83,4 +111,53 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(120, 80, 40, 0.7);
+}
+
+/* Estilos de Impressão Otimizados para o Certificado */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Oculta toda a interface exceto o certificado */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Exibe exclusivamente o elemento do certificado e seus filhos */
+  #printable-certificate,
+  #printable-certificate * {
+    visibility: visible !important;
+  }
+
+  #printable-certificate {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 2.5rem !important;
+    box-shadow: none !important;
+    border: none !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #000000 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    page-break-inside: avoid !important;
+  }
 }

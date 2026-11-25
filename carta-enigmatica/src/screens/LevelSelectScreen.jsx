@@ -42,6 +42,8 @@ const LEVELS_CONFIG = [
 
 export default function LevelSelectScreen({
   investigatorName = 'INVESTIGADOR',
+  missionId = 'futuro',
+  onSelectMission = () => {},
   onSelectLevel = () => {},
   onChangeName = () => {}
 }) {
@@ -73,9 +75,43 @@ export default function LevelSelectScreen({
 
           <div className="text-right">
             <span className="font-heading text-xs uppercase px-3 py-1 bg-amber-200/80 border border-amber-800/40 text-amber-900 rounded-md font-bold tracking-wider">
-              3 Missões Disponíveis
+              {missionId === 'futuro' ? 'Missão 2: Fuga 3025' : 'Missão 1: Agência Vintage'}
             </span>
           </div>
+        </div>
+
+        {/* Seletor de Missão */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+          <button
+            type="button"
+            onClick={() => {
+              sounds.playKeyPress();
+              onSelectMission('vintage');
+            }}
+            className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
+              missionId === 'vintage'
+                ? 'border-amber-700 bg-amber-100/90 shadow-md'
+                : 'border-amber-900/20 bg-white/50 hover:bg-amber-50/70'
+            }`}
+          >
+            <div className="text-xs font-bold uppercase tracking-wider text-amber-800">Missão 1 (Clássica)</div>
+            <div className="font-heading font-bold text-amber-950">Agência de Investigadores</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              sounds.playKeyPress();
+              onSelectMission('futuro');
+            }}
+            className={`p-3 rounded-xl border-2 text-left transition-all cursor-pointer ${
+              missionId === 'futuro'
+                ? 'border-cyan-700 bg-cyan-50 shadow-md'
+                : 'border-amber-900/20 bg-white/50 hover:bg-cyan-50/50'
+            }`}
+          >
+            <div className="text-xs font-bold uppercase tracking-wider text-cyan-700">Missão 2 (Nova • Escape Room)</div>
+            <div className="font-heading font-bold text-slate-900">Fuga do Ano 3025: Laboratório do Tempo</div>
+          </button>
         </div>
 
         {/* Level Select Title */}
