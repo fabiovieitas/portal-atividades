@@ -1,7 +1,7 @@
 {
   "niveis": {
     "terceiroAno": {
-      "titulo": "3º Ano — Fuga do Laboratório 3025",
+      "titulo": "Fácil — Fuga do Laboratório 3025",
       "descricao": "Ajude [NOME] a escapar do laboratório ativando os portais de energia.",
       "fraseMestra": "PORTAL DO TEMPO",
       "salas": [
@@ -15,7 +15,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para liberar a carta.",
             "codigo": "1-3-2"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1]! Nossa energia [E2] caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] de emergência com um código [E4]!",
+          "texto": "DIÁRIO DE BORDO (FÁCIL) — DIA 1: Agente [NOME], nossa nave pousou na [E1]! Precisamos de energia [E2] para abrir o [E3] de saída bem [E4]!",
           "enigmas": [
             {
               "id": 1,
@@ -66,10 +66,10 @@
           "escapePuzzle": {
             "tipo": "keypad",
             "titulo": "Código de Acesso",
-            "instrucao": "Digite o código 3025 no teclado para acessar os arquivos.",
+            "instrucao": "Clique no bilhete da mesa e resolva a conta matemática para descobrir o código secreto do cofre!",
             "codigo": "3025"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] do tempo está apitando! Tenha muita [E2] para apertar o [E3] principal e registrar a [E4] de hoje!",
+          "texto": "DIÁRIO DE BORDO (FÁCIL) — DIA 2: Agente [NOME], a [E1] do tempo apitou! Tenha [E2] para apertar o [E3] e salvar a [E4] de hoje!",
           "enigmas": [
             {
               "id": 1,
@@ -123,7 +123,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para ativar o portal.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] detectou a nave inimiga! Nosso [E2] viu uma [E3] azul perto da saída. Até o nosso robô [E4] está pronto para voltar para casa!",
+          "texto": "DIÁRIO DE BORDO (FÁCIL) — DIA 3: Agente [NOME], o [E1] mostrou o caminho! O [E2] viu uma [E3] azul e nosso robô [E4] comemorou!",
           "enigmas": [
             {
               "id": 1,
@@ -171,7 +171,7 @@
       "respostaFinalMestra": "PORTAL DO TEMPO"
     },
     "quartoAno": {
-      "titulo": "4º Ano — Código da Nave Temporal",
+      "titulo": "Médio — Código da Nave Temporal",
       "descricao": "Decifre o código da nave para voltar para casa.",
       "fraseMestra": "VOLTAR PARA CASA",
       "salas": [
@@ -185,7 +185,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para estabilizar a nave.",
             "codigo": "1-3-2"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1]! Nossa energia [E2] caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] de emergência com um código [E4]!",
+          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR ALFA: Agente [NOME], um meteoro atingiu a [E1] vizinha! O painel [E2] desligou e trancou o [E3] principal. Seja [E4]!",
           "enigmas": [
             {
               "id": 1,
@@ -236,10 +236,10 @@
           "escapePuzzle": {
             "tipo": "keypad",
             "titulo": "Código do Combustível",
-            "instrucao": "Digite o código 3025 para abastecer a nave.",
+            "instrucao": "Clique no bilhete da mesa e resolva a conta matemática para descobrir o código secreto do cofre!",
             "codigo": "3025"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] do tempo está apitando! Tenha muita [E2] para apertar o [E3] principal e registrar a [E4] de hoje!",
+          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR BETA: Agente [NOME], a [E1] central precisa de reparo! Com [E2], aperte o [E3] vermelho e confira a [E4] no visor!",
           "enigmas": [
             {
               "id": 1,
@@ -293,7 +293,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a identidade.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] detectou a nave inimiga! Nosso [E2] viu uma [E3] azul perto da saída. Até o nosso robô [E4] está pronto para voltar para casa!",
+          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR GAMA: Agente [NOME], o [E1] captou um sinal amigo! Nosso [E2] desviou da [E3] espacial com o robô [E4]!",
           "enigmas": [
             {
               "id": 1,
@@ -341,7 +341,7 @@
       "respostaFinalMestra": "VOLTAR PARA CASA"
     },
     "quintoAno": {
-      "titulo": "5º Ano — O Núcleo da IA Central",
+      "titulo": "Difícil — O Núcleo da IA Central",
       "descricao": "Desligue a IA Central para cumprir a missão.",
       "fraseMestra": "MISSAO CUMPRIDA",
       "salas": [
@@ -355,7 +355,7 @@
             "instrucao": "Clique nos interruptores na ordem 1, 3, 2 para acessar o núcleo.",
             "codigo": "1-3-2"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 1: Agente [NOME], estamos perdidos na [E1]! Nossa energia [E2] caiu após o ataque de um alienígena misterioso. Precisamos abrir o [E3] de emergência com um código [E4]!",
+          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 1: Agente [NOME], a IA bloqueou toda a [E1]! Sem bateria [E2], o [E3] quântico não abre. Aja de modo [E4]!",
           "enigmas": [
             {
               "id": 1,
@@ -406,10 +406,10 @@
           "escapePuzzle": {
             "tipo": "keypad",
             "titulo": "Código de Desligamento",
-            "instrucao": "Digite o código 3025 para desligar a IA.",
+            "instrucao": "Clique no bilhete da mesa e resolva a conta matemática para descobrir o código secreto do cofre!",
             "codigo": "3025"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 2: Agente [NOME], a [E1] do tempo está apitando! Tenha muita [E2] para apertar o [E3] principal e registrar a [E4] de hoje!",
+          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 2: Agente [NOME], a [E1] de dobra espacial travou! Reúna [E2], acione o [E3] mestre e valide a [E4] estelar!",
           "enigmas": [
             {
               "id": 1,
@@ -463,7 +463,7 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a missão cumprida.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO — DIA 3: Agente [NOME], o [E1] detectou a nave inimiga! Nosso [E2] viu uma [E3] azul perto da saída. Até o nosso robô [E4] está pronto para voltar para casa!",
+          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 3: Agente [NOME], o [E1] final está ativo! O [E2] atravessou a [E3] de plasma junto com o cão-robô [E4]!",
           "enigmas": [
             {
               "id": 1,

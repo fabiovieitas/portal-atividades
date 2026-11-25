@@ -137,9 +137,9 @@ export default function EscapeRoomPuzzle({ puzzle, onUnlock }) {
               </button>
             ) : (
               <div className="py-4 px-3 rounded-xl bg-amber-950/60 border border-amber-400 text-amber-200">
-                <div className="text-xs uppercase font-mono">Código descoberto:</div>
-                <div className="text-3xl font-mono font-black tracking-widest text-amber-300 mt-1">
-                  {puzzle.codigo || '3025'}
+                <div className="text-xs uppercase font-mono">Resolva a conta para abrir:</div>
+                <div className="text-2xl sm:text-3xl font-mono font-black tracking-wider text-amber-300 mt-1">
+                  2000 + 1025 = ?
                 </div>
               </div>
             )}

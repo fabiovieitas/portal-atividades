@@ -7,36 +7,36 @@ import { sounds } from '../audio/soundEffects';
 const LEVELS_CONFIG = [
   {
     key: 'terceiroAno',
-    grade: '3º Ano',
-    levelLabel: 'Modo Fácil — 3 Salas',
+    grade: 'Nível Fácil',
+    levelLabel: 'Fácil — 3 Salas',
     badgeColor: 'bg-emerald-600 text-white',
-    title: 'O Resgate do Mascote Fujão',
-    description: 'Pouco texto e frases diretas. Encontre as pistas do mascote fujão pelo parque, sala e quintal (12 enigmas em 3 salas).',
+    title: 'O Resgate do Mascote / Setor Energia',
+    description: 'Frases diretas e enigmas iniciais para aquecer a investigação.',
     roomsCount: 3,
     icon: Sparkles,
-    theme: 'Parque, Animais & Esconderijos'
+    theme: 'Iniciante'
   },
   {
     key: 'quartoAno',
-    grade: '4º Ano',
-    levelLabel: 'Modo Médio — 4 Salas',
+    grade: 'Nível Médio',
+    levelLabel: 'Médio — 3 a 4 Salas',
     badgeColor: 'bg-amber-600 text-white',
-    title: 'A Carta Secreta das Férias',
-    description: 'Carta clássica da revista com alta densidade de enigmas distribuídos em 4 etapas das férias (22 enigmas em 4 salas).',
+    title: 'A Carta das Férias / Nave Temporal',
+    description: 'Desafios intermediários com pistas ocultas e códigos secretos.',
     roomsCount: 4,
     icon: BookOpen,
-    theme: 'Passeios, Sorveteria & Bicicleta'
+    theme: 'Intermediário'
   },
   {
     key: 'quintoAno',
-    grade: '5º Ano',
-    levelLabel: 'Modo Avançado — 5 Salas',
+    grade: 'Nível Difícil',
+    levelLabel: 'Difícil — Desafio Máximo',
     badgeColor: 'bg-rose-700 text-white',
-    title: 'O Banquete Secreto do Restaurante',
-    description: 'Mistério culinário com vocabulário desafiador e 5 salas temáticas até o grande cofre (20 enigmas em 5 salas).',
+    title: 'O Banquete / Núcleo da IA Central',
+    description: 'Mistério avançado com vocabulário desafiador até o cofre final.',
     roomsCount: 5,
     icon: ShieldAlert,
-    theme: 'Culinária Secreta, Receitas & Mistério'
+    theme: 'Avançado'
   }
 ];
 
