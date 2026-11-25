@@ -1227,7 +1227,7 @@
                 </td>
                 <td class="no-print" style="white-space: nowrap;">
                   <button class="btn-toggle-answers" onclick="toggleDetails('<%= s.id %>')">👁️ Ver Detalhes</button>
-                  <button class="btn-edit" onclick="openEditModal(<%= s.id %>, `<%= s.student_name.replace(/`/g, '') %>`, `<%= s.school_name.replace(/`/g, '') %>`, `<%= s.class_name %>`, `<%= s.shift || 'Manhã' %>`)" style="background:#0284c7; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">✏️ Editar / Mover</button>
+                  <button class="btn-edit" onclick="openEditModal(<%= s.id %>)" style="background:#0284c7; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;">✏️ Editar / Mover</button>
                   <button class="btn-delete" onclick="deleteStudentSubmission(<%= s.id %>)" style="background:#ef4444; color:white; border:none; padding:0.4rem 0.6rem; border-radius:8px; font-weight:700; font-size:0.78rem; cursor:pointer; margin-left:0.2rem;" title="Apagar esta avaliação permanentemente">🗑️ Apagar</button>
                 </td>
               </tr>
@@ -1958,9 +1958,16 @@
 
     // --- ESTUDANTES: EDITAR & APAGAR ---
     function openEditModal(id, studentName, schoolName, className, shift) {
+      const row = document.getElementById(`student-row-${id}`);
+      if (row) {
+        if (!studentName) studentName = row.getAttribute('data-student') || '';
+        if (!schoolName) schoolName = row.getAttribute('data-school') || '';
+        if (!className) className = row.getAttribute('data-class') || '4º Ano';
+        if (!shift) shift = row.getAttribute('data-shift') || 'Manhã';
+      }
       document.getElementById('editSubmissionId').value = id;
-      document.getElementById('editStudentName').value = studentName;
-      document.getElementById('editSchoolName').value = schoolName;
+      document.getElementById('editStudentName').value = studentName || '';
+      document.getElementById('editSchoolName').value = schoolName || '';
       document.getElementById('editClassName').value = className || '4º Ano';
       document.getElementById('editShiftName').value = shift || 'Manhã';
       document.getElementById('editStudentModal').style.display = 'flex';

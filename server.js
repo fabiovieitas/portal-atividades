@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -17,6 +19,22 @@ const mailService = require('./mailService');
 const supabase = null;
 
 const app = express();
+
+// Cabeçalhos de segurança HTTP (sem bloquear scripts inline das views EJS)
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false
+}));
+
+// Proteção contra força bruta em rotas de login e verificação de PIN
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: 'Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.' }
+});
+app.use(['/admin/login', '/professor/login', '/professor/register', '/professor/esqueci-senha', '/professor/recuperar-senha', '/api/students/verify-pin'], authLimiter);
 
 // Enable Gzip/Brotli compression (Item 2 - Level 6 otimizado para tablets)
 app.use(compression({
