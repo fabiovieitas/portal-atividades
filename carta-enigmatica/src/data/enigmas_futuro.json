@@ -187,47 +187,47 @@
             "instrucao": "Episódio 2: Ligue os propulsores na ordem 3-1-2 para destrancar o painel.",
             "codigo": "3-1-2"
           },
-          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR ALFA: Agente [NOME], um meteoro atingiu a [E1] vizinha! O painel [E2] desligou e trancou o [E3] principal. Seja [E4]!",
+          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR ALFA: Agente [NOME], nossa nave está a [E2] do [E1]! Um raio [E3] atingiu o motor e precisamos de [E4]!",
           "enigmas": [
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "gato",
-              "sufixo": "- to + laxia",
-              "operacao": "GATO - to + laxia",
-              "resposta": "GALAXIA",
-              "nome": "GATO",
-              "dica": "GATO sem TO (GA) + LAXIA = GALAXIA"
+              "imagem": "planeta",
+              "sufixo": "- ta + rio",
+              "operacao": "PLANETA - ta + rio",
+              "resposta": "PLANERIO",
+              "nome": "PLANETA",
+              "dica": "PLANETA sem TA (PLANE) + RIO = PLANERIO"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "sol",
-              "sufixo": "+ ar",
-              "operacao": "SOL + ar",
-              "resposta": "SOLAR",
-              "nome": "SOL",
-              "dica": "SOL + AR = SOLAR"
+              "imagem": "bota",
+              "sufixo": "- ta + rdo",
+              "operacao": "BOTA - ta + rdo",
+              "resposta": "BORDO",
+              "nome": "BOTA",
+              "dica": "BOTA sem TA (BO) + RDO = BORDO"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "porta",
-              "sufixo": "- a + al",
-              "operacao": "PORTA - a + al",
-              "resposta": "PORTAL",
-              "nome": "PORTA",
-              "dica": "PORTA sem A (PORT) + AL = PORTAL"
+              "imagem": "lata",
+              "sufixo": "- ta + ser",
+              "operacao": "LATA - ta + ser",
+              "resposta": "LASER",
+              "nome": "LATA",
+              "dica": "LATA sem TA (LA) + SER = LASER"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "vela",
-              "sufixo": "- la + loz",
-              "operacao": "VELA - la + loz",
-              "resposta": "VELOZ",
-              "nome": "VELA",
-              "dica": "VELA sem LA (VE) + LOZ = VELOZ"
+              "imagem": "pote",
+              "sufixo": "- te + der",
+              "operacao": "POTE - te + der",
+              "resposta": "PODER",
+              "nome": "POTE",
+              "dica": "POTE sem TE (PO) + DER = PODER"
             }
           ]
         },
@@ -242,47 +242,47 @@
             "codigo": "2025",
             "conta": "1500 + 525 = ?"
           },
-          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR BETA: Agente [NOME], a [E1] central precisa de reparo! Com [E2], aperte o [E3] vermelho e confira a [E4] no visor!",
+          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR BETA: Agente [NOME], a [E1] de energia enviou um [E2]! O [E3] subiu e só sua [E4] pode resolver!",
           "enigmas": [
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "mala",
-              "sufixo": "- la + quina",
-              "operacao": "MALA - la + quina",
-              "resposta": "MAQUINA",
-              "nome": "MALA",
-              "dica": "MALA sem LA (MA) + QUINA = MAQUINA"
+              "imagem": "carta",
+              "sufixo": "- ta + ga",
+              "operacao": "CARTA - ta + ga",
+              "resposta": "CARGA",
+              "nome": "CARTA",
+              "dica": "CARTA sem TA (CAR) + GA = CARGA"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "copo",
-              "sufixo": "- po + ragem",
-              "operacao": "COPO - po + ragem",
-              "resposta": "CORAGEM",
-              "nome": "COPO",
-              "dica": "COPO sem PO (CO) + RAGEM = CORAGEM"
+              "imagem": "sino",
+              "sufixo": "- no + nal",
+              "operacao": "SINO - no + nal",
+              "resposta": "SINAL",
+              "nome": "SINO",
+              "dica": "SINO sem NO (SI) + NAL = SINAL"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "bolo",
-              "sufixo": "- lo + tao",
-              "operacao": "BOLO - lo + tao",
-              "resposta": "BOTAO",
-              "nome": "BOLO",
-              "dica": "BOLO sem LO (BO) + TAO = BOTAO"
+              "imagem": "vaso",
+              "sufixo": "- so + por",
+              "operacao": "VASO - so + por",
+              "resposta": "VAPOR",
+              "nome": "VASO",
+              "dica": "VASO sem SO (VA) + POR = VAPOR"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "dado",
-              "sufixo": "- do + ta",
-              "operacao": "DADO - do + ta",
-              "resposta": "DATA",
-              "nome": "DADO",
-              "dica": "DADO sem DO (DA) + TA = DATA"
+              "imagem": "mesa",
+              "sufixo": "- sa + nte",
+              "operacao": "MESA - sa + nte",
+              "resposta": "MENTE",
+              "nome": "MESA",
+              "dica": "MESA sem SA (ME) + NTE = MENTE"
             }
           ]
         },
@@ -296,47 +296,47 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a identidade.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR GAMA: Agente [NOME], o [E1] captou um sinal amigo! Nosso [E2] desviou da [E3] espacial com o robô [E4]!",
+          "texto": "DIÁRIO DE BORDO (MÉDIO) — SETOR GAMA: Agente [NOME], abrimos o [E1] da nave! Perto do [E2] espacial, achamos uma [E3] que [E4] o portal!",
           "enigmas": [
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "rato",
-              "sufixo": "- to + dar",
-              "operacao": "RATO - to + dar",
-              "resposta": "RADAR",
-              "nome": "RATO",
-              "dica": "RATO sem TO (RA) + DAR = RADAR"
+              "imagem": "cama",
+              "sufixo": "- ma + po",
+              "operacao": "CAMA - ma + po",
+              "resposta": "CAPO",
+              "nome": "CAMA",
+              "dica": "CAMA sem MA (CA) + PO = CAPO"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "pipa",
-              "sufixo": "- pa + loto",
-              "operacao": "PIPA - pa + loto",
-              "resposta": "PILOTO",
-              "nome": "PIPA",
-              "dica": "PIPA sem PA (PI) + LOTO = PILOTO"
+              "imagem": "pato",
+              "sufixo": "- to + rque",
+              "operacao": "PATO - to + rque",
+              "resposta": "PARQUE",
+              "nome": "PATO",
+              "dica": "PATO sem TO (PA) + RQUE = PARQUE"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "chave",
-              "sufixo": "- ve + ma",
-              "operacao": "CHAVE - ve + ma",
-              "resposta": "CHAMA",
-              "nome": "CHAVE",
-              "dica": "CHAVE sem VE (CHA) + MA = CHAMA"
+              "imagem": "bola",
+              "sufixo": "- la + neca",
+              "operacao": "BOLA - la + neca",
+              "resposta": "BONECA",
+              "nome": "BOLA",
+              "dica": "BOLA sem LA (BO) + NECA = BONECA"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "casa",
-              "sufixo": "- sa + chorro",
-              "operacao": "CASA - sa + chorro",
-              "resposta": "CACHORRO",
-              "nome": "CASA",
-              "dica": "CASA sem SA (CA) + CHORRO = CACHORRO"
+              "imagem": "livro",
+              "sufixo": "- vro + ga",
+              "operacao": "LIVRO - vro + ga",
+              "resposta": "LIGA",
+              "nome": "LIVRO",
+              "dica": "LIVRO sem VRO (LI) + GA = LIGA"
             }
           ]
         }
@@ -359,47 +359,47 @@
             "instrucao": "Episódio 3: Desative os nós na ordem 2-3-1 para acessar o núcleo.",
             "codigo": "2-3-1"
           },
-          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 1: Agente [NOME], a IA bloqueou toda a [E1]! Sem bateria [E2], o [E3] quântico não abre. Aja de modo [E4]!",
+          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 1: Agente [NOME], o [E1] está em perigo! Um [E2] espacial causou [E3], mas temos [E4] para escapar!",
           "enigmas": [
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "gato",
-              "sufixo": "- to + laxia",
-              "operacao": "GATO - to + laxia",
-              "resposta": "GALAXIA",
-              "nome": "GATO",
-              "dica": "GATO sem TO (GA) + LAXIA = GALAXIA"
+              "imagem": "muro",
+              "sufixo": "- ro + ndo",
+              "operacao": "MURO - ro + ndo",
+              "resposta": "MUNDO",
+              "nome": "MURO",
+              "dica": "MURO sem RO (MU) + NDO = MUNDO"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "sol",
-              "sufixo": "+ ar",
-              "operacao": "SOL + ar",
-              "resposta": "SOLAR",
-              "nome": "SOL",
-              "dica": "SOL + AR = SOLAR"
+              "imagem": "bico",
+              "sufixo": "- co + cho",
+              "operacao": "BICO - co + cho",
+              "resposta": "BICHO",
+              "nome": "BICO",
+              "dica": "BICO sem CO (BI) + CHO = BICHO"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "porta",
-              "sufixo": "- a + al",
-              "operacao": "PORTA - a + al",
-              "resposta": "PORTAL",
-              "nome": "PORTA",
-              "dica": "PORTA sem A (PORT) + AL = PORTAL"
+              "imagem": "meia",
+              "sufixo": "- ia + do",
+              "operacao": "MEIA - ia + do",
+              "resposta": "MEDO",
+              "nome": "MEIA",
+              "dica": "MEIA sem IA (ME) + DO = MEDO"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "vela",
-              "sufixo": "- la + loz",
-              "operacao": "VELA - la + loz",
-              "resposta": "VELOZ",
-              "nome": "VELA",
-              "dica": "VELA sem LA (VE) + LOZ = VELOZ"
+              "imagem": "telha",
+              "sufixo": "- lha + mpo",
+              "operacao": "TELHA - lha + mpo",
+              "resposta": "TEMPO",
+              "nome": "TELHA",
+              "dica": "TELHA sem LHA (TE) + MPO = TEMPO"
             }
           ]
         },
@@ -414,47 +414,47 @@
             "codigo": "4999",
             "conta": "4500 + 499 = ?"
           },
-          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 2: Agente [NOME], a [E1] de dobra espacial travou! Reúna [E2], acione o [E3] mestre e valide a [E4] estelar!",
+          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 2: Agente [NOME], pousamos numa [E1] com uma [E2] brilhante! Perto do [E3], protegemos o [E4]!",
           "enigmas": [
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "mala",
-              "sufixo": "- la + quina",
-              "operacao": "MALA - la + quina",
-              "resposta": "MAQUINA",
-              "nome": "MALA",
-              "dica": "MALA sem LA (MA) + QUINA = MAQUINA"
+              "imagem": "prato",
+              "sufixo": "- to + ia",
+              "operacao": "PRATO - to + ia",
+              "resposta": "PRAIA",
+              "nome": "PRATO",
+              "dica": "PRATO sem TO (PRA) + IA = PRAIA"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "copo",
-              "sufixo": "- po + ragem",
-              "operacao": "COPO - po + ragem",
-              "resposta": "CORAGEM",
-              "nome": "COPO",
-              "dica": "COPO sem PO (CO) + RAGEM = CORAGEM"
+              "imagem": "pena",
+              "sufixo": "- na + dra",
+              "operacao": "PENA - na + dra",
+              "resposta": "PEDRA",
+              "nome": "PENA",
+              "dica": "PENA sem NA (PE) + DRA = PEDRA"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "bolo",
-              "sufixo": "- lo + tao",
-              "operacao": "BOLO - lo + tao",
-              "resposta": "BOTAO",
-              "nome": "BOLO",
-              "dica": "BOLO sem LO (BO) + TAO = BOTAO"
+              "imagem": "galo",
+              "sufixo": "- o + pao",
+              "operacao": "GALO - o + pao",
+              "resposta": "GALPAO",
+              "nome": "GALO",
+              "dica": "GALO sem O (GAL) + PAO = GALPAO"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "dado",
-              "sufixo": "- do + ta",
-              "operacao": "DADO - do + ta",
-              "resposta": "DATA",
-              "nome": "DADO",
-              "dica": "DADO sem DO (DA) + TA = DATA"
+              "imagem": "rei",
+              "sufixo": "+ no",
+              "operacao": "REI + no",
+              "resposta": "REINO",
+              "nome": "REI",
+              "dica": "REI + NO = REINO"
             }
           ]
         },
@@ -468,47 +468,47 @@
             "instrucao": "Escaneie o objeto 3 vezes para confirmar a missão cumprida.",
             "codigo": "3"
           },
-          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 3: Agente [NOME], o [E1] final está ativo! O [E2] atravessou a [E3] de plasma junto com o cão-robô [E4]!",
+          "texto": "DIÁRIO DE BORDO (DIFÍCIL) — FASE 3: Agente [NOME], voltamos para [E1]! Meu [E2] ligou do [E3] e entregou a [E4] final!",
           "enigmas": [
             {
               "id": 1,
-              "prefixo": "",
-              "imagem": "rato",
-              "sufixo": "- to + dar",
-              "operacao": "RATO - to + dar",
-              "resposta": "RADAR",
-              "nome": "RATO",
-              "dica": "RATO sem TO (RA) + DAR = RADAR"
+              "prefixo": "c",
+              "imagem": "asa",
+              "sufixo": "",
+              "operacao": "c + ASA",
+              "resposta": "CASA",
+              "nome": "ASA",
+              "dica": "C + ASA = CASA"
             },
             {
               "id": 2,
-              "prefixo": "",
-              "imagem": "pipa",
-              "sufixo": "- pa + loto",
-              "operacao": "PIPA - pa + loto",
-              "resposta": "PILOTO",
-              "nome": "PIPA",
-              "dica": "PIPA sem PA (PI) + LOTO = PILOTO"
+              "prefixo": "ir",
+              "imagem": "mao",
+              "sufixo": "",
+              "operacao": "ir + MAO",
+              "resposta": "IRMAO",
+              "nome": "MAO",
+              "dica": "IR + MAO = IRMAO"
             },
             {
               "id": 3,
-              "prefixo": "",
-              "imagem": "chave",
-              "sufixo": "- ve + ma",
-              "operacao": "CHAVE - ve + ma",
-              "resposta": "CHAMA",
-              "nome": "CHAVE",
-              "dica": "CHAVE sem VE (CHA) + MA = CHAMA"
+              "prefixo": "ja",
+              "imagem": "pao",
+              "sufixo": "",
+              "operacao": "ja + PAO",
+              "resposta": "JAPAO",
+              "nome": "PAO",
+              "dica": "JA + PAO = JAPAO"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "casa",
-              "sufixo": "- sa + chorro",
-              "operacao": "CASA - sa + chorro",
-              "resposta": "CACHORRO",
-              "nome": "CASA",
-              "dica": "CASA sem SA (CA) + CHORRO = CACHORRO"
+              "imagem": "cha",
+              "sufixo": "+ ve",
+              "operacao": "CHA + ve",
+              "resposta": "CHAVE",
+              "nome": "CHA",
+              "dica": "CHA + VE = CHAVE"
             }
           ]
         }
