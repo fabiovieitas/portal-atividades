@@ -695,7 +695,7 @@
       <h3 class="question-title" style="color: var(--primary-dark);">CRIANÇA TEM DIREITO!</h3>
       
       <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; margin: 1rem 0;">
-        <img src="/img/simulados/outubro-2ano/texto1_professora_sara.png" alt="Professora Sara e crianças lendo" class="question-img" style="max-height: 240px; border-radius: 14px; object-fit: contain; margin: 0 auto;">
+        <img src="/img/simulados/outubro-2ano/texto1_professora_sara.png" alt="Professora Sara e crianças lendo" class="question-img" style="max-height: 480px; max-width: 680px; border-radius: 14px; object-fit: contain; margin: 0 auto;">
         <div id="poema-crianca-texto" class="question-text-box" style="flex: 1; min-width: 280px; font-size: 1.1rem; line-height: 1.8; background: white; margin-bottom: 0;">
           <strong>CRIANÇA TEM DIREITO</strong><br><br>
           TODA CRIANÇA TEM DIREITO DE APRENDER E DE BRINCAR,<br>
@@ -755,7 +755,7 @@
       
       <div id="q2-text">
         <div style="text-align: center; margin: 1rem 0;">
-          <img src="/img/simulados/outubro-2ano/q2_direitos.png" alt="Mascote Goytaré com cartaz dos Direitos das Crianças" class="question-img" style="max-height: 220px; border-radius: 14px; object-fit: contain;">
+          <img src="/img/simulados/outubro-2ano/q2_direitos.png" alt="Mascote Goytaré com cartaz dos Direitos das Crianças" class="question-img" style="max-height: 480px; max-width: 680px; border-radius: 14px; object-fit: contain;">
         </div>
         <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: #047857;">
           QUAL ATITUDE DEMONSTRA QUE OS DIREITOS DAS CRIANÇAS ESTÃO SENDO RESPEITADOS?
@@ -794,7 +794,7 @@
       
       <div id="q3-text">
         <div style="text-align: center; margin: 1rem 0;">
-          <img src="/img/simulados/outubro-2ano/q3_cantar.png" alt="Crianças cantando e tocando música" class="question-img" style="max-height: 220px; border-radius: 14px; object-fit: contain;">
+          <img src="/img/simulados/outubro-2ano/q3_cantar.png" alt="Crianças cantando e tocando música" class="question-img" style="max-height: 480px; max-width: 680px; border-radius: 14px; object-fit: contain;">
         </div>
         <p style="font-weight: 800; font-size: 1.05rem; margin-bottom: 0.5rem; color: #1e293b;">LEIA O TRECHO DA CANTIGA:</p>
         <div class="versos-box">
@@ -939,7 +939,7 @@
           DURANTE UMA ATIVIDADE NA ESCOLA, LUCAS APRENDEU SOBRE OS DIREITOS DAS CRIANÇAS E PERGUNTOU:
         </div>
         <div style="text-align: center; margin: 1rem 0;">
-          <img src="/img/simulados/outubro-2ano/q6_goytare_direito.png" alt="Goytaré com cartaz: Brincar também é um direito!" class="question-img" style="max-height: 200px; border-radius: 12px; object-fit: contain;">
+          <img src="/img/simulados/outubro-2ano/q6_goytare_direito.png" alt="Goytaré com cartaz: Brincar também é um direito!" class="question-img" style="max-height: 480px; max-width: 680px; border-radius: 12px; object-fit: contain;">
         </div>
         <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: #047857;">
           — QUAL ATITUDE MOSTRA QUE ESSES DIREITOS ESTÃO SENDO RESPEITADOS?
@@ -981,7 +981,7 @@
           NO PÁTIO DA ESCOLA, LUCAS TROPEÇOU ENQUANTO BRINCAVA E MACHUCOU O JOELHO. SEUS COLEGAS VIRAM O QUE ACONTECEU.
         </div>
         <div style="text-align: center; margin: 1rem 0;">
-          <img src="/img/simulados/outubro-2ano/q7_lucas_patio.png" alt="Lucas no pátio e amigos ajudando" class="question-img" style="max-height: 240px; border-radius: 14px; object-fit: contain;">
+          <img src="/img/simulados/outubro-2ano/q7_lucas_patio.png" alt="Lucas no pátio e amigos ajudando" class="question-img" style="max-height: 480px; max-width: 680px; border-radius: 14px; object-fit: contain;">
         </div>
         <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem; color: #047857;">
           QUAL ATITUDE DOS COLEGAS DEMONSTRA CUIDADO, SOLIDARIEDADE E RESPEITO?
@@ -1030,10 +1030,7 @@
       <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
       <h2>Parabéns pelo Esforço!</h2>
       <p style="color: #64748b; font-size: 1rem;">Você completou o Simulado Oficial do 2º Ano com sucesso!</p>
-      <div class="score-circle">
-        <span class="score-num" id="modalScore">0</span>
-        <span class="score-max">de 6 pts</span>
-      </div>
+      <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 0.85rem; margin: 1rem 0; font-size: 0.95rem; color: #166534; font-weight: 600;">✅ Suas respostas foram salvas e enviadas com sucesso!</div>
       <div id="modalDitadoFeedback" style="background: #f0fdf4; border: 1.5px solid #a7f3d0; border-radius: 12px; padding: 0.85rem; font-size: 0.9rem; color: #065f46; margin-bottom: 1.5rem;">
         ✍️ <strong>Ditado de Frases:</strong> registrado com sucesso para correção da professora Sara!
       </div>
@@ -1358,7 +1355,7 @@
 
       if (result.success) {
         try { localStorage.removeItem(DRAFT_KEY); } catch(e){}
-        document.getElementById('modalScore').innerText = score;
+        if (document.getElementById('modalScore')) document.getElementById('modalScore').innerText = score;
         document.getElementById('resultModal').classList.add('active');
         if (typeof confetti === 'function') {
           confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
