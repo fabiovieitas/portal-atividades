@@ -20,42 +20,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "casa",
-              "sufixo": "- sa + do",
-              "operacao": "Adicione 'do' ao final de 'casa' e remova 'sa'.",
-              "resposta": "CASADO",
-              "nome": "CASA",
-              "dica": "Onde moramos."
+              "imagem": "gato",
+              "sufixo": "- to + laxia",
+              "operacao": "GATO - to + laxia",
+              "resposta": "GALAXIA",
+              "nome": "GATO",
+              "dica": "GATO sem TO (GA) + LAXIA = GALAXIA"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "pato",
-              "sufixo": "- to + a",
-              "operacao": "Adicione 'a' ao final de 'pato' e remova 'to'.",
-              "resposta": "PATA",
-              "nome": "PATO",
-              "dica": "Ave aquática."
+              "imagem": "sol",
+              "sufixo": "+ ar",
+              "operacao": "SOL + ar",
+              "resposta": "SOLAR",
+              "nome": "SOL",
+              "dica": "SOL + AR = SOLAR"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "bola",
-              "sufixo": "- la + o",
-              "operacao": "Adicione 'o' ao final de 'bola' e remova 'la'.",
-              "resposta": "BOLO",
-              "nome": "BOLA",
-              "dica": "Usada no futebol."
+              "imagem": "porta",
+              "sufixo": "- a + al",
+              "operacao": "PORTA - a + al",
+              "resposta": "PORTAL",
+              "nome": "PORTA",
+              "dica": "PORTA sem A (PORT) + AL = PORTAL"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "gato",
-              "sufixo": "- to + a",
-              "operacao": "Adicione 'a' ao final de 'gato' e remova 'to'.",
-              "resposta": "GATA",
-              "nome": "GATO",
-              "dica": "Animal de estimação."
+              "imagem": "vela",
+              "sufixo": "- la + loz",
+              "operacao": "VELA - la + loz",
+              "resposta": "VELOZ",
+              "nome": "VELA",
+              "dica": "VELA sem LA (VE) + LOZ = VELOZ"
             }
           ]
         },
@@ -74,42 +74,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "cama",
-              "sufixo": "- ma + a",
-              "operacao": "Adicione 'a' ao final de 'cama' e remova 'ma'.",
-              "resposta": "CAMA",
-              "nome": "CAMA",
-              "dica": "Onde dormimos."
+              "imagem": "mala",
+              "sufixo": "- la + quina",
+              "operacao": "MALA - la + quina",
+              "resposta": "MAQUINA",
+              "nome": "MALA",
+              "dica": "MALA sem LA (MA) + QUINA = MAQUINA"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "galo",
-              "sufixo": "- lo + a",
-              "operacao": "Adicione 'a' ao final de 'galo' e remova 'lo'.",
-              "resposta": "GALA",
-              "nome": "GALO",
-              "dica": "Ave que canta de manhã."
+              "imagem": "copo",
+              "sufixo": "- po + ragem",
+              "operacao": "COPO - po + ragem",
+              "resposta": "CORAGEM",
+              "nome": "COPO",
+              "dica": "COPO sem PO (CO) + RAGEM = CORAGEM"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "copo",
-              "sufixo": "- po + a",
-              "operacao": "Adicione 'a' ao final de 'copo' e remova 'po'.",
-              "resposta": "COPA",
-              "nome": "COPO",
-              "dica": "Usado para beber."
+              "imagem": "bolo",
+              "sufixo": "- lo + tao",
+              "operacao": "BOLO - lo + tao",
+              "resposta": "BOTAO",
+              "nome": "BOLO",
+              "dica": "BOLO sem LO (BO) + TAO = BOTAO"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "bolo",
-              "sufixo": "- lo + a",
-              "operacao": "Adicione 'a' ao final de 'bolo' e remova 'lo'.",
-              "resposta": "BOLA",
-              "nome": "BOLO",
-              "dica": "Comida doce."
+              "imagem": "dado",
+              "sufixo": "- do + ta",
+              "operacao": "DADO - do + ta",
+              "resposta": "DATA",
+              "nome": "DADO",
+              "dica": "DADO sem DO (DA) + TA = DATA"
             }
           ]
         },
@@ -128,42 +128,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "mala",
-              "sufixo": "- la + a",
-              "operacao": "Adicione 'a' ao final de 'mala' e remova 'la'.",
-              "resposta": "MALA",
-              "nome": "MALA",
-              "dica": "Usada para viajar."
+              "imagem": "rato",
+              "sufixo": "- to + dar",
+              "operacao": "RATO - to + dar",
+              "resposta": "RADAR",
+              "nome": "RATO",
+              "dica": "RATO sem TO (RA) + DAR = RADAR"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "mesa",
-              "sufixo": "- sa + a",
-              "operacao": "Adicione 'a' ao final de 'mesa' e remova 'sa'.",
-              "resposta": "MESA",
-              "nome": "MESA",
-              "dica": "Móvel para comer."
+              "imagem": "pipa",
+              "sufixo": "- pa + loto",
+              "operacao": "PIPA - pa + loto",
+              "resposta": "PILOTO",
+              "nome": "PIPA",
+              "dica": "PIPA sem PA (PI) + LOTO = PILOTO"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "vela",
-              "sufixo": "- la + a",
-              "operacao": "Adicione 'a' ao final de 'vela' e remova 'la'.",
-              "resposta": "VELA",
-              "nome": "VELA",
-              "dica": "Ilumina o bolo."
+              "imagem": "chave",
+              "sufixo": "- ve + ma",
+              "operacao": "CHAVE - ve + ma",
+              "resposta": "CHAMA",
+              "nome": "CHAVE",
+              "dica": "CHAVE sem VE (CHA) + MA = CHAMA"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "dado",
-              "sufixo": "- do + a",
-              "operacao": "Adicione 'a' ao final de 'dado' e remova 'do'.",
-              "resposta": "DADA",
-              "nome": "DADO",
-              "dica": "Usado em jogos de tabuleiro."
+              "imagem": "casa",
+              "sufixo": "- sa + chorro",
+              "operacao": "CASA - sa + chorro",
+              "resposta": "CACHORRO",
+              "nome": "CASA",
+              "dica": "CASA sem SA (CA) + CHORRO = CACHORRO"
             }
           ]
         }
@@ -189,35 +189,15 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "pato",
-              "sufixo": "- to + ra",
-              "operacao": "PATO - to + ra",
-              "resposta": "PARA",
-              "nome": "PATO",
-              "dica": "PATO sem TO (PA) + RA = PARA"
+              "imagem": "gato",
+              "sufixo": "- to + laxia",
+              "operacao": "GATO - to + laxia",
+              "resposta": "GALAXIA",
+              "nome": "GATO",
+              "dica": "GATO sem TO (GA) + LAXIA = GALAXIA"
             },
             {
               "id": 2,
-              "prefixo": "",
-              "imagem": "pipa",
-              "sufixo": "- pa + a",
-              "operacao": "Adicione 'a' ao final de 'pipa' e remova 'pa'.",
-              "resposta": "PIPA",
-              "nome": "PIPA",
-              "dica": "Brinca-se no vento."
-            },
-            {
-              "id": 3,
-              "prefixo": "",
-              "imagem": "sol",
-              "sufixo": "- ol + a",
-              "operacao": "Adicione 'a' ao final de 'sol' e remova 'ol'.",
-              "resposta": "SOLA",
-              "nome": "SOL",
-              "dica": "Estrela do dia."
-            },
-            {
-              "id": 4,
               "prefixo": "",
               "imagem": "sol",
               "sufixo": "+ ar",
@@ -225,6 +205,26 @@
               "resposta": "SOLAR",
               "nome": "SOL",
               "dica": "SOL + AR = SOLAR"
+            },
+            {
+              "id": 3,
+              "prefixo": "",
+              "imagem": "porta",
+              "sufixo": "- a + al",
+              "operacao": "PORTA - a + al",
+              "resposta": "PORTAL",
+              "nome": "PORTA",
+              "dica": "PORTA sem A (PORT) + AL = PORTAL"
+            },
+            {
+              "id": 4,
+              "prefixo": "",
+              "imagem": "vela",
+              "sufixo": "- la + loz",
+              "operacao": "VELA - la + loz",
+              "resposta": "VELOZ",
+              "nome": "VELA",
+              "dica": "VELA sem LA (VE) + LOZ = VELOZ"
             }
           ]
         },
@@ -243,42 +243,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "vela",
-              "sufixo": "- la + loz",
-              "operacao": "VELA - la + loz",
-              "resposta": "VELOZ",
-              "nome": "VELA",
-              "dica": "VELA sem LA (VE) + LOZ = VELOZ"
+              "imagem": "mala",
+              "sufixo": "- la + quina",
+              "operacao": "MALA - la + quina",
+              "resposta": "MAQUINA",
+              "nome": "MALA",
+              "dica": "MALA sem LA (MA) + QUINA = MAQUINA"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "chave",
-              "sufixo": "- ve + ma",
-              "operacao": "CHAVE - ve + ma",
-              "resposta": "CHAMA",
-              "nome": "CHAVE",
-              "dica": "CHAVE sem VE (CHA) + MA = CHAMA"
+              "imagem": "copo",
+              "sufixo": "- po + ragem",
+              "operacao": "COPO - po + ragem",
+              "resposta": "CORAGEM",
+              "nome": "COPO",
+              "dica": "COPO sem PO (CO) + RAGEM = CORAGEM"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "porta",
-              "sufixo": "- a + al",
-              "operacao": "PORTA - a + al",
-              "resposta": "PORTAL",
-              "nome": "PORTA",
-              "dica": "PORTA sem A (PORT) + AL = PORTAL"
+              "imagem": "bolo",
+              "sufixo": "- lo + tao",
+              "operacao": "BOLO - lo + tao",
+              "resposta": "BOTAO",
+              "nome": "BOLO",
+              "dica": "BOLO sem LO (BO) + TAO = BOTAO"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "rato",
-              "sufixo": "- to + a",
-              "operacao": "Adicione 'a' ao final de 'rato' e remova 'to'.",
-              "resposta": "RATA",
-              "nome": "RATO",
-              "dica": "Roedor pequeno."
+              "imagem": "dado",
+              "sufixo": "- do + ta",
+              "operacao": "DADO - do + ta",
+              "resposta": "DATA",
+              "nome": "DADO",
+              "dica": "DADO sem DO (DA) + TA = DATA"
             }
           ]
         },
@@ -297,42 +297,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "casa",
-              "sufixo": "- sa + a",
-              "operacao": "Adicione 'a' ao final de 'casa' e remova 'sa'.",
-              "resposta": "CASA",
-              "nome": "CASA",
-              "dica": "Lar."
+              "imagem": "rato",
+              "sufixo": "- to + dar",
+              "operacao": "RATO - to + dar",
+              "resposta": "RADAR",
+              "nome": "RATO",
+              "dica": "RATO sem TO (RA) + DAR = RADAR"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "pato",
-              "sufixo": "- to + a",
-              "operacao": "Adicione 'a' ao final de 'pato' e remova 'to'.",
-              "resposta": "PATA",
-              "nome": "PATO",
-              "dica": "Ave."
+              "imagem": "pipa",
+              "sufixo": "- pa + loto",
+              "operacao": "PIPA - pa + loto",
+              "resposta": "PILOTO",
+              "nome": "PIPA",
+              "dica": "PIPA sem PA (PI) + LOTO = PILOTO"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "bola",
-              "sufixo": "- la + a",
-              "operacao": "Adicione 'a' ao final de 'bola' e remova 'la'.",
-              "resposta": "BOLA",
-              "nome": "BOLA",
-              "dica": "Esporte."
+              "imagem": "chave",
+              "sufixo": "- ve + ma",
+              "operacao": "CHAVE - ve + ma",
+              "resposta": "CHAMA",
+              "nome": "CHAVE",
+              "dica": "CHAVE sem VE (CHA) + MA = CHAMA"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "gato",
-              "sufixo": "- to + a",
-              "operacao": "Adicione 'a' ao final de 'gato' e remova 'to'.",
-              "resposta": "GATA",
-              "nome": "GATO",
-              "dica": "Pet."
+              "imagem": "casa",
+              "sufixo": "- sa + chorro",
+              "operacao": "CASA - sa + chorro",
+              "resposta": "CACHORRO",
+              "nome": "CASA",
+              "dica": "CASA sem SA (CA) + CHORRO = CACHORRO"
             }
           ]
         }
@@ -358,42 +358,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "casa",
-              "sufixo": "- sa + a",
-              "operacao": "Adicione 'a' ao final de 'casa' e remova 'sa'.",
-              "resposta": "CASA",
-              "nome": "CASA",
-              "dica": "Lar."
+              "imagem": "gato",
+              "sufixo": "- to + laxia",
+              "operacao": "GATO - to + laxia",
+              "resposta": "GALAXIA",
+              "nome": "GATO",
+              "dica": "GATO sem TO (GA) + LAXIA = GALAXIA"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "pato",
-              "sufixo": "- to + a",
-              "operacao": "Adicione 'a' ao final de 'pato' e remova 'to'.",
-              "resposta": "PATA",
-              "nome": "PATO",
-              "dica": "Ave."
+              "imagem": "sol",
+              "sufixo": "+ ar",
+              "operacao": "SOL + ar",
+              "resposta": "SOLAR",
+              "nome": "SOL",
+              "dica": "SOL + AR = SOLAR"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "bola",
-              "sufixo": "- la + a",
-              "operacao": "Adicione 'a' ao final de 'bola' e remova 'la'.",
-              "resposta": "BOLA",
-              "nome": "BOLA",
-              "dica": "Esporte."
+              "imagem": "porta",
+              "sufixo": "- a + al",
+              "operacao": "PORTA - a + al",
+              "resposta": "PORTAL",
+              "nome": "PORTA",
+              "dica": "PORTA sem A (PORT) + AL = PORTAL"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "gato",
-              "sufixo": "- to + a",
-              "operacao": "Adicione 'a' ao final de 'gato' e remova 'to'.",
-              "resposta": "GATA",
-              "nome": "GATO",
-              "dica": "Pet."
+              "imagem": "vela",
+              "sufixo": "- la + loz",
+              "operacao": "VELA - la + loz",
+              "resposta": "VELOZ",
+              "nome": "VELA",
+              "dica": "VELA sem LA (VE) + LOZ = VELOZ"
             }
           ]
         },
@@ -412,42 +412,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "cama",
-              "sufixo": "- ma + a",
-              "operacao": "Adicione 'a' ao final de 'cama' e remova 'ma'.",
-              "resposta": "CAMA",
-              "nome": "CAMA",
-              "dica": "Dormir."
+              "imagem": "mala",
+              "sufixo": "- la + quina",
+              "operacao": "MALA - la + quina",
+              "resposta": "MAQUINA",
+              "nome": "MALA",
+              "dica": "MALA sem LA (MA) + QUINA = MAQUINA"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "galo",
-              "sufixo": "- lo + a",
-              "operacao": "Adicione 'a' ao final de 'galo' e remova 'lo'.",
-              "resposta": "GALA",
-              "nome": "GALO",
-              "dica": "Cantar."
+              "imagem": "copo",
+              "sufixo": "- po + ragem",
+              "operacao": "COPO - po + ragem",
+              "resposta": "CORAGEM",
+              "nome": "COPO",
+              "dica": "COPO sem PO (CO) + RAGEM = CORAGEM"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "copo",
-              "sufixo": "- po + a",
-              "operacao": "Adicione 'a' ao final de 'copo' e remova 'po'.",
-              "resposta": "COPA",
-              "nome": "COPO",
-              "dica": "Beber."
+              "imagem": "bolo",
+              "sufixo": "- lo + tao",
+              "operacao": "BOLO - lo + tao",
+              "resposta": "BOTAO",
+              "nome": "BOLO",
+              "dica": "BOLO sem LO (BO) + TAO = BOTAO"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "bolo",
-              "sufixo": "- lo + a",
-              "operacao": "Adicione 'a' ao final de 'bolo' e remova 'lo'.",
-              "resposta": "BOLA",
-              "nome": "BOLO",
-              "dica": "Doce."
+              "imagem": "dado",
+              "sufixo": "- do + ta",
+              "operacao": "DADO - do + ta",
+              "resposta": "DATA",
+              "nome": "DADO",
+              "dica": "DADO sem DO (DA) + TA = DATA"
             }
           ]
         },
@@ -466,42 +466,42 @@
             {
               "id": 1,
               "prefixo": "",
-              "imagem": "mala",
-              "sufixo": "- la + a",
-              "operacao": "Adicione 'a' ao final de 'mala' e remova 'la'.",
-              "resposta": "MALA",
-              "nome": "MALA",
-              "dica": "Viagem."
+              "imagem": "rato",
+              "sufixo": "- to + dar",
+              "operacao": "RATO - to + dar",
+              "resposta": "RADAR",
+              "nome": "RATO",
+              "dica": "RATO sem TO (RA) + DAR = RADAR"
             },
             {
               "id": 2,
               "prefixo": "",
-              "imagem": "mesa",
-              "sufixo": "- sa + a",
-              "operacao": "Adicione 'a' ao final de 'mesa' e remova 'sa'.",
-              "resposta": "MESA",
-              "nome": "MESA",
-              "dica": "Comer."
+              "imagem": "pipa",
+              "sufixo": "- pa + loto",
+              "operacao": "PIPA - pa + loto",
+              "resposta": "PILOTO",
+              "nome": "PIPA",
+              "dica": "PIPA sem PA (PI) + LOTO = PILOTO"
             },
             {
               "id": 3,
               "prefixo": "",
-              "imagem": "vela",
-              "sufixo": "- la + a",
-              "operacao": "Adicione 'a' ao final de 'vela' e remova 'la'.",
-              "resposta": "VELA",
-              "nome": "VELA",
-              "dica": "Luz."
+              "imagem": "chave",
+              "sufixo": "- ve + ma",
+              "operacao": "CHAVE - ve + ma",
+              "resposta": "CHAMA",
+              "nome": "CHAVE",
+              "dica": "CHAVE sem VE (CHA) + MA = CHAMA"
             },
             {
               "id": 4,
               "prefixo": "",
-              "imagem": "dado",
-              "sufixo": "- do + a",
-              "operacao": "Adicione 'a' ao final de 'dado' e remova 'do'.",
-              "resposta": "DADA",
-              "nome": "DADO",
-              "dica": "Jogo."
+              "imagem": "casa",
+              "sufixo": "- sa + chorro",
+              "operacao": "CASA - sa + chorro",
+              "resposta": "CACHORRO",
+              "nome": "CASA",
+              "dica": "CASA sem SA (CA) + CHORRO = CACHORRO"
             }
           ]
         }
