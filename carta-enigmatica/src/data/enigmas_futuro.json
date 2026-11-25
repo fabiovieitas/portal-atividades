@@ -168,7 +168,8 @@
           ]
         }
       ],
-      "respostaFinalMestra": "PORTAL DO TEMPO"
+      "respostaFinalMestra": "PORTAL DO TEMPO",
+      "perguntaFinal": "Agente [NOME], junte as pistas das 3 salas e digite a Frase Mestra para ativar o Portal de Volta para Casa!"
     },
     "quartoAno": {
       "titulo": "Médio — Código da Nave Temporal",
@@ -338,7 +339,8 @@
           ]
         }
       ],
-      "respostaFinalMestra": "VOLTAR PARA CASA"
+      "respostaFinalMestra": "VOLTAR PARA CASA",
+      "perguntaFinal": "Agente [NOME], junte as pistas das 3 salas e digite a Frase Mestra para ativar o Portal de Volta para Casa!"
     },
     "quintoAno": {
       "titulo": "Difícil — O Núcleo da IA Central",
@@ -508,7 +510,8 @@
           ]
         }
       ],
-      "respostaFinalMestra": "MISSAO CUMPRIDA"
+      "respostaFinalMestra": "MISSAO CUMPRIDA",
+      "perguntaFinal": "Agente [NOME], junte as pistas das 3 salas e digite a Frase Mestra para ativar o Portal de Volta para Casa!"
     }
   }
 }

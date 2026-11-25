@@ -124,7 +124,10 @@ export default function FinalChallengeScreen({
     }
   };
 
-  const formattedPrompt = levelData.perguntaFinal.replace(/\[NOME\]/g, investigatorName);
+  const formattedPrompt = (
+    levelData.perguntaFinal ||
+    'Agente [NOME], use as pistas coletadas e digite a Frase Mestra para abrir o Portal Final!'
+  ).replace(/\[NOME\]/g, investigatorName);
 
   return (
     <div className="w-full max-w-4xl mx-auto p-3 sm:p-5">
